@@ -2,3 +2,7 @@ packages:
   - "apps/*"
   - "packages/*"
   - "workers/*"
+
+allowBuilds:
+  sharp: true
+  unrs-resolver: true
