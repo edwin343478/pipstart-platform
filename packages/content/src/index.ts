@@ -1,1 +1,1 @@
-// Shared structured educational content.
+export { forexFoundationsCourse } from "./forex-foundations";

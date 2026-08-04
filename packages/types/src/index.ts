@@ -1,1 +1,5 @@
-// Shared TypeScript types.
+export type {
+  CourseDay,
+  CourseLesson,
+  EducationalCourse,
+} from "./course";
