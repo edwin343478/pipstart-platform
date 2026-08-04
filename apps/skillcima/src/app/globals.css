@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source "../../../../packages/ui/src";
 
 :root {
   --background: #fafaf5;
@@ -9,6 +10,10 @@
   --brand-primary: #c8f04a;
   --brand-soft: #edf8c9;
   --brand-accent: #7257e8;
+  --action: #11130f;
+  --action-foreground: #fafaf5;
+  --action-hover: #2b2f27;
+  --focus: #7257e8;
 }
 
 @theme inline {
@@ -22,6 +27,10 @@
   --color-brand-accent: var(--brand-accent);
   --font-sans: var(--font-skillcima-body);
   --font-heading: var(--font-skillcima-heading);
+  --color-action: var(--action);
+  --color-action-foreground: var(--action-foreground);
+  --color-action-hover: var(--action-hover);
+  --color-focus: var(--focus);
 }
 
 * {
