@@ -1,1 +1,6 @@
-// Shared validation schemas.
+export {
+  leadFormDefaultValues,
+  leadFormSchema,
+  type LeadFormData,
+  type LeadFormInput,
+} from "./lead-form";
