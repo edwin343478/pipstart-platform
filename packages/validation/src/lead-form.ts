@@ -15,11 +15,9 @@ export const leadFormSchema = z
       .max(254, "Email address must not exceed 254 characters.")
       .transform((value) => value.toLowerCase()),
 
-    privacyAcknowledged: z
-      .boolean()
-      .refine((value) => value, {
-        message: "You must acknowledge the Privacy Notice.",
-      }),
+    privacyAcknowledged: z.boolean().refine((value) => value, {
+      message: "You must acknowledge the Privacy Notice.",
+    }),
 
     marketingConsent: z.boolean(),
   })

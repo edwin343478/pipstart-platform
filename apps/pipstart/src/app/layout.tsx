@@ -32,10 +32,7 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${bodyFont.variable} ${headingFont.variable}`}
-    >
+    <html lang="en" className={`${bodyFont.variable} ${headingFont.variable}`}>
       <body>{children}</body>
     </html>
   );

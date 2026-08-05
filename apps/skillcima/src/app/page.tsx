@@ -13,8 +13,8 @@ export default function Home() {
         </h1>
 
         <p className="mt-5 max-w-xl text-lg leading-8 text-muted">
-          Skillcima helps complete beginners understand the foundations of
-          Forex through clear, structured and risk-conscious education.
+          Skillcima helps complete beginners understand the foundations of Forex
+          through clear, structured and risk-conscious education.
         </p>
 
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">

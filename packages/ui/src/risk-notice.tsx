@@ -1,12 +1,11 @@
-import type {
-  HTMLAttributes,
-  ReactNode,
-} from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
 import { joinClasses } from "./utils";
 
-export interface RiskNoticeProps
-  extends Omit<HTMLAttributes<HTMLElement>, "title"> {
+export interface RiskNoticeProps extends Omit<
+  HTMLAttributes<HTMLElement>,
+  "title"
+> {
   title?: ReactNode;
 }
 
@@ -37,13 +36,9 @@ export function RiskNotice({
       </div>
 
       <div className="min-w-0">
-        <h2 className="font-heading text-base font-bold">
-          {title}
-        </h2>
+        <h2 className="font-heading text-base font-bold">{title}</h2>
 
-        <div className="mt-1 text-sm leading-6 text-muted">
-          {children}
-        </div>
+        <div className="mt-1 text-sm leading-6 text-muted">{children}</div>
       </div>
     </aside>
   );

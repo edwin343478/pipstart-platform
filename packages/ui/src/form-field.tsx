@@ -27,9 +27,7 @@ export function FormField({
   className,
   children,
 }: FormFieldProps) {
-  const descriptionId = description
-    ? `${id}-description`
-    : undefined;
+  const descriptionId = description ? `${id}-description` : undefined;
 
   const errorId = error ? `${id}-error` : undefined;
 

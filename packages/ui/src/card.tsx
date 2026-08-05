@@ -6,11 +6,7 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   padded?: boolean;
 }
 
-export function Card({
-  padded = true,
-  className,
-  ...props
-}: CardProps) {
+export function Card({ padded = true, className, ...props }: CardProps) {
   return (
     <div
       className={joinClasses(

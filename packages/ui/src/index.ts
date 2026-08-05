@@ -7,10 +7,7 @@ export {
 
 export { Card, type CardProps } from "./card";
 
-export {
-  Checkbox,
-  type CheckboxProps,
-} from "./checkbox";
+export { Checkbox, type CheckboxProps } from "./checkbox";
 
 export {
   FormField,
@@ -20,7 +17,4 @@ export {
 
 export { Input, type InputProps } from "./input";
 
-export {
-  RiskNotice,
-  type RiskNoticeProps,
-} from "./risk-notice";
+export { RiskNotice, type RiskNoticeProps } from "./risk-notice";

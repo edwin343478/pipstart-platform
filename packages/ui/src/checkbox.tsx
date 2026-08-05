@@ -1,15 +1,11 @@
-import type {
-  InputHTMLAttributes,
-  ReactNode,
-} from "react";
+import type { InputHTMLAttributes, ReactNode } from "react";
 
 import { joinClasses } from "./utils";
 
-export interface CheckboxProps
-  extends Omit<
-    InputHTMLAttributes<HTMLInputElement>,
-    "id" | "type"
-  > {
+export interface CheckboxProps extends Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  "id" | "type"
+> {
   id: string;
   label: ReactNode;
   description?: ReactNode;
@@ -26,9 +22,7 @@ export function Checkbox({
   containerClassName,
   ...props
 }: CheckboxProps) {
-  const descriptionId = description
-    ? `${id}-description`
-    : undefined;
+  const descriptionId = description ? `${id}-description` : undefined;
 
   const errorId = error ? `${id}-error` : undefined;
 
@@ -36,12 +30,7 @@ export function Checkbox({
     [descriptionId, errorId].filter(Boolean).join(" ") || undefined;
 
   return (
-    <div
-      className={joinClasses(
-        "space-y-2",
-        containerClassName,
-      )}
-    >
+    <div className={joinClasses("space-y-2", containerClassName)}>
       <div className="flex items-start gap-3">
         <input
           {...props}
