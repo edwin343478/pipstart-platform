@@ -1,5 +1,7 @@
 import type { ButtonHTMLAttributes } from "react";
 
+import { joinClasses } from "./utils";
+
 export type ButtonVariant = "primary" | "secondary";
 export type ButtonSize = "small" | "medium" | "large";
 
@@ -11,8 +13,7 @@ export interface ButtonProps
 }
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary:
-    "bg-action text-action-foreground hover:bg-action-hover",
+  primary: "bg-action text-action-foreground hover:bg-action-hover",
   secondary:
     "border border-border bg-surface text-foreground hover:bg-background",
 };
@@ -22,12 +23,6 @@ const sizeClasses: Record<ButtonSize, string> = {
   medium: "min-h-11 px-5 py-2.5 text-base",
   large: "min-h-12 px-6 py-3 text-base",
 };
-
-function joinClasses(
-  ...classes: Array<string | false | null | undefined>
-): string {
-  return classes.filter(Boolean).join(" ");
-}
 
 export function Button({
   variant = "primary",

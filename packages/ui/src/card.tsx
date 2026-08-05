@@ -1,13 +1,9 @@
 import type { HTMLAttributes } from "react";
 
+import { joinClasses } from "./utils";
+
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   padded?: boolean;
-}
-
-function joinClasses(
-  ...classes: Array<string | false | null | undefined>
-): string {
-  return classes.filter(Boolean).join(" ");
 }
 
 export function Card({

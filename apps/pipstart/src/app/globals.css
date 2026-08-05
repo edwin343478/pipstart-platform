@@ -14,6 +14,10 @@
   --action-foreground: #ffffff;
   --action-hover: #115e59;
   --focus: #14b8a6;
+  --danger: #b42318;
+  --warning: #92400e;
+  --warning-soft: #fffbeb;
+  --warning-border: #fde68a;
 }
 
 @theme inline {
@@ -31,6 +35,10 @@
   --color-action-foreground: var(--action-foreground);
   --color-action-hover: var(--action-hover);
   --color-focus: var(--focus);
+  --color-danger: var(--danger);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-warning-border: var(--warning-border);
 }
 
 * {
