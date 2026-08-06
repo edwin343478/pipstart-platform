@@ -1,17 +1,17 @@
-import type { InputHTMLAttributes, ReactNode } from "react";
+import type { ComponentPropsWithRef, ReactNode } from "react";
 
 import { joinClasses } from "./utils";
 
-export interface CheckboxProps extends Omit<
-  InputHTMLAttributes<HTMLInputElement>,
+export type CheckboxProps = Omit<
+  ComponentPropsWithRef<"input">,
   "id" | "type"
-> {
+> & {
   id: string;
   label: ReactNode;
   description?: ReactNode;
   error?: string;
   containerClassName?: string;
-}
+};
 
 export function Checkbox({
   id,

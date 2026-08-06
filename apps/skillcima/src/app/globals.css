@@ -10,9 +10,9 @@
   --brand-primary: #c8f04a;
   --brand-soft: #edf8c9;
   --brand-accent: #7257e8;
-  --action: #11130f;
-  --action-foreground: #fafaf5;
-  --action-hover: #2b2f27;
+  --action: #c8f04a;
+  --action-foreground: #11130f;
+  --action-hover: #b6dd35;
   --focus: #7257e8;
   --danger: #b42318;
   --warning: #92400e;
@@ -72,8 +72,4 @@ input,
 select,
 textarea {
   font: inherit;
-}
-
-a {
-  color: inherit;
 }

@@ -10,7 +10,7 @@ export function Card({ padded = true, className, ...props }: CardProps) {
   return (
     <div
       className={joinClasses(
-        "rounded-2xl border border-border bg-surface shadow-sm",
+        "rounded-2xl border border-border bg-surface text-foreground shadow-sm",
         padded && "p-6",
         className,
       )}

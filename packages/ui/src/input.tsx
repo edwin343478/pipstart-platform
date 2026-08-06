@@ -1,10 +1,10 @@
-import type { InputHTMLAttributes } from "react";
+import type { ComponentPropsWithRef } from "react";
 
 import { joinClasses } from "./utils";
 
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+export type InputProps = ComponentPropsWithRef<"input"> & {
   hasError?: boolean;
-}
+};
 
 export function Input({ hasError = false, className, ...props }: InputProps) {
   const ariaInvalid = props["aria-invalid"] ?? (hasError ? true : undefined);
