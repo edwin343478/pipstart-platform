@@ -2,28 +2,17 @@ import { forexFoundationsCourse } from "@repo/content";
 import { Card, RiskNotice } from "@repo/ui";
 
 import { LeadForm } from "@/components/lead-form";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
 
 const course = forexFoundationsCourse;
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header className="border-b border-border bg-surface">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-          <a href="#top" className="font-heading text-xl font-bold">
-            Skillcima
-          </a>
+      <SiteHeader />
 
-          <a
-            href="#signup"
-            className="rounded-xl bg-action px-5 py-3 text-sm font-semibold text-action-foreground transition-colors hover:bg-action-hover hover:text-action-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
-          >
-            Join free
-          </a>
-        </div>
-      </header>
-
-      <main id="top">
+      <main id="main-content">
         <section className="px-6 py-16 sm:py-24">
           <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.2fr_0.8fr]">
             <div>
@@ -49,7 +38,7 @@ export default function Home() {
 
                 <a
                   href="#signup"
-                  className="inline-flex min-h-12 items-center justify-center rounded-xl border border-border bg-surface px-6 py-3 font-semibold hover:bg-brand-soft"
+                  className="inline-flex min-h-12 items-center justify-center rounded-xl border border-border bg-surface px-6 py-3 font-semibold text-foreground transition-colors hover:bg-brand-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
                 >
                   Preview enrolment
                 </a>
@@ -88,7 +77,7 @@ export default function Home() {
 
         <section
           id="course"
-          className="border-y border-border bg-surface px-6 py-20"
+          className="scroll-mt-24 border-y border-border bg-surface px-6 py-20"
         >
           <div className="mx-auto max-w-6xl">
             <p className="text-sm font-semibold uppercase tracking-wider text-brand-accent">
@@ -163,7 +152,7 @@ export default function Home() {
 
         <section
           id="privacy-summary"
-          className="border-y border-border bg-surface px-6 py-16"
+          className="scroll-mt-24 border-y border-border bg-surface px-6 py-16"
         >
           <div className="mx-auto max-w-4xl">
             <h2 className="font-heading text-3xl font-bold">Privacy summary</h2>
@@ -174,12 +163,19 @@ export default function Home() {
               educational emails will remain optional and can be withdrawn
               independently.
             </p>
+
+            <a
+              href="/legal/privacy-policy"
+              className="mt-5 inline-flex font-semibold text-brand-accent underline underline-offset-4"
+            >
+              Read the full Privacy Policy
+            </a>
           </div>
         </section>
 
         <section
           id="signup"
-          className="bg-foreground px-6 py-20 text-background"
+          className="scroll-mt-24 bg-foreground px-6 py-20 text-background"
         >
           <div className="mx-auto grid max-w-6xl items-start gap-12 lg:grid-cols-[0.8fr_1.2fr]">
             <div>
@@ -202,12 +198,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="border-t border-border bg-surface px-6 py-8">
-        <div className="mx-auto max-w-6xl text-sm text-muted">
-          © 2026 Skillcima. Educational content only. No signals, profit
-          guarantees or broker recommendations.
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
