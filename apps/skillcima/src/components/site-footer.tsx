@@ -1,6 +1,14 @@
 import Link from "next/link";
 
-const legalLinks = [
+const footerLinks = [
+  {
+    href: "/about",
+    label: "About",
+  },
+  {
+    href: "/contact",
+    label: "Contact",
+  },
   {
     href: "/legal/privacy-policy",
     label: "Privacy",
@@ -41,7 +49,7 @@ export function SiteFooter() {
 
         <nav aria-label="Legal navigation">
           <ul className="flex flex-wrap gap-x-5 gap-y-3 text-sm">
-            {legalLinks.map((link) => (
+            {footerLinks.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}

@@ -138,10 +138,10 @@ export function LeadForm() {
             <span>
               Read the{" "}
               <a
-                href="#privacy-summary"
+                href="/legal/privacy-policy"
                 className="font-semibold underline underline-offset-4"
               >
-                privacy summary
+                Privacy Policy
               </a>{" "}
               before continuing.
             </span>

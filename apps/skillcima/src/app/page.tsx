@@ -173,6 +173,92 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="px-6 py-20">
+          <div className="mx-auto max-w-4xl">
+            <div className="max-w-2xl">
+              <p className="text-sm font-semibold uppercase tracking-wider text-brand-accent">
+                Common questions
+              </p>
+
+              <h2 className="mt-4 font-heading text-4xl font-bold tracking-tight">
+                Before you start
+              </h2>
+
+              <p className="mt-5 text-lg leading-8 text-muted">
+                Clear answers about what the course is, what it is not and what
+                you should expect.
+              </p>
+            </div>
+
+            <div className="mt-12 space-y-4">
+              <Card>
+                <h3 className="font-heading text-xl font-bold">
+                  Is the course really free?
+                </h3>
+
+                <p className="mt-3 leading-7 text-muted">
+                  Yes. The five-day Forex Foundations course is designed as free
+                  beginner education. There is no payment required to access the
+                  introductory course.
+                </p>
+              </Card>
+
+              <Card>
+                <h3 className="font-heading text-xl font-bold">
+                  Do I need a broker account to learn?
+                </h3>
+
+                <p className="mt-3 leading-7 text-muted">
+                  No. You can learn the terminology, market mechanics and risk
+                  concepts without opening or funding a brokerage account.
+                </p>
+              </Card>
+
+              <Card>
+                <h3 className="font-heading text-xl font-bold">
+                  Will Skillcima send me trading signals?
+                </h3>
+
+                <p className="mt-3 leading-7 text-muted">
+                  No. Skillcima does not provide buy or sell signals, managed
+                  trading, guaranteed strategies or promises of profit.
+                </p>
+              </Card>
+
+              <Card>
+                <h3 className="font-heading text-xl font-bold">
+                  Is this financial advice?
+                </h3>
+
+                <p className="mt-3 leading-7 text-muted">
+                  No. Skillcima provides general educational information. It
+                  does not consider your personal finances, objectives or
+                  individual tolerance for risk.
+                </p>
+              </Card>
+
+              <Card>
+                <h3 className="font-heading text-xl font-bold">
+                  Can I lose money trading Forex?
+                </h3>
+
+                <p className="mt-3 leading-7 text-muted">
+                  Yes. Forex trading involves substantial financial risk, and
+                  leverage can magnify losses. Learning about risk is therefore
+                  part of the course from the beginning.
+                </p>
+
+                <a
+                  href="/legal/risk-disclaimer"
+                  className="mt-4 inline-flex font-semibold text-brand-accent underline underline-offset-4"
+                >
+                  Read the Risk Disclaimer
+                </a>
+              </Card>
+            </div>
+          </div>
+        </section>
+
         <section
           id="signup"
           className="scroll-mt-24 bg-foreground px-6 py-20 text-background"
