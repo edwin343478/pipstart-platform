@@ -158,7 +158,7 @@ export function LeadForm() {
         />
 
         <Button type="submit" size="large" fullWidth disabled={isSubmitting}>
-          {isSubmitting ? "Checking details…" : "Validate my enrolment"}
+          {isSubmitting ? "Checking details…" : "Get Day 1 Now →"}
         </Button>
 
         <p className="text-center text-xs leading-5 text-muted">

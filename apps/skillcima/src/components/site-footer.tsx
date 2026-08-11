@@ -47,7 +47,7 @@ export function SiteFooter() {
           </p>
         </div>
 
-        <nav aria-label="Legal navigation">
+        <nav aria-label="Footer navigation">
           <ul className="flex flex-wrap gap-x-5 gap-y-3 text-sm">
             {footerLinks.map((link) => (
               <li key={link.href}>

@@ -25,13 +25,13 @@ export const skillcimaBrand = {
   description:
     "Beginner-friendly, structured and risk-conscious Forex education through a free five-day foundations course.",
   colors: {
-    primary: "#C8F04A",
-    text: "#11130F",
-    background: "#FAFAF5",
-    soft: "#EDF8C9",
-    border: "#ECEEE8",
-    accent: "#7257E8",
-    muted: "#60655A",
+    primary: "#BFDD6E",
+    text: "#241F19",
+    background: "#F7F3E8",
+    soft: "#EAF0DC",
+    border: "#E8E0D0",
+    accent: "#A8502C",
+    muted: "#6F6555",
   },
   fonts: {
     heading: "Space Grotesk",

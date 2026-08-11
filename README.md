@@ -1,26 +1,40 @@
 # PipStart Platform
 
-A monorepo containing the PipStart education platform and the Skillcima educational acquisition microsite.
+The PipStart Platform is a pnpm/Turborepo monorepo containing two related educational products:
 
-## Applications
+- **PipStart** — the main Forex and cryptocurrency education platform.
+- **Skillcima** — a standalone beginner-focused educational acquisition microsite.
 
-- **PipStart** — structured Forex and cryptocurrency education
-- **Skillcima** — beginner-focused educational acquisition microsite
+The project is owned by **Kibubu Pay**.
 
-## Project owner
+---
 
-Kibubu Pay
+## Project purpose
 
-## Planned technology
+PipStart is being built to provide structured, beginner-friendly and risk-conscious education for people learning about Forex and cryptocurrency.
 
-- Next.js
-- TypeScript
-- pnpm
-- Turborepo
-- Supabase
-- Vercel
-- Cloudflare Pages and Workers
+Skillcima serves as the educational acquisition layer. Its first experience is a free five-day Forex Foundations course designed for complete beginners.
 
-## Status
+The products are intentionally separated so Skillcima can remain a focused acquisition experience while PipStart develops into the broader education platform.
 
-Initial development setup.
+---
+
+## Repository structure
+
+```text
+pipstart-platform/
+├── apps/
+│   ├── pipstart/
+│   └── skillcima/
+├── packages/
+│   ├── brand/
+│   ├── content/
+│   ├── types/
+│   ├── ui/
+│   └── validation/
+├── .github/
+│   └── workflows/
+├── package.json
+├── pnpm-workspace.yaml
+├── turbo.json
+└── README.md
