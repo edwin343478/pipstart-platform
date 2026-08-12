@@ -9,8 +9,13 @@ const PRODUCTION_ORIGINS = new Set([
   "https://www.skillcima.com",
 ]);
 
+interface RateLimitBinding {
+  limit(options: { key: string }): Promise<{ success: boolean }>;
+}
+
 interface Env {
   TURNSTILE_SECRET_KEY: string;
+  LEAD_RATE_LIMITER: RateLimitBinding;
 }
 
 interface ApiError {
@@ -32,6 +37,18 @@ interface ApiFailure {
 
 function isLocalHostname(hostname: string): boolean {
   return hostname === "localhost" || hostname === "127.0.0.1";
+}
+
+async function createEmailRateLimitKey(email: string): Promise<string> {
+  const encodedEmail = new TextEncoder().encode(email);
+
+  const digest = await crypto.subtle.digest("SHA-256", encodedEmail);
+
+  const hash = Array.from(new Uint8Array(digest))
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
+
+  return `skillcima:lead:${hash}`;
 }
 
 function getAllowedOrigin(request: Request): string | null {
@@ -281,6 +298,39 @@ async function handleLeadRequest(
   }
 
   const validatedRequest = validationResult.data;
+
+  const rateLimitKey = await createEmailRateLimitKey(
+    validatedRequest.lead.email,
+  );
+
+  const rateLimitResult = await env.LEAD_RATE_LIMITER.limit({
+    key: rateLimitKey,
+  });
+
+  if (!rateLimitResult.success) {
+    console.warn(
+      JSON.stringify({
+        requestId,
+        route: "/api/v1/lead",
+        stage: "rate_limit",
+        result: "blocked",
+      }),
+    );
+
+    const response = errorResponse(
+      requestId,
+      429,
+      {
+        code: "RATE_LIMIT_EXCEEDED",
+        message: "Too many attempts. Please wait before trying again.",
+      },
+      allowedOrigin,
+    );
+
+    response.headers.set("Retry-After", "60");
+
+    return response;
+  }
 
   if (!env.TURNSTILE_SECRET_KEY) {
     return errorResponse(

@@ -3,13 +3,23 @@
   "name": "skillcima",
   "main": "./worker/index.ts",
   "compatibility_date": "2026-08-06",
+  "secrets": {
+    "required": ["TURNSTILE_SECRET_KEY"],
+  },
+  "ratelimits": [
+    {
+      "name": "LEAD_RATE_LIMITER",
+      "namespace_id": "41001",
+      "simple": {
+        "limit": 5,
+        "period": 60,
+      },
+    },
+  ],
   "assets": {
     "directory": "./out",
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "404-page",
     "run_worker_first": ["/api/*"],
-  },
-  "secrets": {
-    "required": ["TURNSTILE_SECRET_KEY"],
   },
 }
