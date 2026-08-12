@@ -6,14 +6,10 @@ export function DecorativeCornerShapes({
   variant = "accent-primary",
 }: DecorativeCornerShapesProps) {
   const topRight =
-    variant === "accent-primary"
-      ? "bg-brand-accent/10"
-      : "bg-brand-primary/20";
+    variant === "accent-primary" ? "bg-brand-accent/10" : "bg-brand-primary/20";
 
   const bottomLeft =
-    variant === "accent-primary"
-      ? "bg-brand-primary/20"
-      : "bg-brand-accent/10";
+    variant === "accent-primary" ? "bg-brand-primary/20" : "bg-brand-accent/10";
 
   return (
     <>

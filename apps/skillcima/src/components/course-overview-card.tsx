@@ -20,10 +20,7 @@ export function CourseOverviewCard({ course }: Props) {
         }}
       />
 
-      <Card
-        padded={false}
-        className="relative w-full border-0 bg-surface p-8"
-      >
+      <Card padded={false} className="relative w-full border-0 bg-surface p-8">
         <div className="mb-6 text-center">
           <span className="font-heading text-xs font-semibold uppercase tracking-[0.15em] text-brand-accent">
             Course overview
