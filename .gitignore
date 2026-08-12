@@ -33,3 +33,8 @@ Thumbs.db
 # Editor files
 .vscode/
 .idea/
+
+# Cloudflare Worker local secrets
+apps/skillcima/.dev.vars
+apps/skillcima/.dev.vars.*
+!apps/skillcima/.dev.vars.example

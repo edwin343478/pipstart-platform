@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   leadFormDefaultValues,
@@ -11,8 +11,54 @@ import {
 import { Button, Card, Checkbox, FormField, Input } from "@repo/ui";
 import { useForm } from "react-hook-form";
 
+import { TurnstileWidget } from "./turnstile-widget";
+
+interface LeadApiSuccess {
+  ok: true;
+  data: {
+    status: string;
+    submissionId: string;
+  };
+  requestId: string;
+}
+
+interface LeadApiFailure {
+  ok: false;
+  error: {
+    code: string;
+    message: string;
+  };
+  requestId: string;
+}
+
+type LeadApiResponse = LeadApiSuccess | LeadApiFailure;
+
+function getLeadEndpoint(): string {
+  const baseUrl = process.env.NEXT_PUBLIC_LEAD_API_URL?.trim();
+
+  if (!baseUrl) {
+    return "/api/v1/lead";
+  }
+
+  return `${baseUrl.replace(/\/$/, "")}/api/v1/lead`;
+}
+
 export function LeadForm() {
-  const [validatedData, setValidatedData] = useState<LeadFormData | null>(null);
+  const [verifiedData, setVerifiedData] = useState<LeadFormData | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  const turnstileSiteKey =
+    process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? "";
+
+  const handleTurnstileTokenChange = useCallback((token: string | null) => {
+    setTurnstileToken(token);
+
+    if (token) {
+      setSubmitError(null);
+    }
+  }, []);
 
   const {
     register,
@@ -24,11 +70,63 @@ export function LeadForm() {
     mode: "onBlur",
   });
 
-  function onSubmit(data: LeadFormData) {
-    setValidatedData(data);
+  async function onSubmit(data: LeadFormData) {
+    setSubmitError(null);
+
+    if (!turnstileSiteKey) {
+      setSubmitError(
+        "Security verification is not configured. Please try again later.",
+      );
+      return;
+    }
+
+    if (!turnstileToken) {
+      setSubmitError("Complete the security verification before continuing.");
+      return;
+    }
+
+    const submissionId = crypto.randomUUID();
+
+    try {
+      const response = await fetch(getLeadEndpoint(), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          submissionId,
+          turnstileToken,
+          lead: data,
+        }),
+      });
+
+      const result = (await response.json()) as LeadApiResponse;
+
+      if (!response.ok || !result.ok) {
+        setSubmitError(
+          result.ok
+            ? "The request could not be completed. Please try again."
+            : result.error.message,
+        );
+
+        setTurnstileToken(null);
+        setTurnstileResetKey((value) => value + 1);
+        return;
+      }
+
+      setVerifiedData(data);
+      setTurnstileToken(null);
+    } catch {
+      setSubmitError(
+        "We could not reach the verification service. Please try again.",
+      );
+
+      setTurnstileToken(null);
+      setTurnstileResetKey((value) => value + 1);
+    }
   }
 
-  if (validatedData) {
+  if (verifiedData) {
     return (
       <Card padded={false} className="p-8" role="status" aria-live="polite">
         <div
@@ -39,31 +137,32 @@ export function LeadForm() {
         </div>
 
         <h3 className="mt-5 font-heading text-2xl font-bold">
-          Your details passed validation
+          Secure verification passed
         </h3>
 
         <p className="mt-3 leading-7 text-muted">
-          This is currently a local form preview. Your information has not been
-          sent, stored or added to an email list.
+          Your details reached the local Skillcima API and passed form and
+          security verification. Nothing has been stored or added to an email
+          list yet.
         </p>
 
         <dl className="mt-6 space-y-3 rounded-xl bg-background p-4 text-sm">
-          {validatedData.firstName ? (
+          {verifiedData.firstName ? (
             <div className="flex justify-between gap-4">
               <dt className="text-muted">First name</dt>
-              <dd className="font-semibold">{validatedData.firstName}</dd>
+              <dd className="font-semibold">{verifiedData.firstName}</dd>
             </div>
           ) : null}
 
           <div className="flex justify-between gap-4">
             <dt className="text-muted">Email</dt>
-            <dd className="break-all font-semibold">{validatedData.email}</dd>
+            <dd className="break-all font-semibold">{verifiedData.email}</dd>
           </div>
 
           <div className="flex justify-between gap-4">
             <dt className="text-muted">Newsletter</dt>
             <dd className="font-semibold">
-              {validatedData.newsletterConsent ? "Selected" : "Not selected"}
+              {verifiedData.newsletterConsent ? "Selected" : "Not selected"}
             </dd>
           </div>
         </dl>
@@ -71,7 +170,12 @@ export function LeadForm() {
         <Button
           className="mt-6"
           variant="secondary"
-          onClick={() => setValidatedData(null)}
+          onClick={() => {
+            setVerifiedData(null);
+            setSubmitError(null);
+            setTurnstileToken(null);
+            setTurnstileResetKey((value) => value + 1);
+          }}
         >
           Edit the form
         </Button>
@@ -84,8 +188,9 @@ export function LeadForm() {
       <h3 className="font-heading text-2xl font-bold">Join the free course</h3>
 
       <p className="mt-3 leading-7 text-muted">
-        Enter your email to preview the enrolment process. No information will
-        leave your browser during this development step.
+        Enter your details to test the secure enrolment flow. This development
+        stage verifies the request but does not store your information or start
+        email delivery.
       </p>
 
       <form
@@ -107,6 +212,7 @@ export function LeadForm() {
               autoComplete="given-name"
               placeholder="Amina"
               hasError={Boolean(errors.firstName)}
+              disabled={isSubmitting}
             />
           )}
         </FormField>
@@ -126,6 +232,7 @@ export function LeadForm() {
               inputMode="email"
               placeholder="amina@example.com"
               hasError={Boolean(errors.email)}
+              disabled={isSubmitting}
             />
           )}
         </FormField>
@@ -147,6 +254,7 @@ export function LeadForm() {
             </span>
           }
           error={errors.privacyAcknowledged?.message}
+          disabled={isSubmitting}
         />
 
         <Checkbox
@@ -155,14 +263,38 @@ export function LeadForm() {
           label="Send me continuing educational emails."
           description="Optional and unchecked by default. Course delivery does not require newsletter consent."
           error={errors.newsletterConsent?.message}
+          disabled={isSubmitting}
         />
 
+        <div>
+          <p className="mb-3 text-sm font-semibold text-foreground">
+            Security verification
+          </p>
+
+          <TurnstileWidget
+            siteKey={turnstileSiteKey}
+            resetKey={turnstileResetKey}
+            onTokenChange={handleTurnstileTokenChange}
+          />
+        </div>
+
+        {submitError ? (
+          <p
+            className="rounded-xl border border-warning-border bg-warning-soft px-4 py-3 text-sm leading-6 text-warning"
+            role="alert"
+            aria-live="polite"
+          >
+            {submitError}
+          </p>
+        ) : null}
+
         <Button type="submit" size="large" fullWidth disabled={isSubmitting}>
-          {isSubmitting ? "Checking details…" : "Get Day 1 Now →"}
+          {isSubmitting ? "Verifying..." : "Validate my enrolment"}
         </Button>
 
         <p className="text-center text-xs leading-5 text-muted">
-          Development preview only. No data is transmitted or stored.
+          Development preview. Requests are securely verified but are not stored
+          yet.
         </p>
       </form>
     </Card>

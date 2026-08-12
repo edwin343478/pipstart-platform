@@ -1,11 +1,17 @@
 import { leadRequestSchema } from "@repo/validation";
 
+import { verifyTurnstile } from "./turnstile";
+
 const MAX_JSON_BODY_BYTES = 16 * 1024;
 
 const PRODUCTION_ORIGINS = new Set([
   "https://skillcima.com",
   "https://www.skillcima.com",
 ]);
+
+interface Env {
+  TURNSTILE_SECRET_KEY: string;
+}
 
 interface ApiError {
   code: string;
@@ -146,6 +152,7 @@ async function readBodyWithLimit(
 async function handleLeadRequest(
   request: Request,
   requestId: string,
+  env: Env,
 ): Promise<Response> {
   const allowedOrigin = getAllowedOrigin(request);
 
@@ -275,10 +282,55 @@ async function handleLeadRequest(
 
   const validatedRequest = validationResult.data;
 
+  if (!env.TURNSTILE_SECRET_KEY) {
+    return errorResponse(
+      requestId,
+      503,
+      {
+        code: "TURNSTILE_NOT_CONFIGURED",
+        message: "Verification is temporarily unavailable. Please try again.",
+      },
+      allowedOrigin,
+    );
+  }
+
+  const remoteIp = request.headers.get("CF-Connecting-IP") ?? undefined;
+
+  const turnstileResult = await verifyTurnstile({
+    secret: env.TURNSTILE_SECRET_KEY,
+    token: validatedRequest.turnstileToken,
+    remoteIp,
+    idempotencyKey: validatedRequest.submissionId,
+  });
+
+  if (turnstileResult.status === "unavailable") {
+    return errorResponse(
+      requestId,
+      503,
+      {
+        code: "TURNSTILE_UNAVAILABLE",
+        message: "Verification is temporarily unavailable. Please try again.",
+      },
+      allowedOrigin,
+    );
+  }
+
+  if (turnstileResult.status === "failed") {
+    return errorResponse(
+      requestId,
+      403,
+      {
+        code: "TURNSTILE_FAILED",
+        message: "Verification failed. Please try again.",
+      },
+      allowedOrigin,
+    );
+  }
+
   return successResponse(
     requestId,
     {
-      status: "validated",
+      status: "turnstile_verified",
       submissionId: validatedRequest.submissionId,
       hasFirstName: Boolean(validatedRequest.lead.firstName),
       privacyAcknowledged: validatedRequest.lead.privacyAcknowledged,
@@ -290,7 +342,7 @@ async function handleLeadRequest(
 }
 
 const worker = {
-  async fetch(request: Request): Promise<Response> {
+  async fetch(request: Request, env: Env): Promise<Response> {
     const requestId = crypto.randomUUID();
     const url = new URL(request.url);
 
@@ -310,7 +362,7 @@ const worker = {
     }
 
     if (url.pathname === "/api/v1/lead") {
-      return handleLeadRequest(request, requestId);
+      return handleLeadRequest(request, requestId, env);
     }
 
     return errorResponse(requestId, 404, {

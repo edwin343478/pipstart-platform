@@ -4,6 +4,7 @@ import { leadRequestSchema } from "./lead-request";
 
 const validRequest = {
   submissionId: "123e4567-e89b-42d3-a456-426614174000",
+  turnstileToken: "XXXX.DUMMY.TOKEN.XXXX",
   lead: {
     firstName: "David",
     email: "test@example.com",
@@ -37,6 +38,28 @@ describe("leadRequestSchema", () => {
     const result = leadRequestSchema.safeParse({
       ...validRequest,
       submissionId: "abc123",
+    });
+
+    expect(result.success).toBe(false);
+  });
+
+  it("requires a Turnstile token", () => {
+    const result = leadRequestSchema.safeParse({
+      ...validRequest,
+      turnstileToken: "",
+    });
+
+    expect(result.success).toBe(false);
+
+    if (!result.success) {
+      expect(result.error.issues[0]?.path).toEqual(["turnstileToken"]);
+    }
+  });
+
+  it("rejects an oversized Turnstile token", () => {
+    const result = leadRequestSchema.safeParse({
+      ...validRequest,
+      turnstileToken: "A".repeat(2049),
     });
 
     expect(result.success).toBe(false);

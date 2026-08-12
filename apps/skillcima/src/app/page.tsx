@@ -85,9 +85,9 @@ export default function Home() {
               </h2>
 
               <p className="mt-5 max-w-lg text-lg leading-8 text-muted">
-                Enter your details to preview the enrolment experience. No
-                information is transmitted or stored during this development
-                stage.
+                Enter your details to preview the secure enrolment experience.
+                During this development stage, information is transmitted for
+                verification but is not stored or added to an email list.
               </p>
 
               <div className="mt-8 flex items-center gap-3">
