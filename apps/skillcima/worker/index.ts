@@ -1,5 +1,6 @@
 import { leadRequestSchema } from "@repo/validation";
 
+import { checkSupabaseConnection } from "./supabase";
 import { verifyTurnstile } from "./turnstile";
 
 const MAX_JSON_BODY_BYTES = 16 * 1024;
@@ -15,6 +16,8 @@ interface RateLimitBinding {
 
 interface Env {
   TURNSTILE_SECRET_KEY: string;
+  SUPABASE_URL: string;
+  SUPABASE_SECRET_KEY: string;
   LEAD_RATE_LIMITER: RateLimitBinding;
 }
 
@@ -404,10 +407,36 @@ const worker = {
         });
       }
 
+      const database = await checkSupabaseConnection(env);
+
+      if (database.status === "misconfigured") {
+        return errorResponse(requestId, 503, {
+          code: "DATABASE_NOT_CONFIGURED",
+          message: "The database connection is not configured.",
+        });
+      }
+
+      if (database.status === "unavailable") {
+        console.error(
+          JSON.stringify({
+            requestId,
+            event: "health_check_failed",
+            dependency: "supabase",
+            httpStatus: database.httpStatus ?? null,
+          }),
+        );
+
+        return errorResponse(requestId, 503, {
+          code: "DATABASE_UNAVAILABLE",
+          message: "The database service is currently unavailable.",
+        });
+      }
+
       return successResponse(requestId, {
         status: "ok",
         service: "skillcima-api",
         version: "1",
+        database: "ok",
       });
     }
 

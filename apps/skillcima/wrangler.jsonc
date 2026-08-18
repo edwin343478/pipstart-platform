@@ -4,7 +4,7 @@
   "main": "./worker/index.ts",
   "compatibility_date": "2026-08-06",
   "secrets": {
-    "required": ["TURNSTILE_SECRET_KEY"],
+    "required": ["TURNSTILE_SECRET_KEY", "SUPABASE_URL", "SUPABASE_SECRET_KEY"],
   },
   "ratelimits": [
     {
