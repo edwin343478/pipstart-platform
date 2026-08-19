@@ -16,7 +16,7 @@ export default function ThankYouPage() {
           aria-hidden="true"
           className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand-primary text-2xl font-bold"
         >
-          ✓
+          {"\u2713"}
         </div>
 
         <p className="mt-8 text-sm font-semibold uppercase tracking-wider text-brand-accent">
@@ -28,14 +28,15 @@ export default function ThankYouPage() {
         </h1>
 
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-muted">
-          This page is ready for future confirmed course enrolments. The secure
-          submission and email-delivery system is not active during the current
-          development preview.
+          Your enrolment request has been securely received and recorded. Course
+          email delivery will be connected in the next stage of the enrolment
+          workflow.
         </p>
 
         <div className="mt-10 rounded-2xl border border-warning-border bg-warning-soft p-6 text-left text-sm leading-7 text-warning">
-          Visiting this page directly does not mean that an enrolment was
-          submitted or that a course email has been scheduled.
+          Visiting this page directly does not prove that an enrolment was
+          submitted. A valid enrolment request is recorded only after the form
+          passes validation and security verification.
         </div>
 
         <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">

@@ -9,6 +9,7 @@ interface TurnstileRenderOptions {
   sitekey: string;
   theme?: "auto" | "light" | "dark";
   size?: "normal" | "compact" | "flexible";
+  retry?: "auto" | "never";
   callback?: (token: string) => void;
   "expired-callback"?: () => void;
   "timeout-callback"?: () => void;
@@ -58,6 +59,7 @@ export function TurnstileWidget({
       sitekey: siteKey,
       theme: "light",
       size: "flexible",
+      retry: "auto",
 
       callback(token) {
         onTokenChange(token);
@@ -73,7 +75,10 @@ export function TurnstileWidget({
 
       "error-callback"() {
         onTokenChange(null);
-        return true;
+
+        // Allow Turnstile to recover automatically from transient errors,
+        // including temporary network loss.
+        return false;
       },
     });
   }, [onTokenChange, siteKey]);
