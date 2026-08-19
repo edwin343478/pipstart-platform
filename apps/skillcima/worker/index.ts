@@ -1,5 +1,6 @@
 import { leadRequestSchema } from "@repo/validation";
 
+import { persistVerifiedLead } from "./lead-workflow";
 import { checkSupabaseConnection } from "./supabase";
 import { verifyTurnstile } from "./turnstile";
 
@@ -380,14 +381,65 @@ async function handleLeadRequest(
     );
   }
 
+  const persistenceResult = await persistVerifiedLead(env, validatedRequest);
+
+  if (persistenceResult.status === "conflict") {
+    return errorResponse(
+      requestId,
+      409,
+      {
+        code: "SUBMISSION_CONFLICT",
+        message:
+          "This submission ID has already been used with different data.",
+      },
+      allowedOrigin,
+    );
+  }
+
+  if (persistenceResult.status === "misconfigured") {
+    return errorResponse(
+      requestId,
+      503,
+      {
+        code: "DATABASE_NOT_CONFIGURED",
+        message:
+          "The submission service is temporarily unavailable. Please try again.",
+      },
+      allowedOrigin,
+    );
+  }
+
+  if (persistenceResult.status === "unavailable") {
+    console.error(
+      JSON.stringify({
+        requestId,
+        route: "/api/v1/lead",
+        stage: "persistence",
+        result: "unavailable",
+        httpStatus: persistenceResult.httpStatus ?? null,
+      }),
+    );
+
+    return errorResponse(
+      requestId,
+      503,
+      {
+        code: "DATABASE_UNAVAILABLE",
+        message:
+          "The submission service is temporarily unavailable. Please try again.",
+      },
+      allowedOrigin,
+    );
+  }
+
   return successResponse(
     requestId,
     {
-      status: "turnstile_verified",
+      status: "completed",
       submissionId: validatedRequest.submissionId,
-      hasFirstName: Boolean(validatedRequest.lead.firstName),
-      privacyAcknowledged: validatedRequest.lead.privacyAcknowledged,
-      newsletterConsent: validatedRequest.lead.newsletterConsent,
+      leadId: persistenceResult.leadId,
+      enrolmentId: persistenceResult.enrolmentId,
+      replayed: persistenceResult.replayed,
     },
     200,
     allowedOrigin,
