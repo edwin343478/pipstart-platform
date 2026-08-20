@@ -1,5 +1,6 @@
 import { leadRequestSchema } from "@repo/validation";
 
+import { dispatchEmailOutbox } from "./email-outbox-dispatcher";
 import type { EmailQueueBinding } from "./email-queue";
 import { persistVerifiedLead } from "./lead-workflow";
 import { checkSupabaseConnection } from "./supabase";
@@ -502,6 +503,42 @@ const worker = {
       code: "API_ROUTE_NOT_FOUND",
       message: "The requested API route does not exist.",
     });
+  },
+
+  async scheduled(_controller: unknown, env: Env): Promise<void> {
+    const result = await dispatchEmailOutbox(env, env.SKILLCIMA_EMAIL_QUEUE);
+
+    if (result.status !== "completed") {
+      console.error(
+        JSON.stringify({
+          event: "email_outbox_dispatch_failed",
+          status: result.status,
+          stage: result.status === "unavailable" ? result.stage : null,
+          httpStatus:
+            result.status === "unavailable"
+              ? (result.httpStatus ?? null)
+              : null,
+        }),
+      );
+
+      return;
+    }
+
+    const hasFailures =
+      result.queueFailures > 0 || result.stateUpdateFailures > 0;
+
+    const log = hasFailures ? console.error : console.log;
+
+    log(
+      JSON.stringify({
+        event: "email_outbox_dispatch_completed",
+        selected: result.selected,
+        sent: result.sent,
+        markedQueued: result.markedQueued,
+        queueFailures: result.queueFailures,
+        stateUpdateFailures: result.stateUpdateFailures,
+      }),
+    );
   },
 };
 
