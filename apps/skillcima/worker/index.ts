@@ -1,12 +1,26 @@
 import { leadRequestSchema } from "@repo/validation";
 
 import { dispatchEmailOutbox } from "./email-outbox-dispatcher";
+import {
+  processEmailQueueBatch,
+  type EmailQueueRuntimeBatch,
+} from "./email-queue-batch";
 import type { EmailQueueBinding } from "./email-queue";
+import type { EmailDeliveryAdapter } from "./email-queue-processor";
 import { persistVerifiedLead } from "./lead-workflow";
 import { checkSupabaseConnection } from "./supabase";
 import { verifyTurnstile } from "./turnstile";
 
 const MAX_JSON_BODY_BYTES = 16 * 1024;
+
+const disabledEmailDelivery: EmailDeliveryAdapter = {
+  async deliver() {
+    return {
+      status: "temporary_failure",
+      errorCode: "EMAIL_DELIVERY_NOT_CONFIGURED",
+    };
+  },
+};
 
 const PRODUCTION_ORIGINS = new Set([
   "https://skillcima.com",
@@ -503,6 +517,29 @@ const worker = {
       code: "API_ROUTE_NOT_FOUND",
       message: "The requested API route does not exist.",
     });
+  },
+
+  async queue(batch: EmailQueueRuntimeBatch, env: Env): Promise<void> {
+    const result = await processEmailQueueBatch(
+      env,
+      batch,
+      disabledEmailDelivery,
+    );
+
+    const hasRetries = result.retried > 0 || result.processorExceptions > 0;
+
+    const log = hasRetries ? console.error : console.log;
+
+    log(
+      JSON.stringify({
+        event: "email_queue_batch_completed",
+        deliveryMode: "disabled",
+        received: result.received,
+        acknowledged: result.acknowledged,
+        retried: result.retried,
+        processorExceptions: result.processorExceptions,
+      }),
+    );
   },
 
   async scheduled(_controller: unknown, env: Env): Promise<void> {
