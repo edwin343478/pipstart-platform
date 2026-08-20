@@ -16,6 +16,14 @@
       },
     },
   ],
+  "queues": {
+    "producers": [
+      {
+        "binding": "SKILLCIMA_EMAIL_QUEUE",
+        "queue": "skillcima-email",
+      },
+    ],
+  },
   "assets": {
     "directory": "./out",
     "html_handling": "auto-trailing-slash",

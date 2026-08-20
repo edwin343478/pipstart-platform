@@ -1,5 +1,6 @@
 import { leadRequestSchema } from "@repo/validation";
 
+import type { EmailQueueBinding } from "./email-queue";
 import { persistVerifiedLead } from "./lead-workflow";
 import { checkSupabaseConnection } from "./supabase";
 import { verifyTurnstile } from "./turnstile";
@@ -20,6 +21,7 @@ interface Env {
   SUPABASE_URL: string;
   SUPABASE_SECRET_KEY: string;
   LEAD_RATE_LIMITER: RateLimitBinding;
+  SKILLCIMA_EMAIL_QUEUE: EmailQueueBinding;
 }
 
 interface ApiError {
