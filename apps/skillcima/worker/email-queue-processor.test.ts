@@ -32,6 +32,9 @@ function createState(
     markEmailJobSent: vi.fn().mockResolvedValue({
       status: "sent",
     }),
+    markEmailJobDeadLetter: vi.fn().mockResolvedValue({
+      status: "dead_letter",
+    }),
     ...overrides,
   };
 }
@@ -228,6 +231,68 @@ describe("Skillcima email Queue processor", () => {
       {
         deliver: vi.fn().mockResolvedValue({
           status: "accepted",
+        }),
+      },
+      state,
+    );
+
+    expect(result).toEqual({
+      action: "retry",
+      reason: "state_update_failed",
+      delaySeconds: EMAIL_QUEUE_RETRY_DELAY_SECONDS,
+      jobId: message.jobId,
+      attemptCount: 1,
+    });
+  });
+
+  it("dead-letters a permanent delivery failure and ACKs the Queue message", async () => {
+    const state = createState();
+
+    const deliver = vi.fn().mockResolvedValue({
+      status: "permanent_failure",
+      errorCode: "RESEND_REQUEST_REJECTED",
+    });
+
+    const result = await processEmailQueueMessage(
+      env,
+      message,
+      { deliver },
+      state,
+    );
+
+    expect(state.markEmailJobDeadLetter).toHaveBeenCalledWith(
+      env,
+      message.jobId,
+      "RESEND_REQUEST_REJECTED",
+    );
+
+    expect(state.releaseEmailJob).not.toHaveBeenCalled();
+
+    expect(state.markEmailJobSent).not.toHaveBeenCalled();
+
+    expect(result).toEqual({
+      action: "ack",
+      reason: "dead_letter",
+      jobId: message.jobId,
+      attemptCount: 1,
+    });
+  });
+
+  it("retries when a permanent delivery failure cannot be persisted as terminal", async () => {
+    const state = createState({
+      markEmailJobDeadLetter: vi.fn().mockResolvedValue({
+        status: "unavailable",
+        httpStatus: 503,
+      }),
+    });
+
+    const result = await processEmailQueueMessage(
+      env,
+      message,
+      {
+        deliver: vi.fn().mockResolvedValue({
+          status: "permanent_failure",
+          errorCode: "RESEND_AUTH_REJECTED",
         }),
       },
       state,

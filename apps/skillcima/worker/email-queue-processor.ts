@@ -1,5 +1,6 @@
 import {
   claimEmailJob,
+  markEmailJobDeadLetter,
   markEmailJobSent,
   releaseEmailJob,
 } from "./email-consumer-state";
@@ -28,6 +29,10 @@ export type EmailDeliveryResult =
   | {
       status: "temporary_failure";
       errorCode: string;
+    }
+  | {
+      status: "permanent_failure";
+      errorCode: string;
     };
 
 export interface EmailDeliveryAdapter {
@@ -38,12 +43,14 @@ export interface EmailQueueStateDependencies {
   claimEmailJob: typeof claimEmailJob;
   releaseEmailJob: typeof releaseEmailJob;
   markEmailJobSent: typeof markEmailJobSent;
+  markEmailJobDeadLetter: typeof markEmailJobDeadLetter;
 }
 
 const defaultStateDependencies: EmailQueueStateDependencies = {
   claimEmailJob,
   releaseEmailJob,
   markEmailJobSent,
+  markEmailJobDeadLetter,
 };
 
 export type ProcessEmailQueueMessageResult =
@@ -218,6 +225,49 @@ export async function processEmailQueueMessage(
     }
 
     return retry("state_unavailable", {
+      jobId: message.jobId,
+      attemptCount: claim.attemptCount,
+    });
+  }
+
+  if (deliveryResult.status === "permanent_failure") {
+    const deadLetter = await state.markEmailJobDeadLetter(
+      env,
+      message.jobId,
+      normalizeErrorCode(deliveryResult.errorCode),
+    );
+
+    if (
+      deadLetter.status === "dead_letter" ||
+      deadLetter.status === "already_dead_letter"
+    ) {
+      return {
+        action: "ack",
+        reason: "dead_letter",
+        jobId: message.jobId,
+        attemptCount: claim.attemptCount,
+      };
+    }
+
+    if (deadLetter.status === "already_sent") {
+      return {
+        action: "ack",
+        reason: "already_sent",
+        jobId: message.jobId,
+        attemptCount: claim.attemptCount,
+      };
+    }
+
+    if (deadLetter.status === "not_found") {
+      return {
+        action: "ack",
+        reason: "not_found",
+        jobId: message.jobId,
+        attemptCount: claim.attemptCount,
+      };
+    }
+
+    return retry("state_update_failed", {
       jobId: message.jobId,
       attemptCount: claim.attemptCount,
     });
