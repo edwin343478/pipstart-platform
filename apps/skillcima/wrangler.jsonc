@@ -4,7 +4,17 @@
   "main": "./worker/index.ts",
   "compatibility_date": "2026-08-06",
   "secrets": {
-    "required": ["TURNSTILE_SECRET_KEY", "SUPABASE_URL", "SUPABASE_SECRET_KEY"],
+    "required": [
+      "TURNSTILE_SECRET_KEY",
+      "SUPABASE_URL",
+      "SUPABASE_SECRET_KEY",
+      "SKILLCIMA_CONFIRMATION_TOKEN_SECRET",
+      "RESEND_API_KEY",
+    ],
+  },
+  "vars": {
+    "SKILLCIMA_EMAIL_FROM": "Skillcima <course@skillcima.com>",
+    "SKILLCIMA_PUBLIC_ORIGIN": "https://skillcima.com",
   },
   "ratelimits": [
     {
