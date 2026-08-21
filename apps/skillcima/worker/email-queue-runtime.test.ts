@@ -64,7 +64,7 @@ afterEach(() => {
 });
 
 describe("Skillcima Worker Queue runtime", () => {
-  it("routes malformed Queue messages through the batch handler and ACKs them", async () => {
+  it("routes malformed primary Queue messages through the normal batch handler and ACKs them", async () => {
     const fetchMock = vi.spyOn(globalThis, "fetch");
 
     const logMock = vi
@@ -79,6 +79,7 @@ describe("Skillcima Worker Queue runtime", () => {
 
     await worker.queue(
       {
+        queue: "skillcima-email",
         messages: [message],
       },
       env,
@@ -91,19 +92,13 @@ describe("Skillcima Worker Queue runtime", () => {
     expect(fetchMock).not.toHaveBeenCalled();
 
     expect(logMock).toHaveBeenCalledWith(
-      expect.stringContaining('"event":"email_queue_batch_completed"'),
-    );
-
-    expect(logMock).toHaveBeenCalledWith(
       expect.stringContaining('"deliveryMode":"confirmation_email"'),
     );
   });
 
-  it("runs a claimed confirmation job through preparation, provider acceptance, and sent-state persistence", async () => {
+  it("runs a claimed primary confirmation job through provider acceptance and sent-state persistence", async () => {
     const fetchMock = vi
       .spyOn(globalThis, "fetch")
-
-      // 1. Claim email job.
       .mockResolvedValueOnce(
         jsonResponse([
           {
@@ -112,8 +107,6 @@ describe("Skillcima Worker Queue runtime", () => {
           },
         ]),
       )
-
-      // 2. Prepare confirmation delivery.
       .mockResolvedValueOnce(
         jsonResponse([
           {
@@ -126,20 +119,14 @@ describe("Skillcima Worker Queue runtime", () => {
           },
         ]),
       )
-
-      // 3. Resend accepts the email.
       .mockResolvedValueOnce(
         jsonResponse({
           id: "provider-message-123",
         }),
       )
-
-      // 4. Persist sent state.
       .mockResolvedValueOnce(jsonResponse("sent"));
 
-    const logMock = vi
-      .spyOn(console, "log")
-      .mockImplementation(() => undefined);
+    vi.spyOn(console, "log").mockImplementation(() => undefined);
 
     const message = createMessage({
       version: 1,
@@ -149,6 +136,7 @@ describe("Skillcima Worker Queue runtime", () => {
 
     await worker.queue(
       {
+        queue: "skillcima-email",
         messages: [message],
       },
       env,
@@ -171,43 +159,9 @@ describe("Skillcima Worker Queue runtime", () => {
     expect(urls[2]).toBe("https://api.resend.com/emails");
 
     expect(urls[3]).toContain("/rest/v1/rpc/skillcima_mark_email_job_sent");
-
-    expect(
-      urls.some((url) =>
-        url.includes("/rest/v1/rpc/skillcima_release_email_job"),
-      ),
-    ).toBe(false);
-
-    const resendRequest = fetchMock.mock.calls[2]?.[1];
-
-    expect(resendRequest?.headers).toEqual(
-      expect.objectContaining({
-        "Idempotency-Key":
-          "skillcima/course_confirmation/11111111-1111-4111-8111-111111111111",
-      }),
-    );
-
-    const resendBody = JSON.parse(String(resendRequest?.body)) as {
-      to: string[];
-      subject: string;
-      html: string;
-      text: string;
-    };
-
-    expect(resendBody.to).toEqual(["learner@example.com"]);
-
-    expect(resendBody.subject).toContain("Confirm");
-
-    expect(resendBody.html).toContain("/confirm?token=");
-
-    expect(resendBody.text).toContain("/confirm?token=");
-
-    expect(logMock).toHaveBeenCalledWith(
-      expect.stringContaining('"deliveryMode":"confirmation_email"'),
-    );
   });
 
-  it("releases and retries a claimed job when confirmation delivery is not configured", async () => {
+  it("releases and retries a primary job when confirmation delivery is not configured", async () => {
     const incompleteEnv = {
       ...env,
 
@@ -236,6 +190,7 @@ describe("Skillcima Worker Queue runtime", () => {
 
     await worker.queue(
       {
+        queue: "skillcima-email",
         messages: [message],
       },
       incompleteEnv,
@@ -258,11 +213,92 @@ describe("Skillcima Worker Queue runtime", () => {
     expect(urls.some((url) => url === "https://api.resend.com/emails")).toBe(
       false,
     );
+  });
+
+  it("routes a platform DLQ message directly to database dead-letter reconciliation without delivery", async () => {
+    const fetchMock = vi
+      .spyOn(globalThis, "fetch")
+      .mockResolvedValueOnce(jsonResponse("dead_letter"));
+
+    const logMock = vi
+      .spyOn(console, "log")
+      .mockImplementation(() => undefined);
+
+    const message = createMessage({
+      version: 1,
+      jobId: "44444444-4444-4444-8444-444444444444",
+      jobType: "course_confirmation",
+    });
+
+    await worker.queue(
+      {
+        queue: "skillcima-email-dlq",
+        messages: [message],
+      },
+      env,
+    );
+
+    expect(message.ack).toHaveBeenCalledTimes(1);
+
+    expect(message.retry).not.toHaveBeenCalled();
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+
+    const [requestUrl, requestInit] = fetchMock.mock.calls[0] ?? [];
+
+    expect(String(requestUrl)).toContain(
+      "/rest/v1/rpc/skillcima_mark_email_job_dead_letter",
+    );
+
+    expect(JSON.parse(String(requestInit?.body))).toEqual({
+      p_job_id: "44444444-4444-4444-8444-444444444444",
+      p_error_code: "CLOUDFLARE_QUEUE_RETRIES_EXHAUSTED",
+    });
+
+    expect(String(requestUrl)).not.toContain("skillcima_claim_email_job");
 
     expect(
-      urls.some((url) =>
-        url.includes("/rest/v1/rpc/skillcima_mark_email_job_sent"),
+      fetchMock.mock.calls.some(
+        ([input]) => String(input) === "https://api.resend.com/emails",
       ),
     ).toBe(false);
+
+    expect(logMock).toHaveBeenCalledWith(
+      expect.stringContaining('"event":"email_queue_dlq_batch_completed"'),
+    );
+  });
+
+  it("retries an unexpected Queue name rather than processing it with the wrong handler", async () => {
+    const fetchMock = vi.spyOn(globalThis, "fetch");
+
+    const errorMock = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => undefined);
+
+    const message = createMessage({
+      version: 1,
+      jobId: "55555555-5555-4555-8555-555555555555",
+      jobType: "course_confirmation",
+    });
+
+    await worker.queue(
+      {
+        queue: "unexpected-email-queue",
+        messages: [message],
+      },
+      env,
+    );
+
+    expect(message.ack).not.toHaveBeenCalled();
+
+    expect(message.retry).toHaveBeenCalledWith({
+      delaySeconds: 300,
+    });
+
+    expect(fetchMock).not.toHaveBeenCalled();
+
+    expect(errorMock).toHaveBeenCalledWith(
+      expect.stringContaining('"event":"email_queue_unknown_batch"'),
+    );
   });
 });

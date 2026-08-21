@@ -79,7 +79,9 @@ export type ProcessEmailQueueMessageResult =
       attemptCount?: number | null;
     };
 
-function parseQueueMessage(value: unknown): SkillcimaEmailQueueMessage | null {
+export function parseQueueMessage(
+  value: unknown,
+): SkillcimaEmailQueueMessage | null {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
     return null;
   }

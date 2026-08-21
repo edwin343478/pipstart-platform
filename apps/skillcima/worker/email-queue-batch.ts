@@ -21,6 +21,10 @@ export interface EmailQueueRuntimeBatch {
   readonly messages: readonly EmailQueueRuntimeMessage[];
 }
 
+export interface EmailQueueRuntimeNamedBatch extends EmailQueueRuntimeBatch {
+  readonly queue: string;
+}
+
 export interface EmailQueueProcessorDependency {
   (
     env: SupabaseEnv,

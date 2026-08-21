@@ -5,14 +5,20 @@ import { createConfirmationEmailDelivery } from "./confirmation-email-delivery";
 import { dispatchEmailOutbox } from "./email-outbox-dispatcher";
 import {
   processEmailQueueBatch,
-  type EmailQueueRuntimeBatch,
+  type EmailQueueRuntimeNamedBatch,
 } from "./email-queue-batch";
+import { processEmailDeadLetterBatch } from "./email-queue-dead-letter";
 import type { EmailQueueBinding } from "./email-queue";
+import { EMAIL_QUEUE_RETRY_DELAY_SECONDS } from "./email-queue-processor";
 import { persistVerifiedLead } from "./lead-workflow";
 import { checkSupabaseConnection } from "./supabase";
 import { verifyTurnstile } from "./turnstile";
 
 const MAX_JSON_BODY_BYTES = 16 * 1024;
+
+const SKILLCIMA_EMAIL_QUEUE_NAME = "skillcima-email";
+
+const SKILLCIMA_EMAIL_DLQ_NAME = "skillcima-email-dlq";
 
 const PRODUCTION_ORIGINS = new Set([
   "https://skillcima.com",
@@ -521,7 +527,48 @@ const worker = {
     });
   },
 
-  async queue(batch: EmailQueueRuntimeBatch, env: Env): Promise<void> {
+  async queue(batch: EmailQueueRuntimeNamedBatch, env: Env): Promise<void> {
+    if (batch.queue === SKILLCIMA_EMAIL_DLQ_NAME) {
+      const result = await processEmailDeadLetterBatch(env, batch);
+
+      const log = result.retried > 0 ? console.error : console.log;
+
+      log(
+        JSON.stringify({
+          event: "email_queue_dlq_batch_completed",
+          queue: batch.queue,
+          received: result.received,
+          acknowledged: result.acknowledged,
+          retried: result.retried,
+          invalidMessages: result.invalidMessages,
+          reconciled: result.reconciled,
+          terminalNoops: result.terminalNoops,
+          stateFailures: result.stateFailures,
+        }),
+      );
+
+      return;
+    }
+
+    if (batch.queue !== SKILLCIMA_EMAIL_QUEUE_NAME) {
+      for (const message of batch.messages) {
+        message.retry({
+          delaySeconds: EMAIL_QUEUE_RETRY_DELAY_SECONDS,
+        });
+      }
+
+      console.error(
+        JSON.stringify({
+          event: "email_queue_unknown_batch",
+          queue: batch.queue,
+          received: batch.messages.length,
+          retried: batch.messages.length,
+        }),
+      );
+
+      return;
+    }
+
     const delivery = createConfirmationEmailDelivery(env);
 
     const result = await processEmailQueueBatch(env, batch, delivery);
@@ -533,6 +580,7 @@ const worker = {
     log(
       JSON.stringify({
         event: "email_queue_batch_completed",
+        queue: batch.queue,
         deliveryMode: "confirmation_email",
         received: result.received,
         acknowledged: result.acknowledged,
