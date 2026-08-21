@@ -1,27 +1,18 @@
 import { handleCourseConfirmationRequest } from "./course-confirmation-route";
 import { leadRequestSchema } from "@repo/validation";
 
+import { createConfirmationEmailDelivery } from "./confirmation-email-delivery";
 import { dispatchEmailOutbox } from "./email-outbox-dispatcher";
 import {
   processEmailQueueBatch,
   type EmailQueueRuntimeBatch,
 } from "./email-queue-batch";
 import type { EmailQueueBinding } from "./email-queue";
-import type { EmailDeliveryAdapter } from "./email-queue-processor";
 import { persistVerifiedLead } from "./lead-workflow";
 import { checkSupabaseConnection } from "./supabase";
 import { verifyTurnstile } from "./turnstile";
 
 const MAX_JSON_BODY_BYTES = 16 * 1024;
-
-const disabledEmailDelivery: EmailDeliveryAdapter = {
-  async deliver() {
-    return {
-      status: "temporary_failure",
-      errorCode: "EMAIL_DELIVERY_NOT_CONFIGURED",
-    };
-  },
-};
 
 const PRODUCTION_ORIGINS = new Set([
   "https://skillcima.com",
@@ -36,6 +27,12 @@ interface Env {
   TURNSTILE_SECRET_KEY: string;
   SUPABASE_URL: string;
   SUPABASE_SECRET_KEY: string;
+
+  SKILLCIMA_CONFIRMATION_TOKEN_SECRET: string;
+  RESEND_API_KEY: string;
+  SKILLCIMA_EMAIL_FROM: string;
+  SKILLCIMA_PUBLIC_ORIGIN: string;
+
   LEAD_RATE_LIMITER: RateLimitBinding;
   SKILLCIMA_EMAIL_QUEUE: EmailQueueBinding;
 }
@@ -525,11 +522,9 @@ const worker = {
   },
 
   async queue(batch: EmailQueueRuntimeBatch, env: Env): Promise<void> {
-    const result = await processEmailQueueBatch(
-      env,
-      batch,
-      disabledEmailDelivery,
-    );
+    const delivery = createConfirmationEmailDelivery(env);
+
+    const result = await processEmailQueueBatch(env, batch, delivery);
 
     const hasRetries = result.retried > 0 || result.processorExceptions > 0;
 
@@ -538,7 +533,7 @@ const worker = {
     log(
       JSON.stringify({
         event: "email_queue_batch_completed",
-        deliveryMode: "disabled",
+        deliveryMode: "confirmation_email",
         received: result.received,
         acknowledged: result.acknowledged,
         retried: result.retried,
