@@ -1,3 +1,4 @@
+import { handleCourseConfirmationRequest } from "./course-confirmation-route";
 import { leadRequestSchema } from "@repo/validation";
 
 import { dispatchEmailOutbox } from "./email-outbox-dispatcher";
@@ -511,6 +512,10 @@ const worker = {
 
     if (url.pathname === "/api/v1/lead") {
       return handleLeadRequest(request, requestId, env);
+    }
+
+    if (url.pathname === "/api/v1/confirm") {
+      return handleCourseConfirmationRequest(request, env);
     }
 
     return errorResponse(requestId, 404, {
