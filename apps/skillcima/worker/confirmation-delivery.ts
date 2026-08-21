@@ -22,6 +22,7 @@ type ConfirmationDatabaseStatus =
   | "already_confirmed"
   | "not_deliverable"
   | "invalid_enrolment_state"
+  | "expired"
   | "token_mismatch";
 
 interface ConfirmationRpcRow {
@@ -54,6 +55,7 @@ export type PrepareConfirmationDeliveryResult =
         | "already_confirmed"
         | "not_deliverable"
         | "invalid_enrolment_state"
+        | "expired"
         | "token_mismatch";
     }
   | {
@@ -92,6 +94,7 @@ function isDatabaseStatus(value: unknown): value is ConfirmationDatabaseStatus {
     value === "already_confirmed" ||
     value === "not_deliverable" ||
     value === "invalid_enrolment_state" ||
+    value === "expired" ||
     value === "token_mismatch"
   );
 }

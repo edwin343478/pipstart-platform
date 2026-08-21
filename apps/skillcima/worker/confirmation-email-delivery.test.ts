@@ -151,6 +151,35 @@ describe("Skillcima complete confirmation email delivery", () => {
     });
   });
 
+  it("never calls the composer or Resend for an expired preserved confirmation link", async () => {
+    const composeMock = vi.fn<typeof composeConfirmationEmail>();
+
+    const sendMock = vi.fn<typeof sendEmailWithResend>();
+
+    const delivery = createConfirmationEmailDelivery(
+      env,
+      createDependencies({
+        prepareConfirmationDelivery: vi
+          .fn<typeof prepareConfirmationDelivery>()
+          .mockResolvedValue({
+            status: "expired",
+          }),
+
+        composeConfirmationEmail: composeMock,
+
+        sendEmailWithResend: sendMock,
+      }),
+    );
+
+    await expect(delivery.deliver(input)).resolves.toEqual({
+      status: "permanent_failure",
+      errorCode: "CONFIRMATION_LINK_EXPIRED",
+    });
+
+    expect(composeMock).not.toHaveBeenCalled();
+
+    expect(sendMock).not.toHaveBeenCalled();
+  });
   it("treats confirmation-token mismatches as permanent failures", async () => {
     const delivery = createConfirmationEmailDelivery(
       env,

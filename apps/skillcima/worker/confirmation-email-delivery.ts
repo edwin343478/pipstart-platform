@@ -88,6 +88,9 @@ function mapPreparationFailure(
     case "invalid_enrolment_state":
       return permanentFailure("CONFIRMATION_ENROLMENT_INVALID");
 
+    case "expired":
+      return permanentFailure("CONFIRMATION_LINK_EXPIRED");
+
     case "token_mismatch":
       return permanentFailure("CONFIRMATION_TOKEN_MISMATCH");
   }

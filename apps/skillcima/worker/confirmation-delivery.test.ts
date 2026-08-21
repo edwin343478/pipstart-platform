@@ -140,6 +140,30 @@ describe("Skillcima confirmation delivery adapter", () => {
     );
   });
 
+  it("surfaces an expired preserved confirmation without returning delivery data", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
+      jsonResponse([
+        {
+          result_status: "expired",
+          result_email: null,
+          result_first_name: null,
+          result_course_slug: "forex-foundations",
+          result_enrolment_id: enrolmentId,
+          result_confirmation_expires_at: "2026-08-20T12:00:00.000Z",
+        },
+      ]),
+    );
+
+    await expect(
+      prepareConfirmationDelivery(
+        env,
+        jobId,
+        new Date("2026-08-21T12:00:00.000Z"),
+      ),
+    ).resolves.toEqual({
+      status: "expired",
+    });
+  });
   it("surfaces token mismatch without returning delivery data", async () => {
     vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
       jsonResponse([
