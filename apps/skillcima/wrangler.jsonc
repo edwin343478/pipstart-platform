@@ -3,6 +3,14 @@
   "name": "skillcima",
   "main": "./worker/index.ts",
   "compatibility_date": "2026-08-06",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [
+    {
+      "pattern": "skillcima.com",
+      "custom_domain": true,
+    },
+  ],
   "secrets": {
     "required": [
       "TURNSTILE_SECRET_KEY",
