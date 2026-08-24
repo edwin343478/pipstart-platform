@@ -55,7 +55,7 @@ export function CourseOverviewCard({ course }: Props) {
             />
 
             <span className="text-xs text-muted">
-              Development preview — no data is transmitted or stored
+              Free five-day course — email confirmation required
             </span>
           </div>
         </div>

@@ -76,8 +76,8 @@ export default function RiskDisclaimerPage() {
       </div>
 
       <div className="mt-12 rounded-2xl border border-warning-border bg-warning-soft p-6 text-sm leading-6 text-warning">
-        This is an initial development draft and must receive appropriate legal
-        review before public launch.
+        This risk disclaimer applies to Skillcima&apos;s educational content and
+        should be read before using the materials.
       </div>
     </article>
   );

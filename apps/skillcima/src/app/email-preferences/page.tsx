@@ -22,8 +22,9 @@ export default function EmailPreferencesPage() {
         </h1>
 
         <p className="mt-6 text-lg leading-8 text-muted">
-          The preference-management system is not active during the current
-          development preview.
+          Newsletter preference management will be available before recurring
+          newsletter delivery begins. Course delivery is handled separately from
+          the optional educational newsletter.
         </p>
 
         <div className="mt-12 space-y-6">

@@ -22,19 +22,21 @@ export default function PrivacyPolicyPage() {
       <div className="mt-10 space-y-10 leading-8 text-muted">
         <section>
           <h2 className="font-heading text-2xl font-bold text-foreground">
-            Current development preview
+            Current production data handling
           </h2>
 
           <p className="mt-4">
-            The current Skillcima enrolment form validates information inside
-            the visitor&apos;s browser. The preview does not transmit, store or
-            add submitted details to an email list.
+            When you submit the Skillcima enrolment form, the information is
+            transmitted securely to our server-side systems for validation,
+            enrolment processing and course delivery. We store the information
+            needed to operate the enrolment workflow and record applicable
+            consent evidence.
           </p>
         </section>
 
         <section>
           <h2 className="font-heading text-2xl font-bold text-foreground">
-            Information we expect to collect
+            Information we collect
           </h2>
 
           <p className="mt-4">
@@ -82,8 +84,8 @@ export default function PrivacyPolicyPage() {
       </div>
 
       <div className="mt-12 rounded-2xl border border-warning-border bg-warning-soft p-6 text-sm leading-6 text-warning">
-        This is an initial development draft and must receive appropriate legal
-        review before public launch.
+        This policy describes Skillcima&apos;s current data-handling practices
+        and may be updated as the service evolves.
       </div>
     </article>
   );

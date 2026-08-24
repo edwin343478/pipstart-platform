@@ -49,7 +49,7 @@ export default function Home() {
                   href="#signup"
                   className="inline-flex min-h-12 items-center justify-center rounded-xl border border-border bg-surface px-6 py-3 font-semibold text-foreground transition-colors hover:bg-brand-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
                 >
-                  Preview enrolment
+                  Start free course
                 </a>
               </div>
             </div>
@@ -77,7 +77,7 @@ export default function Home() {
                   aria-hidden="true"
                   className="h-1.5 w-1.5 rounded-full bg-brand-accent"
                 />
-                Enrolment preview
+                Course enrolment
               </p>
 
               <h2 className="mt-4 max-w-lg font-heading text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
@@ -85,9 +85,11 @@ export default function Home() {
               </h2>
 
               <p className="mt-5 max-w-lg text-lg leading-8 text-muted">
-                Enter your details to preview the secure enrolment experience.
-                During this development stage, information is transmitted for
-                verification but is not stored or added to an email list.
+                Enter your details to request the free five-day Forex
+                Foundations course by email. We use the information you submit
+                to process your enrolment and course delivery. Continuing
+                educational emails are sent only if you choose the optional
+                newsletter consent.
               </p>
 
               <div className="mt-8 flex items-center gap-3">

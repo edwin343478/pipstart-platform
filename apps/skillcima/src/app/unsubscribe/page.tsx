@@ -22,13 +22,13 @@ export default function UnsubscribePage() {
         </h1>
 
         <p className="mt-6 text-lg leading-8 text-muted">
-          No live Skillcima newsletter subscription exists during the current
-          development preview, so there is nothing to unsubscribe from yet.
+          The recurring Skillcima educational newsletter has not launched yet,
+          so there are currently no newsletter messages to unsubscribe from.
         </p>
 
         <div className="mt-10 rounded-2xl border border-border bg-surface p-6">
           <h2 className="font-heading text-2xl font-bold">
-            How this will work after launch
+            How unsubscribe will work
           </h2>
 
           <p className="mt-4 leading-7 text-muted">

@@ -93,12 +93,13 @@ export default function AboutPage() {
 
           <section className="rounded-2xl border border-border bg-surface p-6">
             <h2 className="font-heading text-xl font-bold">
-              Current development stage
+              Production rollout
             </h2>
 
             <p className="mt-3 leading-7 text-muted">
-              Skillcima is currently being developed and tested. Course delivery
-              and email systems are not active yet.
+              Skillcima is being launched in controlled stages. Core enrolment
+              and data services are live, while email delivery features are
+              being verified before broader promotion.
             </p>
           </section>
         </div>

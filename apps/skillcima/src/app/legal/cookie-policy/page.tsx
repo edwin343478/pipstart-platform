@@ -26,8 +26,8 @@ export default function CookiePolicyPage() {
           </h2>
 
           <p className="mt-4">
-            The current development version of Skillcima does not intentionally
-            set advertising or behavioural-tracking cookies.
+            Skillcima does not intentionally set advertising or
+            behavioural-tracking cookies on the current website.
           </p>
         </section>
 
@@ -68,8 +68,8 @@ export default function CookiePolicyPage() {
       </div>
 
       <div className="mt-12 rounded-2xl border border-warning-border bg-warning-soft p-6 text-sm leading-6 text-warning">
-        This is an initial development draft and must receive appropriate legal
-        review before public launch.
+        This policy describes the cookies and similar technologies used by the
+        current Skillcima website and may be updated as the service evolves.
       </div>
     </article>
   );
