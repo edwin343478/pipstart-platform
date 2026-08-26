@@ -1,4 +1,5 @@
 import { handleCourseConfirmationRequest } from "./course-confirmation-route";
+import { handleNewsletterUnsubscribeRequest } from "./newsletter-unsubscribe-route";
 import { leadRequestSchema } from "@repo/validation";
 
 import { createConfirmationEmailDelivery } from "./confirmation-email-delivery";
@@ -519,6 +520,10 @@ const worker = {
 
     if (url.pathname === "/api/v1/confirm") {
       return handleCourseConfirmationRequest(request, env);
+    }
+
+    if (url.pathname === "/api/v1/unsubscribe") {
+      return handleNewsletterUnsubscribeRequest(request, env);
     }
 
     return errorResponse(requestId, 404, {
