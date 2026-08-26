@@ -1,5 +1,6 @@
 import { handleCourseConfirmationRequest } from "./course-confirmation-route";
 import { handleNewsletterUnsubscribeRequest } from "./newsletter-unsubscribe-route";
+import { handleResendWebhookRequest } from "./resend-webhook-route";
 import { leadRequestSchema } from "@repo/validation";
 
 import { createConfirmationEmailDelivery } from "./confirmation-email-delivery";
@@ -38,6 +39,7 @@ interface Env {
   SKILLCIMA_CONFIRMATION_TOKEN_SECRET: string;
   SKILLCIMA_UNSUBSCRIBE_TOKEN_SECRET: string;
   RESEND_API_KEY: string;
+  RESEND_WEBHOOK_SECRET: string;
   SKILLCIMA_EMAIL_FROM: string;
   SKILLCIMA_PUBLIC_ORIGIN: string;
 
@@ -525,6 +527,10 @@ const worker = {
 
     if (url.pathname === "/api/v1/unsubscribe") {
       return handleNewsletterUnsubscribeRequest(request, env);
+    }
+
+    if (url.pathname === "/api/v1/webhooks/resend") {
+      return handleResendWebhookRequest(request, env);
     }
 
     return errorResponse(requestId, 404, {

@@ -20,6 +20,7 @@ const env = {
     "test-unsubscribe-secret-aaaaaaaaaaaaaaaa",
 
   RESEND_API_KEY: "re_test_fake_key",
+  RESEND_WEBHOOK_SECRET: "whsec_dGVzdC1zZWNyZXQ=",
 
   SKILLCIMA_EMAIL_FROM: "Skillcima <course@skillcima.com>",
 
