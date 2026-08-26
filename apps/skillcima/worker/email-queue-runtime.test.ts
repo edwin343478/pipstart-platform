@@ -16,6 +16,9 @@ const env = {
   SKILLCIMA_CONFIRMATION_TOKEN_SECRET:
     "test-confirmation-secret-aaaaaaaaaaaaaaaa",
 
+  SKILLCIMA_UNSUBSCRIBE_TOKEN_SECRET:
+    "test-unsubscribe-secret-aaaaaaaaaaaaaaaa",
+
   RESEND_API_KEY: "re_test_fake_key",
 
   SKILLCIMA_EMAIL_FROM: "Skillcima <course@skillcima.com>",
