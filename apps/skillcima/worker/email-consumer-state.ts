@@ -59,7 +59,13 @@ export type ReleaseEmailJobResult =
 
 export type MarkEmailJobSentResult =
   | {
-      status: "sent" | "not_found" | "already_sent" | "invalid_state";
+      status:
+        | "sent"
+        | "not_found"
+        | "already_sent"
+        | "invalid_state"
+        | "provider_mismatch"
+        | "provider_conflict";
     }
   | RpcFailure;
 
@@ -269,9 +275,11 @@ export async function releaseEmailJob(
 export async function markEmailJobSent(
   env: SupabaseEnv,
   jobId: string,
+  providerMessageId: string,
 ): Promise<MarkEmailJobSentResult> {
   const rpc = await callRpc(env, "skillcima_mark_email_job_sent", {
     p_job_id: jobId,
+    p_provider_message_id: providerMessageId,
   });
 
   if (rpc.status !== "ok") {
@@ -283,6 +291,8 @@ export async function markEmailJobSent(
     "not_found",
     "already_sent",
     "invalid_state",
+    "provider_mismatch",
+    "provider_conflict",
   ] as const;
 
   if (!isScalarStatus(rpc.body, allowed)) {

@@ -124,7 +124,11 @@ describe("Skillcima email consumer state adapter", () => {
     vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(jsonResponse("sent"));
 
     await expect(
-      markEmailJobSent(env, "55555555-5555-4555-8555-555555555555"),
+      markEmailJobSent(
+        env,
+        "55555555-5555-4555-8555-555555555555",
+        "provider-message-123",
+      ),
     ).resolves.toEqual({
       status: "sent",
     });

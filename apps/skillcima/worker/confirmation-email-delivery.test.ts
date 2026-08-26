@@ -90,6 +90,7 @@ describe("Skillcima complete confirmation email delivery", () => {
 
     await expect(delivery.deliver(input)).resolves.toEqual({
       status: "accepted",
+      providerMessageId: "provider-message-123",
     });
 
     expect(dependencies.prepareConfirmationDelivery).toHaveBeenCalledWith(

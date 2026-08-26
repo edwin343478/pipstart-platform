@@ -100,6 +100,7 @@ function mapProviderResult(result: ResendEmailResult): EmailDeliveryResult {
   if (result.status === "accepted") {
     return {
       status: "accepted",
+      providerMessageId: result.providerMessageId,
     };
   }
 

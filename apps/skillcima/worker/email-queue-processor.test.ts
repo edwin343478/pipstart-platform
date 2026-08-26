@@ -191,6 +191,7 @@ describe("Skillcima email Queue processor", () => {
 
     const deliver = vi.fn().mockResolvedValue({
       status: "accepted",
+      providerMessageId: "provider-message-123",
     });
 
     const result = await processEmailQueueMessage(
@@ -207,7 +208,11 @@ describe("Skillcima email Queue processor", () => {
         "skillcima/course_confirmation/11111111-1111-4111-8111-111111111111",
     });
 
-    expect(state.markEmailJobSent).toHaveBeenCalledWith(env, message.jobId);
+    expect(state.markEmailJobSent).toHaveBeenCalledWith(
+      env,
+      message.jobId,
+      "provider-message-123",
+    );
 
     expect(result).toEqual({
       action: "ack",
@@ -231,6 +236,7 @@ describe("Skillcima email Queue processor", () => {
       {
         deliver: vi.fn().mockResolvedValue({
           status: "accepted",
+          providerMessageId: "provider-message-456",
         }),
       },
       state,

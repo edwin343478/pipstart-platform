@@ -25,6 +25,7 @@ export interface EmailDeliveryInput {
 export type EmailDeliveryResult =
   | {
       status: "accepted";
+      providerMessageId: string;
     }
   | {
       status: "temporary_failure";
@@ -275,7 +276,11 @@ export async function processEmailQueueMessage(
     });
   }
 
-  const sent = await state.markEmailJobSent(env, message.jobId);
+  const sent = await state.markEmailJobSent(
+    env,
+    message.jobId,
+    deliveryResult.providerMessageId,
+  );
 
   if (sent.status === "sent" || sent.status === "already_sent") {
     return {
