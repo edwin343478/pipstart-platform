@@ -26,6 +26,8 @@ const env = {
 
   SKILLCIMA_PUBLIC_ORIGIN: "https://skillcima.com",
 
+  SKILLCIMA_COURSE_LESSON_PROVIDER_ENABLED: "false",
+
   LEAD_RATE_LIMITER: {
     async limit() {
       return {

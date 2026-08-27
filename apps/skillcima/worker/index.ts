@@ -5,6 +5,7 @@ import { leadRequestSchema } from "@repo/validation";
 
 import { createConfirmationEmailDelivery } from "./confirmation-email-delivery";
 import { createCourseLessonEmailDelivery } from "./course-lesson-email-delivery";
+import { prepareCourseLessonDelivery } from "./course-lesson-delivery";
 import { createEmailDeliveryRouter } from "./email-delivery-router";
 import { dispatchEmailOutbox } from "./email-outbox-dispatcher";
 import {
@@ -44,6 +45,7 @@ interface Env {
   RESEND_WEBHOOK_SECRET: string;
   SKILLCIMA_EMAIL_FROM: string;
   SKILLCIMA_PUBLIC_ORIGIN: string;
+  SKILLCIMA_COURSE_LESSON_PROVIDER_ENABLED: string;
 
   LEAD_RATE_LIMITER: RateLimitBinding;
   SKILLCIMA_EMAIL_QUEUE: EmailQueueBinding;
@@ -585,7 +587,11 @@ const worker = {
 
     const delivery = createEmailDeliveryRouter({
       confirmationDelivery: createConfirmationEmailDelivery(env),
-      courseLessonDelivery: createCourseLessonEmailDelivery(env),
+      courseLessonDelivery: createCourseLessonEmailDelivery(env, {
+        prepareCourseLessonDelivery,
+        enableProviderDelivery:
+          env.SKILLCIMA_COURSE_LESSON_PROVIDER_ENABLED === "true",
+      }),
     });
 
     const result = await processEmailQueueBatch(env, batch, delivery);

@@ -25,6 +25,7 @@
   "vars": {
     "SKILLCIMA_EMAIL_FROM": "Skillcima <course@skillcima.com>",
     "SKILLCIMA_PUBLIC_ORIGIN": "https://skillcima.com",
+    "SKILLCIMA_COURSE_LESSON_PROVIDER_ENABLED": "false",
   },
   "ratelimits": [
     {
