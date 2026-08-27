@@ -96,7 +96,7 @@ describe("Skillcima Worker Queue runtime", () => {
     expect(fetchMock).not.toHaveBeenCalled();
 
     expect(logMock).toHaveBeenCalledWith(
-      expect.stringContaining('"deliveryMode":"confirmation_email"'),
+      expect.stringContaining('"deliveryMode":"email_router"'),
     );
   });
 

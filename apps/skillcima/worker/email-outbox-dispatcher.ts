@@ -1,5 +1,6 @@
 import {
   createEmailQueueMessage,
+  isSkillcimaEmailQueueJobType,
   type EmailQueueBinding,
   type SkillcimaEmailQueueJobType,
 } from "./email-queue";
@@ -82,7 +83,7 @@ function isDispatchableEmailJobRow(
   return (
     typeof row.id === "string" &&
     row.id.length > 0 &&
-    row.job_type === "course_confirmation" &&
+    isSkillcimaEmailQueueJobType(row.job_type) &&
     (row.status === "pending" || row.status === "failed") &&
     typeof row.attempt_count === "number" &&
     Number.isInteger(row.attempt_count) &&

@@ -5,6 +5,7 @@ import {
   releaseEmailJob,
 } from "./email-consumer-state";
 import {
+  isSkillcimaEmailQueueJobType,
   SKILLCIMA_EMAIL_QUEUE_MESSAGE_VERSION,
   type SkillcimaEmailQueueJobType,
   type SkillcimaEmailQueueMessage,
@@ -88,10 +89,11 @@ export function parseQueueMessage(
   }
 
   const candidate = value as Record<string, unknown>;
+  const jobType = candidate.jobType;
 
   if (
     candidate.version !== SKILLCIMA_EMAIL_QUEUE_MESSAGE_VERSION ||
-    candidate.jobType !== "course_confirmation" ||
+    !isSkillcimaEmailQueueJobType(jobType) ||
     typeof candidate.jobId !== "string" ||
     !UUID_PATTERN.test(candidate.jobId)
   ) {
@@ -112,7 +114,7 @@ export function parseQueueMessage(
   return {
     version: SKILLCIMA_EMAIL_QUEUE_MESSAGE_VERSION,
     jobId: candidate.jobId,
-    jobType: candidate.jobType,
+    jobType,
   };
 }
 

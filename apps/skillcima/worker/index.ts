@@ -4,6 +4,8 @@ import { handleResendWebhookRequest } from "./resend-webhook-route";
 import { leadRequestSchema } from "@repo/validation";
 
 import { createConfirmationEmailDelivery } from "./confirmation-email-delivery";
+import { createCourseLessonEmailDelivery } from "./course-lesson-email-delivery";
+import { createEmailDeliveryRouter } from "./email-delivery-router";
 import { dispatchEmailOutbox } from "./email-outbox-dispatcher";
 import {
   processEmailQueueBatch,
@@ -581,7 +583,10 @@ const worker = {
       return;
     }
 
-    const delivery = createConfirmationEmailDelivery(env);
+    const delivery = createEmailDeliveryRouter({
+      confirmationDelivery: createConfirmationEmailDelivery(env),
+      courseLessonDelivery: createCourseLessonEmailDelivery(env),
+    });
 
     const result = await processEmailQueueBatch(env, batch, delivery);
 
@@ -593,7 +598,7 @@ const worker = {
       JSON.stringify({
         event: "email_queue_batch_completed",
         queue: batch.queue,
-        deliveryMode: "confirmation_email",
+        deliveryMode: "email_router",
         received: result.received,
         acknowledged: result.acknowledged,
         retried: result.retried,
