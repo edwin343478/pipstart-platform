@@ -1,4 +1,4 @@
-﻿import type { FiveDayEmailLesson } from "../../email-course";
+import type { FiveDayEmailLesson } from "../../email-course";
 
 export const forexFoundationsEmailDay5: FiveDayEmailLesson = {
   day: 5,
@@ -35,5 +35,5 @@ export const forexFoundationsEmailDay5: FiveDayEmailLesson = {
   },
 
   closing:
-    "Your five-day introduction is complete. PipStart can take you deeper into the structured Forex learning path whenever you are ready.",
+    "Your five-day introduction is complete. Continue with the structured Forex lessons on PipStart to build on these foundations at your own pace.",
 };

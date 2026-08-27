@@ -1,4 +1,4 @@
-﻿import type { FiveDayEmailLesson } from "../../email-course";
+import type { FiveDayEmailLesson } from "../../email-course";
 
 export const forexFoundationsEmailDay2: FiveDayEmailLesson = {
   day: 2,
@@ -14,7 +14,7 @@ export const forexFoundationsEmailDay2: FiveDayEmailLesson = {
 
   paragraphs: [
     "A currency pair compares the value of one currency with another. In EUR/USD, for example, EUR is the base currency and USD is the quote currency.",
-    "A pip is a standard way of describing a small price movement in a currency pair. Traders use pips to discuss changes in price, gains, losses, and risk.",
+    "A pip is a standard unit used to describe price movement in a currency pair. For many currency pairs, one pip represents 0.0001, while many yen-quoted pairs use 0.01. Pips help describe price changes, gains, losses, and risk.",
     "The spread is the difference between the buying price and selling price shown for a market. It is one of the costs that can affect a trade.",
   ],
 

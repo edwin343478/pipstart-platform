@@ -1,4 +1,4 @@
-﻿import type { FiveDayEmailLesson } from "../../email-course";
+import type { FiveDayEmailLesson } from "../../email-course";
 
 export const forexFoundationsEmailDay4: FiveDayEmailLesson = {
   day: 4,
@@ -14,7 +14,7 @@ export const forexFoundationsEmailDay4: FiveDayEmailLesson = {
 
   paragraphs: [
     "Leverage allows a trader to control a larger market position with a smaller amount of capital. That may sound attractive, but the same mechanism also magnifies losses.",
-    "Risk management is about deciding how much you are prepared to lose before entering a position, rather than reacting only after the market moves against you.",
+    "Risk management involves setting boundaries before a trade, including how much capital is exposed, rather than reacting only after the market moves against you.",
     "Position size, stop-loss decisions, available capital, volatility, and leverage all interact. None of them should be considered in isolation.",
   ],
 

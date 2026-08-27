@@ -1,4 +1,4 @@
-﻿import {
+import {
   FIVE_DAY_EMAIL_JOB_TYPES,
   forexFoundationsEmailCourse,
 } from "@repo/content";
@@ -14,10 +14,10 @@ const baseInput = {
 };
 
 describe("Skillcima five-day course lesson content", () => {
-  it("contains exactly five editable draft lessons", () => {
-    expect(forexFoundationsEmailCourse.status).toBe("draft");
+  it("contains exactly five approved lessons", () => {
+    expect(forexFoundationsEmailCourse.status).toBe("approved");
 
-    expect(forexFoundationsEmailCourse.contentVersion).toBe("draft-1");
+    expect(forexFoundationsEmailCourse.contentVersion).toBe("v1");
 
     expect(forexFoundationsEmailCourse.lessons).toHaveLength(5);
   });
@@ -43,7 +43,7 @@ describe("Skillcima five-day course lesson content", () => {
 
       expect(result.text).toContain("Risk reminder:");
 
-      expect(result.contentVersion).toBe("draft-1");
+      expect(result.contentVersion).toBe("v1");
     },
   );
 
@@ -101,7 +101,7 @@ describe("Skillcima five-day course lesson content", () => {
     ).toThrow("COURSE_EMAIL_MAIN_SITE_BASE_URL_INVALID");
   });
 
-  it("contains no affiliate URL in the editable draft", () => {
+  it("contains no affiliate URL in the approved content", () => {
     const serialized = JSON.stringify(
       forexFoundationsEmailCourse,
     ).toLowerCase();

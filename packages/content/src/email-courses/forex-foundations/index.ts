@@ -1,4 +1,4 @@
-﻿import { defineFiveDayEmailCourse } from "../../email-course";
+import { defineFiveDayEmailCourse } from "../../email-course";
 import { forexFoundationsEmailDay1 } from "./day-1";
 import { forexFoundationsEmailDay2 } from "./day-2";
 import { forexFoundationsEmailDay3 } from "./day-3";
@@ -21,9 +21,9 @@ export const forexFoundationsEmailCourse = defineFiveDayEmailCourse({
    * Change this when the copy receives a meaningful
    * revision before or after launch.
    */
-  contentVersion: "draft-1",
+  contentVersion: "v1",
 
-  status: "draft",
+  status: "approved",
 
   lessons: [
     forexFoundationsEmailDay1,

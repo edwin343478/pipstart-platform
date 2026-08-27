@@ -66,7 +66,7 @@ describe("Skillcima course lesson email delivery adapter foundation", () => {
   });
 
   it.each(dayJobTypes)(
-    "prepares %s but deliberately stops before content/provider delivery",
+    "prepares %s and stops at the provider-disabled lock",
     async (jobType) => {
       const deps = dependencies();
 
@@ -74,7 +74,7 @@ describe("Skillcima course lesson email delivery adapter foundation", () => {
 
       await expect(delivery.deliver(input(jobType))).resolves.toEqual({
         status: "permanent_failure",
-        errorCode: "COURSE_LESSON_CONTENT_NOT_APPROVED",
+        errorCode: "COURSE_LESSON_CONTENT_NOT_ENABLED",
       });
 
       expect(deps.prepareCourseLessonDelivery).toHaveBeenCalledTimes(1);
