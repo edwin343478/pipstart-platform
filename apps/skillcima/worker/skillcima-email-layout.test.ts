@@ -46,7 +46,7 @@ describe("Skillcima branded email layout", () => {
     expect(html).toContain("#6F6555");
   });
 
-  it("uses a mobile-safe 600px email container", () => {
+  it("uses a compact mobile-safe 520px email container", () => {
     const html = renderSkillcimaEmailLayout({
       previewText: "Preview",
       eyebrow: "Course",
@@ -56,9 +56,9 @@ describe("Skillcima branded email layout", () => {
 
     expect(html).toContain('name="viewport"');
 
-    expect(html).toContain("max-width:600px");
+    expect(html).toContain("max-width:520px");
 
-    expect(html).toContain("@media only screen and (max-width: 620px)");
+    expect(html).toContain("@media only screen and (max-width: 560px)");
   });
 
   it("escapes layout text while preserving trusted internal content", () => {

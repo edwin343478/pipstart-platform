@@ -1,6 +1,6 @@
 import {
   forexFoundationsEmailCourse,
-  type FiveDayEmailJobType,
+  type SixDayEmailJobType,
 } from "@repo/content";
 
 import {
@@ -107,13 +107,14 @@ function permanentFailure(errorCode: string): EmailDeliveryResult {
 
 function isCourseLessonJobType(
   value: SkillcimaEmailQueueJobType,
-): value is FiveDayEmailJobType {
+): value is SixDayEmailJobType {
   return (
     value === "course_day_1" ||
     value === "course_day_2" ||
     value === "course_day_3" ||
     value === "course_day_4" ||
-    value === "course_day_5"
+    value === "course_day_5" ||
+    value === "course_day_6"
   );
 }
 

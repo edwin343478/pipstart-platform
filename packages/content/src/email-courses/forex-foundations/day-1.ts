@@ -1,6 +1,6 @@
-﻿import type { FiveDayEmailLesson } from "../../email-course";
+﻿import type { SixDayEmailLesson } from "../../email-course";
 
-export const forexFoundationsEmailDay1: FiveDayEmailLesson = {
+export const forexFoundationsEmailDay1: SixDayEmailLesson = {
   day: 1,
   jobType: "course_day_1",
 

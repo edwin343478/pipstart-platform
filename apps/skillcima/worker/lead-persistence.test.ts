@@ -19,7 +19,7 @@ const consentEvents: PendingConsentEvent[] = [
     action: "requested",
     privacyNoticeVersion: "2026-08-06",
     consentWording:
-      "Submitting the Skillcima enrolment form requests delivery of the free five-day Forex Foundations course by email.",
+      "Submitting the Skillcima enrolment form requests delivery of the free six-email Forex Foundations course by email.",
     consentWordingVersion: "1.0.0",
     landingPageVersion: "1.0.0",
   },
@@ -92,7 +92,7 @@ describe("completeLeadSubmission", () => {
           action: "requested",
           privacy_notice_version: "2026-08-06",
           consent_wording:
-            "Submitting the Skillcima enrolment form requests delivery of the free five-day Forex Foundations course by email.",
+            "Submitting the Skillcima enrolment form requests delivery of the free six-email Forex Foundations course by email.",
           consent_wording_version: "1.0.0",
           landing_page_version: "1.0.0",
         },

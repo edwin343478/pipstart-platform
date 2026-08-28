@@ -6,7 +6,7 @@ export const SKILLCIMA_LANDING_PAGE_VERSION = "1.0.0";
 export const SKILLCIMA_CONSENT_WORDING_VERSION = "1.0.0";
 
 export const COURSE_DELIVERY_WORDING =
-  "Submitting the Skillcima enrolment form requests delivery of the free five-day Forex Foundations course by email.";
+  "Submitting the Skillcima enrolment form requests delivery of the free six-email Forex Foundations course by email.";
 
 export const NEWSLETTER_CONSENT_WORDING =
   "Send me continuing educational emails.";

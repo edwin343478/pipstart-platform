@@ -24,9 +24,9 @@ export const skillcimaEmailTheme = {
   },
 
   fonts: {
-    heading: `"${skillcimaBrand.fonts.heading}", Arial, Helvetica, sans-serif`,
-    body: `"${skillcimaBrand.fonts.body}", Arial, Helvetica, sans-serif`,
+    heading: `'${skillcimaBrand.fonts.heading}', Arial, Helvetica, sans-serif`,
+    body: `'${skillcimaBrand.fonts.body}', Arial, Helvetica, sans-serif`,
   },
 
-  maxWidth: 600,
+  maxWidth: 520,
 } as const;

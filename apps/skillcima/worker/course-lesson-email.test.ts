@@ -1,5 +1,5 @@
 import {
-  FIVE_DAY_EMAIL_JOB_TYPES,
+  SIX_DAY_EMAIL_JOB_TYPES,
   forexFoundationsEmailCourse,
 } from "@repo/content";
 import { describe, expect, it } from "vitest";
@@ -13,22 +13,22 @@ const baseInput = {
   mainSiteBaseUrl: "https://pipstart.net/",
 };
 
-describe("Skillcima five-day course lesson content", () => {
-  it("contains exactly five approved lessons", () => {
+describe("Skillcima six-day course lesson content", () => {
+  it("contains exactly six approved emails", () => {
     expect(forexFoundationsEmailCourse.status).toBe("approved");
 
-    expect(forexFoundationsEmailCourse.contentVersion).toBe("v1");
+    expect(forexFoundationsEmailCourse.contentVersion).toBe("v2");
 
-    expect(forexFoundationsEmailCourse.lessons).toHaveLength(5);
+    expect(forexFoundationsEmailCourse.lessons).toHaveLength(6);
   });
 
-  it("covers all five Queue job types", () => {
+  it("covers all six Queue job types", () => {
     expect(
       forexFoundationsEmailCourse.lessons.map((lesson) => lesson.jobType),
-    ).toEqual(FIVE_DAY_EMAIL_JOB_TYPES);
+    ).toEqual(SIX_DAY_EMAIL_JOB_TYPES);
   });
 
-  it.each(FIVE_DAY_EMAIL_JOB_TYPES)(
+  it.each(SIX_DAY_EMAIL_JOB_TYPES)(
     "composes %s using the Skillcima email layout",
     (jobType) => {
       const result = composeCourseLessonEmail({
@@ -43,7 +43,7 @@ describe("Skillcima five-day course lesson content", () => {
 
       expect(result.text).toContain("Risk reminder:");
 
-      expect(result.contentVersion).toBe("v1");
+      expect(result.contentVersion).toBe("v2");
     },
   );
 
@@ -59,8 +59,8 @@ describe("Skillcima five-day course lesson content", () => {
     expect(result.html).toContain("&lt;script&gt;");
   });
 
-  it("keeps Days 1-4 free of CTA links", () => {
-    for (const jobType of FIVE_DAY_EMAIL_JOB_TYPES.slice(0, 4)) {
+  it("keeps Days 1-5 free of CTA links", () => {
+    for (const jobType of SIX_DAY_EMAIL_JOB_TYPES.slice(0, 5)) {
       const result = composeCourseLessonEmail({
         ...baseInput,
         jobType,
@@ -70,10 +70,10 @@ describe("Skillcima five-day course lesson content", () => {
     }
   });
 
-  it("links Day 5 only to the supplied PipStart origin", () => {
+  it("links Day 6 only to the supplied PipStart origin", () => {
     const result = composeCourseLessonEmail({
       ...baseInput,
-      jobType: "course_day_5",
+      jobType: "course_day_6",
     });
 
     expect(result.html).toContain('href="https://pipstart.net/learn"');
@@ -95,7 +95,7 @@ describe("Skillcima five-day course lesson content", () => {
     expect(() =>
       composeCourseLessonEmail({
         ...baseInput,
-        jobType: "course_day_5",
+        jobType: "course_day_6",
         mainSiteBaseUrl: "http://pipstart.net/",
       }),
     ).toThrow("COURSE_EMAIL_MAIN_SITE_BASE_URL_INVALID");

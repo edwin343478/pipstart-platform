@@ -1,14 +1,15 @@
-﻿export const FIVE_DAY_EMAIL_JOB_TYPES = [
+﻿export const SIX_DAY_EMAIL_JOB_TYPES = [
   "course_day_1",
   "course_day_2",
   "course_day_3",
   "course_day_4",
   "course_day_5",
+  "course_day_6",
 ] as const;
 
-export type FiveDayEmailJobType = (typeof FIVE_DAY_EMAIL_JOB_TYPES)[number];
+export type SixDayEmailJobType = (typeof SIX_DAY_EMAIL_JOB_TYPES)[number];
 
-export type FiveDayEmailCourseDay = 1 | 2 | 3 | 4 | 5;
+export type SixDayEmailCourseDay = 1 | 2 | 3 | 4 | 5 | 6;
 
 export type EmailCourseContentStatus = "draft" | "approved";
 
@@ -21,9 +22,9 @@ export interface EmailCourseCta {
   path: string | null;
 }
 
-export interface FiveDayEmailLesson {
-  day: FiveDayEmailCourseDay;
-  jobType: FiveDayEmailJobType;
+export interface SixDayEmailLesson {
+  day: SixDayEmailCourseDay;
+  jobType: SixDayEmailJobType;
 
   subject: string;
   previewText: string;
@@ -40,7 +41,7 @@ export interface FiveDayEmailLesson {
   closing: string;
 }
 
-export interface FiveDayEmailCourseDefinition {
+export interface SixDayEmailCourseDefinition {
   courseSlug: string;
   courseName: string;
 
@@ -54,18 +55,19 @@ export interface FiveDayEmailCourseDefinition {
 
   status: EmailCourseContentStatus;
 
-  lessons: readonly FiveDayEmailLesson[];
+  lessons: readonly SixDayEmailLesson[];
 }
 
 const EXPECTED_JOB_TYPE_BY_DAY: Record<
-  FiveDayEmailCourseDay,
-  FiveDayEmailJobType
+  SixDayEmailCourseDay,
+  SixDayEmailJobType
 > = {
   1: "course_day_1",
   2: "course_day_2",
   3: "course_day_3",
   4: "course_day_4",
   5: "course_day_5",
+  6: "course_day_6",
 };
 
 function requireText(value: string, field: string): void {
@@ -90,9 +92,9 @@ function validateCta(cta: EmailCourseCta): void {
   }
 }
 
-export function defineFiveDayEmailCourse(
-  input: FiveDayEmailCourseDefinition,
-): FiveDayEmailCourseDefinition {
+export function defineSixDayEmailCourse(
+  input: SixDayEmailCourseDefinition,
+): SixDayEmailCourseDefinition {
   requireText(input.courseSlug, "course_slug");
   requireText(input.courseName, "course_name");
   requireText(input.contentVersion, "content_version");
@@ -101,13 +103,13 @@ export function defineFiveDayEmailCourse(
     throw new Error("EMAIL_COURSE_CONTENT_VERSION_INVALID");
   }
 
-  if (input.lessons.length !== 5) {
-    throw new Error("EMAIL_COURSE_REQUIRES_FIVE_LESSONS");
+  if (input.lessons.length !== 6) {
+    throw new Error("EMAIL_COURSE_REQUIRES_SIX_LESSONS");
   }
 
-  const seenDays = new Set<FiveDayEmailCourseDay>();
+  const seenDays = new Set<SixDayEmailCourseDay>();
 
-  const seenJobTypes = new Set<FiveDayEmailJobType>();
+  const seenJobTypes = new Set<SixDayEmailJobType>();
 
   for (const lesson of input.lessons) {
     if (seenDays.has(lesson.day)) {

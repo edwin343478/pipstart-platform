@@ -33,7 +33,7 @@ describe("Skillcima confirmation email composition", () => {
       "Confirm your free Skillcima Forex Foundations course",
     );
 
-    expect(result.text).toContain("free five-day Forex Foundations course");
+    expect(result.text).toContain("free six-email Forex Foundations course");
 
     expect(result.html).toContain("Confirm my course");
   });

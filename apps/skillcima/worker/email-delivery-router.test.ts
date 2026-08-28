@@ -72,13 +72,14 @@ describe("Skillcima email delivery router", () => {
     expect(confirmation.deliver).toHaveBeenCalledWith(input);
   });
 
-  it("keeps exactly five course-day routes in this foundation", () => {
+  it("keeps exactly six course-day routes in this foundation", () => {
     expect(courseDayJobTypes).toEqual([
       "course_day_1",
       "course_day_2",
       "course_day_3",
       "course_day_4",
       "course_day_5",
+      "course_day_6",
     ]);
   });
 

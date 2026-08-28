@@ -1,7 +1,7 @@
 ﻿import {
   forexFoundationsEmailCourse,
-  type FiveDayEmailJobType,
-  type FiveDayEmailLesson,
+  type SixDayEmailJobType,
+  type SixDayEmailLesson,
 } from "@repo/content";
 
 import { renderSkillcimaEmailLayout } from "./skillcima-email-layout";
@@ -9,7 +9,7 @@ import { skillcimaEmailTheme } from "./skillcima-email-theme";
 
 export interface ComposeCourseLessonEmailInput {
   courseSlug: string;
-  jobType: FiveDayEmailJobType;
+  jobType: SixDayEmailJobType;
   firstName: string | null;
 
   micrositeBaseUrl: string;
@@ -50,7 +50,7 @@ function requireHttpsOrigin(value: string, field: string): URL {
 }
 
 function resolveCtaUrl(
-  lesson: FiveDayEmailLesson,
+  lesson: SixDayEmailLesson,
   micrositeBaseUrl: URL,
   mainSiteBaseUrl: URL,
 ): string | null {
@@ -92,26 +92,33 @@ export function composeCourseLessonEmail(
   );
 
   const firstName = input.firstName?.trim() || null;
-
   const greeting = firstName ? `Hi ${escapeHtml(firstName)},` : "Hi,";
 
   const paragraphs = lesson.paragraphs
     .map(
       (paragraph) =>
-        `<p style="margin:0 0 18px;font-size:16px;line-height:1.72;color:${skillcimaEmailTheme.colors.text};">${escapeHtml(paragraph)}</p>`,
+        `<p style="margin:0 0 15px;font-size:15px;line-height:1.65;color:${skillcimaEmailTheme.colors.text};">${escapeHtml(paragraph)}</p>`,
     )
     .join("");
 
   const points = lesson.keyPoints
     .map(
-      (point, index) => `
+      (point) => `
         <tr>
-          <td valign="top" style="width:42px;padding:0 14px 14px 0;">
-            <div style="width:32px;height:32px;border-radius:999px;background:${skillcimaEmailTheme.colors.primary};font-size:13px;font-weight:800;line-height:32px;text-align:center;color:${skillcimaEmailTheme.colors.text};">
-              ${index + 1}
+          <td
+            valign="top"
+            width="25"
+            style="width:25px;padding:1px 10px 11px 0;"
+          >
+            <div style="width:20px;height:20px;border-radius:999px;background:${skillcimaEmailTheme.colors.primary};font-size:12px;font-weight:800;line-height:20px;text-align:center;color:${skillcimaEmailTheme.colors.text};">
+              &#10003;
             </div>
           </td>
-          <td valign="top" style="padding:3px 0 14px;font-size:15px;line-height:1.6;color:${skillcimaEmailTheme.colors.text};">
+
+          <td
+            valign="top"
+            style="padding:0 0 11px;font-size:14px;line-height:1.5;color:${skillcimaEmailTheme.colors.text};"
+          >
             ${escapeHtml(point)}
           </td>
         </tr>`,
@@ -121,61 +128,118 @@ export function composeCourseLessonEmail(
   const ctaUrl = resolveCtaUrl(lesson, micrositeBaseUrl, mainSiteBaseUrl);
 
   const ctaHtml = ctaUrl
-    ? `<div style="margin:30px 0 8px;">
-        <a
-          href="${escapeHtml(ctaUrl)}"
-          style="display:inline-block;background:${skillcimaEmailTheme.colors.primary};color:${skillcimaEmailTheme.colors.text};text-decoration:none;font-weight:800;padding:15px 22px;border-radius:999px;border:1px solid ${skillcimaEmailTheme.colors.text};"
-        >${escapeHtml(lesson.cta.label)}</a>
-      </div>`
+    ? `<table
+        role="presentation"
+        cellspacing="0"
+        cellpadding="0"
+        border="0"
+        style="margin:22px 0 4px;"
+      >
+        <tr>
+          <td
+            align="center"
+            bgcolor="${skillcimaEmailTheme.colors.text}"
+            style="border-radius:10px;"
+          >
+            <a
+              class="skillcima-button"
+              href="${escapeHtml(ctaUrl)}"
+              style="display:inline-block;padding:13px 20px;border:1px solid ${skillcimaEmailTheme.colors.text};border-radius:10px;background:${skillcimaEmailTheme.colors.text};font-size:14px;font-weight:800;line-height:1.2;color:#ffffff;text-decoration:none;"
+            >
+              ${escapeHtml(lesson.cta.label)} &rarr;
+            </a>
+          </td>
+        </tr>
+      </table>`
     : "";
 
   const trustedContentHtml = `
-    <div style="margin:0 0 28px;">
-      <p style="margin:0 0 18px;font-size:16px;line-height:1.7;color:${skillcimaEmailTheme.colors.text};">${greeting}</p>
+    <p style="margin:0 0 14px;font-size:15px;line-height:1.6;color:${skillcimaEmailTheme.colors.text};">
+      ${greeting}
+    </p>
 
-      <p style="margin:0 0 22px;font-size:18px;line-height:1.65;color:${skillcimaEmailTheme.colors.text};">
-        ${escapeHtml(lesson.intro)}
-      </p>
+    <p style="margin:0 0 18px;font-size:16px;font-weight:600;line-height:1.55;color:${skillcimaEmailTheme.colors.text};">
+      ${escapeHtml(lesson.intro)}
+    </p>
 
-      ${paragraphs}
-    </div>
+    ${paragraphs}
 
-    <div
-      style="margin:30px 0;padding:24px 24px 10px;background:${skillcimaEmailTheme.colors.soft};border:1px solid ${skillcimaEmailTheme.colors.border};border-radius:18px;"
+    <table
+      role="presentation"
+      width="100%"
+      cellspacing="0"
+      cellpadding="0"
+      border="0"
+      style="width:100%;margin:22px 0 18px;background:${skillcimaEmailTheme.colors.soft};border:1px solid ${skillcimaEmailTheme.colors.border};border-radius:12px;"
     >
-      <div style="margin:0 0 18px;font-size:12px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:${skillcimaEmailTheme.colors.accent};">
-        Learning brief
-      </div>
+      <tr>
+        <td style="padding:18px 18px 7px;">
+          <div style="margin:0 0 13px;font-size:11px;font-weight:800;line-height:1.3;letter-spacing:0.9px;text-transform:uppercase;color:${skillcimaEmailTheme.colors.accent};">
+            Key points
+          </div>
 
-      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
-        ${points}
-      </table>
-    </div>
+          <table
+            role="presentation"
+            width="100%"
+            cellspacing="0"
+            cellpadding="0"
+            border="0"
+          >
+            ${points}
+          </table>
+        </td>
+      </tr>
+    </table>
 
-    <div
-      style="margin:30px 0;padding:20px 22px;background:${skillcimaEmailTheme.colors.background};border-left:5px solid ${skillcimaEmailTheme.colors.accent};border-radius:14px;"
+    <table
+      role="presentation"
+      width="100%"
+      cellspacing="0"
+      cellpadding="0"
+      border="0"
+      style="width:100%;margin:18px 0;background:${skillcimaEmailTheme.colors.background};border-radius:10px;"
     >
-      <div style="margin:0 0 8px;font-size:12px;font-weight:800;letter-spacing:1.1px;text-transform:uppercase;color:${skillcimaEmailTheme.colors.accent};">
-        Risk reminder
-      </div>
-      <div style="font-size:15px;line-height:1.65;color:${skillcimaEmailTheme.colors.text};">
-        ${escapeHtml(lesson.riskNote)}
-      </div>
-    </div>
+      <tr>
+        <td
+          width="4"
+          style="width:4px;background:${skillcimaEmailTheme.colors.accent};border-radius:10px 0 0 10px;font-size:0;line-height:0;"
+        >
+          &nbsp;
+        </td>
+
+        <td style="padding:14px 16px;">
+          <div style="margin:0 0 5px;font-size:10px;font-weight:800;line-height:1.3;letter-spacing:0.8px;text-transform:uppercase;color:${skillcimaEmailTheme.colors.accent};">
+            Risk reminder
+          </div>
+
+          <div style="font-size:13px;line-height:1.55;color:${skillcimaEmailTheme.colors.text};">
+            ${escapeHtml(lesson.riskNote)}
+          </div>
+        </td>
+      </tr>
+    </table>
 
     ${ctaHtml}
 
-    <div style="margin:30px 0 0;padding-top:22px;border-top:1px solid ${skillcimaEmailTheme.colors.border};">
-      <p style="margin:0;font-size:16px;line-height:1.7;color:${skillcimaEmailTheme.colors.text};">
-        ${escapeHtml(lesson.closing)}
-      </p>
-    </div>
+    <p style="margin:20px 0 0;padding-top:17px;border-top:1px solid ${skillcimaEmailTheme.colors.border};font-size:14px;line-height:1.6;color:${skillcimaEmailTheme.colors.muted};">
+      ${escapeHtml(lesson.closing)}
+    </p>
   `;
+
+  const isCompletionEmail = lesson.day === 6;
+
   const html = renderSkillcimaEmailLayout({
     previewText: lesson.previewText,
-    eyebrow: `Day ${lesson.day} · ${forexFoundationsEmailCourse.courseName}`,
+    eyebrow: isCompletionEmail
+      ? forexFoundationsEmailCourse.courseName
+      : `Lesson ${lesson.day}`,
     heading: lesson.heading,
     trustedContentHtml,
+    progressCurrent: isCompletionEmail ? 5 : lesson.day,
+    progressTotal: 5,
+    progressLabel: isCompletionEmail
+      ? "Course complete"
+      : `Day ${lesson.day} of 5`,
   });
 
   const textParts = [

@@ -1,6 +1,6 @@
-import type { FiveDayEmailLesson } from "../../email-course";
+import type { SixDayEmailLesson } from "../../email-course";
 
-export const forexFoundationsEmailDay5: FiveDayEmailLesson = {
+export const forexFoundationsEmailDay5: SixDayEmailLesson = {
   day: 5,
   jobType: "course_day_5",
 
@@ -29,11 +29,11 @@ export const forexFoundationsEmailDay5: FiveDayEmailLesson = {
     "Educational material cannot guarantee profitable trading. Markets are uncertain and losses are always possible.",
 
   cta: {
-    label: "Continue learning on PipStart",
-    destination: "main_course_start",
-    path: "/learn",
+    label: "Continue",
+    destination: "none",
+    path: null,
   },
 
   closing:
-    "Your five-day introduction is complete. Continue with the structured Forex lessons on PipStart to build on these foundations at your own pace.",
+    "Tomorrow, we will show you where to continue learning these concepts in greater depth.",
 };

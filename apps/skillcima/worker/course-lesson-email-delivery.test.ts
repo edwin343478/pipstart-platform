@@ -22,6 +22,7 @@ const dayJobTypes = [
   "course_day_3",
   "course_day_4",
   "course_day_5",
+  "course_day_6",
 ] as const;
 
 function input(jobType: SkillcimaEmailQueueJobType): EmailDeliveryInput {

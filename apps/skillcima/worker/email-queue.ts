@@ -7,6 +7,7 @@ export const SKILLCIMA_EMAIL_QUEUE_JOB_TYPES = [
   "course_day_3",
   "course_day_4",
   "course_day_5",
+  "course_day_6",
 ] as const;
 
 export type SkillcimaEmailQueueJobType =

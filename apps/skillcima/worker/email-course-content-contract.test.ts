@@ -1,23 +1,24 @@
 ﻿import {
-  defineFiveDayEmailCourse,
-  type FiveDayEmailCourseDefinition,
+  defineSixDayEmailCourse,
+  type SixDayEmailCourseDefinition,
 } from "@repo/content";
 import { describe, expect, it } from "vitest";
 
-function fixture(): FiveDayEmailCourseDefinition {
+function fixture(): SixDayEmailCourseDefinition {
   return {
     courseSlug: "forex-foundations",
     courseName: "Forex Foundations",
     contentVersion: "draft-1",
     status: "draft",
-    lessons: [1, 2, 3, 4, 5].map((day) => ({
-      day: day as 1 | 2 | 3 | 4 | 5,
+    lessons: [1, 2, 3, 4, 5, 6].map((day) => ({
+      day: day as 1 | 2 | 3 | 4 | 5 | 6,
       jobType: `course_day_${day}` as
         | "course_day_1"
         | "course_day_2"
         | "course_day_3"
         | "course_day_4"
-        | "course_day_5",
+        | "course_day_5"
+        | "course_day_6",
       subject: `Day ${day}`,
       previewText: `Preview ${day}`,
       heading: `Heading ${day}`,
@@ -35,20 +36,20 @@ function fixture(): FiveDayEmailCourseDefinition {
   };
 }
 
-describe("five-day email content contract", () => {
-  it("accepts a complete editable five-day draft", () => {
-    expect(defineFiveDayEmailCourse(fixture()).contentVersion).toBe("draft-1");
+describe("six-day email content contract", () => {
+  it("accepts a complete editable six-day draft", () => {
+    expect(defineSixDayEmailCourse(fixture()).contentVersion).toBe("draft-1");
   });
 
-  it("requires exactly five lessons", () => {
+  it("requires exactly six lessons", () => {
     const input = fixture();
 
     expect(() =>
-      defineFiveDayEmailCourse({
+      defineSixDayEmailCourse({
         ...input,
-        lessons: input.lessons.slice(0, 4),
+        lessons: input.lessons.slice(0, 5),
       }),
-    ).toThrow("EMAIL_COURSE_REQUIRES_FIVE_LESSONS");
+    ).toThrow("EMAIL_COURSE_REQUIRES_SIX_LESSONS");
   });
 
   it("requires day and Queue job type to match", () => {
@@ -62,7 +63,7 @@ describe("five-day email content contract", () => {
     };
 
     expect(() =>
-      defineFiveDayEmailCourse({
+      defineSixDayEmailCourse({
         ...input,
         lessons,
       }),
@@ -84,7 +85,7 @@ describe("five-day email content contract", () => {
     };
 
     expect(() =>
-      defineFiveDayEmailCourse({
+      defineSixDayEmailCourse({
         ...input,
         lessons,
       }),

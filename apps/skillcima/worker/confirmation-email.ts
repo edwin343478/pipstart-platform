@@ -137,7 +137,7 @@ export function composeConfirmationEmail(
   const text = [
     greeting,
     "",
-    `You asked to receive Skillcima's free five-day ${courseName} course by email.`,
+    `You asked to receive Skillcima's free six-email ${courseName} course by email.`,
     "",
     "Confirm your course:",
     url,
@@ -171,7 +171,7 @@ export function composeConfirmationEmail(
     "</p>",
     '<h1 style="margin:0 0 16px;font-size:28px;line-height:1.2;">Confirm your free course</h1>',
     '<p style="margin:0 0 24px;font-size:16px;line-height:1.6;">',
-    `You asked to receive Skillcima's free five-day ${escapedCourseName} course by email.`,
+    `You asked to receive Skillcima's free six-email ${escapedCourseName} course by email.`,
     "</p>",
     '<p style="margin:0 0 24px;">',
     `<a href="${escapedUrl}" style="display:inline-block;padding:14px 22px;border-radius:10px;background:#111827;color:#ffffff;text-decoration:none;font-weight:700;">Confirm my course</a>`,
