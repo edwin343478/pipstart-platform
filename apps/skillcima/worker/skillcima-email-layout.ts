@@ -71,8 +71,12 @@ export function renderSkillcimaEmailLayout(
       }
 
       .skillcima-pad {
-        padding-left: 24px !important;
-        padding-right: 24px !important;
+        padding-left: 22px !important;
+        padding-right: 22px !important;
+      }
+
+      .skillcima-heading {
+        font-size: 28px !important;
       }
     }
   </style>
@@ -93,7 +97,7 @@ export function renderSkillcimaEmailLayout(
     style="width:100%;background:${colors.background};"
   >
     <tr>
-      <td align="center" style="padding:32px 16px;">
+      <td align="center" style="padding:34px 14px;">
 
         <table
           role="presentation"
@@ -102,35 +106,50 @@ export function renderSkillcimaEmailLayout(
           cellspacing="0"
           cellpadding="0"
           border="0"
-          style="width:100%;max-width:${skillcimaEmailTheme.maxWidth}px;background:${colors.surface};border:1px solid ${colors.border};border-radius:20px;overflow:hidden;"
+          style="width:100%;max-width:${skillcimaEmailTheme.maxWidth}px;background:${colors.surface};border:1px solid ${colors.border};border-radius:22px;overflow:hidden;box-shadow:0 18px 44px rgba(36,31,25,0.10);"
         >
+
+          <tr>
+            <td style="height:7px;background:${colors.primary};font-size:0;line-height:0;">&nbsp;</td>
+          </tr>
 
           <tr>
             <td
               class="skillcima-pad"
-              style="padding:22px 40px;background:${colors.primary};font-family:${fonts.heading};font-size:24px;font-weight:700;line-height:1.2;color:${colors.text};"
+              style="padding:28px 40px 24px;background:${colors.text};font-family:${fonts.body};"
             >
-              ${skillcimaEmailTheme.brandName}
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                  <td align="left" style="vertical-align:middle;">
+                    <div style="font-family:${fonts.heading};font-size:26px;font-weight:800;line-height:1;color:#ffffff;">
+                      Skill<span style="color:${colors.primary};">cima</span>
+                    </div>
+                    <div style="margin-top:8px;font-size:13px;line-height:1.4;color:${colors.border};">
+                      Calm, structured Forex education
+                    </div>
+                  </td>
+                  <td align="right" style="vertical-align:middle;">
+                    <span style="display:inline-block;padding:8px 12px;border:1px solid rgba(191,221,110,0.55);border-radius:999px;font-size:12px;font-weight:700;line-height:1;color:${colors.primary};">
+                      5-Day Course
+                    </span>
+                  </td>
+                </tr>
+              </table>
             </td>
           </tr>
 
           <tr>
             <td
-              style="height:4px;background:${colors.accent};font-size:0;line-height:0;"
-            >&nbsp;</td>
-          </tr>
-
-          <tr>
-            <td
               class="skillcima-pad"
-              style="padding:40px 40px 16px;font-family:${fonts.body};"
+              style="padding:38px 40px 18px;background:${colors.surface};font-family:${fonts.body};"
             >
               <div
-                style="margin:0 0 12px;font-size:12px;font-weight:700;line-height:1.4;letter-spacing:1.2px;text-transform:uppercase;color:${colors.accent};"
+                style="margin:0 0 14px;font-size:12px;font-weight:800;line-height:1.4;letter-spacing:1.4px;text-transform:uppercase;color:${colors.accent};"
               >${eyebrow}</div>
 
               <h1
-                style="margin:0;font-family:${fonts.heading};font-size:32px;line-height:1.2;font-weight:700;color:${colors.text};"
+                class="skillcima-heading"
+                style="margin:0;font-family:${fonts.heading};font-size:34px;line-height:1.12;font-weight:800;color:${colors.text};"
               >${heading}</h1>
             </td>
           </tr>
@@ -138,7 +157,7 @@ export function renderSkillcimaEmailLayout(
           <tr>
             <td
               class="skillcima-pad"
-              style="padding:16px 40px 40px;font-family:${fonts.body};font-size:16px;line-height:1.7;color:${colors.text};"
+              style="padding:18px 40px 42px;background:${colors.surface};font-family:${fonts.body};font-size:16px;line-height:1.7;color:${colors.text};"
             >
               ${input.trustedContentHtml}
             </td>
