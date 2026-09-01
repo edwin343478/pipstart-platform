@@ -3,9 +3,7 @@ import {
   type NewsletterUnsubscribeTokenEnv,
 } from "./newsletter-unsubscribe-token";
 
-import {
-  prepareNewsletterUnsubscribeToken,
-} from "./newsletter-unsubscribe-state";
+import { prepareNewsletterUnsubscribeToken } from "./newsletter-unsubscribe-state";
 
 import type { SupabaseEnv } from "./supabase";
 
@@ -18,10 +16,7 @@ interface SupabaseConfiguration {
 }
 
 type ActiveGrantDatabaseStatus =
-  | "active"
-  | "not_found"
-  | "not_subscribed"
-  | "invalid_consent_state";
+  "active" | "not_found" | "not_subscribed" | "invalid_consent_state";
 
 interface ActiveGrantRpcRow {
   result_status: ActiveGrantDatabaseStatus;
@@ -33,8 +28,7 @@ interface ActiveGrantRpcRow {
   result_granted_at: string | null;
 }
 
-export type NewsletterUnsubscribeDeliveryEnv =
-  SupabaseEnv &
+export type NewsletterUnsubscribeDeliveryEnv = SupabaseEnv &
   NewsletterUnsubscribeTokenEnv & {
     SKILLCIMA_PUBLIC_ORIGIN: string;
   };
@@ -50,10 +44,7 @@ export type ActiveNewsletterGrantResult =
       grantedAt: string;
     }
   | {
-      status:
-        | "not_found"
-        | "not_subscribed"
-        | "invalid_consent_state";
+      status: "not_found" | "not_subscribed" | "invalid_consent_state";
     }
   | {
       status: "invalid_lead_id";
@@ -87,9 +78,7 @@ export type PrepareNewsletterUnsubscribeDeliveryResult =
         | "token_conflict";
     }
   | {
-      status:
-        | "invalid_lead_id"
-        | "invalid_public_origin";
+      status: "invalid_lead_id" | "invalid_public_origin";
     }
   | {
       status: "misconfigured";
@@ -128,10 +117,7 @@ function parsePublicOrigin(value: string): URL | null {
 
   const isLocalHttp =
     url.protocol === "http:" &&
-    (
-      url.hostname === "localhost" ||
-      url.hostname === "127.0.0.1"
-    );
+    (url.hostname === "localhost" || url.hostname === "127.0.0.1");
 
   if (!isHttps && !isLocalHttp) {
     return null;
@@ -148,9 +134,7 @@ function parsePublicOrigin(value: string): URL | null {
   return url;
 }
 
-function isDatabaseStatus(
-  value: unknown,
-): value is ActiveGrantDatabaseStatus {
+function isDatabaseStatus(value: unknown): value is ActiveGrantDatabaseStatus {
   return (
     value === "active" ||
     value === "not_found" ||
@@ -168,24 +152,15 @@ function isValidEmail(value: unknown): value is string {
   );
 }
 
-function isValidOptionalFirstName(
-  value: unknown,
-): value is string | null {
+function isValidOptionalFirstName(value: unknown): value is string | null {
   return (
     value === null ||
-    (
-      typeof value === "string" &&
-      value.length >= 1 &&
-      value.length <= 100
-    )
+    (typeof value === "string" && value.length >= 1 && value.length <= 100)
   );
 }
 
 function isValidTimestamp(value: unknown): value is string {
-  return (
-    typeof value === "string" &&
-    Number.isFinite(Date.parse(value))
-  );
+  return typeof value === "string" && Number.isFinite(Date.parse(value));
 }
 
 export async function getActiveNewsletterGrant(
@@ -301,8 +276,7 @@ export async function getActiveNewsletterGrant(
     status: "active",
     leadId: candidate.result_lead_id,
     enrolmentId: candidate.result_enrolment_id,
-    grantConsentEventId:
-      candidate.result_grant_consent_event_id,
+    grantConsentEventId: candidate.result_grant_consent_event_id,
     recipientEmail: candidate.result_email,
     firstName: candidate.result_first_name,
     grantedAt: candidate.result_granted_at,
@@ -319,9 +293,7 @@ export async function prepareNewsletterUnsubscribeDelivery(
     };
   }
 
-  const origin = parsePublicOrigin(
-    env.SKILLCIMA_PUBLIC_ORIGIN?.trim(),
-  );
+  const origin = parsePublicOrigin(env.SKILLCIMA_PUBLIC_ORIGIN?.trim());
 
   if (!origin) {
     return {
@@ -329,25 +301,19 @@ export async function prepareNewsletterUnsubscribeDelivery(
     };
   }
 
-  const grant = await getActiveNewsletterGrant(
-    env,
-    leadId,
-  );
+  const grant = await getActiveNewsletterGrant(env, leadId);
 
   if (grant.status !== "active") {
     return grant;
   }
 
-  let tokenResult: Awaited<
-    ReturnType<typeof deriveNewsletterUnsubscribeToken>
-  >;
+  let tokenResult: Awaited<ReturnType<typeof deriveNewsletterUnsubscribeToken>>;
 
   try {
-    tokenResult =
-      await deriveNewsletterUnsubscribeToken(
-        env,
-        grant.grantConsentEventId,
-      );
+    tokenResult = await deriveNewsletterUnsubscribeToken(
+      env,
+      grant.grantConsentEventId,
+    );
   } catch {
     return {
       status: "unavailable",
@@ -360,9 +326,7 @@ export async function prepareNewsletterUnsubscribeDelivery(
     };
   }
 
-  if (
-    tokenResult.status === "invalid_consent_event_id"
-  ) {
+  if (tokenResult.status === "invalid_consent_event_id") {
     /*
      * The consent-event ID came from the trusted database
      * read model and was already UUID validated above.
@@ -372,18 +336,13 @@ export async function prepareNewsletterUnsubscribeDelivery(
     };
   }
 
-  let prepared: Awaited<
-    ReturnType<typeof prepareNewsletterUnsubscribeToken>
-  >;
+  let prepared: Awaited<ReturnType<typeof prepareNewsletterUnsubscribeToken>>;
 
   try {
-    prepared = await prepareNewsletterUnsubscribeToken(
-      env,
-      {
-        consentEventId: grant.grantConsentEventId,
-        tokenHash: tokenResult.tokenHash,
-      },
-    );
+    prepared = await prepareNewsletterUnsubscribeToken(env, {
+      consentEventId: grant.grantConsentEventId,
+      tokenHash: tokenResult.tokenHash,
+    });
   } catch {
     return {
       status: "unavailable",
@@ -436,8 +395,7 @@ export async function prepareNewsletterUnsubscribeDelivery(
   }
 
   if (
-    prepared.consentEventId !==
-      grant.grantConsentEventId ||
+    prepared.consentEventId !== grant.grantConsentEventId ||
     prepared.leadId !== grant.leadId ||
     prepared.enrolmentId !== grant.enrolmentId
   ) {
@@ -446,22 +404,15 @@ export async function prepareNewsletterUnsubscribeDelivery(
     };
   }
 
-  const unsubscribeUrl = new URL(
-    "/unsubscribe",
-    origin,
-  );
+  const unsubscribeUrl = new URL("/unsubscribe", origin);
 
-  unsubscribeUrl.searchParams.set(
-    "token",
-    tokenResult.token,
-  );
+  unsubscribeUrl.searchParams.set("token", tokenResult.token);
 
   return {
     status: "ready",
     leadId: grant.leadId,
     enrolmentId: grant.enrolmentId,
-    grantConsentEventId:
-      grant.grantConsentEventId,
+    grantConsentEventId: grant.grantConsentEventId,
     recipientEmail: grant.recipientEmail,
     firstName: grant.firstName,
     grantedAt: grant.grantedAt,

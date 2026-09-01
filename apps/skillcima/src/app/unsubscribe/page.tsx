@@ -6,8 +6,7 @@ import { UnsubscribeClient } from "./unsubscribe-client";
 
 export const metadata: Metadata = {
   title: "Unsubscribe | Skillcima",
-  description:
-    "Manage optional Skillcima educational-email consent.",
+  description: "Manage optional Skillcima educational-email consent.",
   referrer: "no-referrer",
   robots: {
     index: false,

@@ -1,6 +1,4 @@
-import {
-  SKILLCIMA_PRIVACY_NOTICE_VERSION,
-} from "./consent";
+import { SKILLCIMA_PRIVACY_NOTICE_VERSION } from "./consent";
 
 import {
   withdrawNewsletterByToken,
@@ -39,58 +37,36 @@ function jsonHeaders(): Headers {
   });
 }
 
-function jsonResponse(
-  status: number,
-  body: unknown,
-): Response {
-  return new Response(
-    JSON.stringify(body),
-    {
-      status,
-      headers: jsonHeaders(),
-    },
-  );
+function jsonResponse(status: number, body: unknown): Response {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: jsonHeaders(),
+  });
 }
 
-function isJsonContentType(
-  request: Request,
-): boolean {
-  const value = request.headers
-    .get("Content-Type")
-    ?.toLowerCase();
+function isJsonContentType(request: Request): boolean {
+  const value = request.headers.get("Content-Type")?.toLowerCase();
 
   if (!value) {
     return false;
   }
 
-  return (
-    value === "application/json" ||
-    value.startsWith("application/json;")
-  );
+  return value === "application/json" || value.startsWith("application/json;");
 }
 
 function isExactUnsubscribeBody(
   value: unknown,
 ): value is NewsletterUnsubscribeRequestBody {
-  if (
-    !value ||
-    typeof value !== "object" ||
-    Array.isArray(value)
-  ) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
     return false;
   }
 
-  const record = value as Record<
-    string,
-    unknown
-  >;
+  const record = value as Record<string, unknown>;
 
   const keys = Object.keys(record);
 
   return (
-    keys.length === 1 &&
-    keys[0] === "token" &&
-    typeof record.token === "string"
+    keys.length === 1 && keys[0] === "token" && typeof record.token === "string"
   );
 }
 
@@ -115,8 +91,7 @@ function mapUnsubscribeResult(
         ok: false,
         error: {
           code: "UNSUBSCRIBE_LINK_STALE",
-          message:
-            "This unsubscribe link is no longer current.",
+          message: "This unsubscribe link is no longer current.",
         },
       });
 
@@ -130,8 +105,7 @@ function mapUnsubscribeResult(
         ok: false,
         error: {
           code: "INVALID_UNSUBSCRIBE_LINK",
-          message:
-            "This unsubscribe link is invalid.",
+          message: "This unsubscribe link is invalid.",
         },
       });
 
@@ -151,8 +125,7 @@ function mapUnsubscribeResult(
         ok: false,
         error: {
           code: "UNSUBSCRIBE_NOT_CONFIGURED",
-          message:
-            "Unsubscribe is temporarily unavailable. Please try again.",
+          message: "Unsubscribe is temporarily unavailable. Please try again.",
         },
       });
 
@@ -161,8 +134,7 @@ function mapUnsubscribeResult(
         ok: false,
         error: {
           code: "UNSUBSCRIBE_UNAVAILABLE",
-          message:
-            "Unsubscribe is temporarily unavailable. Please try again.",
+          message: "Unsubscribe is temporarily unavailable. Please try again.",
         },
       });
   }
@@ -171,8 +143,7 @@ function mapUnsubscribeResult(
 export async function handleNewsletterUnsubscribeRequest(
   request: Request,
   env: SupabaseEnv,
-  dependencies: NewsletterUnsubscribeRouteDependencies =
-    defaultDependencies,
+  dependencies: NewsletterUnsubscribeRouteDependencies = defaultDependencies,
 ): Promise<Response> {
   /*
    * GET must never mutate newsletter consent.
@@ -183,8 +154,7 @@ export async function handleNewsletterUnsubscribeRequest(
       ok: false,
       error: {
         code: "METHOD_NOT_ALLOWED",
-        message:
-          "This endpoint only accepts POST requests.",
+        message: "This endpoint only accepts POST requests.",
       },
     });
   }
@@ -194,8 +164,7 @@ export async function handleNewsletterUnsubscribeRequest(
       ok: false,
       error: {
         code: "UNSUPPORTED_MEDIA_TYPE",
-        message:
-          "Content-Type must be application/json.",
+        message: "Content-Type must be application/json.",
       },
     });
   }
@@ -209,24 +178,19 @@ export async function handleNewsletterUnsubscribeRequest(
       ok: false,
       error: {
         code: "INVALID_REQUEST_BODY",
-        message:
-          "The request body could not be read.",
+        message: "The request body could not be read.",
       },
     });
   }
 
   if (
-    new TextEncoder()
-      .encode(rawBody)
-      .byteLength >
-    MAX_UNSUBSCRIBE_BODY_BYTES
+    new TextEncoder().encode(rawBody).byteLength > MAX_UNSUBSCRIBE_BODY_BYTES
   ) {
     return jsonResponse(413, {
       ok: false,
       error: {
         code: "REQUEST_TOO_LARGE",
-        message:
-          "The request body is too large.",
+        message: "The request body is too large.",
       },
     });
   }
@@ -236,8 +200,7 @@ export async function handleNewsletterUnsubscribeRequest(
       ok: false,
       error: {
         code: "INVALID_REQUEST_BODY",
-        message:
-          "A JSON request body is required.",
+        message: "A JSON request body is required.",
       },
     });
   }
@@ -251,8 +214,7 @@ export async function handleNewsletterUnsubscribeRequest(
       ok: false,
       error: {
         code: "INVALID_JSON",
-        message:
-          "The request body contains invalid JSON.",
+        message: "The request body contains invalid JSON.",
       },
     });
   }
@@ -262,8 +224,7 @@ export async function handleNewsletterUnsubscribeRequest(
       ok: false,
       error: {
         code: "INVALID_UNSUBSCRIBE_REQUEST",
-        message:
-          "The unsubscribe request is invalid.",
+        message: "The unsubscribe request is invalid.",
       },
     });
   }
@@ -271,31 +232,21 @@ export async function handleNewsletterUnsubscribeRequest(
   let result: WithdrawNewsletterByTokenResult;
 
   try {
-    result =
-      await dependencies.withdrawNewsletterByToken(
-        env,
-        parsed.token,
-        {
-          privacyNoticeVersion:
-            SKILLCIMA_PRIVACY_NOTICE_VERSION,
+    result = await dependencies.withdrawNewsletterByToken(env, parsed.token, {
+      privacyNoticeVersion: SKILLCIMA_PRIVACY_NOTICE_VERSION,
 
-          consentWording:
-            NEWSLETTER_WITHDRAWAL_WORDING,
+      consentWording: NEWSLETTER_WITHDRAWAL_WORDING,
 
-          consentWordingVersion:
-            NEWSLETTER_WITHDRAWAL_WORDING_VERSION,
+      consentWordingVersion: NEWSLETTER_WITHDRAWAL_WORDING_VERSION,
 
-          landingPageVersion:
-            NEWSLETTER_UNSUBSCRIBE_PAGE_VERSION,
-        },
-      );
+      landingPageVersion: NEWSLETTER_UNSUBSCRIBE_PAGE_VERSION,
+    });
   } catch {
     return jsonResponse(503, {
       ok: false,
       error: {
         code: "UNSUBSCRIBE_UNAVAILABLE",
-        message:
-          "Unsubscribe is temporarily unavailable. Please try again.",
+        message: "Unsubscribe is temporarily unavailable. Please try again.",
       },
     });
   }

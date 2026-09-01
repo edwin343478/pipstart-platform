@@ -74,8 +74,7 @@ export async function deriveNewsletterUnsubscribeToken(
     ["sign"],
   );
 
-  const message =
-    `${NEWSLETTER_UNSUBSCRIBE_TOKEN_NAMESPACE}:${consentEventId}`;
+  const message = `${NEWSLETTER_UNSUBSCRIBE_TOKEN_NAMESPACE}:${consentEventId}`;
 
   const signature = await crypto.subtle.sign(
     "HMAC",

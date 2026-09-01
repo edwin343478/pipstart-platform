@@ -444,9 +444,7 @@ describe("Skillcima newsletter unsubscribe database adapter", () => {
           503,
         ),
       )
-      .mockRejectedValueOnce(
-        new Error("Network unavailable"),
-      );
+      .mockRejectedValueOnce(new Error("Network unavailable"));
 
     await expect(
       withdrawNewsletterByToken(env, rawToken, evidence),

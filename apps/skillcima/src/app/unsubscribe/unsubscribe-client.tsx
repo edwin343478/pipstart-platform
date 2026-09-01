@@ -1,11 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import {
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
   extractUnsubscribeToken,
@@ -25,11 +21,9 @@ type ViewState =
 export function UnsubscribeClient() {
   const initialized = useRef(false);
 
-  const [token, setToken] =
-    useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
 
-  const [state, setState] =
-    useState<ViewState>("loading");
+  const [state, setState] = useState<ViewState>("loading");
 
   useEffect(() => {
     if (initialized.current) {
@@ -38,10 +32,7 @@ export function UnsubscribeClient() {
 
     initialized.current = true;
 
-    const result =
-      extractUnsubscribeToken(
-        window.location.search,
-      );
+    const result = extractUnsubscribeToken(window.location.search);
 
     /*
      * Remove the capability token from the
@@ -75,20 +66,16 @@ export function UnsubscribeClient() {
     let response: Response;
 
     try {
-      response = await fetch(
-        "/api/v1/unsubscribe",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type":
-              "application/json",
-          },
-          cache: "no-store",
-          body: JSON.stringify({
-            token,
-          }),
+      response = await fetch("/api/v1/unsubscribe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        cache: "no-store",
+        body: JSON.stringify({
+          token,
+        }),
+      });
     } catch {
       setState("retryable");
       return;
@@ -102,11 +89,7 @@ export function UnsubscribeClient() {
       body = null;
     }
 
-    const outcome =
-      mapUnsubscribeApiResponse(
-        response.status,
-        body,
-      );
+    const outcome = mapUnsubscribeApiResponse(response.status, body);
 
     switch (outcome) {
       case "success":
@@ -134,9 +117,7 @@ export function UnsubscribeClient() {
     }
   }
 
-  const canSubmit =
-    state === "ready" ||
-    state === "retryable";
+  const canSubmit = state === "ready" || state === "retryable";
 
   return (
     <article>
@@ -149,9 +130,9 @@ export function UnsubscribeClient() {
       </h1>
 
       <p className="mt-6 text-lg leading-8 text-muted">
-        You can stop optional continuing Skillcima educational emails here.
-        Your course-delivery request is managed separately and will not be
-        cancelled by this action.
+        You can stop optional continuing Skillcima educational emails here. Your
+        course-delivery request is managed separately and will not be cancelled
+        by this action.
       </p>
 
       <div
@@ -183,8 +164,8 @@ export function UnsubscribeClient() {
 
             {state === "retryable" && (
               <p className="mt-4 text-sm leading-6 text-warning">
-                The service was temporarily unavailable. Your preference has
-                not been changed yet. You can try again.
+                The service was temporarily unavailable. Your preference has not
+                been changed yet. You can try again.
               </p>
             )}
 
@@ -220,8 +201,8 @@ export function UnsubscribeClient() {
 
             <p className="mt-4 leading-7 text-muted">
               You will no longer receive optional continuing Skillcima
-              educational emails from this subscription. Any course delivery
-              you separately requested remains unchanged.
+              educational emails from this subscription. Any course delivery you
+              separately requested remains unchanged.
             </p>
           </>
         )}
@@ -246,9 +227,9 @@ export function UnsubscribeClient() {
             </h2>
 
             <p className="mt-4 leading-7 text-muted">
-              This unsubscribe link belongs to an earlier subscription cycle
-              and cannot change a newer newsletter choice. Please use the link
-              from your most recent Skillcima educational email.
+              This unsubscribe link belongs to an earlier subscription cycle and
+              cannot change a newer newsletter choice. Please use the link from
+              your most recent Skillcima educational email.
             </p>
           </>
         )}
@@ -260,8 +241,8 @@ export function UnsubscribeClient() {
             </h2>
 
             <p className="mt-4 leading-7 text-muted">
-              This newsletter preference cannot currently be changed using
-              this link.
+              This newsletter preference cannot currently be changed using this
+              link.
             </p>
           </>
         )}

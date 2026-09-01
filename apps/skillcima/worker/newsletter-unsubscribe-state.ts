@@ -173,9 +173,7 @@ function isPrepareStatus(value: unknown): value is PrepareDatabaseStatus {
   );
 }
 
-function isWithdrawalStatus(
-  value: unknown,
-): value is WithdrawalDatabaseStatus {
+function isWithdrawalStatus(value: unknown): value is WithdrawalDatabaseStatus {
   return (
     value === "withdrawn" ||
     value === "already_withdrawn" ||
@@ -216,9 +214,7 @@ async function callRpc(
       httpStatus?: number;
     }
 > {
-  const url = new URL(
-    `${configuration.url}/rest/v1/rpc/${functionName}`,
-  );
+  const url = new URL(`${configuration.url}/rest/v1/rpc/${functionName}`);
 
   let response: Response;
 
@@ -496,8 +492,7 @@ export async function withdrawNewsletterByToken(
     leadId: row.result_lead_id,
     enrolmentId: row.result_enrolment_id,
     grantConsentEventId: row.result_grant_consent_event_id,
-    withdrawalConsentEventId:
-      row.result_withdrawal_consent_event_id,
+    withdrawalConsentEventId: row.result_withdrawal_consent_event_id,
     withdrawnAt: row.result_withdrawn_at,
   };
 }

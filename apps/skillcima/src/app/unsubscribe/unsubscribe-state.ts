@@ -10,11 +10,7 @@ export type UnsubscribeTokenResult =
     };
 
 export type UnsubscribeApiOutcome =
-  | "success"
-  | "invalid"
-  | "stale"
-  | "retryable"
-  | "failure";
+  "success" | "invalid" | "stale" | "retryable" | "failure";
 
 export function extractUnsubscribeToken(
   search: string,
@@ -23,10 +19,7 @@ export function extractUnsubscribeToken(
 
   const tokens = params.getAll("token");
 
-  if (
-    tokens.length !== 1 ||
-    !TOKEN_PATTERN.test(tokens[0] ?? "")
-  ) {
+  if (tokens.length !== 1 || !TOKEN_PATTERN.test(tokens[0] ?? "")) {
     return {
       status: "invalid",
     };
@@ -52,54 +45,37 @@ export function mapUnsubscribeApiResponse(
 
     if (
       record.ok === true &&
-      (
-        record.status === "unsubscribed" ||
-        record.status === "already_unsubscribed"
-      )
+      (record.status === "unsubscribed" ||
+        record.status === "already_unsubscribed")
     ) {
       return "success";
     }
   }
 
-  if (
-    body &&
-    typeof body === "object" &&
-    !Array.isArray(body)
-  ) {
+  if (body && typeof body === "object" && !Array.isArray(body)) {
     const record = body as Record<string, unknown>;
 
     const error =
       record.error &&
       typeof record.error === "object" &&
       !Array.isArray(record.error)
-        ? record.error as Record<string, unknown>
+        ? (record.error as Record<string, unknown>)
         : null;
 
-    const code =
-      typeof error?.code === "string"
-        ? error.code
-        : null;
+    const code = typeof error?.code === "string" ? error.code : null;
 
-    if (
-      status === 400 &&
-      code === "INVALID_UNSUBSCRIBE_LINK"
-    ) {
+    if (status === 400 && code === "INVALID_UNSUBSCRIBE_LINK") {
       return "invalid";
     }
 
-    if (
-      status === 410 &&
-      code === "UNSUBSCRIBE_LINK_STALE"
-    ) {
+    if (status === 410 && code === "UNSUBSCRIBE_LINK_STALE") {
       return "stale";
     }
 
     if (
       status === 503 &&
-      (
-        code === "UNSUBSCRIBE_NOT_CONFIGURED" ||
-        code === "UNSUBSCRIBE_UNAVAILABLE"
-      )
+      (code === "UNSUBSCRIBE_NOT_CONFIGURED" ||
+        code === "UNSUBSCRIBE_UNAVAILABLE")
     ) {
       return "retryable";
     }

@@ -6,8 +6,7 @@ const UUID_PATTERN =
 const MAX_PROVIDER_IDENTIFIER_LENGTH = 200;
 
 export type ResendDeliverabilityEventType =
-  | "email.bounced"
-  | "email.complained";
+  "email.bounced" | "email.complained";
 
 export interface RecordResendWebhookEventInput {
   providerEventId: string;
@@ -21,10 +20,7 @@ interface SupabaseConfiguration {
   secretKey: string;
 }
 
-type DatabaseStatus =
-  | "recorded"
-  | "already_recorded"
-  | "event_mismatch";
+type DatabaseStatus = "recorded" | "already_recorded" | "event_mismatch";
 
 interface RpcRow {
   result_status: DatabaseStatus;
@@ -34,10 +30,7 @@ interface RpcRow {
 
 export type RecordResendWebhookEventResult =
   | {
-      status:
-        | "recorded"
-        | "already_recorded"
-        | "event_mismatch";
+      status: "recorded" | "already_recorded" | "event_mismatch";
       eventId: string;
       emailJobId: string | null;
     }
@@ -55,11 +48,9 @@ export type RecordResendWebhookEventResult =
 function getSupabaseConfiguration(
   env: SupabaseEnv,
 ): SupabaseConfiguration | null {
-  const url =
-    env.SUPABASE_URL?.trim();
+  const url = env.SUPABASE_URL?.trim();
 
-  const secretKey =
-    env.SUPABASE_SECRET_KEY?.trim();
+  const secretKey = env.SUPABASE_SECRET_KEY?.trim();
 
   if (!url || !secretKey) {
     return null;
@@ -71,20 +62,16 @@ function getSupabaseConfiguration(
   };
 }
 
-function normalizeProviderIdentifier(
-  value: unknown,
-): string | null {
+function normalizeProviderIdentifier(value: unknown): string | null {
   if (typeof value !== "string") {
     return null;
   }
 
-  const normalized =
-    value.trim();
+  const normalized = value.trim();
 
   if (
     normalized.length === 0 ||
-    normalized.length >
-      MAX_PROVIDER_IDENTIFIER_LENGTH
+    normalized.length > MAX_PROVIDER_IDENTIFIER_LENGTH
   ) {
     return null;
   }
@@ -92,27 +79,15 @@ function normalizeProviderIdentifier(
   return normalized;
 }
 
-function isUuid(
-  value: unknown,
-): value is string {
-  return (
-    typeof value === "string" &&
-    UUID_PATTERN.test(value)
-  );
+function isUuid(value: unknown): value is string {
+  return typeof value === "string" && UUID_PATTERN.test(value);
 }
 
-function isNullableUuid(
-  value: unknown,
-): value is string | null {
-  return (
-    value === null ||
-    isUuid(value)
-  );
+function isNullableUuid(value: unknown): value is string | null {
+  return value === null || isUuid(value);
 }
 
-function isDatabaseStatus(
-  value: unknown,
-): value is DatabaseStatus {
+function isDatabaseStatus(value: unknown): value is DatabaseStatus {
   return (
     value === "recorded" ||
     value === "already_recorded" ||
@@ -123,71 +98,45 @@ function isDatabaseStatus(
 function isDeliverabilityEventType(
   value: unknown,
 ): value is ResendDeliverabilityEventType {
-  return (
-    value === "email.bounced" ||
-    value === "email.complained"
-  );
+  return value === "email.bounced" || value === "email.complained";
 }
 
-function normalizeProviderCreatedAt(
-  value: unknown,
-):
-  | string
-  | null
-  | undefined {
+function normalizeProviderCreatedAt(value: unknown): string | null | undefined {
   if (value === null) {
     return null;
   }
 
-  if (
-    typeof value !== "string" ||
-    !Number.isFinite(
-      Date.parse(value),
-    )
-  ) {
+  if (typeof value !== "string" || !Number.isFinite(Date.parse(value))) {
     return undefined;
   }
 
-  return new Date(
-    value,
-  ).toISOString();
+  return new Date(value).toISOString();
 }
 
 export async function recordResendWebhookEvent(
   env: SupabaseEnv,
   input: RecordResendWebhookEventInput,
 ): Promise<RecordResendWebhookEventResult> {
-  const providerEventId =
-    normalizeProviderIdentifier(
-      input.providerEventId,
-    );
+  const providerEventId = normalizeProviderIdentifier(input.providerEventId);
 
-  const providerMessageId =
-    normalizeProviderIdentifier(
-      input.providerMessageId,
-    );
+  const providerMessageId = normalizeProviderIdentifier(
+    input.providerMessageId,
+  );
 
-  const providerCreatedAt =
-    normalizeProviderCreatedAt(
-      input.providerCreatedAt,
-    );
+  const providerCreatedAt = normalizeProviderCreatedAt(input.providerCreatedAt);
 
   if (
     !providerEventId ||
     !providerMessageId ||
-    !isDeliverabilityEventType(
-      input.eventType,
-    ) ||
-    providerCreatedAt ===
-      undefined
+    !isDeliverabilityEventType(input.eventType) ||
+    providerCreatedAt === undefined
   ) {
     return {
       status: "invalid_input",
     };
   }
 
-  const configuration =
-    getSupabaseConfiguration(env);
+  const configuration = getSupabaseConfiguration(env);
 
   if (!configuration) {
     return {
@@ -202,31 +151,20 @@ export async function recordResendWebhookEvent(
   let response: Response;
 
   try {
-    response =
-      await fetch(
-        url,
-        {
-          method: "POST",
-          headers: {
-            Accept:
-              "application/json",
-            "Content-Type":
-              "application/json",
-            apikey:
-              configuration.secretKey,
-          },
-          body: JSON.stringify({
-            p_provider_event_id:
-              providerEventId,
-            p_event_type:
-              input.eventType,
-            p_provider_message_id:
-              providerMessageId,
-            p_provider_created_at:
-              providerCreatedAt,
-          }),
-        },
-      );
+    response = await fetch(url, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        apikey: configuration.secretKey,
+      },
+      body: JSON.stringify({
+        p_provider_event_id: providerEventId,
+        p_event_type: input.eventType,
+        p_provider_message_id: providerMessageId,
+        p_provider_created_at: providerCreatedAt,
+      }),
+    });
   } catch {
     return {
       status: "unavailable",
@@ -234,8 +172,7 @@ export async function recordResendWebhookEvent(
   }
 
   if (!response.ok) {
-    const httpStatus =
-      response.status;
+    const httpStatus = response.status;
 
     await response.body?.cancel();
 
@@ -248,51 +185,34 @@ export async function recordResendWebhookEvent(
   let body: unknown;
 
   try {
-    body =
-      (await response.json()) as unknown;
+    body = (await response.json()) as unknown;
   } catch {
     return {
       status: "unavailable",
-      httpStatus:
-        response.status,
+      httpStatus: response.status,
     };
   }
 
-  if (
-    !Array.isArray(body) ||
-    body.length !== 1
-  ) {
+  if (!Array.isArray(body) || body.length !== 1) {
     return {
       status: "unavailable",
     };
   }
 
-  const row =
-    body[0];
+  const row = body[0];
 
-  if (
-    !row ||
-    typeof row !== "object" ||
-    Array.isArray(row)
-  ) {
+  if (!row || typeof row !== "object" || Array.isArray(row)) {
     return {
       status: "unavailable",
     };
   }
 
-  const candidate =
-    row as Partial<RpcRow>;
+  const candidate = row as Partial<RpcRow>;
 
   if (
-    !isDatabaseStatus(
-      candidate.result_status,
-    ) ||
-    !isUuid(
-      candidate.result_event_id,
-    ) ||
-    !isNullableUuid(
-      candidate.result_email_job_id,
-    )
+    !isDatabaseStatus(candidate.result_status) ||
+    !isUuid(candidate.result_event_id) ||
+    !isNullableUuid(candidate.result_email_job_id)
   ) {
     return {
       status: "unavailable",
@@ -300,11 +220,8 @@ export async function recordResendWebhookEvent(
   }
 
   return {
-    status:
-      candidate.result_status,
-    eventId:
-      candidate.result_event_id,
-    emailJobId:
-      candidate.result_email_job_id,
+    status: candidate.result_status,
+    eventId: candidate.result_event_id,
+    emailJobId: candidate.result_email_job_id,
   };
 }
