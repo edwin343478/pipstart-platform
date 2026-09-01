@@ -22,9 +22,9 @@ export default function EmailPreferencesPage() {
         </h1>
 
         <p className="mt-6 text-lg leading-8 text-muted">
-          Newsletter preference management will be available before recurring
-          newsletter delivery begins. Course delivery is handled separately from
-          the optional educational newsletter.
+          Skillcima keeps requested course delivery separate from optional
+          continuing educational emails. This page explains how each category is
+          handled.
         </p>
 
         <div className="mt-12 space-y-6">
@@ -38,8 +38,9 @@ export default function EmailPreferencesPage() {
             </h2>
 
             <p className="mt-4 leading-7 text-muted">
-              Course-delivery messages will be used to provide educational
-              material that a learner directly requests.
+              After confirmation, course delivery provides the five requested
+              foundation lessons and a final completion email. It does not
+              depend on optional newsletter consent.
             </p>
           </section>
 
@@ -53,8 +54,9 @@ export default function EmailPreferencesPage() {
             </h2>
 
             <p className="mt-4 leading-7 text-muted">
-              Continuing educational emails will be optional, unchecked by
-              default and independently withdrawable.
+              Recurring educational emails are not active yet. If introduced,
+              they will remain opt-in, unchecked by default and independently
+              withdrawable through a secure link in each message.
             </p>
           </section>
 
@@ -75,8 +77,9 @@ export default function EmailPreferencesPage() {
         </div>
 
         <div className="mt-10 rounded-2xl border border-warning-border bg-warning-soft p-6 text-sm leading-7 text-warning">
-          Functional preference controls will be added only after secure
-          identity verification and the email system are implemented.
+          This page is informational. Newsletter withdrawal is completed through
+          the secure link in the relevant optional email. Requested course
+          delivery is managed separately.
         </div>
 
         <Link

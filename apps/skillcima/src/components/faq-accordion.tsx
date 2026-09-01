@@ -13,7 +13,7 @@ const faqs: FAQItem[] = [
   {
     question: "Is the course really free?",
     answer:
-      "Yes. The five-day Forex Foundations course is completely free. No credit card required, no hidden fees, and no upsells to paid content. We believe risk education should be accessible to everyone.",
+      "Yes. The five Forex Foundations lessons are free. Joining does not require a credit card or payment, and completing the foundation sequence does not create a paid subscription.",
   },
   {
     question: "Do I need a broker account?",
@@ -28,12 +28,12 @@ const faqs: FAQItem[] = [
   {
     question: "How is the course delivered?",
     answer:
-      "One lesson per day via email for 5 days. Each lesson takes 8-12 minutes to read and includes practical exercises you can do without risking real money.",
+      "One concise foundation lesson is delivered by email each day for five days. A final completion email will point learners to PipStart when the full learning website is ready.",
   },
   {
-    question: "Can I unsubscribe at any time?",
+    question: "Can I stop optional educational emails?",
     answer:
-      "Absolutely. Every email includes a one-click unsubscribe link. You can also manage your preferences at any time from your email preferences page.",
+      "Yes. Continuing educational emails are optional and separate from the five requested course lessons. If you choose them, each continuing email will include a secure unsubscribe link that asks you to confirm the change.",
   },
 ];
 
