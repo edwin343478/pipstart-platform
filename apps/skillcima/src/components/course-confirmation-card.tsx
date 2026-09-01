@@ -1,7 +1,9 @@
 ﻿"use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import {
+  Suspense,
   useCallback,
   useEffect,
   useRef,
@@ -9,10 +11,13 @@ import {
   type ReactNode,
 } from "react";
 
-const TOKEN_PATTERN = /^[0-9a-f]{64}$/;
+import {
+  CONFIRMATION_TOKEN_PATTERN,
+  readConfirmationToken,
+} from "./course-confirmation-token";
 
 type ConfirmationView =
-  | "checking"
+  | "ready"
   | "submitting"
   | "confirmed"
   | "already_confirmed"
@@ -237,6 +242,98 @@ function WelcomeView({ alreadyConfirmed }: { alreadyConfirmed: boolean }) {
   );
 }
 
+function ConfirmationPrompt({ onConfirm }: { onConfirm: () => void }) {
+  return (
+    <ConfirmationFrame
+      badge="Action required"
+      eyebrow="Secure confirmation"
+      title="Confirm your free course"
+    >
+      <p className="mt-7 text-lg font-semibold leading-8 text-[#241f19]">
+        Confirm that you requested Skillcima’s free Forex Foundations course.
+      </p>
+
+      <p className="mt-5 text-base leading-7 text-[#4f473e]">
+        After you confirm, we’ll activate your six-email course and send the
+        first lesson to the address used during enrolment.
+      </p>
+
+      <button
+        type="button"
+        onClick={onConfirm}
+        className="mt-8 inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-[#241f19] px-6 py-3 text-center font-bold text-white transition-colors hover:bg-[#3a332b] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a84725] focus-visible:ring-offset-2 sm:w-auto"
+      >
+        Confirm my course
+      </button>
+
+      <p className="mt-6 border-t border-[#e3dbc8] pt-5 text-sm leading-6 text-[#74695b]">
+        Opening this page does not confirm your enrolment. Your course begins
+        only after you select the confirmation button above.
+      </p>
+    </ConfirmationFrame>
+  );
+}
+
+function ConfirmationLoadingView() {
+  return (
+    <ConfirmationFrame
+      badge="Activating course"
+      eyebrow="Secure confirmation"
+      title="Just a moment…"
+    >
+      <div
+        role="status"
+        aria-live="polite"
+        className="mt-7 rounded-2xl border border-[#dce3ca] bg-[#edf3df] p-6"
+      >
+        <div className="flex items-center gap-4">
+          <span
+            aria-hidden="true"
+            className="h-3 w-3 shrink-0 animate-pulse rounded-full bg-[#a84725]"
+          />
+
+          <p className="text-base leading-7 text-[#4f473e]">
+            We’re confirming your place and preparing your first Forex
+            Foundations lesson.
+          </p>
+        </div>
+      </div>
+
+      <p className="mt-6 text-sm leading-6 text-[#74695b]">
+        Please keep this page open. This normally takes only a moment.
+      </p>
+    </ConfirmationFrame>
+  );
+}
+
+function ConfirmationCheckingView() {
+  return (
+    <ConfirmationFrame
+      badge="Checking link"
+      eyebrow="Secure confirmation"
+      title="Preparing confirmation…"
+    >
+      <div
+        role="status"
+        aria-live="polite"
+        className="mt-7 rounded-2xl border border-[#dce3ca] bg-[#edf3df] p-6"
+      >
+        <div className="flex items-center gap-4">
+          <span
+            aria-hidden="true"
+            className="h-3 w-3 shrink-0 animate-pulse rounded-full bg-[#a84725]"
+          />
+
+          <p className="text-base leading-7 text-[#4f473e]">
+            We’re securely checking your confirmation link. No enrolment will be
+            confirmed until you choose to continue.
+          </p>
+        </div>
+      </div>
+    </ConfirmationFrame>
+  );
+}
+
 function FailureView({
   badge,
   eyebrow,
@@ -281,19 +378,29 @@ function FailureView({
   );
 }
 
-export function CourseConfirmationCard() {
-  const tokenRef = useRef<string | null>(null);
-  const initializedRef = useRef(false);
+function CourseConfirmationContent() {
+  const searchParams = useSearchParams();
+  const initialToken = readConfirmationToken(searchParams);
+  const tokenRef = useRef<string | null>(initialToken);
+  const submissionInFlightRef = useRef(false);
 
-  const [view, setView] = useState<ConfirmationView>("checking");
+  const [view, setView] = useState<ConfirmationView>(() =>
+    initialToken ? "ready" : "invalid",
+  );
 
   const confirmCourse = useCallback(async (providedToken?: string) => {
     const token = providedToken ?? tokenRef.current;
 
-    if (!token || !TOKEN_PATTERN.test(token)) {
+    if (!token || !CONFIRMATION_TOKEN_PATTERN.test(token)) {
       setView("invalid");
       return;
     }
+
+    if (submissionInFlightRef.current) {
+      return;
+    }
+
+    submissionInFlightRef.current = true;
 
     setView("submitting");
 
@@ -312,11 +419,14 @@ export function CourseConfirmationCard() {
         credentials: "same-origin",
       });
     } catch {
+      submissionInFlightRef.current = false;
       setView("unavailable");
       return;
     }
 
     const body = await readJson(response);
+
+    submissionInFlightRef.current = false;
 
     if (response.status === 200 && body?.ok === true) {
       if (body.status === "confirmed") {
@@ -358,69 +468,24 @@ export function CourseConfirmationCard() {
 
   useEffect(() => {
     /*
-     * Prevent React development Strict Mode from
-     * processing the confirmation link twice.
-     */
-    if (initializedRef.current) {
-      return;
-    }
-
-    initializedRef.current = true;
-
-    const url = new URL(window.location.href);
-    const token = url.searchParams.get("token");
-
-    /*
      * Remove the raw confirmation token from the
      * visible address bar as soon as it is captured.
      */
     sanitizeAddressBar();
+  }, []);
 
-    if (!token || !TOKEN_PATTERN.test(token)) {
-      setView("invalid");
-      return;
-    }
-
-    tokenRef.current = token;
-
-    /*
-     * The email click is the learner's confirmation
-     * action. Submit immediately without asking for
-     * a second confirmation click.
-     */
-    void confirmCourse(token);
-  }, [confirmCourse]);
-
-  if (view === "checking" || view === "submitting") {
+  if (view === "ready") {
     return (
-      <ConfirmationFrame
-        badge="Activating course"
-        eyebrow="Secure confirmation"
-        title="Just a moment…"
-      >
-        <div
-          role="status"
-          aria-live="polite"
-          className="mt-7 rounded-2xl border border-[#dce3ca] bg-[#edf3df] p-6"
-        >
-          <div className="flex items-center gap-4">
-            <span
-              aria-hidden="true"
-              className="h-3 w-3 shrink-0 animate-pulse rounded-full bg-[#a84725]"
-            />
-
-            <p className="text-base leading-7 text-[#4f473e]">
-              We’re confirming your place and preparing your first Forex
-              Foundations lesson.
-            </p>
-          </div>
-        </div>
-
-        <p className="mt-6 text-sm leading-6 text-[#74695b]">
-          Please keep this page open. This normally takes only a moment.
-        </p>
-      </ConfirmationFrame>
+      <ConfirmationPrompt
+        onConfirm={() => {
+          void confirmCourse();
+        }}
+      />
     );
+  }
+
+  if (view === "submitting") {
+    return <ConfirmationLoadingView />;
   }
 
   if (view === "confirmed" || view === "already_confirmed") {
@@ -470,5 +535,13 @@ export function CourseConfirmationCard() {
         void confirmCourse();
       }}
     />
+  );
+}
+
+export function CourseConfirmationCard() {
+  return (
+    <Suspense fallback={<ConfirmationCheckingView />}>
+      <CourseConfirmationContent />
+    </Suspense>
   );
 }

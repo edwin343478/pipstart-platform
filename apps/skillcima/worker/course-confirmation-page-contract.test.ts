@@ -3,32 +3,50 @@ import { resolve } from "node:path";
 
 import { describe, expect, it } from "vitest";
 
+import { readConfirmationToken } from "../src/components/course-confirmation-token";
+
 const componentSource = readFileSync(
   resolve(process.cwd(), "src", "components", "course-confirmation-card.tsx"),
   "utf8",
 );
 
-describe("automatic confirmation welcome page contract", () => {
-  it("submits the captured email token without requiring a second click", () => {
-    const sanitizePosition = componentSource.indexOf("sanitizeAddressBar();");
+describe("explicit confirmation welcome page contract", () => {
+  it("accepts exactly one well-formed confirmation token", () => {
+    const token = "a".repeat(64);
 
-    const automaticConfirmationPosition = componentSource.indexOf(
-      "void confirmCourse(token);",
-    );
+    expect(readConfirmationToken(new URLSearchParams({ token }))).toBe(token);
+
+    expect(readConfirmationToken(new URLSearchParams())).toBeNull();
+
+    expect(
+      readConfirmationToken(
+        new URLSearchParams([
+          ["token", token],
+          ["token", "b".repeat(64)],
+        ]),
+      ),
+    ).toBeNull();
+
+    expect(
+      readConfirmationToken(new URLSearchParams({ token: "A".repeat(64) })),
+    ).toBeNull();
+  });
+
+  it("requires an explicit learner action before confirmation", () => {
+    const sanitizePosition = componentSource.indexOf("sanitizeAddressBar();");
+    const buttonPosition = componentSource.indexOf("Confirm my course");
 
     expect(sanitizePosition).toBeGreaterThanOrEqual(0);
-    expect(automaticConfirmationPosition).toBeGreaterThan(sanitizePosition);
-
-    expect(componentSource).not.toContain("Confirm my course");
-    expect(componentSource).not.toContain(
+    expect(buttonPosition).toBeGreaterThanOrEqual(0);
+    expect(componentSource).toContain("onClick={onConfirm}");
+    expect(componentSource).toContain(
       "Opening this page does not confirm your enrolment",
     );
+    expect(componentSource).not.toContain("void confirmCourse(token);");
   });
 
   it("preserves the secure POST-only client confirmation contract", () => {
-    expect(componentSource).toContain(
-      "const TOKEN_PATTERN = /^[0-9a-f]{64}$/;",
-    );
+    expect(componentSource).toContain("CONFIRMATION_TOKEN_PATTERN.test(token)");
 
     expect(componentSource).toContain('url.searchParams.delete("token");');
 
