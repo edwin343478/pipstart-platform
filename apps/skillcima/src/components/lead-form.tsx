@@ -172,7 +172,9 @@ export function LeadForm() {
       <form
         className="mt-8 space-y-6"
         noValidate
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={(event) => {
+          void handleSubmit(onSubmit)(event);
+        }}
       >
         <FormField
           id="firstName"

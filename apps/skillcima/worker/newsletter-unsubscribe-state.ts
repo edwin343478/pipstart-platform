@@ -19,14 +19,6 @@ type PrepareDatabaseStatus =
   | "token_conflict"
   | "unavailable";
 
-interface PrepareRpcRow {
-  result_status: PrepareDatabaseStatus;
-  result_lead_id: string | null;
-  result_enrolment_id: string | null;
-  result_consent_event_id: string | null;
-  result_prepared_at: string | null;
-}
-
 type WithdrawalDatabaseStatus =
   | "withdrawn"
   | "already_withdrawn"
@@ -34,15 +26,6 @@ type WithdrawalDatabaseStatus =
   | "stale"
   | "invalid_token_state"
   | "invalid_consent_state";
-
-interface WithdrawalRpcRow {
-  result_status: WithdrawalDatabaseStatus;
-  result_lead_id: string | null;
-  result_enrolment_id: string | null;
-  result_grant_consent_event_id: string | null;
-  result_withdrawal_consent_event_id: string | null;
-  result_withdrawn_at: string | null;
-}
 
 export interface PrepareNewsletterUnsubscribeTokenInput {
   consentEventId: string;

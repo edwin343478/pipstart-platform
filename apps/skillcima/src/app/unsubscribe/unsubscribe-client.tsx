@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useRef, useState } from "react";
 
 import {
   extractUnsubscribeToken,
@@ -9,7 +10,6 @@ import {
 } from "./unsubscribe-state";
 
 type ViewState =
-  | "loading"
   | "ready"
   | "submitting"
   | "success"
@@ -18,44 +18,43 @@ type ViewState =
   | "retryable"
   | "failure";
 
-export function UnsubscribeClient() {
-  const initialized = useRef(false);
+function sanitizeAddressBar(): void {
+  const url = new URL(window.location.href);
 
-  const [token, setToken] = useState<string | null>(null);
+  url.searchParams.delete("token");
 
-  const [state, setState] = useState<ViewState>("loading");
+  const search = url.searchParams.toString();
+  const cleanUrl =
+    `${url.pathname}` + `${search ? `?${search}` : ""}` + `${url.hash}`;
+
+  window.history.replaceState(window.history.state, "", cleanUrl);
+}
+
+function UnsubscribeContent() {
+  const searchParams = useSearchParams();
+  const initialResult = extractUnsubscribeToken(searchParams.toString());
+
+  const tokenRef = useRef<string | null>(
+    initialResult.status === "ready" ? initialResult.token : null,
+  );
+
+  const [state, setState] = useState<ViewState>(() =>
+    initialResult.status === "ready" ? "ready" : "invalid",
+  );
 
   useEffect(() => {
-    if (initialized.current) {
-      return;
-    }
-
-    initialized.current = true;
-
-    const result = extractUnsubscribeToken(window.location.search);
-
     /*
      * Remove the capability token from the
      * visible URL immediately after reading it.
      * This performs no network request and no
      * consent mutation.
      */
-    window.history.replaceState(
-      window.history.state,
-      "",
-      window.location.pathname,
-    );
-
-    if (result.status !== "ready") {
-      setState("invalid");
-      return;
-    }
-
-    setToken(result.token);
-    setState("ready");
+    sanitizeAddressBar();
   }, []);
 
   async function submitUnsubscribe() {
+    const token = tokenRef.current;
+
     if (!token) {
       setState("invalid");
       return;
@@ -93,17 +92,17 @@ export function UnsubscribeClient() {
 
     switch (outcome) {
       case "success":
-        setToken(null);
+        tokenRef.current = null;
         setState("success");
         return;
 
       case "invalid":
-        setToken(null);
+        tokenRef.current = null;
         setState("invalid");
         return;
 
       case "stale":
-        setToken(null);
+        tokenRef.current = null;
         setState("stale");
         return;
 
@@ -139,18 +138,6 @@ export function UnsubscribeClient() {
         className="mt-10 rounded-2xl border border-border bg-surface p-6"
         aria-live="polite"
       >
-        {state === "loading" && (
-          <>
-            <h2 className="font-heading text-2xl font-bold">
-              Checking your link
-            </h2>
-
-            <p className="mt-4 leading-7 text-muted">
-              Preparing your unsubscribe option.
-            </p>
-          </>
-        )}
-
         {canSubmit && (
           <>
             <h2 className="font-heading text-2xl font-bold">
@@ -264,5 +251,39 @@ export function UnsubscribeClient() {
         </Link>
       </div>
     </article>
+  );
+}
+
+function UnsubscribeFallback() {
+  return (
+    <article>
+      <p className="text-sm font-semibold uppercase tracking-wider text-brand-accent">
+        Communication choices
+      </p>
+
+      <h1 className="mt-4 font-heading text-4xl font-bold tracking-tight sm:text-5xl">
+        Unsubscribe
+      </h1>
+
+      <div
+        className="mt-10 rounded-2xl border border-border bg-surface p-6"
+        role="status"
+        aria-live="polite"
+      >
+        <h2 className="font-heading text-2xl font-bold">Checking your link</h2>
+
+        <p className="mt-4 leading-7 text-muted">
+          Preparing your unsubscribe option.
+        </p>
+      </div>
+    </article>
+  );
+}
+
+export function UnsubscribeClient() {
+  return (
+    <Suspense fallback={<UnsubscribeFallback />}>
+      <UnsubscribeContent />
+    </Suspense>
   );
 }

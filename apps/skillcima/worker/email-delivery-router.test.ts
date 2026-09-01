@@ -31,9 +31,7 @@ function createDeliveryMock(
     providerMessageId: "test-provider-message-id",
   },
 ) {
-  const deliver = vi.fn(
-    async (_input: EmailDeliveryInput): Promise<EmailDeliveryResult> => result,
-  );
+  const deliver = vi.fn(async (): Promise<EmailDeliveryResult> => result);
 
   const adapter: EmailDeliveryAdapter = {
     deliver,
