@@ -6,12 +6,13 @@ import { SiteHeader } from "@/components/site-header";
 
 type PageShellProps = {
   children: ReactNode;
+  variant?: "default" | "encouraging";
 };
 
-export function PageShell({ children }: PageShellProps) {
+export function PageShell({ children, variant = "default" }: PageShellProps) {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <SiteHeader />
+      <SiteHeader variant={variant} />
 
       <main
         id="main-content"
@@ -22,7 +23,7 @@ export function PageShell({ children }: PageShellProps) {
         <div className="relative z-10 mx-auto max-w-3xl">{children}</div>
       </main>
 
-      <SiteFooter />
+      <SiteFooter variant={variant} />
     </div>
   );
 }

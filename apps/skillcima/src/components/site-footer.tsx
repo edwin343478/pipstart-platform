@@ -27,7 +27,15 @@ const footerLinks = [
   },
 ] as const;
 
-export function SiteFooter() {
+type SiteFooterProps = {
+  variant?: "default" | "encouraging";
+};
+
+export function SiteFooter({ variant = "default" }: SiteFooterProps) {
+  const isEncouraging = variant === "encouraging";
+  const visibleFooterLinks = isEncouraging
+    ? footerLinks.filter((link) => link.href !== "/legal/risk-disclaimer")
+    : footerLinks;
   return (
     <footer className="border-t border-border bg-surface px-6 py-10">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
@@ -36,20 +44,28 @@ export function SiteFooter() {
             Skillcima
           </Link>
 
-          <p className="mt-3 max-w-xl text-sm leading-6 text-muted">
-            Free, structured and risk-conscious Forex education for complete
-            beginners.
-          </p>
+          {isEncouraging ? (
+            <p className="mt-3 max-w-xl text-sm leading-6 text-muted">
+              Friendly Forex lessons that help complete beginners learn one
+              clear concept at a time.
+            </p>
+          ) : (
+            <p className="mt-3 max-w-xl text-sm leading-6 text-muted">
+              Free, structured and risk-conscious Forex education for complete
+              beginners.
+            </p>
+          )}
 
           <p className="mt-3 text-xs leading-5 text-muted">
-            Educational content only. No trading signals, profit guarantees or
-            broker recommendations.
+            {isEncouraging
+              ? "Keep learning, stay curious and enjoy every step."
+              : "Educational content only. No trading signals, profit guarantees or broker recommendations."}
           </p>
         </div>
 
         <nav aria-label="Footer navigation">
           <ul className="flex flex-wrap gap-x-5 gap-y-3 text-sm">
-            {footerLinks.map((link) => (
+            {visibleFooterLinks.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}

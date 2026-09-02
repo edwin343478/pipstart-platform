@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function ThankYouPage() {
   return (
-    <PageShell>
+    <PageShell variant="encouraging">
       <article className="text-center">
         <div
           aria-hidden="true"

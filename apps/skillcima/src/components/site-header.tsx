@@ -1,6 +1,12 @@
 import Link from "next/link";
 
-export function SiteHeader() {
+type SiteHeaderProps = {
+  variant?: "default" | "encouraging";
+};
+
+export function SiteHeader({ variant = "default" }: SiteHeaderProps) {
+  const isEncouraging = variant === "encouraging";
+
   return (
     <>
       <a
@@ -30,12 +36,14 @@ export function SiteHeader() {
               Course
             </Link>
 
-            <Link
-              href="/legal/risk-disclaimer"
-              className="hidden text-sm font-semibold text-muted transition-colors hover:text-foreground md:inline"
-            >
-              Risk notice
-            </Link>
+            {!isEncouraging ? (
+              <Link
+                href="/legal/risk-disclaimer"
+                className="hidden text-sm font-semibold text-muted transition-colors hover:text-foreground md:inline"
+              >
+                Risk notice
+              </Link>
+            ) : null}
 
             <Link
               href="/#signup"
