@@ -5,7 +5,7 @@ import { PageShell } from "@/components/page-shell";
 
 export const metadata: Metadata = {
   title: "Thank You | Skillcima",
-  description: "Skillcima enrolment confirmation page.",
+  description: "Take the final step to begin Skillcima Forex Foundations.",
 };
 
 export default function ThankYouPage() {
@@ -20,23 +20,28 @@ export default function ThankYouPage() {
         </div>
 
         <p className="mt-8 text-sm font-semibold uppercase tracking-wider text-brand-accent">
-          Enrolment journey
+          One more step
         </p>
 
         <h1 className="mt-4 font-heading text-4xl font-bold tracking-tight sm:text-5xl">
-          Thank you
+          You&apos;re almost there!
         </h1>
 
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-muted">
-          Your enrolment request has been securely received and recorded. Course
-          email delivery will be connected in the next stage of the enrolment
-          workflow.
+          Check your inbox for a confirmation email from Skillcima. Select
+          &ldquo;Confirm my course,&rdquo; and we&apos;ll send your first lesson
+          shortly after.
         </p>
 
         <div className="mt-10 rounded-2xl border border-warning-border bg-warning-soft p-6 text-left text-sm leading-7 text-warning">
-          Visiting this page directly does not prove that an enrolment was
-          submitted. A valid enrolment request is recorded only after the form
-          passes validation and security verification.
+          <span className="font-semibold uppercase tracking-wider">
+            What happens next
+          </span>
+          <span className="mt-2 block">
+            Open the email, confirm your place and get ready to begin.
+            We&apos;ll guide you through one clear and practical lesson at a
+            time.
+          </span>
         </div>
 
         <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
@@ -44,14 +49,14 @@ export default function ThankYouPage() {
             href="/"
             className="inline-flex min-h-12 items-center justify-center rounded-xl bg-action px-6 py-3 font-semibold text-action-foreground transition-colors hover:bg-action-hover"
           >
-            Return home
+            Return to Skillcima
           </Link>
 
           <Link
             href="/#course"
             className="inline-flex min-h-12 items-center justify-center rounded-xl border border-border bg-surface px-6 py-3 font-semibold transition-colors hover:bg-brand-soft"
           >
-            Review the course
+            See what you&apos;ll learn
           </Link>
         </div>
       </article>

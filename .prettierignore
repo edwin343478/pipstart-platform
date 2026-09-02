@@ -8,3 +8,5 @@ pnpm-lock.yaml
 # Supabase local generated files
 supabase/.temp/
 supabase/.branches/
+# Local generated email-preview artifacts
+/m4f-*-email-preview.html
