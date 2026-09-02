@@ -32,7 +32,11 @@ export interface SixDayEmailLesson {
 
   intro: string;
   paragraphs: readonly string[];
+  illustrationPath?: string;
+  example?: string;
   keyPoints: readonly string[];
+  activity?: string;
+  teaser?: string;
 
   riskNote: string;
 
@@ -132,6 +136,17 @@ export function defineSixDayEmailCourse(
     requireText(lesson.previewText, "preview_text");
     requireText(lesson.heading, "heading");
     requireText(lesson.intro, "intro");
+    if (lesson.illustrationPath) {
+      if (
+        !lesson.illustrationPath.startsWith("/") ||
+        lesson.illustrationPath.includes("://")
+      ) {
+        throw new Error("EMAIL_COURSE_ILLUSTRATION_INTERNAL_PATH_REQUIRED");
+      }
+    }
+    if (lesson.example) requireText(lesson.example, "example");
+    if (lesson.activity) requireText(lesson.activity, "activity");
+    if (lesson.teaser) requireText(lesson.teaser, "teaser");
     requireText(lesson.riskNote, "risk_note");
     requireText(lesson.closing, "closing");
 

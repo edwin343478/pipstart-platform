@@ -4,28 +4,39 @@ export const forexFoundationsEmailDay1: SixDayEmailLesson = {
   day: 1,
   jobType: "course_day_1",
 
-  subject: "Day 1: What Forex Really Is",
+  subject: "Day 1: Forex Is Simply Money Changing Hands",
   previewText:
-    "Start with what the foreign exchange market is, why it exists, and what beginners should understand first.",
+    "Meet the world's currency-exchange market without charts, signals, or confusing language.",
   heading: "What Forex Really Is",
 
   intro:
-    "Welcome to Day 1 of Forex Foundations. Before charts, indicators, or trading strategies, it helps to understand what the Forex market actually is.",
+    "Imagine travelling to another country with money that shops there cannot accept. Your money is still valuable—it is simply wearing the wrong uniform.",
 
   paragraphs: [
-    "Forex means foreign exchange. It is the global market where one currency is exchanged for another. Businesses, banks, governments, travellers, investors, and traders all participate for different reasons.",
-    "Currencies are quoted relative to one another, so Forex trading always involves a pair. When the value of one currency changes relative to another, the price of that pair moves.",
-    "For a beginner, the goal is not to rush into trading. The goal is to understand how the market works, the language it uses, and the risks involved before making financial decisions.",
+    "When you exchange it for the currency used there, you are doing the basic thing behind Forex. Forex means foreign exchange: a worldwide market where one currency is exchanged for another.",
+    "Banks, businesses, governments, travellers, and traders all use this market. A company may need another country's currency to pay a supplier. A traveller may need local money to buy lunch. A trader may try to benefit from price changes—but those changes are never guaranteed.",
   ],
+
+  illustrationPath: "/email/forex-foundations/day-1.png",
+
+  example:
+    "If one euro can buy 1.08 US dollars, EUR/USD may be shown near 1.0800. That number describes the relationship between the two currencies now; it does not predict tomorrow.",
 
   keyPoints: [
-    "Forex is the exchange of one currency for another.",
-    "Currencies are traded and quoted in pairs.",
-    "Learning the market structure comes before taking financial risk.",
+    "Forex means exchanging one currency for another.",
+    "Currencies are quoted in pairs because one is always compared with another.",
+    "Forex exists for real-world needs—not only for trading.",
+    "Forex is not a machine that produces guaranteed money.",
   ],
 
+  activity:
+    "Look at EUR/USD, GBP/USD, and USD/JPY. In each pair, point to the currency written first. That is the base currency; tomorrow we will learn what that role means.",
+
+  teaser:
+    "Tomorrow: we put currency pairs on a seesaw and meet pips and spreads.",
+
   riskNote:
-    "Forex trading involves significant risk. Education and practice do not remove the possibility of financial loss.",
+    "Understanding Forex does not make future movements predictable. Trading can still cause financial loss.",
 
   cta: {
     label: "No action required",
@@ -33,6 +44,5 @@ export const forexFoundationsEmailDay1: SixDayEmailLesson = {
     path: null,
   },
 
-  closing:
-    "Tomorrow we will look at currency pairs, pips, and spreads — three terms you will see constantly in Forex.",
+  closing: "Keep learning,\nSkillcima",
 };

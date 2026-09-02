@@ -17,7 +17,7 @@ describe("Skillcima six-day course lesson content", () => {
   it("contains exactly six approved emails", () => {
     expect(forexFoundationsEmailCourse.status).toBe("approved");
 
-    expect(forexFoundationsEmailCourse.contentVersion).toBe("v2");
+    expect(forexFoundationsEmailCourse.contentVersion).toBe("v3");
 
     expect(forexFoundationsEmailCourse.lessons).toHaveLength(6);
   });
@@ -43,7 +43,7 @@ describe("Skillcima six-day course lesson content", () => {
 
       expect(result.text).toContain("Risk reminder:");
 
-      expect(result.contentVersion).toBe("v2");
+      expect(result.contentVersion).toBe("v3");
     },
   );
 
@@ -67,6 +67,36 @@ describe("Skillcima six-day course lesson content", () => {
       });
 
       expect(result.html).not.toContain('href="https://');
+    }
+  });
+
+  it("renders each approved illustration from the Skillcima origin", () => {
+    for (const [index, jobType] of SIX_DAY_EMAIL_JOB_TYPES.slice(
+      0,
+      5,
+    ).entries()) {
+      const result = composeCourseLessonEmail({
+        ...baseInput,
+        jobType,
+      });
+
+      expect(result.html).toContain(
+        `src="https://skillcima.com/email/forex-foundations/day-${index + 1}.png"`,
+      );
+    }
+  });
+
+  it("includes the approved learning sections in Days 1-5", () => {
+    for (const jobType of SIX_DAY_EMAIL_JOB_TYPES.slice(0, 5)) {
+      const result = composeCourseLessonEmail({
+        ...baseInput,
+        jobType,
+      });
+
+      expect(result.html).toContain("Simple example");
+      expect(result.html).toContain("Try it yourself");
+      expect(result.text).toContain("Simple example:");
+      expect(result.text).toContain("Try it yourself:");
     }
   });
 

@@ -4,28 +4,37 @@ export const forexFoundationsEmailDay3: SixDayEmailLesson = {
   day: 3,
   jobType: "course_day_3",
 
-  subject: "Day 3: Orders & Trading Platforms",
+  subject: "Day 3: Three Instructions for a Very Busy Market",
   previewText:
-    "Understand the basic order types and what a trading platform is designed to do.",
+    "Meet market, limit, and stop orders—and learn why the market does not always follow instructions perfectly.",
   heading: "Orders & Trading Platforms",
 
   intro:
-    "Knowing how an order works is essential before thinking about entering or exiting a market.",
+    "Imagine a restaurant with a very busy waiter. 'Bring it now,' 'only at this price,' and 'act when this level is reached' are three different instructions.",
 
   paragraphs: [
-    "A market order is an instruction to buy or sell at the best available current price. The final execution price may differ slightly when markets are moving quickly.",
-    "A limit order is generally used to request execution at a specified price or better, while a stop order becomes active after a chosen price level is reached.",
-    "A trading platform is the software used to view prices, charts, account information, and order controls. At this stage, focus on learning how these tools work rather than choosing a particular provider.",
+    "A market order says, 'Do it now at the best available price.' A limit order says, 'Only at my chosen price or better.' A stop order says, 'Take action after this price is reached.'",
+    "Your trading platform is the menu and order desk: it shows prices, charts, balances, and controls. It passes your instruction along, but it cannot promise the market will serve the exact price you imagined.",
   ],
+
+  illustrationPath: "/email/forex-foundations/day-3.png",
+  example:
+    "A market order may fill quickly but at a slightly changed price. A limit order may never fill. A stop-loss expresses an exit plan, but a gap or fast market can produce a worse exit price.",
 
   keyPoints: [
-    "Different order types serve different purposes.",
-    "Execution price is not always guaranteed.",
-    "Platforms are tools; understanding risk comes first.",
+    "Market order: act now at the best available price.",
+    "Limit order: only at the chosen price or better.",
+    "Stop order: activate after a selected level is reached.",
+    "An order is an instruction—not a guarantee.",
   ],
 
+  activity:
+    "Match them: 'Do it now' = market. 'Only at my price or better' = limit. 'Act after this level' = stop.",
+  teaser:
+    "Tomorrow: leverage—the financial megaphone that makes every outcome louder.",
+
   riskNote:
-    "Incorrect order settings or misunderstanding execution can increase losses. Practice with educational or demonstration tools before risking real funds.",
+    "Incorrect direction, size, or price can cause unintended losses. Practise in a demonstration environment before risking money.",
 
   cta: {
     label: "No action required",
@@ -33,6 +42,5 @@ export const forexFoundationsEmailDay3: SixDayEmailLesson = {
     path: null,
   },
 
-  closing:
-    "Tomorrow we will cover leverage — one of the most important risk concepts for every new trader to understand.",
+  closing: "Keep learning,\nSkillcima",
 };

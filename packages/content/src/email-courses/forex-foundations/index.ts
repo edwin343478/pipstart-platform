@@ -23,7 +23,7 @@ export const forexFoundationsEmailCourse = defineSixDayEmailCourse({
    * Change this when the copy receives a meaningful
    * revision before or after launch.
    */
-  contentVersion: "v2",
+  contentVersion: "v3",
 
   status: "approved",
 

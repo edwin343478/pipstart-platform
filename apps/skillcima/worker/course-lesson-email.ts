@@ -94,6 +94,19 @@ export function composeCourseLessonEmail(
   const firstName = input.firstName?.trim() || null;
   const greeting = firstName ? `Hi ${escapeHtml(firstName)},` : "Hi,";
 
+  const illustrationUrl = lesson.illustrationPath
+    ? new URL(lesson.illustrationPath, micrositeBaseUrl).toString()
+    : null;
+
+  const illustrationHtml = illustrationUrl
+    ? `<img
+        src="${escapeHtml(illustrationUrl)}"
+        width="452"
+        alt="Illustration for ${escapeHtml(lesson.heading)}"
+        style="display:block;width:100%;max-width:452px;height:auto;margin:6px 0 22px;border:0;border-radius:12px;background:${skillcimaEmailTheme.colors.background};"
+      >`
+    : "";
+
   const paragraphs = lesson.paragraphs
     .map(
       (paragraph) =>
@@ -153,7 +166,55 @@ export function composeCourseLessonEmail(
       </table>`
     : "";
 
+  const renderLearningBox = (
+    label: string,
+    content: string | undefined,
+    background: string,
+  ): string =>
+    content
+      ? `<table
+          role="presentation"
+          width="100%"
+          cellspacing="0"
+          cellpadding="0"
+          border="0"
+          style="width:100%;margin:18px 0;background:${background};border:1px solid ${skillcimaEmailTheme.colors.border};border-radius:12px;"
+        >
+          <tr>
+            <td style="padding:16px 18px;">
+              <div style="margin:0 0 7px;font-size:11px;font-weight:800;line-height:1.3;letter-spacing:0.9px;text-transform:uppercase;color:${skillcimaEmailTheme.colors.accent};">
+                ${escapeHtml(label)}
+              </div>
+              <div style="font-size:14px;line-height:1.6;color:${skillcimaEmailTheme.colors.text};">
+                ${escapeHtml(content)}
+              </div>
+            </td>
+          </tr>
+        </table>`
+      : "";
+
+  const exampleHtml = renderLearningBox(
+    "Simple example",
+    lesson.example,
+    skillcimaEmailTheme.colors.background,
+  );
+  const activityHtml = renderLearningBox(
+    "Try it yourself",
+    lesson.activity,
+    "#FFF8EF",
+  );
+
+  const teaserHtml = lesson.teaser
+    ? `<p style="margin:20px 0 0;padding-top:17px;border-top:1px solid ${skillcimaEmailTheme.colors.border};font-size:14px;font-weight:700;line-height:1.6;color:${skillcimaEmailTheme.colors.text};">
+        ${escapeHtml(lesson.teaser)}
+      </p>`
+    : "";
+
+  const closingHtml = escapeHtml(lesson.closing).replaceAll("\n", "<br>");
+
   const trustedContentHtml = `
+    ${illustrationHtml}
+
     <p style="margin:0 0 14px;font-size:15px;line-height:1.6;color:${skillcimaEmailTheme.colors.text};">
       ${greeting}
     </p>
@@ -163,6 +224,8 @@ export function composeCourseLessonEmail(
     </p>
 
     ${paragraphs}
+
+    ${exampleHtml}
 
     <table
       role="presentation"
@@ -190,6 +253,8 @@ export function composeCourseLessonEmail(
         </td>
       </tr>
     </table>
+
+    ${activityHtml}
 
     <table
       role="presentation"
@@ -221,8 +286,10 @@ export function composeCourseLessonEmail(
 
     ${ctaHtml}
 
+    ${teaserHtml}
+
     <p style="margin:20px 0 0;padding-top:17px;border-top:1px solid ${skillcimaEmailTheme.colors.border};font-size:14px;line-height:1.6;color:${skillcimaEmailTheme.colors.muted};">
-      ${escapeHtml(lesson.closing)}
+      ${closingHtml}
     </p>
   `;
 
@@ -250,15 +317,21 @@ export function composeCourseLessonEmail(
     lesson.intro,
     "",
     ...lesson.paragraphs,
+    ...(lesson.example ? ["", `Simple example: ${lesson.example}`] : []),
     "",
     "Key points:",
     ...lesson.keyPoints.map((point) => `- ${point}`),
+    ...(lesson.activity ? ["", `Try it yourself: ${lesson.activity}`] : []),
     "",
     `Risk reminder: ${lesson.riskNote}`,
   ];
 
   if (ctaUrl) {
     textParts.push("", `${lesson.cta.label}: ${ctaUrl}`);
+  }
+
+  if (lesson.teaser) {
+    textParts.push("", lesson.teaser);
   }
 
   textParts.push(
