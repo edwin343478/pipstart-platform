@@ -1,4 +1,4 @@
-import type { LeadRequestData } from "@repo/validation";
+import type { LeadAttributionData, LeadRequestData } from "@repo/validation";
 
 interface FingerprintPayload {
   lead: {
@@ -7,6 +7,7 @@ interface FingerprintPayload {
     privacyAcknowledged: boolean;
     newsletterConsent: boolean;
   };
+  attribution?: LeadAttributionData;
 }
 
 function bytesToHex(bytes: ArrayBuffer): string {
@@ -18,7 +19,7 @@ function bytesToHex(bytes: ArrayBuffer): string {
 export function createFingerprintPayload(
   request: LeadRequestData,
 ): FingerprintPayload {
-  return {
+  const payload: FingerprintPayload = {
     lead: {
       firstName: request.lead.firstName ?? null,
       email: request.lead.email,
@@ -26,6 +27,12 @@ export function createFingerprintPayload(
       newsletterConsent: request.lead.newsletterConsent,
     },
   };
+
+  if (request.attribution) {
+    payload.attribution = request.attribution;
+  }
+
+  return payload;
 }
 
 export async function createLeadRequestFingerprint(

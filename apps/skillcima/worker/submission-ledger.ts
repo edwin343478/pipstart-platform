@@ -1,3 +1,5 @@
+import type { LeadAttributionData } from "@repo/validation";
+
 import type { SupabaseEnv } from "./supabase";
 
 export type LeadSubmissionStatus =
@@ -168,6 +170,7 @@ export async function reserveLeadSubmission(
   env: SupabaseEnv,
   submissionId: string,
   requestFingerprint: string,
+  attribution?: LeadAttributionData,
 ): Promise<SubmissionReservationResult> {
   const existing = await lookupSubmission(env, submissionId);
 
@@ -205,6 +208,12 @@ export async function reserveLeadSubmission(
         submission_id: submissionId,
         request_fingerprint: requestFingerprint,
         status: "received",
+        source_campaign: attribution?.utmCampaign ?? null,
+        utm_source: attribution?.utmSource ?? null,
+        utm_medium: attribution?.utmMedium ?? null,
+        utm_campaign: attribution?.utmCampaign ?? null,
+        utm_content: attribution?.utmContent ?? null,
+        utm_term: attribution?.utmTerm ?? null,
       }),
     });
 

@@ -12,6 +12,7 @@ import { Button, Card, Checkbox, FormField, Input } from "@repo/ui";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
+import { readLeadAttributionFromSearch } from "../lib/lead-attribution";
 import { TurnstileWidget } from "./turnstile-widget";
 
 interface LeadApiSuccess {
@@ -95,7 +96,11 @@ export function LeadForm() {
       return;
     }
 
-    const logicalPayload = JSON.stringify(data);
+    const attribution = readLeadAttributionFromSearch(window.location.search);
+    const logicalPayload = JSON.stringify({
+      lead: data,
+      attribution: attribution ?? null,
+    });
 
     if (
       !logicalSubmissionRef.current ||
@@ -119,6 +124,7 @@ export function LeadForm() {
           submissionId,
           turnstileToken,
           lead: data,
+          ...(attribution ? { attribution } : {}),
         }),
       });
 

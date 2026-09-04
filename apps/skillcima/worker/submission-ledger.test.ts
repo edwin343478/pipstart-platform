@@ -75,6 +75,47 @@ describe("reserveLeadSubmission", () => {
       expect(result.submission.leadId).toBeNull();
       expect(result.submission.enrolmentId).toBeNull();
     }
+
+    const [, requestInit] = fetchMock.mock.calls[1] ?? [];
+    expect(JSON.parse(String(requestInit?.body))).toMatchObject({
+      source_campaign: null,
+      utm_source: null,
+      utm_medium: null,
+      utm_campaign: null,
+      utm_content: null,
+      utm_term: null,
+    });
+  });
+
+  it("stores campaign attribution when reserving a submission", async () => {
+    const fetchMock = vi.spyOn(globalThis, "fetch");
+
+    fetchMock
+      .mockResolvedValueOnce(new Response("[]", { status: 200 }))
+      .mockResolvedValueOnce(new Response(null, { status: 201 }));
+
+    await reserveLeadSubmission(
+      env,
+      submission.submissionId,
+      submission.requestFingerprint,
+      {
+        utmSource: "meta",
+        utmMedium: "paid_social",
+        utmCampaign: "skillcima_gh_forex_foundations_m5_202609",
+        utmContent: "problem_led",
+        utmTerm: "ghana_broad_18_40",
+      },
+    );
+
+    const [, requestInit] = fetchMock.mock.calls[1] ?? [];
+    expect(JSON.parse(String(requestInit?.body))).toMatchObject({
+      source_campaign: "skillcima_gh_forex_foundations_m5_202609",
+      utm_source: "meta",
+      utm_medium: "paid_social",
+      utm_campaign: "skillcima_gh_forex_foundations_m5_202609",
+      utm_content: "problem_led",
+      utm_term: "ghana_broad_18_40",
+    });
   });
 
   it("returns existing when the stored fingerprint matches", async () => {

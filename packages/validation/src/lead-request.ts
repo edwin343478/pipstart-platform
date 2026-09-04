@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { leadAttributionSchema } from "./lead-attribution";
 import { leadFormSchema } from "./lead-form";
 
 export const leadRequestSchema = z
@@ -13,6 +14,8 @@ export const leadRequestSchema = z
       .max(2048, "Turnstile verification token is too long."),
 
     lead: leadFormSchema,
+
+    attribution: leadAttributionSchema.optional(),
   })
   .strict();
 

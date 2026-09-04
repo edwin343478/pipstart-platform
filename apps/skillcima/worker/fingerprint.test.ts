@@ -149,4 +149,26 @@ describe("createLeadRequestFingerprint", () => {
 
     expect(second).not.toBe(first);
   });
+
+  it("changes when campaign attribution changes", async () => {
+    const first = await createLeadRequestFingerprint(
+      createRequest({
+        attribution: {
+          utmSource: "meta",
+          utmContent: "problem_led",
+        },
+      }),
+    );
+
+    const second = await createLeadRequestFingerprint(
+      createRequest({
+        attribution: {
+          utmSource: "meta",
+          utmContent: "learning_led",
+        },
+      }),
+    );
+
+    expect(second).not.toBe(first);
+  });
 });

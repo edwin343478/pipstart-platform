@@ -21,6 +21,7 @@ export async function persistVerifiedLead(
     env,
     request.submissionId,
     requestFingerprint,
+    request.attribution,
   );
 
   if (reservation.status === "conflict") {

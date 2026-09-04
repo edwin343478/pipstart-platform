@@ -1,4 +1,10 @@
 export {
+  leadAttributionSchema,
+  type LeadAttributionData,
+  type LeadAttributionInput,
+} from "./lead-attribution";
+
+export {
   leadFormDefaultValues,
   leadFormSchema,
   type LeadFormData,
