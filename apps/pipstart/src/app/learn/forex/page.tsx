@@ -1,0 +1,104 @@
+import Link from "next/link";
+
+import styles from "./page.module.css";
+
+const forexLevels = [
+  {
+    title: "Orientation and Safety",
+    description:
+      "Course purpose, trading versus investing, financial risk, scams, demo accounts and your learning plan.",
+  },
+  {
+    title: "Forex Kindergarten",
+    description:
+      "Currency pairs, bid and ask prices, spreads, pips, lots, market sessions and participants.",
+  },
+  {
+    title: "Brokers and Platforms",
+    description:
+      "Broker models, regulation, research, platforms, order types, trading costs and scam detection.",
+  },
+  {
+    title: "Charts",
+    description:
+      "Chart types, timeframes, candlesticks, support and resistance, trends, market structure and breakouts.",
+  },
+  {
+    title: "Indicators and Patterns",
+    description:
+      "Moving averages, RSI, MACD, ATR, Bollinger Bands, Fibonacci, chart patterns and indicator limitations.",
+  },
+  {
+    title: "Risk Management",
+    description:
+      "Risk per trade, position sizing, leverage, drawdown, loss limits, risk of ruin and a personal risk policy.",
+  },
+  {
+    title: "Price Action",
+    description:
+      "Continuation, reversal, consolidation, supply and demand, entry triggers, invalidation and trading checklists.",
+  },
+  {
+    title: "Fundamental Analysis",
+    description:
+      "Interest rates, inflation, employment, central banks, economic calendars, event risk and geopolitics.",
+  },
+  {
+    title: "Psychology",
+    description:
+      "Fear, greed, overtrading, revenge trading, bias, discipline, patience and realistic expectations.",
+  },
+  {
+    title: "Strategy Development",
+    description:
+      "Entry and exit rules, backtesting, forward testing, expectancy, drawdown and avoiding curve fitting.",
+  },
+  {
+    title: "Advanced Forex",
+    description:
+      "Correlations, market regimes, liquidity, carry trades, sentiment, portfolio exposure and performance review.",
+  },
+];
+
+export default function LearnForexPage() {
+  return (
+    <main className={styles.page}>
+      <header className={styles.header}>
+        <Link href="/" aria-label="PipStart home">
+          PipStart
+        </Link>
+        <span>Learn Forex</span>
+      </header>
+
+      <section className={styles.introduction}>
+        <span>Curriculum</span>
+        <h1>Forex Foundation Path</h1>
+        <p>
+          Eleven levels, from absolute beginner to advanced strategy. Work
+          through them in order, or explore the full path before you begin.
+        </p>
+      </section>
+
+      <section className={styles.curriculum} aria-labelledby="curriculum-title">
+        <h2 id="curriculum-title">What You&apos;ll Learn</h2>
+
+        <ol className={styles.timeline}>
+          {forexLevels.map((level, index) => (
+            <li key={level.title}>
+              <span className={styles.marker} aria-hidden="true">
+                {index}
+              </span>
+              <article className={styles.levelCard}>
+                <span>Level {index} of 10</span>
+                <h3>{level.title}</h3>
+                <p>{level.description}</p>
+              </article>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <footer className={styles.footer}>PipStart · pipstart.net</footer>
+    </main>
+  );
+}
