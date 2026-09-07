@@ -2,6 +2,14 @@ import Link from "next/link";
 
 import styles from "./page.module.css";
 
+function CheckIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 20 20" className={styles.checkIcon}>
+      <path d="M4 10.5 8 14.5 16 6" />
+    </svg>
+  );
+}
+
 function ResourceIcon({
   type,
 }: {
@@ -40,6 +48,12 @@ const resources = [
   { href: "/brokers", label: "Brokers", type: "brokers" as const },
 ];
 
+const heroTrustPoints = [
+  "Core lessons stay free",
+  "No trading signals",
+  "Affiliate partners always disclosed",
+];
+
 export default function Home() {
   return (
     <main className={styles.page}>
@@ -72,6 +86,14 @@ export default function Home() {
           A complete, free learning path — from what a currency pair is to
           building your own risk-managed trading plan.
         </div>
+        <ul className={styles.heroTrust}>
+          {heroTrustPoints.map((point) => (
+            <li key={point}>
+              <CheckIcon />
+              {point}
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section className={styles.schools} aria-label="Learning paths">
@@ -109,16 +131,6 @@ export default function Home() {
         ))}
       </nav>
 
-      <section
-        className={styles.trust}
-        aria-label="Core lessons stay free. No trading signals. Affiliate partners always disclosed."
-      >
-        <span className={styles.typewriter} aria-hidden="true">
-          <span>Core lessons stay free</span>
-          <span>No trading signals</span>
-          <span>Affiliate partners always disclosed</span>
-        </span>
-      </section>
       <footer className={styles.footer}>
         <span>PipStart · pipstart.net</span>
         <nav aria-label="Footer navigation">
