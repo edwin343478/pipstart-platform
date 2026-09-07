@@ -1,0 +1,245 @@
+.page {
+  min-height: 100vh;
+  background: #f5f7f8;
+  color: #0b1220;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1rem 2.75rem;
+  border-bottom: 1px solid #d9e0e5;
+  background: #fff;
+}
+
+.header a {
+  color: #0b1220;
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.header span {
+  color: #667085;
+  font-size: 0.875rem;
+}
+
+.lessonLayout {
+  display: grid;
+  grid-template-columns: 17rem minmax(0, 1fr);
+  min-height: calc(100vh - 4rem);
+}
+
+.sidebar {
+  border-right: 1px solid #d9e0e5;
+  background: #fff;
+  padding: 2rem 1.5rem;
+}
+
+.sidebar h2 {
+  margin: 0 0 1rem;
+  color: #0f766e;
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.sidebar nav > span {
+  display: flex;
+  min-height: 2.5rem;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+  padding: 0.65rem 0.75rem;
+  font-size: 0.875rem;
+  transition:
+    background-color 160ms ease,
+    box-shadow 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.sidebar nav > span:hover {
+  transform: translateX(0.25rem);
+}
+
+.currentLesson {
+  background: #0b1220;
+  color: #fff;
+  font-weight: 600;
+}
+
+.currentLesson:hover {
+  box-shadow: 0 0.4rem 1rem rgb(11 18 32 / 16%);
+}
+
+.upcomingLesson {
+  color: #667085;
+}
+
+.upcomingLesson:hover {
+  background: #eaf6f4;
+  color: #0f766e;
+}
+
+.lesson {
+  width: min(100%, 58rem);
+  padding: 3rem 3.5rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.5rem;
+  color: #667085;
+  font-size: 0.8125rem;
+}
+
+.lesson h1 {
+  margin: 0 0 1.5rem;
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.introduction {
+  margin: 0 0 1.5rem;
+  color: #111827;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+
+.keyPoints {
+  margin: 0 0 1.75rem;
+  border: 1px solid #d9e0e5;
+  border-radius: 0.75rem;
+  background: #fff;
+  padding: 1.5rem 1.75rem;
+}
+
+.keyPoints h2 {
+  margin: 0 0 0.75rem;
+  color: #0f766e;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.keyPoints p {
+  margin: 0 0 0.5rem;
+  color: #111827;
+  font-size: 0.9375rem;
+}
+
+.keyPoints p:last-child {
+  margin-bottom: 0;
+}
+
+.completeAction {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.completeAction button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: #0b1220;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.75rem 1.25rem;
+}
+
+.completeAction button:hover,
+.completeAction button:focus-visible {
+  background: #172033;
+}
+
+.completeAction svg {
+  width: 0.9rem;
+  fill: none;
+  stroke: #14b8a6;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.lessonNavigation {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #d9e0e5;
+}
+
+.lessonNavigation a {
+  color: #0b1220;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.lessonNavigation a:hover,
+.lessonNavigation a:focus-visible {
+  color: #0f766e;
+}
+
+@media (max-width: 760px) {
+  .header {
+    align-items: flex-start;
+    flex-direction: column;
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+  }
+
+  .lessonLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    border-right: 0;
+    border-bottom: 1px solid #d9e0e5;
+    padding: 1.5rem 1.25rem;
+  }
+
+  .lesson {
+    padding: 2.5rem 1.25rem;
+  }
+
+  .lesson h1 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .lessonNavigation {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar nav > span {
+    transition: none;
+  }
+
+  .sidebar nav > span:hover {
+    transform: none;
+  }
+}
