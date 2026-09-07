@@ -1,0 +1,342 @@
+@keyframes glow-rotate {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes typewriter-cycle {
+  0% {
+    clip-path: inset(0 100% 0 0);
+    opacity: 1;
+  }
+  4% {
+    clip-path: inset(0 100% 0 0);
+  }
+  24% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+  29% {
+    clip-path: inset(0 0 0 0);
+  }
+  33.333%,
+  100% {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+  }
+}
+
+.page {
+  min-height: 100vh;
+  overflow: hidden;
+  background: #f5f7f8;
+  color: #0b1220;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1rem 2.75rem;
+  border-bottom: 1px solid #d9e0e5;
+  background: #fff;
+}
+.brand {
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  color: #667085;
+  font-size: 0.875rem;
+}
+.navigation a {
+  text-decoration: none;
+}
+.navigation a:not(.signIn):hover,
+.navigation a:not(.signIn):focus-visible {
+  color: #0f766e;
+}
+.analysisLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #0b1220;
+  font-weight: 600;
+}
+.analysisLink svg {
+  width: 0.75rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.signIn {
+  border-radius: 0.5rem;
+  background: #0f766e;
+  color: #fff;
+  font-weight: 600;
+  padding: 0.65rem 1.1rem;
+}
+.signIn:hover,
+.signIn:focus-visible {
+  background: #115e59;
+}
+.hero {
+  padding: 4.75rem 3.5rem 3.75rem;
+}
+.hero p,
+.schoolCard p {
+  margin: 0;
+  color: #0f766e;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.hero h1 {
+  max-width: 55rem;
+  margin: 0.9rem 0 0.75rem;
+  color: #0b1220;
+  font-size: clamp(2.5rem, 5vw, 4.25rem);
+  font-weight: 800;
+  line-height: 1.14;
+  letter-spacing: -0.035em;
+}
+.heroDescription {
+  max-width: 42rem;
+  color: #667085;
+  font-size: 1.125rem;
+  line-height: 1.65;
+}
+.schools {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+  padding: 0 3.5rem 2.75rem;
+}
+.glowWrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.875rem;
+  padding: 1px;
+}
+.glowRing {
+  position: absolute;
+  inset: -70%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    transparent 72%,
+    #0f766e 84%,
+    #14b8a6 92%,
+    transparent 100%
+  );
+  animation: glow-rotate 6s linear infinite;
+  pointer-events: none;
+}
+.schoolCard {
+  position: relative;
+  height: 100%;
+  border-radius: 0.8125rem;
+  background: #fff;
+  padding: 2rem;
+}
+.schoolCard h2 {
+  margin: 0.65rem 0 0.55rem;
+  font-size: 1.375rem;
+  font-weight: 700;
+}
+.schoolCard div {
+  max-width: 31rem;
+  color: #667085;
+  line-height: 1.6;
+}
+.schoolCard a {
+  display: inline-block;
+  margin-top: 1.1rem;
+  color: #0f766e;
+  font-weight: 600;
+  text-decoration: none;
+}
+.resources {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.875rem;
+  padding: 0 3.5rem 2rem;
+}
+.resources a {
+  display: grid;
+  min-height: 7rem;
+  place-items: center;
+  align-content: center;
+  gap: 0.6rem;
+  border: 1px solid #d9e0e5;
+  border-radius: 0.75rem;
+  background: #fafbfc;
+  text-decoration: none;
+}
+.resources a:hover,
+.resources a:focus-visible {
+  border-color: #0f766e;
+  background: #fff;
+}
+.resources svg {
+  width: 1.5rem;
+  fill: none;
+  stroke: #0f766e;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.resources span {
+  font-size: 0.875rem;
+}
+.trust {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0 3.5rem 3rem;
+  color: #667085;
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+.typewriter {
+  position: relative;
+  display: block;
+  width: min(100%, 25rem);
+  min-height: 1.75rem;
+}
+.typewriter > span {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  overflow: hidden;
+  max-width: 100%;
+  animation: typewriter-cycle 12s steps(36, end) infinite;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+.typewriter > span::before {
+  margin-right: 0.55rem;
+  color: #0f766e;
+  content: "✓";
+}
+.typewriter > span:nth-child(2) {
+  animation-delay: 4s;
+  opacity: 0;
+}
+.typewriter > span:nth-child(3) {
+  animation-delay: 8s;
+  opacity: 0;
+}
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  padding: 1rem 3.5rem 1.5rem;
+  border-top: 1px solid #d9e0e5;
+  background: #fff;
+  color: #667085;
+  font-size: 0.75rem;
+}
+.footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.65rem 1.1rem;
+}
+.footer a {
+  color: inherit;
+  text-decoration: none;
+}
+.footer a:hover,
+.footer a:focus-visible {
+  color: #0f766e;
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+}
+
+@media (max-width: 900px) {
+  .header {
+    align-items: flex-start;
+    flex-direction: column;
+    padding-inline: 1.5rem;
+  }
+  .navigation {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+  }
+}
+@media (max-width: 640px) {
+  .header,
+  .hero,
+  .schools,
+  .resources,
+  .trust,
+  .footer {
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+  }
+  .navigation {
+    gap: 1rem;
+  }
+  .navigation a:not(.signIn) {
+    white-space: nowrap;
+  }
+  .signIn {
+    display: none;
+  }
+  .hero {
+    padding-top: 3rem;
+    padding-bottom: 2.25rem;
+  }
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  .schools,
+  .resources {
+    grid-template-columns: 1fr;
+  }
+  .schoolCard {
+    padding: 1.5rem;
+  }
+  .resources a {
+    min-height: 5.5rem;
+  }
+  .trust {
+    gap: 0.45rem;
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
+    font-size: 0.9rem;
+  }
+  .footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .footer nav {
+    justify-content: flex-start;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .glowRing {
+    animation: none;
+  }
+  .typewriter > span {
+    animation: none;
+    clip-path: none;
+    opacity: 0;
+  }
+  .typewriter > span:first-child {
+    opacity: 1;
+  }
+}
