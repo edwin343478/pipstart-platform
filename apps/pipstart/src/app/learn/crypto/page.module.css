@@ -1,0 +1,209 @@
+.page {
+  min-height: 100vh;
+  background: #f5f7f8;
+  color: #0b1220;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2.75rem;
+  border-bottom: 1px solid #d9e0e5;
+  background: #fff;
+}
+
+.header a {
+  color: #0b1220;
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.header span {
+  color: #0f766e;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.introduction {
+  padding: 3.75rem 3.5rem 2rem;
+  text-align: center;
+}
+
+.introduction > span {
+  color: #0f766e;
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.introduction h1 {
+  margin: 0.75rem 0 0.75rem;
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.introduction p {
+  max-width: 42rem;
+  margin: 0 auto;
+  color: #667085;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
+
+.curriculum {
+  width: min(100%, 52rem);
+  margin: 0 auto;
+  padding: 1rem 3.5rem 4rem;
+}
+
+.curriculum > h2 {
+  margin: 0 0 2rem;
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0 0 0 3.5rem;
+  list-style: none;
+}
+
+.timeline::before {
+  position: absolute;
+  top: 1.25rem;
+  bottom: 1.25rem;
+  left: 1rem;
+  width: 2px;
+  background: linear-gradient(to bottom, #0f766e, rgb(15 118 110 / 10%));
+  content: "";
+}
+
+.timeline li {
+  position: relative;
+}
+
+.marker {
+  position: absolute;
+  top: 0;
+  left: -3.5rem;
+  display: flex;
+  width: 2.25rem;
+  height: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #0f766e;
+  color: #fff;
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  box-shadow: 0 2px 5px rgb(11 18 32 / 12%);
+}
+
+.levelCard {
+  border: 1px solid #d9e0e5;
+  border-radius: 1rem;
+  background: #fff;
+  padding: 1.5rem;
+  transition:
+    transform 200ms ease,
+    border-color 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.levelCard:hover {
+  transform: translateY(-0.25rem);
+  border-color: rgb(15 118 110 / 60%);
+  box-shadow: 0 12px 24px -8px rgb(11 18 32 / 12%);
+}
+
+.levelCard > span {
+  color: #0f766e;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.levelCard h3 {
+  margin: 0.45rem 0 0.5rem;
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.levelCard p {
+  margin: 0;
+  color: #667085;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.footer {
+  padding: 1rem 3.5rem 1.5rem;
+  border-top: 1px solid #d9e0e5;
+  background: #fff;
+  color: #667085;
+  font-size: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .header,
+  .introduction,
+  .footer {
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+  }
+
+  .introduction {
+    padding-top: 2.75rem;
+  }
+
+  .introduction h1 {
+    font-size: 1.4rem;
+  }
+
+  .curriculum {
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+  }
+
+  .timeline {
+    padding-left: 3rem;
+  }
+
+  .timeline::before {
+    left: 0.875rem;
+  }
+
+  .marker {
+    left: -3rem;
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .levelCard {
+    padding: 1.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .levelCard {
+    transition: none;
+  }
+
+  .levelCard:hover {
+    transform: none;
+  }
+}
