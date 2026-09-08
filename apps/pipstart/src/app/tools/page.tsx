@@ -3,7 +3,16 @@ import Link from "next/link";
 import styles from "./page.module.css";
 
 type ToolIcon =
-  "drawdown" | "dca" | "margin" | "pip-value" | "position-size" | "risk-reward";
+  | "compound"
+  | "crypto-position-size"
+  | "drawdown"
+  | "dca"
+  | "gain-recovery"
+  | "margin"
+  | "pip-value"
+  | "position-size"
+  | "profit-loss"
+  | "risk-reward";
 
 type Tool = {
   description: string;
@@ -33,6 +42,12 @@ const tools: Tool[] = [
     icon: "risk-reward",
   },
   {
+    name: "Profit-and-Loss Calculator",
+    description: "Estimate the result between your entry and exit prices.",
+    href: "/tools/profit-loss-calculator",
+    icon: "profit-loss",
+  },
+  {
     name: "Margin Calculator",
     description: "Work out the margin required to open a leveraged position.",
     href: "/tools/margin-calculator",
@@ -45,10 +60,29 @@ const tools: Tool[] = [
     icon: "drawdown",
   },
   {
+    name: "Gain-Recovery Calculator",
+    description: "Estimate the gain required to recover from a trading loss.",
+    href: "/tools/gain-recovery-calculator",
+    icon: "gain-recovery",
+  },
+  {
+    name: "Crypto Position-Size Calculator",
+    description: "Size a crypto position using account risk and stop distance.",
+    href: "/tools/crypto-position-size-calculator",
+    icon: "crypto-position-size",
+  },
+  {
     name: "Dollar-Cost-Averaging Calculator",
     description: "Explore recurring crypto purchases across changing prices.",
     href: "/tools/dollar-cost-averaging-calculator",
     icon: "dca",
+  },
+  {
+    name: "Compound-Growth Illustration",
+    description:
+      "Explore hypothetical compounding with recurring contributions.",
+    href: "/tools/compound-growth-illustration",
+    icon: "compound",
   },
 ];
 
@@ -91,6 +125,38 @@ function CalculatorIcon({ type }: { type: ToolIcon }) {
     return (
       <svg aria-hidden="true" viewBox="0 0 20 20">
         <path d="m3 15 4-4 3 2 5-7 2 2" />
+      </svg>
+    );
+  }
+
+  if (type === "profit-loss") {
+    return (
+      <svg aria-hidden="true" viewBox="0 0 20 20">
+        <path d="m3 14 4-4 3 2 5-6M12 6h3v3" />
+      </svg>
+    );
+  }
+
+  if (type === "gain-recovery") {
+    return (
+      <svg aria-hidden="true" viewBox="0 0 20 20">
+        <path d="M4 9a6 6 0 1 1 1.5 5M4 9V5m0 4h4" />
+      </svg>
+    );
+  }
+
+  if (type === "crypto-position-size") {
+    return (
+      <svg aria-hidden="true" viewBox="0 0 20 20">
+        <path d="M10 2 16 6v8l-6 4-6-4V6l6-4Zm0 4v8M7.5 7.5h4a1.5 1.5 0 0 1 0 3h-4m0 0h4a1.5 1.5 0 0 1 0 3h-4" />
+      </svg>
+    );
+  }
+
+  if (type === "compound") {
+    return (
+      <svg aria-hidden="true" viewBox="0 0 20 20">
+        <path d="M4 15V9M8 15V6M12 15V4M16 15V2M3 15h14" />
       </svg>
     );
   }
