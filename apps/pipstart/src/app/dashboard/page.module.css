@@ -1,0 +1,228 @@
+.page {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  background: #f5f7f8;
+  color: #0b1220;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1rem 2.75rem;
+  border-bottom: 1px solid #d9e0e5;
+  background: #fff;
+}
+
+.header a {
+  color: #0b1220;
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.header span {
+  color: #667085;
+  font-size: 0.875rem;
+}
+
+.content {
+  width: min(calc(100% - 5.5rem), 64rem);
+  flex: 1;
+  margin: 0 auto;
+  padding: 3.25rem 0 3.5rem;
+}
+
+.introduction {
+  margin-bottom: 1.5rem;
+}
+
+.introduction h1 {
+  margin: 0 0 0.4rem;
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: clamp(2rem, 4vw, 2.625rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.introduction p {
+  margin: 0;
+  color: #667085;
+}
+
+.nextLesson {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: 0.875rem;
+  background: #0b1220;
+  padding: 1.75rem;
+}
+
+.nextLesson p {
+  margin: 0 0 0.4rem;
+  color: #8fa0b5;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.nextLesson h2 {
+  margin: 0;
+  color: #fff;
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.nextLesson a {
+  flex-shrink: 0;
+  border-radius: 0.5rem;
+  background: #14b8a6;
+  color: #0b1220;
+  font-size: 0.875rem;
+  font-weight: 700;
+  padding: 0.75rem 1.25rem;
+  text-decoration: none;
+  transition:
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.nextLesson a:hover,
+.nextLesson a:focus-visible {
+  box-shadow: 0 0.5rem 1rem rgb(20 184 166 / 20%);
+  transform: translateY(-0.125rem);
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.summary article {
+  display: grid;
+  place-items: center;
+  border: 1px solid #d9e0e5;
+  border-radius: 0.625rem;
+  background: #fff;
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.summary strong {
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.summary span {
+  margin-top: 0.25rem;
+  color: #667085;
+  font-size: 0.75rem;
+}
+
+.levels > h2 {
+  margin: 0 0 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.levels > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.levels a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  border: 1px solid #d9e0e5;
+  border-radius: 0.625rem;
+  background: #fff;
+  color: #0b1220;
+  padding: 0.9rem 1rem;
+  text-decoration: none;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.levels a:hover,
+.levels a:focus-visible {
+  border-color: #0f766e;
+  box-shadow: 0 0.4rem 1rem rgb(11 18 32 / 7%);
+  transform: translateX(0.25rem);
+}
+
+.levels a > span {
+  font-size: 0.875rem;
+}
+
+.levels small {
+  flex-shrink: 0;
+  color: #8a93a0;
+  font-size: 0.75rem;
+}
+
+.footer {
+  padding: 1.25rem 2.75rem;
+  border-top: 1px solid #d9e0e5;
+  background: #fff;
+  color: #667085;
+  font-size: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .header,
+  .footer {
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+  }
+
+  .content {
+    width: calc(100% - 2.5rem);
+    padding-top: 2.75rem;
+  }
+
+  .nextLesson {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .summary {
+    grid-template-columns: 1fr;
+  }
+
+  .levels a {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nextLesson a,
+  .levels a {
+    transition: none;
+  }
+
+  .nextLesson a:hover,
+  .nextLesson a:focus-visible,
+  .levels a:hover,
+  .levels a:focus-visible {
+    transform: none;
+  }
+}
