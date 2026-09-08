@@ -1,0 +1,246 @@
+.page {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  background: #f5f7f8;
+  color: #0b1220;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1rem 2.75rem;
+  border-bottom: 1px solid #d9e0e5;
+  background: #fff;
+}
+
+.header > a {
+  color: #0b1220;
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.header nav {
+  color: #667085;
+  font-size: 0.875rem;
+}
+
+.header nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.header nav a:hover,
+.header nav a:focus-visible {
+  color: #0f766e;
+}
+
+.content {
+  width: min(calc(100% - 5.5rem), 58rem);
+  flex: 1;
+  margin: 0 auto;
+  padding: 3.5rem 0;
+}
+
+.introduction {
+  margin-bottom: 1.75rem;
+}
+
+.introduction h1 {
+  margin: 0 0 0.55rem;
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: clamp(2rem, 4vw, 2.625rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.introduction p {
+  margin: 0;
+  color: #667085;
+  line-height: 1.6;
+}
+
+.calculator {
+  margin-bottom: 1.5rem;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.fields label {
+  display: block;
+}
+
+.fields label > span {
+  display: block;
+  margin-bottom: 0.4rem;
+  color: #667085;
+  font-size: 0.8125rem;
+}
+
+.fields input,
+.fields select {
+  width: 100%;
+  border: 1px solid #d9e0e5;
+  border-radius: 0.5rem;
+  outline: 0;
+  background: #fff;
+  color: #0b1220;
+  font: inherit;
+  padding: 0.75rem 0.875rem;
+}
+
+.fields input:focus,
+.fields select:focus {
+  border-color: #0f766e;
+  box-shadow: 0 0 0 3px rgb(15 118 110 / 12%);
+}
+
+.fields small {
+  display: block;
+  margin-top: 0.4rem;
+  color: #8a93a0;
+  font-size: 0.6875rem;
+  line-height: 1.45;
+}
+
+.calculator button {
+  border: 0;
+  border-radius: 0.5rem;
+  background: #0f766e;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.8rem 1.5rem;
+}
+
+.calculator button:hover,
+.calculator button:focus-visible {
+  background: #115e59;
+}
+
+.error {
+  margin: -0.25rem 0 1rem;
+  color: #b42318;
+  font-size: 0.8125rem;
+}
+
+.result {
+  margin-bottom: 1.5rem;
+  border-radius: 0.75rem;
+  background: #0b1220;
+  padding: 1.75rem;
+  text-align: center;
+}
+
+.result h2 {
+  margin: 0 0 0.45rem;
+  color: #8fa0b5;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.result p {
+  margin: 0;
+  color: #14b8a6;
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  font-weight: 800;
+}
+
+.result div {
+  margin-top: 0.6rem;
+  color: #8fa0b5;
+  font-size: 0.8125rem;
+}
+
+.breakdown {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 1.5rem 0 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgb(143 160 181 / 25%);
+}
+
+.breakdown div {
+  margin: 0;
+}
+
+.breakdown dt {
+  margin-bottom: 0.35rem;
+  color: #8fa0b5;
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.breakdown dd {
+  margin: 0;
+  color: #fff;
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+
+.assumption {
+  margin-bottom: 0.75rem;
+  border: 1px solid #d9e0e5;
+  border-radius: 0.625rem;
+  background: #fff;
+  color: #667085;
+  font-size: 0.75rem;
+  line-height: 1.55;
+  padding: 0.8rem 1rem;
+}
+
+.disclaimer {
+  border: 1px solid #fde68a;
+  border-radius: 0.625rem;
+  background: #fffbeb;
+  color: #92400e;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  padding: 0.9rem 1rem;
+}
+
+.footer {
+  padding: 1.25rem 2.75rem;
+  border-top: 1px solid #d9e0e5;
+  background: #fff;
+  color: #667085;
+  font-size: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .header,
+  .footer {
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+  }
+
+  .content {
+    width: calc(100% - 2.5rem);
+    padding-top: 2.75rem;
+  }
+
+  .fields {
+    grid-template-columns: 1fr;
+  }
+
+  .breakdown {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
