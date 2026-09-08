@@ -1,0 +1,161 @@
+.page {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  background: #f5f7f8;
+  color: #0b1220;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1rem 2.75rem;
+  border-bottom: 1px solid #d9e0e5;
+  background: #fff;
+}
+
+.header a {
+  color: #0b1220;
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.header span {
+  color: #0f766e;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.introduction {
+  width: min(calc(100% - 5.5rem), 64rem);
+  margin: 0 auto;
+  padding: 3.5rem 0 1.75rem;
+}
+
+.introduction h1 {
+  margin: 0 0 0.65rem;
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.introduction p {
+  margin: 0;
+  color: #667085;
+  line-height: 1.6;
+}
+
+.tools {
+  display: grid;
+  width: min(calc(100% - 5.5rem), 64rem);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  flex: 1;
+  gap: 1rem;
+  margin: 0 auto;
+  padding: 0 0 3.5rem;
+}
+
+.tool {
+  border: 1px solid #d9e0e5;
+  border-radius: 0.75rem;
+  background: #fff;
+  color: #0b1220;
+  padding: 1.5rem;
+  text-decoration: none;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+a.tool:hover,
+a.tool:focus-visible {
+  border-color: #0f766e;
+  box-shadow: 0 0.65rem 1.5rem rgb(11 18 32 / 8%);
+  transform: translateY(-0.2rem);
+}
+
+.tool svg {
+  width: 1.375rem;
+  fill: none;
+  stroke: #0f766e;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.tool h2 {
+  margin: 0.8rem 0 0.35rem;
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.tool p {
+  margin: 0;
+  color: #667085;
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+.comingSoon {
+  border-style: dashed;
+  background: #fafbfc;
+}
+
+.comingSoon svg {
+  stroke: #8a93a0;
+}
+
+.comingSoon h2 {
+  color: #667085;
+}
+
+.comingSoon p {
+  color: #8a93a0;
+}
+
+.footer {
+  padding: 1.25rem 2.75rem;
+  border-top: 1px solid #d9e0e5;
+  background: #fff;
+  color: #667085;
+  font-size: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .header,
+  .footer {
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+  }
+
+  .introduction,
+  .tools {
+    width: calc(100% - 2.5rem);
+  }
+
+  .introduction {
+    padding-top: 2.75rem;
+  }
+
+  .tools {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tool {
+    transition: none;
+  }
+
+  a.tool:hover,
+  a.tool:focus-visible {
+    transform: none;
+  }
+}
