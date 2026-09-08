@@ -46,7 +46,8 @@ const tools: Tool[] = [
   },
   {
     name: "Dollar-Cost-Averaging Calculator",
-    description: "Coming with the crypto learning path.",
+    description: "Explore recurring crypto purchases across changing prices.",
+    href: "/tools/dollar-cost-averaging-calculator",
     icon: "dca",
   },
 ];
