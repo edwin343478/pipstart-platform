@@ -16,6 +16,7 @@ import {
   validateNumericFields,
 } from "../calculator-validation";
 import CalculatorError from "../components/calculator-error";
+import RelatedLesson from "../components/related-lesson";
 import styles from "../position-size-calculator/page.module.css";
 
 export default function CompoundGrowthIllustrationPage() {
@@ -250,6 +251,12 @@ export default function CompoundGrowthIllustrationPage() {
           Growth is applied once per period at the same selected rate.
           Contributions are added at the selected point in each period.
         </aside>
+
+        <RelatedLesson
+          description="Build a foundation before interpreting hypothetical long-term growth."
+          href="/learn/crypto/level-1"
+          title="Cryptocurrency Foundation Path"
+        />
 
         <aside className={styles.disclaimer}>
           This is an educational mathematical illustration, not a forecast,

@@ -56,7 +56,27 @@ describe("calculator engine", () => {
         "USD",
       );
 
-      expect(result.positionSize).toBe(3_149);
+      expect(result.positionSize).toBe(3_000);
+      expect(result.lots).toBe(0.03);
+    });
+
+    it("rounds down to the instrument volume step", () => {
+      const result = calculatePositionSize(1_000, 1, 22, 1, "EUR/USD", "USD");
+
+      expect(result.unroundedLots).toBeCloseTo(0.0454545, 6);
+      expect(result.lots).toBe(0.04);
+      expect(result.positionSize).toBe(4_000);
+      expect(result.riskAmount).toBeCloseTo(8.8, 10);
+      expect(result.riskLimit).toBe(10);
+      expect(result.volumeStep).toBe(0.01);
+    });
+
+    it("flags a position below the instrument minimum volume", () => {
+      const result = calculatePositionSize(100, 1, 25, 1, "EUR/USD", "USD");
+
+      expect(result.lots).toBe(0);
+      expect(result.minimumVolume).toBe(0.01);
+      expect(result.meetsMinimumVolume).toBe(false);
     });
 
     it("rejects an unsupported instrument", () => {

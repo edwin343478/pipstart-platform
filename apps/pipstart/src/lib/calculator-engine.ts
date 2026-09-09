@@ -58,16 +58,27 @@ export function calculatePositionSize(
   accountCurrency: string,
 ) {
   const instrument = getInstrument(instrumentLabel);
-  const riskAmount = balance * (riskPercent / 100);
-  const riskPerUnit = stopLoss * instrument.pipSize * conversionRate;
-  const positionSize = Math.floor(riskAmount / riskPerUnit);
+  const riskLimit = balance * (riskPercent / 100);
+  const riskPerLot =
+    stopLoss * instrument.pipSize * instrument.contractSize * conversionRate;
+  const unroundedLots = riskLimit / riskPerLot;
+  const lots =
+    Math.floor((unroundedLots + Number.EPSILON) / instrument.volumeStep) *
+    instrument.volumeStep;
+  const positionSize = lots * instrument.contractSize;
+  const riskAmount = lots * riskPerLot;
 
   return assertFiniteCalculatorResult({
     accountCurrency,
     balance,
+    lots,
+    meetsMinimumVolume: lots >= instrument.minimumVolume,
+    minimumVolume: instrument.minimumVolume,
     positionSize,
     riskAmount,
-    lots: positionSize / instrument.contractSize,
+    riskLimit,
+    unroundedLots,
+    volumeStep: instrument.volumeStep,
   });
 }
 

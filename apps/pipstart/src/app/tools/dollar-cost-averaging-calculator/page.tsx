@@ -16,6 +16,7 @@ import {
   validateNumericFields,
 } from "../calculator-validation";
 import CalculatorError from "../components/calculator-error";
+import RelatedLesson from "../components/related-lesson";
 import styles from "../position-size-calculator/page.module.css";
 
 const frequencies = [
@@ -331,6 +332,12 @@ export default function DollarCostAveragingCalculatorPage() {
           Each contribution is divided by an evenly changing illustrative price;
           fees, spreads and slippage are excluded.
         </aside>
+
+        <RelatedLesson
+          description="Review cryptocurrency basics before exploring recurring purchase illustrations."
+          href="/learn/crypto/level-1"
+          title="Cryptocurrency Foundation Path"
+        />
 
         <aside className={styles.disclaimer}>
           This is an educational illustration, not investment advice or a return

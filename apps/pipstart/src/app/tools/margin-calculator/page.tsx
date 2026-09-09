@@ -21,6 +21,7 @@ import {
   validateNumericFields,
 } from "../calculator-validation";
 import CalculatorError from "../components/calculator-error";
+import RelatedLesson from "../components/related-lesson";
 import styles from "../position-size-calculator/page.module.css";
 
 export default function MarginCalculatorPage() {
@@ -226,6 +227,12 @@ export default function MarginCalculatorPage() {
           Required margin = position size × market price × quote-to-account
           conversion rate ÷ leverage.
         </aside>
+
+        <RelatedLesson
+          description="Start with the Forex foundations before using leverage and margin."
+          href="/learn/forex/level-1"
+          title="Forex Kindergarten"
+        />
 
         <aside className={styles.disclaimer}>
           This is an educational estimate only. Broker contract sizes, leverage

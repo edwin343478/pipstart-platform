@@ -22,6 +22,7 @@ import {
   validateNumericFields,
 } from "../calculator-validation";
 import CalculatorError from "../components/calculator-error";
+import RelatedLesson from "../components/related-lesson";
 import styles from "../position-size-calculator/page.module.css";
 
 function signed(value: number, decimals: number): string {
@@ -257,6 +258,12 @@ export default function ProfitLossCalculatorPage() {
           quote-to-account conversion. Confirm contract specifications with your
           broker.
         </aside>
+
+        <RelatedLesson
+          description="Review how Forex prices and pip movements connect to a trade result."
+          href="/learn/forex/level-1"
+          title="Forex Kindergarten"
+        />
 
         <aside className={styles.disclaimer}>
           This educational estimate excludes spread, commissions, swaps, taxes

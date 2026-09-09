@@ -16,6 +16,7 @@ import {
   validateNumericFields,
 } from "../calculator-validation";
 import CalculatorError from "../components/calculator-error";
+import RelatedLesson from "../components/related-lesson";
 import styles from "../position-size-calculator/page.module.css";
 
 export default function DrawdownCalculatorPage() {
@@ -196,6 +197,12 @@ export default function DrawdownCalculatorPage() {
           Recovery gain = amount lost ÷ remaining balance × 100. A percentage
           loss always requires a larger percentage gain to recover.
         </aside>
+
+        <RelatedLesson
+          description="Continue with the Forex learning path before applying recovery calculations."
+          href="/learn/forex/level-1"
+          title="Forex Kindergarten"
+        />
 
         <aside className={styles.disclaimer}>
           This calculator is an educational illustration, not a forecast or

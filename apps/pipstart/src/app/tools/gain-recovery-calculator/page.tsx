@@ -15,6 +15,7 @@ import {
   validateNumericFields,
 } from "../calculator-validation";
 import CalculatorError from "../components/calculator-error";
+import RelatedLesson from "../components/related-lesson";
 import styles from "../position-size-calculator/page.module.css";
 
 export default function GainRecoveryCalculatorPage() {
@@ -194,6 +195,12 @@ export default function GainRecoveryCalculatorPage() {
           Periods required = log(target ÷ current balance) ÷ log(1 + gain per
           period). The result rounds up to the next complete period.
         </aside>
+
+        <RelatedLesson
+          description="Continue with the Forex learning path before exploring compounded recovery."
+          href="/learn/forex/level-1"
+          title="Forex Kindergarten"
+        />
 
         <aside className={styles.disclaimer}>
           This is an educational mathematical illustration, not a forecast,

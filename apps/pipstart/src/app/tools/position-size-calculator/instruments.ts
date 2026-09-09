@@ -16,16 +16,29 @@ export type InstrumentGroup = {
 
 function forex(label: string): Instrument {
   const [baseCurrency, quoteCurrency] = label.split("/");
+  const pipSizeByQuoteCurrency: Partial<Record<string, number>> = {
+    CLP: 1,
+    COP: 1,
+    IDR: 1,
+    CZK: 0.01,
+    HUF: 0.01,
+    INR: 0.01,
+    JPY: 0.01,
+    KRW: 0.01,
+    PHP: 0.01,
+    THB: 0.01,
+    TWD: 0.01,
+  };
 
   return {
     baseCurrency,
     label,
-    pipSize: label.endsWith("/JPY") ? 0.01 : 0.0001,
+    pipSize: pipSizeByQuoteCurrency[quoteCurrency] ?? 0.0001,
     contractSize: 100_000,
     minimumVolume: 0.01,
     quoteCurrency,
     specificationNote:
-      "Common educational convention. Confirm pip, contract and volume specifications with your broker.",
+      "Quote-currency pip convention for education. Confirm the symbol specification with your broker before trading.",
     volumeStep: 0.01,
   };
 }

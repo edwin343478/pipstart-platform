@@ -17,6 +17,7 @@ import {
   validateNumericFields,
 } from "../calculator-validation";
 import CalculatorError from "../components/calculator-error";
+import RelatedLesson from "../components/related-lesson";
 import styles from "./page.module.css";
 
 export default function CryptoPositionSizeCalculatorPage() {
@@ -379,6 +380,12 @@ export default function CryptoPositionSizeCalculatorPage() {
           exchange&apos;s quantity step. Leveraged results are risk-sized only;
           venue margin and liquidation rules are not modelled.
         </aside>
+
+        <RelatedLesson
+          description="Learn the cryptocurrency foundations behind assets, prices and market risk."
+          href="/learn/crypto/level-1"
+          title="Cryptocurrency Foundation Path"
+        />
 
         <aside className={styles.disclaimer}>
           This is an educational estimate only, not a guarantee of outcome.

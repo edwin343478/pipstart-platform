@@ -21,6 +21,7 @@ import {
   validateNumericFields,
 } from "../calculator-validation";
 import CalculatorError from "../components/calculator-error";
+import RelatedLesson from "../components/related-lesson";
 import styles from "../position-size-calculator/page.module.css";
 
 export default function PipValueCalculatorPage() {
@@ -180,6 +181,12 @@ export default function PipValueCalculatorPage() {
           size. Metal specifications can vary, so confirm contract details with
           your broker.
         </aside>
+
+        <RelatedLesson
+          description="Review the Forex foundations behind currency pairs and pip movements."
+          href="/learn/forex/level-1"
+          title="Forex Kindergarten"
+        />
 
         <aside className={styles.disclaimer}>
           This is an educational estimate only. Broker contract specifications,

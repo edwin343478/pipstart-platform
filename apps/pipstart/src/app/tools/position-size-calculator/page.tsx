@@ -6,6 +6,7 @@ import { FormEvent, useState } from "react";
 import ConversionRateField from "../components/conversion-rate-field";
 import CalculatorError from "../components/calculator-error";
 import InstrumentSpecification from "../components/instrument-specification";
+import RelatedLesson from "../components/related-lesson";
 import {
   type CalculatorFormError,
   inputErrorProps,
@@ -200,7 +201,14 @@ export default function PositionSizeCalculatorPage() {
             {result.balance.toLocaleString("en-US", {
               maximumFractionDigits: 2,
             })}{" "}
-            balance
+            balance, within your {result.accountCurrency}{" "}
+            {result.riskLimit.toFixed(2)} risk limit
+          </div>
+          <div>
+            Rounded down to the {result.volumeStep.toFixed(2)}-lot volume step.
+            {!result.meetsMinimumVolume
+              ? ` This is below the ${result.minimumVolume.toFixed(2)}-lot minimum, so no executable position is shown.`
+              : ""}
           </div>
           <dl className={styles.breakdown}>
             <div>
@@ -229,6 +237,12 @@ export default function PositionSizeCalculatorPage() {
           oz for XAU/USD and 5,000 oz for XAG/USD; confirm specifications with
           your broker.
         </aside>
+
+        <RelatedLesson
+          description="Learn how Forex prices, pips and currency pairs work before sizing a trade."
+          href="/learn/forex/level-1"
+          title="Forex Kindergarten"
+        />
 
         <aside className={styles.disclaimer}>
           This is an educational estimate only, not a guarantee of outcome.

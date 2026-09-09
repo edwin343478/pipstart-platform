@@ -15,6 +15,7 @@ import {
   validateNumericFields,
 } from "../calculator-validation";
 import CalculatorError from "../components/calculator-error";
+import RelatedLesson from "../components/related-lesson";
 import styles from "./page.module.css";
 
 export default function RiskRewardCalculatorPage() {
@@ -202,6 +203,12 @@ export default function RiskRewardCalculatorPage() {
           The calculation compares price distance only. It does not include
           spread, fees, slippage, financing costs or position size.
         </aside>
+
+        <RelatedLesson
+          description="Build the Forex foundation needed to understand entries, stops and targets."
+          href="/learn/forex/level-1"
+          title="Forex Kindergarten"
+        />
 
         <aside className={styles.disclaimer}>
           This is an educational estimate only, not a prediction or guarantee. A

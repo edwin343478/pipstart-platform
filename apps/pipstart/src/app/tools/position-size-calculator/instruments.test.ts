@@ -29,4 +29,19 @@ describe("instrument specifications", () => {
       quoteCurrency: "USD",
     });
   });
+
+  it("uses explicit pip conventions for high-value quote currencies", () => {
+    expect(instruments.find((item) => item.label === "USD/IDR")?.pipSize).toBe(
+      1,
+    );
+    expect(instruments.find((item) => item.label === "USD/KRW")?.pipSize).toBe(
+      0.01,
+    );
+    expect(instruments.find((item) => item.label === "USD/CLP")?.pipSize).toBe(
+      1,
+    );
+    expect(instruments.find((item) => item.label === "USD/COP")?.pipSize).toBe(
+      1,
+    );
+  });
 });
