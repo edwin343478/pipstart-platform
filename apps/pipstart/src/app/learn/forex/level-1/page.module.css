@@ -49,6 +49,12 @@
   text-transform: uppercase;
 }
 
+.progressSummary {
+  margin: -0.55rem 0 1rem;
+  color: #667085;
+  font-size: 0.75rem;
+}
+
 .sidebar nav {
   display: flex;
   flex-direction: column;
@@ -69,6 +75,15 @@
     box-shadow 160ms ease,
     color 160ms ease,
     transform 160ms ease;
+}
+
+.sidebar nav > a > span:first-child {
+  flex: 1;
+}
+
+.completedMarker {
+  color: #14b8a6;
+  font-weight: 800;
 }
 
 .sidebar nav > a:hover {
@@ -170,6 +185,15 @@
 .completeAction button:hover,
 .completeAction button:focus-visible {
   background: #172033;
+}
+
+.completeAction .completedButton {
+  background: #0f766e;
+}
+
+.completeAction .completedButton:hover,
+.completeAction .completedButton:focus-visible {
+  background: #115e59;
 }
 
 .completeAction svg {
