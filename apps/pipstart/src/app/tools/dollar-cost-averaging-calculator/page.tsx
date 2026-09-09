@@ -3,47 +3,54 @@
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 
-import { accountCurrencies } from "../position-size-calculator/instruments";
 import {
   calculateDollarCostAveraging,
   type DollarCostAveragingResult,
+  type DollarCostAveragingFrequency,
 } from "../../../lib/calculator-engine";
+import { cryptoAccountCurrencies, majorCryptoAssets } from "../crypto-options";
 import styles from "../position-size-calculator/page.module.css";
 
-const assets = [
-  { label: "Bitcoin (BTC)", symbol: "BTC" },
-  { label: "Ethereum (ETH)", symbol: "ETH" },
-  { label: "Solana (SOL)", symbol: "SOL" },
-  { label: "BNB", symbol: "BNB" },
-  { label: "XRP", symbol: "XRP" },
-  { label: "Other asset", symbol: "units" },
+const frequencies = [
+  { label: "Weekly", value: "weekly" },
+  { label: "Every two weeks", value: "biweekly" },
+  { label: "Monthly", value: "monthly" },
 ] as const;
 
-const frequencies = [
-  { label: "Monthly", purchasesPerMonth: 1 },
-  { label: "Twice monthly", purchasesPerMonth: 2 },
-  { label: "Weekly", purchasesPerMonth: 4 },
-] as const;
+function isoDate(date: Date): string {
+  return date.toISOString().slice(0, 10);
+}
+
+function initialDates() {
+  const start = new Date();
+  const end = new Date(start);
+  end.setUTCMonth(end.getUTCMonth() + 3);
+  return { end: isoDate(end), start: isoDate(start) };
+}
+
+const defaults = initialDates();
 
 export default function DollarCostAveragingCalculatorPage() {
   const [accountCurrency, setAccountCurrency] = useState("USD");
   const [assetSymbol, setAssetSymbol] = useState("BTC");
   const [investmentPerPurchase, setInvestmentPerPurchase] = useState("100");
-  const [purchasesPerMonth, setPurchasesPerMonth] = useState("1");
-  const [durationMonths, setDurationMonths] = useState("12");
-  const [startingPrice, setStartingPrice] = useState("60000");
-  const [endingPrice, setEndingPrice] = useState("72000");
+  const [purchaseFrequency, setPurchaseFrequency] =
+    useState<DollarCostAveragingFrequency>("weekly");
+  const [firstPurchaseDate, setFirstPurchaseDate] = useState(defaults.start);
+  const [planEndDate, setPlanEndDate] = useState(defaults.end);
+  const [startingPrice, setStartingPrice] = useState("50000");
+  const [endingPrice, setEndingPrice] = useState("60000");
   const [error, setError] = useState("");
   const [result, setResult] = useState<DollarCostAveragingResult>(() =>
     calculateDollarCostAveraging(
       "USD",
       "BTC",
       100,
-      1,
-      "monthly",
-      12,
+      "weekly",
+      defaults.start,
+      defaults.end,
+      50_000,
       60_000,
-      72_000,
     ),
   );
 
@@ -51,52 +58,38 @@ export default function DollarCostAveragingCalculatorPage() {
     event.preventDefault();
     const values = [
       Number(investmentPerPurchase),
-      Number(purchasesPerMonth),
-      Number(durationMonths),
       Number(startingPrice),
       Number(endingPrice),
     ];
 
-    if (
-      !values.every(Number.isFinite) ||
-      values.some((value) => value <= 0) ||
-      !Number.isInteger(values[2])
-    ) {
+    if (!values.every(Number.isFinite) || values.some((value) => value <= 0)) {
+      setError("Enter values greater than zero in every numeric field.");
+      return;
+    }
+    if (!firstPurchaseDate || !planEndDate || planEndDate < firstPurchaseDate) {
       setError(
-        "Enter values greater than zero. Duration must be a whole number of months.",
+        "The plan end date must be on or after the first purchase date.",
       );
       return;
     }
 
-    const purchaseCount = values[1] * values[2];
-    if (purchaseCount > 2_400) {
-      setError(
-        "Choose a duration and frequency totaling no more than 2,400 purchases.",
-      );
-      return;
-    }
-
-    const frequency = frequencies.find(
-      (candidate) => candidate.purchasesPerMonth === values[1],
+    const nextResult = calculateDollarCostAveraging(
+      accountCurrency,
+      assetSymbol,
+      values[0],
+      purchaseFrequency,
+      firstPurchaseDate,
+      planEndDate,
+      values[1],
+      values[2],
     );
-    if (!frequency) {
-      setError("Choose a supported purchase frequency.");
+    if (nextResult.purchaseCount >= 2_400) {
+      setError("Choose a date range containing fewer than 2,400 purchases.");
       return;
     }
 
     setError("");
-    setResult(
-      calculateDollarCostAveraging(
-        accountCurrency,
-        assetSymbol,
-        values[0],
-        values[1],
-        frequency.label.toLowerCase(),
-        values[2],
-        values[3],
-        values[4],
-      ),
-    );
+    setResult(nextResult);
   }
 
   return (
@@ -129,7 +122,7 @@ export default function DollarCostAveragingCalculatorPage() {
                 value={accountCurrency}
                 onChange={(event) => setAccountCurrency(event.target.value)}
               >
-                {accountCurrencies.map((currency) => (
+                {cryptoAccountCurrencies.map((currency) => (
                   <option key={currency}>{currency}</option>
                 ))}
               </select>
@@ -140,7 +133,7 @@ export default function DollarCostAveragingCalculatorPage() {
                 value={assetSymbol}
                 onChange={(event) => setAssetSymbol(event.target.value)}
               >
-                {assets.map((asset) => (
+                {majorCryptoAssets.map((asset) => (
                   <option value={asset.symbol} key={asset.symbol}>
                     {asset.label}
                   </option>
@@ -163,29 +156,35 @@ export default function DollarCostAveragingCalculatorPage() {
             <label>
               <span>Purchase frequency</span>
               <select
-                value={purchasesPerMonth}
-                onChange={(event) => setPurchasesPerMonth(event.target.value)}
+                value={purchaseFrequency}
+                onChange={(event) =>
+                  setPurchaseFrequency(
+                    event.target.value as DollarCostAveragingFrequency,
+                  )
+                }
               >
                 {frequencies.map((frequency) => (
-                  <option
-                    value={frequency.purchasesPerMonth}
-                    key={frequency.label}
-                  >
+                  <option value={frequency.value} key={frequency.value}>
                     {frequency.label}
                   </option>
                 ))}
               </select>
             </label>
             <label>
-              <span>Duration (months)</span>
+              <span>First purchase date</span>
               <input
-                type="number"
-                min="1"
-                max="600"
-                step="1"
-                inputMode="numeric"
-                value={durationMonths}
-                onChange={(event) => setDurationMonths(event.target.value)}
+                type="date"
+                value={firstPurchaseDate}
+                onChange={(event) => setFirstPurchaseDate(event.target.value)}
+              />
+            </label>
+            <label>
+              <span>Plan end date</span>
+              <input
+                type="date"
+                min={firstPurchaseDate}
+                value={planEndDate}
+                onChange={(event) => setPlanEndDate(event.target.value)}
               />
             </label>
             <label>
@@ -225,22 +224,32 @@ export default function DollarCostAveragingCalculatorPage() {
         </form>
 
         <section className={styles.result} aria-live="polite">
-          <h2>Estimated units accumulated</h2>
+          <h2>Illustrated ending value</h2>
           <p>
-            {result.units.toLocaleString("en-US", {
-              maximumFractionDigits: 8,
-            })}{" "}
-            {result.assetSymbol}
+            {result.accountCurrency} {result.endingValue.toFixed(2)}
           </p>
           <div>
-            {result.purchaseCount} {result.purchaseFrequency} purchases of{" "}
-            {result.accountCurrency} {result.investmentPerPurchase.toFixed(2)}
+            {result.purchaseCount} purchases generated from actual calendar
+            dates.
           </div>
           <dl className={styles.breakdown}>
             <div>
-              <dt>Total contributed</dt>
+              <dt>Purchase count</dt>
+              <dd>{result.purchaseCount}</dd>
+            </div>
+            <div>
+              <dt>Total invested</dt>
               <dd>
                 {result.accountCurrency} {result.totalContributed.toFixed(2)}
+              </dd>
+            </div>
+            <div>
+              <dt>Units accumulated</dt>
+              <dd>
+                {result.units.toLocaleString("en-US", {
+                  maximumFractionDigits: 8,
+                })}{" "}
+                {result.assetSymbol}
               </dd>
             </div>
             <div>
@@ -249,26 +258,38 @@ export default function DollarCostAveragingCalculatorPage() {
                 {result.accountCurrency} {result.averageCost.toFixed(2)}
               </dd>
             </div>
+          </dl>
+        </section>
+
+        <section className={styles.schedule}>
+          <h2>Generated schedule</h2>
+          <dl>
             <div>
-              <dt>Ending value</dt>
-              <dd>
-                {result.accountCurrency} {result.endingValue.toFixed(2)}
-              </dd>
+              <dt>First purchase</dt>
+              <dd>{result.firstPurchaseDate ?? "—"}</dd>
             </div>
             <div>
-              <dt>Illustrated difference</dt>
+              <dt>Last purchase on or before end date</dt>
+              <dd>{result.lastPurchaseDate ?? "—"}</dd>
+            </div>
+            <div>
+              <dt>Calendar rule</dt>
               <dd>
-                {result.illustratedDifference >= 0 ? "+" : "-"}
-                {result.accountCurrency}{" "}
-                {Math.abs(result.illustratedDifference).toFixed(2)}
+                {result.purchaseFrequency === "weekly"
+                  ? "Every 7 days"
+                  : result.purchaseFrequency === "biweekly"
+                    ? "Every 14 days"
+                    : "Same calendar day each month"}
               </dd>
             </div>
           </dl>
         </section>
 
         <aside className={styles.assumption}>
-          Each recurring contribution is divided by an evenly changing
-          illustrative asset price. Fees, spreads and slippage are excluded.
+          Purchase dates follow the selected calendar rule. Monthly dates use
+          the same day where available and the month&apos;s final day otherwise.
+          Each contribution is divided by an evenly changing illustrative price;
+          fees, spreads and slippage are excluded.
         </aside>
 
         <aside className={styles.disclaimer}>

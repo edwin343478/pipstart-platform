@@ -206,6 +206,50 @@
   padding: 0.8rem 1rem;
 }
 
+.schedule {
+  margin-bottom: 1.5rem;
+  border: 1px solid #d9e0e5;
+  border-radius: 0.625rem;
+  background: #fff;
+  padding: 1rem;
+}
+
+.schedule h2 {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: 0.9375rem;
+}
+
+.schedule dl {
+  margin: 0;
+}
+
+.schedule dl div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid #e8ecef;
+}
+
+.schedule dl div:last-child {
+  border-bottom: 0;
+}
+
+.schedule dt {
+  color: #667085;
+  font-size: 0.75rem;
+}
+
+.schedule dd {
+  margin: 0;
+  color: #0b1220;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-align: right;
+}
+
 .disclaimer {
   border: 1px solid #fde68a;
   border-radius: 0.625rem;

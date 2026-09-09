@@ -6,6 +6,7 @@ import {
   calculateDollarCostAveraging,
   calculateDrawdown,
   calculateGainRecovery,
+  generatePurchaseSchedule,
   calculateMargin,
   calculatePipValue,
   calculatePositionSize,
@@ -150,14 +151,20 @@ describe("calculator engine", () => {
         58_800,
         "BTC",
         "USD",
+        "spot",
+        "long",
+        0.0001,
+        0.0001,
       );
 
-      expect(result.positionQuantity).toBeCloseTo(0.0083333333, 8);
+      expect(result.positionQuantity).toBe(0.0083);
       expect(result.riskAmount).toBe(10);
       expect(result.stopDistancePercent).toBe(2);
+      expect(result.cappedByBalance).toBe(false);
+      expect(result.meetsMinimumOrder).toBe(true);
     });
 
-    it("exposes the unbounded notional result for later model validation", () => {
+    it("caps a spot position at the cash-affordable quantity", () => {
       const result = calculateCryptoPositionSize(
         1_000,
         1,
@@ -165,21 +172,58 @@ describe("calculator engine", () => {
         59_990,
         "BTC",
         "USD",
+        "spot",
+        "long",
+        0.0001,
+        0.0001,
       );
 
-      expect(result.positionValue).toBe(60_000);
+      expect(result.riskSizedQuantity).toBe(1);
+      expect(result.positionQuantity).toBe(0.0166);
+      expect(result.positionValue).toBe(996);
+      expect(result.cappedByBalance).toBe(true);
+    });
+
+    it("reports when a rounded quantity is below the venue minimum", () => {
+      const result = calculateCryptoPositionSize(
+        100,
+        1,
+        60_000,
+        50_000,
+        "BTC",
+        "USD",
+        "spot",
+        "long",
+        0.001,
+        0.0001,
+      );
+
+      expect(result.positionQuantity).toBe(0.0001);
+      expect(result.meetsMinimumOrder).toBe(false);
     });
   });
 
   describe("dollar-cost averaging", () => {
+    it("generates exact weekly dates including the end date", () => {
+      expect(
+        generatePurchaseSchedule("2026-09-09", "2026-09-30", "weekly"),
+      ).toEqual(["2026-09-09", "2026-09-16", "2026-09-23", "2026-09-30"]);
+    });
+
+    it("clamps monthly purchases to the final day of shorter months", () => {
+      expect(
+        generatePurchaseSchedule("2026-01-31", "2026-04-30", "monthly"),
+      ).toEqual(["2026-01-31", "2026-02-28", "2026-03-31", "2026-04-30"]);
+    });
+
     it("calculates units and average cost across a linear price path", () => {
       const result = calculateDollarCostAveraging(
         "USD",
         "BTC",
         100,
-        1,
         "monthly",
-        3,
+        "2026-01-01",
+        "2026-03-01",
         100,
         200,
       );
@@ -194,9 +238,9 @@ describe("calculator engine", () => {
         "USD",
         "BTC",
         100,
-        1,
         "monthly",
-        1,
+        "2026-01-01",
+        "2026-01-01",
         50_000,
         60_000,
       );
@@ -204,6 +248,8 @@ describe("calculator engine", () => {
       expect(result.units).toBeCloseTo(0.002, 10);
       expect(result.averageCost).toBe(50_000);
       expect(result.endingValue).toBeCloseTo(120, 10);
+      expect(result.firstPurchaseDate).toBe("2026-01-01");
+      expect(result.lastPurchaseDate).toBe("2026-01-01");
     });
   });
 

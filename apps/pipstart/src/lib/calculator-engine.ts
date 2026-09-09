@@ -3,6 +3,8 @@ import { instruments } from "../app/tools/position-size-calculator/instruments";
 export type TradeDirection = "long" | "short";
 export type DrawdownUnit = "amount" | "percent";
 export type ContributionTiming = "end" | "start";
+export type CryptoTradingMode = "spot" | "leveraged";
+export type DollarCostAveragingFrequency = "weekly" | "biweekly" | "monthly";
 
 function getInstrument(instrumentLabel: string) {
   const instrument = instruments.find(
@@ -175,34 +177,116 @@ export function calculateCryptoPositionSize(
   stopLossPrice: number,
   asset: string,
   accountCurrency: string,
+  tradingMode: CryptoTradingMode,
+  direction: TradeDirection,
+  minimumOrderQuantity: number,
+  quantityStep: number,
 ) {
   const riskAmount = balance * (riskPercent / 100);
   const riskPerCoin = Math.abs(entryPrice - stopLossPrice);
-  const positionQuantity = riskAmount / riskPerCoin;
+  const riskSizedQuantity = riskAmount / riskPerCoin;
+  const affordableMaximum =
+    tradingMode === "spot" ? balance / entryPrice : null;
+  const unroundedQuantity =
+    affordableMaximum === null
+      ? riskSizedQuantity
+      : Math.min(riskSizedQuantity, affordableMaximum);
+  const positionQuantity =
+    Math.floor((unroundedQuantity + Number.EPSILON) / quantityStep) *
+    quantityStep;
 
   return {
     accountCurrency,
+    affordableMaximum,
     asset,
     balance,
+    cappedByBalance:
+      affordableMaximum !== null && affordableMaximum < riskSizedQuantity,
+    direction,
+    meetsMinimumOrder: positionQuantity >= minimumOrderQuantity,
+    minimumOrderQuantity,
     positionQuantity,
     positionValue: positionQuantity * entryPrice,
+    quantityStep,
     riskAmount,
     riskPerCoin,
+    riskSizedQuantity,
     stopDistancePercent: (riskPerCoin / entryPrice) * 100,
+    tradingMode,
   };
+}
+
+function parseUtcDate(date: string): Date {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    throw new Error("Invalid calendar date.");
+  }
+
+  const parsed = new Date(`${date}T00:00:00.000Z`);
+  if (
+    !Number.isFinite(parsed.getTime()) ||
+    parsed.toISOString().slice(0, 10) !== date
+  ) {
+    throw new Error("Invalid calendar date.");
+  }
+
+  return parsed;
+}
+
+function addUtcMonths(date: Date, months: number, preferredDay: number): Date {
+  const target = new Date(
+    Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + months, 1),
+  );
+  const lastDay = new Date(
+    Date.UTC(target.getUTCFullYear(), target.getUTCMonth() + 1, 0),
+  ).getUTCDate();
+  target.setUTCDate(Math.min(preferredDay, lastDay));
+  return target;
+}
+
+export function generatePurchaseSchedule(
+  firstPurchaseDate: string,
+  planEndDate: string,
+  purchaseFrequency: DollarCostAveragingFrequency,
+): string[] {
+  const start = parseUtcDate(firstPurchaseDate);
+  const end = parseUtcDate(planEndDate);
+  if (end < start) return [];
+
+  const dates: string[] = [];
+  const preferredDay = start.getUTCDate();
+  let current = new Date(start);
+  let monthIndex = 0;
+
+  while (current <= end && dates.length < 2_400) {
+    dates.push(current.toISOString().slice(0, 10));
+    if (purchaseFrequency === "monthly") {
+      monthIndex += 1;
+      current = addUtcMonths(start, monthIndex, preferredDay);
+    } else {
+      const days = purchaseFrequency === "biweekly" ? 14 : 7;
+      current = new Date(current.getTime() + days * 86_400_000);
+    }
+  }
+
+  return dates;
 }
 
 export function calculateDollarCostAveraging(
   accountCurrency: string,
   assetSymbol: string,
   investmentPerPurchase: number,
-  purchasesPerMonth: number,
-  purchaseFrequency: string,
-  durationMonths: number,
+  purchaseFrequency: DollarCostAveragingFrequency,
+  firstPurchaseDate: string,
+  planEndDate: string,
   startingPrice: number,
   endingPrice: number,
 ) {
-  const purchaseCount = durationMonths * purchasesPerMonth;
+  const purchaseDates = generatePurchaseSchedule(
+    firstPurchaseDate,
+    planEndDate,
+    purchaseFrequency,
+  );
+  const purchaseCount = purchaseDates.length;
   let units = 0;
 
   for (let index = 0; index < purchaseCount; index += 1) {
@@ -217,11 +301,14 @@ export function calculateDollarCostAveraging(
   return {
     accountCurrency,
     assetSymbol,
-    averageCost: totalContributed / units,
+    averageCost: units > 0 ? totalContributed / units : 0,
     endingValue,
+    firstPurchaseDate: purchaseDates[0] ?? null,
     illustratedDifference: endingValue - totalContributed,
     investmentPerPurchase,
+    lastPurchaseDate: purchaseDates.at(-1) ?? null,
     purchaseCount,
+    purchaseDates,
     purchaseFrequency,
     totalContributed,
     units,
