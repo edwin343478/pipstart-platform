@@ -1,0 +1,53 @@
+.page {
+  min-height: 100vh;
+  background: #f5f7f8;
+  color: #0b1220;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2.75rem;
+  border-bottom: 1px solid #d9e0e5;
+  background: #fff;
+}
+
+.brand {
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.header span {
+  color: #0f766e;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.main {
+  width: min(100%, 40rem);
+  margin: 0 auto;
+  padding: 2.5rem 3.5rem 3rem;
+}
+
+.footer {
+  padding: 1rem 2.75rem;
+  border-top: 1px solid #d9e0e5;
+  background: #fff;
+  color: #667085;
+  font-size: 0.6875rem;
+}
+
+@media (max-width: 640px) {
+  .header,
+  .footer {
+    padding-inline: 1.25rem;
+  }
+
+  .main {
+    width: 100%;
+    padding: 2.5rem 1.25rem 3rem;
+  }
+}

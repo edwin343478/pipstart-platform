@@ -134,14 +134,12 @@ export default function Home() {
       <footer className={styles.footer}>
         <span>PipStart · pipstart.net</span>
         <nav aria-label="Footer navigation">
-          <a href="https://skillcima.com/about">About</a>
-          <a href="https://skillcima.com/contact">Contact</a>
-          <a href="https://skillcima.com/legal/privacy-policy">Privacy</a>
-          <a href="https://skillcima.com/legal/terms">Terms</a>
-          <a href="https://skillcima.com/legal/cookie-policy">Cookies</a>
-          <a href="https://skillcima.com/legal/risk-disclaimer">
-            Risk disclaimer
-          </a>
+          <Link href="/about">About</Link>
+          <Link href="/contact">Contact</Link>
+          <Link href="/legal/privacy-policy">Privacy</Link>
+          <Link href="/legal/terms">Terms</Link>
+          <Link href="/legal/cookie-policy">Cookies</Link>
+          <Link href="/legal/risk-disclaimer">Risk disclaimer</Link>
         </nav>
       </footer>
     </main>
