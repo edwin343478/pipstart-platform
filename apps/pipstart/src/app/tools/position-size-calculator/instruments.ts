@@ -1,7 +1,12 @@
 export type Instrument = {
+  baseCurrency: string;
   contractSize: number;
   label: string;
+  minimumVolume: number;
   pipSize: number;
+  quoteCurrency: string;
+  specificationNote: string;
+  volumeStep: number;
 };
 
 export type InstrumentGroup = {
@@ -10,10 +15,18 @@ export type InstrumentGroup = {
 };
 
 function forex(label: string): Instrument {
+  const [baseCurrency, quoteCurrency] = label.split("/");
+
   return {
+    baseCurrency,
     label,
     pipSize: label.endsWith("/JPY") ? 0.01 : 0.0001,
     contractSize: 100_000,
+    minimumVolume: 0.01,
+    quoteCurrency,
+    specificationNote:
+      "Common educational convention. Confirm pip, contract and volume specifications with your broker.",
+    volumeStep: 0.01,
   };
 }
 
@@ -30,6 +43,9 @@ export const accountCurrencies = [
   "CAD",
   "AUD",
   "NZD",
+  "TZS",
+  "KES",
+  "GHS",
 ] as const;
 
 export const instrumentGroups: InstrumentGroup[] = [
@@ -113,8 +129,28 @@ export const instrumentGroups: InstrumentGroup[] = [
   {
     label: "Metals",
     instruments: [
-      { label: "XAU/USD", pipSize: 0.01, contractSize: 100 },
-      { label: "XAG/USD", pipSize: 0.001, contractSize: 5_000 },
+      {
+        baseCurrency: "XAU",
+        contractSize: 100,
+        label: "XAU/USD",
+        minimumVolume: 0.01,
+        pipSize: 0.01,
+        quoteCurrency: "USD",
+        specificationNote:
+          "Illustrative metal specification. Confirm contract and volume details with your broker.",
+        volumeStep: 0.01,
+      },
+      {
+        baseCurrency: "XAG",
+        contractSize: 5_000,
+        label: "XAG/USD",
+        minimumVolume: 0.01,
+        pipSize: 0.001,
+        quoteCurrency: "USD",
+        specificationNote:
+          "Illustrative metal specification. Confirm contract and volume details with your broker.",
+        volumeStep: 0.01,
+      },
     ],
   },
 ];

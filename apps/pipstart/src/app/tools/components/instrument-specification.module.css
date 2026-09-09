@@ -1,0 +1,42 @@
+.specification {
+  grid-column: 1 / -1;
+  margin-top: -0.25rem;
+  border: 1px solid #d9e0e5;
+  border-radius: 0.625rem;
+  background: #fff;
+  padding: 0.8rem 1rem;
+}
+
+.specification dl {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.specification dt {
+  color: #8a93a0;
+  font-size: 0.625rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.specification dd {
+  margin: 0.2rem 0 0;
+  color: #0b1220;
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.specification p {
+  margin: 0.65rem 0 0;
+  color: #667085;
+  font-size: 0.6875rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 640px) {
+  .specification dl {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

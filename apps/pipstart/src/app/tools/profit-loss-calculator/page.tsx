@@ -6,7 +6,10 @@ import { FormEvent, useState } from "react";
 import {
   accountCurrencies,
   instrumentGroups,
+  instruments,
 } from "../position-size-calculator/instruments";
+import ConversionRateField from "../components/conversion-rate-field";
+import InstrumentSpecification from "../components/instrument-specification";
 import {
   calculateProfitLoss,
   type ProfitLossResult,
@@ -30,6 +33,8 @@ export default function ProfitLossCalculatorPage() {
   const [result, setResult] = useState<ProfitLossResult>(() =>
     calculateProfitLoss("long", "EUR/USD", 1, 1.1, 1.105, 1, "USD"),
   );
+  const selectedInstrument =
+    instruments.find((item) => item.label === instrument) ?? instruments[0];
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -98,6 +103,7 @@ export default function ProfitLossCalculatorPage() {
                 ))}
               </select>
             </label>
+            <InstrumentSpecification instrument={selectedInstrument} />
             <label>
               <span>Trade direction</span>
               <select
@@ -161,21 +167,12 @@ export default function ProfitLossCalculatorPage() {
                 onChange={(event) => setExitPrice(event.target.value)}
               />
             </label>
-            <label>
-              <span>Quote-to-account conversion rate</span>
-              <input
-                type="number"
-                min="0.000001"
-                step="any"
-                inputMode="decimal"
-                value={conversionRate}
-                onChange={(event) => setConversionRate(event.target.value)}
-              />
-              <small>
-                Use 1 when the instrument&apos;s quote currency matches your
-                account currency.
-              </small>
-            </label>
+            <ConversionRateField
+              accountCurrency={accountCurrency}
+              onChange={setConversionRate}
+              quoteCurrency={selectedInstrument.quoteCurrency}
+              value={conversionRate}
+            />
           </div>
 
           {error ? (

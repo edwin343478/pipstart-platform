@@ -3,7 +3,13 @@
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 
-import { accountCurrencies, instrumentGroups } from "./instruments";
+import ConversionRateField from "../components/conversion-rate-field";
+import InstrumentSpecification from "../components/instrument-specification";
+import {
+  accountCurrencies,
+  instrumentGroups,
+  instruments,
+} from "./instruments";
 import {
   calculatePositionSize,
   type PositionSizeResult,
@@ -21,6 +27,8 @@ export default function PositionSizeCalculatorPage() {
   const [result, setResult] = useState<PositionSizeResult>(() =>
     calculatePositionSize(1000, 1, 25, 1, "EUR/USD", "USD"),
   );
+  const selectedInstrument =
+    instruments.find((item) => item.label === instrument) ?? instruments[0];
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -140,21 +148,13 @@ export default function PositionSizeCalculatorPage() {
                 ))}
               </select>
             </label>
-            <label>
-              <span>Quote-to-account conversion rate</span>
-              <input
-                type="number"
-                min="0.000001"
-                step="any"
-                inputMode="decimal"
-                value={conversionRate}
-                onChange={(event) => setConversionRate(event.target.value)}
-              />
-              <small>
-                Use 1 when the instrument&apos;s quote currency matches your
-                account currency.
-              </small>
-            </label>
+            <InstrumentSpecification instrument={selectedInstrument} />
+            <ConversionRateField
+              accountCurrency={accountCurrency}
+              onChange={setConversionRate}
+              quoteCurrency={selectedInstrument.quoteCurrency}
+              value={conversionRate}
+            />
           </div>
 
           {error ? (

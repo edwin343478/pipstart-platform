@@ -1,0 +1,83 @@
+.field {
+  min-width: 0;
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.4rem;
+}
+
+.labelRow label {
+  color: #667085;
+  font-size: 0.8125rem;
+}
+
+.modeButton {
+  border: 0;
+  background: transparent;
+  color: #0f766e;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  padding: 0;
+}
+
+.modeButton:hover,
+.modeButton:focus-visible {
+  color: #115e59;
+  text-decoration: underline;
+}
+
+.modeButton:disabled {
+  color: #8a93a0;
+  cursor: not-allowed;
+}
+
+.field input {
+  width: 100%;
+  border: 1px solid #d9e0e5;
+  border-radius: 0.5rem;
+  outline: 0;
+  background: #fff;
+  color: #0b1220;
+  font: inherit;
+  padding: 0.75rem 0.875rem;
+}
+
+.field input:read-only {
+  background: #f8fafb;
+}
+
+.field input:focus {
+  border-color: #0f766e;
+  box-shadow: 0 0 0 3px rgb(15 118 110 / 12%);
+}
+
+.field input[aria-invalid="true"] {
+  border-color: #b42318;
+}
+
+.status {
+  min-height: 2.7rem;
+  margin-top: 0.4rem;
+  color: #667085;
+  font-size: 0.6875rem;
+  line-height: 1.45;
+}
+
+.status strong,
+.status span {
+  display: block;
+}
+
+.status strong {
+  color: #0f766e;
+}
+
+.status strong + span {
+  margin-top: 0.1rem;
+}
