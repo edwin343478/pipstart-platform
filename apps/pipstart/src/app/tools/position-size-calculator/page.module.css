@@ -104,6 +104,18 @@
   box-shadow: 0 0 0 3px rgb(15 118 110 / 12%);
 }
 
+.fields input[aria-invalid="true"],
+.fields select[aria-invalid="true"] {
+  border-color: #b42318;
+  box-shadow: 0 0 0 3px rgb(180 35 24 / 10%);
+}
+
+.fields input[aria-invalid="true"]:focus,
+.fields select[aria-invalid="true"]:focus {
+  border-color: #b42318;
+  box-shadow: 0 0 0 3px rgb(180 35 24 / 14%);
+}
+
 .fields small {
   display: block;
   margin-top: 0.4rem;

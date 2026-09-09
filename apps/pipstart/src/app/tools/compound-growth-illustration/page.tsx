@@ -9,6 +9,13 @@ import {
   type CompoundGrowthResult,
   type ContributionTiming,
 } from "../../../lib/calculator-engine";
+import {
+  type CalculatorFormError,
+  inputErrorProps,
+  safeCalculation,
+  validateNumericFields,
+} from "../calculator-validation";
+import CalculatorError from "../components/calculator-error";
 import styles from "../position-size-calculator/page.module.css";
 
 export default function CompoundGrowthIllustrationPage() {
@@ -19,7 +26,7 @@ export default function CompoundGrowthIllustrationPage() {
   const [growthPerPeriod, setGrowthPerPeriod] = useState("1");
   const [contributionTiming, setContributionTiming] =
     useState<ContributionTiming>("end");
-  const [error, setError] = useState("");
+  const [error, setError] = useState<CalculatorFormError | null>(null);
   const [result, setResult] = useState<CompoundGrowthResult>(() =>
     calculateCompoundGrowth("USD", 1_000, 100, 24, 1, "end"),
   );
@@ -33,30 +40,55 @@ export default function CompoundGrowthIllustrationPage() {
       Number(growthPerPeriod),
     ];
 
-    if (
-      !values.every(Number.isFinite) ||
-      values.some((value) => value < 0) ||
-      values[2] < 1 ||
-      !Number.isInteger(values[2])
-    ) {
-      setError(
-        "Use non-negative amounts and rates, plus a whole number of periods.",
-      );
+    const validationError = validateNumericFields([
+      {
+        field: "startingAmount",
+        label: "starting amount",
+        minimum: 0,
+        value: values[0],
+      },
+      {
+        field: "contribution",
+        label: "contribution per period",
+        minimum: 0,
+        value: values[1],
+      },
+      {
+        field: "periods",
+        label: "number of periods",
+        maximum: 1_200,
+        minimum: 1,
+        value: values[2],
+      },
+      {
+        field: "growth",
+        label: "illustrative growth per period",
+        minimum: 0,
+        value: values[3],
+      },
+    ]);
+    if (validationError) {
+      setError(validationError);
       return;
     }
 
     if (values[0] === 0 && values[1] === 0) {
-      setError("Enter a starting amount, a recurring contribution, or both.");
+      setError({
+        field: "startingAmount",
+        message: "Enter a starting amount, a recurring contribution, or both.",
+      });
       return;
     }
 
-    if (values[2] > 1_200) {
-      setError("Choose no more than 1,200 periods.");
+    if (!Number.isInteger(values[2])) {
+      setError({
+        field: "periods",
+        message: "Number of periods must be a whole number.",
+      });
       return;
     }
 
-    setError("");
-    setResult(
+    const calculation = safeCalculation(() =>
       calculateCompoundGrowth(
         accountCurrency,
         values[0],
@@ -66,6 +98,8 @@ export default function CompoundGrowthIllustrationPage() {
         contributionTiming,
       ),
     );
+    setError(calculation.error);
+    if (calculation.result) setResult(calculation.result);
   }
 
   return (
@@ -106,6 +140,7 @@ export default function CompoundGrowthIllustrationPage() {
             <label>
               <span>Starting amount</span>
               <input
+                {...inputErrorProps(error, "startingAmount")}
                 type="number"
                 min="0"
                 step="0.01"
@@ -117,6 +152,7 @@ export default function CompoundGrowthIllustrationPage() {
             <label>
               <span>Contribution per period</span>
               <input
+                {...inputErrorProps(error, "contribution")}
                 type="number"
                 min="0"
                 step="0.01"
@@ -130,6 +166,7 @@ export default function CompoundGrowthIllustrationPage() {
             <label>
               <span>Number of periods</span>
               <input
+                {...inputErrorProps(error, "periods")}
                 type="number"
                 min="1"
                 max="1200"
@@ -142,6 +179,7 @@ export default function CompoundGrowthIllustrationPage() {
             <label>
               <span>Illustrative growth per period (%)</span>
               <input
+                {...inputErrorProps(error, "growth")}
                 type="number"
                 min="0"
                 step="0.01"
@@ -167,11 +205,7 @@ export default function CompoundGrowthIllustrationPage() {
             </label>
           </div>
 
-          {error ? (
-            <p className={styles.error} role="alert">
-              {error}
-            </p>
-          ) : null}
+          <CalculatorError className={styles.error} error={error} />
           <button type="submit">Calculate</button>
         </form>
 

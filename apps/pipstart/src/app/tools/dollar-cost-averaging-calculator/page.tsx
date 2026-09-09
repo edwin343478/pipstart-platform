@@ -9,6 +9,13 @@ import {
   type DollarCostAveragingFrequency,
 } from "../../../lib/calculator-engine";
 import { cryptoAccountCurrencies, majorCryptoAssets } from "../crypto-options";
+import {
+  type CalculatorFormError,
+  inputErrorProps,
+  safeCalculation,
+  validateNumericFields,
+} from "../calculator-validation";
+import CalculatorError from "../components/calculator-error";
 import styles from "../position-size-calculator/page.module.css";
 
 const frequencies = [
@@ -40,7 +47,7 @@ export default function DollarCostAveragingCalculatorPage() {
   const [planEndDate, setPlanEndDate] = useState(defaults.end);
   const [startingPrice, setStartingPrice] = useState("50000");
   const [endingPrice, setEndingPrice] = useState("60000");
-  const [error, setError] = useState("");
+  const [error, setError] = useState<CalculatorFormError | null>(null);
   const [result, setResult] = useState<DollarCostAveragingResult>(() =>
     calculateDollarCostAveraging(
       "USD",
@@ -62,33 +69,65 @@ export default function DollarCostAveragingCalculatorPage() {
       Number(endingPrice),
     ];
 
-    if (!values.every(Number.isFinite) || values.some((value) => value <= 0)) {
-      setError("Enter values greater than zero in every numeric field.");
+    const validationError = validateNumericFields([
+      {
+        field: "investment",
+        label: "investment per purchase",
+        minimum: 0.01,
+        value: values[0],
+      },
+      {
+        field: "startingPrice",
+        label: "starting asset price",
+        minimum: 0.000001,
+        value: values[1],
+      },
+      {
+        field: "endingPrice",
+        label: "ending asset price",
+        minimum: 0.000001,
+        value: values[2],
+      },
+    ]);
+    if (validationError) {
+      setError(validationError);
       return;
     }
     if (!firstPurchaseDate || !planEndDate || planEndDate < firstPurchaseDate) {
-      setError(
-        "The plan end date must be on or after the first purchase date.",
-      );
+      setError({
+        field: !firstPurchaseDate ? "startDate" : "endDate",
+        message:
+          "The plan end date must be on or after the first purchase date.",
+      });
       return;
     }
 
-    const nextResult = calculateDollarCostAveraging(
-      accountCurrency,
-      assetSymbol,
-      values[0],
-      purchaseFrequency,
-      firstPurchaseDate,
-      planEndDate,
-      values[1],
-      values[2],
+    const calculation = safeCalculation(() =>
+      calculateDollarCostAveraging(
+        accountCurrency,
+        assetSymbol,
+        values[0],
+        purchaseFrequency,
+        firstPurchaseDate,
+        planEndDate,
+        values[1],
+        values[2],
+      ),
     );
+    if (!calculation.result) {
+      setError(calculation.error);
+      return;
+    }
+    const nextResult = calculation.result;
     if (nextResult.purchaseCount >= 2_400) {
-      setError("Choose a date range containing fewer than 2,400 purchases.");
+      setError({
+        field: "endDate",
+        message: "Choose a date range containing fewer than 2,400 purchases.",
+      });
       return;
     }
 
-    setError("");
+    setError(null);
     setResult(nextResult);
   }
 
@@ -143,6 +182,7 @@ export default function DollarCostAveragingCalculatorPage() {
             <label>
               <span>Investment per purchase</span>
               <input
+                {...inputErrorProps(error, "investment")}
                 type="number"
                 min="0.01"
                 step="0.01"
@@ -173,6 +213,7 @@ export default function DollarCostAveragingCalculatorPage() {
             <label>
               <span>First purchase date</span>
               <input
+                {...inputErrorProps(error, "startDate")}
                 type="date"
                 value={firstPurchaseDate}
                 onChange={(event) => setFirstPurchaseDate(event.target.value)}
@@ -181,6 +222,7 @@ export default function DollarCostAveragingCalculatorPage() {
             <label>
               <span>Plan end date</span>
               <input
+                {...inputErrorProps(error, "endDate")}
                 type="date"
                 min={firstPurchaseDate}
                 value={planEndDate}
@@ -190,6 +232,7 @@ export default function DollarCostAveragingCalculatorPage() {
             <label>
               <span>Starting asset price</span>
               <input
+                {...inputErrorProps(error, "startingPrice")}
                 type="number"
                 min="0.000001"
                 step="any"
@@ -201,6 +244,7 @@ export default function DollarCostAveragingCalculatorPage() {
             <label>
               <span>Ending asset price</span>
               <input
+                {...inputErrorProps(error, "endingPrice")}
                 type="number"
                 min="0.000001"
                 step="any"
@@ -215,11 +259,7 @@ export default function DollarCostAveragingCalculatorPage() {
             </label>
           </div>
 
-          {error ? (
-            <p className={styles.error} role="alert">
-              {error}
-            </p>
-          ) : null}
+          <CalculatorError className={styles.error} error={error} />
           <button type="submit">Calculate</button>
         </form>
 

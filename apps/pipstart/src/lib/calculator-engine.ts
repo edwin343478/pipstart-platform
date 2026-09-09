@@ -6,6 +6,18 @@ export type ContributionTiming = "end" | "start";
 export type CryptoTradingMode = "spot" | "leveraged";
 export type DollarCostAveragingFrequency = "weekly" | "biweekly" | "monthly";
 
+export function assertFiniteCalculatorResult<T extends object>(result: T): T {
+  for (const value of Object.values(result)) {
+    if (typeof value === "number" && !Number.isFinite(value)) {
+      throw new RangeError(
+        "The inputs produce a result outside the calculator's safe numeric range.",
+      );
+    }
+  }
+
+  return result;
+}
+
 function getInstrument(instrumentLabel: string) {
   const instrument = instruments.find(
     (candidate) => candidate.label === instrumentLabel,
@@ -28,13 +40,13 @@ export function calculateRiskReward(
   const rewardDistance = Math.abs(targetPrice - entryPrice);
   const ratio = rewardDistance / riskDistance;
 
-  return {
+  return assertFiniteCalculatorResult({
     breakEvenWinRate: 100 / (1 + ratio),
     direction,
     ratio,
     rewardDistance,
     riskDistance,
-  };
+  });
 }
 
 export function calculatePositionSize(
@@ -50,13 +62,13 @@ export function calculatePositionSize(
   const riskPerUnit = stopLoss * instrument.pipSize * conversionRate;
   const positionSize = Math.floor(riskAmount / riskPerUnit);
 
-  return {
+  return assertFiniteCalculatorResult({
     accountCurrency,
     balance,
     positionSize,
     riskAmount,
     lots: positionSize / instrument.contractSize,
-  };
+  });
 }
 
 export function calculatePipValue(
@@ -67,7 +79,7 @@ export function calculatePipValue(
 ) {
   const instrument = getInstrument(instrumentLabel);
 
-  return {
+  return assertFiniteCalculatorResult({
     accountCurrency,
     instrument: instrument.label,
     lots,
@@ -75,7 +87,7 @@ export function calculatePipValue(
     positionSize: lots * instrument.contractSize,
     valuePerPip:
       lots * instrument.contractSize * instrument.pipSize * conversionRate,
-  };
+  });
 }
 
 export function calculateProfitLoss(
@@ -92,7 +104,7 @@ export function calculateProfitLoss(
   const priceMovement = direction === "long" ? rawMovement : -rawMovement;
   const positionSize = lots * instrument.contractSize;
 
-  return {
+  return assertFiniteCalculatorResult({
     accountCurrency,
     direction,
     instrument: instrument.label,
@@ -101,7 +113,7 @@ export function calculateProfitLoss(
     positionSize,
     priceMovement,
     profitLoss: priceMovement * positionSize * conversionRate,
-  };
+  });
 }
 
 export function calculateMargin(
@@ -116,7 +128,7 @@ export function calculateMargin(
   const positionSize = lots * instrument.contractSize;
   const notionalValue = positionSize * marketPrice * conversionRate;
 
-  return {
+  return assertFiniteCalculatorResult({
     accountCurrency,
     instrument: instrument.label,
     leverage,
@@ -125,7 +137,7 @@ export function calculateMargin(
     notionalValue,
     positionSize,
     requiredMargin: notionalValue / leverage,
-  };
+  });
 }
 
 export function calculateDrawdown(
@@ -138,14 +150,14 @@ export function calculateDrawdown(
     drawdownUnit === "percent" ? startingBalance * (drawdown / 100) : drawdown;
   const remainingBalance = startingBalance - amountLost;
 
-  return {
+  return assertFiniteCalculatorResult({
     accountCurrency,
     amountLost,
     drawdownPercent: (amountLost / startingBalance) * 100,
     recoveryPercent: (amountLost / remainingBalance) * 100,
     remainingBalance,
     startingBalance,
-  };
+  });
 }
 
 export function calculateGainRecovery(
@@ -159,7 +171,7 @@ export function calculateGainRecovery(
     Math.log(recoveryTarget / currentBalance) / Math.log(1 + rate),
   );
 
-  return {
+  return assertFiniteCalculatorResult({
     accountCurrency,
     currentBalance,
     gainPerPeriod,
@@ -167,7 +179,7 @@ export function calculateGainRecovery(
     projectedBalance: currentBalance * (1 + rate) ** periods,
     recoveryTarget,
     totalGainNeeded: (recoveryTarget / currentBalance - 1) * 100,
-  };
+  });
 }
 
 export function calculateCryptoPositionSize(
@@ -195,7 +207,7 @@ export function calculateCryptoPositionSize(
     Math.floor((unroundedQuantity + Number.EPSILON) / quantityStep) *
     quantityStep;
 
-  return {
+  return assertFiniteCalculatorResult({
     accountCurrency,
     affordableMaximum,
     asset,
@@ -213,7 +225,7 @@ export function calculateCryptoPositionSize(
     riskSizedQuantity,
     stopDistancePercent: (riskPerCoin / entryPrice) * 100,
     tradingMode,
-  };
+  });
 }
 
 function parseUtcDate(date: string): Date {
@@ -298,7 +310,7 @@ export function calculateDollarCostAveraging(
   const totalContributed = investmentPerPurchase * purchaseCount;
   const endingValue = units * endingPrice;
 
-  return {
+  return assertFiniteCalculatorResult({
     accountCurrency,
     assetSymbol,
     averageCost: units > 0 ? totalContributed / units : 0,
@@ -312,7 +324,7 @@ export function calculateDollarCostAveraging(
     purchaseFrequency,
     totalContributed,
     units,
-  };
+  });
 }
 
 export function calculateCompoundGrowth(
@@ -339,7 +351,7 @@ export function calculateCompoundGrowth(
   const addedContributions = contributionPerPeriod * periods;
   const totalContributed = startingAmount + addedContributions;
 
-  return {
+  return assertFiniteCalculatorResult({
     accountCurrency,
     addedContributions,
     endingBalance,
@@ -348,7 +360,7 @@ export function calculateCompoundGrowth(
     periods,
     startingAmount,
     totalContributed,
-  };
+  });
 }
 
 export type RiskRewardResult = ReturnType<typeof calculateRiskReward>;

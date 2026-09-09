@@ -15,6 +15,13 @@ import {
   type ProfitLossResult,
   type TradeDirection,
 } from "../../../lib/calculator-engine";
+import {
+  type CalculatorFormError,
+  inputErrorProps,
+  safeCalculation,
+  validateNumericFields,
+} from "../calculator-validation";
+import CalculatorError from "../components/calculator-error";
 import styles from "../position-size-calculator/page.module.css";
 
 function signed(value: number, decimals: number): string {
@@ -29,7 +36,7 @@ export default function ProfitLossCalculatorPage() {
   const [entryPrice, setEntryPrice] = useState("1.1000");
   const [exitPrice, setExitPrice] = useState("1.1050");
   const [conversionRate, setConversionRate] = useState("1");
-  const [error, setError] = useState("");
+  const [error, setError] = useState<CalculatorFormError | null>(null);
   const [result, setResult] = useState<ProfitLossResult>(() =>
     calculateProfitLoss("long", "EUR/USD", 1, 1.1, 1.105, 1, "USD"),
   );
@@ -45,17 +52,45 @@ export default function ProfitLossCalculatorPage() {
       Number(conversionRate),
     ];
 
-    if (!values.every(Number.isFinite) || values.some((value) => value <= 0)) {
-      setError("Enter numbers greater than zero in every numeric field.");
+    const validationError = validateNumericFields([
+      {
+        field: "lots",
+        label: "position size",
+        minimum: 0.0001,
+        value: values[0],
+      },
+      {
+        field: "entry",
+        label: "entry price",
+        minimum: 0.000001,
+        value: values[1],
+      },
+      {
+        field: "exit",
+        label: "exit price",
+        minimum: 0.000001,
+        value: values[2],
+      },
+      {
+        field: "conversion",
+        label: "conversion rate",
+        minimum: 0.000001,
+        value: values[3],
+      },
+    ]);
+    if (validationError) {
+      setError(validationError);
       return;
     }
     if (values[1] === values[2]) {
-      setError("Entry price and exit price must be different.");
+      setError({
+        field: "exit",
+        message: "Entry price and exit price must be different.",
+      });
       return;
     }
 
-    setError("");
-    setResult(
+    const calculation = safeCalculation(() =>
       calculateProfitLoss(
         direction,
         instrument,
@@ -66,6 +101,8 @@ export default function ProfitLossCalculatorPage() {
         accountCurrency,
       ),
     );
+    setError(calculation.error);
+    if (calculation.result) setResult(calculation.result);
   }
 
   return (
@@ -137,6 +174,7 @@ export default function ProfitLossCalculatorPage() {
             <label>
               <span>Position size (lots)</span>
               <input
+                {...inputErrorProps(error, "lots")}
                 type="number"
                 min="0.0001"
                 step="0.01"
@@ -148,6 +186,7 @@ export default function ProfitLossCalculatorPage() {
             <label>
               <span>Entry price</span>
               <input
+                {...inputErrorProps(error, "entry")}
                 type="number"
                 min="0.000001"
                 step="any"
@@ -159,6 +198,7 @@ export default function ProfitLossCalculatorPage() {
             <label>
               <span>Exit price</span>
               <input
+                {...inputErrorProps(error, "exit")}
                 type="number"
                 min="0.000001"
                 step="any"
@@ -169,17 +209,14 @@ export default function ProfitLossCalculatorPage() {
             </label>
             <ConversionRateField
               accountCurrency={accountCurrency}
+              error={error}
               onChange={setConversionRate}
               quoteCurrency={selectedInstrument.quoteCurrency}
               value={conversionRate}
             />
           </div>
 
-          {error ? (
-            <p className={styles.error} role="alert">
-              {error}
-            </p>
-          ) : null}
+          <CalculatorError className={styles.error} error={error} />
           <button type="submit">Calculate</button>
         </form>
 

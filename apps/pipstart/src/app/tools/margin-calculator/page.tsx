@@ -14,6 +14,13 @@ import {
   calculateMargin,
   type MarginResult,
 } from "../../../lib/calculator-engine";
+import {
+  type CalculatorFormError,
+  inputErrorProps,
+  safeCalculation,
+  validateNumericFields,
+} from "../calculator-validation";
+import CalculatorError from "../components/calculator-error";
 import styles from "../position-size-calculator/page.module.css";
 
 export default function MarginCalculatorPage() {
@@ -23,7 +30,7 @@ export default function MarginCalculatorPage() {
   const [marketPrice, setMarketPrice] = useState("1.085");
   const [leverage, setLeverage] = useState("100");
   const [conversionRate, setConversionRate] = useState("1");
-  const [error, setError] = useState("");
+  const [error, setError] = useState<CalculatorFormError | null>(null);
   const [result, setResult] = useState<MarginResult>(() =>
     calculateMargin("EUR/USD", 1, 1.085, 100, 1, "USD"),
   );
@@ -39,13 +46,33 @@ export default function MarginCalculatorPage() {
       Number(conversionRate),
     ];
 
-    if (!values.every(Number.isFinite) || values.some((value) => value <= 0)) {
-      setError("Enter numbers greater than zero in every numeric field.");
+    const validationError = validateNumericFields([
+      {
+        field: "lots",
+        label: "position size",
+        minimum: 0.0001,
+        value: values[0],
+      },
+      {
+        field: "price",
+        label: "market price",
+        minimum: 0.000001,
+        value: values[1],
+      },
+      { field: "leverage", label: "leverage", minimum: 1, value: values[2] },
+      {
+        field: "conversion",
+        label: "conversion rate",
+        minimum: 0.000001,
+        value: values[3],
+      },
+    ]);
+    if (validationError) {
+      setError(validationError);
       return;
     }
 
-    setError("");
-    setResult(
+    const calculation = safeCalculation(() =>
       calculateMargin(
         instrument,
         values[0],
@@ -55,6 +82,8 @@ export default function MarginCalculatorPage() {
         accountCurrency,
       ),
     );
+    setError(calculation.error);
+    if (calculation.result) setResult(calculation.result);
   }
 
   return (
@@ -114,6 +143,7 @@ export default function MarginCalculatorPage() {
             <label>
               <span>Position size (lots)</span>
               <input
+                {...inputErrorProps(error, "lots")}
                 type="number"
                 min="0.0001"
                 step="0.01"
@@ -125,6 +155,7 @@ export default function MarginCalculatorPage() {
             <label>
               <span>Market price</span>
               <input
+                {...inputErrorProps(error, "price")}
                 type="number"
                 min="0.000001"
                 step="any"
@@ -148,17 +179,14 @@ export default function MarginCalculatorPage() {
             </label>
             <ConversionRateField
               accountCurrency={accountCurrency}
+              error={error}
               onChange={setConversionRate}
               quoteCurrency={selectedInstrument.quoteCurrency}
               value={conversionRate}
             />
           </div>
 
-          {error ? (
-            <p className={styles.error} role="alert">
-              {error}
-            </p>
-          ) : null}
+          <CalculatorError className={styles.error} error={error} />
           <button type="submit">Calculate</button>
         </form>
 

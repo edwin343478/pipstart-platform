@@ -3,11 +3,13 @@
 import { useEffect, useId, useState } from "react";
 
 import type { ReferenceRate } from "../../../lib/exchange-rate";
+import type { CalculatorFormError } from "../calculator-validation";
 
 import styles from "./conversion-rate-field.module.css";
 
 type ConversionRateFieldProps = {
   accountCurrency: string;
+  error?: CalculatorFormError | null;
   onChange: (value: string) => void;
   quoteCurrency: string;
   value: string;
@@ -17,6 +19,7 @@ type RateStatus = "loading" | "automatic" | "manual" | "error";
 
 export default function ConversionRateField({
   accountCurrency,
+  error,
   onChange,
   quoteCurrency,
   value,
@@ -78,6 +81,7 @@ export default function ConversionRateField({
 
   const automatic = status === "automatic";
   const unavailable = status === "error";
+  const externallyInvalid = error?.field === "conversion";
 
   return (
     <div className={styles.field}>
@@ -95,8 +99,14 @@ export default function ConversionRateField({
         ) : null}
       </div>
       <input
-        aria-describedby={`${descriptionId}-status`}
-        aria-invalid={unavailable && !value ? "true" : undefined}
+        aria-describedby={
+          externallyInvalid
+            ? "calculator-error-conversion"
+            : `${descriptionId}-status`
+        }
+        aria-invalid={
+          unavailable && !value ? "true" : externallyInvalid || undefined
+        }
         id={descriptionId}
         type="number"
         min="0.000001"

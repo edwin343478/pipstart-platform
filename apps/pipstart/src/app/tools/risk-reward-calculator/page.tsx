@@ -8,6 +8,13 @@ import {
   type RiskRewardResult,
   type TradeDirection,
 } from "../../../lib/calculator-engine";
+import {
+  type CalculatorFormError,
+  inputErrorProps,
+  safeCalculation,
+  validateNumericFields,
+} from "../calculator-validation";
+import CalculatorError from "../components/calculator-error";
 import styles from "./page.module.css";
 
 export default function RiskRewardCalculatorPage() {
@@ -15,14 +22,14 @@ export default function RiskRewardCalculatorPage() {
   const [entryPrice, setEntryPrice] = useState("1.1000");
   const [stopLossPrice, setStopLossPrice] = useState("1.0950");
   const [targetPrice, setTargetPrice] = useState("1.1100");
-  const [error, setError] = useState("");
+  const [error, setError] = useState<CalculatorFormError | null>(null);
   const [result, setResult] = useState<RiskRewardResult>(() =>
     calculateRiskReward("long", 1.1, 1.095, 1.11),
   );
 
   function changeDirection(nextDirection: TradeDirection) {
     setDirection(nextDirection);
-    setError("");
+    setError(null);
 
     if (nextDirection === "short") {
       setStopLossPrice("1.1050");
@@ -41,10 +48,24 @@ export default function RiskRewardCalculatorPage() {
     const entry = Number(entryPrice);
     const stop = Number(stopLossPrice);
     const target = Number(targetPrice);
-    const values = [entry, stop, target];
 
-    if (!values.every(Number.isFinite) || values.some((value) => value <= 0)) {
-      setError("Enter numbers greater than zero in every price field.");
+    const validationError = validateNumericFields([
+      { field: "entry", label: "entry price", minimum: 0.000001, value: entry },
+      {
+        field: "stop",
+        label: "stop-loss price",
+        minimum: 0.000001,
+        value: stop,
+      },
+      {
+        field: "target",
+        label: "target price",
+        minimum: 0.000001,
+        value: target,
+      },
+    ]);
+    if (validationError) {
+      setError(validationError);
       return;
     }
 
@@ -54,16 +75,23 @@ export default function RiskRewardCalculatorPage() {
       direction === "short" && stop > entry && target < entry;
 
     if (!hasValidLongPrices && !hasValidShortPrices) {
-      setError(
-        direction === "long"
-          ? "For a long trade, stop loss must be below entry and target above entry."
-          : "For a short trade, stop loss must be above entry and target below entry.",
-      );
+      const stopIsInvalid =
+        direction === "long" ? stop >= entry : stop <= entry;
+      setError({
+        field: stopIsInvalid ? "stop" : "target",
+        message:
+          direction === "long"
+            ? "For a long trade, stop loss must be below entry and target above entry."
+            : "For a short trade, stop loss must be above entry and target below entry.",
+      });
       return;
     }
 
-    setError("");
-    setResult(calculateRiskReward(direction, entry, stop, target));
+    const calculation = safeCalculation(() =>
+      calculateRiskReward(direction, entry, stop, target),
+    );
+    setError(calculation.error);
+    if (calculation.result) setResult(calculation.result);
   }
 
   return (
@@ -105,6 +133,7 @@ export default function RiskRewardCalculatorPage() {
             <label>
               <span>Entry price</span>
               <input
+                {...inputErrorProps(error, "entry")}
                 type="number"
                 min="0.000001"
                 step="any"
@@ -116,6 +145,7 @@ export default function RiskRewardCalculatorPage() {
             <label>
               <span>Stop-loss price</span>
               <input
+                {...inputErrorProps(error, "stop")}
                 type="number"
                 min="0.000001"
                 step="any"
@@ -127,6 +157,7 @@ export default function RiskRewardCalculatorPage() {
             <label>
               <span>Target price</span>
               <input
+                {...inputErrorProps(error, "target")}
                 type="number"
                 min="0.000001"
                 step="any"
@@ -137,11 +168,7 @@ export default function RiskRewardCalculatorPage() {
             </label>
           </div>
 
-          {error ? (
-            <p className={styles.error} role="alert">
-              {error}
-            </p>
-          ) : null}
+          <CalculatorError className={styles.error} error={error} />
           <button type="submit">Calculate</button>
         </form>
 

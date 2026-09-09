@@ -4,7 +4,14 @@ import Link from "next/link";
 import { FormEvent, useState } from "react";
 
 import ConversionRateField from "../components/conversion-rate-field";
+import CalculatorError from "../components/calculator-error";
 import InstrumentSpecification from "../components/instrument-specification";
+import {
+  type CalculatorFormError,
+  inputErrorProps,
+  safeCalculation,
+  validateNumericFields,
+} from "../calculator-validation";
 import {
   accountCurrencies,
   instrumentGroups,
@@ -23,7 +30,7 @@ export default function PositionSizeCalculatorPage() {
   const [stopLoss, setStopLoss] = useState("25");
   const [instrument, setInstrument] = useState("EUR/USD");
   const [conversionRate, setConversionRate] = useState("1");
-  const [error, setError] = useState("");
+  const [error, setError] = useState<CalculatorFormError | null>(null);
   const [result, setResult] = useState<PositionSizeResult>(() =>
     calculatePositionSize(1000, 1, 25, 1, "EUR/USD", "USD"),
   );
@@ -39,17 +46,34 @@ export default function PositionSizeCalculatorPage() {
       Number(conversionRate),
     ];
 
-    if (!values.every(Number.isFinite) || values.some((value) => value <= 0)) {
-      setError("Enter numbers greater than zero in every numeric field.");
-      return;
-    }
-    if (values[1] > 100) {
-      setError("Risk per trade cannot be greater than 100%.");
+    const validationError = validateNumericFields([
+      {
+        field: "balance",
+        label: "account balance",
+        minimum: 0.01,
+        value: values[0],
+      },
+      {
+        field: "risk",
+        label: "risk per trade",
+        minimum: 0.01,
+        maximum: 100,
+        value: values[1],
+      },
+      { field: "stop", label: "stop loss", minimum: 0.1, value: values[2] },
+      {
+        field: "conversion",
+        label: "conversion rate",
+        minimum: 0.000001,
+        value: values[3],
+      },
+    ]);
+    if (validationError) {
+      setError(validationError);
       return;
     }
 
-    setError("");
-    setResult(
+    const calculation = safeCalculation(() =>
       calculatePositionSize(
         values[0],
         values[1],
@@ -59,6 +83,8 @@ export default function PositionSizeCalculatorPage() {
         accountCurrency,
       ),
     );
+    setError(calculation.error);
+    if (calculation.result) setResult(calculation.result);
   }
 
   return (
@@ -99,6 +125,7 @@ export default function PositionSizeCalculatorPage() {
             <label>
               <span>Account balance</span>
               <input
+                {...inputErrorProps(error, "balance")}
                 type="number"
                 min="0.01"
                 step="0.01"
@@ -110,6 +137,7 @@ export default function PositionSizeCalculatorPage() {
             <label>
               <span>Risk per trade (%)</span>
               <input
+                {...inputErrorProps(error, "risk")}
                 type="number"
                 min="0.01"
                 max="100"
@@ -122,6 +150,7 @@ export default function PositionSizeCalculatorPage() {
             <label>
               <span>Stop loss (pips)</span>
               <input
+                {...inputErrorProps(error, "stop")}
                 type="number"
                 min="0.1"
                 step="0.1"
@@ -151,17 +180,14 @@ export default function PositionSizeCalculatorPage() {
             <InstrumentSpecification instrument={selectedInstrument} />
             <ConversionRateField
               accountCurrency={accountCurrency}
+              error={error}
               onChange={setConversionRate}
               quoteCurrency={selectedInstrument.quoteCurrency}
               value={conversionRate}
             />
           </div>
 
-          {error ? (
-            <p className={styles.error} role="alert">
-              {error}
-            </p>
-          ) : null}
+          <CalculatorError className={styles.error} error={error} />
           <button type="submit">Calculate</button>
         </form>
 

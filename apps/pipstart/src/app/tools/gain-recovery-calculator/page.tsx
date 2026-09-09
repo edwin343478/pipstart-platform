@@ -8,6 +8,13 @@ import {
   calculateGainRecovery,
   type GainRecoveryResult,
 } from "../../../lib/calculator-engine";
+import {
+  type CalculatorFormError,
+  inputErrorProps,
+  safeCalculation,
+  validateNumericFields,
+} from "../calculator-validation";
+import CalculatorError from "../components/calculator-error";
 import styles from "../position-size-calculator/page.module.css";
 
 export default function GainRecoveryCalculatorPage() {
@@ -15,7 +22,7 @@ export default function GainRecoveryCalculatorPage() {
   const [currentBalance, setCurrentBalance] = useState("8000");
   const [recoveryTarget, setRecoveryTarget] = useState("10000");
   const [gainPerPeriod, setGainPerPeriod] = useState("5");
-  const [error, setError] = useState("");
+  const [error, setError] = useState<CalculatorFormError | null>(null);
   const [result, setResult] = useState<GainRecoveryResult>(() =>
     calculateGainRecovery(8_000, 10_000, 5, "USD"),
   );
@@ -28,20 +35,45 @@ export default function GainRecoveryCalculatorPage() {
       Number(gainPerPeriod),
     ];
 
-    if (!values.every(Number.isFinite) || values.some((value) => value <= 0)) {
-      setError("Enter values greater than zero in every numeric field.");
+    const validationError = validateNumericFields([
+      {
+        field: "current",
+        label: "current balance",
+        minimum: 0.01,
+        value: values[0],
+      },
+      {
+        field: "target",
+        label: "recovery target",
+        minimum: 0.01,
+        value: values[1],
+      },
+      {
+        field: "gain",
+        label: "planned gain per period",
+        minimum: 0.01,
+        value: values[2],
+      },
+    ]);
+    if (validationError) {
+      setError(validationError);
       return;
     }
 
     if (values[1] <= values[0]) {
-      setError("The recovery target must be greater than the current balance.");
+      setError({
+        field: "target",
+        message:
+          "The recovery target must be greater than the current balance.",
+      });
       return;
     }
 
-    setError("");
-    setResult(
+    const calculation = safeCalculation(() =>
       calculateGainRecovery(values[0], values[1], values[2], accountCurrency),
     );
+    setError(calculation.error);
+    if (calculation.result) setResult(calculation.result);
   }
 
   return (
@@ -82,6 +114,7 @@ export default function GainRecoveryCalculatorPage() {
             <label>
               <span>Current balance</span>
               <input
+                {...inputErrorProps(error, "current")}
                 type="number"
                 min="0.01"
                 step="0.01"
@@ -93,6 +126,7 @@ export default function GainRecoveryCalculatorPage() {
             <label>
               <span>Recovery target</span>
               <input
+                {...inputErrorProps(error, "target")}
                 type="number"
                 min="0.01"
                 step="0.01"
@@ -104,6 +138,7 @@ export default function GainRecoveryCalculatorPage() {
             <label>
               <span>Planned gain per period (%)</span>
               <input
+                {...inputErrorProps(error, "gain")}
                 type="number"
                 min="0.01"
                 step="0.01"
@@ -117,11 +152,7 @@ export default function GainRecoveryCalculatorPage() {
             </label>
           </div>
 
-          {error ? (
-            <p className={styles.error} role="alert">
-              {error}
-            </p>
-          ) : null}
+          <CalculatorError className={styles.error} error={error} />
           <button type="submit">Calculate</button>
         </form>
 

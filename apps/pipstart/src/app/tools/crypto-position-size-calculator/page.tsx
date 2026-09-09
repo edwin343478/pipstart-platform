@@ -10,6 +10,13 @@ import {
   type TradeDirection,
 } from "../../../lib/calculator-engine";
 import { cryptoAccountCurrencies, majorCryptoAssets } from "../crypto-options";
+import {
+  type CalculatorFormError,
+  inputErrorProps,
+  safeCalculation,
+  validateNumericFields,
+} from "../calculator-validation";
+import CalculatorError from "../components/calculator-error";
 import styles from "./page.module.css";
 
 export default function CryptoPositionSizeCalculatorPage() {
@@ -23,7 +30,7 @@ export default function CryptoPositionSizeCalculatorPage() {
   const [stopLossPrice, setStopLossPrice] = useState("58800");
   const [minimumOrderQuantity, setMinimumOrderQuantity] = useState("0.0001");
   const [quantityStep, setQuantityStep] = useState("0.0001");
-  const [error, setError] = useState("");
+  const [error, setError] = useState<CalculatorFormError | null>(null);
   const [result, setResult] = useState<CryptoPositionSizeResult>(() =>
     calculateCryptoPositionSize(
       1000,
@@ -50,54 +57,105 @@ export default function CryptoPositionSizeCalculatorPage() {
       Number(quantityStep),
     ];
 
-    if (!values.every(Number.isFinite) || values.some((value) => value <= 0)) {
-      setError("Enter numbers greater than zero in every numeric field.");
-      return;
-    }
-    if (values[1] > 100) {
-      setError("Risk per trade cannot be greater than 100%.");
+    const validationError = validateNumericFields([
+      {
+        field: "balance",
+        label: "account balance",
+        minimum: 0.01,
+        value: values[0],
+      },
+      {
+        field: "risk",
+        label: "risk per trade",
+        minimum: 0.01,
+        maximum: 100,
+        value: values[1],
+      },
+      {
+        field: "entry",
+        label: "entry price",
+        minimum: 0.00000001,
+        value: values[2],
+      },
+      {
+        field: "stop",
+        label: "stop-loss price",
+        minimum: 0.00000001,
+        value: values[3],
+      },
+      {
+        field: "minimum",
+        label: "minimum order quantity",
+        minimum: 0.00000001,
+        value: values[4],
+      },
+      {
+        field: "step",
+        label: "quantity step",
+        minimum: 0.00000001,
+        value: values[5],
+      },
+    ]);
+    if (validationError) {
+      setError(validationError);
       return;
     }
     if (values[2] === values[3]) {
-      setError("Entry price and stop-loss price must be different.");
+      setError({
+        field: "stop",
+        message: "Entry price and stop-loss price must be different.",
+      });
       return;
     }
     if (tradingMode === "spot" && direction !== "long") {
-      setError("Spot positions must use the Long / Buy direction.");
+      setError({
+        field: "direction",
+        message: "Spot positions must use the Long / Buy direction.",
+      });
       return;
     }
     if (
       (direction === "long" && values[3] >= values[2]) ||
       (direction === "short" && values[3] <= values[2])
     ) {
-      setError(
-        direction === "long"
-          ? "A long position requires a stop price below the entry price."
-          : "A short position requires a stop price above the entry price.",
-      );
+      setError({
+        field: "stop",
+        message:
+          direction === "long"
+            ? "A long position requires a stop price below the entry price."
+            : "A short position requires a stop price above the entry price.",
+      });
       return;
     }
 
-    const nextResult = calculateCryptoPositionSize(
-      values[0],
-      values[1],
-      values[2],
-      values[3],
-      asset,
-      accountCurrency,
-      tradingMode,
-      direction,
-      values[4],
-      values[5],
+    const calculation = safeCalculation(() =>
+      calculateCryptoPositionSize(
+        values[0],
+        values[1],
+        values[2],
+        values[3],
+        asset,
+        accountCurrency,
+        tradingMode,
+        direction,
+        values[4],
+        values[5],
+      ),
     );
+    if (!calculation.result) {
+      setError(calculation.error);
+      return;
+    }
+    const nextResult = calculation.result;
     if (!nextResult.meetsMinimumOrder) {
-      setError(
-        `The calculated quantity is below the ${minimumOrderQuantity} ${asset} minimum order.`,
-      );
+      setError({
+        field: "minimum",
+        message: `The calculated quantity is below the ${minimumOrderQuantity} ${asset} minimum order.`,
+      });
       return;
     }
 
-    setError("");
+    setError(null);
     setResult(nextResult);
   }
 
@@ -128,6 +186,7 @@ export default function CryptoPositionSizeCalculatorPage() {
             <label>
               <span>Account currency</span>
               <select
+                {...inputErrorProps(error, "direction")}
                 value={accountCurrency}
                 onChange={(event) => setAccountCurrency(event.target.value)}
               >
@@ -173,6 +232,7 @@ export default function CryptoPositionSizeCalculatorPage() {
             <label>
               <span>Account balance</span>
               <input
+                {...inputErrorProps(error, "balance")}
                 type="number"
                 min="0.01"
                 step="0.01"
@@ -184,6 +244,7 @@ export default function CryptoPositionSizeCalculatorPage() {
             <label>
               <span>Risk per trade (%)</span>
               <input
+                {...inputErrorProps(error, "risk")}
                 type="number"
                 min="0.01"
                 max="100"
@@ -209,6 +270,7 @@ export default function CryptoPositionSizeCalculatorPage() {
             <label>
               <span>Minimum order quantity</span>
               <input
+                {...inputErrorProps(error, "minimum")}
                 type="number"
                 min="0.00000001"
                 step="any"
@@ -223,6 +285,7 @@ export default function CryptoPositionSizeCalculatorPage() {
             <label>
               <span>Quantity step</span>
               <input
+                {...inputErrorProps(error, "step")}
                 type="number"
                 min="0.00000001"
                 step="any"
@@ -235,6 +298,7 @@ export default function CryptoPositionSizeCalculatorPage() {
             <label>
               <span>Entry price</span>
               <input
+                {...inputErrorProps(error, "entry")}
                 type="number"
                 min="0.00000001"
                 step="any"
@@ -246,6 +310,7 @@ export default function CryptoPositionSizeCalculatorPage() {
             <label>
               <span>Stop-loss price</span>
               <input
+                {...inputErrorProps(error, "stop")}
                 type="number"
                 min="0.00000001"
                 step="any"
@@ -259,11 +324,7 @@ export default function CryptoPositionSizeCalculatorPage() {
             </label>
           </div>
 
-          {error ? (
-            <p className={styles.error} role="alert">
-              {error}
-            </p>
-          ) : null}
+          <CalculatorError className={styles.error} error={error} />
           <button type="submit">Calculate</button>
         </form>
 

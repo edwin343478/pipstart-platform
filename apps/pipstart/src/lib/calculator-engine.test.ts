@@ -29,6 +29,12 @@ describe("calculator engine", () => {
       expect(result.riskDistance).toBeCloseTo(0.005, 10);
       expect(result.rewardDistance).toBeCloseTo(0.01, 10);
     });
+
+    it("rejects a zero risk distance instead of returning Infinity", () => {
+      expect(() => calculateRiskReward("long", 1.1, 1.1, 1.11)).toThrow(
+        "outside the calculator's safe numeric range",
+      );
+    });
   });
 
   describe("position size", () => {
@@ -57,6 +63,12 @@ describe("calculator engine", () => {
       expect(() =>
         calculatePositionSize(1_000, 1, 25, 1, "UNKNOWN", "USD"),
       ).toThrow("Unsupported instrument.");
+    });
+
+    it("rejects a zero stop distance instead of returning Infinity", () => {
+      expect(() =>
+        calculatePositionSize(1_000, 1, 0, 1, "EUR/USD", "USD"),
+      ).toThrow("outside the calculator's safe numeric range");
     });
   });
 
@@ -129,6 +141,12 @@ describe("calculator engine", () => {
 
       expect(result.drawdownPercent).toBe(50);
       expect(result.recoveryPercent).toBe(100);
+    });
+
+    it("rejects a total loss instead of returning infinite recovery", () => {
+      expect(() => calculateDrawdown(10_000, 100, "percent", "USD")).toThrow(
+        "outside the calculator's safe numeric range",
+      );
     });
   });
 
@@ -273,6 +291,12 @@ describe("calculator engine", () => {
 
       expect(result.endingBalance).toBe(3_400);
       expect(result.illustratedGrowth).toBe(0);
+    });
+
+    it("rejects growth beyond the safe numeric range", () => {
+      expect(() =>
+        calculateCompoundGrowth("USD", Number.MAX_VALUE, 0, 2, 100, "end"),
+      ).toThrow("outside the calculator's safe numeric range");
     });
   });
 });
