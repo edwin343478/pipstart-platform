@@ -62,6 +62,7 @@ export default function Home() {
           PipStart
         </Link>
         <nav className={styles.navigation} aria-label="Primary navigation">
+          <Link href="/start-here">Start Here</Link>
           <Link href="/learn/forex">Learn Forex</Link>
           <Link href="/learn/crypto">Learn Crypto</Link>
           <Link className={styles.analysisLink} href="/analysis">
@@ -73,9 +74,6 @@ export default function Home() {
           <Link href="/glossary">Glossary</Link>
           <Link href="/tools">Tools</Link>
           <Link href="/brokers">Brokers</Link>
-          <Link className={styles.signIn} href="/account/sign-in">
-            Sign in
-          </Link>
         </nav>
       </header>
 

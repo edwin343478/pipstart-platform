@@ -1,0 +1,131 @@
+.eyebrow,
+.pathCard > p {
+  margin: 0;
+  color: #0f766e;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  margin-bottom: 0.75rem;
+}
+
+.eyebrow + h1 {
+  margin: 0 0 1.125rem;
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: 1.875rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.lead {
+  margin: 0 0 2rem;
+  color: #667085;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+
+.pathGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.875rem;
+  margin-bottom: 2.25rem;
+}
+
+.pathCard {
+  border: 1px solid #d9e0e5;
+  border-radius: 0.875rem;
+  background: #fff;
+  padding: 1.25rem 1.375rem;
+}
+
+.pathCard h2 {
+  margin: 0.625rem 0 0.5rem;
+  font-size: 1.0625rem;
+  font-weight: 800;
+}
+
+.pathCard > span {
+  display: block;
+  color: #667085;
+  font-size: 0.8125rem;
+  line-height: 1.65;
+}
+
+.pathCard a {
+  display: inline-block;
+  margin-top: 0.875rem;
+  color: #0f766e;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.pathCard a:hover,
+.pathCard a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+}
+
+.steps > h2 {
+  margin: 0 0 1rem;
+  font-size: 1.1875rem;
+  font-weight: 800;
+}
+
+.steps ol {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.steps li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+}
+
+.steps li > span {
+  display: grid;
+  flex: 0 0 1.75rem;
+  height: 1.75rem;
+  place-items: center;
+  border-radius: 50%;
+  background: #e6f4f1;
+  color: #0f766e;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.steps h3 {
+  margin: 0 0 0.25rem;
+  font-size: 0.9375rem;
+}
+
+.steps p {
+  margin: 0;
+  color: #667085;
+  font-size: 0.8125rem;
+  line-height: 1.65;
+}
+
+.notice {
+  margin-top: 2rem;
+  border: 1px solid #fde68a;
+  border-radius: 0.875rem;
+  background: #fffbeb;
+  color: #92400e;
+  padding: 1rem 1.125rem;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 520px) {
+  .pathGrid {
+    grid-template-columns: 1fr;
+  }
+}

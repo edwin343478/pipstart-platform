@@ -2,14 +2,6 @@ import Link from "next/link";
 
 import styles from "./page.module.css";
 
-function CheckIcon() {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 20 20">
-      <path d="M4 10.5 8 14.5 16 6" />
-    </svg>
-  );
-}
-
 const lessons = [
   { label: "What is Bitcoin?", status: "current" },
   { label: "Blockchain", status: "upcoming" },
@@ -72,19 +64,12 @@ export default function CryptoLevelOnePage() {
             <p>✓ Transactions are recorded on a shared blockchain</p>
           </section>
 
-          <div className={styles.completeAction}>
-            <button type="button">
-              <CheckIcon />
-              Mark complete
-            </button>
-          </div>
-
           <nav
             className={styles.lessonNavigation}
             aria-label="Lesson navigation"
           >
             <span aria-hidden="true" />
-            <Link href="/learn/crypto/level-1/blockchain">Blockchain →</Link>
+            <Link href="/learn/crypto">Return to Crypto path →</Link>
           </nav>
         </article>
       </div>
