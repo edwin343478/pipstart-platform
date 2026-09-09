@@ -55,7 +55,7 @@
   gap: 0.25rem;
 }
 
-.sidebar nav > span {
+.sidebar nav > a {
   display: flex;
   min-height: 2.5rem;
   align-items: center;
@@ -63,6 +63,7 @@
   border-radius: 0.5rem;
   padding: 0.65rem 0.75rem;
   font-size: 0.875rem;
+  text-decoration: none;
   transition:
     background-color 160ms ease,
     box-shadow 160ms ease,
@@ -70,7 +71,7 @@
     transform 160ms ease;
 }
 
-.sidebar nav > span:hover {
+.sidebar nav > a:hover {
   transform: translateX(0.25rem);
 }
 
@@ -235,11 +236,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sidebar nav > span {
+  .sidebar nav > a {
     transition: none;
   }
 
-  .sidebar nav > span:hover {
+  .sidebar nav > a:hover {
     transform: none;
   }
 }
