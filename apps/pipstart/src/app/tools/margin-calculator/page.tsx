@@ -6,51 +6,12 @@ import { FormEvent, useState } from "react";
 import {
   accountCurrencies,
   instrumentGroups,
-  instruments,
 } from "../position-size-calculator/instruments";
+import {
+  calculateMargin,
+  type MarginResult,
+} from "../../../lib/calculator-engine";
 import styles from "../position-size-calculator/page.module.css";
-
-type Result = {
-  accountCurrency: string;
-  instrument: string;
-  leverage: number;
-  lots: number;
-  marginRate: number;
-  notionalValue: number;
-  positionSize: number;
-  requiredMargin: number;
-};
-
-function calculate(
-  instrumentLabel: string,
-  lots: number,
-  marketPrice: number,
-  leverage: number,
-  conversionRate: number,
-  accountCurrency: string,
-): Result {
-  const instrument = instruments.find(
-    (candidate) => candidate.label === instrumentLabel,
-  );
-
-  if (!instrument) {
-    throw new Error("Unsupported instrument.");
-  }
-
-  const positionSize = lots * instrument.contractSize;
-  const notionalValue = positionSize * marketPrice * conversionRate;
-
-  return {
-    accountCurrency,
-    instrument: instrument.label,
-    leverage,
-    lots,
-    marginRate: 100 / leverage,
-    notionalValue,
-    positionSize,
-    requiredMargin: notionalValue / leverage,
-  };
-}
 
 export default function MarginCalculatorPage() {
   const [accountCurrency, setAccountCurrency] = useState("USD");
@@ -60,8 +21,8 @@ export default function MarginCalculatorPage() {
   const [leverage, setLeverage] = useState("100");
   const [conversionRate, setConversionRate] = useState("1");
   const [error, setError] = useState("");
-  const [result, setResult] = useState<Result>(() =>
-    calculate("EUR/USD", 1, 1.085, 100, 1, "USD"),
+  const [result, setResult] = useState<MarginResult>(() =>
+    calculateMargin("EUR/USD", 1, 1.085, 100, 1, "USD"),
   );
 
   function submit(event: FormEvent<HTMLFormElement>) {
@@ -80,7 +41,7 @@ export default function MarginCalculatorPage() {
 
     setError("");
     setResult(
-      calculate(
+      calculateMargin(
         instrument,
         values[0],
         values[1],

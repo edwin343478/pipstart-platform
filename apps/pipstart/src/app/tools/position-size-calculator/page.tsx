@@ -3,49 +3,12 @@
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 
+import { accountCurrencies, instrumentGroups } from "./instruments";
 import {
-  accountCurrencies,
-  instrumentGroups,
-  instruments,
-} from "./instruments";
+  calculatePositionSize,
+  type PositionSizeResult,
+} from "../../../lib/calculator-engine";
 import styles from "./page.module.css";
-
-type Result = {
-  accountCurrency: string;
-  balance: number;
-  lots: number;
-  positionSize: number;
-  riskAmount: number;
-};
-
-function calculate(
-  balance: number,
-  riskPercent: number,
-  stopLoss: number,
-  conversionRate: number,
-  instrumentLabel: string,
-  accountCurrency: string,
-): Result {
-  const instrument = instruments.find(
-    (candidate) => candidate.label === instrumentLabel,
-  );
-
-  if (!instrument) {
-    throw new Error("Unsupported instrument.");
-  }
-
-  const riskAmount = balance * (riskPercent / 100);
-  const riskPerUnit = stopLoss * instrument.pipSize * conversionRate;
-  const positionSize = Math.floor(riskAmount / riskPerUnit);
-
-  return {
-    accountCurrency,
-    balance,
-    positionSize,
-    riskAmount,
-    lots: positionSize / instrument.contractSize,
-  };
-}
 
 export default function PositionSizeCalculatorPage() {
   const [accountCurrency, setAccountCurrency] = useState("USD");
@@ -55,8 +18,8 @@ export default function PositionSizeCalculatorPage() {
   const [instrument, setInstrument] = useState("EUR/USD");
   const [conversionRate, setConversionRate] = useState("1");
   const [error, setError] = useState("");
-  const [result, setResult] = useState<Result>(() =>
-    calculate(1000, 1, 25, 1, "EUR/USD", "USD"),
+  const [result, setResult] = useState<PositionSizeResult>(() =>
+    calculatePositionSize(1000, 1, 25, 1, "EUR/USD", "USD"),
   );
 
   function submit(event: FormEvent<HTMLFormElement>) {
@@ -79,7 +42,7 @@ export default function PositionSizeCalculatorPage() {
 
     setError("");
     setResult(
-      calculate(
+      calculatePositionSize(
         values[0],
         values[1],
         values[2],

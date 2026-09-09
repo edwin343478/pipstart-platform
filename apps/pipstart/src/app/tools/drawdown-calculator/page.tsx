@@ -4,38 +4,12 @@ import Link from "next/link";
 import { FormEvent, useState } from "react";
 
 import { accountCurrencies } from "../position-size-calculator/instruments";
+import {
+  calculateDrawdown,
+  type DrawdownResult,
+  type DrawdownUnit,
+} from "../../../lib/calculator-engine";
 import styles from "../position-size-calculator/page.module.css";
-
-type DrawdownUnit = "amount" | "percent";
-
-type Result = {
-  accountCurrency: string;
-  amountLost: number;
-  drawdownPercent: number;
-  recoveryPercent: number;
-  remainingBalance: number;
-  startingBalance: number;
-};
-
-function calculate(
-  startingBalance: number,
-  drawdown: number,
-  drawdownUnit: DrawdownUnit,
-  accountCurrency: string,
-): Result {
-  const amountLost =
-    drawdownUnit === "percent" ? startingBalance * (drawdown / 100) : drawdown;
-  const remainingBalance = startingBalance - amountLost;
-
-  return {
-    accountCurrency,
-    amountLost,
-    drawdownPercent: (amountLost / startingBalance) * 100,
-    recoveryPercent: (amountLost / remainingBalance) * 100,
-    remainingBalance,
-    startingBalance,
-  };
-}
 
 export default function DrawdownCalculatorPage() {
   const [accountCurrency, setAccountCurrency] = useState("USD");
@@ -43,8 +17,8 @@ export default function DrawdownCalculatorPage() {
   const [drawdown, setDrawdown] = useState("20");
   const [drawdownUnit, setDrawdownUnit] = useState<DrawdownUnit>("percent");
   const [error, setError] = useState("");
-  const [result, setResult] = useState<Result>(() =>
-    calculate(10_000, 20, "percent", "USD"),
+  const [result, setResult] = useState<DrawdownResult>(() =>
+    calculateDrawdown(10_000, 20, "percent", "USD"),
   );
 
   function changeUnit(unit: DrawdownUnit) {
@@ -78,7 +52,12 @@ export default function DrawdownCalculatorPage() {
 
     setError("");
     setResult(
-      calculate(balanceValue, drawdownValue, drawdownUnit, accountCurrency),
+      calculateDrawdown(
+        balanceValue,
+        drawdownValue,
+        drawdownUnit,
+        accountCurrency,
+      ),
     );
   }
 

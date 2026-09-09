@@ -4,56 +4,12 @@ import Link from "next/link";
 import { FormEvent, useState } from "react";
 
 import { accountCurrencies } from "../position-size-calculator/instruments";
+import {
+  calculateCompoundGrowth,
+  type CompoundGrowthResult,
+  type ContributionTiming,
+} from "../../../lib/calculator-engine";
 import styles from "../position-size-calculator/page.module.css";
-
-type ContributionTiming = "end" | "start";
-
-type Result = {
-  accountCurrency: string;
-  addedContributions: number;
-  endingBalance: number;
-  growthPerPeriod: number;
-  illustratedGrowth: number;
-  periods: number;
-  startingAmount: number;
-  totalContributed: number;
-};
-
-function calculate(
-  accountCurrency: string,
-  startingAmount: number,
-  contributionPerPeriod: number,
-  periods: number,
-  growthPerPeriod: number,
-  contributionTiming: ContributionTiming,
-): Result {
-  const rate = growthPerPeriod / 100;
-  let endingBalance = startingAmount;
-
-  for (let index = 0; index < periods; index += 1) {
-    if (contributionTiming === "start") {
-      endingBalance += contributionPerPeriod;
-    }
-    endingBalance *= 1 + rate;
-    if (contributionTiming === "end") {
-      endingBalance += contributionPerPeriod;
-    }
-  }
-
-  const addedContributions = contributionPerPeriod * periods;
-  const totalContributed = startingAmount + addedContributions;
-
-  return {
-    accountCurrency,
-    addedContributions,
-    endingBalance,
-    growthPerPeriod,
-    illustratedGrowth: endingBalance - totalContributed,
-    periods,
-    startingAmount,
-    totalContributed,
-  };
-}
 
 export default function CompoundGrowthIllustrationPage() {
   const [accountCurrency, setAccountCurrency] = useState("USD");
@@ -64,8 +20,8 @@ export default function CompoundGrowthIllustrationPage() {
   const [contributionTiming, setContributionTiming] =
     useState<ContributionTiming>("end");
   const [error, setError] = useState("");
-  const [result, setResult] = useState<Result>(() =>
-    calculate("USD", 1_000, 100, 24, 1, "end"),
+  const [result, setResult] = useState<CompoundGrowthResult>(() =>
+    calculateCompoundGrowth("USD", 1_000, 100, 24, 1, "end"),
   );
 
   function submit(event: FormEvent<HTMLFormElement>) {
@@ -101,7 +57,7 @@ export default function CompoundGrowthIllustrationPage() {
 
     setError("");
     setResult(
-      calculate(
+      calculateCompoundGrowth(
         accountCurrency,
         values[0],
         values[1],

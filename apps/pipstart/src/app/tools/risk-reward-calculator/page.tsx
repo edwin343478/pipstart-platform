@@ -3,61 +3,37 @@
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 
+import {
+  calculateRiskReward,
+  type RiskRewardResult,
+  type TradeDirection,
+} from "../../../lib/calculator-engine";
 import styles from "./page.module.css";
 
-type Direction = "long" | "short";
-
-type Result = {
-  breakEvenWinRate: number;
-  direction: Direction;
-  ratio: number;
-  rewardDistance: number;
-  riskDistance: number;
-};
-
-function calculate(
-  direction: Direction,
-  entryPrice: number,
-  stopLossPrice: number,
-  targetPrice: number,
-): Result {
-  const riskDistance = Math.abs(entryPrice - stopLossPrice);
-  const rewardDistance = Math.abs(targetPrice - entryPrice);
-  const ratio = rewardDistance / riskDistance;
-
-  return {
-    breakEvenWinRate: 100 / (1 + ratio),
-    direction,
-    ratio,
-    rewardDistance,
-    riskDistance,
-  };
-}
-
 export default function RiskRewardCalculatorPage() {
-  const [direction, setDirection] = useState<Direction>("long");
+  const [direction, setDirection] = useState<TradeDirection>("long");
   const [entryPrice, setEntryPrice] = useState("1.1000");
   const [stopLossPrice, setStopLossPrice] = useState("1.0950");
   const [targetPrice, setTargetPrice] = useState("1.1100");
   const [error, setError] = useState("");
-  const [result, setResult] = useState<Result>(() =>
-    calculate("long", 1.1, 1.095, 1.11),
+  const [result, setResult] = useState<RiskRewardResult>(() =>
+    calculateRiskReward("long", 1.1, 1.095, 1.11),
   );
 
-  function changeDirection(nextDirection: Direction) {
+  function changeDirection(nextDirection: TradeDirection) {
     setDirection(nextDirection);
     setError("");
 
     if (nextDirection === "short") {
       setStopLossPrice("1.1050");
       setTargetPrice("1.0900");
-      setResult(calculate("short", 1.1, 1.105, 1.09));
+      setResult(calculateRiskReward("short", 1.1, 1.105, 1.09));
       return;
     }
 
     setStopLossPrice("1.0950");
     setTargetPrice("1.1100");
-    setResult(calculate("long", 1.1, 1.095, 1.11));
+    setResult(calculateRiskReward("long", 1.1, 1.095, 1.11));
   }
 
   function submit(event: FormEvent<HTMLFormElement>) {
@@ -87,7 +63,7 @@ export default function RiskRewardCalculatorPage() {
     }
 
     setError("");
-    setResult(calculate(direction, entry, stop, target));
+    setResult(calculateRiskReward(direction, entry, stop, target));
   }
 
   return (
@@ -119,7 +95,7 @@ export default function RiskRewardCalculatorPage() {
               <select
                 value={direction}
                 onChange={(event) =>
-                  changeDirection(event.target.value as Direction)
+                  changeDirection(event.target.value as TradeDirection)
                 }
               >
                 <option value="long">Long / Buy</option>

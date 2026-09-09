@@ -3,6 +3,10 @@
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 
+import {
+  calculateCryptoPositionSize,
+  type CryptoPositionSizeResult,
+} from "../../../lib/calculator-engine";
 import styles from "./page.module.css";
 
 const accountCurrencies = ["USD", "EUR", "GBP", "TZS", "KES", "GHS"];
@@ -18,41 +22,6 @@ const cryptoAssets = [
   "USDC",
 ];
 
-type Result = {
-  accountCurrency: string;
-  asset: string;
-  balance: number;
-  positionQuantity: number;
-  positionValue: number;
-  riskAmount: number;
-  riskPerCoin: number;
-  stopDistancePercent: number;
-};
-
-function calculate(
-  balance: number,
-  riskPercent: number,
-  entryPrice: number,
-  stopLossPrice: number,
-  asset: string,
-  accountCurrency: string,
-): Result {
-  const riskAmount = balance * (riskPercent / 100);
-  const riskPerCoin = Math.abs(entryPrice - stopLossPrice);
-  const positionQuantity = riskAmount / riskPerCoin;
-
-  return {
-    accountCurrency,
-    asset,
-    balance,
-    positionQuantity,
-    positionValue: positionQuantity * entryPrice,
-    riskAmount,
-    riskPerCoin,
-    stopDistancePercent: (riskPerCoin / entryPrice) * 100,
-  };
-}
-
 export default function CryptoPositionSizeCalculatorPage() {
   const [accountCurrency, setAccountCurrency] = useState("USD");
   const [balance, setBalance] = useState("1000");
@@ -61,8 +30,8 @@ export default function CryptoPositionSizeCalculatorPage() {
   const [entryPrice, setEntryPrice] = useState("60000");
   const [stopLossPrice, setStopLossPrice] = useState("59000");
   const [error, setError] = useState("");
-  const [result, setResult] = useState<Result>(() =>
-    calculate(1000, 1, 60000, 59000, "BTC", "USD"),
+  const [result, setResult] = useState<CryptoPositionSizeResult>(() =>
+    calculateCryptoPositionSize(1000, 1, 60000, 59000, "BTC", "USD"),
   );
 
   function submit(event: FormEvent<HTMLFormElement>) {
@@ -89,7 +58,7 @@ export default function CryptoPositionSizeCalculatorPage() {
 
     setError("");
     setResult(
-      calculate(
+      calculateCryptoPositionSize(
         values[0],
         values[1],
         values[2],

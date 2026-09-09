@@ -6,55 +6,13 @@ import { FormEvent, useState } from "react";
 import {
   accountCurrencies,
   instrumentGroups,
-  instruments,
 } from "../position-size-calculator/instruments";
+import {
+  calculateProfitLoss,
+  type ProfitLossResult,
+  type TradeDirection,
+} from "../../../lib/calculator-engine";
 import styles from "../position-size-calculator/page.module.css";
-
-type Direction = "long" | "short";
-
-type Result = {
-  accountCurrency: string;
-  direction: Direction;
-  instrument: string;
-  lots: number;
-  pipMovement: number;
-  positionSize: number;
-  priceMovement: number;
-  profitLoss: number;
-};
-
-function calculate(
-  direction: Direction,
-  instrumentLabel: string,
-  lots: number,
-  entryPrice: number,
-  exitPrice: number,
-  conversionRate: number,
-  accountCurrency: string,
-): Result {
-  const instrument = instruments.find(
-    (candidate) => candidate.label === instrumentLabel,
-  );
-
-  if (!instrument) {
-    throw new Error("Unsupported instrument.");
-  }
-
-  const rawMovement = exitPrice - entryPrice;
-  const priceMovement = direction === "long" ? rawMovement : -rawMovement;
-  const positionSize = lots * instrument.contractSize;
-
-  return {
-    accountCurrency,
-    direction,
-    instrument: instrument.label,
-    lots,
-    pipMovement: priceMovement / instrument.pipSize,
-    positionSize,
-    priceMovement,
-    profitLoss: priceMovement * positionSize * conversionRate,
-  };
-}
 
 function signed(value: number, decimals: number): string {
   return `${value >= 0 ? "+" : ""}${value.toFixed(decimals)}`;
@@ -62,15 +20,15 @@ function signed(value: number, decimals: number): string {
 
 export default function ProfitLossCalculatorPage() {
   const [accountCurrency, setAccountCurrency] = useState("USD");
-  const [direction, setDirection] = useState<Direction>("long");
+  const [direction, setDirection] = useState<TradeDirection>("long");
   const [instrument, setInstrument] = useState("EUR/USD");
   const [lots, setLots] = useState("1");
   const [entryPrice, setEntryPrice] = useState("1.1000");
   const [exitPrice, setExitPrice] = useState("1.1050");
   const [conversionRate, setConversionRate] = useState("1");
   const [error, setError] = useState("");
-  const [result, setResult] = useState<Result>(() =>
-    calculate("long", "EUR/USD", 1, 1.1, 1.105, 1, "USD"),
+  const [result, setResult] = useState<ProfitLossResult>(() =>
+    calculateProfitLoss("long", "EUR/USD", 1, 1.1, 1.105, 1, "USD"),
   );
 
   function submit(event: FormEvent<HTMLFormElement>) {
@@ -93,7 +51,7 @@ export default function ProfitLossCalculatorPage() {
 
     setError("");
     setResult(
-      calculate(
+      calculateProfitLoss(
         direction,
         instrument,
         values[0],
@@ -145,7 +103,7 @@ export default function ProfitLossCalculatorPage() {
               <select
                 value={direction}
                 onChange={(event) =>
-                  setDirection(event.target.value as Direction)
+                  setDirection(event.target.value as TradeDirection)
                 }
               >
                 <option value="long">Long / Buy</option>

@@ -4,6 +4,10 @@ import Link from "next/link";
 import { FormEvent, useState } from "react";
 
 import { accountCurrencies } from "../position-size-calculator/instruments";
+import {
+  calculateDollarCostAveraging,
+  type DollarCostAveragingResult,
+} from "../../../lib/calculator-engine";
 import styles from "../position-size-calculator/page.module.css";
 
 const assets = [
@@ -21,55 +25,6 @@ const frequencies = [
   { label: "Weekly", purchasesPerMonth: 4 },
 ] as const;
 
-type Result = {
-  accountCurrency: string;
-  assetSymbol: string;
-  averageCost: number;
-  endingValue: number;
-  illustratedDifference: number;
-  investmentPerPurchase: number;
-  purchaseCount: number;
-  purchaseFrequency: string;
-  totalContributed: number;
-  units: number;
-};
-
-function calculate(
-  accountCurrency: string,
-  assetSymbol: string,
-  investmentPerPurchase: number,
-  purchasesPerMonth: number,
-  purchaseFrequency: string,
-  durationMonths: number,
-  startingPrice: number,
-  endingPrice: number,
-): Result {
-  const purchaseCount = durationMonths * purchasesPerMonth;
-  let units = 0;
-
-  for (let index = 0; index < purchaseCount; index += 1) {
-    const progress = purchaseCount === 1 ? 1 : index / (purchaseCount - 1);
-    const price = startingPrice + (endingPrice - startingPrice) * progress;
-    units += investmentPerPurchase / price;
-  }
-
-  const totalContributed = investmentPerPurchase * purchaseCount;
-  const endingValue = units * endingPrice;
-
-  return {
-    accountCurrency,
-    assetSymbol,
-    averageCost: totalContributed / units,
-    endingValue,
-    illustratedDifference: endingValue - totalContributed,
-    investmentPerPurchase,
-    purchaseCount,
-    purchaseFrequency,
-    totalContributed,
-    units,
-  };
-}
-
 export default function DollarCostAveragingCalculatorPage() {
   const [accountCurrency, setAccountCurrency] = useState("USD");
   const [assetSymbol, setAssetSymbol] = useState("BTC");
@@ -79,8 +34,17 @@ export default function DollarCostAveragingCalculatorPage() {
   const [startingPrice, setStartingPrice] = useState("60000");
   const [endingPrice, setEndingPrice] = useState("72000");
   const [error, setError] = useState("");
-  const [result, setResult] = useState<Result>(() =>
-    calculate("USD", "BTC", 100, 1, "monthly", 12, 60_000, 72_000),
+  const [result, setResult] = useState<DollarCostAveragingResult>(() =>
+    calculateDollarCostAveraging(
+      "USD",
+      "BTC",
+      100,
+      1,
+      "monthly",
+      12,
+      60_000,
+      72_000,
+    ),
   );
 
   function submit(event: FormEvent<HTMLFormElement>) {
@@ -122,7 +86,7 @@ export default function DollarCostAveragingCalculatorPage() {
 
     setError("");
     setResult(
-      calculate(
+      calculateDollarCostAveraging(
         accountCurrency,
         assetSymbol,
         values[0],

@@ -6,43 +6,12 @@ import { FormEvent, useState } from "react";
 import {
   accountCurrencies,
   instrumentGroups,
-  instruments,
 } from "../position-size-calculator/instruments";
+import {
+  calculatePipValue,
+  type PipValueResult,
+} from "../../../lib/calculator-engine";
 import styles from "../position-size-calculator/page.module.css";
-
-type Result = {
-  accountCurrency: string;
-  instrument: string;
-  lots: number;
-  pipSize: number;
-  positionSize: number;
-  valuePerPip: number;
-};
-
-function calculate(
-  instrumentLabel: string,
-  lots: number,
-  conversionRate: number,
-  accountCurrency: string,
-): Result {
-  const instrument = instruments.find(
-    (candidate) => candidate.label === instrumentLabel,
-  );
-
-  if (!instrument) {
-    throw new Error("Unsupported instrument.");
-  }
-
-  return {
-    accountCurrency,
-    instrument: instrument.label,
-    lots,
-    pipSize: instrument.pipSize,
-    positionSize: lots * instrument.contractSize,
-    valuePerPip:
-      lots * instrument.contractSize * instrument.pipSize * conversionRate,
-  };
-}
 
 export default function PipValueCalculatorPage() {
   const [accountCurrency, setAccountCurrency] = useState("USD");
@@ -50,8 +19,8 @@ export default function PipValueCalculatorPage() {
   const [lots, setLots] = useState("1");
   const [conversionRate, setConversionRate] = useState("1");
   const [error, setError] = useState("");
-  const [result, setResult] = useState<Result>(() =>
-    calculate("EUR/USD", 1, 1, "USD"),
+  const [result, setResult] = useState<PipValueResult>(() =>
+    calculatePipValue("EUR/USD", 1, 1, "USD"),
   );
 
   function submit(event: FormEvent<HTMLFormElement>) {
@@ -64,7 +33,9 @@ export default function PipValueCalculatorPage() {
     }
 
     setError("");
-    setResult(calculate(instrument, values[0], values[1], accountCurrency));
+    setResult(
+      calculatePipValue(instrument, values[0], values[1], accountCurrency),
+    );
   }
 
   return (

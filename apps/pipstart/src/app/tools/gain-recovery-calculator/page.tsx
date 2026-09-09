@@ -4,39 +4,11 @@ import Link from "next/link";
 import { FormEvent, useState } from "react";
 
 import { accountCurrencies } from "../position-size-calculator/instruments";
+import {
+  calculateGainRecovery,
+  type GainRecoveryResult,
+} from "../../../lib/calculator-engine";
 import styles from "../position-size-calculator/page.module.css";
-
-type Result = {
-  accountCurrency: string;
-  currentBalance: number;
-  gainPerPeriod: number;
-  periods: number;
-  projectedBalance: number;
-  recoveryTarget: number;
-  totalGainNeeded: number;
-};
-
-function calculate(
-  currentBalance: number,
-  recoveryTarget: number,
-  gainPerPeriod: number,
-  accountCurrency: string,
-): Result {
-  const rate = gainPerPeriod / 100;
-  const periods = Math.ceil(
-    Math.log(recoveryTarget / currentBalance) / Math.log(1 + rate),
-  );
-
-  return {
-    accountCurrency,
-    currentBalance,
-    gainPerPeriod,
-    periods,
-    projectedBalance: currentBalance * (1 + rate) ** periods,
-    recoveryTarget,
-    totalGainNeeded: (recoveryTarget / currentBalance - 1) * 100,
-  };
-}
 
 export default function GainRecoveryCalculatorPage() {
   const [accountCurrency, setAccountCurrency] = useState("USD");
@@ -44,8 +16,8 @@ export default function GainRecoveryCalculatorPage() {
   const [recoveryTarget, setRecoveryTarget] = useState("10000");
   const [gainPerPeriod, setGainPerPeriod] = useState("5");
   const [error, setError] = useState("");
-  const [result, setResult] = useState<Result>(() =>
-    calculate(8_000, 10_000, 5, "USD"),
+  const [result, setResult] = useState<GainRecoveryResult>(() =>
+    calculateGainRecovery(8_000, 10_000, 5, "USD"),
   );
 
   function submit(event: FormEvent<HTMLFormElement>) {
@@ -67,7 +39,9 @@ export default function GainRecoveryCalculatorPage() {
     }
 
     setError("");
-    setResult(calculate(values[0], values[1], values[2], accountCurrency));
+    setResult(
+      calculateGainRecovery(values[0], values[1], values[2], accountCurrency),
+    );
   }
 
   return (
