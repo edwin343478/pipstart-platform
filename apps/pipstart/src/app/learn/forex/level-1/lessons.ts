@@ -1,5 +1,5 @@
 export type ForexLesson = {
-  href: string;
+  href: `/${string}`;
   introduction: string;
   keyPoints: string[];
   position: number;

@@ -3,11 +3,24 @@ import { notFound } from "next/navigation";
 
 import { Breadcrumbs } from "../../../components/breadcrumbs";
 import { CompactHeader } from "../../../components/site-chrome";
+import { createDynamicMetadata } from "../../../lib/seo";
 import { analysisPosts, formatPublishedDate } from "../posts";
 import styles from "./page.module.css";
 
 export function generateStaticParams() {
   return analysisPosts.map((post) => ({ slug: post.slug }));
+}
+
+export async function generateMetadata({ params }: AnalysisArticlePageProps) {
+  const { slug } = await params;
+  const post = analysisPosts.find((candidate) => candidate.slug === slug);
+  if (!post) return {};
+
+  return createDynamicMetadata({
+    path: `/analysis/${post.slug}`,
+    title: post.title,
+    description: post.excerpt,
+  });
 }
 
 interface AnalysisArticlePageProps {

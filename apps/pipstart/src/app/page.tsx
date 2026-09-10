@@ -1,6 +1,9 @@
 import Link from "next/link";
 
+import { createPageMetadata } from "../lib/seo";
 import styles from "./page.module.css";
+
+export const metadata = createPageMetadata("/");
 
 function CheckIcon() {
   return (

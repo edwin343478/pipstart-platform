@@ -4,6 +4,9 @@ import { Inter, Manrope } from "next/font/google";
 
 import { pipStartBrand } from "@repo/brand";
 
+import { JsonLd } from "../components/json-ld";
+import { siteUrl } from "../lib/seo";
+
 import "./globals.css";
 
 const bodyFont = Inter({
@@ -19,11 +22,29 @@ const headingFont = Manrope({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: `${pipStartBrand.name} | Forex and Crypto Education`,
     template: `%s | ${pipStartBrand.name}`,
   },
   description: pipStartBrand.description,
+  applicationName: pipStartBrand.name,
+  authors: [{ name: "PipStart", url: siteUrl }],
+  creator: "PipStart",
+  publisher: "PipStart",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: pipStartBrand.name,
+    title: `${pipStartBrand.name} | Forex and Crypto Education`,
+    description: pipStartBrand.description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${pipStartBrand.name} | Forex and Crypto Education`,
+    description: pipStartBrand.description,
+  },
 };
 
 export default function RootLayout({
@@ -33,7 +54,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${bodyFont.variable} ${headingFont.variable}`}>
-      <body>{children}</body>
+      <body>
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "EducationalOrganization",
+            name: pipStartBrand.name,
+            url: siteUrl,
+            description: pipStartBrand.description,
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }
