@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { CompactFooter, CompactHeader } from "../../../components/site-chrome";
 import styles from "./page.module.css";
 
 const cryptoLevels = [
@@ -58,12 +59,7 @@ const cryptoLevels = [
 export default function LearnCryptoPage() {
   return (
     <main className={styles.page}>
-      <header className={styles.header}>
-        <Link href="/" aria-label="PipStart home">
-          PipStart
-        </Link>
-        <span>Learn Crypto</span>
-      </header>
+      <CompactHeader className={styles.header} section="Learn Crypto" />
 
       <section className={styles.introduction}>
         <span>Curriculum</span>
@@ -113,7 +109,7 @@ export default function LearnCryptoPage() {
         </ol>
       </section>
 
-      <footer className={styles.footer}>PipStart · pipstart.net</footer>
+      <CompactFooter className={styles.footer} />
     </main>
   );
 }

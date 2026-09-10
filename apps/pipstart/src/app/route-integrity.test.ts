@@ -130,9 +130,9 @@ describe("PipStart internal route integrity", () => {
       "utf8",
     );
 
-    expect(forexLevel).toContain('href="/learn/forex"');
+    expect(forexLevel).toContain('allLevelsHref="/learn/forex"');
     expect(forexLevel).toContain("All Forex levels");
-    expect(cryptoLevel).toContain('href="/learn/crypto"');
+    expect(cryptoLevel).toContain('allLevelsHref="/learn/crypto"');
     expect(cryptoLevel).toContain("All Crypto levels");
   });
 });

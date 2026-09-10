@@ -1,6 +1,7 @@
 import Image from "next/image";
-import Link from "next/link";
 
+import { AffiliateDisclosure } from "../../components/affiliate-disclosure";
+import { CompactFooter, CompactHeader } from "../../components/site-chrome";
 import styles from "./page.module.css";
 
 const derivAffiliateUrl =
@@ -9,22 +10,17 @@ const derivAffiliateUrl =
 export default function BrokersPage() {
   return (
     <main className={styles.page}>
-      <header className={styles.header}>
-        <Link href="/" aria-label="PipStart home">
-          PipStart
-        </Link>
-        <span>Brokers</span>
-      </header>
+      <CompactHeader className={styles.header} section="Brokers" />
 
       <div className={styles.content}>
         <section className={styles.introduction}>
           <h1>Compare Forex Brokers</h1>
-          <div className={styles.disclosure}>
-            <strong>Affiliate disclosure:</strong> the Deriv link below is an
-            affiliate link. PipStart may receive compensation if you register or
-            use services through it, at no additional cost to you. Compensation
-            does not determine inclusion or future ranking.
-          </div>
+          <AffiliateDisclosure className={styles.disclosure}>
+            the Deriv link below is an affiliate link. PipStart may receive
+            compensation if you register or use services through it, at no
+            additional cost to you. Compensation does not determine inclusion or
+            future ranking.
+          </AffiliateDisclosure>
         </section>
 
         <article className={styles.broker}>
@@ -113,7 +109,7 @@ export default function BrokersPage() {
         </p>
       </div>
 
-      <footer className={styles.footer}>PipStart · pipstart.net</footer>
+      <CompactFooter className={styles.footer} />
     </main>
   );
 }

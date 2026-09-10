@@ -34,11 +34,13 @@ describe("Milestone 6 release acceptance", () => {
 
   it("discloses and safely marks every broker affiliate link", () => {
     const brokers = read("brokers/page.tsx");
+    const disclosure = read("../components/affiliate-disclosure.tsx");
     const affiliateLinks = brokers.match(/href=\{derivAffiliateUrl\}/g) ?? [];
     const sponsoredLinks =
       brokers.match(/rel="sponsored noopener noreferrer"/g) ?? [];
 
-    expect(brokers).toContain("Affiliate disclosure:");
+    expect(brokers).toContain("<AffiliateDisclosure");
+    expect(disclosure).toContain("Affiliate disclosure:");
     expect(affiliateLinks.length).toBeGreaterThan(0);
     expect(sponsoredLinks).toHaveLength(affiliateLinks.length);
   });

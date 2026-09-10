@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { CompactFooter, CompactHeader } from "../../components/site-chrome";
 import styles from "./page.module.css";
 
 type ToolIcon =
@@ -181,12 +182,7 @@ function ToolContent({ tool }: { tool: Tool }) {
 export default function ToolsPage() {
   return (
     <main className={styles.page}>
-      <header className={styles.header}>
-        <Link href="/" aria-label="PipStart home">
-          PipStart
-        </Link>
-        <span>Tools</span>
-      </header>
+      <CompactHeader className={styles.header} section="Tools" />
 
       <section className={styles.introduction}>
         <h1>Trading Calculators</h1>
@@ -213,7 +209,7 @@ export default function ToolsPage() {
         )}
       </section>
 
-      <footer className={styles.footer}>PipStart · pipstart.net</footer>
+      <CompactFooter className={styles.footer} />
     </main>
   );
 }

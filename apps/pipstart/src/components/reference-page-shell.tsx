@@ -1,6 +1,6 @@
-import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { CompactFooter, CompactHeader } from "./site-chrome";
 import styles from "./reference-page-shell.module.css";
 
 type ReferencePageShellProps = {
@@ -14,18 +14,17 @@ export function ReferencePageShell({
 }: ReferencePageShellProps) {
   return (
     <div className={styles.page}>
-      <header className={styles.header}>
-        <Link className={styles.brand} href="/" aria-label="PipStart home">
-          PipStart
-        </Link>
-        <span>{section}</span>
-      </header>
+      <CompactHeader
+        brandClassName={styles.brand}
+        className={styles.header}
+        section={section}
+      />
 
       <main id="main-content" className={styles.main}>
         {children}
       </main>
 
-      <footer className={styles.footer}>PipStart · pipstart.net</footer>
+      <CompactFooter className={styles.footer} />
     </div>
   );
 }

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { Breadcrumbs } from "../../../components/breadcrumbs";
+import { CompactHeader } from "../../../components/site-chrome";
 import { analysisPosts, formatPublishedDate } from "../posts";
 import styles from "./page.module.css";
 
@@ -40,17 +42,16 @@ export default async function AnalysisArticlePage({
 
   return (
     <main className={styles.page}>
-      <header className={styles.header}>
-        <Link href="/" aria-label="PipStart home">
-          PipStart
-        </Link>
-        <span>Analysis</span>
-      </header>
+      <CompactHeader className={styles.header} section="Analysis" />
 
       <article className={styles.article}>
-        <p className={styles.breadcrumb}>
-          <Link href="/analysis">Analysis</Link> / {categoryLabel}
-        </p>
+        <Breadcrumbs
+          className={styles.breadcrumb}
+          items={[
+            { href: "/analysis", label: "Analysis" },
+            { label: categoryLabel },
+          ]}
+        />
 
         <span className={styles.tag}>{post.tag.toUpperCase()}</span>
         <h1>{post.title}</h1>

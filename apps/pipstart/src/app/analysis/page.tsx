@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { Pagination } from "../../components/pagination";
+import { CompactHeader } from "../../components/site-chrome";
 import { FundamentalIcon, TechnicalIcon } from "./icons";
 import {
   analysisPageCopy,
@@ -52,12 +54,7 @@ export default async function AnalysisPage({
 
   return (
     <main className={styles.page}>
-      <header className={styles.header}>
-        <Link href="/" aria-label="PipStart home">
-          PipStart
-        </Link>
-        <span>Analysis</span>
-      </header>
+      <CompactHeader className={styles.header} section="Analysis" />
       <section className={styles.introduction}>
         <h1>{analysisPageCopy.heading}</h1>
         <p>{analysisPageCopy.subheading}</p>
@@ -111,23 +108,22 @@ export default async function AnalysisPage({
           </li>
         ))}
       </ol>
-      <nav className={styles.pagination} aria-label="Analysis archive pages">
-        {currentPage > 1 ? (
-          <Link href={`${categoryHref}&page=${currentPage - 1}`}>
-            ← Previous
-          </Link>
-        ) : (
-          <span aria-disabled="true">← Previous</span>
-        )}
-        <p>
-          Page {currentPage} of {totalPages}
-        </p>
-        {currentPage < totalPages ? (
-          <Link href={`${categoryHref}&page=${currentPage + 1}`}>Next →</Link>
-        ) : (
-          <span aria-disabled="true">Next →</span>
-        )}
-      </nav>
+      <Pagination
+        ariaLabel="Analysis archive pages"
+        className={styles.pagination}
+        currentPage={currentPage}
+        previousHref={
+          currentPage > 1
+            ? `${categoryHref}&page=${currentPage - 1}`
+            : undefined
+        }
+        nextHref={
+          currentPage < totalPages
+            ? `${categoryHref}&page=${currentPage + 1}`
+            : undefined
+        }
+        totalPages={totalPages}
+      />
     </main>
   );
 }

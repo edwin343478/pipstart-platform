@@ -3,6 +3,10 @@
 import Link from "next/link";
 import { useSyncExternalStore } from "react";
 
+import {
+  LearningHeader,
+  LessonNavigation,
+} from "../../../../components/learning-structure";
 import type { ForexLesson } from "./lessons";
 import { forexLessons } from "./lessons";
 import {
@@ -76,17 +80,15 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
 
   return (
     <main className={styles.page}>
-      <header className={styles.header}>
-        <Link className={styles.brand} href="/" aria-label="PipStart home">
-          PipStart
-        </Link>
-        <div className={styles.levelContext}>
-          <Link className={styles.allLevels} href="/learn/forex">
-            ← All Forex levels
-          </Link>
-          <span>Level 1 · Forex Kindergarten</span>
-        </div>
-      </header>
+      <LearningHeader
+        allLevelsClassName={styles.allLevels}
+        allLevelsHref="/learn/forex"
+        allLevelsLabel="All Forex levels"
+        brandClassName={styles.brand}
+        className={styles.header}
+        contextClassName={styles.levelContext}
+        levelLabel="Level 1 · Forex Kindergarten"
+      />
 
       <div className={styles.lessonLayout}>
         <aside
@@ -149,21 +151,19 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
             </button>
           </div>
 
-          <nav
+          <LessonNavigation
             className={styles.lessonNavigation}
-            aria-label="Lesson navigation"
-          >
-            {previousLesson ? (
-              <Link href={previousLesson.href}>← {previousLesson.title}</Link>
-            ) : (
-              <span aria-hidden="true" />
-            )}
-            {nextLesson ? (
-              <Link href={nextLesson.href}>{nextLesson.title} →</Link>
-            ) : (
-              <Link href="/learn/forex">Return to Forex path →</Link>
-            )}
-          </nav>
+            previous={
+              previousLesson
+                ? { href: previousLesson.href, label: previousLesson.title }
+                : undefined
+            }
+            next={
+              nextLesson
+                ? { href: nextLesson.href, label: nextLesson.title }
+                : { href: "/learn/forex", label: "Return to Forex path" }
+            }
+          />
         </article>
       </div>
     </main>

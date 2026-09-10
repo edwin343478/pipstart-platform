@@ -24,9 +24,15 @@ describe("PipStart public and legal pages", () => {
       path.join(appRoot, "../components/reference-page-shell.tsx"),
       "utf8",
     );
+    const siteChrome = fs.readFileSync(
+      path.join(appRoot, "../components/site-chrome.tsx"),
+      "utf8",
+    );
 
-    expect(shell).toContain("PipStart · pipstart.net");
+    expect(shell).toContain("<CompactFooter");
+    expect(siteChrome).toContain("PipStart · pipstart.net");
     expect(shell).not.toContain("Skillcima");
+    expect(siteChrome).not.toContain("Skillcima");
   });
 
   it("redirects the former risk-disclaimer URL permanently", () => {

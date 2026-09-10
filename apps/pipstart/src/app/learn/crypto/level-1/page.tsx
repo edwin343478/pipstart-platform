@@ -1,5 +1,7 @@
-import Link from "next/link";
-
+import {
+  LearningHeader,
+  LessonNavigation,
+} from "../../../../components/learning-structure";
 import styles from "./page.module.css";
 
 const lessons = [
@@ -15,17 +17,15 @@ const lessons = [
 export default function CryptoLevelOnePage() {
   return (
     <main className={styles.page}>
-      <header className={styles.header}>
-        <Link className={styles.brand} href="/" aria-label="PipStart home">
-          PipStart
-        </Link>
-        <div className={styles.levelContext}>
-          <Link className={styles.allLevels} href="/learn/crypto">
-            ← All Crypto levels
-          </Link>
-          <span>Level 1 · Bitcoin</span>
-        </div>
-      </header>
+      <LearningHeader
+        allLevelsClassName={styles.allLevels}
+        allLevelsHref="/learn/crypto"
+        allLevelsLabel="All Crypto levels"
+        brandClassName={styles.brand}
+        className={styles.header}
+        contextClassName={styles.levelContext}
+        levelLabel="Level 1 · Bitcoin"
+      />
 
       <div className={styles.lessonLayout}>
         <aside className={styles.sidebar} aria-label="Bitcoin lessons">
@@ -69,13 +69,10 @@ export default function CryptoLevelOnePage() {
             <p>✓ Transactions are recorded on a shared blockchain</p>
           </section>
 
-          <nav
+          <LessonNavigation
             className={styles.lessonNavigation}
-            aria-label="Lesson navigation"
-          >
-            <span aria-hidden="true" />
-            <Link href="/learn/crypto">Return to Crypto path →</Link>
-          </nav>
+            next={{ href: "/learn/crypto", label: "Return to Crypto path" }}
+          />
         </article>
       </div>
     </main>

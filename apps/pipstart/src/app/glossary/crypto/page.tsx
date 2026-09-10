@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { useMemo, useState } from "react";
 
+import { PageState } from "../../../components/page-state";
+import { CompactFooter, CompactHeader } from "../../../components/site-chrome";
 import styles from "./page.module.css";
 
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
@@ -50,12 +51,7 @@ export default function CryptoGlossaryPage() {
 
   return (
     <main className={styles.page}>
-      <header className={styles.header}>
-        <Link href="/" aria-label="PipStart home">
-          PipStart
-        </Link>
-        <span>Crypto Glossary</span>
-      </header>
+      <CompactHeader className={styles.header} section="Crypto Glossary" />
 
       <section className={styles.introduction}>
         <h1>Crypto Glossary</h1>
@@ -98,13 +94,13 @@ export default function CryptoGlossaryPage() {
             </article>
           ))
         ) : (
-          <p className={styles.emptyState}>
+          <PageState className={styles.emptyState}>
             No terms are available under this filter yet.
-          </p>
+          </PageState>
         )}
       </section>
 
-      <footer className={styles.footer}>PipStart · pipstart.net</footer>
+      <CompactFooter className={styles.footer} />
     </main>
   );
 }
