@@ -3,6 +3,9 @@ packages:
   - "packages/*"
   - "workers/*"
 
+overrides:
+  nanoid: 3.3.18
+
 allowBuilds:
   esbuild: true
   sharp: true
