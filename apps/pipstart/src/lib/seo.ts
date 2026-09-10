@@ -33,6 +33,12 @@ export const seoEntries = [
       "Contact information and support guidance for PipStart learners.",
   },
   {
+    path: "/authors/pipstart-editorial-team",
+    title: "PipStart Editorial Team",
+    description:
+      "Meet the team responsible for maintaining PipStart's educational market content.",
+  },
+  {
     path: "/learn/forex",
     title: "Learn Forex",
     description:

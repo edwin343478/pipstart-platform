@@ -10,7 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
   const articles = analysisPosts.map((post) => ({
     url: new URL(`/analysis/${post.slug}`, siteUrl).href,
-    lastModified: new Date(post.publishedAt),
+    lastModified: new Date(post.reviewedAt),
   }));
   const lessons = forexLessons
     .slice(1)

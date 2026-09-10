@@ -8,6 +8,8 @@ export interface AnalysisPost {
   excerpt: string;
   body: string[];
   publishedAt: string;
+  reviewedAt: string;
+  cluster: AnalysisCategory;
 }
 
 export const analysisPageCopy = {
@@ -38,6 +40,8 @@ export const analysisPosts: AnalysisPost[] = [
       "For a beginner, the useful habit isn't predicting the next move — it's noticing which part of a statement moved the market, and asking why.",
     ],
     publishedAt: "2026-09-06T09:00:00.000Z",
+    reviewedAt: "2026-09-10T09:00:00.000Z",
+    cluster: "fundamental",
   },
   {
     slug: "reading-a-jobs-report",
@@ -52,6 +56,8 @@ export const analysisPosts: AnalysisPost[] = [
       "Waiting for the initial volatility to settle before drawing any conclusion is a habit worth building early.",
     ],
     publishedAt: "2026-09-03T09:00:00.000Z",
+    reviewedAt: "2026-09-10T09:00:00.000Z",
+    cluster: "fundamental",
   },
   {
     slug: "risk-on-risk-off-explained",
@@ -65,6 +71,8 @@ export const analysisPosts: AnalysisPost[] = [
       "Recognizing this pattern helps explain days when unrelated currencies all seem to move together for no obvious individual reason.",
     ],
     publishedAt: "2026-09-01T09:00:00.000Z",
+    reviewedAt: "2026-09-10T09:00:00.000Z",
+    cluster: "fundamental",
   },
   {
     slug: "head-and-shoulders-without-forcing-it",
@@ -78,6 +86,8 @@ export const analysisPosts: AnalysisPost[] = [
       "The common mistake isn't misunderstanding the shape; it's starting to see it in almost every chart once you know what to look for. A pattern is only meaningful with the structure and volume around it to support it.",
     ],
     publishedAt: "2026-09-07T09:00:00.000Z",
+    reviewedAt: "2026-09-10T09:00:00.000Z",
+    cluster: "technical",
   },
   {
     slug: "why-old-support-does-not-always-hold",
@@ -91,6 +101,8 @@ export const analysisPosts: AnalysisPost[] = [
       "As those orders get filled or cancelled, a level's strength genuinely changes — which is why treating any single level as guaranteed is a common early mistake.",
     ],
     publishedAt: "2026-09-05T09:00:00.000Z",
+    reviewedAt: "2026-09-10T09:00:00.000Z",
+    cluster: "technical",
   },
   {
     slug: "higher-highs-higher-lows",
@@ -104,5 +116,7 @@ export const analysisPosts: AnalysisPost[] = [
       "The first warning sign isn't a single red candle — it's a low that fails to clear the prior low, breaking the pattern that defined the trend in the first place.",
     ],
     publishedAt: "2026-09-02T09:00:00.000Z",
+    reviewedAt: "2026-09-10T09:00:00.000Z",
+    cluster: "technical",
   },
 ];

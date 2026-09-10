@@ -2,8 +2,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { Breadcrumbs } from "../../../components/breadcrumbs";
+import { AuthorBox } from "../../../components/author-box";
+import { JsonLd } from "../../../components/json-ld";
 import { CompactHeader } from "../../../components/site-chrome";
-import { createDynamicMetadata } from "../../../lib/seo";
+import { createDynamicMetadata, siteUrl } from "../../../lib/seo";
+import { pipStartEditorialTeam } from "../authors";
 import { analysisPosts, formatPublishedDate } from "../posts";
 import styles from "./page.module.css";
 
@@ -16,11 +19,28 @@ export async function generateMetadata({ params }: AnalysisArticlePageProps) {
   const post = analysisPosts.find((candidate) => candidate.slug === slug);
   if (!post) return {};
 
-  return createDynamicMetadata({
+  const metadata = createDynamicMetadata({
     path: `/analysis/${post.slug}`,
     title: post.title,
     description: post.excerpt,
   });
+
+  return {
+    ...metadata,
+    authors: [
+      {
+        name: pipStartEditorialTeam.name,
+        url: pipStartEditorialTeam.href,
+      },
+    ],
+    openGraph: {
+      ...metadata.openGraph,
+      type: "article",
+      publishedTime: post.publishedAt,
+      modifiedTime: post.reviewedAt,
+      authors: [pipStartEditorialTeam.href],
+    },
+  };
 }
 
 interface AnalysisArticlePageProps {
@@ -45,7 +65,7 @@ export default async function AnalysisArticlePage({
   const related = analysisPosts
     .filter(
       (candidate) =>
-        candidate.category === post.category && candidate.slug !== post.slug,
+        candidate.cluster === post.cluster && candidate.slug !== post.slug,
     )
     .sort(
       (a, b) =>
@@ -55,6 +75,23 @@ export default async function AnalysisArticlePage({
 
   return (
     <main className={styles.page}>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: post.title,
+          description: post.excerpt,
+          datePublished: post.publishedAt,
+          dateModified: post.reviewedAt,
+          mainEntityOfPage: `${siteUrl}/analysis/${post.slug}`,
+          author: {
+            "@type": "Organization",
+            name: pipStartEditorialTeam.name,
+            url: `${siteUrl}${pipStartEditorialTeam.href}`,
+          },
+          publisher: { "@type": "Organization", name: "PipStart" },
+        }}
+      />
       <CompactHeader className={styles.header} section="Analysis" />
 
       <article className={styles.article}>
@@ -73,6 +110,14 @@ export default async function AnalysisArticlePage({
           <time dateTime={post.publishedAt}>
             {formatPublishedDate(post.publishedAt)}
           </time>
+          {" · Reviewed "}
+          <time dateTime={post.reviewedAt}>
+            {formatPublishedDate(post.reviewedAt)}
+          </time>
+          {" · "}
+          <Link href={pipStartEditorialTeam.href}>
+            {pipStartEditorialTeam.name}
+          </Link>
         </p>
 
         <div className={styles.disclosure}>
@@ -84,6 +129,11 @@ export default async function AnalysisArticlePage({
         {post.body.map((paragraph, index) => (
           <p key={index}>{paragraph}</p>
         ))}
+
+        <AuthorBox
+          author={pipStartEditorialTeam}
+          className={styles.authorBox}
+        />
 
         {related.length > 0 && (
           <div className={styles.related}>

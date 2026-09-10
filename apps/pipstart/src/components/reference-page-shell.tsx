@@ -5,7 +5,7 @@ import styles from "./reference-page-shell.module.css";
 
 type ReferencePageShellProps = {
   children: ReactNode;
-  section: "About" | "Contact" | "Legal" | "Start Here";
+  section: "About" | "Authors" | "Contact" | "Legal" | "Start Here";
 };
 
 export function ReferencePageShell({
