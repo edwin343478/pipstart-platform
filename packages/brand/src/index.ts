@@ -40,3 +40,30 @@ export const skillcimaBrand = {
 } as const;
 
 export type BrandTokens = typeof pipStartBrand | typeof skillcimaBrand;
+
+export const interfaceTokens = {
+  radius: {
+    small: "0.5rem",
+    medium: "0.75rem",
+    large: "1rem",
+    pill: "999px",
+  },
+  spacing: {
+    xs: "0.25rem",
+    sm: "0.5rem",
+    md: "1rem",
+    lg: "1.5rem",
+    xl: "2rem",
+  },
+  control: {
+    minimumTargetSize: "2.75rem",
+    focusRingWidth: "2px",
+    focusRingOffset: "2px",
+  },
+  motion: {
+    fast: "160ms",
+    normal: "200ms",
+  },
+} as const;
+
+export type InterfaceTokens = typeof interfaceTokens;
