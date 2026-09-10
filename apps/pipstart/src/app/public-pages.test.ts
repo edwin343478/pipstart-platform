@@ -11,7 +11,7 @@ const routes = [
   "legal/privacy-policy/page.tsx",
   "legal/terms/page.tsx",
   "legal/cookie-policy/page.tsx",
-  "legal/risk-disclaimer/page.tsx",
+  "legal/risk-disclosure/page.tsx",
 ];
 
 describe("PipStart public and legal pages", () => {
@@ -27,5 +27,16 @@ describe("PipStart public and legal pages", () => {
 
     expect(shell).toContain("PipStart · pipstart.net");
     expect(shell).not.toContain("Skillcima");
+  });
+
+  it("redirects the former risk-disclaimer URL permanently", () => {
+    const nextConfig = fs.readFileSync(
+      path.join(appRoot, "../../next.config.ts"),
+      "utf8",
+    );
+
+    expect(nextConfig).toContain('source: "/legal/risk-disclaimer"');
+    expect(nextConfig).toContain('destination: "/legal/risk-disclosure"');
+    expect(nextConfig).toContain("permanent: true");
   });
 });

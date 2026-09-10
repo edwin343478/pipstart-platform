@@ -137,7 +137,7 @@ export default function Home() {
           <Link href="/legal/privacy-policy">Privacy</Link>
           <Link href="/legal/terms">Terms</Link>
           <Link href="/legal/cookie-policy">Cookies</Link>
-          <Link href="/legal/risk-disclaimer">Risk disclaimer</Link>
+          <Link href="/legal/risk-disclosure">Risk disclosure</Link>
         </nav>
       </footer>
     </main>

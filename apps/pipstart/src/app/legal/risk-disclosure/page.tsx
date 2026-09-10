@@ -5,17 +5,17 @@ import { ReferencePageShell } from "@/components/reference-page-shell";
 import styles from "../../public-page.module.css";
 
 export const metadata: Metadata = {
-  title: "Risk Disclaimer",
+  title: "Risk Disclosure",
   description: "Important Forex and cryptocurrency risk information.",
 };
 
-export default function RiskDisclaimerPage() {
+export default function RiskDisclosurePage() {
   return (
     <ReferencePageShell section="Legal">
       <article>
         <p className={styles.eyebrow}>Legal information</p>
         <h1 className={`${styles.title} ${styles.legalTitle}`}>
-          Risk Disclaimer
+          Risk Disclosure
         </h1>
         <p className={styles.updated}>Last updated: 8 September 2026</p>
 

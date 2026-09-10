@@ -63,6 +63,35 @@ describe("PipStart internal route integrity", () => {
     expect(cryptoLesson).not.toContain("/learn/crypto/level-1/blockchain");
   });
 
+  it("does not send first-party navigation to external PipStart or SkillCIMA URLs", () => {
+    const sourceFiles = findFiles(appRoot, /\.tsx$/);
+    const unintendedExternalLinks: string[] = [];
+    const firstPartyUrl =
+      /\bhref\s*[:=]\s*["']https?:\/\/(?:www\.)?(?:pipstart\.net|skillcima\.(?:com|net))(?:[/:"'])/gi;
+
+    for (const sourceFile of sourceFiles) {
+      const source = fs.readFileSync(sourceFile, "utf8");
+
+      if (firstPartyUrl.test(source)) {
+        unintendedExternalLinks.push(path.relative(appRoot, sourceFile));
+      }
+
+      firstPartyUrl.lastIndex = 0;
+    }
+
+    expect(unintendedExternalLinks).toEqual([]);
+  });
+
+  it("uses the canonical risk-disclosure route", () => {
+    const home = fs.readFileSync(path.join(appRoot, "page.tsx"), "utf8");
+
+    expect(home).toContain('href="/legal/risk-disclosure"');
+    expect(home).not.toContain('href="/legal/risk-disclaimer"');
+    expect(
+      fs.existsSync(path.join(appRoot, "legal/risk-disclosure/page.tsx")),
+    ).toBe(true);
+  });
+
   it("links learners to the available Forex level without promising Level 0", () => {
     const home = fs.readFileSync(path.join(appRoot, "page.tsx"), "utf8");
     const forexPath = fs.readFileSync(
