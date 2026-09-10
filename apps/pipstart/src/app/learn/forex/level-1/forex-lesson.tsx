@@ -77,10 +77,15 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
   return (
     <main className={styles.page}>
       <header className={styles.header}>
-        <Link href="/" aria-label="PipStart home">
+        <Link className={styles.brand} href="/" aria-label="PipStart home">
           PipStart
         </Link>
-        <span>Level 1 · Forex Kindergarten</span>
+        <div className={styles.levelContext}>
+          <Link className={styles.allLevels} href="/learn/forex">
+            ← All Forex levels
+          </Link>
+          <span>Level 1 · Forex Kindergarten</span>
+        </div>
       </header>
 
       <div className={styles.lessonLayout}>

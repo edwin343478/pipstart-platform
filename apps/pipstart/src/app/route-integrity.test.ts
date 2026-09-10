@@ -62,4 +62,48 @@ describe("PipStart internal route integrity", () => {
     expect(cryptoLesson).not.toContain("Mark complete");
     expect(cryptoLesson).not.toContain("/learn/crypto/level-1/blockchain");
   });
+
+  it("links learners to the available Forex level without promising Level 0", () => {
+    const home = fs.readFileSync(path.join(appRoot, "page.tsx"), "utf8");
+    const forexPath = fs.readFileSync(
+      path.join(appRoot, "learn/forex/page.tsx"),
+      "utf8",
+    );
+
+    expect(home).toContain('href="/learn/forex/level-1"');
+    expect(home).not.toContain("Start Level 0");
+    expect(forexPath).toContain('href="/learn/forex/level-1"');
+    expect(forexPath).toContain("Available");
+    expect(forexPath).toContain("Coming soon");
+  });
+
+  it("links learners to the available Crypto level without promising Level 0", () => {
+    const home = fs.readFileSync(path.join(appRoot, "page.tsx"), "utf8");
+    const cryptoPath = fs.readFileSync(
+      path.join(appRoot, "learn/crypto/page.tsx"),
+      "utf8",
+    );
+
+    expect(home).toContain('href="/learn/crypto/level-1"');
+    expect(home).not.toContain("Start Level 0");
+    expect(cryptoPath).toContain('href="/learn/crypto/level-1"');
+    expect(cryptoPath).toContain("Available");
+    expect(cryptoPath).toContain("Coming soon");
+  });
+
+  it("provides a return to all levels from both Level 1 experiences", () => {
+    const forexLevel = fs.readFileSync(
+      path.join(appRoot, "learn/forex/level-1/forex-lesson.tsx"),
+      "utf8",
+    );
+    const cryptoLevel = fs.readFileSync(
+      path.join(appRoot, "learn/crypto/level-1/page.tsx"),
+      "utf8",
+    );
+
+    expect(forexLevel).toContain('href="/learn/forex"');
+    expect(forexLevel).toContain("All Forex levels");
+    expect(cryptoLevel).toContain('href="/learn/crypto"');
+    expect(cryptoLevel).toContain("All Crypto levels");
+  });
 });

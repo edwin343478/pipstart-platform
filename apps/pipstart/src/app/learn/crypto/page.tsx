@@ -84,11 +84,30 @@ export default function LearnCryptoPage() {
               <span className={styles.marker} aria-hidden="true">
                 {index}
               </span>
-              <article className={styles.levelCard}>
-                <span>Level {index} of 9</span>
-                <h3>{level.title}</h3>
-                <p>{level.description}</p>
-              </article>
+              {index === 1 ? (
+                <Link
+                  className={`${styles.levelCard} ${styles.availableLevel}`}
+                  href="/learn/crypto/level-1"
+                  aria-label="Start Level 1: Bitcoin"
+                >
+                  <span className={styles.levelMeta}>
+                    <span>Level {index} of 9</span>
+                    <strong>Available</strong>
+                  </span>
+                  <h3>{level.title}</h3>
+                  <p>{level.description}</p>
+                  <span className={styles.startLevel}>Start Level 1 →</span>
+                </Link>
+              ) : (
+                <article className={styles.levelCard}>
+                  <span className={styles.levelMeta}>
+                    <span>Level {index} of 9</span>
+                    <strong>Coming soon</strong>
+                  </span>
+                  <h3>{level.title}</h3>
+                  <p>{level.description}</p>
+                </article>
+              )}
             </li>
           ))}
         </ol>

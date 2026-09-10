@@ -88,11 +88,30 @@ export default function LearnForexPage() {
               <span className={styles.marker} aria-hidden="true">
                 {index}
               </span>
-              <article className={styles.levelCard}>
-                <span>Level {index} of 10</span>
-                <h3>{level.title}</h3>
-                <p>{level.description}</p>
-              </article>
+              {index === 1 ? (
+                <Link
+                  className={`${styles.levelCard} ${styles.availableLevel}`}
+                  href="/learn/forex/level-1"
+                  aria-label="Start Level 1: Forex Kindergarten"
+                >
+                  <span className={styles.levelMeta}>
+                    <span>Level {index} of 10</span>
+                    <strong>Available</strong>
+                  </span>
+                  <h3>{level.title}</h3>
+                  <p>{level.description}</p>
+                  <span className={styles.startLevel}>Start Level 1 →</span>
+                </Link>
+              ) : (
+                <article className={styles.levelCard}>
+                  <span className={styles.levelMeta}>
+                    <span>Level {index} of 10</span>
+                    <strong>Coming soon</strong>
+                  </span>
+                  <h3>{level.title}</h3>
+                  <p>{level.description}</p>
+                </article>
+              )}
             </li>
           ))}
         </ol>

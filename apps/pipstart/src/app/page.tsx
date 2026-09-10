@@ -104,7 +104,7 @@ export default function Home() {
               11 levels, from complete beginner to advanced strategy — at your
               own pace.
             </div>
-            <Link href="/learn/forex">Start Level 0 →</Link>
+            <Link href="/learn/forex/level-1">Start Forex Level 1 →</Link>
           </div>
         </article>
         <article className={styles.glowWrap}>
@@ -115,7 +115,7 @@ export default function Home() {
             <div>
               10 levels covering Bitcoin, wallets, exchanges and DeFi risk.
             </div>
-            <Link href="/learn/crypto">Start Level 0 →</Link>
+            <Link href="/learn/crypto/level-1">Start Crypto Level 1 →</Link>
           </div>
         </article>
       </section>

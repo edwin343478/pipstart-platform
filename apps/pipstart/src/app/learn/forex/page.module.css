@@ -114,26 +114,55 @@
 }
 
 .levelCard {
+  display: block;
   border: 1px solid #d9e0e5;
   border-radius: 1rem;
   background: #fff;
+  color: inherit;
   padding: 1.5rem;
+  text-decoration: none;
+}
+
+.availableLevel {
   transition:
     transform 200ms ease,
     border-color 200ms ease,
     box-shadow 200ms ease;
 }
 
-.levelCard:hover {
+.availableLevel:hover {
   transform: translateY(-0.25rem);
   border-color: rgb(15 118 110 / 60%);
   box-shadow: 0 12px 24px -8px rgb(11 18 32 / 12%);
 }
 
-.levelCard > span {
+.availableLevel:focus-visible {
+  outline: 3px solid rgb(15 118 110 / 35%);
+  outline-offset: 3px;
+}
+
+.levelMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   color: #0f766e;
   font-size: 0.75rem;
   font-weight: 600;
+}
+
+.levelMeta strong {
+  border-radius: 999px;
+  background: #e7f5f2;
+  padding: 0.3rem 0.65rem;
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+article .levelMeta strong {
+  background: #eef1f3;
+  color: #667085;
 }
 
 .levelCard h3 {
@@ -148,6 +177,14 @@
   color: #667085;
   font-size: 0.9375rem;
   line-height: 1.6;
+}
+
+.startLevel {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #0f766e;
+  font-size: 0.875rem;
+  font-weight: 700;
 }
 
 .footer {
@@ -199,11 +236,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .levelCard {
+  .availableLevel {
     transition: none;
   }
 
-  .levelCard:hover {
+  .availableLevel:hover {
     transform: none;
   }
 }

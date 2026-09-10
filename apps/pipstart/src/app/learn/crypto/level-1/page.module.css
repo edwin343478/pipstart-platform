@@ -14,7 +14,7 @@
   background: #fff;
 }
 
-.header a {
+.brand {
   color: #0b1220;
   font-family: var(--font-pipstart-heading), sans-serif;
   font-size: 1.25rem;
@@ -22,9 +22,29 @@
   text-decoration: none;
 }
 
-.header span {
+.levelContext {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.levelContext span {
   color: #667085;
   font-size: 0.875rem;
+}
+
+.allLevels {
+  color: #0f766e;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.allLevels:hover,
+.allLevels:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
 .lessonLayout {
@@ -206,6 +226,10 @@
     flex-direction: column;
     padding-right: 1.25rem;
     padding-left: 1.25rem;
+  }
+
+  .levelContext {
+    align-items: flex-start;
   }
 
   .lessonLayout {

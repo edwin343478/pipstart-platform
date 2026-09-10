@@ -16,10 +16,15 @@ export default function CryptoLevelOnePage() {
   return (
     <main className={styles.page}>
       <header className={styles.header}>
-        <Link href="/" aria-label="PipStart home">
+        <Link className={styles.brand} href="/" aria-label="PipStart home">
           PipStart
         </Link>
-        <span>Level 1 · Bitcoin</span>
+        <div className={styles.levelContext}>
+          <Link className={styles.allLevels} href="/learn/crypto">
+            ← All Crypto levels
+          </Link>
+          <span>Level 1 · Bitcoin</span>
+        </div>
       </header>
 
       <div className={styles.lessonLayout}>
