@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
 type NavigationItem = {
   emphasized?: boolean;
@@ -32,12 +33,40 @@ export function PrimaryNavigation({
   openClassName,
 }: PrimaryNavigationProps) {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const navigationRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+    const handlePointerDown = (event: PointerEvent) => {
+      const target = event.target as Node;
+      if (
+        !navigationRef.current?.contains(target) &&
+        !menuButtonRef.current?.contains(target)
+      )
+        setOpen(false);
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("pointerdown", handlePointerDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("pointerdown", handlePointerDown);
+    };
+  }, [open]);
   const navigationClassName = [className, open ? openClassName : undefined]
     .filter(Boolean)
     .join(" ");
   return (
     <>
       <button
+        ref={menuButtonRef}
         type="button"
         className={menuButtonClassName}
         aria-controls="primary-navigation"
@@ -50,6 +79,7 @@ export function PrimaryNavigation({
         </svg>
       </button>
       <nav
+        ref={navigationRef}
         id="primary-navigation"
         className={navigationClassName}
         aria-label="Primary navigation"
@@ -59,6 +89,7 @@ export function PrimaryNavigation({
             className={item.emphasized ? analysisLinkClassName : undefined}
             href={item.href}
             key={item.href}
+            aria-current={pathname === item.href ? "page" : undefined}
             onClick={() => setOpen(false)}
           >
             {item.label}

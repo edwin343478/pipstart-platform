@@ -109,7 +109,7 @@ a.tool:focus-visible {
 }
 
 .comingSoon svg {
-  stroke: #8a93a0;
+  stroke: #667085;
 }
 
 .comingSoon h2 {
@@ -117,7 +117,7 @@ a.tool:focus-visible {
 }
 
 .comingSoon p {
-  color: #8a93a0;
+  color: #667085;
 }
 
 .footer {
@@ -130,15 +130,15 @@ a.tool:focus-visible {
 
 .mobileSearch,
 .mobileFilters,
-.moreToggle,
 .viewMore {
   display: none;
 }
 .moreTools {
   display: contents;
 }
-.lessLabel {
-  display: none;
+.noResults {
+  grid-column: 1 / -1;
+  text-align: center;
 }
 
 @media (max-width: 767px) {
@@ -183,7 +183,7 @@ a.tool:focus-visible {
   .mobileSearch svg {
     width: 14px;
     fill: none;
-    stroke: #8a93a0;
+    stroke: #667085;
     stroke-width: 1.6;
   }
   .mobileSearch input {
@@ -254,7 +254,7 @@ a.tool:focus-visible {
   .moreTools {
     display: none;
   }
-  .moreToggle:checked + .moreTools {
+  .moreToolsVisible {
     display: contents;
   }
   .viewMore {
@@ -266,12 +266,9 @@ a.tool:focus-visible {
     font-size: 11.5px;
     font-weight: 600;
     text-align: center;
-  }
-  .moreToggle:checked ~ .viewMore .moreLabel {
-    display: none;
-  }
-  .moreToggle:checked ~ .viewMore .lessLabel {
-    display: inline;
+    border: 0;
+    background: transparent;
+    font-family: inherit;
   }
 }
 

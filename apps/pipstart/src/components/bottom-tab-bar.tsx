@@ -15,6 +15,7 @@ const tabs = [
 const hubRoutes = new Set([
   "/",
   "/analysis",
+  "/start-here",
   "/brokers",
   "/glossary",
   "/glossary/crypto",

@@ -49,6 +49,39 @@ describe("Milestone 7 acceptance", () => {
     expect(markup).toContain('aria-expanded="false"');
     expect(markup).toContain('aria-label="Primary navigation"');
   });
+  it("uses operable disclosure controls and functional calculator filters", () => {
+    const toolsPage = fs.readFileSync(
+      path.join(appRoot, "tools/page.tsx"),
+      "utf8",
+    );
+    const forexPage = fs.readFileSync(
+      path.join(appRoot, "learn/forex/page.tsx"),
+      "utf8",
+    );
+    const cryptoPage = fs.readFileSync(
+      path.join(appRoot, "learn/crypto/page.tsx"),
+      "utf8",
+    );
+    for (const source of [toolsPage, forexPage, cryptoPage]) {
+      expect(source).toContain("aria-expanded={expanded}");
+      expect(source).not.toContain('type="checkbox"');
+    }
+    expect(toolsPage).toContain("setQuery(event.target.value)");
+    expect(toolsPage).toContain("setActiveCategory");
+    expect(toolsPage).toContain("filteredTools");
+  });
+  it("keeps Start Here in mobile navigation and avoids the rejected text color", () => {
+    const bottomNavigation = fs.readFileSync(
+      path.resolve(appRoot, "../components/bottom-tab-bar.tsx"),
+      "utf8",
+    );
+    const styles = fs.readFileSync(
+      path.join(appRoot, "page.module.css"),
+      "utf8",
+    );
+    expect(bottomNavigation).toContain('"/start-here"');
+    expect(styles).not.toContain("#8a93a0");
+  });
   it("keeps public metadata unique", () => {
     expect(new Set(seoEntries.map((entry) => entry.path)).size).toBe(
       seoEntries.length,

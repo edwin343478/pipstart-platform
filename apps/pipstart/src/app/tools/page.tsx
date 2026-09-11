@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useMemo, useState } from "react";
 
 import { CompactFooter, CompactHeader } from "../../components/site-chrome";
 import styles from "./page.module.css";
@@ -16,6 +19,7 @@ type ToolIcon =
   | "risk-reward";
 
 type Tool = {
+  category: "crypto" | "position-risk" | "recovery";
   description: string;
   href?: string;
   icon: ToolIcon;
@@ -24,18 +28,21 @@ type Tool = {
 
 const tools: Tool[] = [
   {
+    category: "position-risk",
     name: "Position Size Calculator",
     description: "Find how many units to trade based on your risk per trade.",
     href: "/tools/position-size-calculator",
     icon: "position-size",
   },
   {
+    category: "position-risk",
     name: "Pip Value Calculator",
     description: "See what each pip is worth in your account's currency.",
     href: "/tools/pip-value-calculator",
     icon: "pip-value",
   },
   {
+    category: "position-risk",
     name: "Risk-to-Reward Calculator",
     description:
       "Compare your potential loss against your potential gain before entering.",
@@ -43,42 +50,49 @@ const tools: Tool[] = [
     icon: "risk-reward",
   },
   {
+    category: "position-risk",
     name: "Profit-and-Loss Calculator",
     description: "Estimate the result between your entry and exit prices.",
     href: "/tools/profit-loss-calculator",
     icon: "profit-loss",
   },
   {
+    category: "position-risk",
     name: "Margin Calculator",
     description: "Work out the margin required to open a leveraged position.",
     href: "/tools/margin-calculator",
     icon: "margin",
   },
   {
+    category: "recovery",
     name: "Drawdown Calculator",
     description: "See how much gain is needed to recover from a given loss.",
     href: "/tools/drawdown-calculator",
     icon: "drawdown",
   },
   {
+    category: "recovery",
     name: "Gain-Recovery Calculator",
     description: "Estimate the gain required to recover from a trading loss.",
     href: "/tools/gain-recovery-calculator",
     icon: "gain-recovery",
   },
   {
+    category: "crypto",
     name: "Crypto Position-Size Calculator",
     description: "Size a crypto position using account risk and stop distance.",
     href: "/tools/crypto-position-size-calculator",
     icon: "crypto-position-size",
   },
   {
+    category: "crypto",
     name: "Dollar-Cost-Averaging Calculator",
     description: "Explore recurring crypto purchases across changing prices.",
     href: "/tools/dollar-cost-averaging-calculator",
     icon: "dca",
   },
   {
+    category: "recovery",
     name: "Compound-Growth Illustration",
     description:
       "Explore hypothetical compounding with recurring contributions.",
@@ -180,6 +194,25 @@ function ToolContent({ tool }: { tool: Tool }) {
 }
 
 export default function ToolsPage() {
+  const [activeCategory, setActiveCategory] = useState<
+    "all" | Tool["category"]
+  >("all");
+  const [expanded, setExpanded] = useState(false);
+  const [query, setQuery] = useState("");
+  const filteredTools = useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase();
+    return tools.filter(
+      (tool) =>
+        (activeCategory === "all" || tool.category === activeCategory) &&
+        (!normalizedQuery ||
+          `${tool.name} ${tool.description}`
+            .toLowerCase()
+            .includes(normalizedQuery)),
+    );
+  }, [activeCategory, query]);
+  const showingAll =
+    expanded || activeCategory !== "all" || query.trim() !== "";
+
   return (
     <main className={styles.page}>
       <CompactHeader className={styles.header} section="Tools" />
@@ -196,21 +229,53 @@ export default function ToolsPage() {
             <circle cx="8.5" cy="8.5" r="5.5" />
             <path d="M16 16l-3.5-3.5" />
           </svg>
-          <input type="search" placeholder="Search calculators…" />
+          <input
+            type="search"
+            placeholder="Search calculators…"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+          />
         </label>
       </section>
 
       <div className={styles.mobileFilters} aria-label="Calculator categories">
-        <button type="button" aria-pressed="true">
+        <button
+          type="button"
+          aria-pressed={activeCategory === "all"}
+          onClick={() => setActiveCategory("all")}
+        >
           All
         </button>
-        <button type="button">Position &amp; risk</button>
-        <button type="button">Recovery</button>
-        <button type="button">Crypto</button>
+        <button
+          type="button"
+          aria-pressed={activeCategory === "position-risk"}
+          onClick={() => setActiveCategory("position-risk")}
+        >
+          Position &amp; risk
+        </button>
+        <button
+          type="button"
+          aria-pressed={activeCategory === "recovery"}
+          onClick={() => setActiveCategory("recovery")}
+        >
+          Recovery
+        </button>
+        <button
+          type="button"
+          aria-pressed={activeCategory === "crypto"}
+          onClick={() => setActiveCategory("crypto")}
+        >
+          Crypto
+        </button>
       </div>
 
-      <section className={styles.tools} aria-label="Trading calculators">
-        {tools.slice(0, 4).map((tool) =>
+      <section
+        className={styles.tools}
+        aria-label="Trading calculators"
+        aria-live="polite"
+      >
+        <p className="sr-only">{filteredTools.length} calculators found</p>
+        {filteredTools.slice(0, 4).map((tool) =>
           tool.href ? (
             <Link className={styles.tool} href={tool.href} key={tool.name}>
               <ToolContent tool={tool} />
@@ -224,18 +289,32 @@ export default function ToolsPage() {
             </article>
           ),
         )}
-        <input className={styles.moreToggle} id="more-tools" type="checkbox" />
-        <div className={styles.moreTools}>
-          {tools.slice(4).map((tool) => (
+        <div
+          className={`${styles.moreTools} ${showingAll ? styles.moreToolsVisible : ""}`}
+          id="additional-tools"
+        >
+          {filteredTools.slice(4).map((tool) => (
             <Link className={styles.tool} href={tool.href!} key={tool.name}>
               <ToolContent tool={tool} />
             </Link>
           ))}
         </div>
-        <label className={styles.viewMore} htmlFor="more-tools">
-          <span className={styles.moreLabel}>View more ↓</span>
-          <span className={styles.lessLabel}>View less ↑</span>
-        </label>
+        {filteredTools.length === 0 ? (
+          <p className={styles.noResults}>No calculators match your search.</p>
+        ) : null}
+        {activeCategory === "all" &&
+        !query.trim() &&
+        filteredTools.length > 4 ? (
+          <button
+            className={styles.viewMore}
+            type="button"
+            aria-expanded={expanded}
+            aria-controls="additional-tools"
+            onClick={() => setExpanded((current) => !current)}
+          >
+            {expanded ? "View less ↑" : "View more ↓"}
+          </button>
+        ) : null}
       </section>
 
       <CompactFooter className={styles.footer} />

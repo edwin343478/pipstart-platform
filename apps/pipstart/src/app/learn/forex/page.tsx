@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 
 import { CompactFooter, CompactHeader } from "../../../components/site-chrome";
 import styles from "./page.module.css";
@@ -62,6 +65,7 @@ const forexLevels = [
 ];
 
 export default function LearnForexPage() {
+  const [expanded, setExpanded] = useState(false);
   return (
     <main className={styles.page}>
       <CompactHeader className={styles.header} section="Learn Forex" />
@@ -77,12 +81,10 @@ export default function LearnForexPage() {
 
       <section className={styles.curriculum} aria-labelledby="curriculum-title">
         <h2 id="curriculum-title">What You&apos;ll Learn</h2>
-        <input
-          className={styles.moreToggle}
-          id="more-forex-levels"
-          type="checkbox"
-        />
-        <ol className={styles.timeline}>
+        <ol
+          className={`${styles.timeline} ${expanded ? styles.timelineExpanded : ""}`}
+          id="forex-levels"
+        >
           {forexLevels.map((level, index) => (
             <li key={level.title}>
               <span className={styles.marker} aria-hidden="true">
@@ -115,10 +117,15 @@ export default function LearnForexPage() {
             </li>
           ))}
         </ol>
-        <label className={styles.viewMore} htmlFor="more-forex-levels">
-          <span className={styles.moreLabel}>View more levels ↓</span>
-          <span className={styles.lessLabel}>View fewer levels ↑</span>
-        </label>
+        <button
+          className={styles.viewMore}
+          type="button"
+          aria-expanded={expanded}
+          aria-controls="forex-levels"
+          onClick={() => setExpanded((current) => !current)}
+        >
+          {expanded ? "View fewer levels ↑" : "View more levels ↓"}
+        </button>
       </section>
 
       <CompactFooter className={styles.footer} />

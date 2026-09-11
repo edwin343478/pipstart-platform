@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 
 import { CompactFooter, CompactHeader } from "../../../components/site-chrome";
 import styles from "./page.module.css";
@@ -57,6 +60,7 @@ const cryptoLevels = [
 ];
 
 export default function LearnCryptoPage() {
+  const [expanded, setExpanded] = useState(false);
   return (
     <main className={styles.page}>
       <CompactHeader className={styles.header} section="Learn Crypto" />
@@ -73,12 +77,10 @@ export default function LearnCryptoPage() {
 
       <section className={styles.curriculum} aria-labelledby="curriculum-title">
         <h2 id="curriculum-title">What You&apos;ll Learn</h2>
-        <input
-          className={styles.moreToggle}
-          id="more-crypto-levels"
-          type="checkbox"
-        />
-        <ol className={styles.timeline}>
+        <ol
+          className={`${styles.timeline} ${expanded ? styles.timelineExpanded : ""}`}
+          id="crypto-levels"
+        >
           {cryptoLevels.map((level, index) => (
             <li key={level.title}>
               <span className={styles.marker} aria-hidden="true">
@@ -111,10 +113,15 @@ export default function LearnCryptoPage() {
             </li>
           ))}
         </ol>
-        <label className={styles.viewMore} htmlFor="more-crypto-levels">
-          <span className={styles.moreLabel}>View more levels ↓</span>
-          <span className={styles.lessLabel}>View fewer levels ↑</span>
-        </label>
+        <button
+          className={styles.viewMore}
+          type="button"
+          aria-expanded={expanded}
+          aria-controls="crypto-levels"
+          onClick={() => setExpanded((current) => !current)}
+        >
+          {expanded ? "View fewer levels ↑" : "View more levels ↓"}
+        </button>
       </section>
 
       <CompactFooter className={styles.footer} />

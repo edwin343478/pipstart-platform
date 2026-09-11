@@ -194,11 +194,7 @@ article .levelMeta strong {
   color: #667085;
   font-size: 0.75rem;
 }
-.moreToggle,
 .viewMore {
-  display: none;
-}
-.lessLabel {
   display: none;
 }
 
@@ -250,7 +246,7 @@ article .levelMeta strong {
   .timeline li:nth-child(n + 4) {
     display: none;
   }
-  .moreToggle:checked ~ .timeline li:nth-child(n + 4) {
+  .timelineExpanded li:nth-child(n + 4) {
     display: block;
   }
   .viewMore {
@@ -261,12 +257,9 @@ article .levelMeta strong {
     font-size: 11.5px;
     font-weight: 600;
     text-align: center;
-  }
-  .moreToggle:checked ~ .viewMore .moreLabel {
-    display: none;
-  }
-  .moreToggle:checked ~ .viewMore .lessLabel {
-    display: inline;
+    border: 0;
+    background: transparent;
+    font-family: inherit;
   }
 }
 

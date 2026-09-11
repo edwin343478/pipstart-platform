@@ -177,7 +177,7 @@
 }
 
 .timestamp {
-  color: #8a93a0;
+  color: #667085;
   font-size: 0.6875rem;
 }
 
@@ -203,7 +203,7 @@
 }
 
 .pagination span[aria-disabled="true"] {
-  color: #8a93a0;
+  color: #667085;
 }
 
 .pagination p {

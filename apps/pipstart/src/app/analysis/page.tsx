@@ -58,15 +58,10 @@ export default async function AnalysisPage({
       <section className={styles.introduction}>
         <h1>{analysisPageCopy.heading}</h1>
         <p>{analysisPageCopy.subheading}</p>
-        <div
-          className={styles.tabs}
-          role="tablist"
-          aria-label="Analysis category"
-        >
+        <nav className={styles.tabs} aria-label="Analysis category">
           <Link
             href="/analysis?type=fundamental"
-            role="tab"
-            aria-selected={activeCategory === "fundamental"}
+            aria-current={activeCategory === "fundamental" ? "page" : undefined}
             className={
               activeCategory === "fundamental" ? styles.tabActive : styles.tab
             }
@@ -75,15 +70,14 @@ export default async function AnalysisPage({
           </Link>
           <Link
             href="/analysis?type=technical"
-            role="tab"
-            aria-selected={activeCategory === "technical"}
+            aria-current={activeCategory === "technical" ? "page" : undefined}
             className={
               activeCategory === "technical" ? styles.tabActive : styles.tab
             }
           >
             Technical Analysis
           </Link>
-        </div>
+        </nav>
       </section>
       <ol className={styles.feed}>
         {visiblePosts.map((post) => (
