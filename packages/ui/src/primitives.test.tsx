@@ -3,9 +3,11 @@ import { describe, expect, it } from "vitest";
 
 import { Alert } from "./alert";
 import { Badge } from "./badge";
+import { Card } from "./card";
 import { Link } from "./link";
 import { ProgressBar } from "./progress-bar";
 import { Radio } from "./radio";
+import { PageState } from "./page-state";
 
 describe("foundational UI primitives", () => {
   it("renders a keyboard-focusable native link", () => {
@@ -62,5 +64,25 @@ describe("foundational UI primitives", () => {
     );
     expect(markup).toContain('aria-invalid="true"');
     expect(markup).toContain('role="alert"');
+  });
+
+  it("composes card styling onto a single child", () => {
+    const markup = renderToStaticMarkup(
+      <Card asChild padded={false}>
+        <a href="/tools">Tools</a>
+      </Card>,
+    );
+    expect(markup).toContain('href="/tools"');
+    expect(markup).toContain("rounded-2xl");
+    expect(markup).not.toContain("<div");
+  });
+
+  it("announces loading and error page states appropriately", () => {
+    expect(
+      renderToStaticMarkup(<PageState kind="loading">Loading</PageState>),
+    ).toContain('aria-busy="true"');
+    expect(
+      renderToStaticMarkup(<PageState kind="error">Failed</PageState>),
+    ).toContain('role="alert"');
   });
 });

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { FormEvent, useState } from "react";
+import { Alert, Button } from "@repo/ui";
 
 import {
   calculateDollarCostAveraging,
@@ -261,7 +262,7 @@ export default function DollarCostAveragingCalculatorPage() {
           </div>
 
           <CalculatorError className={styles.error} error={error} />
-          <button type="submit">Calculate</button>
+          <Button type="submit">Calculate</Button>
         </form>
 
         <section className={styles.result} aria-live="polite">
@@ -339,11 +340,11 @@ export default function DollarCostAveragingCalculatorPage() {
           title="Cryptocurrency Foundation Path"
         />
 
-        <aside className={styles.disclaimer}>
+        <Alert className={styles.disclaimer} variant="warning">
           This is an educational illustration, not investment advice or a return
           forecast. Crypto prices can fall sharply, and dollar-cost averaging
           does not guarantee profit or prevent loss.
-        </aside>
+        </Alert>
       </div>
 
       <footer className={styles.footer}>PipStart · pipstart.net</footer>

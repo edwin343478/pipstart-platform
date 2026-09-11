@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { FormEvent, useState } from "react";
+import { Alert, Button } from "@repo/ui";
 
 import {
   accountCurrencies,
@@ -218,7 +219,7 @@ export default function ProfitLossCalculatorPage() {
           </div>
 
           <CalculatorError className={styles.error} error={error} />
-          <button type="submit">Calculate</button>
+          <Button type="submit">Calculate</Button>
         </form>
 
         <section className={styles.result} aria-live="polite">
@@ -265,10 +266,10 @@ export default function ProfitLossCalculatorPage() {
           title="Forex Kindergarten"
         />
 
-        <aside className={styles.disclaimer}>
+        <Alert className={styles.disclaimer} variant="warning">
           This educational estimate excludes spread, commissions, swaps, taxes
           and slippage. Actual results may differ.
-        </aside>
+        </Alert>
       </div>
 
       <footer className={styles.footer}>PipStart · pipstart.net</footer>

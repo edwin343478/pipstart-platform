@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { FormEvent, useState } from "react";
+import { Alert, Button } from "@repo/ui";
 
 import {
   accountCurrencies,
@@ -188,7 +189,7 @@ export default function MarginCalculatorPage() {
           </div>
 
           <CalculatorError className={styles.error} error={error} />
-          <button type="submit">Calculate</button>
+          <Button type="submit">Calculate</Button>
         </form>
 
         <section className={styles.result} aria-live="polite">
@@ -234,11 +235,11 @@ export default function MarginCalculatorPage() {
           title="Forex Kindergarten"
         />
 
-        <aside className={styles.disclaimer}>
+        <Alert className={styles.disclaimer} variant="warning">
           This is an educational estimate only. Broker contract sizes, leverage
           limits, conversion rates and margin rules can differ. Leverage reduces
           required margin but does not reduce market exposure or potential loss.
-        </aside>
+        </Alert>
       </div>
 
       <footer className={styles.footer}>PipStart · pipstart.net</footer>

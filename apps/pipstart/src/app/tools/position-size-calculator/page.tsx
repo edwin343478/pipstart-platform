@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { FormEvent, useState } from "react";
+import { Alert, Button } from "@repo/ui";
 
 import ConversionRateField from "../components/conversion-rate-field";
 import CalculatorError from "../components/calculator-error";
@@ -189,7 +190,7 @@ export default function PositionSizeCalculatorPage() {
           </div>
 
           <CalculatorError className={styles.error} error={error} />
-          <button type="submit">Calculate</button>
+          <Button type="submit">Calculate</Button>
         </form>
 
         <section className={styles.result} aria-live="polite">
@@ -244,11 +245,11 @@ export default function PositionSizeCalculatorPage() {
           title="Forex Kindergarten"
         />
 
-        <aside className={styles.disclaimer}>
+        <Alert className={styles.disclaimer} variant="warning">
           This is an educational estimate only, not a guarantee of outcome.
           Actual broker execution, spreads and slippage will affect real
           results.
-        </aside>
+        </Alert>
       </div>
 
       <footer className={styles.footer}>PipStart · pipstart.net</footer>

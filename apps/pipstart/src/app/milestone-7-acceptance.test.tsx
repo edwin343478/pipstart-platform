@@ -82,6 +82,38 @@ describe("Milestone 7 acceptance", () => {
     expect(bottomNavigation).toContain('"/start-here"');
     expect(styles).not.toContain("#8a93a0");
   });
+  it("adopts shared UI primitives in production pages", () => {
+    const toolsPage = fs.readFileSync(
+      path.join(appRoot, "tools/page.tsx"),
+      "utf8",
+    );
+    const calculatorError = fs.readFileSync(
+      path.join(appRoot, "tools/components/calculator-error.tsx"),
+      "utf8",
+    );
+    const glossaryPage = fs.readFileSync(
+      path.join(appRoot, "glossary/page.tsx"),
+      "utf8",
+    );
+    expect(toolsPage).toContain('from "@repo/ui"');
+    expect(toolsPage).toContain("Button");
+    expect(toolsPage).toContain("Card");
+    expect(toolsPage).toContain("Input");
+    expect(calculatorError).toContain("PageState");
+    expect(glossaryPage).toContain('from "@repo/ui"');
+
+    const productionSources = fs
+      .readdirSync(path.join(appRoot, "tools"), { recursive: true })
+      .map(String)
+      .filter((entry) => entry.endsWith(".tsx"))
+      .map((entry) =>
+        fs.readFileSync(path.join(appRoot, "tools", entry), "utf8"),
+      );
+    expect(
+      productionSources.filter((source) => source.includes('from "@repo/ui"'))
+        .length,
+    ).toBeGreaterThanOrEqual(12);
+  });
   it("keeps public metadata unique", () => {
     expect(new Set(seoEntries.map((entry) => entry.path)).size).toBe(
       seoEntries.length,

@@ -32,3 +32,8 @@ export { Accordion, type AccordionProps } from "./accordion";
 export { EmailCapture, type EmailCaptureProps } from "./email-capture";
 export { Modal, type ModalProps } from "./modal";
 export { Tab, Tabs, type TabProps } from "./tabs";
+export {
+  PageState,
+  type PageStateKind,
+  type PageStateProps,
+} from "./page-state";

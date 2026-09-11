@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { FormEvent, useState } from "react";
+import { Alert, Button } from "@repo/ui";
 
 import { accountCurrencies } from "../position-size-calculator/instruments";
 import {
@@ -158,7 +159,7 @@ export default function DrawdownCalculatorPage() {
           </div>
 
           <CalculatorError className={styles.error} error={error} />
-          <button type="submit">Calculate</button>
+          <Button type="submit">Calculate</Button>
         </form>
 
         <section className={styles.result} aria-live="polite">
@@ -204,11 +205,11 @@ export default function DrawdownCalculatorPage() {
           title="Forex Kindergarten"
         />
 
-        <aside className={styles.disclaimer}>
+        <Alert className={styles.disclaimer} variant="warning">
           This calculator is an educational illustration, not a forecast or
           guarantee. It excludes deposits, withdrawals, fees and additional
           trading losses.
-        </aside>
+        </Alert>
       </div>
 
       <footer className={styles.footer}>PipStart · pipstart.net</footer>

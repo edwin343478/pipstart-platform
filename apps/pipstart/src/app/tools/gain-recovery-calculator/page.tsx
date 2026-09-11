@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { FormEvent, useState } from "react";
+import { Alert, Button } from "@repo/ui";
 
 import { accountCurrencies } from "../position-size-calculator/instruments";
 import {
@@ -154,7 +155,7 @@ export default function GainRecoveryCalculatorPage() {
           </div>
 
           <CalculatorError className={styles.error} error={error} />
-          <button type="submit">Calculate</button>
+          <Button type="submit">Calculate</Button>
         </form>
 
         <section className={styles.result} aria-live="polite">
@@ -202,10 +203,10 @@ export default function GainRecoveryCalculatorPage() {
           title="Forex Kindergarten"
         />
 
-        <aside className={styles.disclaimer}>
+        <Alert className={styles.disclaimer} variant="warning">
           This is an educational mathematical illustration, not a forecast,
           target or guarantee. Real returns are uneven and losses can continue.
-        </aside>
+        </Alert>
       </div>
 
       <footer className={styles.footer}>PipStart · pipstart.net</footer>

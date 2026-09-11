@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useState } from "react";
+import { Button, Input, PageState } from "@repo/ui";
 
 import type { ReferenceRate } from "../../../lib/exchange-rate";
 import type { CalculatorFormError } from "../calculator-validation";
@@ -88,17 +89,18 @@ export default function ConversionRateField({
       <div className={styles.labelRow}>
         <label htmlFor={descriptionId}>Quote-to-account conversion rate</label>
         {status !== "loading" ? (
-          <button
+          <Button
+            variant="secondary"
             className={styles.modeButton}
             type="button"
             onClick={automatic || unavailable ? useManualRate : useLatestRate}
             disabled={!automatic && !unavailable && !referenceRate}
           >
             {automatic || unavailable ? "Use my own rate" : "Use latest rate"}
-          </button>
+          </Button>
         ) : null}
       </div>
-      <input
+      <Input
         aria-describedby={
           externallyInvalid
             ? "calculator-error-conversion"
@@ -119,7 +121,14 @@ export default function ConversionRateField({
         }
         onChange={(event) => onChange(event.target.value)}
       />
-      <div
+      <PageState
+        kind={
+          status === "error"
+            ? "error"
+            : status === "loading"
+              ? "loading"
+              : "empty"
+        }
         className={styles.status}
         id={`${descriptionId}-status`}
         aria-live="polite"
@@ -154,7 +163,7 @@ export default function ConversionRateField({
             <span>Enter your own rate to calculate safely.</span>
           </>
         ) : null}
-      </div>
+      </PageState>
     </div>
   );
 }

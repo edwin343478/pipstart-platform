@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 
-import { PageState } from "../../../components/page-state";
+import { PageState } from "@repo/ui";
 import { CompactFooter, CompactHeader } from "../../../components/site-chrome";
 import styles from "./page.module.css";
 

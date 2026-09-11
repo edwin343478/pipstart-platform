@@ -1,4 +1,5 @@
 import type { CalculatorFormError } from "../calculator-validation";
+import { PageState } from "@repo/ui";
 
 export default function CalculatorError({
   className,
@@ -10,12 +11,12 @@ export default function CalculatorError({
   if (!error) return null;
 
   return (
-    <p
+    <PageState
       className={className}
       id={`calculator-error-${error.field}`}
-      role="alert"
+      kind="error"
     >
       {error.message}
-    </p>
+    </PageState>
   );
 }

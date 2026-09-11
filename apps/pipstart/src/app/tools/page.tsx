@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { Button, Card, Input, PageState } from "@repo/ui";
 
 import { CompactFooter, CompactHeader } from "../../components/site-chrome";
 import styles from "./page.module.css";
@@ -229,7 +230,7 @@ export default function ToolsPage() {
             <circle cx="8.5" cy="8.5" r="5.5" />
             <path d="M16 16l-3.5-3.5" />
           </svg>
-          <input
+          <Input
             type="search"
             placeholder="Search calculators…"
             value={query}
@@ -239,34 +240,38 @@ export default function ToolsPage() {
       </section>
 
       <div className={styles.mobileFilters} aria-label="Calculator categories">
-        <button
+        <Button
+          variant="secondary"
           type="button"
           aria-pressed={activeCategory === "all"}
           onClick={() => setActiveCategory("all")}
         >
           All
-        </button>
-        <button
+        </Button>
+        <Button
+          variant="secondary"
           type="button"
           aria-pressed={activeCategory === "position-risk"}
           onClick={() => setActiveCategory("position-risk")}
         >
           Position &amp; risk
-        </button>
-        <button
+        </Button>
+        <Button
+          variant="secondary"
           type="button"
           aria-pressed={activeCategory === "recovery"}
           onClick={() => setActiveCategory("recovery")}
         >
           Recovery
-        </button>
-        <button
+        </Button>
+        <Button
+          variant="secondary"
           type="button"
           aria-pressed={activeCategory === "crypto"}
           onClick={() => setActiveCategory("crypto")}
         >
           Crypto
-        </button>
+        </Button>
       </div>
 
       <section
@@ -277,9 +282,11 @@ export default function ToolsPage() {
         <p className="sr-only">{filteredTools.length} calculators found</p>
         {filteredTools.slice(0, 4).map((tool) =>
           tool.href ? (
-            <Link className={styles.tool} href={tool.href} key={tool.name}>
-              <ToolContent tool={tool} />
-            </Link>
+            <Card asChild padded={false} key={tool.name}>
+              <Link className={styles.tool} href={tool.href}>
+                <ToolContent tool={tool} />
+              </Link>
+            </Card>
           ) : (
             <article
               className={`${styles.tool} ${styles.comingSoon}`}
@@ -294,18 +301,23 @@ export default function ToolsPage() {
           id="additional-tools"
         >
           {filteredTools.slice(4).map((tool) => (
-            <Link className={styles.tool} href={tool.href!} key={tool.name}>
-              <ToolContent tool={tool} />
-            </Link>
+            <Card asChild padded={false} key={tool.name}>
+              <Link className={styles.tool} href={tool.href!}>
+                <ToolContent tool={tool} />
+              </Link>
+            </Card>
           ))}
         </div>
         {filteredTools.length === 0 ? (
-          <p className={styles.noResults}>No calculators match your search.</p>
+          <PageState className={styles.noResults}>
+            No calculators match your search.
+          </PageState>
         ) : null}
         {activeCategory === "all" &&
         !query.trim() &&
         filteredTools.length > 4 ? (
-          <button
+          <Button
+            variant="secondary"
             className={styles.viewMore}
             type="button"
             aria-expanded={expanded}
@@ -313,7 +325,7 @@ export default function ToolsPage() {
             onClick={() => setExpanded((current) => !current)}
           >
             {expanded ? "View less ↑" : "View more ↓"}
-          </button>
+          </Button>
         ) : null}
       </section>
 

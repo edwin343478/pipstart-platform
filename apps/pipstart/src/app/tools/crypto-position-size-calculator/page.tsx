@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { FormEvent, useState } from "react";
+import { Alert, Button } from "@repo/ui";
 
 import {
   calculateCryptoPositionSize,
@@ -326,7 +327,7 @@ export default function CryptoPositionSizeCalculatorPage() {
           </div>
 
           <CalculatorError className={styles.error} error={error} />
-          <button type="submit">Calculate</button>
+          <Button type="submit">Calculate</Button>
         </form>
 
         <section className={styles.result} aria-live="polite">
@@ -387,11 +388,11 @@ export default function CryptoPositionSizeCalculatorPage() {
           title="Cryptocurrency Foundation Path"
         />
 
-        <aside className={styles.disclaimer}>
+        <Alert className={styles.disclaimer} variant="warning">
           This is an educational estimate only, not a guarantee of outcome.
           Volatility, fees, slippage and liquidation rules may affect real
           results.
-        </aside>
+        </Alert>
       </div>
 
       <footer className={styles.footer}>PipStart · pipstart.net</footer>
