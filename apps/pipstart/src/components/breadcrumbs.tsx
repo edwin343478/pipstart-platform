@@ -14,12 +14,23 @@ type BreadcrumbsProps = {
 export function Breadcrumbs({ className, items }: BreadcrumbsProps) {
   return (
     <nav className={className} aria-label="Breadcrumb">
-      {items.map((item, index) => (
-        <span key={`${index}-${String(item.href ?? "current")}`}>
-          {index > 0 && <span aria-hidden="true"> / </span>}
-          {item.href ? <Link href={item.href}>{item.label}</Link> : item.label}
-        </span>
-      ))}
+      <ol>
+        {items.map((item, index) => {
+          const current = index === items.length - 1;
+          return (
+            <li key={`${index}-${String(item.href ?? "current")}`}>
+              {index > 0 && <span aria-hidden="true"> / </span>}
+              {item.href && !current ? (
+                <Link href={item.href}>{item.label}</Link>
+              ) : (
+                <span aria-current={current ? "page" : undefined}>
+                  {item.label}
+                </span>
+              )}
+            </li>
+          );
+        })}
+      </ol>
     </nav>
   );
 }

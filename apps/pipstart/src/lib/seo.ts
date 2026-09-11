@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 
 export const siteUrl = "https://pipstart.net";
+export const defaultSocialImage = `${siteUrl}/opengraph-image`;
+
+function brandedTitle(title: string) {
+  return { absolute: `${title} | PipStart` } as const;
+}
 
 export type SeoEntry = {
   description: string;
@@ -177,7 +182,7 @@ export function createPageMetadata(path: SeoEntry["path"]): Metadata {
   if (!entry) throw new Error(`Missing SEO entry for ${path}`);
 
   return {
-    title: entry.title,
+    title: brandedTitle(entry.title),
     description: entry.description,
     alternates: { canonical: entry.path },
     openGraph: {
@@ -186,18 +191,30 @@ export function createPageMetadata(path: SeoEntry["path"]): Metadata {
       type: "website",
       url: entry.path,
       siteName: "PipStart",
+      images: [
+        {
+          url: defaultSocialImage,
+          width: 1200,
+          height: 630,
+          alt: "PipStart structured Forex and cryptocurrency education",
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: entry.title,
       description: entry.description,
+      images: [defaultSocialImage],
     },
   };
 }
 
-export function createDynamicMetadata(entry: SeoEntry): Metadata {
+export function createDynamicMetadata(
+  entry: SeoEntry,
+  image = defaultSocialImage,
+): Metadata {
   return {
-    title: entry.title,
+    title: brandedTitle(entry.title),
     description: entry.description,
     alternates: { canonical: entry.path },
     openGraph: {
@@ -205,11 +222,58 @@ export function createDynamicMetadata(entry: SeoEntry): Metadata {
       type: "article",
       url: entry.path,
       siteName: "PipStart",
+      images: [{ url: image, width: 1200, height: 630, alt: entry.title }],
     },
     twitter: {
       card: "summary_large_image",
       title: entry.title,
       description: entry.description,
+      images: [image],
     },
+  };
+}
+
+export type BreadcrumbJsonLdItem = { name: string; path: string };
+
+export function createBreadcrumbJsonLd(items: readonly BreadcrumbJsonLdItem[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: new URL(item.path, siteUrl).href,
+    })),
+  };
+}
+
+export type ArticleJsonLdInput = {
+  authorName: string;
+  authorPath: string;
+  dateModified: string;
+  datePublished: string;
+  description: string;
+  headline: string;
+  image: string;
+  path: string;
+};
+
+export function createArticleJsonLd(input: ArticleJsonLdInput) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: input.headline,
+    description: input.description,
+    image: input.image,
+    datePublished: input.datePublished,
+    dateModified: input.dateModified,
+    mainEntityOfPage: new URL(input.path, siteUrl).href,
+    author: {
+      "@type": "Organization",
+      name: input.authorName,
+      url: new URL(input.authorPath, siteUrl).href,
+    },
+    publisher: { "@type": "Organization", name: "PipStart" },
   };
 }

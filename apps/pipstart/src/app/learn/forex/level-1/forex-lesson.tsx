@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useSyncExternalStore } from "react";
+import { useState, useSyncExternalStore } from "react";
 
 import {
   LearningHeader,
@@ -50,6 +50,7 @@ function CheckIcon() {
 }
 
 export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const lessonIndex = forexLessons.findIndex(
     (candidate) => candidate.slug === lesson.slug,
   );
@@ -78,6 +79,67 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
     }
   }
 
+  function renderLessonSidebar(
+    className: string,
+    collapsible = false,
+    collapsed = false,
+  ) {
+    return (
+      <aside
+        className={`${styles.sidebar} ${collapsed ? styles.sidebarCollapsed : ""} ${className}`}
+        aria-label="Forex Kindergarten lessons"
+        id={collapsible ? "forex-desktop-sidebar" : undefined}
+      >
+        <div className={styles.sidebarHeading}>
+          <h2>Forex Kindergarten</h2>
+          {collapsible ? (
+            <button
+              type="button"
+              className={styles.sidebarToggle}
+              aria-controls="forex-desktop-sidebar"
+              aria-expanded={!collapsed}
+              aria-label={
+                collapsed ? "Expand lesson sidebar" : "Collapse lesson sidebar"
+              }
+              onClick={() => setSidebarCollapsed((current) => !current)}
+            >
+              <span aria-hidden="true">{collapsed ? "›" : "‹"}</span>
+            </button>
+          ) : null}
+        </div>
+        <p className={styles.progressSummary} aria-live="polite">
+          {completedLessonSlugs.length} of {forexLessons.length} complete
+        </p>
+        <nav>
+          {forexLessons.map((candidate) => {
+            const current = candidate.slug === lesson.slug;
+
+            return (
+              <Link
+                aria-current={current ? "page" : undefined}
+                className={
+                  current ? styles.currentLesson : styles.upcomingLesson
+                }
+                href={candidate.href}
+                key={candidate.slug}
+              >
+                <span>{candidate.title}</span>
+                {completedLessons.has(candidate.slug) ? (
+                  <span className={styles.completedMarker} aria-hidden="true">
+                    ✓
+                  </span>
+                ) : null}
+              </Link>
+            );
+          })}
+          <span className={styles.upcomingLesson}>
+            Level 1 quiz · Coming soon
+          </span>
+        </nav>
+      </aside>
+    );
+  }
+
   return (
     <main className={styles.page}>
       <LearningHeader
@@ -90,49 +152,18 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
         levelLabel="Level 1 · Forex Kindergarten"
       />
 
-      <div className={styles.lessonLayout}>
-        <details className={styles.sidebarDetails}>
+      <div
+        className={`${styles.lessonLayout} ${sidebarCollapsed ? styles.lessonLayoutCollapsed : ""}`}
+      >
+        {renderLessonSidebar(styles.desktopSidebar, true, sidebarCollapsed)}
+        <details className={styles.mobileSidebar}>
           <summary className={styles.sidebarSummary}>
             <span>Forex Kindergarten</span>
             <svg aria-hidden="true" viewBox="0 0 20 20">
               <path d="m5 8 5 5 5-5" />
             </svg>
           </summary>
-          <aside
-            className={styles.sidebar}
-            aria-label="Forex Kindergarten lessons"
-          >
-            <h2>Forex Kindergarten</h2>
-            <p className={styles.progressSummary} aria-live="polite">
-              {completedLessonSlugs.length} of {forexLessons.length} complete
-            </p>
-            <nav>
-              {forexLessons.map((candidate) => {
-                const current = candidate.slug === lesson.slug;
-
-                return (
-                  <Link
-                    aria-current={current ? "page" : undefined}
-                    className={
-                      current ? styles.currentLesson : styles.upcomingLesson
-                    }
-                    href={candidate.href}
-                    key={candidate.slug}
-                  >
-                    <span>{candidate.title}</span>
-                    {completedLessons.has(candidate.slug) ? (
-                      <span
-                        className={styles.completedMarker}
-                        aria-hidden="true"
-                      >
-                        ✓
-                      </span>
-                    ) : null}
-                  </Link>
-                );
-              })}
-            </nav>
-          </aside>
+          {renderLessonSidebar(styles.mobileSidebarContent)}
         </details>
 
         <article className={styles.lesson}>

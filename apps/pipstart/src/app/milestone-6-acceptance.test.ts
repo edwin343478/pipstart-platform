@@ -61,4 +61,34 @@ describe("Milestone 6 release acceptance", () => {
       );
     }
   });
+
+  it("keeps permanent desktop and collapsible mobile lesson sidebars", () => {
+    for (const route of [
+      "learn/forex/level-1/forex-lesson.tsx",
+      "learn/crypto/level-1/page.tsx",
+    ]) {
+      const source = read(route);
+      expect(source).toContain("desktopSidebar");
+      expect(source).toContain("mobileSidebar");
+      expect(source).toContain("sidebarSummary");
+      expect(source).toContain("Level 1 quiz");
+      expect(source).toContain("aria-expanded={!collapsed}");
+      expect(source).toContain("Collapse lesson sidebar");
+      expect(source).toContain("Expand lesson sidebar");
+    }
+
+    for (const stylesheet of [
+      "learn/forex/level-1/page.module.css",
+      "learn/crypto/level-1/page.module.css",
+    ]) {
+      const styles = read(stylesheet);
+      expect(styles).toContain(".desktopSidebar");
+      expect(styles).toContain(".mobileSidebar");
+      expect(styles).toContain(".lessonLayoutCollapsed");
+      expect(styles).toContain(".sidebar.sidebarCollapsed nav");
+      expect(styles).toContain("padding: 1.25rem 1.25rem 2.5rem");
+      expect(styles).toContain("grid-template-rows: auto minmax(0, 1fr)");
+      expect(styles).not.toMatch(/^\+\s+\./m);
+    }
+  });
 });

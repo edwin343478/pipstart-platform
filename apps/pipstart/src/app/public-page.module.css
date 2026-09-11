@@ -26,6 +26,12 @@
   line-height: 1.7;
 }
 
+.meta {
+  margin: -0.5rem 0 1.75rem;
+  color: #667085;
+  font-size: 0.8125rem;
+}
+
 .updated {
   margin: 0 0 1.875rem;
   color: #667085;

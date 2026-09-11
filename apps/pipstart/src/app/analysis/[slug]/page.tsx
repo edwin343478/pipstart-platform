@@ -5,7 +5,12 @@ import { Breadcrumbs } from "../../../components/breadcrumbs";
 import { AuthorBox } from "../../../components/author-box";
 import { JsonLd } from "../../../components/json-ld";
 import { CompactHeader } from "../../../components/site-chrome";
-import { createDynamicMetadata, siteUrl } from "../../../lib/seo";
+import {
+  createArticleJsonLd,
+  createBreadcrumbJsonLd,
+  createDynamicMetadata,
+  siteUrl,
+} from "../../../lib/seo";
 import { pipStartEditorialTeam } from "../authors";
 import { analysisPosts, formatPublishedDate } from "../posts";
 import styles from "./page.module.css";
@@ -19,11 +24,14 @@ export async function generateMetadata({ params }: AnalysisArticlePageProps) {
   const post = analysisPosts.find((candidate) => candidate.slug === slug);
   if (!post) return {};
 
-  const metadata = createDynamicMetadata({
-    path: `/analysis/${post.slug}`,
-    title: post.title,
-    description: post.excerpt,
-  });
+  const metadata = createDynamicMetadata(
+    {
+      path: `/analysis/${post.slug}`,
+      title: post.title,
+      description: post.excerpt,
+    },
+    `${siteUrl}/analysis/${post.slug}/opengraph-image`,
+  );
 
   return {
     ...metadata,
@@ -76,21 +84,23 @@ export default async function AnalysisArticlePage({
   return (
     <main className={styles.page}>
       <JsonLd
-        data={{
-          "@context": "https://schema.org",
-          "@type": "Article",
+        data={createArticleJsonLd({
           headline: post.title,
           description: post.excerpt,
           datePublished: post.publishedAt,
           dateModified: post.reviewedAt,
-          mainEntityOfPage: `${siteUrl}/analysis/${post.slug}`,
-          author: {
-            "@type": "Organization",
-            name: pipStartEditorialTeam.name,
-            url: `${siteUrl}${pipStartEditorialTeam.href}`,
-          },
-          publisher: { "@type": "Organization", name: "PipStart" },
-        }}
+          path: `/analysis/${post.slug}`,
+          authorName: pipStartEditorialTeam.name,
+          authorPath: pipStartEditorialTeam.href,
+          image: `${siteUrl}/analysis/${post.slug}/opengraph-image`,
+        })}
+      />
+      <JsonLd
+        data={createBreadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Analysis", path: "/analysis" },
+          { name: post.title, path: `/analysis/${post.slug}` },
+        ])}
       />
       <CompactHeader className={styles.header} section="Analysis" />
 

@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 import {
   LearningHeader,
   LessonNavigation,
@@ -15,6 +19,58 @@ const lessons = [
 ] as const;
 
 export default function CryptoLevelOnePage() {
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
+  function renderLessonSidebar(
+    className: string,
+    collapsible = false,
+    collapsed = false,
+  ) {
+    return (
+      <aside
+        className={`${styles.sidebar} ${collapsed ? styles.sidebarCollapsed : ""} ${className}`}
+        aria-label="Bitcoin lessons"
+        id={collapsible ? "crypto-desktop-sidebar" : undefined}
+      >
+        <div className={styles.sidebarHeading}>
+          <h2>Bitcoin</h2>
+          {collapsible ? (
+            <button
+              type="button"
+              className={styles.sidebarToggle}
+              aria-controls="crypto-desktop-sidebar"
+              aria-expanded={!collapsed}
+              aria-label={
+                collapsed ? "Expand lesson sidebar" : "Collapse lesson sidebar"
+              }
+              onClick={() => setSidebarCollapsed((current) => !current)}
+            >
+              <span aria-hidden="true">{collapsed ? "›" : "‹"}</span>
+            </button>
+          ) : null}
+        </div>
+        <nav>
+          {lessons.map((lesson) => {
+            const className =
+              lesson.status === "current"
+                ? styles.currentLesson
+                : styles.upcomingLesson;
+            return (
+              <span
+                aria-current={lesson.status === "current" ? "page" : undefined}
+                className={className}
+                key={lesson.label}
+              >
+                {lesson.label}
+                {lesson.label === "Level 1 quiz" ? " · Coming soon" : ""}
+              </span>
+            );
+          })}
+        </nav>
+      </aside>
+    );
+  }
+
   return (
     <main className={styles.page}>
       <LearningHeader
@@ -27,37 +83,18 @@ export default function CryptoLevelOnePage() {
         levelLabel="Level 1 · Bitcoin"
       />
 
-      <div className={styles.lessonLayout}>
-        <details className={styles.sidebarDetails}>
+      <div
+        className={`${styles.lessonLayout} ${sidebarCollapsed ? styles.lessonLayoutCollapsed : ""}`}
+      >
+        {renderLessonSidebar(styles.desktopSidebar, true, sidebarCollapsed)}
+        <details className={styles.mobileSidebar}>
           <summary className={styles.sidebarSummary}>
             <span>Bitcoin</span>
             <svg aria-hidden="true" viewBox="0 0 20 20">
               <path d="m5 8 5 5 5-5" />
             </svg>
           </summary>
-          <aside className={styles.sidebar} aria-label="Bitcoin lessons">
-            <h2>Bitcoin</h2>
-            <nav>
-              {lessons.map((lesson) => {
-                const className =
-                  lesson.status === "current"
-                    ? styles.currentLesson
-                    : styles.upcomingLesson;
-
-                return (
-                  <span
-                    aria-current={
-                      lesson.status === "current" ? "page" : undefined
-                    }
-                    className={className}
-                    key={lesson.label}
-                  >
-                    {lesson.label}
-                  </span>
-                );
-              })}
-            </nav>
-          </aside>
+          {renderLessonSidebar(styles.mobileSidebarContent)}
         </details>
 
         <article className={styles.lesson}>

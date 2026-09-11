@@ -40,11 +40,20 @@ export const metadata: Metadata = {
     siteName: pipStartBrand.name,
     title: `${pipStartBrand.name} | Forex and Crypto Education`,
     description: pipStartBrand.description,
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "PipStart structured Forex and cryptocurrency education",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: `${pipStartBrand.name} | Forex and Crypto Education`,
     description: pipStartBrand.description,
+    images: ["/opengraph-image"],
   },
 };
 

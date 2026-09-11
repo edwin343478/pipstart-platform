@@ -27,6 +27,9 @@ describe("PipStart structural components", () => {
     );
 
     expect(markup).toContain('aria-label="Breadcrumb"');
+    expect(markup).toContain("<ol>");
+    expect(markup).toContain("<li>");
+    expect(markup).toContain('aria-current="page"');
     expect(markup).toContain('href="/analysis"');
     expect(markup).not.toContain('href="Fundamental Analysis"');
   });

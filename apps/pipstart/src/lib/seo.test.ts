@@ -5,7 +5,15 @@ import { describe, expect, it } from "vitest";
 import robots from "../app/robots";
 import sitemap from "../app/sitemap";
 import { JsonLd } from "../components/json-ld";
-import { createPageMetadata, seoEntries, siteUrl } from "./seo";
+import {
+  createArticleJsonLd,
+  createBreadcrumbJsonLd,
+  createDynamicMetadata,
+  createPageMetadata,
+  defaultSocialImage,
+  seoEntries,
+  siteUrl,
+} from "./seo";
 
 describe("PipStart SEO infrastructure", () => {
   it("gives every registered public route unique metadata", () => {
@@ -19,10 +27,71 @@ describe("PipStart SEO infrastructure", () => {
 
     for (const entry of seoEntries) {
       const metadata = createPageMetadata(entry.path);
+      expect(metadata.title).toEqual({ absolute: `${entry.title} | PipStart` });
       expect(metadata.alternates?.canonical).toBe(entry.path);
       expect(metadata.openGraph?.url).toBe(entry.path);
       expect(metadata.twitter).toMatchObject({ card: "summary_large_image" });
+      expect(metadata.openGraph?.images).toEqual([
+        expect.objectContaining({
+          url: defaultSocialImage,
+          width: 1200,
+          height: 630,
+        }),
+      ]);
+      expect(metadata.twitter).toMatchObject({ images: [defaultSocialImage] });
     }
+  });
+
+  it("builds complete social metadata for dynamic route classes", () => {
+    const image = `${siteUrl}/analysis/example/opengraph-image`;
+    const metadata = createDynamicMetadata(
+      {
+        path: "/analysis/example",
+        title: "Example",
+        description: "Example analysis.",
+      },
+      image,
+    );
+    expect(metadata.alternates?.canonical).toBe("/analysis/example");
+    expect(metadata.title).toEqual({ absolute: "Example | PipStart" });
+    expect(metadata.openGraph).toMatchObject({
+      type: "article",
+      images: [expect.objectContaining({ url: image })],
+    });
+    expect(metadata.twitter).toMatchObject({
+      card: "summary_large_image",
+      images: [image],
+    });
+  });
+
+  it("creates complete Article and BreadcrumbList structured data", () => {
+    const article = createArticleJsonLd({
+      authorName: "PipStart Editorial Team",
+      authorPath: "/authors/pipstart-editorial-team",
+      dateModified: "2026-09-11",
+      datePublished: "2026-09-10",
+      description: "A test article.",
+      headline: "Test article",
+      image: `${siteUrl}/analysis/test/opengraph-image`,
+      path: "/analysis/test",
+    });
+    expect(article).toMatchObject({
+      "@type": "Article",
+      image: `${siteUrl}/analysis/test/opengraph-image`,
+      mainEntityOfPage: `${siteUrl}/analysis/test`,
+      author: { url: `${siteUrl}/authors/pipstart-editorial-team` },
+    });
+    const breadcrumbs = createBreadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Test", path: "/analysis/test" },
+    ]);
+    expect(breadcrumbs.itemListElement).toEqual([
+      expect.objectContaining({ position: 1, item: `${siteUrl}/` }),
+      expect.objectContaining({
+        position: 2,
+        item: `${siteUrl}/analysis/test`,
+      }),
+    ]);
   });
 
   it("publishes every registered route in the sitemap", () => {
