@@ -192,7 +192,11 @@
   white-space: nowrap;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 767px) {
+  .header,
+  .footer {
+    display: none;
+  }
   .header,
   .footer {
     padding-right: 1.25rem;
@@ -200,7 +204,13 @@
   }
 
   .introduction {
-    padding-top: 2.75rem;
+    width: 100%;
+    padding: 14px 18px 12px;
+    border-bottom: 1px solid #d9e0e5;
+    background: #fff;
+  }
+  .introduction h1 {
+    font-size: 19px;
   }
 
   .results {
@@ -208,7 +218,16 @@
   }
 
   .term {
-    padding: 1.1rem 1.25rem;
+    margin-bottom: 0.5rem;
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .term h3 {
+    font-size: 13px;
+  }
+  .term p {
+    font-size: 11.5px;
+    line-height: 1.5;
   }
 }
 

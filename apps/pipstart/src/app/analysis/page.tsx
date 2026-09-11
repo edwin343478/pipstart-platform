@@ -21,7 +21,7 @@ interface AnalysisPageProps {
   searchParams: Promise<{ type?: string; page?: string }>;
 }
 
-const postsPerPage = 3;
+const postsPerPage = 2;
 
 export default async function AnalysisPage({
   searchParams,

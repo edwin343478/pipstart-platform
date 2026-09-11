@@ -48,7 +48,7 @@
   color: #115e59;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 767px) {
   .related {
     align-items: flex-start;
     flex-direction: column;

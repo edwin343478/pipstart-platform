@@ -91,38 +91,49 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
       />
 
       <div className={styles.lessonLayout}>
-        <aside
-          className={styles.sidebar}
-          aria-label="Forex Kindergarten lessons"
-        >
-          <h2>Forex Kindergarten</h2>
-          <p className={styles.progressSummary} aria-live="polite">
-            {completedLessonSlugs.length} of {forexLessons.length} complete
-          </p>
-          <nav>
-            {forexLessons.map((candidate) => {
-              const current = candidate.slug === lesson.slug;
+        <details className={styles.sidebarDetails}>
+          <summary className={styles.sidebarSummary}>
+            <span>Forex Kindergarten</span>
+            <svg aria-hidden="true" viewBox="0 0 20 20">
+              <path d="m5 8 5 5 5-5" />
+            </svg>
+          </summary>
+          <aside
+            className={styles.sidebar}
+            aria-label="Forex Kindergarten lessons"
+          >
+            <h2>Forex Kindergarten</h2>
+            <p className={styles.progressSummary} aria-live="polite">
+              {completedLessonSlugs.length} of {forexLessons.length} complete
+            </p>
+            <nav>
+              {forexLessons.map((candidate) => {
+                const current = candidate.slug === lesson.slug;
 
-              return (
-                <Link
-                  aria-current={current ? "page" : undefined}
-                  className={
-                    current ? styles.currentLesson : styles.upcomingLesson
-                  }
-                  href={candidate.href}
-                  key={candidate.slug}
-                >
-                  <span>{candidate.title}</span>
-                  {completedLessons.has(candidate.slug) ? (
-                    <span className={styles.completedMarker} aria-hidden="true">
-                      ✓
-                    </span>
-                  ) : null}
-                </Link>
-              );
-            })}
-          </nav>
-        </aside>
+                return (
+                  <Link
+                    aria-current={current ? "page" : undefined}
+                    className={
+                      current ? styles.currentLesson : styles.upcomingLesson
+                    }
+                    href={candidate.href}
+                    key={candidate.slug}
+                  >
+                    <span>{candidate.title}</span>
+                    {completedLessons.has(candidate.slug) ? (
+                      <span
+                        className={styles.completedMarker}
+                        aria-hidden="true"
+                      >
+                        ✓
+                      </span>
+                    ) : null}
+                  </Link>
+                );
+              })}
+            </nav>
+          </aside>
+        </details>
 
         <article className={styles.lesson}>
           <p className={styles.eyebrow}>
@@ -139,31 +150,35 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
             ))}
           </section>
 
-          <div className={styles.completeAction}>
-            <button
-              aria-pressed={lessonIsComplete}
-              className={lessonIsComplete ? styles.completedButton : undefined}
-              type="button"
-              onClick={toggleCompletion}
-            >
-              <CheckIcon />
-              {lessonIsComplete ? "Completed" : "Mark complete"}
-            </button>
-          </div>
+          <div className={styles.stickyActions}>
+            <div className={styles.completeAction}>
+              <button
+                aria-pressed={lessonIsComplete}
+                className={
+                  lessonIsComplete ? styles.completedButton : undefined
+                }
+                type="button"
+                onClick={toggleCompletion}
+              >
+                <CheckIcon />
+                {lessonIsComplete ? "Completed" : "Mark complete"}
+              </button>
+            </div>
 
-          <LessonNavigation
-            className={styles.lessonNavigation}
-            previous={
-              previousLesson
-                ? { href: previousLesson.href, label: previousLesson.title }
-                : undefined
-            }
-            next={
-              nextLesson
-                ? { href: nextLesson.href, label: nextLesson.title }
-                : { href: "/learn/forex", label: "Return to Forex path" }
-            }
-          />
+            <LessonNavigation
+              className={styles.lessonNavigation}
+              previous={
+                previousLesson
+                  ? { href: previousLesson.href, label: previousLesson.title }
+                  : undefined
+              }
+              next={
+                nextLesson
+                  ? { href: nextLesson.href, label: nextLesson.title }
+                  : { href: "/learn/forex", label: "Return to Forex path" }
+              }
+            />
+          </div>
         </article>
       </div>
     </main>

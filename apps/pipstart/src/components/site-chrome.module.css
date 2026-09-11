@@ -1,0 +1,28 @@
+.mobileBack {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .mobileBack {
+    display: flex;
+    align-items: center;
+    color: #0b1220;
+  }
+  .mobileBack svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentcolor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .mobileBack + a {
+    display: none;
+  }
+  .section {
+    color: #0b1220 !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+  }
+}

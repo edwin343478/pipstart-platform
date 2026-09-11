@@ -57,6 +57,39 @@ body {
   font-family: var(--font-pipstart-body), Arial, sans-serif;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --mobile-tab-height: calc(64px + env(safe-area-inset-bottom));
+  }
+
+  body {
+    min-height: 100dvh;
+    padding-bottom: var(--mobile-tab-height);
+  }
+
+  body > main {
+    min-height: calc(100dvh - var(--mobile-tab-height));
+  }
+
+  button,
+  a,
+  input,
+  select,
+  summary {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
 h1,
 h2,
 h3,

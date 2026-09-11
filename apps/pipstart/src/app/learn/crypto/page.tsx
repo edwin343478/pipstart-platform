@@ -73,7 +73,11 @@ export default function LearnCryptoPage() {
 
       <section className={styles.curriculum} aria-labelledby="curriculum-title">
         <h2 id="curriculum-title">What You&apos;ll Learn</h2>
-
+        <input
+          className={styles.moreToggle}
+          id="more-crypto-levels"
+          type="checkbox"
+        />
         <ol className={styles.timeline}>
           {cryptoLevels.map((level, index) => (
             <li key={level.title}>
@@ -107,6 +111,10 @@ export default function LearnCryptoPage() {
             </li>
           ))}
         </ol>
+        <label className={styles.viewMore} htmlFor="more-crypto-levels">
+          <span className={styles.moreLabel}>View more levels ↓</span>
+          <span className={styles.lessLabel}>View fewer levels ↑</span>
+        </label>
       </section>
 
       <CompactFooter className={styles.footer} />

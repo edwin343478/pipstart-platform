@@ -190,10 +190,27 @@ export default function ToolsPage() {
           Practical tools for the numbers every level teaches. No signup
           required.
         </p>
+        <label className={styles.mobileSearch}>
+          <span className="sr-only">Search calculators</span>
+          <svg aria-hidden="true" viewBox="0 0 20 20">
+            <circle cx="8.5" cy="8.5" r="5.5" />
+            <path d="M16 16l-3.5-3.5" />
+          </svg>
+          <input type="search" placeholder="Search calculators…" />
+        </label>
       </section>
 
+      <div className={styles.mobileFilters} aria-label="Calculator categories">
+        <button type="button" aria-pressed="true">
+          All
+        </button>
+        <button type="button">Position &amp; risk</button>
+        <button type="button">Recovery</button>
+        <button type="button">Crypto</button>
+      </div>
+
       <section className={styles.tools} aria-label="Trading calculators">
-        {tools.map((tool) =>
+        {tools.slice(0, 4).map((tool) =>
           tool.href ? (
             <Link className={styles.tool} href={tool.href} key={tool.name}>
               <ToolContent tool={tool} />
@@ -207,6 +224,18 @@ export default function ToolsPage() {
             </article>
           ),
         )}
+        <input className={styles.moreToggle} id="more-tools" type="checkbox" />
+        <div className={styles.moreTools}>
+          {tools.slice(4).map((tool) => (
+            <Link className={styles.tool} href={tool.href!} key={tool.name}>
+              <ToolContent tool={tool} />
+            </Link>
+          ))}
+        </div>
+        <label className={styles.viewMore} htmlFor="more-tools">
+          <span className={styles.moreLabel}>View more ↓</span>
+          <span className={styles.lessLabel}>View less ↑</span>
+        </label>
       </section>
 
       <CompactFooter className={styles.footer} />

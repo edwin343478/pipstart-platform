@@ -128,7 +128,24 @@ a.tool:focus-visible {
   font-size: 0.75rem;
 }
 
-@media (max-width: 640px) {
+.mobileSearch,
+.mobileFilters,
+.moreToggle,
+.viewMore {
+  display: none;
+}
+.moreTools {
+  display: contents;
+}
+.lessLabel {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .header,
+  .footer {
+    display: none;
+  }
   .header,
   .footer {
     padding-right: 1.25rem;
@@ -141,11 +158,120 @@ a.tool:focus-visible {
   }
 
   .introduction {
-    padding-top: 2.75rem;
+    width: 100%;
+    padding: 14px 18px 12px;
+    border-bottom: 1px solid #d9e0e5;
+    background: #fff;
+  }
+
+  .introduction h1 {
+    margin-bottom: 10px;
+    font-size: 19px;
+  }
+  .introduction > p {
+    display: none;
+  }
+  .mobileSearch {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #d9e0e5;
+    border-radius: 10px;
+    background: #f5f7f8;
+    padding: 9px 12px;
+  }
+  .mobileSearch svg {
+    width: 14px;
+    fill: none;
+    stroke: #8a93a0;
+    stroke-width: 1.6;
+  }
+  .mobileSearch input {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font: inherit;
+    font-size: 12px;
+  }
+  .mobileFilters {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 12px 0 8px 18px;
+    scrollbar-width: none;
+  }
+  .mobileFilters button {
+    flex-shrink: 0;
+    border: 1px solid #d9e0e5;
+    border-radius: 20px;
+    background: #fff;
+    padding: 7px 14px;
+    font: inherit;
+    font-size: 11.5px;
+    font-weight: 600;
+  }
+  .mobileFilters button[aria-pressed="true"] {
+    border-color: #0b1220;
+    background: #0b1220;
+    color: #fff;
+    font-weight: 700;
   }
 
   .tools {
+    width: 100%;
     grid-template-columns: 1fr;
+    gap: 0.5rem;
+    padding: 8px 18px 18px;
+  }
+
+  .tool {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    align-items: center;
+    gap: 0 0.75rem;
+    border-radius: 12px;
+    padding: 12px 14px;
+  }
+
+  .tool > svg {
+    grid-row: 1 / 3;
+    width: 17px;
+  }
+  .tool h2 {
+    margin: 0;
+    font-size: 13px;
+  }
+  .tool p {
+    margin-top: 0.15rem;
+    font-size: 11px;
+    line-height: 1.35;
+  }
+
+  .footer {
+    padding-bottom: 1rem;
+  }
+  .moreTools {
+    display: none;
+  }
+  .moreToggle:checked + .moreTools {
+    display: contents;
+  }
+  .viewMore {
+    display: block;
+    grid-column: 1 / -1;
+    padding: 6px;
+    color: #0f766e;
+    cursor: pointer;
+    font-size: 11.5px;
+    font-weight: 600;
+    text-align: center;
+  }
+  .moreToggle:checked ~ .viewMore .moreLabel {
+    display: none;
+  }
+  .moreToggle:checked ~ .viewMore .lessLabel {
+    display: inline;
   }
 }
 

@@ -77,7 +77,11 @@ export default function LearnForexPage() {
 
       <section className={styles.curriculum} aria-labelledby="curriculum-title">
         <h2 id="curriculum-title">What You&apos;ll Learn</h2>
-
+        <input
+          className={styles.moreToggle}
+          id="more-forex-levels"
+          type="checkbox"
+        />
         <ol className={styles.timeline}>
           {forexLevels.map((level, index) => (
             <li key={level.title}>
@@ -111,6 +115,10 @@ export default function LearnForexPage() {
             </li>
           ))}
         </ol>
+        <label className={styles.viewMore} htmlFor="more-forex-levels">
+          <span className={styles.moreLabel}>View more levels ↓</span>
+          <span className={styles.lessLabel}>View fewer levels ↑</span>
+        </label>
       </section>
 
       <CompactFooter className={styles.footer} />

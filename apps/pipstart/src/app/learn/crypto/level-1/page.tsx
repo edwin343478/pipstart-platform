@@ -28,29 +28,37 @@ export default function CryptoLevelOnePage() {
       />
 
       <div className={styles.lessonLayout}>
-        <aside className={styles.sidebar} aria-label="Bitcoin lessons">
-          <h2>Bitcoin</h2>
-          <nav>
-            {lessons.map((lesson) => {
-              const className =
-                lesson.status === "current"
-                  ? styles.currentLesson
-                  : styles.upcomingLesson;
+        <details className={styles.sidebarDetails}>
+          <summary className={styles.sidebarSummary}>
+            <span>Bitcoin</span>
+            <svg aria-hidden="true" viewBox="0 0 20 20">
+              <path d="m5 8 5 5 5-5" />
+            </svg>
+          </summary>
+          <aside className={styles.sidebar} aria-label="Bitcoin lessons">
+            <h2>Bitcoin</h2>
+            <nav>
+              {lessons.map((lesson) => {
+                const className =
+                  lesson.status === "current"
+                    ? styles.currentLesson
+                    : styles.upcomingLesson;
 
-              return (
-                <span
-                  aria-current={
-                    lesson.status === "current" ? "page" : undefined
-                  }
-                  className={className}
-                  key={lesson.label}
-                >
-                  {lesson.label}
-                </span>
-              );
-            })}
-          </nav>
-        </aside>
+                return (
+                  <span
+                    aria-current={
+                      lesson.status === "current" ? "page" : undefined
+                    }
+                    className={className}
+                    key={lesson.label}
+                  >
+                    {lesson.label}
+                  </span>
+                );
+              })}
+            </nav>
+          </aside>
+        </details>
 
         <article className={styles.lesson}>
           <p className={styles.eyebrow}>Level 1 · Lesson 1 of 6</p>

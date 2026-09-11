@@ -5,6 +5,7 @@ import { Inter, Manrope } from "next/font/google";
 import { pipStartBrand } from "@repo/brand";
 
 import { JsonLd } from "../components/json-ld";
+import { BottomTabBar } from "../components/bottom-tab-bar";
 import { siteUrl } from "../lib/seo";
 
 import "./globals.css";
@@ -65,6 +66,7 @@ export default function RootLayout({
           }}
         />
         {children}
+        <BottomTabBar />
       </body>
     </html>
   );

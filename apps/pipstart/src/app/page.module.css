@@ -32,6 +32,9 @@
   color: #667085;
   font-size: 0.875rem;
 }
+.menuButton {
+  display: none;
+}
 .navigation a {
   text-decoration: none;
 }
@@ -229,17 +232,67 @@
 
 @media (max-width: 900px) {
   .header {
-    align-items: flex-start;
-    flex-direction: column;
+    position: relative;
     padding-inline: 1.5rem;
   }
+  .menuButton {
+    display: inline-flex;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    border: 1px solid #d9e0e5;
+    border-radius: 0.5rem;
+    background: #fff;
+    color: #0b1220;
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .menuButton:hover,
+  .menuButton:focus-visible {
+    border-color: #0f766e;
+    color: #0f766e;
+  }
+  .menuButton svg {
+    width: 0.875rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+  }
   .navigation {
-    width: 100%;
-    overflow-x: auto;
-    padding-bottom: 0.25rem;
+    position: absolute;
+    z-index: 10;
+    top: calc(100% + 1px);
+    right: 1.5rem;
+    left: 1.5rem;
+    display: none;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid #d9e0e5;
+    border-top: 0;
+    border-radius: 0 0 0.75rem 0.75rem;
+    background: #fff;
+    padding: 0.5rem;
+    box-shadow: 0 0.75rem 1.5rem rgb(15 23 42 / 0.08);
+  }
+  .navigationOpen {
+    display: flex;
+  }
+  .navigation a {
+    min-height: 2.75rem;
+    padding: 0.75rem;
   }
 }
-@media (max-width: 640px) {
+@media (max-width: 767px) {
+  .page {
+    display: flex;
+    min-height: calc(100dvh - var(--mobile-tab-height));
+    flex-direction: column;
+  }
   .header,
   .hero,
   .schools,
@@ -248,42 +301,169 @@
     padding-right: 1.25rem;
     padding-left: 1.25rem;
   }
-  .navigation {
-    gap: 1rem;
-  }
-  .navigation a:not(.signIn) {
-    white-space: nowrap;
-  }
   .signIn {
     display: none;
   }
   .hero {
-    padding-top: 3rem;
-    padding-bottom: 2.25rem;
+    padding-top: 2.5rem;
+    padding-bottom: 1.75rem;
   }
   .hero h1 {
-    font-size: 2.5rem;
+    margin-top: 0.65rem;
+    font-size: 2.15rem;
+    line-height: 1.12;
+  }
+  .heroDescription {
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+  .heroTrust {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.45rem;
   }
   .schools,
   .resources {
     grid-template-columns: 1fr;
   }
+  .schools {
+    gap: 0.75rem;
+    padding-bottom: 1.5rem;
+  }
   .schoolCard {
-    padding: 1.5rem;
+    padding: 1.25rem;
+  }
+  .schoolCard h2 {
+    margin-block: 0.45rem;
+    font-size: 1.125rem;
+  }
+  .schoolCard div {
+    font-size: 0.875rem;
+    line-height: 1.5;
   }
   .resources a {
-    min-height: 5.5rem;
+    display: flex;
+    min-height: auto;
+    justify-content: flex-start;
+    padding: 0.9rem 1rem;
+  }
+  .resources {
+    gap: 0.5rem;
+    padding-bottom: 1.5rem;
   }
   .footer {
     align-items: flex-start;
     flex-direction: column;
+    margin-top: auto;
+    padding-bottom: 1.25rem;
   }
   .footer nav {
-    justify-content: flex-start;
+    width: 100%;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 5px;
+    white-space: nowrap;
+  }
+  .footer nav a {
+    font-size: 9px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
   .glowRing {
     animation: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .header,
+  .hero,
+  .schools,
+  .footer {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+  .header {
+    min-height: 49px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+  .brand {
+    font-size: 16px;
+  }
+  .menuButton {
+    min-width: 20px;
+    min-height: 20px;
+    border: 0;
+    padding: 0;
+  }
+  .menuButton svg {
+    width: 20px;
+  }
+  .hero {
+    padding-top: 26px;
+    padding-bottom: 20px;
+  }
+  .hero p {
+    font-size: 10.5px;
+    letter-spacing: 0.05em;
+  }
+  .hero h1 {
+    max-width: none;
+    margin: 10px 0 8px;
+    font-size: 24px;
+    line-height: 1.25;
+  }
+  .heroDescription {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .heroTrust {
+    display: none;
+  }
+  .schools {
+    gap: 12px;
+    padding-top: 0;
+    padding-bottom: 18px;
+  }
+  .glowWrap {
+    border-radius: 16px;
+  }
+  .schoolCard {
+    min-height: 106px;
+    border-radius: 15px;
+    padding: 18px;
+  }
+  .schoolCard p {
+    font-size: 10px;
+  }
+  .schoolCard h2 {
+    margin: 6px 0 4px;
+    font-size: 16px;
+  }
+  .schoolCard div {
+    font-size: 11.5px;
+    line-height: 1.4;
+  }
+  .schoolCard a {
+    margin-top: 9px;
+    font-size: 12px;
+  }
+  .resources {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 2px 18px 16px;
+    scrollbar-width: none;
+  }
+  .resources a {
+    flex-shrink: 0;
+    border-radius: 20px;
+    padding: 8px 14px;
+  }
+  .resources svg {
+    width: 16px;
+  }
+  .resources span {
+    font-size: 12px;
   }
 }

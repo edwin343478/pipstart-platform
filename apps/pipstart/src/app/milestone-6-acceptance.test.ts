@@ -57,7 +57,7 @@ describe("Milestone 6 release acceptance", () => {
 
     for (const stylesheet of responsiveStyles) {
       expect(read(stylesheet)).toMatch(
-        /@media\s*\(max-width:\s*(?:[1-6]\d\d|7[0-5]\d|760)px\)/,
+        /@media\s*\(max-width:\s*(?:[1-6]\d\d|7[0-5]\d|76[0-7])px\)/,
       );
     }
   });

@@ -224,7 +224,7 @@
   font-size: 0.75rem;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 767px) {
   .header,
   .footer {
     padding-right: 1.25rem;

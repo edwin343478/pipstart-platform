@@ -245,7 +245,14 @@
   color: #0f766e;
 }
 
-@media (max-width: 760px) {
+.sidebarSummary {
+  display: none;
+}
+.sidebarDetails .sidebar {
+  display: block;
+}
+
+@media (max-width: 767px) {
   .header {
     align-items: flex-start;
     flex-direction: column;
@@ -261,10 +268,40 @@
     grid-template-columns: 1fr;
   }
 
+  .sidebarSummary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #d9e0e5;
+    background: #fff;
+    padding: 0.875rem 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    list-style: none;
+    cursor: pointer;
+  }
+  .sidebarSummary::-webkit-details-marker {
+    display: none;
+  }
+  .sidebarSummary svg {
+    width: 0.875rem;
+    fill: none;
+    stroke: #667085;
+    stroke-width: 2;
+  }
+  .sidebarDetails[open] .sidebarSummary svg {
+    transform: rotate(180deg);
+  }
+  .sidebarDetails:not([open]) .sidebar {
+    display: none;
+  }
   .sidebar {
     border-right: 0;
     border-bottom: 1px solid #d9e0e5;
-    padding: 1.5rem 1.25rem;
+    padding: 1rem 1.25rem 1.25rem;
+  }
+  .sidebar h2 {
+    display: none;
   }
 
   .lesson {
@@ -273,6 +310,21 @@
 
   .lesson h1 {
     font-size: 2rem;
+  }
+  .stickyActions {
+    position: sticky;
+    bottom: 0;
+    margin: 1.5rem -1.25rem -2.5rem;
+    border-top: 1px solid #d9e0e5;
+    background: #fff;
+    padding: 0.75rem 1.25rem max(1rem, env(safe-area-inset-bottom));
+  }
+  .completeAction {
+    margin-bottom: 0.75rem;
+  }
+  .completeAction button {
+    width: 100%;
+    justify-content: center;
   }
 }
 

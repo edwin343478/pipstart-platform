@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { PrimaryNavigation } from "../components/primary-navigation";
 import { createPageMetadata } from "../lib/seo";
 import styles from "./page.module.css";
 
@@ -64,20 +65,12 @@ export default function Home() {
         <Link className={styles.brand} href="/" aria-label="PipStart home">
           PipStart
         </Link>
-        <nav className={styles.navigation} aria-label="Primary navigation">
-          <Link href="/start-here">Start Here</Link>
-          <Link href="/learn/forex">Learn Forex</Link>
-          <Link href="/learn/crypto">Learn Crypto</Link>
-          <Link className={styles.analysisLink} href="/analysis">
-            Analysis
-            <svg aria-hidden="true" viewBox="0 0 20 20">
-              <path d="m5 8 5 5 5-5" />
-            </svg>
-          </Link>
-          <Link href="/glossary">Glossary</Link>
-          <Link href="/tools">Tools</Link>
-          <Link href="/brokers">Brokers</Link>
-        </nav>
+        <PrimaryNavigation
+          analysisLinkClassName={styles.analysisLink}
+          className={styles.navigation}
+          menuButtonClassName={styles.menuButton}
+          openClassName={styles.navigationOpen}
+        />
       </header>
 
       <section className={styles.hero}>

@@ -27,3 +27,8 @@ export { RiskNotice, type RiskNoticeProps } from "./risk-notice";
 export { Alert, type AlertProps, type AlertVariant } from "./alert";
 
 export { Badge, type BadgeProps, type BadgeVariant } from "./badge";
+
+export { Accordion, type AccordionProps } from "./accordion";
+export { EmailCapture, type EmailCaptureProps } from "./email-capture";
+export { Modal, type ModalProps } from "./modal";
+export { Tab, Tabs, type TabProps } from "./tabs";
