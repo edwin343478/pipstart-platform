@@ -15,6 +15,7 @@ describe("analysis authorship and content organization", () => {
         Date.parse(post.publishedAt),
       );
       expect(["fundamental", "technical"]).toContain(post.cluster);
+      expect(post.status).toBe("published");
     }
   });
 

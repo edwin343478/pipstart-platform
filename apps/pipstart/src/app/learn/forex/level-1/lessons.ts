@@ -1,13 +1,19 @@
+import {
+  type PublicationStatus,
+  selectPublishedContent,
+} from "../../../../lib/public-content";
+
 export type ForexLesson = {
   href: `/${string}`;
   introduction: string;
   keyPoints: string[];
   position: number;
   slug: string;
+  status: PublicationStatus;
   title: string;
 };
 
-export const forexLessons: ForexLesson[] = [
+const allForexLessons: ForexLesson[] = [
   {
     href: "/learn/forex/level-1",
     introduction:
@@ -19,6 +25,7 @@ export const forexLessons: ForexLesson[] = [
     ],
     position: 1,
     slug: "what-is-forex",
+    status: "published",
     title: "What is Forex?",
   },
   {
@@ -32,6 +39,7 @@ export const forexLessons: ForexLesson[] = [
     ],
     position: 2,
     slug: "currency-pairs",
+    status: "published",
     title: "Currency pairs",
   },
   {
@@ -45,6 +53,7 @@ export const forexLessons: ForexLesson[] = [
     ],
     position: 3,
     slug: "pips-and-lots",
+    status: "published",
     title: "Pips and lots",
   },
   {
@@ -58,6 +67,7 @@ export const forexLessons: ForexLesson[] = [
     ],
     position: 4,
     slug: "bid-ask-spread",
+    status: "published",
     title: "Bid, ask and spread",
   },
   {
@@ -71,6 +81,7 @@ export const forexLessons: ForexLesson[] = [
     ],
     position: 5,
     slug: "trading-sessions",
+    status: "published",
     title: "Trading sessions",
   },
   {
@@ -84,9 +95,12 @@ export const forexLessons: ForexLesson[] = [
     ],
     position: 6,
     slug: "market-participants",
+    status: "published",
     title: "Market participants",
   },
 ];
+
+export const forexLessons = selectPublishedContent(allForexLessons);
 
 export function getForexLesson(slug: string): ForexLesson | undefined {
   return forexLessons.find((lesson) => lesson.slug === slug);

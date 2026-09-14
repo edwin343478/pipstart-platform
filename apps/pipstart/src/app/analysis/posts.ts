@@ -1,3 +1,8 @@
+import {
+  type PublicationStatus,
+  selectPublishedContent,
+} from "../../lib/public-content";
+
 export type AnalysisCategory = "fundamental" | "technical";
 
 export interface AnalysisPost {
@@ -10,6 +15,7 @@ export interface AnalysisPost {
   publishedAt: string;
   reviewedAt: string;
   cluster: AnalysisCategory;
+  status: PublicationStatus;
 }
 
 export const analysisPageCopy = {
@@ -26,7 +32,7 @@ export function formatPublishedDate(publishedAt: string): string {
   }).format(new Date(publishedAt));
 }
 
-export const analysisPosts: AnalysisPost[] = [
+const allAnalysisPosts: AnalysisPost[] = [
   {
     slug: "central-bank-rate-hold-signal",
     category: "fundamental",
@@ -42,6 +48,7 @@ export const analysisPosts: AnalysisPost[] = [
     publishedAt: "2026-09-06T09:00:00.000Z",
     reviewedAt: "2026-09-10T09:00:00.000Z",
     cluster: "fundamental",
+    status: "published",
   },
   {
     slug: "reading-a-jobs-report",
@@ -58,6 +65,7 @@ export const analysisPosts: AnalysisPost[] = [
     publishedAt: "2026-09-03T09:00:00.000Z",
     reviewedAt: "2026-09-10T09:00:00.000Z",
     cluster: "fundamental",
+    status: "published",
   },
   {
     slug: "risk-on-risk-off-explained",
@@ -73,6 +81,7 @@ export const analysisPosts: AnalysisPost[] = [
     publishedAt: "2026-09-01T09:00:00.000Z",
     reviewedAt: "2026-09-10T09:00:00.000Z",
     cluster: "fundamental",
+    status: "published",
   },
   {
     slug: "head-and-shoulders-without-forcing-it",
@@ -88,6 +97,7 @@ export const analysisPosts: AnalysisPost[] = [
     publishedAt: "2026-09-07T09:00:00.000Z",
     reviewedAt: "2026-09-10T09:00:00.000Z",
     cluster: "technical",
+    status: "published",
   },
   {
     slug: "why-old-support-does-not-always-hold",
@@ -103,6 +113,7 @@ export const analysisPosts: AnalysisPost[] = [
     publishedAt: "2026-09-05T09:00:00.000Z",
     reviewedAt: "2026-09-10T09:00:00.000Z",
     cluster: "technical",
+    status: "published",
   },
   {
     slug: "higher-highs-higher-lows",
@@ -118,5 +129,8 @@ export const analysisPosts: AnalysisPost[] = [
     publishedAt: "2026-09-02T09:00:00.000Z",
     reviewedAt: "2026-09-10T09:00:00.000Z",
     cluster: "technical",
+    status: "published",
   },
 ];
+
+export const analysisPosts = selectPublishedContent(allAnalysisPosts);

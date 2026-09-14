@@ -10,6 +10,9 @@ describe("Forex level-one lesson infrastructure", () => {
     ]);
     expect(new Set(forexLessons.map((lesson) => lesson.href)).size).toBe(6);
     expect(new Set(forexLessons.map((lesson) => lesson.slug)).size).toBe(6);
+    expect(forexLessons.every((lesson) => lesson.status === "published")).toBe(
+      true,
+    );
   });
 
   it("keeps the approved first lesson at the level root", () => {
