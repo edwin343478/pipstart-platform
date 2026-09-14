@@ -1,7 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { FormEvent, useState } from "react";
+
+import { CalculatorHeader } from "../../../components/calculator-header";
 import { Alert, Button } from "@repo/ui";
 
 import {
@@ -98,16 +99,10 @@ export default function RiskRewardCalculatorPage() {
 
   return (
     <main className={styles.page}>
-      <header className={styles.header}>
-        <Link href="/" aria-label="PipStart home">
-          PipStart
-        </Link>
-        <nav aria-label="Breadcrumb">
-          <Link href="/tools">Tools</Link>
-          <span aria-hidden="true"> / </span>
-          <span>Risk to Reward</span>
-        </nav>
-      </header>
+      <CalculatorHeader
+        className={styles.header}
+        currentLabel="Risk to Reward"
+      />
 
       <div className={styles.content}>
         <section className={styles.introduction}>

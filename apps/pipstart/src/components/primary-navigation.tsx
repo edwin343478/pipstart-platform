@@ -17,6 +17,7 @@ const navigationItems: readonly NavigationItem[] = [
   { href: "/glossary", label: "Glossary" },
   { href: "/tools", label: "Tools" },
   { href: "/brokers", label: "Brokers" },
+  { href: "/faq", label: "FAQ" },
 ];
 
 type PrimaryNavigationProps = {

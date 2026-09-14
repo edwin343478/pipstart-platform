@@ -1,6 +1,8 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+import styles from "./breadcrumbs.module.css";
+
 export type BreadcrumbItem = {
   href?: string;
   label: ReactNode;
@@ -12,8 +14,10 @@ type BreadcrumbsProps = {
 };
 
 export function Breadcrumbs({ className, items }: BreadcrumbsProps) {
+  const rootClassName = [styles.root, className].filter(Boolean).join(" ");
+
   return (
-    <nav className={className} aria-label="Breadcrumb">
+    <nav className={rootClassName} aria-label="Breadcrumb">
       <ol>
         {items.map((item, index) => {
           const current = index === items.length - 1;

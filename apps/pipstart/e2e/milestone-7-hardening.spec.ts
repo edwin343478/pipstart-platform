@@ -4,6 +4,7 @@ import { expect, test } from "@playwright/test";
 const representativeRoutes = [
   "/",
   "/start-here",
+  "/faq",
   "/tools",
   "/learn/forex",
   "/learn/forex/level-1/pips-and-lots",
@@ -90,6 +91,18 @@ test.describe("Milestone 7 production hardening", () => {
       page.getByRole("heading", { name: "Margin Calculator" }),
     ).toBeVisible();
     await expect(page.getByText("1 calculators found")).toBeAttached();
+  });
+
+  test("operates FAQ disclosures from the keyboard", async ({ page }) => {
+    await page.goto("/faq");
+    const firstQuestion = page.locator("details").first();
+    const summary = firstQuestion.locator("summary");
+
+    await summary.focus();
+    await page.keyboard.press("Enter");
+
+    await expect(firstQuestion).toHaveAttribute("open", "");
+    await expect(firstQuestion.locator("p")).toBeVisible();
   });
 
   test("collapses and restores both desktop lesson sidebars", async ({

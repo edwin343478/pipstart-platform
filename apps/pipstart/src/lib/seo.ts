@@ -44,6 +44,12 @@ export const seoEntries = [
       "Meet the team responsible for maintaining PipStart's educational market content.",
   },
   {
+    path: "/faq",
+    title: "Frequently Asked Questions",
+    description:
+      "Find clear answers about PipStart lessons, calculators, progress, educational limits and affiliate links.",
+  },
+  {
     path: "/learn/forex",
     title: "Learn Forex",
     description:
