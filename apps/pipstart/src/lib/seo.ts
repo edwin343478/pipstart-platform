@@ -62,6 +62,18 @@ export const seoEntries = [
       "Learn currency pairs, pips, lots, spreads, sessions and Forex market participants.",
   },
   {
+    path: "/learn/forex/level-1/forex-kindergarten",
+    title: "Forex Kindergarten Course",
+    description:
+      "Explore the Forex Kindergarten course and its published foundation modules.",
+  },
+  {
+    path: "/learn/forex/level-1/forex-kindergarten/forex-foundations",
+    title: "Forex Foundations Module",
+    description:
+      "Study currency pairs, prices, trade sizes, sessions and market participants in order.",
+  },
+  {
     path: "/learn/crypto",
     title: "Learn Cryptocurrency",
     description:
@@ -72,6 +84,18 @@ export const seoEntries = [
     title: "Bitcoin Foundations",
     description:
       "Learn what Bitcoin is and how its decentralized network records transactions.",
+  },
+  {
+    path: "/learn/crypto/level-1/bitcoin",
+    title: "Bitcoin Course",
+    description:
+      "Explore the Bitcoin course and its published foundation modules.",
+  },
+  {
+    path: "/learn/crypto/level-1/bitcoin/bitcoin-foundations",
+    title: "Bitcoin Foundations Module",
+    description:
+      "Begin with Bitcoin's purpose, decentralized network and core ideas.",
   },
   {
     path: "/analysis",
