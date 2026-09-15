@@ -4,6 +4,7 @@ import type {
   LessonMetadata,
 } from "./lesson-content";
 import { selectPublishableLessons } from "./lesson-content";
+import { relatedTermSlugs } from "../lib/related-learning";
 import {
   blocks as draftSecurityBlocks,
   metadata as draftSecurityMetadata,
@@ -70,6 +71,7 @@ function lessonHref(metadata: LessonMetadata): `/${string}` {
 
 export const publishedLessons: PublishedLesson[] = selectPublishableLessons(
   allLessonDocuments,
+  { validTermSlugs: relatedTermSlugs },
 ).map(({ blocks, metadata }) => ({
   ...metadata,
   blocks,

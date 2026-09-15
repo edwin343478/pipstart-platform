@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import type { LessonDocument, LessonMetadata } from "./lesson-content";
+import type {
+  LessonBlock,
+  LessonDocument,
+  LessonMetadata,
+} from "./lesson-content";
 import {
   selectPublishableLessons,
   validateLessonForPublication,
@@ -106,6 +110,26 @@ describe("lesson publishing safeguards", () => {
     expect(() => validateLessonForPublication(insecureSource)).toThrow(
       "HTTPS URL",
     );
+
+    const impossibleDate = validDocument();
+    impossibleDate.metadata.reviewDate = "2026-02-31";
+    expect(() => validateLessonForPublication(impossibleDate)).toThrow(
+      "reviewDate is invalid",
+    );
+
+    const futureDate = validDocument();
+    futureDate.metadata.publishedDate = "2999-01-01";
+    futureDate.metadata.reviewDate = "2999-01-01";
+    expect(() => validateLessonForPublication(futureDate)).toThrow(
+      "cannot be in the future",
+    );
+
+    const malformedHttpsSource = validDocument();
+    (malformedHttpsSource.metadata.sources[0] as { url: string }).url =
+      "https://";
+    expect(() => validateLessonForPublication(malformedHttpsSource)).toThrow(
+      "HTTPS URL",
+    );
   });
 
   it("requires conditional disclosures and diagram alternative text", () => {
@@ -152,5 +176,123 @@ describe("lesson publishing safeguards", () => {
     expect(() =>
       selectPublishableLessons([validDocument(), duplicate]),
     ).toThrow("Duplicate lesson position");
+  });
+
+  it.each<[string, LessonBlock, string]>([
+    [
+      "definition",
+      { type: "definition", term: "", children: "" },
+      "definition",
+    ],
+    ["example", { type: "example", children: "" }, "example content"],
+    [
+      "warning",
+      { type: "warning", title: "", children: "Warning" },
+      "warning title",
+    ],
+    ["key point", { type: "keyPoint", points: [] }, "key point"],
+    [
+      "formula",
+      { type: "formula", expression: "", explanation: "" },
+      "formula",
+    ],
+    ["exercise", { type: "exercise", prompt: "" }, "exercise prompt"],
+    [
+      "diagram",
+      {
+        type: "diagram",
+        alt: "Diagram",
+        height: 0,
+        src: "//remote.example/image.png",
+        width: -1,
+      },
+      "diagram",
+    ],
+    [
+      "comparison table",
+      {
+        type: "comparisonTable",
+        caption: "",
+        columns: ["Same", "Same"],
+        rows: [["value"]],
+      },
+      "comparison table",
+    ],
+    [
+      "risk notice",
+      { type: "riskNotice", children: "" },
+      "risk notice content",
+    ],
+    [
+      "affiliate disclosure",
+      { type: "affiliateDisclosure", children: "" },
+      "affiliate disclosure content",
+    ],
+    [
+      "quiz preview",
+      { type: "quizPreview", title: "", questionCount: 0 },
+      "quiz preview",
+    ],
+  ])("rejects invalid %s blocks", (_name, block, message) => {
+    const document = validDocument();
+    document.blocks = [block];
+    expect(() => validateLessonForPublication(document)).toThrow(message);
+  });
+
+  it("rejects unknown blocks defensively", () => {
+    const document = validDocument();
+    document.blocks = [{ type: "unsupported" } as unknown as LessonBlock];
+    expect(() => validateLessonForPublication(document)).toThrow(
+      "unknown lesson block",
+    );
+  });
+
+  it("validates published lesson and glossary relationships", () => {
+    const first = validDocument();
+    first.metadata.slug = "first";
+    first.metadata.relatedLessonIds = ["second"];
+    first.metadata.relatedTermSlugs = ["pip"];
+
+    const second = validDocument();
+    second.metadata.slug = "second";
+    second.metadata.position = 2;
+    second.metadata.relatedLessonIds = ["first"];
+
+    expect(() =>
+      selectPublishableLessons([first, second], {
+        validTermSlugs: ["pip"],
+      }),
+    ).not.toThrow();
+
+    first.metadata.relatedLessonIds = ["missing"];
+    expect(() => selectPublishableLessons([first, second])).toThrow(
+      "missing related lesson",
+    );
+
+    first.metadata.relatedLessonIds = ["first"];
+    expect(() => selectPublishableLessons([first, second])).toThrow(
+      "cannot reference itself",
+    );
+
+    first.metadata.relatedLessonIds = ["second"];
+    second.metadata.status = "draft";
+    second.metadata.approved = false;
+    expect(() => selectPublishableLessons([first, second])).toThrow(
+      "unpublished related lesson",
+    );
+
+    first.metadata.relatedLessonIds = [];
+    first.metadata.relatedTermSlugs = ["unknown-term"];
+    expect(() =>
+      selectPublishableLessons([first], { validTermSlugs: ["pip"] }),
+    ).toThrow("missing glossary term");
+  });
+
+  it("validates prerequisite relationships", () => {
+    const lesson = validDocument();
+    lesson.metadata.prerequisites = ["missing"];
+    expect(() => selectPublishableLessons([lesson])).toThrow(
+      "missing prerequisite",
+    );
   });
 });
