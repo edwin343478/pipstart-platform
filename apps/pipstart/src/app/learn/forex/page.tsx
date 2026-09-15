@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState, useSyncExternalStore } from "react";
 
 import { CompactFooter, CompactHeader } from "../../../components/site-chrome";
-import { getContinueLearningLesson } from "../../../lib/course-engine";
+import { getContinueLearningState } from "../../../lib/course-engine";
 import { forexLessons } from "./level-1/lessons";
 import {
   FOREX_LEVEL_ONE_PROGRESS_KEY,
@@ -102,10 +102,18 @@ export default function LearnForexPage() {
     getServerProgressSnapshot,
   );
   const completedLessonSlugs = parseLessonProgress(storedProgress, lessonSlugs);
-  const continueLesson = getContinueLearningLesson(
+  const continueState = getContinueLearningState(
     forexLessons.map((lesson) => ({ ...lesson, id: lesson.slug })),
     completedLessonSlugs,
   );
+  const levelHref =
+    continueState.status === "lesson"
+      ? continueState.lesson.href
+      : "/learn/forex/level-1/forex-kindergarten/forex-foundations";
+  const levelAction =
+    continueState.status === "complete"
+      ? "Review completed module"
+      : "Start Level 1";
   return (
     <main className={styles.page}>
       <CompactHeader className={styles.header} section="Learn Forex" />
@@ -133,7 +141,7 @@ export default function LearnForexPage() {
               {index === 1 ? (
                 <Link
                   className={`${styles.levelCard} ${styles.availableLevel}`}
-                  href={continueLesson?.href ?? "/learn/forex/level-1"}
+                  href={levelHref}
                   aria-label="Start Level 1: Forex Kindergarten"
                 >
                   <span className={styles.levelMeta}>
@@ -142,7 +150,7 @@ export default function LearnForexPage() {
                   </span>
                   <h3>{level.title}</h3>
                   <p>{level.description}</p>
-                  <span className={styles.startLevel}>Start Level 1 →</span>
+                  <span className={styles.startLevel}>{levelAction} →</span>
                 </Link>
               ) : (
                 <article className={styles.levelCard}>

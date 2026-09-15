@@ -71,11 +71,18 @@ describe("Milestone 6 release acceptance", () => {
       expect(source).toContain("desktopSidebar");
       expect(source).toContain("mobileSidebar");
       expect(source).toContain("sidebarSummary");
-      expect(source).toContain("Level 1 quiz");
       expect(source).toContain("aria-expanded={!collapsed}");
       expect(source).toContain("Collapse lesson sidebar");
       expect(source).toContain("Expand lesson sidebar");
     }
+
+    expect(read("learn/forex/level-1/forex-lesson.tsx")).toContain(
+      "Level 1 quiz",
+    );
+
+    const cryptoLessonSource = read("learn/crypto/level-1/page.tsx");
+    expect(cryptoLessonSource).toContain("cryptoLessons.map");
+    expect(cryptoLessonSource).not.toContain("Level 1 quiz");
 
     for (const stylesheet of [
       "learn/forex/level-1/page.module.css",

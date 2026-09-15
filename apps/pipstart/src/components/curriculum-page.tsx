@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import type {
   CurriculumCourse,
+  CurriculumLevel,
   CurriculumModule,
   LearningPath,
 } from "../lib/curriculum";
@@ -17,6 +18,7 @@ import styles from "../app/learn/forex/page.module.css";
 type CurriculumPageProps = {
   course: CurriculumCourse;
   kind: "course" | "module";
+  level: CurriculumLevel;
   learningPath: LearningPath;
   module?: CurriculumModule;
 };
@@ -24,6 +26,7 @@ type CurriculumPageProps = {
 export function CurriculumPage({
   course,
   kind,
+  level,
   learningPath,
   module,
 }: CurriculumPageProps) {
@@ -37,10 +40,10 @@ export function CurriculumPage({
       path: learningPath.href,
     },
     {
-      href: learningPath.levels[0]?.href,
-      label: "Level 1",
-      name: "Level 1",
-      path: learningPath.levels[0]?.href ?? learningPath.href,
+      href: level.href,
+      label: level.title,
+      name: level.title,
+      path: level.href,
     },
     ...(module
       ? [
@@ -60,7 +63,7 @@ export function CurriculumPage({
     <main className={styles.page}>
       <CompactHeader
         className={styles.header}
-        section={`${learningPath.title} · Level 1`}
+        section={`${learningPath.title} · ${level.title}`}
       />
       <JsonLd
         data={createBreadcrumbJsonLd(
@@ -71,7 +74,9 @@ export function CurriculumPage({
         <Breadcrumbs
           items={breadcrumbs.map(({ href, label }) => ({ href, label }))}
         />
-        <span>Level 1 · {kind === "course" ? "Course" : "Module"}</span>
+        <span>
+          {level.title} · {kind === "course" ? "Course" : "Module"}
+        </span>
         <h1>{current.title}</h1>
         <p>{current.description}</p>
       </section>

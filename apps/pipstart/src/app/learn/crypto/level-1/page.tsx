@@ -7,6 +7,9 @@ import {
   LearningHeader,
   LessonNavigation,
 } from "../../../../components/learning-structure";
+import { Breadcrumbs } from "../../../../components/breadcrumbs";
+import { getLessonNavigation } from "../../../../lib/course-engine";
+import { getRelatedTermLabels } from "../../../../lib/related-learning";
 import { cryptoLessons } from "./lessons";
 import {
   CRYPTO_LEVEL_ONE_PROGRESS_KEY,
@@ -48,16 +51,6 @@ function CheckIcon() {
   );
 }
 
-const lessons = [
-  { label: "What is Bitcoin?", status: "current" },
-  { label: "Blockchain", status: "upcoming" },
-  { label: "Transactions and blocks", status: "upcoming" },
-  { label: "Mining and proof of work", status: "upcoming" },
-  { label: "Supply and halving", status: "upcoming" },
-  { label: "Keys and digital signatures", status: "upcoming" },
-  { label: "Level 1 quiz", status: "upcoming" },
-] as const;
-
 export default function CryptoLevelOnePage() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const storedProgress = useSyncExternalStore(
@@ -70,6 +63,7 @@ export default function CryptoLevelOnePage() {
     publishedLessonIds,
   );
   const lessonIsComplete = completedLessonIds.includes(publishedLesson.id);
+  const navigation = getLessonNavigation(cryptoLessons, publishedLesson.id);
 
   function toggleCompletion() {
     try {
@@ -97,7 +91,9 @@ export default function CryptoLevelOnePage() {
         id={collapsible ? "crypto-desktop-sidebar" : undefined}
       >
         <div className={styles.sidebarHeading}>
-          <h2>Bitcoin</h2>
+          <h2>
+            <Link href="/learn/crypto/level-1/bitcoin">Bitcoin</Link>
+          </h2>
           {collapsible ? (
             <button
               type="button"
@@ -117,20 +113,19 @@ export default function CryptoLevelOnePage() {
           {completedLessonIds.length} of {cryptoLessons.length} complete
         </p>
         <nav>
-          {lessons.map((lesson) => {
-            const className =
-              lesson.status === "current"
-                ? styles.currentLesson
-                : styles.upcomingLesson;
+          {cryptoLessons.map((lesson) => {
+            const current = lesson.id === publishedLesson.id;
             return (
-              <span
-                aria-current={lesson.status === "current" ? "page" : undefined}
-                className={className}
-                key={lesson.label}
+              <Link
+                aria-current={current ? "page" : undefined}
+                className={
+                  current ? styles.currentLesson : styles.upcomingLesson
+                }
+                href={lesson.href}
+                key={lesson.id}
               >
-                {lesson.label}
-                {lesson.label === "Level 1 quiz" ? " · Coming soon" : ""}
-              </span>
+                {lesson.title}
+              </Link>
             );
           })}
         </nav>
@@ -165,6 +160,14 @@ export default function CryptoLevelOnePage() {
         </details>
 
         <article className={styles.lesson}>
+          <Breadcrumbs
+            items={[
+              { href: "/", label: "Home" },
+              { href: "/learn/crypto", label: "Learn Crypto" },
+              { href: "/learn/crypto/level-1/bitcoin", label: "Bitcoin" },
+              { label: publishedLesson.title },
+            ]}
+          />
           <p className={styles.eyebrow}>
             Level 1 · Lesson 1 of {cryptoLessons.length} ·{" "}
             {publishedLesson.estimatedMinutes}-minute read
@@ -194,7 +197,12 @@ export default function CryptoLevelOnePage() {
           >
             <h2 id="related-learning">Related learning</h2>
             <p>
-              <Link href="/glossary/crypto">Related glossary terms</Link>
+              Terms:{" "}
+              {getRelatedTermLabels(publishedLesson.relatedTermSlugs).join(
+                ", ",
+              )}
+              {" · "}
+              <Link href="/glossary/crypto">Open glossary</Link>
             </p>
           </section>
 
@@ -212,7 +220,19 @@ export default function CryptoLevelOnePage() {
 
           <LessonNavigation
             className={styles.lessonNavigation}
-            next={{ href: "/learn/crypto", label: "Return to Crypto path" }}
+            previous={
+              navigation?.previous
+                ? {
+                    href: navigation.previous.href,
+                    label: navigation.previous.title,
+                  }
+                : undefined
+            }
+            next={
+              navigation?.next
+                ? { href: navigation.next.href, label: navigation.next.title }
+                : { href: "/learn/crypto", label: "Return to Crypto path" }
+            }
           />
         </article>
       </div>

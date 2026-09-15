@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  getContinueLearningState,
   getContinueLearningLesson,
   getLessonNavigation,
   sortPublishedLessons,
@@ -36,11 +37,19 @@ describe("course engine", () => {
     expect(getLessonNavigation(lessons, "missing")).toBeUndefined();
   });
 
-  it("continues at the first incomplete lesson and restarts after completion", () => {
+  it("continues at the first incomplete lesson and reports completion", () => {
     expect(getContinueLearningLesson(lessons, [])?.id).toBe("first");
     expect(getContinueLearningLesson(lessons, ["first"])?.id).toBe("third");
-    expect(getContinueLearningLesson(lessons, ["first", "third"])?.id).toBe(
-      "first",
-    );
+    expect(
+      getContinueLearningLesson(lessons, ["first", "third"]),
+    ).toBeUndefined();
+    expect(getContinueLearningState(lessons, [])).toMatchObject({
+      lesson: { id: "first" },
+      status: "lesson",
+    });
+    expect(getContinueLearningState(lessons, ["first", "third"])).toEqual({
+      status: "complete",
+    });
+    expect(getContinueLearningState([], [])).toEqual({ status: "empty" });
   });
 });

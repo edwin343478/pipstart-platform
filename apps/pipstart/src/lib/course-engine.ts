@@ -38,5 +38,21 @@ export function getContinueLearningLesson<T extends OrderedLesson>(
   const published = sortPublishedLessons(lessons);
   const completed = new Set(completedLessonIds);
 
-  return published.find((lesson) => !completed.has(lesson.id)) ?? published[0];
+  return published.find((lesson) => !completed.has(lesson.id));
+}
+
+export type ContinueLearningState<T extends OrderedLesson> =
+  | { status: "empty" }
+  | { status: "complete" }
+  | { lesson: T; status: "lesson" };
+
+export function getContinueLearningState<T extends OrderedLesson>(
+  lessons: readonly T[],
+  completedLessonIds: readonly string[],
+): ContinueLearningState<T> {
+  const published = sortPublishedLessons(lessons);
+  if (published.length === 0) return { status: "empty" };
+
+  const lesson = getContinueLearningLesson(published, completedLessonIds);
+  return lesson ? { lesson, status: "lesson" } : { status: "complete" };
 }

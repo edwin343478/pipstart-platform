@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { CurriculumPage } from "../../../../../../components/curriculum-page";
 import {
   getCurriculumCourse,
+  getCurriculumLevel,
   getCurriculumModule,
   getLearningPath,
 } from "../../../../../../lib/curriculum";
@@ -15,15 +16,17 @@ export const metadata = createPageMetadata(
 export default function BitcoinFoundationsPage() {
   const learningPath = getLearningPath("crypto");
   const course = getCurriculumCourse("crypto", "bitcoin");
+  const level = getCurriculumLevel("crypto", "level-1");
   const curriculumModule = getCurriculumModule("crypto", "bitcoin-foundations");
 
-  if (!learningPath || !course || !curriculumModule) notFound();
+  if (!learningPath || !level || !course || !curriculumModule) notFound();
 
   return (
     <CurriculumPage
       course={course}
       kind="module"
       learningPath={learningPath}
+      level={level}
       module={curriculumModule}
     />
   );

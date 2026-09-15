@@ -7,7 +7,9 @@ import {
   LearningHeader,
   LessonNavigation,
 } from "../../../../components/learning-structure";
+import { Breadcrumbs } from "../../../../components/breadcrumbs";
 import { getLessonNavigation } from "../../../../lib/course-engine";
+import { getRelatedTermLabels } from "../../../../lib/related-learning";
 import type { ForexLesson } from "./lessons";
 import { forexLessons, getForexLessonById } from "./lessons";
 import {
@@ -96,7 +98,11 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
         id={collapsible ? "forex-desktop-sidebar" : undefined}
       >
         <div className={styles.sidebarHeading}>
-          <h2>Forex Kindergarten</h2>
+          <h2>
+            <Link href="/learn/forex/level-1/forex-kindergarten">
+              Forex Kindergarten
+            </Link>
+          </h2>
           {collapsible ? (
             <button
               type="button"
@@ -172,6 +178,17 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
         </details>
 
         <article className={styles.lesson}>
+          <Breadcrumbs
+            items={[
+              { href: "/", label: "Home" },
+              { href: "/learn/forex", label: "Learn Forex" },
+              {
+                href: "/learn/forex/level-1/forex-kindergarten",
+                label: "Forex Kindergarten",
+              },
+              { label: lesson.title },
+            ]}
+          />
           <p className={styles.eyebrow}>
             Level 1 · Lesson {navigation?.position ?? lesson.position} of{" "}
             {navigation?.total ?? forexLessons.length} ·{" "}
@@ -222,7 +239,10 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
               ))}
               {lesson.relatedTermSlugs.length > 0 ? (
                 <p>
-                  <Link href="/glossary">Related glossary terms</Link>
+                  Terms:{" "}
+                  {getRelatedTermLabels(lesson.relatedTermSlugs).join(", ")}
+                  {" · "}
+                  <Link href="/glossary">Open glossary</Link>
                 </p>
               ) : null}
             </section>

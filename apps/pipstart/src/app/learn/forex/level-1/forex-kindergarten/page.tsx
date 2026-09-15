@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { CurriculumPage } from "../../../../../components/curriculum-page";
 import {
   getCurriculumCourse,
+  getCurriculumLevel,
   getLearningPath,
 } from "../../../../../lib/curriculum";
 import { createPageMetadata } from "../../../../../lib/seo";
@@ -14,10 +15,16 @@ export const metadata = createPageMetadata(
 export default function ForexKindergartenPage() {
   const learningPath = getLearningPath("forex");
   const course = getCurriculumCourse("forex", "forex-kindergarten");
+  const level = getCurriculumLevel("forex", "level-1");
 
-  if (!learningPath || !course) notFound();
+  if (!learningPath || !level || !course) notFound();
 
   return (
-    <CurriculumPage course={course} kind="course" learningPath={learningPath} />
+    <CurriculumPage
+      course={course}
+      kind="course"
+      learningPath={learningPath}
+      level={level}
+    />
   );
 }

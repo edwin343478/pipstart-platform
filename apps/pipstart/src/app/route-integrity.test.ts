@@ -101,8 +101,9 @@ describe("PipStart internal route integrity", () => {
 
     expect(home).toContain('href="/learn/forex/level-1"');
     expect(home).not.toContain("Start Level 0");
+    expect(forexPath).toContain("href={levelHref}");
     expect(forexPath).toContain(
-      'href={continueLesson?.href ?? "/learn/forex/level-1"}',
+      '"/learn/forex/level-1/forex-kindergarten/forex-foundations"',
     );
     expect(forexPath).toContain("Available");
     expect(forexPath).toContain("Coming soon");

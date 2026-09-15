@@ -203,6 +203,13 @@ export function getCurriculumCourse(
     .find((course) => course.id === courseId);
 }
 
+export function getCurriculumLevel(
+  pathId: LearningPath["id"],
+  levelId: string,
+) {
+  return getLearningPath(pathId)?.levels.find((level) => level.id === levelId);
+}
+
 export function getCurriculumModule(
   pathId: LearningPath["id"],
   moduleId: string,
