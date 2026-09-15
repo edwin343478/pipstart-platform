@@ -1,46 +1,25 @@
+import {
+  parseLocalProgress,
+  toggleLocalProgress,
+} from "../../../../lib/local-progress";
+
 export const FOREX_LEVEL_ONE_PROGRESS_KEY =
   "pipstart:learn:forex:level-1:progress";
-
-type StoredLessonProgress = {
-  completedLessonSlugs: string[];
-  version: 1;
-};
+export const FOREX_PROGRESS_CHANGE_EVENT = "pipstart:forex-progress-change";
 
 export function parseLessonProgress(
   storedValue: string | null,
   validLessonSlugs: readonly string[],
 ): string[] {
-  if (!storedValue) return [];
-
-  try {
-    const parsed = JSON.parse(storedValue) as Partial<StoredLessonProgress>;
-    if (parsed.version !== 1 || !Array.isArray(parsed.completedLessonSlugs)) {
-      return [];
-    }
-
-    const validSlugs = new Set(validLessonSlugs);
-    return [
-      ...new Set(
-        parsed.completedLessonSlugs.filter(
-          (slug): slug is string =>
-            typeof slug === "string" && validSlugs.has(slug),
-        ),
-      ),
-    ];
-  } catch {
-    return [];
-  }
+  return parseLocalProgress(storedValue, validLessonSlugs);
 }
 
 export function serializeLessonProgress(
   completedLessonSlugs: string[],
 ): string {
-  const progress: StoredLessonProgress = {
-    completedLessonSlugs,
-    version: 1,
-  };
-
-  return JSON.stringify(progress);
+  // Preserve the original Forex payload shape for existing browser data and
+  // previously shipped clients while using the shared parser internally.
+  return JSON.stringify({ completedLessonSlugs, version: 1 });
 }
 
 export function toggleLessonProgress(
@@ -48,10 +27,11 @@ export function toggleLessonProgress(
   lessonSlug: string,
   validLessonSlugs: readonly string[],
 ): string {
-  const completed = new Set(parseLessonProgress(storedValue, validLessonSlugs));
-
-  if (completed.has(lessonSlug)) completed.delete(lessonSlug);
-  else if (validLessonSlugs.includes(lessonSlug)) completed.add(lessonSlug);
-
-  return serializeLessonProgress([...completed]);
+  const sharedValue = toggleLocalProgress(
+    storedValue,
+    lessonSlug,
+    validLessonSlugs,
+  );
+  const completed = parseLocalProgress(sharedValue, validLessonSlugs);
+  return serializeLessonProgress(completed);
 }

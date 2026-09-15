@@ -1,12 +1,52 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
+import { useState, useSyncExternalStore } from "react";
 
 import {
   LearningHeader,
   LessonNavigation,
 } from "../../../../components/learning-structure";
+import { cryptoLessons } from "./lessons";
+import {
+  CRYPTO_LEVEL_ONE_PROGRESS_KEY,
+  CRYPTO_PROGRESS_CHANGE_EVENT,
+  parseCryptoLessonProgress,
+  toggleCryptoLessonProgress,
+} from "./progress";
 import styles from "./page.module.css";
+
+const publishedLesson = cryptoLessons[0]!;
+const publishedLessonIds = cryptoLessons.map((lesson) => lesson.id);
+
+function subscribeToProgress(callback: () => void) {
+  window.addEventListener("storage", callback);
+  window.addEventListener(CRYPTO_PROGRESS_CHANGE_EVENT, callback);
+  return () => {
+    window.removeEventListener("storage", callback);
+    window.removeEventListener(CRYPTO_PROGRESS_CHANGE_EVENT, callback);
+  };
+}
+
+function getProgressSnapshot() {
+  try {
+    return window.localStorage.getItem(CRYPTO_LEVEL_ONE_PROGRESS_KEY) ?? "";
+  } catch {
+    return "";
+  }
+}
+
+function getServerProgressSnapshot() {
+  return "";
+}
+
+function CheckIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 20 20">
+      <path d="M4 10.5 8 14.5 16 6" />
+    </svg>
+  );
+}
 
 const lessons = [
   { label: "What is Bitcoin?", status: "current" },
@@ -20,6 +60,30 @@ const lessons = [
 
 export default function CryptoLevelOnePage() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const storedProgress = useSyncExternalStore(
+    subscribeToProgress,
+    getProgressSnapshot,
+    getServerProgressSnapshot,
+  );
+  const completedLessonIds = parseCryptoLessonProgress(
+    storedProgress,
+    publishedLessonIds,
+  );
+  const lessonIsComplete = completedLessonIds.includes(publishedLesson.id);
+
+  function toggleCompletion() {
+    try {
+      const nextProgress = toggleCryptoLessonProgress(
+        storedProgress,
+        publishedLesson.id,
+        publishedLessonIds,
+      );
+      window.localStorage.setItem(CRYPTO_LEVEL_ONE_PROGRESS_KEY, nextProgress);
+      window.dispatchEvent(new Event(CRYPTO_PROGRESS_CHANGE_EVENT));
+    } catch {
+      // The lesson stays usable when browser storage is unavailable.
+    }
+  }
 
   function renderLessonSidebar(
     className: string,
@@ -49,6 +113,9 @@ export default function CryptoLevelOnePage() {
             </button>
           ) : null}
         </div>
+        <p className={styles.progressSummary} aria-live="polite">
+          {completedLessonIds.length} of {cryptoLessons.length} complete
+        </p>
         <nav>
           {lessons.map((lesson) => {
             const className =
@@ -98,21 +165,50 @@ export default function CryptoLevelOnePage() {
         </details>
 
         <article className={styles.lesson}>
-          <p className={styles.eyebrow}>Level 1 · Lesson 1 of 6</p>
-          <h1>What is Bitcoin?</h1>
-
-          <p className={styles.introduction}>
-            Bitcoin is a digital asset that can be transferred between people
-            through a decentralized network. This introductory lesson explains
-            its purpose and provides the foundation for the rest of the Bitcoin
-            level.
+          <p className={styles.eyebrow}>
+            Level 1 · Lesson 1 of {cryptoLessons.length} ·{" "}
+            {publishedLesson.estimatedMinutes}-minute read
           </p>
+          <h1>{publishedLesson.title}</h1>
+
+          <p className={styles.introduction}>{publishedLesson.introduction}</p>
+
+          <section className={styles.keyPoints} aria-labelledby="objectives">
+            <h2 id="objectives">Learning objectives</h2>
+            {publishedLesson.objectives.map((objective) => (
+              <p key={objective}>✓ {objective}</p>
+            ))}
+            <p>No previous lesson required.</p>
+          </section>
 
           <section className={styles.keyPoints} aria-labelledby="key-points">
             <h2 id="key-points">Key points</h2>
-            <p>✓ Bitcoin operates without a central bank</p>
-            <p>✓ Transactions are recorded on a shared blockchain</p>
+            {publishedLesson.keyPoints.map((point) => (
+              <p key={point}>✓ {point}</p>
+            ))}
           </section>
+
+          <section
+            className={styles.keyPoints}
+            aria-labelledby="related-learning"
+          >
+            <h2 id="related-learning">Related learning</h2>
+            <p>
+              <Link href="/glossary/crypto">Related glossary terms</Link>
+            </p>
+          </section>
+
+          <div className={styles.completeAction}>
+            <button
+              aria-pressed={lessonIsComplete}
+              className={lessonIsComplete ? styles.completedButton : undefined}
+              type="button"
+              onClick={toggleCompletion}
+            >
+              <CheckIcon />
+              {lessonIsComplete ? "Completed" : "Mark complete"}
+            </button>
+          </div>
 
           <LessonNavigation
             className={styles.lessonNavigation}

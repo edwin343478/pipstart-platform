@@ -51,7 +51,7 @@ describe("PipStart internal route integrity", () => {
     expect([...unresolvedLinks]).toEqual([]);
   });
 
-  it("does not expose unavailable account or Crypto lesson actions", () => {
+  it("does not expose unavailable account or unpublished Crypto lesson routes", () => {
     const home = fs.readFileSync(path.join(appRoot, "page.tsx"), "utf8");
     const cryptoLesson = fs.readFileSync(
       path.join(appRoot, "learn/crypto/level-1/page.tsx"),
@@ -59,7 +59,7 @@ describe("PipStart internal route integrity", () => {
     );
 
     expect(home).not.toContain("/account/sign-in");
-    expect(cryptoLesson).not.toContain("Mark complete");
+    expect(cryptoLesson).toContain("Mark complete");
     expect(cryptoLesson).not.toContain("/learn/crypto/level-1/blockchain");
   });
 
@@ -101,7 +101,9 @@ describe("PipStart internal route integrity", () => {
 
     expect(home).toContain('href="/learn/forex/level-1"');
     expect(home).not.toContain("Start Level 0");
-    expect(forexPath).toContain('href="/learn/forex/level-1"');
+    expect(forexPath).toContain(
+      'href={continueLesson?.href ?? "/learn/forex/level-1"}',
+    );
     expect(forexPath).toContain("Available");
     expect(forexPath).toContain("Coming soon");
   });

@@ -2,12 +2,18 @@ import {
   type PublicationStatus,
   selectPublishedContent,
 } from "./public-content";
+import { cryptoLessons } from "../app/learn/crypto/level-1/lessons";
+import { forexLessons } from "../app/learn/forex/level-1/lessons";
 
 export type CurriculumLesson = {
-  duration?: string;
+  estimatedMinutes: number;
   href: `/${string}`;
   id: string;
+  objectives: readonly string[];
   order: number;
+  prerequisites: readonly string[];
+  relatedLessonIds: readonly string[];
+  relatedTermSlugs: readonly string[];
   status: PublicationStatus;
   title: string;
   type: "lesson" | "quiz";
@@ -50,27 +56,6 @@ export type LearningPath = {
   title: string;
 };
 
-const forexLessons = [
-  ["what-is-forex", "What is Forex?", "/learn/forex/level-1"],
-  ["currency-pairs", "Currency pairs", "/learn/forex/level-1/currency-pairs"],
-  ["pips-and-lots", "Pips and lots", "/learn/forex/level-1/pips-and-lots"],
-  [
-    "bid-ask-spread",
-    "Bid, ask and spread",
-    "/learn/forex/level-1/bid-ask-spread",
-  ],
-  [
-    "trading-sessions",
-    "Trading sessions",
-    "/learn/forex/level-1/trading-sessions",
-  ],
-  [
-    "market-participants",
-    "Market participants",
-    "/learn/forex/level-1/market-participants",
-  ],
-] as const;
-
 const allLearningPaths: LearningPath[] = [
   {
     href: "/learn/forex",
@@ -103,18 +88,28 @@ const allLearningPaths: LearningPath[] = [
                 status: "published",
                 title: "Forex Foundations",
                 lessons: [
-                  ...forexLessons.map(([id, title, href], index) => ({
-                    href,
-                    id,
-                    order: index + 1,
-                    status: "published" as const,
-                    title,
+                  ...forexLessons.map((lesson) => ({
+                    estimatedMinutes: lesson.estimatedMinutes,
+                    href: lesson.href,
+                    id: lesson.id,
+                    objectives: lesson.objectives,
+                    order: lesson.position,
+                    prerequisites: lesson.prerequisites,
+                    relatedLessonIds: lesson.relatedLessonIds,
+                    relatedTermSlugs: lesson.relatedTermSlugs,
+                    status: lesson.status,
+                    title: lesson.title,
                     type: "lesson" as const,
                   })),
                   {
+                    estimatedMinutes: 5,
                     href: "/learn/forex/level-1/quiz",
                     id: "level-1-quiz",
+                    objectives: [],
                     order: 7,
+                    prerequisites: ["market-participants"],
+                    relatedLessonIds: [],
+                    relatedTermSlugs: [],
                     status: "draft",
                     title: "Level 1 quiz",
                     type: "quiz",
@@ -157,16 +152,19 @@ const allLearningPaths: LearningPath[] = [
                 order: 1,
                 status: "published",
                 title: "Bitcoin Foundations",
-                lessons: [
-                  {
-                    href: "/learn/crypto/level-1",
-                    id: "what-is-bitcoin",
-                    order: 1,
-                    status: "published",
-                    title: "What is Bitcoin?",
-                    type: "lesson",
-                  },
-                ],
+                lessons: cryptoLessons.map((lesson) => ({
+                  estimatedMinutes: lesson.estimatedMinutes,
+                  href: lesson.href,
+                  id: lesson.id,
+                  objectives: lesson.objectives,
+                  order: lesson.position,
+                  prerequisites: lesson.prerequisites,
+                  relatedLessonIds: lesson.relatedLessonIds,
+                  relatedTermSlugs: lesson.relatedTermSlugs,
+                  status: lesson.status,
+                  title: lesson.title,
+                  type: "lesson" as const,
+                })),
               },
             ],
           },

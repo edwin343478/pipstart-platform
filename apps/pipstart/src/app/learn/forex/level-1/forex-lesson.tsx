@@ -7,25 +7,26 @@ import {
   LearningHeader,
   LessonNavigation,
 } from "../../../../components/learning-structure";
+import { getLessonNavigation } from "../../../../lib/course-engine";
 import type { ForexLesson } from "./lessons";
-import { forexLessons } from "./lessons";
+import { forexLessons, getForexLessonById } from "./lessons";
 import {
   FOREX_LEVEL_ONE_PROGRESS_KEY,
+  FOREX_PROGRESS_CHANGE_EVENT,
   parseLessonProgress,
   toggleLessonProgress,
 } from "./progress";
 import styles from "./page.module.css";
 
-const PROGRESS_CHANGE_EVENT = "pipstart:forex-progress-change";
 const lessonSlugs = forexLessons.map((lesson) => lesson.slug);
 
 function subscribeToProgress(callback: () => void) {
   window.addEventListener("storage", callback);
-  window.addEventListener(PROGRESS_CHANGE_EVENT, callback);
+  window.addEventListener(FOREX_PROGRESS_CHANGE_EVENT, callback);
 
   return () => {
     window.removeEventListener("storage", callback);
-    window.removeEventListener(PROGRESS_CHANGE_EVENT, callback);
+    window.removeEventListener(FOREX_PROGRESS_CHANGE_EVENT, callback);
   };
 }
 
@@ -51,11 +52,15 @@ function CheckIcon() {
 
 export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const lessonIndex = forexLessons.findIndex(
-    (candidate) => candidate.slug === lesson.slug,
-  );
-  const previousLesson = forexLessons[lessonIndex - 1];
-  const nextLesson = forexLessons[lessonIndex + 1];
+  const navigation = getLessonNavigation(forexLessons, lesson.id);
+  const previousLesson = navigation?.previous;
+  const nextLesson = navigation?.next;
+  const prerequisiteLessons = lesson.prerequisites
+    .map(getForexLessonById)
+    .filter((candidate): candidate is ForexLesson => Boolean(candidate));
+  const relatedLessons = lesson.relatedLessonIds
+    .map(getForexLessonById)
+    .filter((candidate): candidate is ForexLesson => Boolean(candidate));
   const storedProgress = useSyncExternalStore(
     subscribeToProgress,
     getProgressSnapshot,
@@ -73,7 +78,7 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
         lessonSlugs,
       );
       window.localStorage.setItem(FOREX_LEVEL_ONE_PROGRESS_KEY, nextProgress);
-      window.dispatchEvent(new Event(PROGRESS_CHANGE_EVENT));
+      window.dispatchEvent(new Event(FOREX_PROGRESS_CHANGE_EVENT));
     } catch {
       // The lesson stays usable when browser storage is unavailable.
     }
@@ -168,11 +173,34 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
 
         <article className={styles.lesson}>
           <p className={styles.eyebrow}>
-            Level 1 · Lesson {lesson.position} of {forexLessons.length}
+            Level 1 · Lesson {navigation?.position ?? lesson.position} of{" "}
+            {navigation?.total ?? forexLessons.length} ·{" "}
+            {lesson.estimatedMinutes}
+            -minute read
           </p>
           <h1>{lesson.title}</h1>
 
           <p className={styles.introduction}>{lesson.introduction}</p>
+
+          <section className={styles.keyPoints} aria-labelledby="objectives">
+            <h2 id="objectives">Learning objectives</h2>
+            {lesson.objectives.map((objective) => (
+              <p key={objective}>✓ {objective}</p>
+            ))}
+            {prerequisiteLessons.length > 0 ? (
+              <p>
+                Prerequisite:{" "}
+                {prerequisiteLessons.map((prerequisite, index) => (
+                  <span key={prerequisite.id}>
+                    {index > 0 ? ", " : ""}
+                    <Link href={prerequisite.href}>{prerequisite.title}</Link>
+                  </span>
+                ))}
+              </p>
+            ) : (
+              <p>No previous lesson required.</p>
+            )}
+          </section>
 
           <section className={styles.keyPoints} aria-labelledby="key-points">
             <h2 id="key-points">Key points</h2>
@@ -180,6 +208,25 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
               <p key={point}>✓ {point}</p>
             ))}
           </section>
+
+          {relatedLessons.length > 0 || lesson.relatedTermSlugs.length > 0 ? (
+            <section
+              className={styles.keyPoints}
+              aria-labelledby="related-learning"
+            >
+              <h2 id="related-learning">Related learning</h2>
+              {relatedLessons.map((relatedLesson) => (
+                <p key={relatedLesson.id}>
+                  <Link href={relatedLesson.href}>{relatedLesson.title}</Link>
+                </p>
+              ))}
+              {lesson.relatedTermSlugs.length > 0 ? (
+                <p>
+                  <Link href="/glossary">Related glossary terms</Link>
+                </p>
+              ) : null}
+            </section>
+          ) : null}
 
           <div className={styles.stickyActions}>
             <div className={styles.completeAction}>
