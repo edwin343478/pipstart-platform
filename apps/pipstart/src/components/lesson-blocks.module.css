@@ -1,0 +1,104 @@
+.blocks > * {
+  margin: 0 0 1.75rem;
+}
+.definition,
+.example,
+.warning,
+.keyPoint,
+.exercise,
+.riskNotice,
+.affiliateDisclosure,
+.quizPreview,
+.formula {
+  border: 1px solid #d9e0e5;
+  border-radius: 0.75rem;
+  background: #fff;
+  padding: 1.5rem 1.75rem;
+}
+.blocks h2,
+.definition strong {
+  display: block;
+  margin: 0 0 0.75rem;
+  color: #0f766e;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.blocks p {
+  margin: 0 0 0.5rem;
+  color: #111827;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+.blocks p:last-child {
+  margin-bottom: 0;
+}
+.warning,
+.riskNotice {
+  border-left: 0.3rem solid #b45309;
+  background: #fffbeb;
+}
+.definition,
+.example {
+  border-left: 0.3rem solid #0f766e;
+}
+.formula code {
+  display: block;
+  overflow-wrap: anywhere;
+  color: #0b1220;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.formula figcaption,
+.diagram figcaption {
+  margin-top: 0.75rem;
+  color: #667085;
+  font-size: 0.875rem;
+}
+.diagram img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.tableScroller {
+  overflow-x: auto;
+}
+.tableScroller table {
+  width: 100%;
+  min-width: 30rem;
+  border-collapse: collapse;
+  background: #fff;
+}
+.tableScroller caption {
+  margin-bottom: 0.75rem;
+  color: #0b1220;
+  font-weight: 700;
+  text-align: left;
+}
+.tableScroller th,
+.tableScroller td {
+  border: 1px solid #d9e0e5;
+  padding: 0.75rem;
+  text-align: left;
+}
+.tableScroller th {
+  background: #eaf6f4;
+  color: #0f766e;
+}
+.quizPreview {
+  border-style: dashed;
+}
+@media (max-width: 767px) {
+  .definition,
+  .example,
+  .warning,
+  .keyPoint,
+  .exercise,
+  .riskNotice,
+  .affiliateDisclosure,
+  .quizPreview,
+  .formula {
+    padding: 1.25rem;
+  }
+}

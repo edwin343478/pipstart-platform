@@ -1,0 +1,50 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+
+export const metadata = {
+  title: "Trading sessions",
+  slug: "trading-sessions",
+  description:
+    "Forex trades across global financial centres throughout the working week. Activity is commonly discussed through the Sydney, Tokyo, London and New York sessions, whose opening hours overlap.",
+  learningPath: "forex",
+  level: "level-1",
+  course: "forex-kindergarten",
+  module: "forex-foundations",
+  position: 5,
+  estimatedMinutes: 5,
+  objectives: [
+    "Name the major Forex sessions and explain why overlaps matter.",
+  ],
+  prerequisites: ["what-is-forex"],
+  relatedLessonIds: ["bid-ask-spread", "market-participants"],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "BIS Triennial Central Bank Survey",
+      url: "https://www.bis.org/statistics/rpfx22.htm",
+    },
+  ],
+  publishedDate: "2026-09-15",
+  reviewDate: "2026-09-15",
+  status: "published",
+  seoTitle: "Forex Trading Sessions",
+  seoDescription:
+    "Learn the major Forex trading sessions and why session overlaps matter.",
+  riskWarningRequired: false,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = [
+  {
+    type: "keyPoint",
+    points: [
+      "Forex activity moves between major global centres.",
+      "London and New York overlap during part of their sessions.",
+      "Liquidity and volatility can change throughout the day.",
+    ],
+  },
+];
+
+<LessonBlocks blocks={blocks} />

@@ -8,9 +8,10 @@ import {
   LessonNavigation,
 } from "../../../../components/learning-structure";
 import { Breadcrumbs } from "../../../../components/breadcrumbs";
+import { LessonBlocks } from "../../../../components/lesson-blocks";
 import { getLessonNavigation } from "../../../../lib/course-engine";
 import { getRelatedTermLabels } from "../../../../lib/related-learning";
-import { cryptoLessons } from "./lessons";
+import { type CryptoLesson, cryptoLessons } from "./lessons";
 import {
   CRYPTO_LEVEL_ONE_PROGRESS_KEY,
   CRYPTO_PROGRESS_CHANGE_EVENT,
@@ -19,7 +20,6 @@ import {
 } from "./progress";
 import styles from "./page.module.css";
 
-const publishedLesson = cryptoLessons[0]!;
 const publishedLessonIds = cryptoLessons.map((lesson) => lesson.id);
 
 function subscribeToProgress(callback: () => void) {
@@ -51,7 +51,11 @@ function CheckIcon() {
   );
 }
 
-export default function CryptoLevelOnePage() {
+export default function CryptoLevelOnePage({
+  lesson: publishedLesson = cryptoLessons[0]!,
+}: {
+  lesson?: CryptoLesson;
+}) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const storedProgress = useSyncExternalStore(
     subscribeToProgress,
@@ -169,12 +173,18 @@ export default function CryptoLevelOnePage() {
             ]}
           />
           <p className={styles.eyebrow}>
-            Level 1 · Lesson 1 of {cryptoLessons.length} ·{" "}
+            Level 1 · Lesson {navigation?.position ?? publishedLesson.position}{" "}
+            of {navigation?.total ?? cryptoLessons.length} ·{" "}
             {publishedLesson.estimatedMinutes}-minute read
           </p>
           <h1>{publishedLesson.title}</h1>
 
           <p className={styles.introduction}>{publishedLesson.introduction}</p>
+
+          <p className={styles.reviewDates}>
+            Published {publishedLesson.publishedDate} · Reviewed{" "}
+            {publishedLesson.reviewDate}
+          </p>
 
           <section className={styles.keyPoints} aria-labelledby="objectives">
             <h2 id="objectives">Learning objectives</h2>
@@ -184,12 +194,7 @@ export default function CryptoLevelOnePage() {
             <p>No previous lesson required.</p>
           </section>
 
-          <section className={styles.keyPoints} aria-labelledby="key-points">
-            <h2 id="key-points">Key points</h2>
-            {publishedLesson.keyPoints.map((point) => (
-              <p key={point}>✓ {point}</p>
-            ))}
-          </section>
+          <LessonBlocks blocks={publishedLesson.blocks} />
 
           <section
             className={styles.keyPoints}

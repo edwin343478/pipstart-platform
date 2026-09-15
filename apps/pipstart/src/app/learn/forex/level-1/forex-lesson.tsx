@@ -8,6 +8,7 @@ import {
   LessonNavigation,
 } from "../../../../components/learning-structure";
 import { Breadcrumbs } from "../../../../components/breadcrumbs";
+import { LessonBlocks } from "../../../../components/lesson-blocks";
 import { getLessonNavigation } from "../../../../lib/course-engine";
 import { getRelatedTermLabels } from "../../../../lib/related-learning";
 import type { ForexLesson } from "./lessons";
@@ -199,6 +200,10 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
 
           <p className={styles.introduction}>{lesson.introduction}</p>
 
+          <p className={styles.reviewDates}>
+            Published {lesson.publishedDate} · Reviewed {lesson.reviewDate}
+          </p>
+
           <section className={styles.keyPoints} aria-labelledby="objectives">
             <h2 id="objectives">Learning objectives</h2>
             {lesson.objectives.map((objective) => (
@@ -219,12 +224,7 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
             )}
           </section>
 
-          <section className={styles.keyPoints} aria-labelledby="key-points">
-            <h2 id="key-points">Key points</h2>
-            {lesson.keyPoints.map((point) => (
-              <p key={point}>✓ {point}</p>
-            ))}
-          </section>
+          <LessonBlocks blocks={lesson.blocks} />
 
           {relatedLessons.length > 0 || lesson.relatedTermSlugs.length > 0 ? (
             <section

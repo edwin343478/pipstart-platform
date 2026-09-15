@@ -19,8 +19,8 @@ export async function generateMetadata({ params }: ForexLessonRouteProps) {
 
   return createDynamicMetadata({
     path: lesson.href,
-    title: lesson.title,
-    description: lesson.introduction,
+    title: lesson.seoTitle,
+    description: lesson.seoDescription,
   });
 }
 

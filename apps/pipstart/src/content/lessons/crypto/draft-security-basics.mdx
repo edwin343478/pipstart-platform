@@ -1,0 +1,40 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+
+export const metadata = {
+  title: "Bitcoin security basics",
+  slug: "bitcoin-security-basics",
+  description:
+    "An unpublished editorial draft used to verify publication safeguards.",
+  learningPath: "crypto",
+  level: "level-1",
+  course: "bitcoin",
+  module: "bitcoin-foundations",
+  position: 2,
+  estimatedMinutes: 5,
+  objectives: ["Recognize basic Bitcoin security responsibilities."],
+  prerequisites: ["what-is-bitcoin"],
+  relatedLessonIds: [],
+  relatedTermSlugs: ["bitcoin"],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Crypto Reviewer",
+  sources: [
+    {
+      title: "Bitcoin developer guide",
+      url: "https://developer.bitcoin.org/devguide/",
+    },
+  ],
+  publishedDate: "2026-09-15",
+  reviewDate: "2026-09-15",
+  status: "draft",
+  seoTitle: "Bitcoin Security Basics",
+  seoDescription: "Learn basic responsibilities for protecting Bitcoin.",
+  riskWarningRequired: false,
+  affiliateDisclosureRequired: false,
+  approved: false,
+};
+
+export const blocks = [
+  { type: "warning", children: "This draft is not approved for publication." },
+];
+
+<LessonBlocks blocks={blocks} />

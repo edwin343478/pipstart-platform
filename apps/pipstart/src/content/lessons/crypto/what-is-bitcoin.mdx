@@ -1,0 +1,49 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+
+export const metadata = {
+  title: "What is Bitcoin?",
+  slug: "what-is-bitcoin",
+  description:
+    "Bitcoin is a digital asset that can be transferred between people through a decentralized network. This introductory lesson explains its purpose and provides the foundation for the rest of the Bitcoin level.",
+  learningPath: "crypto",
+  level: "level-1",
+  course: "bitcoin",
+  module: "bitcoin-foundations",
+  position: 1,
+  estimatedMinutes: 4,
+  objectives: [
+    "Explain Bitcoin's purpose and the role of its decentralized network.",
+  ],
+  prerequisites: [],
+  relatedLessonIds: [],
+  relatedTermSlugs: ["bitcoin", "blockchain"],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Crypto Reviewer",
+  sources: [
+    {
+      title: "Bitcoin: A Peer-to-Peer Electronic Cash System",
+      url: "https://bitcoin.org/bitcoin.pdf",
+    },
+  ],
+  publishedDate: "2026-09-15",
+  reviewDate: "2026-09-15",
+  status: "published",
+  seoTitle: "What Is Bitcoin?",
+  seoDescription:
+    "Learn Bitcoin's purpose and the role of its decentralized network and blockchain.",
+  riskWarningRequired: false,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = [
+  {
+    type: "keyPoint",
+    points: [
+      "Bitcoin operates without a central bank.",
+      "Transactions are recorded on a shared blockchain.",
+    ],
+  },
+];
+
+<LessonBlocks blocks={blocks} />

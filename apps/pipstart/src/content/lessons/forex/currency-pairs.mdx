@@ -1,0 +1,48 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+
+export const metadata = {
+  title: "Currency pairs",
+  slug: "currency-pairs",
+  description:
+    "A currency pair compares the value of one currency with another. The first is the base currency and the second is the quote currency, so EUR/USD shows how many US dollars are needed for one euro.",
+  learningPath: "forex",
+  level: "level-1",
+  course: "forex-kindergarten",
+  module: "forex-foundations",
+  position: 2,
+  estimatedMinutes: 5,
+  objectives: ["Identify the base and quote currencies in a currency pair."],
+  prerequisites: ["what-is-forex"],
+  relatedLessonIds: ["what-is-forex", "pips-and-lots"],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "CFTC Foreign Currency Trading",
+      url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/fraudadv_forex.html",
+    },
+  ],
+  publishedDate: "2026-09-15",
+  reviewDate: "2026-09-15",
+  status: "published",
+  seoTitle: "Currency Pairs Explained",
+  seoDescription:
+    "Identify base and quote currencies and understand how Forex pairs are written.",
+  riskWarningRequired: false,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = [
+  {
+    type: "keyPoint",
+    points: [
+      "The first currency is called the base currency.",
+      "The second currency is called the quote currency.",
+      "Buying a pair means buying the base while selling the quote.",
+    ],
+  },
+];
+
+<LessonBlocks blocks={blocks} />

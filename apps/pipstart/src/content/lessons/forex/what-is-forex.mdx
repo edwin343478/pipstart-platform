@@ -1,0 +1,50 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+
+export const metadata = {
+  title: "What is Forex?",
+  slug: "what-is-forex",
+  description:
+    "Forex, short for foreign exchange, is the global market where one currency is exchanged for another. People, businesses, banks and governments use this market to convert money for trade, travel and investment.",
+  learningPath: "forex",
+  level: "level-1",
+  course: "forex-kindergarten",
+  module: "forex-foundations",
+  position: 1,
+  estimatedMinutes: 4,
+  objectives: [
+    "Explain what the Forex market is and why currencies are exchanged.",
+  ],
+  prerequisites: [],
+  relatedLessonIds: ["currency-pairs"],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "BIS Triennial Central Bank Survey",
+      url: "https://www.bis.org/statistics/rpfx22.htm",
+    },
+  ],
+  publishedDate: "2026-09-15",
+  reviewDate: "2026-09-15",
+  status: "published",
+  seoTitle: "What Is Forex?",
+  seoDescription:
+    "Learn what the Forex market is and why currencies are exchanged.",
+  riskWarningRequired: false,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = [
+  {
+    type: "keyPoint",
+    points: [
+      "Forex means foreign exchange.",
+      "Currencies are exchanged in pairs.",
+      "Prices move as demand for each currency changes.",
+    ],
+  },
+];
+
+<LessonBlocks blocks={blocks} />

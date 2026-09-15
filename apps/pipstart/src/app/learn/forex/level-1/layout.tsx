@@ -1,8 +1,14 @@
 import type { ReactNode } from "react";
 
-import { createPageMetadata } from "../../../../lib/seo";
+import { createDynamicMetadata } from "../../../../lib/seo";
+import { forexLessons } from "./lessons";
 
-export const metadata = createPageMetadata("/learn/forex/level-1");
+const lesson = forexLessons[0]!;
+export const metadata = createDynamicMetadata({
+  path: lesson.href,
+  title: lesson.seoTitle,
+  description: lesson.seoDescription,
+});
 
 export default function SeoLayout({ children }: { children: ReactNode }) {
   return children;

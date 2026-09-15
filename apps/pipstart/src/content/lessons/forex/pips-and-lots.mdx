@@ -1,0 +1,48 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+
+export const metadata = {
+  title: "Pips and lots",
+  slug: "pips-and-lots",
+  description:
+    "A pip is a standard way to describe a small price movement, while a lot describes trade size. Together they help traders compare movement and calculate how much money may be gained or lost.",
+  learningPath: "forex",
+  level: "level-1",
+  course: "forex-kindergarten",
+  module: "forex-foundations",
+  position: 3,
+  estimatedMinutes: 6,
+  objectives: ["Describe pips and lots and how trade size changes pip value."],
+  prerequisites: ["currency-pairs"],
+  relatedLessonIds: ["currency-pairs", "bid-ask-spread"],
+  relatedTermSlugs: ["pip", "position-size"],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "CFTC Foreign Currency Trading",
+      url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/fraudadv_forex.html",
+    },
+  ],
+  publishedDate: "2026-09-15",
+  reviewDate: "2026-09-15",
+  status: "published",
+  seoTitle: "Forex Pips and Lots",
+  seoDescription:
+    "Learn how pips describe price movement and lots describe Forex trade size.",
+  riskWarningRequired: false,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = [
+  {
+    type: "keyPoint",
+    points: [
+      "Most currency pairs use 0.0001 as a conventional pip.",
+      "Many JPY pairs use 0.01 as a conventional pip.",
+      "Larger lot sizes make each pip worth more money.",
+    ],
+  },
+];
+
+<LessonBlocks blocks={blocks} />

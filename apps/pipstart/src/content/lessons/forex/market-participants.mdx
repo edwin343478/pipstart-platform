@@ -1,0 +1,50 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+
+export const metadata = {
+  title: "Market participants",
+  slug: "market-participants",
+  description:
+    "The Forex market includes central banks, commercial banks, companies, investment funds, brokers and individual traders. Each group participates for different reasons and with very different resources.",
+  learningPath: "forex",
+  level: "level-1",
+  course: "forex-kindergarten",
+  module: "forex-foundations",
+  position: 6,
+  estimatedMinutes: 5,
+  objectives: [
+    "Compare the main Forex participants and their reasons for trading.",
+  ],
+  prerequisites: ["what-is-forex"],
+  relatedLessonIds: ["trading-sessions"],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "BIS Triennial Central Bank Survey",
+      url: "https://www.bis.org/statistics/rpfx22.htm",
+    },
+  ],
+  publishedDate: "2026-09-15",
+  reviewDate: "2026-09-15",
+  status: "published",
+  seoTitle: "Forex Market Participants",
+  seoDescription:
+    "Compare the main participants in the Forex market and why they exchange currencies.",
+  riskWarningRequired: false,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = [
+  {
+    type: "keyPoint",
+    points: [
+      "Companies exchange currencies for international business.",
+      "Central banks may influence currencies through policy.",
+      "Retail traders participate through brokers and trading platforms.",
+    ],
+  },
+];
+
+<LessonBlocks blocks={blocks} />

@@ -1,0 +1,48 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+
+export const metadata = {
+  title: "Bid, ask and spread",
+  slug: "bid-ask-spread",
+  description:
+    "A Forex quote normally contains two prices. The bid is the price available when selling the base currency, the ask is the price available when buying it, and the difference is the spread.",
+  learningPath: "forex",
+  level: "level-1",
+  course: "forex-kindergarten",
+  module: "forex-foundations",
+  position: 4,
+  estimatedMinutes: 5,
+  objectives: ["Distinguish bid, ask and spread in a Forex quote."],
+  prerequisites: ["currency-pairs"],
+  relatedLessonIds: ["pips-and-lots", "trading-sessions"],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "CFTC Foreign Currency Trading",
+      url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/fraudadv_forex.html",
+    },
+  ],
+  publishedDate: "2026-09-15",
+  reviewDate: "2026-09-15",
+  status: "published",
+  seoTitle: "Forex Bid, Ask and Spread",
+  seoDescription:
+    "Understand the bid price, ask price and spread in a Forex quote.",
+  riskWarningRequired: false,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = [
+  {
+    type: "keyPoint",
+    points: [
+      "The bid is normally lower than the ask.",
+      "The spread is an immediate trading cost.",
+      "Spreads can widen when markets are quiet or volatile.",
+    ],
+  },
+];
+
+<LessonBlocks blocks={blocks} />
