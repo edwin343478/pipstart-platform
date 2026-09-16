@@ -3,7 +3,7 @@ import { AccountShell } from "@/components/account-shell";
 import { requireUser } from "@/lib/auth/session";
 
 export default async function DeleteAccountPage() {
-  await requireUser();
+  await requireUser("/account/delete");
   return (
     <AccountShell
       description="This permanently removes your account profile and preferences. This action cannot be undone."

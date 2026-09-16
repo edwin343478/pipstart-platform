@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ResetPasswordPage() {
-  await requireUser();
+  await requireUser("/reset-password");
   return (
     <AccountShell
       description="Choose a strong password that you do not use on another website."

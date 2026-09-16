@@ -89,10 +89,27 @@ describe("Milestone 11 learner accounts", () => {
     expect(diagnostic).not.toContain("password");
   });
 
-  it("protects user pages and the administrator boundary on the server", () => {
-    expect(read("account/settings/page.tsx")).toContain("requireUser()");
+  it("protects each user page with its own return destination", () => {
+    for (const route of [
+      "profile",
+      "settings",
+      "email-preferences",
+      "security",
+      "delete",
+    ]) {
+      expect(read(`account/${route}/page.tsx`)).toContain(
+        `requireUser("/account/${route}")`,
+      );
+    }
     expect(read("admin/page.tsx")).toContain("requireAdministrator()");
     expect(read("../lib/auth/session.ts")).toContain('data?.role !== "admin"');
+  });
+
+  it("keeps application and local Supabase password policies aligned", () => {
+    const validation = read("../lib/auth/validation.ts");
+    const config = fs.readFileSync(supabaseConfigPath, "utf8");
+    expect(validation).toContain("PASSWORD_MIN_LENGTH = 8");
+    expect(config).toContain("minimum_password_length = 8");
   });
 
   it("keeps all account and authentication pages out of search indexes", () => {
@@ -117,9 +134,14 @@ describe("Milestone 11 learner accounts", () => {
   });
 
   it("validates claims in the session-refresh proxy", () => {
+    expect(fs.existsSync(path.join(appRoot, "../proxy.ts"))).toBe(true);
+    expect(fs.existsSync(path.join(appRoot, "../../proxy.ts"))).toBe(false);
+    expect(read("../proxy.ts")).toContain("updateSupabaseSession(request)");
     const proxy = read("../lib/supabase/proxy.ts");
     expect(proxy).toContain("supabase.auth.getClaims()");
     expect(proxy).not.toContain("supabase.auth.getSession()");
+    expect(proxy).toContain("isProtectedAuthPath");
+    expect(proxy).toContain("redirectToLogin(request)");
   });
 
   it("defines owned account records, RLS, protected roles and deletion cascades", () => {
@@ -153,8 +175,12 @@ describe("Milestone 11 learner accounts", () => {
 
   it("requires reauthentication and explicit confirmation before deletion", () => {
     const actions = read("account/actions.ts");
+    const verifier = read("../lib/auth/verify-password.ts");
     expect(actions).toContain('formData.get("confirmation") !== "DELETE"');
-    expect(actions).toContain("signInWithPassword");
+    expect(actions.match(/verifyUserPassword/g)).toHaveLength(3);
+    expect(verifier).toContain("persistSession: false");
+    expect(verifier).toContain("autoRefreshToken: false");
+    expect(verifier).toContain("signInWithPassword");
     expect(actions).toContain("admin.auth.admin.deleteUser(user.id)");
     expect(actions).toContain('signOut({ scope: "global" })');
   });

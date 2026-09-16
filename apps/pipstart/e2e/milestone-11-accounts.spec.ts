@@ -47,8 +47,8 @@ test.describe("Milestone 11 learner accounts", () => {
     await page.goto("/register");
     await page.getByLabel("Display name").fill("Asha Learner");
     await page.getByLabel("Email address").fill("asha@example.com");
-    await page.getByLabel("Password (6+ characters)").fill("learn1");
-    await page.getByLabel("Confirm password").fill("learn1");
+    await page.getByLabel("Password (8+ characters)").fill("learning1");
+    await page.getByLabel("Confirm password").fill("learning1");
     await page.getByRole("button", { name: "Create account" }).click();
     await expect(
       page.getByText("You must accept the Terms and Privacy Policy."),
@@ -57,20 +57,37 @@ test.describe("Milestone 11 learner accounts", () => {
     await expect(page.getByLabel("Email address")).toHaveValue(
       "asha@example.com",
     );
-    await expect(page.getByLabel("Password (6+ characters)")).toHaveValue(
-      "learn1",
+    await expect(page.getByLabel("Password (8+ characters)")).toHaveValue(
+      "learning1",
     );
   });
 
   test("redirects anonymous learners away from account and administrator pages", async ({
     page,
   }) => {
-    await page.goto("/account/settings");
-    await expect(page).toHaveURL(
-      /\/login\?next=%2Faccount%2Fsettings|\/login\?next=\/account\/settings/,
-    );
+    await page.context().clearCookies();
+    await page.goto("/");
+    await page.evaluate(() => {
+      window.localStorage.clear();
+      window.sessionStorage.clear();
+    });
+
+    for (const route of [
+      "/account/profile",
+      "/account/settings",
+      "/account/email-preferences",
+      "/account/security",
+      "/account/delete",
+    ]) {
+      await page.goto(route);
+      const location = new URL(page.url());
+      expect(location.pathname).toBe("/login");
+      expect(location.searchParams.get("next")).toBe(route);
+    }
     await page.goto("/admin");
-    await expect(page).toHaveURL(/\/login/);
+    const adminLocation = new URL(page.url());
+    expect(adminLocation.pathname).toBe("/login");
+    expect(adminLocation.searchParams.get("next")).toBe("/admin");
   });
 
   test("renders the mobile login experience without horizontal overflow", async ({

@@ -20,11 +20,11 @@ describe("Milestone 11 account validation", () => {
     (email) => expect(validateEmail(email).ok).toBe(false),
   );
 
-  it("accepts any character mix between 6 and 128 characters", () => {
-    expect(validatePassword("a1!b").ok).toBe(false);
-    expect(validatePassword("123456").ok).toBe(true);
-    expect(validatePassword("abcdef").ok).toBe(true);
-    expect(validatePassword("!@#$%^").ok).toBe(true);
+  it("accepts any character mix between 8 and 128 characters", () => {
+    expect(validatePassword("a1!b2c3").ok).toBe(false);
+    expect(validatePassword("12345678").ok).toBe(true);
+    expect(validatePassword("abcdefgh").ok).toBe(true);
+    expect(validatePassword("!@#$%^&*").ok).toBe(true);
     expect(validatePassword("x".repeat(129)).ok).toBe(false);
   });
 

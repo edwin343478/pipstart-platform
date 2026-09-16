@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start --port 3000",
     "test:e2e": "playwright test",
+    "test:e2e:account-lifecycle": "node scripts/verify-account-lifecycle-env.mjs && playwright test e2e/milestone-11-account-lifecycle.spec.ts",
     "test": "vitest run --exclude=e2e/**",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"

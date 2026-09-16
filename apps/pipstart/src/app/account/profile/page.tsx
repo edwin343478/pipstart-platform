@@ -4,7 +4,7 @@ import { requireUser } from "@/lib/auth/session";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export default async function ProfilePage() {
-  const user = await requireUser();
+  const user = await requireUser("/account/profile");
   const supabase = await createSupabaseServerClient();
   const { data } = supabase
     ? await supabase

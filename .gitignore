@@ -28,6 +28,11 @@ pnpm-debug.log*
 
 # Operating system files
 .DS_Store
+
+# Local patch handoff and milestone preview artifacts (repository root only)
+/*.patch
+/m4f-*.txt
+/m4f-*.html
 Thumbs.db
 
 # Editor files

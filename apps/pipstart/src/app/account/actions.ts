@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { requireUser } from "@/lib/auth/session";
+import { verifyUserPassword } from "@/lib/auth/verify-password";
 import {
   safeInternalRedirect,
   validateDisplayName,
@@ -144,7 +145,7 @@ export async function updateProfileAction(
   _previous: AccountActionState,
   formData: FormData,
 ): Promise<AccountActionState> {
-  const user = await requireUser();
+  const user = await requireUser("/account/profile");
   const displayName = validateDisplayName(formData.get("displayName"));
   if (!displayName.ok)
     return {
@@ -169,7 +170,7 @@ export async function updateEmailPreferencesAction(
   _previous: AccountActionState,
   formData: FormData,
 ): Promise<AccountActionState> {
-  const user = await requireUser();
+  const user = await requireUser("/account/email-preferences");
   const supabase = await createSupabaseServerClient();
   if (!supabase) return unavailable;
   const { error } = await supabase
@@ -194,7 +195,7 @@ export async function changePasswordAction(
   _previous: AccountActionState,
   formData: FormData,
 ): Promise<AccountActionState> {
-  const user = await requireUser();
+  const user = await requireUser("/account/security");
   const currentPassword = String(formData.get("currentPassword") ?? "");
   const password = validatePassword(formData.get("password"));
   if (!currentPassword || !password.ok) {
@@ -216,11 +217,9 @@ export async function changePasswordAction(
   }
   const supabase = await createSupabaseServerClient();
   if (!supabase || !user.email) return unavailable;
-  const verified = await supabase.auth.signInWithPassword({
-    email: user.email,
-    password: currentPassword,
-  });
-  if (verified.error)
+  const verified = await verifyUserPassword(user.email, currentPassword);
+  if (verified === null) return unavailable;
+  if (!verified)
     return {
       fieldErrors: { currentPassword: "Current password is incorrect." },
       status: "error",
@@ -250,7 +249,7 @@ export async function deleteAccountAction(
   _previous: AccountActionState,
   formData: FormData,
 ): Promise<AccountActionState> {
-  const user = await requireUser();
+  const user = await requireUser("/account/delete");
   if (formData.get("confirmation") !== "DELETE") {
     return {
       fieldErrors: { confirmation: "Type DELETE exactly to confirm." },
@@ -266,11 +265,9 @@ export async function deleteAccountAction(
   const supabase = await createSupabaseServerClient();
   const admin = createSupabaseAdminClient();
   if (!supabase || !admin || !user.email) return unavailable;
-  const verified = await supabase.auth.signInWithPassword({
-    email: user.email,
-    password,
-  });
-  if (verified.error)
+  const verified = await verifyUserPassword(user.email, password);
+  if (verified === null) return unavailable;
+  if (!verified)
     return {
       fieldErrors: { password: "Password is incorrect." },
       status: "error",

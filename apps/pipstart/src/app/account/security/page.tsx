@@ -12,7 +12,7 @@ export default async function SecurityPage({
 }: {
   searchParams: Promise<{ notice?: string }>;
 }) {
-  await requireUser();
+  await requireUser("/account/security");
   const { notice } = await searchParams;
   return (
     <AccountShell

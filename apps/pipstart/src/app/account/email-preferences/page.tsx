@@ -4,7 +4,7 @@ import { requireUser } from "@/lib/auth/session";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export default async function EmailPreferencesPage() {
-  const user = await requireUser();
+  const user = await requireUser("/account/email-preferences");
   const supabase = await createSupabaseServerClient();
   const { data } = supabase
     ? await supabase

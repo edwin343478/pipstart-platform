@@ -10,7 +10,7 @@ export default async function AccountSettingsPage({
 }: {
   searchParams: Promise<{ notice?: string }>;
 }) {
-  const user = await requireUser();
+  const user = await requireUser("/account/settings");
   const { notice } = await searchParams;
   return (
     <AccountShell
