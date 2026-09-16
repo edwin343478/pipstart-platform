@@ -1,0 +1,558 @@
+diff --git a/apps/pipstart/src/app/analysis/[slug]/page.module.css b/apps/pipstart/src/app/analysis/[slug]/page.module.css
+index 4d91138..155cea7 100644
+--- a/apps/pipstart/src/app/analysis/[slug]/page.module.css
++++ b/apps/pipstart/src/app/analysis/[slug]/page.module.css
+@@ -40,6 +40,13 @@
+   font-size: 0.75rem;
+ }
+ 
++.breadcrumb ol {
++  display: flex;
++  margin: 0;
++  padding: 0;
++  list-style: none;
++}
++
+ .breadcrumb a {
+   color: inherit;
+   text-decoration: none;
+diff --git a/apps/pipstart/src/app/analysis/[slug]/page.tsx b/apps/pipstart/src/app/analysis/[slug]/page.tsx
+index bf9a189..650d8c5 100644
+--- a/apps/pipstart/src/app/analysis/[slug]/page.tsx
++++ b/apps/pipstart/src/app/analysis/[slug]/page.tsx
+@@ -5,7 +5,12 @@ import { Breadcrumbs } from "../../../components/breadcrumbs";
+ import { AuthorBox } from "../../../components/author-box";
+ import { JsonLd } from "../../../components/json-ld";
+ import { CompactHeader } from "../../../components/site-chrome";
+-import { createDynamicMetadata, siteUrl } from "../../../lib/seo";
++import {
++  createArticleJsonLd,
++  createBreadcrumbJsonLd,
++  createDynamicMetadata,
++  siteUrl,
++} from "../../../lib/seo";
+ import { pipStartEditorialTeam } from "../authors";
+ import { analysisPosts, formatPublishedDate } from "../posts";
+ import styles from "./page.module.css";
+@@ -19,11 +24,14 @@ export async function generateMetadata({ params }: AnalysisArticlePageProps) {
+   const post = analysisPosts.find((candidate) => candidate.slug === slug);
+   if (!post) return {};
+ 
+-  const metadata = createDynamicMetadata({
+-    path: `/analysis/${post.slug}`,
+-    title: post.title,
+-    description: post.excerpt,
+-  });
++  const metadata = createDynamicMetadata(
++    {
++      path: `/analysis/${post.slug}`,
++      title: post.title,
++      description: post.excerpt,
++    },
++    `${siteUrl}/analysis/${post.slug}/opengraph-image`,
++  );
+ 
+   return {
+     ...metadata,
+@@ -76,21 +84,23 @@ export default async function AnalysisArticlePage({
+   return (
+     <main className={styles.page}>
+       <JsonLd
+-        data={{
+-          "@context": "https://schema.org",
+-          "@type": "Article",
++        data={createArticleJsonLd({
+           headline: post.title,
+           description: post.excerpt,
+           datePublished: post.publishedAt,
+           dateModified: post.reviewedAt,
+-          mainEntityOfPage: `${siteUrl}/analysis/${post.slug}`,
+-          author: {
+-            "@type": "Organization",
+-            name: pipStartEditorialTeam.name,
+-            url: `${siteUrl}${pipStartEditorialTeam.href}`,
+-          },
+-          publisher: { "@type": "Organization", name: "PipStart" },
+-        }}
++          path: `/analysis/${post.slug}`,
++          authorName: pipStartEditorialTeam.name,
++          authorPath: pipStartEditorialTeam.href,
++          image: `${siteUrl}/analysis/${post.slug}/opengraph-image`,
++        })}
++      />
++      <JsonLd
++        data={createBreadcrumbJsonLd([
++          { name: "Home", path: "/" },
++          { name: "Analysis", path: "/analysis" },
++          { name: post.title, path: `/analysis/${post.slug}` },
++        ])}
+       />
+       <CompactHeader className={styles.header} section="Analysis" />
+ 
+diff --git a/apps/pipstart/src/app/authors/pipstart-editorial-team/page.tsx b/apps/pipstart/src/app/authors/pipstart-editorial-team/page.tsx
+index 1d7a13b..6e68182 100644
+--- a/apps/pipstart/src/app/authors/pipstart-editorial-team/page.tsx
++++ b/apps/pipstart/src/app/authors/pipstart-editorial-team/page.tsx
+@@ -9,6 +9,10 @@ export default function PipStartEditorialTeamPage() {
+         <p className={styles.eyebrow}>PipStart authors</p>
+         <h1 className={styles.title}>{pipStartEditorialTeam.name}</h1>
+         <p className={styles.lead}>{pipStartEditorialTeam.description}</p>
++        <p className={styles.meta}>
++          Editorial policy reviewed{" "}
++          <time dateTime="2026-09-11">September 11, 2026</time>
++        </p>
+         <section className={styles.section}>
+           <h2>Editorial purpose</h2>
+           <p>
+@@ -25,7 +29,36 @@ export default function PipStartEditorialTeamPage() {
+             time-sensitive statements still match their context.
+           </p>
+         </section>
++        <section className={styles.section}>
++          <h2>Writers and reviewers</h2>
++          <p>
++            Content published under the PipStart Editorial Team is prepared and
++            maintained collectively. PipStart does not claim named professional
++            credentials that have not been independently verified. A named
++            byline and reviewer will be added whenever an identifiable
++            contributor is responsible for a publication.
++          </p>
++        </section>
++        <section className={styles.section}>
++          <h2>Sources and updates</h2>
++          <p>
++            Time-sensitive analysis should distinguish reported facts from
++            interpretation and cite primary public sources when they are relied
++            upon. Material corrections and substantive updates should be
++            reflected in the article&apos;s reviewed date.
++          </p>
++        </section>
++        <section className={styles.section}>
++          <h2>Corrections</h2>
++          <p>
++            Readers can report a factual or clarity issue through the{" "}
++            <Link href="/contact">Contact page</Link>. Reports are reviewed
++            against the original context, and confirmed material errors are
++            corrected without silently changing the educational meaning.
++          </p>
++        </section>
+       </article>
+     </ReferencePageShell>
+   );
+ }
++import Link from "next/link";
+diff --git a/apps/pipstart/src/app/layout.tsx b/apps/pipstart/src/app/layout.tsx
+index d27c7fc..0072725 100644
+--- a/apps/pipstart/src/app/layout.tsx
++++ b/apps/pipstart/src/app/layout.tsx
+@@ -40,11 +40,20 @@ export const metadata: Metadata = {
+     siteName: pipStartBrand.name,
+     title: `${pipStartBrand.name} | Forex and Crypto Education`,
+     description: pipStartBrand.description,
++    images: [
++      {
++        url: "/opengraph-image",
++        width: 1200,
++        height: 630,
++        alt: "PipStart structured Forex and cryptocurrency education",
++      },
++    ],
+   },
+   twitter: {
+     card: "summary_large_image",
+     title: `${pipStartBrand.name} | Forex and Crypto Education`,
+     description: pipStartBrand.description,
++    images: ["/opengraph-image"],
+   },
+ };
+ 
+diff --git a/apps/pipstart/src/app/public-page.module.css b/apps/pipstart/src/app/public-page.module.css
+index 5078e59..75640cc 100644
+--- a/apps/pipstart/src/app/public-page.module.css
++++ b/apps/pipstart/src/app/public-page.module.css
+@@ -26,6 +26,12 @@
+   line-height: 1.7;
+ }
+ 
++.meta {
++  margin: -0.5rem 0 1.75rem;
++  color: #667085;
++  font-size: 0.8125rem;
++}
++
+ .updated {
+   margin: 0 0 1.875rem;
+   color: #667085;
+diff --git a/apps/pipstart/src/components/breadcrumbs.tsx b/apps/pipstart/src/components/breadcrumbs.tsx
+index e07c81d..9d0341f 100644
+--- a/apps/pipstart/src/components/breadcrumbs.tsx
++++ b/apps/pipstart/src/components/breadcrumbs.tsx
+@@ -14,12 +14,23 @@ type BreadcrumbsProps = {
+ export function Breadcrumbs({ className, items }: BreadcrumbsProps) {
+   return (
+     <nav className={className} aria-label="Breadcrumb">
+-      {items.map((item, index) => (
+-        <span key={`${index}-${String(item.href ?? "current")}`}>
+-          {index > 0 && <span aria-hidden="true"> / </span>}
+-          {item.href ? <Link href={item.href}>{item.label}</Link> : item.label}
+-        </span>
+-      ))}
++      <ol>
++        {items.map((item, index) => {
++          const current = index === items.length - 1;
++          return (
++            <li key={`${index}-${String(item.href ?? "current")}`}>
++              {index > 0 && <span aria-hidden="true"> / </span>}
++              {item.href && !current ? (
++                <Link href={item.href}>{item.label}</Link>
++              ) : (
++                <span aria-current={current ? "page" : undefined}>
++                  {item.label}
++                </span>
++              )}
++            </li>
++          );
++        })}
++      </ol>
+     </nav>
+   );
+ }
+diff --git a/apps/pipstart/src/components/structural-components.test.tsx b/apps/pipstart/src/components/structural-components.test.tsx
+index fcaf073..136c6c9 100644
+--- a/apps/pipstart/src/components/structural-components.test.tsx
++++ b/apps/pipstart/src/components/structural-components.test.tsx
+@@ -27,6 +27,9 @@ describe("PipStart structural components", () => {
+     );
+ 
+     expect(markup).toContain('aria-label="Breadcrumb"');
++    expect(markup).toContain("<ol>");
++    expect(markup).toContain("<li>");
++    expect(markup).toContain('aria-current="page"');
+     expect(markup).toContain('href="/analysis"');
+     expect(markup).not.toContain('href="Fundamental Analysis"');
+   });
+diff --git a/apps/pipstart/src/lib/seo.test.ts b/apps/pipstart/src/lib/seo.test.ts
+index 33943e5..9e8ea9f 100644
+--- a/apps/pipstart/src/lib/seo.test.ts
++++ b/apps/pipstart/src/lib/seo.test.ts
+@@ -5,7 +5,15 @@ import { describe, expect, it } from "vitest";
+ import robots from "../app/robots";
+ import sitemap from "../app/sitemap";
+ import { JsonLd } from "../components/json-ld";
+-import { createPageMetadata, seoEntries, siteUrl } from "./seo";
++import {
++  createArticleJsonLd,
++  createBreadcrumbJsonLd,
++  createDynamicMetadata,
++  createPageMetadata,
++  defaultSocialImage,
++  seoEntries,
++  siteUrl,
++} from "./seo";
+ 
+ describe("PipStart SEO infrastructure", () => {
+   it("gives every registered public route unique metadata", () => {
+@@ -19,12 +27,73 @@ describe("PipStart SEO infrastructure", () => {
+ 
+     for (const entry of seoEntries) {
+       const metadata = createPageMetadata(entry.path);
++      expect(metadata.title).toEqual({ absolute: `${entry.title} | PipStart` });
+       expect(metadata.alternates?.canonical).toBe(entry.path);
+       expect(metadata.openGraph?.url).toBe(entry.path);
+       expect(metadata.twitter).toMatchObject({ card: "summary_large_image" });
++      expect(metadata.openGraph?.images).toEqual([
++        expect.objectContaining({
++          url: defaultSocialImage,
++          width: 1200,
++          height: 630,
++        }),
++      ]);
++      expect(metadata.twitter).toMatchObject({ images: [defaultSocialImage] });
+     }
+   });
+ 
++  it("builds complete social metadata for dynamic route classes", () => {
++    const image = `${siteUrl}/analysis/example/opengraph-image`;
++    const metadata = createDynamicMetadata(
++      {
++        path: "/analysis/example",
++        title: "Example",
++        description: "Example analysis.",
++      },
++      image,
++    );
++    expect(metadata.alternates?.canonical).toBe("/analysis/example");
++    expect(metadata.title).toEqual({ absolute: "Example | PipStart" });
++    expect(metadata.openGraph).toMatchObject({
++      type: "article",
++      images: [expect.objectContaining({ url: image })],
++    });
++    expect(metadata.twitter).toMatchObject({
++      card: "summary_large_image",
++      images: [image],
++    });
++  });
++
++  it("creates complete Article and BreadcrumbList structured data", () => {
++    const article = createArticleJsonLd({
++      authorName: "PipStart Editorial Team",
++      authorPath: "/authors/pipstart-editorial-team",
++      dateModified: "2026-09-11",
++      datePublished: "2026-09-10",
++      description: "A test article.",
++      headline: "Test article",
++      image: `${siteUrl}/analysis/test/opengraph-image`,
++      path: "/analysis/test",
++    });
++    expect(article).toMatchObject({
++      "@type": "Article",
++      image: `${siteUrl}/analysis/test/opengraph-image`,
++      mainEntityOfPage: `${siteUrl}/analysis/test`,
++      author: { url: `${siteUrl}/authors/pipstart-editorial-team` },
++    });
++    const breadcrumbs = createBreadcrumbJsonLd([
++      { name: "Home", path: "/" },
++      { name: "Test", path: "/analysis/test" },
++    ]);
++    expect(breadcrumbs.itemListElement).toEqual([
++      expect.objectContaining({ position: 1, item: `${siteUrl}/` }),
++      expect.objectContaining({
++        position: 2,
++        item: `${siteUrl}/analysis/test`,
++      }),
++    ]);
++  });
++
+   it("publishes every registered route in the sitemap", () => {
+     const urls = sitemap().map((entry) => entry.url);
+ 
+diff --git a/apps/pipstart/src/lib/seo.ts b/apps/pipstart/src/lib/seo.ts
+index 21bbbc6..59e79b0 100644
+--- a/apps/pipstart/src/lib/seo.ts
++++ b/apps/pipstart/src/lib/seo.ts
+@@ -1,6 +1,11 @@
+ import type { Metadata } from "next";
+ 
+ export const siteUrl = "https://pipstart.net";
++export const defaultSocialImage = `${siteUrl}/opengraph-image`;
++
++function brandedTitle(title: string) {
++  return { absolute: `${title} | PipStart` } as const;
++}
+ 
+ export type SeoEntry = {
+   description: string;
+@@ -177,7 +182,7 @@ export function createPageMetadata(path: SeoEntry["path"]): Metadata {
+   if (!entry) throw new Error(`Missing SEO entry for ${path}`);
+ 
+   return {
+-    title: entry.title,
++    title: brandedTitle(entry.title),
+     description: entry.description,
+     alternates: { canonical: entry.path },
+     openGraph: {
+@@ -186,18 +191,30 @@ export function createPageMetadata(path: SeoEntry["path"]): Metadata {
+       type: "website",
+       url: entry.path,
+       siteName: "PipStart",
++      images: [
++        {
++          url: defaultSocialImage,
++          width: 1200,
++          height: 630,
++          alt: "PipStart structured Forex and cryptocurrency education",
++        },
++      ],
+     },
+     twitter: {
+       card: "summary_large_image",
+       title: entry.title,
+       description: entry.description,
++      images: [defaultSocialImage],
+     },
+   };
+ }
+ 
+-export function createDynamicMetadata(entry: SeoEntry): Metadata {
++export function createDynamicMetadata(
++  entry: SeoEntry,
++  image = defaultSocialImage,
++): Metadata {
+   return {
+-    title: entry.title,
++    title: brandedTitle(entry.title),
+     description: entry.description,
+     alternates: { canonical: entry.path },
+     openGraph: {
+@@ -205,11 +222,58 @@ export function createDynamicMetadata(entry: SeoEntry): Metadata {
+       type: "article",
+       url: entry.path,
+       siteName: "PipStart",
++      images: [{ url: image, width: 1200, height: 630, alt: entry.title }],
+     },
+     twitter: {
+       card: "summary_large_image",
+       title: entry.title,
+       description: entry.description,
++      images: [image],
++    },
++  };
++}
++
++export type BreadcrumbJsonLdItem = { name: string; path: string };
++
++export function createBreadcrumbJsonLd(items: readonly BreadcrumbJsonLdItem[]) {
++  return {
++    "@context": "https://schema.org",
++    "@type": "BreadcrumbList",
++    itemListElement: items.map((item, index) => ({
++      "@type": "ListItem",
++      position: index + 1,
++      name: item.name,
++      item: new URL(item.path, siteUrl).href,
++    })),
++  };
++}
++
++export type ArticleJsonLdInput = {
++  authorName: string;
++  authorPath: string;
++  dateModified: string;
++  datePublished: string;
++  description: string;
++  headline: string;
++  image: string;
++  path: string;
++};
++
++export function createArticleJsonLd(input: ArticleJsonLdInput) {
++  return {
++    "@context": "https://schema.org",
++    "@type": "Article",
++    headline: input.headline,
++    description: input.description,
++    image: input.image,
++    datePublished: input.datePublished,
++    dateModified: input.dateModified,
++    mainEntityOfPage: new URL(input.path, siteUrl).href,
++    author: {
++      "@type": "Organization",
++      name: input.authorName,
++      url: new URL(input.authorPath, siteUrl).href,
+     },
++    publisher: { "@type": "Organization", name: "PipStart" },
+   };
+ }
+diff --git a/apps/pipstart/src/app/opengraph-image.tsx b/apps/pipstart/src/app/opengraph-image.tsx
+new file mode 100644
+index 0000000..10d66b8
+--- /dev/null
++++ b/apps/pipstart/src/app/opengraph-image.tsx
+@@ -0,0 +1,50 @@
++import { ImageResponse } from "next/og";
++
++export const alt = "PipStart structured Forex and cryptocurrency education";
++export const size = { width: 1200, height: 630 };
++export const contentType = "image/png";
++
++export default function OpenGraphImage() {
++  return new ImageResponse(
++    <div
++      style={{
++        alignItems: "center",
++        background: "#0b1220",
++        color: "white",
++        display: "flex",
++        height: "100%",
++        justifyContent: "center",
++        padding: "72px",
++        width: "100%",
++      }}
++    >
++      <div
++        style={{
++          display: "flex",
++          flexDirection: "column",
++          gap: "26px",
++          width: "100%",
++        }}
++      >
++        <div
++          style={{
++            color: "#2dd4bf",
++            fontSize: 30,
++            fontWeight: 700,
++            letterSpacing: 2,
++          }}
++        >
++          PIPSTART
++        </div>
++        <div style={{ fontSize: 68, fontWeight: 800, lineHeight: 1.08 }}>
++          Learn markets with structure, not shortcuts.
++        </div>
++        <div style={{ color: "#cbd5e1", fontSize: 28 }}>
++          Free Forex and cryptocurrency education · Practical calculators ·
++          Risk-first learning
++        </div>
++      </div>
++    </div>,
++    size,
++  );
++}
+diff --git a/apps/pipstart/src/app/analysis/[slug]/opengraph-image.tsx b/apps/pipstart/src/app/analysis/[slug]/opengraph-image.tsx
+new file mode 100644
+index 0000000..f4c2e46
+--- /dev/null
++++ b/apps/pipstart/src/app/analysis/[slug]/opengraph-image.tsx
+@@ -0,0 +1,51 @@
++import { ImageResponse } from "next/og";
++
++import { analysisPosts } from "../posts";
++
++export const alt = "PipStart market analysis";
++export const size = { width: 1200, height: 630 };
++export const contentType = "image/png";
++
++export default async function AnalysisOpenGraphImage({
++  params,
++}: {
++  params: Promise<{ slug: string }>;
++}) {
++  const { slug } = await params;
++  const post = analysisPosts.find((candidate) => candidate.slug === slug);
++
++  return new ImageResponse(
++    <div
++      style={{
++        background: "#f5f7f8",
++        color: "#0b1220",
++        display: "flex",
++        flexDirection: "column",
++        height: "100%",
++        justifyContent: "space-between",
++        padding: "68px 76px",
++        width: "100%",
++      }}
++    >
++      <div
++        style={{
++          color: "#0f766e",
++          fontSize: 27,
++          fontWeight: 800,
++          letterSpacing: 1.5,
++        }}
++      >
++        PIPSTART ANALYSIS
++      </div>
++      <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
++        <div style={{ fontSize: 60, fontWeight: 800, lineHeight: 1.1 }}>
++          {post?.title ?? "Market analysis for learners"}
++        </div>
++        <div style={{ color: "#475467", fontSize: 25 }}>
++          Educational commentary · Not financial advice
++        </div>
++      </div>
++    </div>,
++    size,
++  );
++}

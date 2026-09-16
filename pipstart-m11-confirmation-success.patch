@@ -1,0 +1,232 @@
+diff --git a/apps/pipstart/e2e/milestone-11-accounts.spec.ts b/apps/pipstart/e2e/milestone-11-accounts.spec.ts
+index 91d51ee..cf1f5be 100644
+--- a/apps/pipstart/e2e/milestone-11-accounts.spec.ts
++++ b/apps/pipstart/e2e/milestone-11-accounts.spec.ts
+@@ -51,6 +51,21 @@ test.describe("Milestone 11 learner accounts", () => {
+     ).toBeVisible();
+   });
+ 
++  test("explains successful email confirmation and the next step", async ({
++    page,
++  }) => {
++    await page.goto("/email-confirmed");
++    await expect(
++      page.getByRole("heading", { name: "Email confirmed" }),
++    ).toBeVisible();
++    await expect(
++      page.getByText("Your PipStart learner account is ready."),
++    ).toBeVisible();
++    await expect(
++      page.getByRole("link", { name: "Log in to continue" }),
++    ).toBeVisible();
++  });
++
+   test("redirects anonymous learners away from account and administrator pages", async ({
+     page,
+   }) => {
+diff --git a/apps/pipstart/src/app/account/actions.ts b/apps/pipstart/src/app/account/actions.ts
+index 6f9421e..50e56fd 100644
+--- a/apps/pipstart/src/app/account/actions.ts
++++ b/apps/pipstart/src/app/account/actions.ts
+@@ -61,7 +61,7 @@ export async function registerAction(
+     password: password.value,
+     options: {
+       data: { display_name: displayName.value },
+-      emailRedirectTo: `${getSiteUrl()}/auth/callback?next=/account/settings`,
++      emailRedirectTo: `${getSiteUrl()}/auth/callback?next=/email-confirmed`,
+     },
+   });
+   if (error) {
+@@ -141,7 +141,7 @@ export async function resendVerificationAction(
+   await supabase.auth.resend({
+     email,
+     options: {
+-      emailRedirectTo: `${getSiteUrl()}/auth/callback?next=/account/settings`,
++      emailRedirectTo: `${getSiteUrl()}/auth/callback?next=/email-confirmed`,
+     },
+     type: "signup",
+   });
+diff --git a/apps/pipstart/src/app/email-confirmed/page.module.css b/apps/pipstart/src/app/email-confirmed/page.module.css
+new file mode 100644
+index 0000000..728c2fb
+--- /dev/null
++++ b/apps/pipstart/src/app/email-confirmed/page.module.css
+@@ -0,0 +1,69 @@
++.notice {
++  margin: 0 0 1rem;
++  border: 1px solid #99f6e4;
++  border-radius: 0.75rem;
++  background: #f0fdfa;
++  padding: 1rem;
++  color: #115e59;
++  font-size: 0.82rem;
++  font-weight: 700;
++  line-height: 1.6;
++}
++
++.actions {
++  display: flex;
++  align-items: center;
++  gap: 0.75rem;
++}
++
++.primaryAction,
++.secondaryAction {
++  display: inline-flex;
++  min-height: 2.75rem;
++  align-items: center;
++  justify-content: center;
++  border-radius: 0.625rem;
++  padding: 0.65rem 1rem;
++  font-size: 0.8rem;
++  font-weight: 800;
++  text-decoration: none;
++}
++
++.primaryAction {
++  border: 1px solid var(--action);
++  background: var(--action);
++  color: var(--action-foreground);
++}
++
++.secondaryAction {
++  border: 1px solid var(--border);
++  background: var(--surface);
++  color: var(--brand-accent);
++}
++
++.primaryAction:hover,
++.primaryAction:focus-visible {
++  background: var(--action-hover);
++}
++
++.secondaryAction:hover,
++.secondaryAction:focus-visible {
++  border-color: var(--brand-accent);
++}
++
++@media (max-width: 767px) {
++  .notice {
++    font-size: 12px;
++  }
++
++  .actions {
++    align-items: stretch;
++    flex-direction: column;
++  }
++
++  .primaryAction,
++  .secondaryAction {
++    width: 100%;
++    min-height: 44px;
++  }
++}
+diff --git a/apps/pipstart/src/app/email-confirmed/page.tsx b/apps/pipstart/src/app/email-confirmed/page.tsx
+new file mode 100644
+index 0000000..464a3ab
+--- /dev/null
++++ b/apps/pipstart/src/app/email-confirmed/page.tsx
+@@ -0,0 +1,43 @@
++import type { Metadata } from "next";
++import Link from "next/link";
++
++import { AccountShell } from "@/components/account-shell";
++import { getCurrentUser } from "@/lib/auth/session";
++
++import styles from "./page.module.css";
++
++export const metadata: Metadata = {
++  title: "Email confirmed",
++  robots: { follow: false, index: false },
++};
++
++export default async function EmailConfirmedPage() {
++  const user = await getCurrentUser();
++
++  return (
++    <AccountShell
++      description="Your email address has been verified successfully."
++      title="Email confirmed"
++    >
++      <div className={styles.notice} role="status">
++        Your PipStart learner account is ready.
++      </div>
++      <p>
++        {user
++          ? "Continue to your account or return to the learning paths."
++          : "Log in with the email address and password you registered, then continue learning."}
++      </p>
++      <div className={styles.actions}>
++        <Link
++          className={styles.primaryAction}
++          href={user ? "/account/settings" : "/login?notice=email-confirmed"}
++        >
++          {user ? "Continue to my account" : "Log in to continue"}
++        </Link>
++        <Link className={styles.secondaryAction} href="/start-here">
++          Browse learning paths
++        </Link>
++      </div>
++    </AccountShell>
++  );
++}
+diff --git a/apps/pipstart/src/app/login/page.tsx b/apps/pipstart/src/app/login/page.tsx
+index 8745fe5..75b5e04 100644
+--- a/apps/pipstart/src/app/login/page.tsx
++++ b/apps/pipstart/src/app/login/page.tsx
+@@ -19,11 +19,13 @@ export default async function LoginPage({
+   if (await getCurrentUser()) redirect("/account/settings");
+   const { next, notice } = await searchParams;
+   const description =
+-    notice === "invalid-link"
+-      ? "That authentication link is invalid or has expired. Log in or request a fresh link."
+-      : notice === "signed-out"
+-        ? "You have been signed out safely."
+-        : "Welcome back. Continue with your PipStart learner account.";
++    notice === "email-confirmed"
++      ? "Your email is confirmed. Log in to continue to your PipStart learner account."
++      : notice === "invalid-link"
++        ? "That authentication link is invalid or has expired. Log in or request a fresh link."
++        : notice === "signed-out"
++          ? "You have been signed out safely."
++          : "Welcome back. Continue with your PipStart learner account.";
+   return (
+     <AccountShell description={description} title="Log in">
+       <LoginForm next={safeInternalRedirect(next)} />
+diff --git a/apps/pipstart/src/app/milestone-11-accounts.test.ts b/apps/pipstart/src/app/milestone-11-accounts.test.ts
+index 6632dd9..bdb2fae 100644
+--- a/apps/pipstart/src/app/milestone-11-accounts.test.ts
++++ b/apps/pipstart/src/app/milestone-11-accounts.test.ts
+@@ -17,6 +17,7 @@ describe("Milestone 11 learner accounts", () => {
+   it.each([
+     "register/page.tsx",
+     "verify-email/page.tsx",
++    "email-confirmed/page.tsx",
+     "login/page.tsx",
+     "forgot-password/page.tsx",
+     "reset-password/page.tsx",
+@@ -51,6 +52,16 @@ describe("Milestone 11 learner accounts", () => {
+     expect(form).toContain("Resend available in 00:");
+     expect(resendForm).not.toContain('name="email"');
+     expect(config).toContain('max_frequency = "60s"');
++    expect(actions.match(/next=\/email-confirmed/g)).toHaveLength(2);
++  });
++
++  it("shows confirmation success and an explicit next action", () => {
++    const confirmation = read("email-confirmed/page.tsx");
++    expect(confirmation).toContain("Your email address has been verified");
++    expect(confirmation).toContain("Your PipStart learner account is ready.");
++    expect(confirmation).toContain("Continue to my account");
++    expect(confirmation).toContain("Log in to continue");
++    expect(confirmation).toContain("index: false");
+   });
+ 
+   it("uses the approved font tokens and a responsive sticky footer on account pages", () => {
+@@ -97,6 +108,7 @@ describe("Milestone 11 learner accounts", () => {
+       "forgot-password/page.tsx",
+       "reset-password/page.tsx",
+       "verify-email/page.tsx",
++      "email-confirmed/page.tsx",
+       "account-deleted/page.tsx",
+     ]) {
+       expect(read(route)).toContain("index: false");

@@ -1,0 +1,417 @@
+diff --git a/apps/pipstart/src/app/learn/forex/level-1/[lesson]/page.tsx b/apps/pipstart/src/app/learn/forex/level-1/[lesson]/page.tsx
+new file mode 100644
+index 0000000..395c450
+--- /dev/null
++++ b/apps/pipstart/src/app/learn/forex/level-1/[lesson]/page.tsx
+@@ -0,0 +1,21 @@
++import { notFound } from "next/navigation";
++
++import ForexLessonPage from "../forex-lesson";
++import { forexLessons, getForexLesson } from "../lessons";
++
++export function generateStaticParams() {
++  return forexLessons.slice(1).map((lesson) => ({ lesson: lesson.slug }));
++}
++
++export default async function ForexLessonRoute({
++  params,
++}: {
++  params: Promise<{ lesson: string }>;
++}) {
++  const { lesson: lessonSlug } = await params;
++  const lesson = getForexLesson(lessonSlug);
++
++  if (!lesson || lesson.position === 1) notFound();
++
++  return <ForexLessonPage lesson={lesson} />;
++}
+diff --git a/apps/pipstart/src/app/learn/forex/level-1/forex-lesson.tsx b/apps/pipstart/src/app/learn/forex/level-1/forex-lesson.tsx
+new file mode 100644
+index 0000000..0208eb5
+--- /dev/null
++++ b/apps/pipstart/src/app/learn/forex/level-1/forex-lesson.tsx
+@@ -0,0 +1,98 @@
++import Link from "next/link";
++
++import type { ForexLesson } from "./lessons";
++import { forexLessons } from "./lessons";
++import styles from "./page.module.css";
++
++function CheckIcon() {
++  return (
++    <svg aria-hidden="true" viewBox="0 0 20 20">
++      <path d="M4 10.5 8 14.5 16 6" />
++    </svg>
++  );
++}
++
++export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
++  const lessonIndex = forexLessons.findIndex(
++    (candidate) => candidate.slug === lesson.slug,
++  );
++  const previousLesson = forexLessons[lessonIndex - 1];
++  const nextLesson = forexLessons[lessonIndex + 1];
++
++  return (
++    <main className={styles.page}>
++      <header className={styles.header}>
++        <Link href="/" aria-label="PipStart home">
++          PipStart
++        </Link>
++        <span>Level 1 · Forex Kindergarten</span>
++      </header>
++
++      <div className={styles.lessonLayout}>
++        <aside
++          className={styles.sidebar}
++          aria-label="Forex Kindergarten lessons"
++        >
++          <h2>Forex Kindergarten</h2>
++          <nav>
++            {forexLessons.map((candidate) => {
++              const current = candidate.slug === lesson.slug;
++
++              return (
++                <Link
++                  aria-current={current ? "page" : undefined}
++                  className={
++                    current ? styles.currentLesson : styles.upcomingLesson
++                  }
++                  href={candidate.href}
++                  key={candidate.slug}
++                >
++                  {candidate.title}
++                </Link>
++              );
++            })}
++          </nav>
++        </aside>
++
++        <article className={styles.lesson}>
++          <p className={styles.eyebrow}>
++            Level 1 · Lesson {lesson.position} of {forexLessons.length}
++          </p>
++          <h1>{lesson.title}</h1>
++
++          <p className={styles.introduction}>{lesson.introduction}</p>
++
++          <section className={styles.keyPoints} aria-labelledby="key-points">
++            <h2 id="key-points">Key points</h2>
++            {lesson.keyPoints.map((point) => (
++              <p key={point}>✓ {point}</p>
++            ))}
++          </section>
++
++          <div className={styles.completeAction}>
++            <button type="button">
++              <CheckIcon />
++              Mark complete
++            </button>
++          </div>
++
++          <nav
++            className={styles.lessonNavigation}
++            aria-label="Lesson navigation"
++          >
++            {previousLesson ? (
++              <Link href={previousLesson.href}>← {previousLesson.title}</Link>
++            ) : (
++              <span aria-hidden="true" />
++            )}
++            {nextLesson ? (
++              <Link href={nextLesson.href}>{nextLesson.title} →</Link>
++            ) : (
++              <Link href="/learn/forex">Return to Forex path →</Link>
++            )}
++          </nav>
++        </article>
++      </div>
++    </main>
++  );
++}
+diff --git a/apps/pipstart/src/app/learn/forex/level-1/lessons.test.ts b/apps/pipstart/src/app/learn/forex/level-1/lessons.test.ts
+new file mode 100644
+index 0000000..841b39d
+--- /dev/null
++++ b/apps/pipstart/src/app/learn/forex/level-1/lessons.test.ts
+@@ -0,0 +1,32 @@
++import { describe, expect, it } from "vitest";
++
++import { forexLessons, getForexLesson } from "./lessons";
++
++describe("Forex level-one lesson infrastructure", () => {
++  it("provides six ordered, directly addressable lessons", () => {
++    expect(forexLessons).toHaveLength(6);
++    expect(forexLessons.map((lesson) => lesson.position)).toEqual([
++      1, 2, 3, 4, 5, 6,
++    ]);
++    expect(new Set(forexLessons.map((lesson) => lesson.href)).size).toBe(6);
++    expect(new Set(forexLessons.map((lesson) => lesson.slug)).size).toBe(6);
++  });
++
++  it("keeps the approved first lesson at the level root", () => {
++    expect(forexLessons[0]).toMatchObject({
++      href: "/learn/forex/level-1",
++      slug: "what-is-forex",
++      title: "What is Forex?",
++    });
++  });
++
++  it("resolves every lesson slug and rejects unknown slugs", () => {
++    for (const lesson of forexLessons) {
++      expect(getForexLesson(lesson.slug)).toBe(lesson);
++      expect(lesson.introduction.length).toBeGreaterThan(100);
++      expect(lesson.keyPoints.length).toBeGreaterThanOrEqual(3);
++    }
++
++    expect(getForexLesson("not-a-real-lesson")).toBeUndefined();
++  });
++});
+diff --git a/apps/pipstart/src/app/learn/forex/level-1/lessons.ts b/apps/pipstart/src/app/learn/forex/level-1/lessons.ts
+new file mode 100644
+index 0000000..5dbcea0
+--- /dev/null
++++ b/apps/pipstart/src/app/learn/forex/level-1/lessons.ts
+@@ -0,0 +1,93 @@
++export type ForexLesson = {
++  href: string;
++  introduction: string;
++  keyPoints: string[];
++  position: number;
++  slug: string;
++  title: string;
++};
++
++export const forexLessons: ForexLesson[] = [
++  {
++    href: "/learn/forex/level-1",
++    introduction:
++      "Forex, short for foreign exchange, is the global market where one currency is exchanged for another. People, businesses, banks and governments use this market to convert money for trade, travel and investment.",
++    keyPoints: [
++      "Forex means foreign exchange.",
++      "Currencies are exchanged in pairs.",
++      "Prices move as demand for each currency changes.",
++    ],
++    position: 1,
++    slug: "what-is-forex",
++    title: "What is Forex?",
++  },
++  {
++    href: "/learn/forex/level-1/currency-pairs",
++    introduction:
++      "A currency pair compares the value of one currency with another. The first is the base currency and the second is the quote currency, so EUR/USD shows how many US dollars are needed for one euro.",
++    keyPoints: [
++      "The first currency is called the base currency.",
++      "The second currency is called the quote currency.",
++      "Buying a pair means buying the base while selling the quote.",
++    ],
++    position: 2,
++    slug: "currency-pairs",
++    title: "Currency pairs",
++  },
++  {
++    href: "/learn/forex/level-1/pips-and-lots",
++    introduction:
++      "A pip is a standard way to describe a small price movement, while a lot describes trade size. Together they help traders compare movement and calculate how much money may be gained or lost.",
++    keyPoints: [
++      "Most currency pairs use 0.0001 as a conventional pip.",
++      "Many JPY pairs use 0.01 as a conventional pip.",
++      "Larger lot sizes make each pip worth more money.",
++    ],
++    position: 3,
++    slug: "pips-and-lots",
++    title: "Pips and lots",
++  },
++  {
++    href: "/learn/forex/level-1/bid-ask-spread",
++    introduction:
++      "A Forex quote normally contains two prices. The bid is the price available when selling the base currency, the ask is the price available when buying it, and the difference is the spread.",
++    keyPoints: [
++      "The bid is normally lower than the ask.",
++      "The spread is an immediate trading cost.",
++      "Spreads can widen when markets are quiet or volatile.",
++    ],
++    position: 4,
++    slug: "bid-ask-spread",
++    title: "Bid, ask and spread",
++  },
++  {
++    href: "/learn/forex/level-1/trading-sessions",
++    introduction:
++      "Forex trades across global financial centres throughout the working week. Activity is commonly discussed through the Sydney, Tokyo, London and New York sessions, whose opening hours overlap.",
++    keyPoints: [
++      "Forex activity moves between major global centres.",
++      "London and New York overlap during part of their sessions.",
++      "Liquidity and volatility can change throughout the day.",
++    ],
++    position: 5,
++    slug: "trading-sessions",
++    title: "Trading sessions",
++  },
++  {
++    href: "/learn/forex/level-1/market-participants",
++    introduction:
++      "The Forex market includes central banks, commercial banks, companies, investment funds, brokers and individual traders. Each group participates for different reasons and with very different resources.",
++    keyPoints: [
++      "Companies exchange currencies for international business.",
++      "Central banks may influence currencies through policy.",
++      "Retail traders participate through brokers and trading platforms.",
++    ],
++    position: 6,
++    slug: "market-participants",
++    title: "Market participants",
++  },
++];
++
++export function getForexLesson(slug: string): ForexLesson | undefined {
++  return forexLessons.find((lesson) => lesson.slug === slug);
++}
+diff --git a/apps/pipstart/src/app/learn/forex/level-1/page.module.css b/apps/pipstart/src/app/learn/forex/level-1/page.module.css
+index 873f4bf..53a9e69 100644
+--- a/apps/pipstart/src/app/learn/forex/level-1/page.module.css
++++ b/apps/pipstart/src/app/learn/forex/level-1/page.module.css
+@@ -55,7 +55,7 @@
+   gap: 0.25rem;
+ }
+ 
+-.sidebar nav > span {
++.sidebar nav > a {
+   display: flex;
+   min-height: 2.5rem;
+   align-items: center;
+@@ -63,6 +63,7 @@
+   border-radius: 0.5rem;
+   padding: 0.65rem 0.75rem;
+   font-size: 0.875rem;
++  text-decoration: none;
+   transition:
+     background-color 160ms ease,
+     box-shadow 160ms ease,
+@@ -70,7 +71,7 @@
+     transform 160ms ease;
+ }
+ 
+-.sidebar nav > span:hover {
++.sidebar nav > a:hover {
+   transform: translateX(0.25rem);
+ }
+ 
+@@ -235,11 +236,11 @@
+ }
+ 
+ @media (prefers-reduced-motion: reduce) {
+-  .sidebar nav > span {
++  .sidebar nav > a {
+     transition: none;
+   }
+ 
+-  .sidebar nav > span:hover {
++  .sidebar nav > a:hover {
+     transform: none;
+   }
+ }
+diff --git a/apps/pipstart/src/app/learn/forex/level-1/page.tsx b/apps/pipstart/src/app/learn/forex/level-1/page.tsx
+index decb744..52d6e12 100644
+--- a/apps/pipstart/src/app/learn/forex/level-1/page.tsx
++++ b/apps/pipstart/src/app/learn/forex/level-1/page.tsx
+@@ -1,97 +1,6 @@
+-import Link from "next/link";
+-
+-import styles from "./page.module.css";
+-
+-function CheckIcon() {
+-  return (
+-    <svg aria-hidden="true" viewBox="0 0 20 20">
+-      <path d="M4 10.5 8 14.5 16 6" />
+-    </svg>
+-  );
+-}
+-
+-const lessons = [
+-  { label: "What is Forex", status: "current" },
+-  { label: "Currency pairs", status: "upcoming" },
+-  { label: "Pips and lots", status: "upcoming" },
+-  { label: "Bid, ask & spread", status: "upcoming" },
+-  { label: "Trading sessions", status: "upcoming" },
+-  { label: "Market participants", status: "upcoming" },
+-  { label: "Level 1 quiz", status: "upcoming" },
+-] as const;
++import ForexLessonPage from "./forex-lesson";
++import { forexLessons } from "./lessons";
+ 
+ export default function ForexLevelOnePage() {
+-  return (
+-    <main className={styles.page}>
+-      <header className={styles.header}>
+-        <Link href="/" aria-label="PipStart home">
+-          PipStart
+-        </Link>
+-        <span>Level 1 · Forex Kindergarten</span>
+-      </header>
+-
+-      <div className={styles.lessonLayout}>
+-        <aside
+-          className={styles.sidebar}
+-          aria-label="Forex Kindergarten lessons"
+-        >
+-          <h2>Forex Kindergarten</h2>
+-          <nav>
+-            {lessons.map((lesson) => {
+-              const className =
+-                lesson.status === "current"
+-                  ? styles.currentLesson
+-                  : styles.upcomingLesson;
+-
+-              return (
+-                <span
+-                  aria-current={
+-                    lesson.status === "current" ? "page" : undefined
+-                  }
+-                  className={className}
+-                  key={lesson.label}
+-                >
+-                  {lesson.label}
+-                </span>
+-              );
+-            })}
+-          </nav>
+-        </aside>
+-
+-        <article className={styles.lesson}>
+-          <p className={styles.eyebrow}>Level 1 · Lesson 1 of 6</p>
+-          <h1>What is Forex?</h1>
+-
+-          <p className={styles.introduction}>
+-            Forex, short for foreign exchange, is the global market where one
+-            currency is exchanged for another. This introductory lesson provides
+-            the foundation for the rest of Forex Kindergarten.
+-          </p>
+-
+-          <section className={styles.keyPoints} aria-labelledby="key-points">
+-            <h2 id="key-points">Key points</h2>
+-            <p>✓ Forex means foreign exchange</p>
+-            <p>✓ Currencies are exchanged in pairs</p>
+-          </section>
+-
+-          <div className={styles.completeAction}>
+-            <button type="button">
+-              <CheckIcon />
+-              Mark complete
+-            </button>
+-          </div>
+-
+-          <nav
+-            className={styles.lessonNavigation}
+-            aria-label="Lesson navigation"
+-          >
+-            <span aria-hidden="true" />
+-            <Link href="/learn/forex/level-1/currency-pairs">
+-              Currency pairs →
+-            </Link>
+-          </nav>
+-        </article>
+-      </div>
+-    </main>
+-  );
++  return <ForexLessonPage lesson={forexLessons[0]} />;
+ }

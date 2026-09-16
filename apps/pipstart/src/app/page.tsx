@@ -69,7 +69,9 @@ export default function Home() {
           analysisLinkClassName={styles.analysisLink}
           className={styles.navigation}
           menuButtonClassName={styles.menuButton}
+          mobileSignInClassName={styles.mobileSignIn}
           openClassName={styles.navigationOpen}
+          signInClassName={styles.signIn}
         />
       </header>
 

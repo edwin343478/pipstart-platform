@@ -1,0 +1,893 @@
+diff --git a/apps/pipstart/src/app/about/layout.tsx b/apps/pipstart/src/app/about/layout.tsx
+new file mode 100644
+index 0000000..66db84f
+--- /dev/null
++++ b/apps/pipstart/src/app/about/layout.tsx
+@@ -0,0 +1,9 @@
++import type { ReactNode } from "react";
++
++import { createPageMetadata } from "../../lib/seo";
++
++export const metadata = createPageMetadata("/about");
++
++export default function SeoLayout({ children }: { children: ReactNode }) {
++  return children;
++}
+diff --git a/apps/pipstart/src/app/analysis/[slug]/page.tsx b/apps/pipstart/src/app/analysis/[slug]/page.tsx
+index 533537c..ce6b319 100644
+--- a/apps/pipstart/src/app/analysis/[slug]/page.tsx
++++ b/apps/pipstart/src/app/analysis/[slug]/page.tsx
+@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
+ 
+ import { Breadcrumbs } from "../../../components/breadcrumbs";
+ import { CompactHeader } from "../../../components/site-chrome";
++import { createDynamicMetadata } from "../../../lib/seo";
+ import { analysisPosts, formatPublishedDate } from "../posts";
+ import styles from "./page.module.css";
+ 
+@@ -10,6 +11,18 @@ export function generateStaticParams() {
+   return analysisPosts.map((post) => ({ slug: post.slug }));
+ }
+ 
++export async function generateMetadata({ params }: AnalysisArticlePageProps) {
++  const { slug } = await params;
++  const post = analysisPosts.find((candidate) => candidate.slug === slug);
++  if (!post) return {};
++
++  return createDynamicMetadata({
++    path: `/analysis/${post.slug}`,
++    title: post.title,
++    description: post.excerpt,
++  });
++}
++
+ interface AnalysisArticlePageProps {
+   params: Promise<{ slug: string }>;
+ }
+diff --git a/apps/pipstart/src/app/analysis/layout.tsx b/apps/pipstart/src/app/analysis/layout.tsx
+new file mode 100644
+index 0000000..f12741c
+--- /dev/null
++++ b/apps/pipstart/src/app/analysis/layout.tsx
+@@ -0,0 +1,9 @@
++import type { ReactNode } from "react";
++
++import { createPageMetadata } from "../../lib/seo";
++
++export const metadata = createPageMetadata("/analysis");
++
++export default function SeoLayout({ children }: { children: ReactNode }) {
++  return children;
++}
+diff --git a/apps/pipstart/src/app/brokers/layout.tsx b/apps/pipstart/src/app/brokers/layout.tsx
+new file mode 100644
+index 0000000..93e4eae
+--- /dev/null
++++ b/apps/pipstart/src/app/brokers/layout.tsx
+@@ -0,0 +1,9 @@
++import type { ReactNode } from "react";
++
++import { createPageMetadata } from "../../lib/seo";
++
++export const metadata = createPageMetadata("/brokers");
++
++export default function SeoLayout({ children }: { children: ReactNode }) {
++  return children;
++}
+diff --git a/apps/pipstart/src/app/contact/layout.tsx b/apps/pipstart/src/app/contact/layout.tsx
+new file mode 100644
+index 0000000..ec44bea
+--- /dev/null
++++ b/apps/pipstart/src/app/contact/layout.tsx
+@@ -0,0 +1,9 @@
++import type { ReactNode } from "react";
++
++import { createPageMetadata } from "../../lib/seo";
++
++export const metadata = createPageMetadata("/contact");
++
++export default function SeoLayout({ children }: { children: ReactNode }) {
++  return children;
++}
+diff --git a/apps/pipstart/src/app/glossary/crypto/layout.tsx b/apps/pipstart/src/app/glossary/crypto/layout.tsx
+new file mode 100644
+index 0000000..5ac1be7
+--- /dev/null
++++ b/apps/pipstart/src/app/glossary/crypto/layout.tsx
+@@ -0,0 +1,9 @@
++import type { ReactNode } from "react";
++
++import { createPageMetadata } from "../../../lib/seo";
++
++export const metadata = createPageMetadata("/glossary/crypto");
++
++export default function SeoLayout({ children }: { children: ReactNode }) {
++  return children;
++}
+diff --git a/apps/pipstart/src/app/glossary/layout.tsx b/apps/pipstart/src/app/glossary/layout.tsx
+new file mode 100644
+index 0000000..ba42a87
+--- /dev/null
++++ b/apps/pipstart/src/app/glossary/layout.tsx
+@@ -0,0 +1,9 @@
++import type { ReactNode } from "react";
++
++import { createPageMetadata } from "../../lib/seo";
++
++export const metadata = createPageMetadata("/glossary");
++
++export default function SeoLayout({ children }: { children: ReactNode }) {
++  return children;
++}
+diff --git a/apps/pipstart/src/app/layout.tsx b/apps/pipstart/src/app/layout.tsx
+index 2410310..fff6bbb 100644
+--- a/apps/pipstart/src/app/layout.tsx
++++ b/apps/pipstart/src/app/layout.tsx
+@@ -4,6 +4,9 @@ import { Inter, Manrope } from "next/font/google";
+ 
+ import { pipStartBrand } from "@repo/brand";
+ 
++import { JsonLd } from "../components/json-ld";
++import { siteUrl } from "../lib/seo";
++
+ import "./globals.css";
+ 
+ const bodyFont = Inter({
+@@ -19,11 +22,29 @@ const headingFont = Manrope({
+ });
+ 
+ export const metadata: Metadata = {
++  metadataBase: new URL(siteUrl),
+   title: {
+     default: `${pipStartBrand.name} | Forex and Crypto Education`,
+     template: `%s | ${pipStartBrand.name}`,
+   },
+   description: pipStartBrand.description,
++  applicationName: pipStartBrand.name,
++  authors: [{ name: "PipStart", url: siteUrl }],
++  creator: "PipStart",
++  publisher: "PipStart",
++  alternates: { canonical: "/" },
++  openGraph: {
++    type: "website",
++    url: "/",
++    siteName: pipStartBrand.name,
++    title: `${pipStartBrand.name} | Forex and Crypto Education`,
++    description: pipStartBrand.description,
++  },
++  twitter: {
++    card: "summary_large_image",
++    title: `${pipStartBrand.name} | Forex and Crypto Education`,
++    description: pipStartBrand.description,
++  },
+ };
+ 
+ export default function RootLayout({
+@@ -33,7 +54,18 @@ export default function RootLayout({
+ }>) {
+   return (
+     <html lang="en" className={`${bodyFont.variable} ${headingFont.variable}`}>
+-      <body>{children}</body>
++      <body>
++        <JsonLd
++          data={{
++            "@context": "https://schema.org",
++            "@type": "EducationalOrganization",
++            name: pipStartBrand.name,
++            url: siteUrl,
++            description: pipStartBrand.description,
++          }}
++        />
++        {children}
++      </body>
+     </html>
+   );
+ }
+diff --git a/apps/pipstart/src/app/learn/crypto/layout.tsx b/apps/pipstart/src/app/learn/crypto/layout.tsx
+new file mode 100644
+index 0000000..e08d330
+--- /dev/null
++++ b/apps/pipstart/src/app/learn/crypto/layout.tsx
+@@ -0,0 +1,9 @@
++import type { ReactNode } from "react";
++
++import { createPageMetadata } from "../../../lib/seo";
++
++export const metadata = createPageMetadata("/learn/crypto");
++
++export default function SeoLayout({ children }: { children: ReactNode }) {
++  return children;
++}
+diff --git a/apps/pipstart/src/app/learn/crypto/level-1/layout.tsx b/apps/pipstart/src/app/learn/crypto/level-1/layout.tsx
+new file mode 100644
+index 0000000..9d168ee
+--- /dev/null
++++ b/apps/pipstart/src/app/learn/crypto/level-1/layout.tsx
+@@ -0,0 +1,9 @@
++import type { ReactNode } from "react";
++
++import { createPageMetadata } from "../../../../lib/seo";
++
++export const metadata = createPageMetadata("/learn/crypto/level-1");
++
++export default function SeoLayout({ children }: { children: ReactNode }) {
++  return children;
++}
+diff --git a/apps/pipstart/src/app/learn/forex/layout.tsx b/apps/pipstart/src/app/learn/forex/layout.tsx
+new file mode 100644
+index 0000000..13f87b0
+--- /dev/null
++++ b/apps/pipstart/src/app/learn/forex/layout.tsx
+@@ -0,0 +1,9 @@
++import type { ReactNode } from "react";
++
++import { createPageMetadata } from "../../../lib/seo";
++
++export const metadata = createPageMetadata("/learn/forex");
++
++export default function SeoLayout({ children }: { children: ReactNode }) {
++  return children;
++}
+diff --git a/apps/pipstart/src/app/learn/forex/level-1/[lesson]/page.tsx b/apps/pipstart/src/app/learn/forex/level-1/[lesson]/page.tsx
+index 395c450..e65021d 100644
+--- a/apps/pipstart/src/app/learn/forex/level-1/[lesson]/page.tsx
++++ b/apps/pipstart/src/app/learn/forex/level-1/[lesson]/page.tsx
+@@ -1,5 +1,6 @@
+ import { notFound } from "next/navigation";
+ 
++import { createDynamicMetadata } from "../../../../../lib/seo";
+ import ForexLessonPage from "../forex-lesson";
+ import { forexLessons, getForexLesson } from "../lessons";
+ 
+@@ -7,11 +8,25 @@ export function generateStaticParams() {
+   return forexLessons.slice(1).map((lesson) => ({ lesson: lesson.slug }));
+ }
+ 
++type ForexLessonRouteProps = {
++  params: Promise<{ lesson: string }>;
++};
++
++export async function generateMetadata({ params }: ForexLessonRouteProps) {
++  const { lesson: lessonSlug } = await params;
++  const lesson = getForexLesson(lessonSlug);
++  if (!lesson || lesson.position === 1) return {};
++
++  return createDynamicMetadata({
++    path: lesson.href,
++    title: lesson.title,
++    description: lesson.introduction,
++  });
++}
++
+ export default async function ForexLessonRoute({
+   params,
+-}: {
+-  params: Promise<{ lesson: string }>;
+-}) {
++}: ForexLessonRouteProps) {
+   const { lesson: lessonSlug } = await params;
+   const lesson = getForexLesson(lessonSlug);
+ 
+diff --git a/apps/pipstart/src/app/learn/forex/level-1/layout.tsx b/apps/pipstart/src/app/learn/forex/level-1/layout.tsx
+new file mode 100644
+index 0000000..8ae80c9
+--- /dev/null
++++ b/apps/pipstart/src/app/learn/forex/level-1/layout.tsx
+@@ -0,0 +1,9 @@
++import type { ReactNode } from "react";
++
++import { createPageMetadata } from "../../../../lib/seo";
++
++export const metadata = createPageMetadata("/learn/forex/level-1");
++
++export default function SeoLayout({ children }: { children: ReactNode }) {
++  return children;
++}
+diff --git a/apps/pipstart/src/app/learn/forex/level-1/lessons.ts b/apps/pipstart/src/app/learn/forex/level-1/lessons.ts
+index 5dbcea0..4a44e12 100644
+--- a/apps/pipstart/src/app/learn/forex/level-1/lessons.ts
++++ b/apps/pipstart/src/app/learn/forex/level-1/lessons.ts
+@@ -1,5 +1,5 @@
+ export type ForexLesson = {
+-  href: string;
++  href: `/${string}`;
+   introduction: string;
+   keyPoints: string[];
+   position: number;
+diff --git a/apps/pipstart/src/app/legal/cookie-policy/layout.tsx b/apps/pipstart/src/app/legal/cookie-policy/layout.tsx
+new file mode 100644
+index 0000000..67851d8
+--- /dev/null
++++ b/apps/pipstart/src/app/legal/cookie-policy/layout.tsx
+@@ -0,0 +1,9 @@
++import type { ReactNode } from "react";
++
++import { createPageMetadata } from "../../../lib/seo";
++
++export const metadata = createPageMetadata("/legal/cookie-policy");
++
++export default function SeoLayout({ children }: { children: ReactNode }) {
++  return children;
++}
+diff --git a/apps/pipstart/src/app/legal/privacy-policy/layout.tsx b/apps/pipstart/src/app/legal/privacy-policy/layout.tsx
+new file mode 100644
+index 0000000..2c62d86
+--- /dev/null
++++ b/apps/pipstart/src/app/legal/privacy-policy/layout.tsx
+@@ -0,0 +1,9 @@
++import type { ReactNode } from "react";
++
++import { createPageMetadata } from "../../../lib/seo";
++
++export const metadata = createPageMetadata("/legal/privacy-policy");
++
++export default function SeoLayout({ children }: { children: ReactNode }) {
++  return children;
++}
+diff --git a/apps/pipstart/src/app/legal/risk-disclosure/layout.tsx b/apps/pipstart/src/app/legal/risk-disclosure/layout.tsx
+new file mode 100644
+index 0000000..ec72676
+--- /dev/null
++++ b/apps/pipstart/src/app/legal/risk-disclosure/layout.tsx
+@@ -0,0 +1,9 @@
++import type { ReactNode } from "react";
++
++import { createPageMetadata } from "../../../lib/seo";
++
++export const metadata = createPageMetadata("/legal/risk-disclosure");
++
++export default function SeoLayout({ children }: { children: ReactNode }) {
++  return children;
++}
+diff --git a/apps/pipstart/src/app/legal/terms/layout.tsx b/apps/pipstart/src/app/legal/terms/layout.tsx
+new file mode 100644
+index 0000000..16ef53c
+--- /dev/null
++++ b/apps/pipstart/src/app/legal/terms/layout.tsx
+@@ -0,0 +1,9 @@
++import type { ReactNode } from "react";
++
++import { createPageMetadata } from "../../../lib/seo";
++
++export const metadata = createPageMetadata("/legal/terms");
++
++export default function SeoLayout({ children }: { children: ReactNode }) {
++  return children;
++}
+diff --git a/apps/pipstart/src/app/page.tsx b/apps/pipstart/src/app/page.tsx
+index 4568177..d71ac3e 100644
+--- a/apps/pipstart/src/app/page.tsx
++++ b/apps/pipstart/src/app/page.tsx
+@@ -1,7 +1,10 @@
+ import Link from "next/link";
+ 
++import { createPageMetadata } from "../lib/seo";
+ import styles from "./page.module.css";
+ 
++export const metadata = createPageMetadata("/");
++
+ function CheckIcon() {
+   return (
+     <svg aria-hidden="true" viewBox="0 0 20 20" className={styles.checkIcon}>
+diff --git a/apps/pipstart/src/app/robots.ts b/apps/pipstart/src/app/robots.ts
+new file mode 100644
+index 0000000..d3132c9
+--- /dev/null
++++ b/apps/pipstart/src/app/robots.ts
+@@ -0,0 +1,10 @@
++import type { MetadataRoute } from "next";
++
++import { siteUrl } from "../lib/seo";
++
++export default function robots(): MetadataRoute.Robots {
++  return {
++    rules: { userAgent: "*", allow: "/", disallow: "/api/" },
++    sitemap: `${siteUrl}/sitemap.xml`,
++  };
++}
+diff --git a/apps/pipstart/src/app/sitemap.ts b/apps/pipstart/src/app/sitemap.ts
+new file mode 100644
+index 0000000..2af2a3f
+--- /dev/null
++++ b/apps/pipstart/src/app/sitemap.ts
+@@ -0,0 +1,20 @@
++import type { MetadataRoute } from "next";
++
++import { analysisPosts } from "./analysis/posts";
++import { forexLessons } from "./learn/forex/level-1/lessons";
++import { seoEntries, siteUrl } from "../lib/seo";
++
++export default function sitemap(): MetadataRoute.Sitemap {
++  const staticRoutes = seoEntries.map(({ path }) => ({
++    url: new URL(path, siteUrl).href,
++  }));
++  const articles = analysisPosts.map((post) => ({
++    url: new URL(`/analysis/${post.slug}`, siteUrl).href,
++    lastModified: new Date(post.publishedAt),
++  }));
++  const lessons = forexLessons
++    .slice(1)
++    .map((lesson) => ({ url: new URL(lesson.href, siteUrl).href }));
++
++  return [...staticRoutes, ...articles, ...lessons];
++}
+diff --git a/apps/pipstart/src/app/start-here/layout.tsx b/apps/pipstart/src/app/start-here/layout.tsx
+new file mode 100644
+index 0000000..c80d31f
+--- /dev/null
++++ b/apps/pipstart/src/app/start-here/layout.tsx
+@@ -0,0 +1,9 @@
++import type { ReactNode } from "react";
++
++import { createPageMetadata } from "../../lib/seo";
++
++export const metadata = createPageMetadata("/start-here");
++
++export default function SeoLayout({ children }: { children: ReactNode }) {
++  return children;
++}
+diff --git a/apps/pipstart/src/app/tools/compound-growth-illustration/layout.tsx b/apps/pipstart/src/app/tools/compound-growth-illustration/layout.tsx
+new file mode 100644
+index 0000000..ad49e07
+--- /dev/null
++++ b/apps/pipstart/src/app/tools/compound-growth-illustration/layout.tsx
+@@ -0,0 +1,11 @@
++import type { ReactNode } from "react";
++
++import { createPageMetadata } from "../../../lib/seo";
++
++export const metadata = createPageMetadata(
++  "/tools/compound-growth-illustration",
++);
++
++export default function SeoLayout({ children }: { children: ReactNode }) {
++  return children;
++}
+diff --git a/apps/pipstart/src/app/tools/crypto-position-size-calculator/layout.tsx b/apps/pipstart/src/app/tools/crypto-position-size-calculator/layout.tsx
+new file mode 100644
+index 0000000..c7649c5
+--- /dev/null
++++ b/apps/pipstart/src/app/tools/crypto-position-size-calculator/layout.tsx
+@@ -0,0 +1,11 @@
++import type { ReactNode } from "react";
++
++import { createPageMetadata } from "../../../lib/seo";
++
++export const metadata = createPageMetadata(
++  "/tools/crypto-position-size-calculator",
++);
++
++export default function SeoLayout({ children }: { children: ReactNode }) {
++  return children;
++}
+diff --git a/apps/pipstart/src/app/tools/dollar-cost-averaging-calculator/layout.tsx b/apps/pipstart/src/app/tools/dollar-cost-averaging-calculator/layout.tsx
+new file mode 100644
+index 0000000..17cc16f
+--- /dev/null
++++ b/apps/pipstart/src/app/tools/dollar-cost-averaging-calculator/layout.tsx
+@@ -0,0 +1,11 @@
++import type { ReactNode } from "react";
++
++import { createPageMetadata } from "../../../lib/seo";
++
++export const metadata = createPageMetadata(
++  "/tools/dollar-cost-averaging-calculator",
++);
++
++export default function SeoLayout({ children }: { children: ReactNode }) {
++  return children;
++}
+diff --git a/apps/pipstart/src/app/tools/drawdown-calculator/layout.tsx b/apps/pipstart/src/app/tools/drawdown-calculator/layout.tsx
+new file mode 100644
+index 0000000..de52672
+--- /dev/null
++++ b/apps/pipstart/src/app/tools/drawdown-calculator/layout.tsx
+@@ -0,0 +1,9 @@
++import type { ReactNode } from "react";
++
++import { createPageMetadata } from "../../../lib/seo";
++
++export const metadata = createPageMetadata("/tools/drawdown-calculator");
++
++export default function SeoLayout({ children }: { children: ReactNode }) {
++  return children;
++}
+diff --git a/apps/pipstart/src/app/tools/gain-recovery-calculator/layout.tsx b/apps/pipstart/src/app/tools/gain-recovery-calculator/layout.tsx
+new file mode 100644
+index 0000000..63f4c9a
+--- /dev/null
++++ b/apps/pipstart/src/app/tools/gain-recovery-calculator/layout.tsx
+@@ -0,0 +1,9 @@
++import type { ReactNode } from "react";
++
++import { createPageMetadata } from "../../../lib/seo";
++
++export const metadata = createPageMetadata("/tools/gain-recovery-calculator");
++
++export default function SeoLayout({ children }: { children: ReactNode }) {
++  return children;
++}
+diff --git a/apps/pipstart/src/app/tools/layout.tsx b/apps/pipstart/src/app/tools/layout.tsx
+new file mode 100644
+index 0000000..150a4d6
+--- /dev/null
++++ b/apps/pipstart/src/app/tools/layout.tsx
+@@ -0,0 +1,9 @@
++import type { ReactNode } from "react";
++
++import { createPageMetadata } from "../../lib/seo";
++
++export const metadata = createPageMetadata("/tools");
++
++export default function SeoLayout({ children }: { children: ReactNode }) {
++  return children;
++}
+diff --git a/apps/pipstart/src/app/tools/margin-calculator/layout.tsx b/apps/pipstart/src/app/tools/margin-calculator/layout.tsx
+new file mode 100644
+index 0000000..85f2f40
+--- /dev/null
++++ b/apps/pipstart/src/app/tools/margin-calculator/layout.tsx
+@@ -0,0 +1,9 @@
++import type { ReactNode } from "react";
++
++import { createPageMetadata } from "../../../lib/seo";
++
++export const metadata = createPageMetadata("/tools/margin-calculator");
++
++export default function SeoLayout({ children }: { children: ReactNode }) {
++  return children;
++}
+diff --git a/apps/pipstart/src/app/tools/pip-value-calculator/layout.tsx b/apps/pipstart/src/app/tools/pip-value-calculator/layout.tsx
+new file mode 100644
+index 0000000..42f1b76
+--- /dev/null
++++ b/apps/pipstart/src/app/tools/pip-value-calculator/layout.tsx
+@@ -0,0 +1,9 @@
++import type { ReactNode } from "react";
++
++import { createPageMetadata } from "../../../lib/seo";
++
++export const metadata = createPageMetadata("/tools/pip-value-calculator");
++
++export default function SeoLayout({ children }: { children: ReactNode }) {
++  return children;
++}
+diff --git a/apps/pipstart/src/app/tools/position-size-calculator/layout.tsx b/apps/pipstart/src/app/tools/position-size-calculator/layout.tsx
+new file mode 100644
+index 0000000..9159f19
+--- /dev/null
++++ b/apps/pipstart/src/app/tools/position-size-calculator/layout.tsx
+@@ -0,0 +1,9 @@
++import type { ReactNode } from "react";
++
++import { createPageMetadata } from "../../../lib/seo";
++
++export const metadata = createPageMetadata("/tools/position-size-calculator");
++
++export default function SeoLayout({ children }: { children: ReactNode }) {
++  return children;
++}
+diff --git a/apps/pipstart/src/app/tools/profit-loss-calculator/layout.tsx b/apps/pipstart/src/app/tools/profit-loss-calculator/layout.tsx
+new file mode 100644
+index 0000000..7f2c7e0
+--- /dev/null
++++ b/apps/pipstart/src/app/tools/profit-loss-calculator/layout.tsx
+@@ -0,0 +1,9 @@
++import type { ReactNode } from "react";
++
++import { createPageMetadata } from "../../../lib/seo";
++
++export const metadata = createPageMetadata("/tools/profit-loss-calculator");
++
++export default function SeoLayout({ children }: { children: ReactNode }) {
++  return children;
++}
+diff --git a/apps/pipstart/src/app/tools/risk-reward-calculator/layout.tsx b/apps/pipstart/src/app/tools/risk-reward-calculator/layout.tsx
+new file mode 100644
+index 0000000..7cb6790
+--- /dev/null
++++ b/apps/pipstart/src/app/tools/risk-reward-calculator/layout.tsx
+@@ -0,0 +1,9 @@
++import type { ReactNode } from "react";
++
++import { createPageMetadata } from "../../../lib/seo";
++
++export const metadata = createPageMetadata("/tools/risk-reward-calculator");
++
++export default function SeoLayout({ children }: { children: ReactNode }) {
++  return children;
++}
+diff --git a/apps/pipstart/src/components/json-ld.tsx b/apps/pipstart/src/components/json-ld.tsx
+new file mode 100644
+index 0000000..e7a004d
+--- /dev/null
++++ b/apps/pipstart/src/components/json-ld.tsx
+@@ -0,0 +1,12 @@
++type JsonLdProps = { data: Record<string, unknown> };
++
++export function JsonLd({ data }: JsonLdProps) {
++  return (
++    <script
++      type="application/ld+json"
++      dangerouslySetInnerHTML={{
++        __html: JSON.stringify(data).replace(/</g, "\\u003c"),
++      }}
++    />
++  );
++}
+diff --git a/apps/pipstart/src/lib/seo.test.ts b/apps/pipstart/src/lib/seo.test.ts
+new file mode 100644
+index 0000000..33943e5
+--- /dev/null
++++ b/apps/pipstart/src/lib/seo.test.ts
+@@ -0,0 +1,55 @@
++import { renderToStaticMarkup } from "react-dom/server";
++import { createElement } from "react";
++import { describe, expect, it } from "vitest";
++
++import robots from "../app/robots";
++import sitemap from "../app/sitemap";
++import { JsonLd } from "../components/json-ld";
++import { createPageMetadata, seoEntries, siteUrl } from "./seo";
++
++describe("PipStart SEO infrastructure", () => {
++  it("gives every registered public route unique metadata", () => {
++    const paths = seoEntries.map((entry) => entry.path);
++    const titles = seoEntries.map((entry) => entry.title);
++    const descriptions = seoEntries.map((entry) => entry.description);
++
++    expect(new Set(paths).size).toBe(paths.length);
++    expect(new Set(titles).size).toBe(titles.length);
++    expect(new Set(descriptions).size).toBe(descriptions.length);
++
++    for (const entry of seoEntries) {
++      const metadata = createPageMetadata(entry.path);
++      expect(metadata.alternates?.canonical).toBe(entry.path);
++      expect(metadata.openGraph?.url).toBe(entry.path);
++      expect(metadata.twitter).toMatchObject({ card: "summary_large_image" });
++    }
++  });
++
++  it("publishes every registered route in the sitemap", () => {
++    const urls = sitemap().map((entry) => entry.url);
++
++    for (const entry of seoEntries) {
++      expect(urls).toContain(new URL(entry.path, siteUrl).href);
++    }
++    expect(new Set(urls).size).toBe(urls.length);
++  });
++
++  it("allows public pages, protects APIs, and advertises the sitemap", () => {
++    expect(robots()).toEqual({
++      rules: { userAgent: "*", allow: "/", disallow: "/api/" },
++      sitemap: `${siteUrl}/sitemap.xml`,
++    });
++  });
++
++  it("escapes structured data before rendering it into HTML", () => {
++    const markup = renderToStaticMarkup(
++      createElement(JsonLd, {
++        data: { name: "PipStart", unsafe: "</script>" },
++      }),
++    );
++
++    expect(markup).toContain('type="application/ld+json"');
++    expect(markup).toContain("\\u003c/script>");
++    expect(markup).not.toContain("</script></script>");
++  });
++});
+diff --git a/apps/pipstart/src/lib/seo.ts b/apps/pipstart/src/lib/seo.ts
+new file mode 100644
+index 0000000..203ba56
+--- /dev/null
++++ b/apps/pipstart/src/lib/seo.ts
+@@ -0,0 +1,209 @@
++import type { Metadata } from "next";
++
++export const siteUrl = "https://pipstart.net";
++
++export type SeoEntry = {
++  description: string;
++  path: `/${string}` | "/";
++  title: string;
++};
++
++export const seoEntries = [
++  {
++    path: "/",
++    title: "Forex and Crypto Education",
++    description:
++      "Learn Forex and cryptocurrency through structured lessons, practical calculators and risk-conscious market education.",
++  },
++  {
++    path: "/start-here",
++    title: "Start Here",
++    description:
++      "Choose a structured PipStart learning path and begin with the foundations.",
++  },
++  {
++    path: "/about",
++    title: "About",
++    description: "Learn about PipStart's structured educational approach.",
++  },
++  {
++    path: "/contact",
++    title: "Contact",
++    description:
++      "Contact information and support guidance for PipStart learners.",
++  },
++  {
++    path: "/learn/forex",
++    title: "Learn Forex",
++    description:
++      "Follow a structured Forex curriculum from market foundations through risk management and strategy.",
++  },
++  {
++    path: "/learn/forex/level-1",
++    title: "Forex Kindergarten",
++    description:
++      "Learn currency pairs, pips, lots, spreads, sessions and Forex market participants.",
++  },
++  {
++    path: "/learn/crypto",
++    title: "Learn Cryptocurrency",
++    description:
++      "Follow a structured cryptocurrency curriculum from Bitcoin foundations through security and risk.",
++  },
++  {
++    path: "/learn/crypto/level-1",
++    title: "Bitcoin Foundations",
++    description:
++      "Learn what Bitcoin is and how its decentralized network records transactions.",
++  },
++  {
++    path: "/analysis",
++    title: "Market Analysis",
++    description:
++      "Educational Forex and cryptocurrency market commentary designed to build understanding, not call trades.",
++  },
++  {
++    path: "/glossary",
++    title: "Forex Glossary",
++    description: "Plain-language explanations of essential Forex terminology.",
++  },
++  {
++    path: "/glossary/crypto",
++    title: "Crypto Glossary",
++    description:
++      "Plain-language explanations of essential cryptocurrency terminology.",
++  },
++  {
++    path: "/brokers",
++    title: "Compare Forex Brokers",
++    description:
++      "Educational broker comparisons with transparent affiliate disclosures and risk information.",
++  },
++  {
++    path: "/tools",
++    title: "Trading Calculators",
++    description:
++      "Free calculators for position sizing, pip value, margin, drawdown and trading risk.",
++  },
++  {
++    path: "/tools/position-size-calculator",
++    title: "Forex Position Size Calculator",
++    description:
++      "Calculate a risk-based Forex position size using balance, risk percentage and stop distance.",
++  },
++  {
++    path: "/tools/pip-value-calculator",
++    title: "Pip Value Calculator",
++    description:
++      "Calculate the value of a pip for a Forex position and account currency.",
++  },
++  {
++    path: "/tools/risk-reward-calculator",
++    title: "Risk-to-Reward Calculator",
++    description:
++      "Compare potential trading loss and gain before entering a position.",
++  },
++  {
++    path: "/tools/profit-loss-calculator",
++    title: "Profit and Loss Calculator",
++    description: "Estimate a trade result between entry and exit prices.",
++  },
++  {
++    path: "/tools/margin-calculator",
++    title: "Forex Margin Calculator",
++    description:
++      "Estimate the margin required to open a leveraged Forex position.",
++  },
++  {
++    path: "/tools/drawdown-calculator",
++    title: "Drawdown Calculator",
++    description:
++      "Measure account drawdown and the gain needed to recover from a loss.",
++  },
++  {
++    path: "/tools/gain-recovery-calculator",
++    title: "Gain Recovery Calculator",
++    description:
++      "Estimate the compounded gain and periods needed to recover a trading loss.",
++  },
++  {
++    path: "/tools/crypto-position-size-calculator",
++    title: "Crypto Position Size Calculator",
++    description:
++      "Calculate a cryptocurrency position size using account risk and stop distance.",
++  },
++  {
++    path: "/tools/dollar-cost-averaging-calculator",
++    title: "Dollar-Cost Averaging Calculator",
++    description:
++      "Explore recurring cryptocurrency purchases across changing prices.",
++  },
++  {
++    path: "/tools/compound-growth-illustration",
++    title: "Compound Growth Illustration",
++    description:
++      "Explore hypothetical compound growth with recurring contributions.",
++  },
++  {
++    path: "/legal/privacy-policy",
++    title: "Privacy Policy",
++    description: "How PipStart handles learning progress and visitor data.",
++  },
++  {
++    path: "/legal/terms",
++    title: "Terms of Use",
++    description: "Terms governing use of PipStart educational content.",
++  },
++  {
++    path: "/legal/cookie-policy",
++    title: "Cookie Policy",
++    description: "Information about browser storage and cookies on PipStart.",
++  },
++  {
++    path: "/legal/risk-disclosure",
++    title: "Risk Disclosure",
++    description: "Important Forex and cryptocurrency risk information.",
++  },
++] as const satisfies readonly SeoEntry[];
++
++export function createPageMetadata(path: SeoEntry["path"]): Metadata {
++  const entry = seoEntries.find((candidate) => candidate.path === path);
++  if (!entry) throw new Error(`Missing SEO entry for ${path}`);
++
++  return {
++    title: entry.title,
++    description: entry.description,
++    alternates: { canonical: entry.path },
++    openGraph: {
++      title: entry.title,
++      description: entry.description,
++      type: "website",
++      url: entry.path,
++      siteName: "PipStart",
++    },
++    twitter: {
++      card: "summary_large_image",
++      title: entry.title,
++      description: entry.description,
++    },
++  };
++}
++
++export function createDynamicMetadata(entry: SeoEntry): Metadata {
++  return {
++    title: entry.title,
++    description: entry.description,
++    alternates: { canonical: entry.path },
++    openGraph: {
++      ...entry,
++      type: "article",
++      url: entry.path,
++      siteName: "PipStart",
++    },
++    twitter: {
++      card: "summary_large_image",
++      title: entry.title,
++      description: entry.description,
++    },
++  };
++}

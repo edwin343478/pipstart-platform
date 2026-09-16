@@ -1,0 +1,755 @@
+diff --git a/apps/pipstart/e2e/milestone-8-9-hardening.spec.ts b/apps/pipstart/e2e/milestone-8-9-hardening.spec.ts
+new file mode 100644
+index 0000000..c3a73ed
+--- /dev/null
++++ b/apps/pipstart/e2e/milestone-8-9-hardening.spec.ts
+@@ -0,0 +1,73 @@
++import { expect, test } from "@playwright/test";
++
++test.describe("Milestones 8 and 9 learner journeys", () => {
++  test("exposes the Forex hierarchy and supports direct refresh", async ({
++    page,
++  }) => {
++    await page.goto("/learn/forex/level-1");
++    await page
++      .getByRole("link", { name: "Forex Kindergarten" })
++      .first()
++      .click();
++    await expect(page).toHaveURL(
++      /\/learn\/forex\/level-1\/forex-kindergarten$/,
++    );
++
++    await page.getByRole("link", { name: /Forex Foundations/ }).click();
++    await expect(
++      page.getByRole("heading", { name: "Forex Foundations" }),
++    ).toBeVisible();
++    await page.reload();
++    await expect(
++      page.getByRole("link", { name: /What is Forex/ }),
++    ).toBeVisible();
++  });
++
++  test("uses an explicit completed-module destination", async ({ page }) => {
++    await page.goto("/learn/forex");
++    await page.evaluate(() =>
++      localStorage.setItem(
++        "pipstart:learn:forex:level-1:progress",
++        JSON.stringify({
++          completedLessonSlugs: [
++            "what-is-forex",
++            "currency-pairs",
++            "pips-and-lots",
++            "bid-ask-spread",
++            "trading-sessions",
++            "market-participants",
++          ],
++          version: 1,
++        }),
++      ),
++    );
++    await page.reload();
++
++    await expect(
++      page.getByRole("link", { name: /Forex Kindergarten/ }),
++    ).toHaveAttribute(
++      "href",
++      "/learn/forex/level-1/forex-kindergarten/forex-foundations",
++    );
++    await expect(page.getByText("Review completed module")).toBeVisible();
++  });
++
++  test("recovers from corrupt progress and publishes only real Crypto lessons", async ({
++    page,
++  }) => {
++    await page.goto("/learn/crypto/level-1");
++    await page.evaluate(() =>
++      localStorage.setItem(
++        "pipstart:learn:crypto:level-1:progress",
++        "not-json",
++      ),
++    );
++    await page.reload();
++
++    await expect(page.getByText("0 of 1 complete").first()).toBeVisible();
++    await expect(
++      page.getByRole("link", { name: "What is Bitcoin?" }).first(),
++    ).toBeVisible();
++    await expect(page.getByText("Transactions and blocks")).toHaveCount(0);
++  });
++});
+diff --git a/apps/pipstart/src/app/learn/crypto/level-1/bitcoin/bitcoin-foundations/page.tsx b/apps/pipstart/src/app/learn/crypto/level-1/bitcoin/bitcoin-foundations/page.tsx
+index 104c6cc..c62e20e 100644
+--- a/apps/pipstart/src/app/learn/crypto/level-1/bitcoin/bitcoin-foundations/page.tsx
++++ b/apps/pipstart/src/app/learn/crypto/level-1/bitcoin/bitcoin-foundations/page.tsx
+@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
+ import { CurriculumPage } from "../../../../../../components/curriculum-page";
+ import {
+   getCurriculumCourse,
++  getCurriculumLevel,
+   getCurriculumModule,
+   getLearningPath,
+ } from "../../../../../../lib/curriculum";
+@@ -15,15 +16,17 @@ export const metadata = createPageMetadata(
+ export default function BitcoinFoundationsPage() {
+   const learningPath = getLearningPath("crypto");
+   const course = getCurriculumCourse("crypto", "bitcoin");
++  const level = getCurriculumLevel("crypto", "level-1");
+   const curriculumModule = getCurriculumModule("crypto", "bitcoin-foundations");
+ 
+-  if (!learningPath || !course || !curriculumModule) notFound();
++  if (!learningPath || !level || !course || !curriculumModule) notFound();
+ 
+   return (
+     <CurriculumPage
+       course={course}
+       kind="module"
+       learningPath={learningPath}
++      level={level}
+       module={curriculumModule}
+     />
+   );
+diff --git a/apps/pipstart/src/app/learn/crypto/level-1/bitcoin/page.tsx b/apps/pipstart/src/app/learn/crypto/level-1/bitcoin/page.tsx
+index d64e47c..88579cc 100644
+--- a/apps/pipstart/src/app/learn/crypto/level-1/bitcoin/page.tsx
++++ b/apps/pipstart/src/app/learn/crypto/level-1/bitcoin/page.tsx
+@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
+ import { CurriculumPage } from "../../../../../components/curriculum-page";
+ import {
+   getCurriculumCourse,
++  getCurriculumLevel,
+   getLearningPath,
+ } from "../../../../../lib/curriculum";
+ import { createPageMetadata } from "../../../../../lib/seo";
+@@ -12,10 +13,16 @@ export const metadata = createPageMetadata("/learn/crypto/level-1/bitcoin");
+ export default function BitcoinCoursePage() {
+   const learningPath = getLearningPath("crypto");
+   const course = getCurriculumCourse("crypto", "bitcoin");
++  const level = getCurriculumLevel("crypto", "level-1");
+ 
+-  if (!learningPath || !course) notFound();
++  if (!learningPath || !level || !course) notFound();
+ 
+   return (
+-    <CurriculumPage course={course} kind="course" learningPath={learningPath} />
++    <CurriculumPage
++      course={course}
++      kind="course"
++      learningPath={learningPath}
++      level={level}
++    />
+   );
+ }
+diff --git a/apps/pipstart/src/app/learn/crypto/level-1/page.module.css b/apps/pipstart/src/app/learn/crypto/level-1/page.module.css
+index 3ff87bc..53fb16b 100644
+--- a/apps/pipstart/src/app/learn/crypto/level-1/page.module.css
++++ b/apps/pipstart/src/app/learn/crypto/level-1/page.module.css
+@@ -114,6 +114,11 @@
+   text-transform: uppercase;
+ }
+ 
++.sidebar h2 a {
++  color: inherit;
++  text-decoration: none;
++}
++
+ .progressSummary {
+   margin: -0.55rem 0 1rem;
+   color: #667085;
+@@ -126,6 +131,7 @@
+   gap: 0.25rem;
+ }
+ 
++.sidebar nav > a,
+ .sidebar nav > span {
+   display: flex;
+   min-height: 2.5rem;
+@@ -134,6 +140,7 @@
+   border-radius: 0.5rem;
+   padding: 0.65rem 0.75rem;
+   font-size: 0.875rem;
++  text-decoration: none;
+   transition:
+     background-color 160ms ease,
+     box-shadow 160ms ease,
+@@ -141,6 +148,7 @@
+     transform 160ms ease;
+ }
+ 
++.sidebar nav > a:hover,
+ .sidebar nav > span:hover {
+   transform: translateX(0.25rem);
+ }
+@@ -364,10 +372,12 @@
+ }
+ 
+ @media (prefers-reduced-motion: reduce) {
++  .sidebar nav > a,
+   .sidebar nav > span {
+     transition: none;
+   }
+ 
++  .sidebar nav > a:hover,
+   .sidebar nav > span:hover {
+     transform: none;
+   }
+diff --git a/apps/pipstart/src/app/learn/crypto/level-1/page.tsx b/apps/pipstart/src/app/learn/crypto/level-1/page.tsx
+index f12f0e5..7c1caf3 100644
+--- a/apps/pipstart/src/app/learn/crypto/level-1/page.tsx
++++ b/apps/pipstart/src/app/learn/crypto/level-1/page.tsx
+@@ -7,6 +7,9 @@ import {
+   LearningHeader,
+   LessonNavigation,
+ } from "../../../../components/learning-structure";
++import { Breadcrumbs } from "../../../../components/breadcrumbs";
++import { getLessonNavigation } from "../../../../lib/course-engine";
++import { getRelatedTermLabels } from "../../../../lib/related-learning";
+ import { cryptoLessons } from "./lessons";
+ import {
+   CRYPTO_LEVEL_ONE_PROGRESS_KEY,
+@@ -48,16 +51,6 @@ function CheckIcon() {
+   );
+ }
+ 
+-const lessons = [
+-  { label: "What is Bitcoin?", status: "current" },
+-  { label: "Blockchain", status: "upcoming" },
+-  { label: "Transactions and blocks", status: "upcoming" },
+-  { label: "Mining and proof of work", status: "upcoming" },
+-  { label: "Supply and halving", status: "upcoming" },
+-  { label: "Keys and digital signatures", status: "upcoming" },
+-  { label: "Level 1 quiz", status: "upcoming" },
+-] as const;
+-
+ export default function CryptoLevelOnePage() {
+   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+   const storedProgress = useSyncExternalStore(
+@@ -70,6 +63,7 @@ export default function CryptoLevelOnePage() {
+     publishedLessonIds,
+   );
+   const lessonIsComplete = completedLessonIds.includes(publishedLesson.id);
++  const navigation = getLessonNavigation(cryptoLessons, publishedLesson.id);
+ 
+   function toggleCompletion() {
+     try {
+@@ -97,7 +91,9 @@ export default function CryptoLevelOnePage() {
+         id={collapsible ? "crypto-desktop-sidebar" : undefined}
+       >
+         <div className={styles.sidebarHeading}>
+-          <h2>Bitcoin</h2>
++          <h2>
++            <Link href="/learn/crypto/level-1/bitcoin">Bitcoin</Link>
++          </h2>
+           {collapsible ? (
+             <button
+               type="button"
+@@ -117,20 +113,19 @@ export default function CryptoLevelOnePage() {
+           {completedLessonIds.length} of {cryptoLessons.length} complete
+         </p>
+         <nav>
+-          {lessons.map((lesson) => {
+-            const className =
+-              lesson.status === "current"
+-                ? styles.currentLesson
+-                : styles.upcomingLesson;
++          {cryptoLessons.map((lesson) => {
++            const current = lesson.id === publishedLesson.id;
+             return (
+-              <span
+-                aria-current={lesson.status === "current" ? "page" : undefined}
+-                className={className}
+-                key={lesson.label}
++              <Link
++                aria-current={current ? "page" : undefined}
++                className={
++                  current ? styles.currentLesson : styles.upcomingLesson
++                }
++                href={lesson.href}
++                key={lesson.id}
+               >
+-                {lesson.label}
+-                {lesson.label === "Level 1 quiz" ? " · Coming soon" : ""}
+-              </span>
++                {lesson.title}
++              </Link>
+             );
+           })}
+         </nav>
+@@ -165,6 +160,14 @@ export default function CryptoLevelOnePage() {
+         </details>
+ 
+         <article className={styles.lesson}>
++          <Breadcrumbs
++            items={[
++              { href: "/", label: "Home" },
++              { href: "/learn/crypto", label: "Learn Crypto" },
++              { href: "/learn/crypto/level-1/bitcoin", label: "Bitcoin" },
++              { label: publishedLesson.title },
++            ]}
++          />
+           <p className={styles.eyebrow}>
+             Level 1 · Lesson 1 of {cryptoLessons.length} ·{" "}
+             {publishedLesson.estimatedMinutes}-minute read
+@@ -194,7 +197,12 @@ export default function CryptoLevelOnePage() {
+           >
+             <h2 id="related-learning">Related learning</h2>
+             <p>
+-              <Link href="/glossary/crypto">Related glossary terms</Link>
++              Terms:{" "}
++              {getRelatedTermLabels(publishedLesson.relatedTermSlugs).join(
++                ", ",
++              )}
++              {" · "}
++              <Link href="/glossary/crypto">Open glossary</Link>
+             </p>
+           </section>
+ 
+@@ -212,7 +220,19 @@ export default function CryptoLevelOnePage() {
+ 
+           <LessonNavigation
+             className={styles.lessonNavigation}
+-            next={{ href: "/learn/crypto", label: "Return to Crypto path" }}
++            previous={
++              navigation?.previous
++                ? {
++                    href: navigation.previous.href,
++                    label: navigation.previous.title,
++                  }
++                : undefined
++            }
++            next={
++              navigation?.next
++                ? { href: navigation.next.href, label: navigation.next.title }
++                : { href: "/learn/crypto", label: "Return to Crypto path" }
++            }
+           />
+         </article>
+       </div>
+diff --git a/apps/pipstart/src/app/learn/forex/level-1/forex-kindergarten/forex-foundations/page.tsx b/apps/pipstart/src/app/learn/forex/level-1/forex-kindergarten/forex-foundations/page.tsx
+index 8c92c2b..36b6539 100644
+--- a/apps/pipstart/src/app/learn/forex/level-1/forex-kindergarten/forex-foundations/page.tsx
++++ b/apps/pipstart/src/app/learn/forex/level-1/forex-kindergarten/forex-foundations/page.tsx
+@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
+ import { CurriculumPage } from "../../../../../../components/curriculum-page";
+ import {
+   getCurriculumCourse,
++  getCurriculumLevel,
+   getCurriculumModule,
+   getLearningPath,
+ } from "../../../../../../lib/curriculum";
+@@ -15,15 +16,17 @@ export const metadata = createPageMetadata(
+ export default function ForexFoundationsPage() {
+   const learningPath = getLearningPath("forex");
+   const course = getCurriculumCourse("forex", "forex-kindergarten");
++  const level = getCurriculumLevel("forex", "level-1");
+   const curriculumModule = getCurriculumModule("forex", "forex-foundations");
+ 
+-  if (!learningPath || !course || !curriculumModule) notFound();
++  if (!learningPath || !level || !course || !curriculumModule) notFound();
+ 
+   return (
+     <CurriculumPage
+       course={course}
+       kind="module"
+       learningPath={learningPath}
++      level={level}
+       module={curriculumModule}
+     />
+   );
+diff --git a/apps/pipstart/src/app/learn/forex/level-1/forex-kindergarten/page.tsx b/apps/pipstart/src/app/learn/forex/level-1/forex-kindergarten/page.tsx
+index e4d30d0..ee960c6 100644
+--- a/apps/pipstart/src/app/learn/forex/level-1/forex-kindergarten/page.tsx
++++ b/apps/pipstart/src/app/learn/forex/level-1/forex-kindergarten/page.tsx
+@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
+ import { CurriculumPage } from "../../../../../components/curriculum-page";
+ import {
+   getCurriculumCourse,
++  getCurriculumLevel,
+   getLearningPath,
+ } from "../../../../../lib/curriculum";
+ import { createPageMetadata } from "../../../../../lib/seo";
+@@ -14,10 +15,16 @@ export const metadata = createPageMetadata(
+ export default function ForexKindergartenPage() {
+   const learningPath = getLearningPath("forex");
+   const course = getCurriculumCourse("forex", "forex-kindergarten");
++  const level = getCurriculumLevel("forex", "level-1");
+ 
+-  if (!learningPath || !course) notFound();
++  if (!learningPath || !level || !course) notFound();
+ 
+   return (
+-    <CurriculumPage course={course} kind="course" learningPath={learningPath} />
++    <CurriculumPage
++      course={course}
++      kind="course"
++      learningPath={learningPath}
++      level={level}
++    />
+   );
+ }
+diff --git a/apps/pipstart/src/app/learn/forex/level-1/forex-lesson.tsx b/apps/pipstart/src/app/learn/forex/level-1/forex-lesson.tsx
+index 987f365..7c87dff 100644
+--- a/apps/pipstart/src/app/learn/forex/level-1/forex-lesson.tsx
++++ b/apps/pipstart/src/app/learn/forex/level-1/forex-lesson.tsx
+@@ -7,7 +7,9 @@ import {
+   LearningHeader,
+   LessonNavigation,
+ } from "../../../../components/learning-structure";
++import { Breadcrumbs } from "../../../../components/breadcrumbs";
+ import { getLessonNavigation } from "../../../../lib/course-engine";
++import { getRelatedTermLabels } from "../../../../lib/related-learning";
+ import type { ForexLesson } from "./lessons";
+ import { forexLessons, getForexLessonById } from "./lessons";
+ import {
+@@ -96,7 +98,11 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
+         id={collapsible ? "forex-desktop-sidebar" : undefined}
+       >
+         <div className={styles.sidebarHeading}>
+-          <h2>Forex Kindergarten</h2>
++          <h2>
++            <Link href="/learn/forex/level-1/forex-kindergarten">
++              Forex Kindergarten
++            </Link>
++          </h2>
+           {collapsible ? (
+             <button
+               type="button"
+@@ -172,6 +178,17 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
+         </details>
+ 
+         <article className={styles.lesson}>
++          <Breadcrumbs
++            items={[
++              { href: "/", label: "Home" },
++              { href: "/learn/forex", label: "Learn Forex" },
++              {
++                href: "/learn/forex/level-1/forex-kindergarten",
++                label: "Forex Kindergarten",
++              },
++              { label: lesson.title },
++            ]}
++          />
+           <p className={styles.eyebrow}>
+             Level 1 · Lesson {navigation?.position ?? lesson.position} of{" "}
+             {navigation?.total ?? forexLessons.length} ·{" "}
+@@ -222,7 +239,10 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
+               ))}
+               {lesson.relatedTermSlugs.length > 0 ? (
+                 <p>
+-                  <Link href="/glossary">Related glossary terms</Link>
++                  Terms:{" "}
++                  {getRelatedTermLabels(lesson.relatedTermSlugs).join(", ")}
++                  {" · "}
++                  <Link href="/glossary">Open glossary</Link>
+                 </p>
+               ) : null}
+             </section>
+diff --git a/apps/pipstart/src/app/learn/forex/level-1/page.module.css b/apps/pipstart/src/app/learn/forex/level-1/page.module.css
+index e78c98e..3dad921 100644
+--- a/apps/pipstart/src/app/learn/forex/level-1/page.module.css
++++ b/apps/pipstart/src/app/learn/forex/level-1/page.module.css
+@@ -114,6 +114,11 @@
+   text-transform: uppercase;
+ }
+ 
++.sidebar h2 a {
++  color: inherit;
++  text-decoration: none;
++}
++
+ .progressSummary {
+   margin: -0.55rem 0 1rem;
+   color: #667085;
+diff --git a/apps/pipstart/src/app/learn/forex/page.tsx b/apps/pipstart/src/app/learn/forex/page.tsx
+index 3be069d..469f291 100644
+--- a/apps/pipstart/src/app/learn/forex/page.tsx
++++ b/apps/pipstart/src/app/learn/forex/page.tsx
+@@ -4,7 +4,7 @@ import Link from "next/link";
+ import { useState, useSyncExternalStore } from "react";
+ 
+ import { CompactFooter, CompactHeader } from "../../../components/site-chrome";
+-import { getContinueLearningLesson } from "../../../lib/course-engine";
++import { getContinueLearningState } from "../../../lib/course-engine";
+ import { forexLessons } from "./level-1/lessons";
+ import {
+   FOREX_LEVEL_ONE_PROGRESS_KEY,
+@@ -102,10 +102,18 @@ export default function LearnForexPage() {
+     getServerProgressSnapshot,
+   );
+   const completedLessonSlugs = parseLessonProgress(storedProgress, lessonSlugs);
+-  const continueLesson = getContinueLearningLesson(
++  const continueState = getContinueLearningState(
+     forexLessons.map((lesson) => ({ ...lesson, id: lesson.slug })),
+     completedLessonSlugs,
+   );
++  const levelHref =
++    continueState.status === "lesson"
++      ? continueState.lesson.href
++      : "/learn/forex/level-1/forex-kindergarten/forex-foundations";
++  const levelAction =
++    continueState.status === "complete"
++      ? "Review completed module"
++      : "Start Level 1";
+   return (
+     <main className={styles.page}>
+       <CompactHeader className={styles.header} section="Learn Forex" />
+@@ -133,7 +141,7 @@ export default function LearnForexPage() {
+               {index === 1 ? (
+                 <Link
+                   className={`${styles.levelCard} ${styles.availableLevel}`}
+-                  href={continueLesson?.href ?? "/learn/forex/level-1"}
++                  href={levelHref}
+                   aria-label="Start Level 1: Forex Kindergarten"
+                 >
+                   <span className={styles.levelMeta}>
+@@ -142,7 +150,7 @@ export default function LearnForexPage() {
+                   </span>
+                   <h3>{level.title}</h3>
+                   <p>{level.description}</p>
+-                  <span className={styles.startLevel}>Start Level 1 →</span>
++                  <span className={styles.startLevel}>{levelAction} →</span>
+                 </Link>
+               ) : (
+                 <article className={styles.levelCard}>
+diff --git a/apps/pipstart/src/app/milestone-8-9-hardening.test.tsx b/apps/pipstart/src/app/milestone-8-9-hardening.test.tsx
+new file mode 100644
+index 0000000..72d78c2
+--- /dev/null
++++ b/apps/pipstart/src/app/milestone-8-9-hardening.test.tsx
+@@ -0,0 +1,61 @@
++import fs from "node:fs";
++import path from "node:path";
++
++import { renderToStaticMarkup } from "react-dom/server";
++import { describe, expect, it } from "vitest";
++
++import CryptoLevelOnePage from "./learn/crypto/level-1/page";
++import ForexLevelOnePage from "./learn/forex/level-1/page";
++import BitcoinCoursePage from "./learn/crypto/level-1/bitcoin/page";
++import ForexKindergartenPage from "./learn/forex/level-1/forex-kindergarten/page";
++import { cryptoLessons } from "./learn/crypto/level-1/lessons";
++import { getLessonNavigation } from "../lib/course-engine";
++import { getCurriculumLevel } from "../lib/curriculum";
++
++const appRoot = path.resolve(import.meta.dirname);
++
++describe("Milestones 8 and 9 hardening", () => {
++  it("makes course hierarchy reachable from both lesson experiences", () => {
++    expect(renderToStaticMarkup(<ForexLevelOnePage />)).toContain(
++      'href="/learn/forex/level-1/forex-kindergarten"',
++    );
++    expect(renderToStaticMarkup(<CryptoLevelOnePage />)).toContain(
++      'href="/learn/crypto/level-1/bitcoin"',
++    );
++  });
++
++  it("adds breadcrumbs and truthful related-term labels to lessons", () => {
++    const forex = renderToStaticMarkup(<ForexLevelOnePage />);
++    const crypto = renderToStaticMarkup(<CryptoLevelOnePage />);
++
++    expect(forex).toContain('aria-label="Breadcrumb"');
++    expect(crypto).toContain('aria-label="Breadcrumb"');
++    expect(crypto).toContain("Bitcoin, Blockchain");
++    expect(crypto).toContain("Open glossary");
++  });
++
++  it("derives Crypto navigation exclusively from published lesson data", () => {
++    const source = fs.readFileSync(
++      path.join(appRoot, "learn/crypto/level-1/page.tsx"),
++      "utf8",
++    );
++    expect(source).toContain("cryptoLessons.map");
++    expect(source).not.toContain("Transactions and blocks");
++    expect(getLessonNavigation(cryptoLessons, "what-is-bitcoin")).toMatchObject(
++      {
++        position: 1,
++        total: 1,
++      },
++    );
++  });
++
++  it("resolves real parent levels for hierarchy pages", () => {
++    expect(getCurriculumLevel("forex", "level-1")?.title).toBe("Level 1");
++    expect(getCurriculumLevel("crypto", "level-1")?.title).toBe("Level 1");
++    expect(getCurriculumLevel("forex", "missing")).toBeUndefined();
++    expect(renderToStaticMarkup(<ForexKindergartenPage />)).toContain(
++      "Level 1",
++    );
++    expect(renderToStaticMarkup(<BitcoinCoursePage />)).toContain("Level 1");
++  });
++});
+diff --git a/apps/pipstart/src/app/route-integrity.test.ts b/apps/pipstart/src/app/route-integrity.test.ts
+index f8f1b0f..5938342 100644
+--- a/apps/pipstart/src/app/route-integrity.test.ts
++++ b/apps/pipstart/src/app/route-integrity.test.ts
+@@ -101,8 +101,9 @@ describe("PipStart internal route integrity", () => {
+ 
+     expect(home).toContain('href="/learn/forex/level-1"');
+     expect(home).not.toContain("Start Level 0");
++    expect(forexPath).toContain("href={levelHref}");
+     expect(forexPath).toContain(
+-      'href={continueLesson?.href ?? "/learn/forex/level-1"}',
++      '"/learn/forex/level-1/forex-kindergarten/forex-foundations"',
+     );
+     expect(forexPath).toContain("Available");
+     expect(forexPath).toContain("Coming soon");
+diff --git a/apps/pipstart/src/components/curriculum-page.tsx b/apps/pipstart/src/components/curriculum-page.tsx
+index 84e5811..968afe9 100644
+--- a/apps/pipstart/src/components/curriculum-page.tsx
++++ b/apps/pipstart/src/components/curriculum-page.tsx
+@@ -2,6 +2,7 @@ import Link from "next/link";
+ 
+ import type {
+   CurriculumCourse,
++  CurriculumLevel,
+   CurriculumModule,
+   LearningPath,
+ } from "../lib/curriculum";
+@@ -17,6 +18,7 @@ import styles from "../app/learn/forex/page.module.css";
+ type CurriculumPageProps = {
+   course: CurriculumCourse;
+   kind: "course" | "module";
++  level: CurriculumLevel;
+   learningPath: LearningPath;
+   module?: CurriculumModule;
+ };
+@@ -24,6 +26,7 @@ type CurriculumPageProps = {
+ export function CurriculumPage({
+   course,
+   kind,
++  level,
+   learningPath,
+   module,
+ }: CurriculumPageProps) {
+@@ -37,10 +40,10 @@ export function CurriculumPage({
+       path: learningPath.href,
+     },
+     {
+-      href: learningPath.levels[0]?.href,
+-      label: "Level 1",
+-      name: "Level 1",
+-      path: learningPath.levels[0]?.href ?? learningPath.href,
++      href: level.href,
++      label: level.title,
++      name: level.title,
++      path: level.href,
+     },
+     ...(module
+       ? [
+@@ -60,7 +63,7 @@ export function CurriculumPage({
+     <main className={styles.page}>
+       <CompactHeader
+         className={styles.header}
+-        section={`${learningPath.title} · Level 1`}
++        section={`${learningPath.title} · ${level.title}`}
+       />
+       <JsonLd
+         data={createBreadcrumbJsonLd(
+@@ -71,7 +74,9 @@ export function CurriculumPage({
+         <Breadcrumbs
+           items={breadcrumbs.map(({ href, label }) => ({ href, label }))}
+         />
+-        <span>Level 1 · {kind === "course" ? "Course" : "Module"}</span>
++        <span>
++          {level.title} · {kind === "course" ? "Course" : "Module"}
++        </span>
+         <h1>{current.title}</h1>
+         <p>{current.description}</p>
+       </section>
+diff --git a/apps/pipstart/src/lib/course-engine.test.ts b/apps/pipstart/src/lib/course-engine.test.ts
+index 1490e3e..4a32a4b 100644
+--- a/apps/pipstart/src/lib/course-engine.test.ts
++++ b/apps/pipstart/src/lib/course-engine.test.ts
+@@ -1,6 +1,7 @@
+ import { describe, expect, it } from "vitest";
+ 
+ import {
++  getContinueLearningState,
+   getContinueLearningLesson,
+   getLessonNavigation,
+   sortPublishedLessons,
+@@ -36,11 +37,19 @@ describe("course engine", () => {
+     expect(getLessonNavigation(lessons, "missing")).toBeUndefined();
+   });
+ 
+-  it("continues at the first incomplete lesson and restarts after completion", () => {
++  it("continues at the first incomplete lesson and reports completion", () => {
+     expect(getContinueLearningLesson(lessons, [])?.id).toBe("first");
+     expect(getContinueLearningLesson(lessons, ["first"])?.id).toBe("third");
+-    expect(getContinueLearningLesson(lessons, ["first", "third"])?.id).toBe(
+-      "first",
+-    );
++    expect(
++      getContinueLearningLesson(lessons, ["first", "third"]),
++    ).toBeUndefined();
++    expect(getContinueLearningState(lessons, [])).toMatchObject({
++      lesson: { id: "first" },
++      status: "lesson",
++    });
++    expect(getContinueLearningState(lessons, ["first", "third"])).toEqual({
++      status: "complete",
++    });
++    expect(getContinueLearningState([], [])).toEqual({ status: "empty" });
+   });
+ });
+diff --git a/apps/pipstart/src/lib/course-engine.ts b/apps/pipstart/src/lib/course-engine.ts
+index 90f1b5d..962365f 100644
+--- a/apps/pipstart/src/lib/course-engine.ts
++++ b/apps/pipstart/src/lib/course-engine.ts
+@@ -38,5 +38,21 @@ export function getContinueLearningLesson<T extends OrderedLesson>(
+   const published = sortPublishedLessons(lessons);
+   const completed = new Set(completedLessonIds);
+ 
+-  return published.find((lesson) => !completed.has(lesson.id)) ?? published[0];
++  return published.find((lesson) => !completed.has(lesson.id));
++}
++
++export type ContinueLearningState<T extends OrderedLesson> =
++  | { status: "empty" }
++  | { status: "complete" }
++  | { lesson: T; status: "lesson" };
++
++export function getContinueLearningState<T extends OrderedLesson>(
++  lessons: readonly T[],
++  completedLessonIds: readonly string[],
++): ContinueLearningState<T> {
++  const published = sortPublishedLessons(lessons);
++  if (published.length === 0) return { status: "empty" };
++
++  const lesson = getContinueLearningLesson(published, completedLessonIds);
++  return lesson ? { lesson, status: "lesson" } : { status: "complete" };
+ }
+diff --git a/apps/pipstart/src/lib/curriculum.ts b/apps/pipstart/src/lib/curriculum.ts
+index 3609cc6..67f0ae7 100644
+--- a/apps/pipstart/src/lib/curriculum.ts
++++ b/apps/pipstart/src/lib/curriculum.ts
+@@ -203,6 +203,13 @@ export function getCurriculumCourse(
+     .find((course) => course.id === courseId);
+ }
+ 
++export function getCurriculumLevel(
++  pathId: LearningPath["id"],
++  levelId: string,
++) {
++  return getLearningPath(pathId)?.levels.find((level) => level.id === levelId);
++}
++
+ export function getCurriculumModule(
+   pathId: LearningPath["id"],
+   moduleId: string,
+diff --git a/apps/pipstart/src/lib/related-learning.ts b/apps/pipstart/src/lib/related-learning.ts
+new file mode 100644
+index 0000000..5253778
+--- /dev/null
++++ b/apps/pipstart/src/lib/related-learning.ts
+@@ -0,0 +1,10 @@
++const termLabels: Record<string, string> = {
++  bitcoin: "Bitcoin",
++  blockchain: "Blockchain",
++  pip: "Pip",
++  "position-size": "Position size",
++};
++
++export function getRelatedTermLabels(slugs: readonly string[]): string[] {
++  return slugs.map((slug) => termLabels[slug] ?? slug.replaceAll("-", " "));
++}
+

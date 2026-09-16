@@ -8,6 +8,7 @@ type NavigationItem = {
   emphasized?: boolean;
   href: `/${string}`;
   label: string;
+  signIn?: boolean;
 };
 const navigationItems: readonly NavigationItem[] = [
   { href: "/start-here", label: "Start Here" },
@@ -18,20 +19,25 @@ const navigationItems: readonly NavigationItem[] = [
   { href: "/tools", label: "Tools" },
   { href: "/brokers", label: "Brokers" },
   { href: "/faq", label: "FAQ" },
+  { href: "/login", label: "Log in", signIn: true },
 ];
 
 type PrimaryNavigationProps = {
   analysisLinkClassName?: string;
   className?: string;
   menuButtonClassName?: string;
+  mobileSignInClassName?: string;
   openClassName?: string;
+  signInClassName?: string;
 };
 
 export function PrimaryNavigation({
   analysisLinkClassName,
   className,
   menuButtonClassName,
+  mobileSignInClassName,
   openClassName,
+  signInClassName,
 }: PrimaryNavigationProps) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
@@ -66,6 +72,9 @@ export function PrimaryNavigation({
     .join(" ");
   return (
     <>
+      <Link className={mobileSignInClassName} href="/login">
+        Log in
+      </Link>
       <button
         ref={menuButtonRef}
         type="button"
@@ -87,7 +96,13 @@ export function PrimaryNavigation({
       >
         {navigationItems.map((item) => (
           <Link
-            className={item.emphasized ? analysisLinkClassName : undefined}
+            className={
+              item.emphasized
+                ? analysisLinkClassName
+                : item.signIn
+                  ? signInClassName
+                  : undefined
+            }
             href={item.href}
             key={item.href}
             aria-current={pathname === item.href ? "page" : undefined}

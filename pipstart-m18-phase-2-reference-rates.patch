@@ -1,0 +1,902 @@
+diff --git a/apps/pipstart/src/app/api/exchange-rate/route.ts b/apps/pipstart/src/app/api/exchange-rate/route.ts
+new file mode 100644
+index 0000000..9efff2b
+--- /dev/null
++++ b/apps/pipstart/src/app/api/exchange-rate/route.ts
+@@ -0,0 +1,39 @@
++import { NextRequest, NextResponse } from "next/server";
++
++import {
++  fetchReferenceRate,
++  normalizeCurrencyCode,
++} from "../../../lib/exchange-rate";
++
++export async function GET(request: NextRequest) {
++  const baseCurrency = normalizeCurrencyCode(
++    request.nextUrl.searchParams.get("base"),
++  );
++  const quoteCurrency = normalizeCurrencyCode(
++    request.nextUrl.searchParams.get("quote"),
++  );
++
++  if (!baseCurrency || !quoteCurrency) {
++    return NextResponse.json(
++      { error: "Valid base and quote currency codes are required." },
++      { status: 400 },
++    );
++  }
++
++  try {
++    const rate = await fetchReferenceRate(baseCurrency, quoteCurrency);
++    return NextResponse.json(rate, {
++      headers: {
++        "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
++      },
++    });
++  } catch {
++    return NextResponse.json(
++      {
++        error:
++          "A current reference rate is unavailable. Enter a rate manually to continue.",
++      },
++      { status: 502 },
++    );
++  }
++}
+diff --git a/apps/pipstart/src/app/tools/components/conversion-rate-field.module.css b/apps/pipstart/src/app/tools/components/conversion-rate-field.module.css
+new file mode 100644
+index 0000000..429cb16
+--- /dev/null
++++ b/apps/pipstart/src/app/tools/components/conversion-rate-field.module.css
+@@ -0,0 +1,83 @@
++.field {
++  min-width: 0;
++}
++
++.labelRow {
++  display: flex;
++  align-items: center;
++  justify-content: space-between;
++  gap: 0.75rem;
++  margin-bottom: 0.4rem;
++}
++
++.labelRow label {
++  color: #667085;
++  font-size: 0.8125rem;
++}
++
++.modeButton {
++  border: 0;
++  background: transparent;
++  color: #0f766e;
++  cursor: pointer;
++  font: inherit;
++  font-size: 0.6875rem;
++  font-weight: 700;
++  padding: 0;
++}
++
++.modeButton:hover,
++.modeButton:focus-visible {
++  color: #115e59;
++  text-decoration: underline;
++}
++
++.modeButton:disabled {
++  color: #8a93a0;
++  cursor: not-allowed;
++}
++
++.field input {
++  width: 100%;
++  border: 1px solid #d9e0e5;
++  border-radius: 0.5rem;
++  outline: 0;
++  background: #fff;
++  color: #0b1220;
++  font: inherit;
++  padding: 0.75rem 0.875rem;
++}
++
++.field input:read-only {
++  background: #f8fafb;
++}
++
++.field input:focus {
++  border-color: #0f766e;
++  box-shadow: 0 0 0 3px rgb(15 118 110 / 12%);
++}
++
++.field input[aria-invalid="true"] {
++  border-color: #b42318;
++}
++
++.status {
++  min-height: 2.7rem;
++  margin-top: 0.4rem;
++  color: #667085;
++  font-size: 0.6875rem;
++  line-height: 1.45;
++}
++
++.status strong,
++.status span {
++  display: block;
++}
++
++.status strong {
++  color: #0f766e;
++}
++
++.status strong + span {
++  margin-top: 0.1rem;
++}
+diff --git a/apps/pipstart/src/app/tools/components/conversion-rate-field.tsx b/apps/pipstart/src/app/tools/components/conversion-rate-field.tsx
+new file mode 100644
+index 0000000..0bc9b1b
+--- /dev/null
++++ b/apps/pipstart/src/app/tools/components/conversion-rate-field.tsx
+@@ -0,0 +1,150 @@
++"use client";
++
++import { useEffect, useId, useState } from "react";
++
++import type { ReferenceRate } from "../../../lib/exchange-rate";
++
++import styles from "./conversion-rate-field.module.css";
++
++type ConversionRateFieldProps = {
++  accountCurrency: string;
++  onChange: (value: string) => void;
++  quoteCurrency: string;
++  value: string;
++};
++
++type RateStatus = "loading" | "automatic" | "manual" | "error";
++
++export default function ConversionRateField({
++  accountCurrency,
++  onChange,
++  quoteCurrency,
++  value,
++}: ConversionRateFieldProps) {
++  const descriptionId = useId();
++  const [referenceRate, setReferenceRate] = useState<ReferenceRate | null>(
++    null,
++  );
++  const [status, setStatus] = useState<RateStatus>("loading");
++
++  useEffect(() => {
++    const controller = new AbortController();
++
++    async function loadRate() {
++      setStatus("loading");
++      setReferenceRate(null);
++      onChange("");
++
++      try {
++        const response = await fetch(
++          `/api/exchange-rate?base=${encodeURIComponent(quoteCurrency)}&quote=${encodeURIComponent(accountCurrency)}`,
++          { signal: controller.signal },
++        );
++        const payload = (await response.json()) as ReferenceRate & {
++          error?: string;
++        };
++
++        if (!response.ok || payload.stale) {
++          throw new Error(
++            payload.error ?? "The reference rate is unavailable.",
++          );
++        }
++
++        setReferenceRate(payload);
++        onChange(String(payload.rate));
++        setStatus("automatic");
++      } catch (error) {
++        if (error instanceof DOMException && error.name === "AbortError")
++          return;
++        onChange("");
++        setStatus("error");
++      }
++    }
++
++    void loadRate();
++    return () => controller.abort();
++  }, [accountCurrency, onChange, quoteCurrency]);
++
++  function useManualRate() {
++    onChange(referenceRate ? String(referenceRate.rate) : "");
++    setStatus("manual");
++  }
++
++  function useLatestRate() {
++    if (!referenceRate) return;
++    onChange(String(referenceRate.rate));
++    setStatus("automatic");
++  }
++
++  const automatic = status === "automatic";
++  const unavailable = status === "error";
++
++  return (
++    <div className={styles.field}>
++      <div className={styles.labelRow}>
++        <label htmlFor={descriptionId}>Quote-to-account conversion rate</label>
++        {status !== "loading" ? (
++          <button
++            className={styles.modeButton}
++            type="button"
++            onClick={automatic || unavailable ? useManualRate : useLatestRate}
++            disabled={!automatic && !unavailable && !referenceRate}
++          >
++            {automatic || unavailable ? "Use my own rate" : "Use latest rate"}
++          </button>
++        ) : null}
++      </div>
++      <input
++        aria-describedby={`${descriptionId}-status`}
++        aria-invalid={unavailable && !value ? "true" : undefined}
++        id={descriptionId}
++        type="number"
++        min="0.000001"
++        step="any"
++        inputMode="decimal"
++        readOnly={status === "loading" || automatic}
++        value={value}
++        placeholder={
++          status === "loading" ? "Loading latest rate…" : "Enter rate"
++        }
++        onChange={(event) => onChange(event.target.value)}
++      />
++      <div
++        className={styles.status}
++        id={`${descriptionId}-status`}
++        aria-live="polite"
++      >
++        {status === "loading" ? (
++          <span>
++            Retrieving the latest available indicative reference rate…
++          </span>
++        ) : null}
++        {automatic && referenceRate ? (
++          <>
++            <strong>Latest available rate applied:</strong> 1 {quoteCurrency} ={" "}
++            {referenceRate.rate} {accountCurrency}
++            <span>
++              {referenceRate.source} · {referenceRate.rateDate} · retrieved{" "}
++              {new Date(referenceRate.retrievedAt).toLocaleString()}
++            </span>
++          </>
++        ) : null}
++        {status === "manual" ? (
++          <>
++            <strong>Manual rate override.</strong>
++            <span>
++              Results will use your rate for 1 {quoteCurrency} in{" "}
++              {accountCurrency}.
++            </span>
++          </>
++        ) : null}
++        {unavailable ? (
++          <>
++            <strong>Reference rate unavailable.</strong>
++            <span>Enter your own rate to calculate safely.</span>
++          </>
++        ) : null}
++      </div>
++    </div>
++  );
++}
+diff --git a/apps/pipstart/src/app/tools/components/instrument-specification.module.css b/apps/pipstart/src/app/tools/components/instrument-specification.module.css
+new file mode 100644
+index 0000000..55ec25e
+--- /dev/null
++++ b/apps/pipstart/src/app/tools/components/instrument-specification.module.css
+@@ -0,0 +1,42 @@
++.specification {
++  grid-column: 1 / -1;
++  margin-top: -0.25rem;
++  border: 1px solid #d9e0e5;
++  border-radius: 0.625rem;
++  background: #fff;
++  padding: 0.8rem 1rem;
++}
++
++.specification dl {
++  display: grid;
++  grid-template-columns: repeat(4, minmax(0, 1fr));
++  gap: 0.75rem;
++  margin: 0;
++}
++
++.specification dt {
++  color: #8a93a0;
++  font-size: 0.625rem;
++  letter-spacing: 0.04em;
++  text-transform: uppercase;
++}
++
++.specification dd {
++  margin: 0.2rem 0 0;
++  color: #0b1220;
++  font-size: 0.8125rem;
++  font-weight: 700;
++}
++
++.specification p {
++  margin: 0.65rem 0 0;
++  color: #667085;
++  font-size: 0.6875rem;
++  line-height: 1.45;
++}
++
++@media (max-width: 640px) {
++  .specification dl {
++    grid-template-columns: repeat(2, minmax(0, 1fr));
++  }
++}
+diff --git a/apps/pipstart/src/app/tools/components/instrument-specification.tsx b/apps/pipstart/src/app/tools/components/instrument-specification.tsx
+new file mode 100644
+index 0000000..1e14742
+--- /dev/null
++++ b/apps/pipstart/src/app/tools/components/instrument-specification.tsx
+@@ -0,0 +1,33 @@
++import type { Instrument } from "../position-size-calculator/instruments";
++
++import styles from "./instrument-specification.module.css";
++
++export default function InstrumentSpecification({
++  instrument,
++}: {
++  instrument: Instrument;
++}) {
++  return (
++    <div className={styles.specification}>
++      <dl>
++        <div>
++          <dt>Quote currency</dt>
++          <dd>{instrument.quoteCurrency}</dd>
++        </div>
++        <div>
++          <dt>Pip size</dt>
++          <dd>{instrument.pipSize}</dd>
++        </div>
++        <div>
++          <dt>Contract</dt>
++          <dd>{instrument.contractSize.toLocaleString("en-US")}</dd>
++        </div>
++        <div>
++          <dt>Volume step</dt>
++          <dd>{instrument.volumeStep} lots</dd>
++        </div>
++      </dl>
++      <p>{instrument.specificationNote}</p>
++    </div>
++  );
++}
+diff --git a/apps/pipstart/src/app/tools/margin-calculator/page.tsx b/apps/pipstart/src/app/tools/margin-calculator/page.tsx
+index 81d8761..75c96ec 100644
+--- a/apps/pipstart/src/app/tools/margin-calculator/page.tsx
++++ b/apps/pipstart/src/app/tools/margin-calculator/page.tsx
+@@ -6,7 +6,10 @@ import { FormEvent, useState } from "react";
+ import {
+   accountCurrencies,
+   instrumentGroups,
++  instruments,
+ } from "../position-size-calculator/instruments";
++import ConversionRateField from "../components/conversion-rate-field";
++import InstrumentSpecification from "../components/instrument-specification";
+ import {
+   calculateMargin,
+   type MarginResult,
+@@ -24,6 +27,8 @@ export default function MarginCalculatorPage() {
+   const [result, setResult] = useState<MarginResult>(() =>
+     calculateMargin("EUR/USD", 1, 1.085, 100, 1, "USD"),
+   );
++  const selectedInstrument =
++    instruments.find((item) => item.label === instrument) ?? instruments[0];
+ 
+   function submit(event: FormEvent<HTMLFormElement>) {
+     event.preventDefault();
+@@ -87,6 +92,7 @@ export default function MarginCalculatorPage() {
+                 ))}
+               </select>
+             </label>
++            <InstrumentSpecification instrument={selectedInstrument} />
+             <label>
+               <span>Currency pair or metal</span>
+               <select
+@@ -140,21 +146,12 @@ export default function MarginCalculatorPage() {
+                 ))}
+               </select>
+             </label>
+-            <label>
+-              <span>Quote-to-account conversion rate</span>
+-              <input
+-                type="number"
+-                min="0.000001"
+-                step="any"
+-                inputMode="decimal"
+-                value={conversionRate}
+-                onChange={(event) => setConversionRate(event.target.value)}
+-              />
+-              <small>
+-                Use 1 when the instrument&apos;s quote currency matches your
+-                account currency.
+-              </small>
+-            </label>
++            <ConversionRateField
++              accountCurrency={accountCurrency}
++              onChange={setConversionRate}
++              quoteCurrency={selectedInstrument.quoteCurrency}
++              value={conversionRate}
++            />
+           </div>
+ 
+           {error ? (
+diff --git a/apps/pipstart/src/app/tools/pip-value-calculator/page.tsx b/apps/pipstart/src/app/tools/pip-value-calculator/page.tsx
+index d9751e9..ea3911f 100644
+--- a/apps/pipstart/src/app/tools/pip-value-calculator/page.tsx
++++ b/apps/pipstart/src/app/tools/pip-value-calculator/page.tsx
+@@ -6,7 +6,10 @@ import { FormEvent, useState } from "react";
+ import {
+   accountCurrencies,
+   instrumentGroups,
++  instruments,
+ } from "../position-size-calculator/instruments";
++import ConversionRateField from "../components/conversion-rate-field";
++import InstrumentSpecification from "../components/instrument-specification";
+ import {
+   calculatePipValue,
+   type PipValueResult,
+@@ -22,6 +25,8 @@ export default function PipValueCalculatorPage() {
+   const [result, setResult] = useState<PipValueResult>(() =>
+     calculatePipValue("EUR/USD", 1, 1, "USD"),
+   );
++  const selectedInstrument =
++    instruments.find((item) => item.label === instrument) ?? instruments[0];
+ 
+   function submit(event: FormEvent<HTMLFormElement>) {
+     event.preventDefault();
+@@ -73,6 +78,7 @@ export default function PipValueCalculatorPage() {
+                 ))}
+               </select>
+             </label>
++            <InstrumentSpecification instrument={selectedInstrument} />
+             <label>
+               <span>Currency pair or metal</span>
+               <select
+@@ -102,21 +108,12 @@ export default function PipValueCalculatorPage() {
+                 onChange={(event) => setLots(event.target.value)}
+               />
+             </label>
+-            <label>
+-              <span>Quote-to-account conversion rate</span>
+-              <input
+-                type="number"
+-                min="0.000001"
+-                step="any"
+-                inputMode="decimal"
+-                value={conversionRate}
+-                onChange={(event) => setConversionRate(event.target.value)}
+-              />
+-              <small>
+-                Use 1 when the instrument&apos;s quote currency matches your
+-                account currency.
+-              </small>
+-            </label>
++            <ConversionRateField
++              accountCurrency={accountCurrency}
++              onChange={setConversionRate}
++              quoteCurrency={selectedInstrument.quoteCurrency}
++              value={conversionRate}
++            />
+           </div>
+ 
+           {error ? (
+diff --git a/apps/pipstart/src/app/tools/position-size-calculator/instruments.test.ts b/apps/pipstart/src/app/tools/position-size-calculator/instruments.test.ts
+new file mode 100644
+index 0000000..8f18265
+--- /dev/null
++++ b/apps/pipstart/src/app/tools/position-size-calculator/instruments.test.ts
+@@ -0,0 +1,32 @@
++import { describe, expect, it } from "vitest";
++
++import { instruments } from "./instruments";
++
++describe("instrument specifications", () => {
++  it("provides complete, positive metadata for every instrument", () => {
++    expect(instruments.length).toBeGreaterThan(0);
++
++    for (const instrument of instruments) {
++      expect(instrument.baseCurrency).toMatch(/^[A-Z]{3}$/);
++      expect(instrument.quoteCurrency).toMatch(/^[A-Z]{3}$/);
++      expect(instrument.contractSize).toBeGreaterThan(0);
++      expect(instrument.pipSize).toBeGreaterThan(0);
++      expect(instrument.minimumVolume).toBeGreaterThan(0);
++      expect(instrument.volumeStep).toBeGreaterThan(0);
++      expect(instrument.specificationNote.length).toBeGreaterThan(0);
++    }
++  });
++
++  it("models the approved gold and silver instruments explicitly", () => {
++    expect(instruments.find((item) => item.label === "XAU/USD")).toMatchObject({
++      contractSize: 100,
++      pipSize: 0.01,
++      quoteCurrency: "USD",
++    });
++    expect(instruments.find((item) => item.label === "XAG/USD")).toMatchObject({
++      contractSize: 5_000,
++      pipSize: 0.001,
++      quoteCurrency: "USD",
++    });
++  });
++});
+diff --git a/apps/pipstart/src/app/tools/position-size-calculator/instruments.ts b/apps/pipstart/src/app/tools/position-size-calculator/instruments.ts
+index c87d184..c29cc4f 100644
+--- a/apps/pipstart/src/app/tools/position-size-calculator/instruments.ts
++++ b/apps/pipstart/src/app/tools/position-size-calculator/instruments.ts
+@@ -1,7 +1,12 @@
+ export type Instrument = {
++  baseCurrency: string;
+   contractSize: number;
+   label: string;
++  minimumVolume: number;
+   pipSize: number;
++  quoteCurrency: string;
++  specificationNote: string;
++  volumeStep: number;
+ };
+ 
+ export type InstrumentGroup = {
+@@ -10,10 +15,18 @@ export type InstrumentGroup = {
+ };
+ 
+ function forex(label: string): Instrument {
++  const [baseCurrency, quoteCurrency] = label.split("/");
++
+   return {
++    baseCurrency,
+     label,
+     pipSize: label.endsWith("/JPY") ? 0.01 : 0.0001,
+     contractSize: 100_000,
++    minimumVolume: 0.01,
++    quoteCurrency,
++    specificationNote:
++      "Common educational convention. Confirm pip, contract and volume specifications with your broker.",
++    volumeStep: 0.01,
+   };
+ }
+ 
+@@ -30,6 +43,9 @@ export const accountCurrencies = [
+   "CAD",
+   "AUD",
+   "NZD",
++  "TZS",
++  "KES",
++  "GHS",
+ ] as const;
+ 
+ export const instrumentGroups: InstrumentGroup[] = [
+@@ -113,8 +129,28 @@ export const instrumentGroups: InstrumentGroup[] = [
+   {
+     label: "Metals",
+     instruments: [
+-      { label: "XAU/USD", pipSize: 0.01, contractSize: 100 },
+-      { label: "XAG/USD", pipSize: 0.001, contractSize: 5_000 },
++      {
++        baseCurrency: "XAU",
++        contractSize: 100,
++        label: "XAU/USD",
++        minimumVolume: 0.01,
++        pipSize: 0.01,
++        quoteCurrency: "USD",
++        specificationNote:
++          "Illustrative metal specification. Confirm contract and volume details with your broker.",
++        volumeStep: 0.01,
++      },
++      {
++        baseCurrency: "XAG",
++        contractSize: 5_000,
++        label: "XAG/USD",
++        minimumVolume: 0.01,
++        pipSize: 0.001,
++        quoteCurrency: "USD",
++        specificationNote:
++          "Illustrative metal specification. Confirm contract and volume details with your broker.",
++        volumeStep: 0.01,
++      },
+     ],
+   },
+ ];
+diff --git a/apps/pipstart/src/app/tools/position-size-calculator/page.tsx b/apps/pipstart/src/app/tools/position-size-calculator/page.tsx
+index 82695c5..e3a6e41 100644
+--- a/apps/pipstart/src/app/tools/position-size-calculator/page.tsx
++++ b/apps/pipstart/src/app/tools/position-size-calculator/page.tsx
+@@ -3,7 +3,13 @@
+ import Link from "next/link";
+ import { FormEvent, useState } from "react";
+ 
+-import { accountCurrencies, instrumentGroups } from "./instruments";
++import ConversionRateField from "../components/conversion-rate-field";
++import InstrumentSpecification from "../components/instrument-specification";
++import {
++  accountCurrencies,
++  instrumentGroups,
++  instruments,
++} from "./instruments";
+ import {
+   calculatePositionSize,
+   type PositionSizeResult,
+@@ -21,6 +27,8 @@ export default function PositionSizeCalculatorPage() {
+   const [result, setResult] = useState<PositionSizeResult>(() =>
+     calculatePositionSize(1000, 1, 25, 1, "EUR/USD", "USD"),
+   );
++  const selectedInstrument =
++    instruments.find((item) => item.label === instrument) ?? instruments[0];
+ 
+   function submit(event: FormEvent<HTMLFormElement>) {
+     event.preventDefault();
+@@ -140,21 +148,13 @@ export default function PositionSizeCalculatorPage() {
+                 ))}
+               </select>
+             </label>
+-            <label>
+-              <span>Quote-to-account conversion rate</span>
+-              <input
+-                type="number"
+-                min="0.000001"
+-                step="any"
+-                inputMode="decimal"
+-                value={conversionRate}
+-                onChange={(event) => setConversionRate(event.target.value)}
+-              />
+-              <small>
+-                Use 1 when the instrument&apos;s quote currency matches your
+-                account currency.
+-              </small>
+-            </label>
++            <InstrumentSpecification instrument={selectedInstrument} />
++            <ConversionRateField
++              accountCurrency={accountCurrency}
++              onChange={setConversionRate}
++              quoteCurrency={selectedInstrument.quoteCurrency}
++              value={conversionRate}
++            />
+           </div>
+ 
+           {error ? (
+diff --git a/apps/pipstart/src/app/tools/profit-loss-calculator/page.tsx b/apps/pipstart/src/app/tools/profit-loss-calculator/page.tsx
+index 34710ac..c4101a8 100644
+--- a/apps/pipstart/src/app/tools/profit-loss-calculator/page.tsx
++++ b/apps/pipstart/src/app/tools/profit-loss-calculator/page.tsx
+@@ -6,7 +6,10 @@ import { FormEvent, useState } from "react";
+ import {
+   accountCurrencies,
+   instrumentGroups,
++  instruments,
+ } from "../position-size-calculator/instruments";
++import ConversionRateField from "../components/conversion-rate-field";
++import InstrumentSpecification from "../components/instrument-specification";
+ import {
+   calculateProfitLoss,
+   type ProfitLossResult,
+@@ -30,6 +33,8 @@ export default function ProfitLossCalculatorPage() {
+   const [result, setResult] = useState<ProfitLossResult>(() =>
+     calculateProfitLoss("long", "EUR/USD", 1, 1.1, 1.105, 1, "USD"),
+   );
++  const selectedInstrument =
++    instruments.find((item) => item.label === instrument) ?? instruments[0];
+ 
+   function submit(event: FormEvent<HTMLFormElement>) {
+     event.preventDefault();
+@@ -98,6 +103,7 @@ export default function ProfitLossCalculatorPage() {
+                 ))}
+               </select>
+             </label>
++            <InstrumentSpecification instrument={selectedInstrument} />
+             <label>
+               <span>Trade direction</span>
+               <select
+@@ -161,21 +167,12 @@ export default function ProfitLossCalculatorPage() {
+                 onChange={(event) => setExitPrice(event.target.value)}
+               />
+             </label>
+-            <label>
+-              <span>Quote-to-account conversion rate</span>
+-              <input
+-                type="number"
+-                min="0.000001"
+-                step="any"
+-                inputMode="decimal"
+-                value={conversionRate}
+-                onChange={(event) => setConversionRate(event.target.value)}
+-              />
+-              <small>
+-                Use 1 when the instrument&apos;s quote currency matches your
+-                account currency.
+-              </small>
+-            </label>
++            <ConversionRateField
++              accountCurrency={accountCurrency}
++              onChange={setConversionRate}
++              quoteCurrency={selectedInstrument.quoteCurrency}
++              value={conversionRate}
++            />
+           </div>
+ 
+           {error ? (
+diff --git a/apps/pipstart/src/lib/exchange-rate.test.ts b/apps/pipstart/src/lib/exchange-rate.test.ts
+new file mode 100644
+index 0000000..1645d28
+--- /dev/null
++++ b/apps/pipstart/src/lib/exchange-rate.test.ts
+@@ -0,0 +1,69 @@
++import { describe, expect, it, vi } from "vitest";
++
++import {
++  fetchReferenceRate,
++  isReferenceRateStale,
++  normalizeCurrencyCode,
++} from "./exchange-rate";
++
++describe("exchange-rate service", () => {
++  it("normalizes valid currency codes and rejects invalid input", () => {
++    expect(normalizeCurrencyCode(" usd ")).toBe("USD");
++    expect(normalizeCurrencyCode("US")).toBeNull();
++    expect(normalizeCurrencyCode("US1")).toBeNull();
++  });
++
++  it("returns a safe unit rate without calling a provider for matching currencies", async () => {
++    const fetcher = vi.fn<typeof fetch>();
++    const now = new Date("2026-09-09T10:00:00.000Z");
++
++    const result = await fetchReferenceRate("USD", "USD", fetcher, now);
++
++    expect(fetcher).not.toHaveBeenCalled();
++    expect(result.rate).toBe(1);
++    expect(result.stale).toBe(false);
++  });
++
++  it("validates and returns the latest provider rate", async () => {
++    const fetcher = vi.fn<typeof fetch>().mockResolvedValue(
++      new Response(
++        JSON.stringify({
++          base: "GBP",
++          date: "2026-09-08",
++          quote: "USD",
++          rate: 1.3521,
++        }),
++        { status: 200 },
++      ),
++    );
++
++    const result = await fetchReferenceRate(
++      "GBP",
++      "USD",
++      fetcher,
++      new Date("2026-09-09T10:00:00.000Z"),
++    );
++
++    expect(result.rate).toBe(1.3521);
++    expect(result.rateDate).toBe("2026-09-08");
++    expect(result.stale).toBe(false);
++  });
++
++  it("rejects invalid provider data", async () => {
++    const fetcher = vi
++      .fn<typeof fetch>()
++      .mockResolvedValue(
++        new Response(JSON.stringify({ rate: 0 }), { status: 200 }),
++      );
++
++    await expect(fetchReferenceRate("GBP", "USD", fetcher)).rejects.toThrow(
++      "invalid data",
++    );
++  });
++
++  it("flags reference data older than seven days", () => {
++    expect(
++      isReferenceRateStale("2026-09-01", new Date("2026-09-09T10:00:00.000Z")),
++    ).toBe(true);
++  });
++});
+diff --git a/apps/pipstart/src/lib/exchange-rate.ts b/apps/pipstart/src/lib/exchange-rate.ts
+new file mode 100644
+index 0000000..327cc03
+--- /dev/null
++++ b/apps/pipstart/src/lib/exchange-rate.ts
+@@ -0,0 +1,92 @@
++export type ReferenceRate = {
++  baseCurrency: string;
++  quoteCurrency: string;
++  rate: number;
++  rateDate: string;
++  retrievedAt: string;
++  source: string;
++  stale: boolean;
++};
++
++type FrankfurterRate = {
++  base?: unknown;
++  date?: unknown;
++  quote?: unknown;
++  rate?: unknown;
++};
++
++const CURRENCY_CODE = /^[A-Z]{3}$/;
++const MAX_REFERENCE_AGE_DAYS = 7;
++
++export function normalizeCurrencyCode(value: string | null): string | null {
++  const normalized = value?.trim().toUpperCase() ?? "";
++  return CURRENCY_CODE.test(normalized) ? normalized : null;
++}
++
++export function isReferenceRateStale(
++  rateDate: string,
++  now = new Date(),
++): boolean {
++  const published = new Date(`${rateDate}T23:59:59.999Z`);
++  if (!Number.isFinite(published.getTime())) return true;
++
++  return (
++    now.getTime() - published.getTime() > MAX_REFERENCE_AGE_DAYS * 86_400_000
++  );
++}
++
++export async function fetchReferenceRate(
++  baseCurrency: string,
++  quoteCurrency: string,
++  fetcher: typeof fetch = fetch,
++  now = new Date(),
++): Promise<ReferenceRate> {
++  if (!CURRENCY_CODE.test(baseCurrency) || !CURRENCY_CODE.test(quoteCurrency)) {
++    throw new Error(
++      "A valid three-letter base and quote currency is required.",
++    );
++  }
++
++  if (baseCurrency === quoteCurrency) {
++    return {
++      baseCurrency,
++      quoteCurrency,
++      rate: 1,
++      rateDate: now.toISOString().slice(0, 10),
++      retrievedAt: now.toISOString(),
++      source: "Matching currencies",
++      stale: false,
++    };
++  }
++
++  const response = await fetcher(
++    `https://api.frankfurter.dev/v2/rate/${baseCurrency}/${quoteCurrency}`,
++    { next: { revalidate: 3600 } },
++  );
++
++  if (!response.ok) {
++    throw new Error(`Reference-rate provider returned ${response.status}.`);
++  }
++
++  const payload = (await response.json()) as FrankfurterRate;
++  if (
++    payload.base !== baseCurrency ||
++    payload.quote !== quoteCurrency ||
++    typeof payload.date !== "string" ||
++    typeof payload.rate !== "number" ||
++    !Number.isFinite(payload.rate) ||
++    payload.rate <= 0
++  ) {
++    throw new Error("Reference-rate provider returned invalid data.");
++  }
++
++  return {
++    baseCurrency,
++    quoteCurrency,
++    rate: payload.rate,
++    rateDate: payload.date,
++    retrievedAt: now.toISOString(),
++    source: "Frankfurter central-bank reference rate",
++    stale: isReferenceRateStale(payload.date, now),
++  };
++}

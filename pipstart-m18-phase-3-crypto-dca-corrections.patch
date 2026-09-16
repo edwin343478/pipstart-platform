@@ -1,0 +1,925 @@
+diff --git a/apps/pipstart/src/app/tools/crypto-options.ts b/apps/pipstart/src/app/tools/crypto-options.ts
+new file mode 100644
+index 0000000..5e10325
+--- /dev/null
++++ b/apps/pipstart/src/app/tools/crypto-options.ts
+@@ -0,0 +1,14 @@
++export const cryptoAccountCurrencies = ["USD", "EUR", "GBP"] as const;
++
++export const majorCryptoAssets = [
++  { label: "Bitcoin (BTC)", symbol: "BTC" },
++  { label: "Ethereum (ETH)", symbol: "ETH" },
++  { label: "BNB", symbol: "BNB" },
++  { label: "XRP", symbol: "XRP" },
++  { label: "Solana (SOL)", symbol: "SOL" },
++  { label: "TRON (TRX)", symbol: "TRX" },
++  { label: "Dogecoin (DOGE)", symbol: "DOGE" },
++  { label: "Cardano (ADA)", symbol: "ADA" },
++  { label: "Hyperliquid (HYPE)", symbol: "HYPE" },
++  { label: "Bitcoin Cash (BCH)", symbol: "BCH" },
++] as const;
+diff --git a/apps/pipstart/src/app/tools/crypto-position-size-calculator/page.tsx b/apps/pipstart/src/app/tools/crypto-position-size-calculator/page.tsx
+index c411e51..dd87c23 100644
+--- a/apps/pipstart/src/app/tools/crypto-position-size-calculator/page.tsx
++++ b/apps/pipstart/src/app/tools/crypto-position-size-calculator/page.tsx
+@@ -6,32 +6,37 @@ import { FormEvent, useState } from "react";
+ import {
+   calculateCryptoPositionSize,
+   type CryptoPositionSizeResult,
++  type CryptoTradingMode,
++  type TradeDirection,
+ } from "../../../lib/calculator-engine";
++import { cryptoAccountCurrencies, majorCryptoAssets } from "../crypto-options";
+ import styles from "./page.module.css";
+ 
+-const accountCurrencies = ["USD", "EUR", "GBP", "TZS", "KES", "GHS"];
+-const cryptoAssets = [
+-  "BTC",
+-  "ETH",
+-  "SOL",
+-  "BNB",
+-  "XRP",
+-  "ADA",
+-  "DOGE",
+-  "USDT",
+-  "USDC",
+-];
+-
+ export default function CryptoPositionSizeCalculatorPage() {
+   const [accountCurrency, setAccountCurrency] = useState("USD");
++  const [tradingMode, setTradingMode] = useState<CryptoTradingMode>("spot");
++  const [direction, setDirection] = useState<TradeDirection>("long");
+   const [balance, setBalance] = useState("1000");
+   const [riskPercent, setRiskPercent] = useState("1");
+   const [asset, setAsset] = useState("BTC");
+   const [entryPrice, setEntryPrice] = useState("60000");
+-  const [stopLossPrice, setStopLossPrice] = useState("59000");
++  const [stopLossPrice, setStopLossPrice] = useState("58800");
++  const [minimumOrderQuantity, setMinimumOrderQuantity] = useState("0.0001");
++  const [quantityStep, setQuantityStep] = useState("0.0001");
+   const [error, setError] = useState("");
+   const [result, setResult] = useState<CryptoPositionSizeResult>(() =>
+-    calculateCryptoPositionSize(1000, 1, 60000, 59000, "BTC", "USD"),
++    calculateCryptoPositionSize(
++      1000,
++      1,
++      60000,
++      58800,
++      "BTC",
++      "USD",
++      "spot",
++      "long",
++      0.0001,
++      0.0001,
++    ),
+   );
+ 
+   function submit(event: FormEvent<HTMLFormElement>) {
+@@ -41,6 +46,8 @@ export default function CryptoPositionSizeCalculatorPage() {
+       Number(riskPercent),
+       Number(entryPrice),
+       Number(stopLossPrice),
++      Number(minimumOrderQuantity),
++      Number(quantityStep),
+     ];
+ 
+     if (!values.every(Number.isFinite) || values.some((value) => value <= 0)) {
+@@ -55,18 +62,43 @@ export default function CryptoPositionSizeCalculatorPage() {
+       setError("Entry price and stop-loss price must be different.");
+       return;
+     }
++    if (tradingMode === "spot" && direction !== "long") {
++      setError("Spot positions must use the Long / Buy direction.");
++      return;
++    }
++    if (
++      (direction === "long" && values[3] >= values[2]) ||
++      (direction === "short" && values[3] <= values[2])
++    ) {
++      setError(
++        direction === "long"
++          ? "A long position requires a stop price below the entry price."
++          : "A short position requires a stop price above the entry price.",
++      );
++      return;
++    }
+ 
+-    setError("");
+-    setResult(
+-      calculateCryptoPositionSize(
+-        values[0],
+-        values[1],
+-        values[2],
+-        values[3],
+-        asset,
+-        accountCurrency,
+-      ),
++    const nextResult = calculateCryptoPositionSize(
++      values[0],
++      values[1],
++      values[2],
++      values[3],
++      asset,
++      accountCurrency,
++      tradingMode,
++      direction,
++      values[4],
++      values[5],
+     );
++    if (!nextResult.meetsMinimumOrder) {
++      setError(
++        `The calculated quantity is below the ${minimumOrderQuantity} ${asset} minimum order.`,
++      );
++      return;
++    }
++
++    setError("");
++    setResult(nextResult);
+   }
+ 
+   return (
+@@ -99,11 +131,45 @@ export default function CryptoPositionSizeCalculatorPage() {
+                 value={accountCurrency}
+                 onChange={(event) => setAccountCurrency(event.target.value)}
+               >
+-                {accountCurrencies.map((currency) => (
++                {cryptoAccountCurrencies.map((currency) => (
+                   <option key={currency}>{currency}</option>
+                 ))}
+               </select>
+             </label>
++            <label>
++              <span>Trading mode</span>
++              <select
++                value={tradingMode}
++                onChange={(event) => {
++                  const mode = event.target.value as CryptoTradingMode;
++                  setTradingMode(mode);
++                  if (mode === "spot") setDirection("long");
++                }}
++              >
++                <option value="spot">Spot — cash-funded</option>
++                <option value="leveraged">Leveraged / derivative</option>
++              </select>
++            </label>
++            <label>
++              <span>Trade direction</span>
++              <select
++                value={direction}
++                disabled={tradingMode === "spot"}
++                onChange={(event) =>
++                  setDirection(event.target.value as TradeDirection)
++                }
++              >
++                <option value="long">Long / Buy</option>
++                {tradingMode === "leveraged" ? (
++                  <option value="short">Short / Sell</option>
++                ) : null}
++              </select>
++              <small>
++                {tradingMode === "spot"
++                  ? "Spot positions are long-only."
++                  : "Confirm leverage and liquidation rules with your venue."}
++              </small>
++            </label>
+             <label>
+               <span>Account balance</span>
+               <input
+@@ -133,11 +199,39 @@ export default function CryptoPositionSizeCalculatorPage() {
+                 value={asset}
+                 onChange={(event) => setAsset(event.target.value)}
+               >
+-                {cryptoAssets.map((cryptoAsset) => (
+-                  <option key={cryptoAsset}>{cryptoAsset}</option>
++                {majorCryptoAssets.map((cryptoAsset) => (
++                  <option value={cryptoAsset.symbol} key={cryptoAsset.symbol}>
++                    {cryptoAsset.label}
++                  </option>
+                 ))}
+               </select>
+             </label>
++            <label>
++              <span>Minimum order quantity</span>
++              <input
++                type="number"
++                min="0.00000001"
++                step="any"
++                inputMode="decimal"
++                value={minimumOrderQuantity}
++                onChange={(event) =>
++                  setMinimumOrderQuantity(event.target.value)
++                }
++              />
++              <small>Use the minimum shown by your exchange.</small>
++            </label>
++            <label>
++              <span>Quantity step</span>
++              <input
++                type="number"
++                min="0.00000001"
++                step="any"
++                inputMode="decimal"
++                value={quantityStep}
++                onChange={(event) => setQuantityStep(event.target.value)}
++              />
++              <small>The result rounds down to this exchange step.</small>
++            </label>
+             <label>
+               <span>Entry price</span>
+               <input
+@@ -179,12 +273,9 @@ export default function CryptoPositionSizeCalculatorPage() {
+             {result.positionQuantity.toFixed(6)} {result.asset}
+           </p>
+           <div>
+-            Risking {result.accountCurrency} {result.riskAmount.toFixed(2)} of
+-            your {result.accountCurrency}{" "}
+-            {result.balance.toLocaleString("en-US", {
+-              maximumFractionDigits: 2,
+-            })}{" "}
+-            balance
++            {result.cappedByBalance
++              ? "Position capped by the available cash balance."
++              : "Risk-sized position is within the available cash balance."}
+           </div>
+           <dl className={styles.breakdown}>
+             <div>
+@@ -194,28 +285,38 @@ export default function CryptoPositionSizeCalculatorPage() {
+               </dd>
+             </div>
+             <div>
+-              <dt>Risk per coin</dt>
++              <dt>Risk-sized quantity</dt>
+               <dd>
+-                {result.accountCurrency} {result.riskPerCoin.toFixed(2)}
++                {result.riskSizedQuantity.toLocaleString("en-US", {
++                  maximumFractionDigits: 8,
++                })}{" "}
++                {result.asset}
+               </dd>
+             </div>
+             <div>
+-              <dt>Position value</dt>
++              <dt>Affordable maximum</dt>
+               <dd>
+-                {result.accountCurrency} {result.positionValue.toFixed(2)}
++                {result.affordableMaximum === null
++                  ? "Venue dependent"
++                  : `${result.affordableMaximum.toLocaleString("en-US", {
++                      maximumFractionDigits: 8,
++                    })} ${result.asset}`}
+               </dd>
+             </div>
+             <div>
+-              <dt>Stop distance</dt>
+-              <dd>{result.stopDistancePercent.toFixed(2)}%</dd>
++              <dt>Position value</dt>
++              <dd>
++                {result.accountCurrency} {result.positionValue.toFixed(2)}
++              </dd>
+             </div>
+           </dl>
+         </section>
+ 
+         <aside className={styles.assumption}>
+-          Position quantity is calculated from your account risk and the
+-          difference between entry and stop-loss prices. Confirm minimum order
+-          sizes and price precision with your exchange.
++          For spot positions, the final quantity is the lower of the risk-sized
++          quantity and the cash-affordable quantity, rounded down to your
++          exchange&apos;s quantity step. Leveraged results are risk-sized only;
++          venue margin and liquidation rules are not modelled.
+         </aside>
+ 
+         <aside className={styles.disclaimer}>
+diff --git a/apps/pipstart/src/app/tools/dollar-cost-averaging-calculator/page.tsx b/apps/pipstart/src/app/tools/dollar-cost-averaging-calculator/page.tsx
+index 72b7f4d..5669b12 100644
+--- a/apps/pipstart/src/app/tools/dollar-cost-averaging-calculator/page.tsx
++++ b/apps/pipstart/src/app/tools/dollar-cost-averaging-calculator/page.tsx
+@@ -3,47 +3,54 @@
+ import Link from "next/link";
+ import { FormEvent, useState } from "react";
+ 
+-import { accountCurrencies } from "../position-size-calculator/instruments";
+ import {
+   calculateDollarCostAveraging,
+   type DollarCostAveragingResult,
++  type DollarCostAveragingFrequency,
+ } from "../../../lib/calculator-engine";
++import { cryptoAccountCurrencies, majorCryptoAssets } from "../crypto-options";
+ import styles from "../position-size-calculator/page.module.css";
+ 
+-const assets = [
+-  { label: "Bitcoin (BTC)", symbol: "BTC" },
+-  { label: "Ethereum (ETH)", symbol: "ETH" },
+-  { label: "Solana (SOL)", symbol: "SOL" },
+-  { label: "BNB", symbol: "BNB" },
+-  { label: "XRP", symbol: "XRP" },
+-  { label: "Other asset", symbol: "units" },
+-] as const;
+-
+ const frequencies = [
+-  { label: "Monthly", purchasesPerMonth: 1 },
+-  { label: "Twice monthly", purchasesPerMonth: 2 },
+-  { label: "Weekly", purchasesPerMonth: 4 },
++  { label: "Weekly", value: "weekly" },
++  { label: "Every two weeks", value: "biweekly" },
++  { label: "Monthly", value: "monthly" },
+ ] as const;
+ 
++function isoDate(date: Date): string {
++  return date.toISOString().slice(0, 10);
++}
++
++function initialDates() {
++  const start = new Date();
++  const end = new Date(start);
++  end.setUTCMonth(end.getUTCMonth() + 3);
++  return { end: isoDate(end), start: isoDate(start) };
++}
++
++const defaults = initialDates();
++
+ export default function DollarCostAveragingCalculatorPage() {
+   const [accountCurrency, setAccountCurrency] = useState("USD");
+   const [assetSymbol, setAssetSymbol] = useState("BTC");
+   const [investmentPerPurchase, setInvestmentPerPurchase] = useState("100");
+-  const [purchasesPerMonth, setPurchasesPerMonth] = useState("1");
+-  const [durationMonths, setDurationMonths] = useState("12");
+-  const [startingPrice, setStartingPrice] = useState("60000");
+-  const [endingPrice, setEndingPrice] = useState("72000");
++  const [purchaseFrequency, setPurchaseFrequency] =
++    useState<DollarCostAveragingFrequency>("weekly");
++  const [firstPurchaseDate, setFirstPurchaseDate] = useState(defaults.start);
++  const [planEndDate, setPlanEndDate] = useState(defaults.end);
++  const [startingPrice, setStartingPrice] = useState("50000");
++  const [endingPrice, setEndingPrice] = useState("60000");
+   const [error, setError] = useState("");
+   const [result, setResult] = useState<DollarCostAveragingResult>(() =>
+     calculateDollarCostAveraging(
+       "USD",
+       "BTC",
+       100,
+-      1,
+-      "monthly",
+-      12,
++      "weekly",
++      defaults.start,
++      defaults.end,
++      50_000,
+       60_000,
+-      72_000,
+     ),
+   );
+ 
+@@ -51,52 +58,38 @@ export default function DollarCostAveragingCalculatorPage() {
+     event.preventDefault();
+     const values = [
+       Number(investmentPerPurchase),
+-      Number(purchasesPerMonth),
+-      Number(durationMonths),
+       Number(startingPrice),
+       Number(endingPrice),
+     ];
+ 
+-    if (
+-      !values.every(Number.isFinite) ||
+-      values.some((value) => value <= 0) ||
+-      !Number.isInteger(values[2])
+-    ) {
+-      setError(
+-        "Enter values greater than zero. Duration must be a whole number of months.",
+-      );
++    if (!values.every(Number.isFinite) || values.some((value) => value <= 0)) {
++      setError("Enter values greater than zero in every numeric field.");
+       return;
+     }
+-
+-    const purchaseCount = values[1] * values[2];
+-    if (purchaseCount > 2_400) {
++    if (!firstPurchaseDate || !planEndDate || planEndDate < firstPurchaseDate) {
+       setError(
+-        "Choose a duration and frequency totaling no more than 2,400 purchases.",
++        "The plan end date must be on or after the first purchase date.",
+       );
+       return;
+     }
+ 
+-    const frequency = frequencies.find(
+-      (candidate) => candidate.purchasesPerMonth === values[1],
++    const nextResult = calculateDollarCostAveraging(
++      accountCurrency,
++      assetSymbol,
++      values[0],
++      purchaseFrequency,
++      firstPurchaseDate,
++      planEndDate,
++      values[1],
++      values[2],
+     );
+-    if (!frequency) {
+-      setError("Choose a supported purchase frequency.");
++    if (nextResult.purchaseCount >= 2_400) {
++      setError("Choose a date range containing fewer than 2,400 purchases.");
+       return;
+     }
+ 
+     setError("");
+-    setResult(
+-      calculateDollarCostAveraging(
+-        accountCurrency,
+-        assetSymbol,
+-        values[0],
+-        values[1],
+-        frequency.label.toLowerCase(),
+-        values[2],
+-        values[3],
+-        values[4],
+-      ),
+-    );
++    setResult(nextResult);
+   }
+ 
+   return (
+@@ -129,7 +122,7 @@ export default function DollarCostAveragingCalculatorPage() {
+                 value={accountCurrency}
+                 onChange={(event) => setAccountCurrency(event.target.value)}
+               >
+-                {accountCurrencies.map((currency) => (
++                {cryptoAccountCurrencies.map((currency) => (
+                   <option key={currency}>{currency}</option>
+                 ))}
+               </select>
+@@ -140,7 +133,7 @@ export default function DollarCostAveragingCalculatorPage() {
+                 value={assetSymbol}
+                 onChange={(event) => setAssetSymbol(event.target.value)}
+               >
+-                {assets.map((asset) => (
++                {majorCryptoAssets.map((asset) => (
+                   <option value={asset.symbol} key={asset.symbol}>
+                     {asset.label}
+                   </option>
+@@ -163,29 +156,35 @@ export default function DollarCostAveragingCalculatorPage() {
+             <label>
+               <span>Purchase frequency</span>
+               <select
+-                value={purchasesPerMonth}
+-                onChange={(event) => setPurchasesPerMonth(event.target.value)}
++                value={purchaseFrequency}
++                onChange={(event) =>
++                  setPurchaseFrequency(
++                    event.target.value as DollarCostAveragingFrequency,
++                  )
++                }
+               >
+                 {frequencies.map((frequency) => (
+-                  <option
+-                    value={frequency.purchasesPerMonth}
+-                    key={frequency.label}
+-                  >
++                  <option value={frequency.value} key={frequency.value}>
+                     {frequency.label}
+                   </option>
+                 ))}
+               </select>
+             </label>
+             <label>
+-              <span>Duration (months)</span>
++              <span>First purchase date</span>
+               <input
+-                type="number"
+-                min="1"
+-                max="600"
+-                step="1"
+-                inputMode="numeric"
+-                value={durationMonths}
+-                onChange={(event) => setDurationMonths(event.target.value)}
++                type="date"
++                value={firstPurchaseDate}
++                onChange={(event) => setFirstPurchaseDate(event.target.value)}
++              />
++            </label>
++            <label>
++              <span>Plan end date</span>
++              <input
++                type="date"
++                min={firstPurchaseDate}
++                value={planEndDate}
++                onChange={(event) => setPlanEndDate(event.target.value)}
+               />
+             </label>
+             <label>
+@@ -225,50 +224,72 @@ export default function DollarCostAveragingCalculatorPage() {
+         </form>
+ 
+         <section className={styles.result} aria-live="polite">
+-          <h2>Estimated units accumulated</h2>
++          <h2>Illustrated ending value</h2>
+           <p>
+-            {result.units.toLocaleString("en-US", {
+-              maximumFractionDigits: 8,
+-            })}{" "}
+-            {result.assetSymbol}
++            {result.accountCurrency} {result.endingValue.toFixed(2)}
+           </p>
+           <div>
+-            {result.purchaseCount} {result.purchaseFrequency} purchases of{" "}
+-            {result.accountCurrency} {result.investmentPerPurchase.toFixed(2)}
++            {result.purchaseCount} purchases generated from actual calendar
++            dates.
+           </div>
+           <dl className={styles.breakdown}>
+             <div>
+-              <dt>Total contributed</dt>
++              <dt>Purchase count</dt>
++              <dd>{result.purchaseCount}</dd>
++            </div>
++            <div>
++              <dt>Total invested</dt>
+               <dd>
+                 {result.accountCurrency} {result.totalContributed.toFixed(2)}
+               </dd>
+             </div>
+             <div>
+-              <dt>Average cost</dt>
++              <dt>Units accumulated</dt>
+               <dd>
+-                {result.accountCurrency} {result.averageCost.toFixed(2)}
++                {result.units.toLocaleString("en-US", {
++                  maximumFractionDigits: 8,
++                })}{" "}
++                {result.assetSymbol}
+               </dd>
+             </div>
+             <div>
+-              <dt>Ending value</dt>
++              <dt>Average cost</dt>
+               <dd>
+-                {result.accountCurrency} {result.endingValue.toFixed(2)}
++                {result.accountCurrency} {result.averageCost.toFixed(2)}
+               </dd>
+             </div>
++          </dl>
++        </section>
++
++        <section className={styles.schedule}>
++          <h2>Generated schedule</h2>
++          <dl>
++            <div>
++              <dt>First purchase</dt>
++              <dd>{result.firstPurchaseDate ?? "—"}</dd>
++            </div>
++            <div>
++              <dt>Last purchase on or before end date</dt>
++              <dd>{result.lastPurchaseDate ?? "—"}</dd>
++            </div>
+             <div>
+-              <dt>Illustrated difference</dt>
++              <dt>Calendar rule</dt>
+               <dd>
+-                {result.illustratedDifference >= 0 ? "+" : "-"}
+-                {result.accountCurrency}{" "}
+-                {Math.abs(result.illustratedDifference).toFixed(2)}
++                {result.purchaseFrequency === "weekly"
++                  ? "Every 7 days"
++                  : result.purchaseFrequency === "biweekly"
++                    ? "Every 14 days"
++                    : "Same calendar day each month"}
+               </dd>
+             </div>
+           </dl>
+         </section>
+ 
+         <aside className={styles.assumption}>
+-          Each recurring contribution is divided by an evenly changing
+-          illustrative asset price. Fees, spreads and slippage are excluded.
++          Purchase dates follow the selected calendar rule. Monthly dates use
++          the same day where available and the month&apos;s final day otherwise.
++          Each contribution is divided by an evenly changing illustrative price;
++          fees, spreads and slippage are excluded.
+         </aside>
+ 
+         <aside className={styles.disclaimer}>
+diff --git a/apps/pipstart/src/app/tools/position-size-calculator/page.module.css b/apps/pipstart/src/app/tools/position-size-calculator/page.module.css
+index 8becbed..63e67a4 100644
+--- a/apps/pipstart/src/app/tools/position-size-calculator/page.module.css
++++ b/apps/pipstart/src/app/tools/position-size-calculator/page.module.css
+@@ -206,6 +206,50 @@
+   padding: 0.8rem 1rem;
+ }
+ 
++.schedule {
++  margin-bottom: 1.5rem;
++  border: 1px solid #d9e0e5;
++  border-radius: 0.625rem;
++  background: #fff;
++  padding: 1rem;
++}
++
++.schedule h2 {
++  margin: 0 0 0.5rem;
++  font-family: var(--font-pipstart-heading), sans-serif;
++  font-size: 0.9375rem;
++}
++
++.schedule dl {
++  margin: 0;
++}
++
++.schedule dl div {
++  display: flex;
++  align-items: center;
++  justify-content: space-between;
++  gap: 1rem;
++  padding: 0.65rem 0;
++  border-bottom: 1px solid #e8ecef;
++}
++
++.schedule dl div:last-child {
++  border-bottom: 0;
++}
++
++.schedule dt {
++  color: #667085;
++  font-size: 0.75rem;
++}
++
++.schedule dd {
++  margin: 0;
++  color: #0b1220;
++  font-size: 0.8125rem;
++  font-weight: 700;
++  text-align: right;
++}
++
+ .disclaimer {
+   border: 1px solid #fde68a;
+   border-radius: 0.625rem;
+diff --git a/apps/pipstart/src/lib/calculator-engine.test.ts b/apps/pipstart/src/lib/calculator-engine.test.ts
+index 771c305..d12ff5b 100644
+--- a/apps/pipstart/src/lib/calculator-engine.test.ts
++++ b/apps/pipstart/src/lib/calculator-engine.test.ts
+@@ -6,6 +6,7 @@ import {
+   calculateDollarCostAveraging,
+   calculateDrawdown,
+   calculateGainRecovery,
++  generatePurchaseSchedule,
+   calculateMargin,
+   calculatePipValue,
+   calculatePositionSize,
+@@ -150,14 +151,20 @@ describe("calculator engine", () => {
+         58_800,
+         "BTC",
+         "USD",
++        "spot",
++        "long",
++        0.0001,
++        0.0001,
+       );
+ 
+-      expect(result.positionQuantity).toBeCloseTo(0.0083333333, 8);
++      expect(result.positionQuantity).toBe(0.0083);
+       expect(result.riskAmount).toBe(10);
+       expect(result.stopDistancePercent).toBe(2);
++      expect(result.cappedByBalance).toBe(false);
++      expect(result.meetsMinimumOrder).toBe(true);
+     });
+ 
+-    it("exposes the unbounded notional result for later model validation", () => {
++    it("caps a spot position at the cash-affordable quantity", () => {
+       const result = calculateCryptoPositionSize(
+         1_000,
+         1,
+@@ -165,21 +172,58 @@ describe("calculator engine", () => {
+         59_990,
+         "BTC",
+         "USD",
++        "spot",
++        "long",
++        0.0001,
++        0.0001,
+       );
+ 
+-      expect(result.positionValue).toBe(60_000);
++      expect(result.riskSizedQuantity).toBe(1);
++      expect(result.positionQuantity).toBe(0.0166);
++      expect(result.positionValue).toBe(996);
++      expect(result.cappedByBalance).toBe(true);
++    });
++
++    it("reports when a rounded quantity is below the venue minimum", () => {
++      const result = calculateCryptoPositionSize(
++        100,
++        1,
++        60_000,
++        50_000,
++        "BTC",
++        "USD",
++        "spot",
++        "long",
++        0.001,
++        0.0001,
++      );
++
++      expect(result.positionQuantity).toBe(0.0001);
++      expect(result.meetsMinimumOrder).toBe(false);
+     });
+   });
+ 
+   describe("dollar-cost averaging", () => {
++    it("generates exact weekly dates including the end date", () => {
++      expect(
++        generatePurchaseSchedule("2026-09-09", "2026-09-30", "weekly"),
++      ).toEqual(["2026-09-09", "2026-09-16", "2026-09-23", "2026-09-30"]);
++    });
++
++    it("clamps monthly purchases to the final day of shorter months", () => {
++      expect(
++        generatePurchaseSchedule("2026-01-31", "2026-04-30", "monthly"),
++      ).toEqual(["2026-01-31", "2026-02-28", "2026-03-31", "2026-04-30"]);
++    });
++
+     it("calculates units and average cost across a linear price path", () => {
+       const result = calculateDollarCostAveraging(
+         "USD",
+         "BTC",
+         100,
+-        1,
+         "monthly",
+-        3,
++        "2026-01-01",
++        "2026-03-01",
+         100,
+         200,
+       );
+@@ -194,9 +238,9 @@ describe("calculator engine", () => {
+         "USD",
+         "BTC",
+         100,
+-        1,
+         "monthly",
+-        1,
++        "2026-01-01",
++        "2026-01-01",
+         50_000,
+         60_000,
+       );
+@@ -204,6 +248,8 @@ describe("calculator engine", () => {
+       expect(result.units).toBeCloseTo(0.002, 10);
+       expect(result.averageCost).toBe(50_000);
+       expect(result.endingValue).toBeCloseTo(120, 10);
++      expect(result.firstPurchaseDate).toBe("2026-01-01");
++      expect(result.lastPurchaseDate).toBe("2026-01-01");
+     });
+   });
+ 
+diff --git a/apps/pipstart/src/lib/calculator-engine.ts b/apps/pipstart/src/lib/calculator-engine.ts
+index 5444757..d8204c8 100644
+--- a/apps/pipstart/src/lib/calculator-engine.ts
++++ b/apps/pipstart/src/lib/calculator-engine.ts
+@@ -3,6 +3,8 @@ import { instruments } from "../app/tools/position-size-calculator/instruments";
+ export type TradeDirection = "long" | "short";
+ export type DrawdownUnit = "amount" | "percent";
+ export type ContributionTiming = "end" | "start";
++export type CryptoTradingMode = "spot" | "leveraged";
++export type DollarCostAveragingFrequency = "weekly" | "biweekly" | "monthly";
+ 
+ function getInstrument(instrumentLabel: string) {
+   const instrument = instruments.find(
+@@ -175,34 +177,116 @@ export function calculateCryptoPositionSize(
+   stopLossPrice: number,
+   asset: string,
+   accountCurrency: string,
++  tradingMode: CryptoTradingMode,
++  direction: TradeDirection,
++  minimumOrderQuantity: number,
++  quantityStep: number,
+ ) {
+   const riskAmount = balance * (riskPercent / 100);
+   const riskPerCoin = Math.abs(entryPrice - stopLossPrice);
+-  const positionQuantity = riskAmount / riskPerCoin;
++  const riskSizedQuantity = riskAmount / riskPerCoin;
++  const affordableMaximum =
++    tradingMode === "spot" ? balance / entryPrice : null;
++  const unroundedQuantity =
++    affordableMaximum === null
++      ? riskSizedQuantity
++      : Math.min(riskSizedQuantity, affordableMaximum);
++  const positionQuantity =
++    Math.floor((unroundedQuantity + Number.EPSILON) / quantityStep) *
++    quantityStep;
+ 
+   return {
+     accountCurrency,
++    affordableMaximum,
+     asset,
+     balance,
++    cappedByBalance:
++      affordableMaximum !== null && affordableMaximum < riskSizedQuantity,
++    direction,
++    meetsMinimumOrder: positionQuantity >= minimumOrderQuantity,
++    minimumOrderQuantity,
+     positionQuantity,
+     positionValue: positionQuantity * entryPrice,
++    quantityStep,
+     riskAmount,
+     riskPerCoin,
++    riskSizedQuantity,
+     stopDistancePercent: (riskPerCoin / entryPrice) * 100,
++    tradingMode,
+   };
+ }
+ 
++function parseUtcDate(date: string): Date {
++  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
++    throw new Error("Invalid calendar date.");
++  }
++
++  const parsed = new Date(`${date}T00:00:00.000Z`);
++  if (
++    !Number.isFinite(parsed.getTime()) ||
++    parsed.toISOString().slice(0, 10) !== date
++  ) {
++    throw new Error("Invalid calendar date.");
++  }
++
++  return parsed;
++}
++
++function addUtcMonths(date: Date, months: number, preferredDay: number): Date {
++  const target = new Date(
++    Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + months, 1),
++  );
++  const lastDay = new Date(
++    Date.UTC(target.getUTCFullYear(), target.getUTCMonth() + 1, 0),
++  ).getUTCDate();
++  target.setUTCDate(Math.min(preferredDay, lastDay));
++  return target;
++}
++
++export function generatePurchaseSchedule(
++  firstPurchaseDate: string,
++  planEndDate: string,
++  purchaseFrequency: DollarCostAveragingFrequency,
++): string[] {
++  const start = parseUtcDate(firstPurchaseDate);
++  const end = parseUtcDate(planEndDate);
++  if (end < start) return [];
++
++  const dates: string[] = [];
++  const preferredDay = start.getUTCDate();
++  let current = new Date(start);
++  let monthIndex = 0;
++
++  while (current <= end && dates.length < 2_400) {
++    dates.push(current.toISOString().slice(0, 10));
++    if (purchaseFrequency === "monthly") {
++      monthIndex += 1;
++      current = addUtcMonths(start, monthIndex, preferredDay);
++    } else {
++      const days = purchaseFrequency === "biweekly" ? 14 : 7;
++      current = new Date(current.getTime() + days * 86_400_000);
++    }
++  }
++
++  return dates;
++}
++
+ export function calculateDollarCostAveraging(
+   accountCurrency: string,
+   assetSymbol: string,
+   investmentPerPurchase: number,
+-  purchasesPerMonth: number,
+-  purchaseFrequency: string,
+-  durationMonths: number,
++  purchaseFrequency: DollarCostAveragingFrequency,
++  firstPurchaseDate: string,
++  planEndDate: string,
+   startingPrice: number,
+   endingPrice: number,
+ ) {
+-  const purchaseCount = durationMonths * purchasesPerMonth;
++  const purchaseDates = generatePurchaseSchedule(
++    firstPurchaseDate,
++    planEndDate,
++    purchaseFrequency,
++  );
++  const purchaseCount = purchaseDates.length;
+   let units = 0;
+ 
+   for (let index = 0; index < purchaseCount; index += 1) {
+@@ -217,11 +301,14 @@ export function calculateDollarCostAveraging(
+   return {
+     accountCurrency,
+     assetSymbol,
+-    averageCost: totalContributed / units,
++    averageCost: units > 0 ? totalContributed / units : 0,
+     endingValue,
++    firstPurchaseDate: purchaseDates[0] ?? null,
+     illustratedDifference: endingValue - totalContributed,
+     investmentPerPurchase,
++    lastPurchaseDate: purchaseDates.at(-1) ?? null,
+     purchaseCount,
++    purchaseDates,
+     purchaseFrequency,
+     totalContributed,
+     units,

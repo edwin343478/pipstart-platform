@@ -1,0 +1,285 @@
+diff --git a/apps/pipstart/src/app/analysis/[slug]/page.tsx b/apps/pipstart/src/app/analysis/[slug]/page.tsx
+index 3e89a6a..dc44d86 100644
+--- a/apps/pipstart/src/app/analysis/[slug]/page.tsx
++++ b/apps/pipstart/src/app/analysis/[slug]/page.tsx
+@@ -1,8 +1,7 @@
+ import Link from "next/link";
+ import { notFound } from "next/navigation";
+ 
+-import { analysisPosts } from "../posts";
+-import { RelativeTime } from "../relative-time";
++import { analysisPosts, formatPublishedDate } from "../posts";
+ import styles from "./page.module.css";
+ 
+ export function generateStaticParams() {
+@@ -56,7 +55,10 @@ export default async function AnalysisArticlePage({
+         <span className={styles.tag}>{post.tag.toUpperCase()}</span>
+         <h1>{post.title}</h1>
+         <p className={styles.meta}>
+-          Published <RelativeTime publishedAt={post.publishedAt} />
++          Published{" "}
++          <time dateTime={post.publishedAt}>
++            {formatPublishedDate(post.publishedAt)}
++          </time>
+         </p>
+ 
+         <div className={styles.disclosure}>
+diff --git a/apps/pipstart/src/app/analysis/page.module.css b/apps/pipstart/src/app/analysis/page.module.css
+index 1d14b43..8dfc3bc 100644
+--- a/apps/pipstart/src/app/analysis/page.module.css
++++ b/apps/pipstart/src/app/analysis/page.module.css
+@@ -132,11 +132,17 @@
+   background: #fff;
+   padding: 1.125rem 1.25rem;
+   text-decoration: none;
++  transition:
++    transform 180ms ease,
++    border-color 180ms ease,
++    box-shadow 180ms ease;
+ }
+ 
+ .card:hover,
+ .card:focus-visible {
+   border-color: #0f766e;
++  box-shadow: 0 0.5rem 1.25rem rgba(11, 18, 32, 0.08);
++  transform: translateY(-0.1875rem);
+ }
+ 
+ .card h2 {
+@@ -175,6 +181,36 @@
+   font-size: 0.6875rem;
+ }
+ 
++.pagination {
++  display: grid;
++  grid-template-columns: 1fr auto 1fr;
++  align-items: center;
++  gap: 1rem;
++  padding: 0 3.5rem 2.75rem 5.75rem;
++  font-size: 0.8125rem;
++}
++
++.pagination a,
++.pagination span {
++  color: #0f766e;
++  font-weight: 600;
++  text-decoration: none;
++}
++
++.pagination a:last-child,
++.pagination span:last-child {
++  justify-self: end;
++}
++
++.pagination span[aria-disabled="true"] {
++  color: #8a93a0;
++}
++
++.pagination p {
++  margin: 0;
++  color: #667085;
++}
++
+ @media (max-width: 640px) {
+   .header,
+   .introduction {
+@@ -194,4 +230,15 @@
+   .marker {
+     left: -1.5rem;
+   }
++
++  .pagination {
++    padding-right: 1.25rem;
++    padding-left: 3.5rem;
++  }
++}
++
++@media (prefers-reduced-motion: reduce) {
++  .card {
++    transition: none;
++  }
+ }
+diff --git a/apps/pipstart/src/app/analysis/page.tsx b/apps/pipstart/src/app/analysis/page.tsx
+index 2a24a20..bfa1b21 100644
+--- a/apps/pipstart/src/app/analysis/page.tsx
++++ b/apps/pipstart/src/app/analysis/page.tsx
+@@ -4,9 +4,9 @@ import { FundamentalIcon, TechnicalIcon } from "./icons";
+ import {
+   analysisPageCopy,
+   analysisPosts,
++  formatPublishedDate,
+   type AnalysisCategory,
+ } from "./posts";
+-import { RelativeTime } from "./relative-time";
+ import styles from "./page.module.css";
+ 
+ function isAnalysisCategory(
+@@ -16,9 +16,11 @@ function isAnalysisCategory(
+ }
+ 
+ interface AnalysisPageProps {
+-  searchParams: Promise<{ type?: string }>;
++  searchParams: Promise<{ type?: string; page?: string }>;
+ }
+ 
++const postsPerPage = 3;
++
+ export default async function AnalysisPage({
+   searchParams,
+ }: AnalysisPageProps) {
+@@ -28,12 +30,25 @@ export default async function AnalysisPage({
+   )
+     ? resolvedSearchParams.type
+     : "fundamental";
+-  const visiblePosts = analysisPosts
++  const categoryPosts = analysisPosts
+     .filter((post) => post.category === activeCategory)
+     .sort(
+       (a, b) =>
+         new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
+     );
++  const totalPages = Math.max(
++    1,
++    Math.ceil(categoryPosts.length / postsPerPage),
++  );
++  const requestedPage = Number.parseInt(resolvedSearchParams.page ?? "1", 10);
++  const currentPage = Number.isFinite(requestedPage)
++    ? Math.min(Math.max(requestedPage, 1), totalPages)
++    : 1;
++  const visiblePosts = categoryPosts.slice(
++    (currentPage - 1) * postsPerPage,
++    currentPage * postsPerPage,
++  );
++  const categoryHref = `/analysis?type=${activeCategory}`;
+ 
+   return (
+     <main className={styles.page}>
+@@ -86,10 +101,9 @@ export default async function AnalysisPage({
+             <Link href={`/analysis/${post.slug}`} className={styles.card}>
+               <div className={styles.cardMeta}>
+                 <span className={styles.tag}>{post.tag.toUpperCase()}</span>
+-                <RelativeTime
+-                  publishedAt={post.publishedAt}
+-                  className={styles.timestamp}
+-                />
++                <time dateTime={post.publishedAt} className={styles.timestamp}>
++                  {formatPublishedDate(post.publishedAt)}
++                </time>
+               </div>
+               <h2>{post.title}</h2>
+               <p>{post.excerpt}</p>
+@@ -97,6 +111,23 @@ export default async function AnalysisPage({
+           </li>
+         ))}
+       </ol>
++      <nav className={styles.pagination} aria-label="Analysis archive pages">
++        {currentPage > 1 ? (
++          <Link href={`${categoryHref}&page=${currentPage - 1}`}>
++            ← Previous
++          </Link>
++        ) : (
++          <span aria-disabled="true">← Previous</span>
++        )}
++        <p>
++          Page {currentPage} of {totalPages}
++        </p>
++        {currentPage < totalPages ? (
++          <Link href={`${categoryHref}&page=${currentPage + 1}`}>Next →</Link>
++        ) : (
++          <span aria-disabled="true">Next →</span>
++        )}
++      </nav>
+     </main>
+   );
+ }
+diff --git a/apps/pipstart/src/app/analysis/posts.ts b/apps/pipstart/src/app/analysis/posts.ts
+index 49ddeb5..40357d1 100644
+--- a/apps/pipstart/src/app/analysis/posts.ts
++++ b/apps/pipstart/src/app/analysis/posts.ts
+@@ -16,6 +16,14 @@ export const analysisPageCopy = {
+     "Educational commentary on market conditions, written to build understanding — not to call trades. Not financial advice.",
+ };
+ 
++export function formatPublishedDate(publishedAt: string): string {
++  return new Intl.DateTimeFormat("en-US", {
++    year: "numeric",
++    month: "short",
++    day: "numeric",
++  }).format(new Date(publishedAt));
++}
++
+ export const analysisPosts: AnalysisPost[] = [
+   {
+     slug: "central-bank-rate-hold-signal",
+diff --git a/apps/pipstart/src/app/analysis/relative-time.tsx b/apps/pipstart/src/app/analysis/relative-time.tsx
+deleted file mode 100644
+index d293c59..0000000
+--- a/apps/pipstart/src/app/analysis/relative-time.tsx
++++ /dev/null
+@@ -1,65 +0,0 @@
+-"use client";
+-
+-import { useSyncExternalStore } from "react";
+-
+-function formatRelativeTime(publishedAt: string, now: Date): string {
+-  const published = new Date(publishedAt);
+-  const diffSeconds = Math.round((now.getTime() - published.getTime()) / 1000);
+-
+-  if (diffSeconds < 60) return "just now";
+-  const diffMinutes = Math.round(diffSeconds / 60);
+-  if (diffMinutes < 60)
+-    return diffMinutes === 1 ? "1 minute ago" : `${diffMinutes} minutes ago`;
+-  const diffHours = Math.round(diffMinutes / 60);
+-  if (diffHours < 24)
+-    return diffHours === 1 ? "1 hour ago" : `${diffHours} hours ago`;
+-  const diffDays = Math.round(diffHours / 24);
+-  if (diffDays < 7)
+-    return diffDays === 1 ? "1 day ago" : `${diffDays} days ago`;
+-  if (diffDays < 30) {
+-    const diffWeeks = Math.round(diffDays / 7);
+-    return diffWeeks === 1 ? "1 week ago" : `${diffWeeks} weeks ago`;
+-  }
+-  if (diffDays < 365) {
+-    const diffMonths = Math.round(diffDays / 30);
+-    return diffMonths === 1 ? "1 month ago" : `${diffMonths} months ago`;
+-  }
+-  const diffYears = Math.round(diffDays / 365);
+-  return diffYears === 1 ? "1 year ago" : `${diffYears} years ago`;
+-}
+-
+-function formatAbsoluteDate(publishedAt: string): string {
+-  return new Date(publishedAt).toLocaleDateString("en-US", {
+-    year: "numeric",
+-    month: "short",
+-    day: "numeric",
+-  });
+-}
+-
+-function subscribeToClock(onTick: () => void): () => void {
+-  const intervalId = window.setInterval(onTick, 60_000);
+-  return () => window.clearInterval(intervalId);
+-}
+-
+-interface RelativeTimeProps {
+-  publishedAt: string;
+-  className?: string;
+-}
+-
+-export function RelativeTime({ publishedAt, className }: RelativeTimeProps) {
+-  const label = useSyncExternalStore(
+-    subscribeToClock,
+-    () => formatRelativeTime(publishedAt, new Date()),
+-    () => formatAbsoluteDate(publishedAt),
+-  );
+-
+-  return (
+-    <time
+-      dateTime={publishedAt}
+-      title={formatAbsoluteDate(publishedAt)}
+-      className={className}
+-    >
+-      {label}
+-    </time>
+-  );
+-}
+

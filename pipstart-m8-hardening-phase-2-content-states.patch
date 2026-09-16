@@ -1,0 +1,393 @@
+diff --git a/apps/pipstart/e2e/milestone-8-content-states.spec.ts b/apps/pipstart/e2e/milestone-8-content-states.spec.ts
+new file mode 100644
+index 0000000..8b2eb99
+--- /dev/null
++++ b/apps/pipstart/e2e/milestone-8-content-states.spec.ts
+@@ -0,0 +1,31 @@
++import { expect, test } from "@playwright/test";
++
++test.describe("Milestone 8 public content states", () => {
++  test("serves the branded recovery page with a 404 response", async ({
++    page,
++  }) => {
++    const response = await page.goto("/this-page-does-not-exist");
++
++    expect(response?.status()).toBe(404);
++    await expect(
++      page.getByRole("heading", { name: "This page could not be found" }),
++    ).toBeVisible();
++    await expect(
++      page.getByRole("link", { name: "Start learning" }),
++    ).toHaveAttribute("href", "/start-here");
++  });
++
++  test("keeps the 404 recovery page within a 320px viewport", async ({
++    page,
++  }) => {
++    await page.setViewportSize({ width: 320, height: 640 });
++    await page.goto("/missing-mobile-page");
++
++    const dimensions = await page.evaluate(() => ({
++      clientWidth: document.documentElement.clientWidth,
++      scrollWidth: document.documentElement.scrollWidth,
++    }));
++
++    expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth);
++  });
++});
+diff --git a/apps/pipstart/src/app/loading.tsx b/apps/pipstart/src/app/loading.tsx
+new file mode 100644
+index 0000000..e59da7d
+--- /dev/null
++++ b/apps/pipstart/src/app/loading.tsx
+@@ -0,0 +1,31 @@
++import { PageState } from "@repo/ui";
++
++import { CompactFooter, CompactHeader } from "../components/site-chrome";
++
++import styles from "./route-state.module.css";
++
++export default function Loading() {
++  return (
++    <div className={styles.page}>
++      <CompactHeader
++        brandClassName={styles.brand}
++        className={styles.header}
++        section="Loading"
++      />
++
++      <main id="main-content" className={styles.loadingMain}>
++        <section className={styles.loadingCard} aria-label="Loading page">
++          <span className={styles.spinner} aria-hidden="true" />
++          <PageState className={styles.loadingMessage} kind="loading">
++            Loading your next page…
++          </PageState>
++          <p className={styles.loadingHint}>
++            PipStart is preparing the requested content.
++          </p>
++        </section>
++      </main>
++
++      <CompactFooter className={styles.footer} />
++    </div>
++  );
++}
+diff --git a/apps/pipstart/src/app/milestone-8-content-states.test.tsx b/apps/pipstart/src/app/milestone-8-content-states.test.tsx
+new file mode 100644
+index 0000000..5291944
+--- /dev/null
++++ b/apps/pipstart/src/app/milestone-8-content-states.test.tsx
+@@ -0,0 +1,30 @@
++import { renderToStaticMarkup } from "react-dom/server";
++import { describe, expect, it } from "vitest";
++
++import Loading from "./loading";
++import NotFound from "./not-found";
++
++describe("Milestone 8 public content states", () => {
++  it("renders a branded 404 with useful recovery routes", () => {
++    const markup = renderToStaticMarkup(<NotFound />);
++
++    expect(markup).toContain("Error 404");
++    expect(markup).toContain("This page could not be found");
++    expect(markup).toContain('href="/start-here"');
++    expect(markup).toContain('href="/learn/forex"');
++    expect(markup).toContain('href="/learn/crypto"');
++    expect(markup).toContain('href="/tools"');
++    expect(markup).toContain('id="main-content"');
++    expect(markup).toContain('aria-label="Helpful pages"');
++  });
++
++  it("announces route loading without hiding the destination context", () => {
++    const markup = renderToStaticMarkup(<Loading />);
++
++    expect(markup).toContain("Loading your next page…");
++    expect(markup).toContain('role="status"');
++    expect(markup).toContain('aria-live="polite"');
++    expect(markup).toContain('aria-busy="true"');
++    expect(markup).toContain("PipStart");
++  });
++});
+diff --git a/apps/pipstart/src/app/not-found.tsx b/apps/pipstart/src/app/not-found.tsx
+new file mode 100644
+index 0000000..2619dc3
+--- /dev/null
++++ b/apps/pipstart/src/app/not-found.tsx
+@@ -0,0 +1,45 @@
++import Link from "next/link";
++
++import { CompactFooter, CompactHeader } from "../components/site-chrome";
++
++import styles from "./route-state.module.css";
++
++export default function NotFound() {
++  return (
++    <div className={styles.page}>
++      <CompactHeader
++        brandClassName={styles.brand}
++        className={styles.header}
++        section="Page not found"
++      />
++
++      <main id="main-content" className={styles.main}>
++        <section className={styles.card} aria-labelledby="not-found-title">
++          <p className={styles.eyebrow}>Error 404</p>
++          <h1 id="not-found-title">This page could not be found</h1>
++          <p className={styles.description}>
++            The address may be incorrect, or the page may have moved. Choose a
++            clear route below to continue learning.
++          </p>
++
++          <div className={styles.actions}>
++            <Link className={styles.primaryAction} href="/start-here">
++              Start learning
++            </Link>
++            <Link className={styles.secondaryAction} href="/">
++              Return home
++            </Link>
++          </div>
++
++          <nav className={styles.recoveryLinks} aria-label="Helpful pages">
++            <Link href="/learn/forex">Forex path</Link>
++            <Link href="/learn/crypto">Crypto path</Link>
++            <Link href="/tools">Calculators</Link>
++          </nav>
++        </section>
++      </main>
++
++      <CompactFooter className={styles.footer} />
++    </div>
++  );
++}
+diff --git a/apps/pipstart/src/app/route-state.module.css b/apps/pipstart/src/app/route-state.module.css
+new file mode 100644
+index 0000000..70b9429
+--- /dev/null
++++ b/apps/pipstart/src/app/route-state.module.css
+@@ -0,0 +1,226 @@
++.page {
++  display: grid;
++  min-height: 100vh;
++  grid-template-rows: auto 1fr auto;
++  background: #f5f7f8;
++  color: #0b1220;
++}
++
++.header {
++  display: flex;
++  align-items: center;
++  justify-content: space-between;
++  padding: 1rem 2.75rem;
++  border-bottom: 1px solid #d9e0e5;
++  background: #fff;
++}
++
++.brand {
++  font-family: var(--font-pipstart-heading), sans-serif;
++  font-size: 0.9375rem;
++  font-weight: 800;
++  text-decoration: none;
++}
++
++.header > span {
++  color: #0f766e;
++  font-size: 0.8125rem;
++  font-weight: 600;
++}
++
++.main,
++.loadingMain {
++  display: grid;
++  width: min(100%, 52rem);
++  margin: 0 auto;
++  padding: 4.5rem 2rem;
++  place-items: center;
++}
++
++.card,
++.loadingCard {
++  width: min(100%, 36rem);
++  border: 1px solid #d9e0e5;
++  border-radius: 1rem;
++  background: #fff;
++  box-shadow: 0 1rem 2.75rem rgb(15 23 42 / 6%);
++  padding: 2.5rem;
++  text-align: center;
++}
++
++.eyebrow {
++  margin: 0 0 0.75rem;
++  color: #0f766e;
++  font-size: 0.75rem;
++  font-weight: 800;
++  letter-spacing: 0.08em;
++  text-transform: uppercase;
++}
++
++.card h1 {
++  margin: 0;
++  font-size: clamp(1.75rem, 4vw, 2.5rem);
++  font-weight: 800;
++  line-height: 1.15;
++  letter-spacing: -0.03em;
++}
++
++.description {
++  max-width: 30rem;
++  margin: 1rem auto 0;
++  color: #667085;
++  font-size: 0.9375rem;
++  line-height: 1.7;
++}
++
++.actions {
++  display: flex;
++  justify-content: center;
++  gap: 0.75rem;
++  margin-top: 1.75rem;
++}
++
++.primaryAction,
++.secondaryAction {
++  display: inline-flex;
++  min-height: 2.75rem;
++  align-items: center;
++  justify-content: center;
++  border: 1px solid #0f766e;
++  border-radius: 0.625rem;
++  padding: 0.6875rem 1.125rem;
++  font-size: 0.8125rem;
++  font-weight: 750;
++  text-decoration: none;
++}
++
++.primaryAction {
++  background: #0f766e;
++  color: #fff;
++}
++
++.secondaryAction {
++  background: #fff;
++  color: #0f766e;
++}
++
++.primaryAction:hover {
++  background: #115e59;
++}
++
++.secondaryAction:hover {
++  background: #f0fdfa;
++}
++
++.primaryAction:focus-visible,
++.secondaryAction:focus-visible,
++.recoveryLinks a:focus-visible {
++  outline: 3px solid #14b8a6;
++  outline-offset: 3px;
++}
++
++.recoveryLinks {
++  display: flex;
++  justify-content: center;
++  gap: 1.25rem;
++  margin-top: 1.75rem;
++  padding-top: 1.25rem;
++  border-top: 1px solid #e6eaed;
++  font-size: 0.75rem;
++  font-weight: 700;
++}
++
++.recoveryLinks a {
++  color: #667085;
++  text-underline-offset: 0.2rem;
++}
++
++.loadingCard {
++  padding-block: 3rem;
++}
++
++.spinner {
++  display: block;
++  width: 2.25rem;
++  height: 2.25rem;
++  margin: 0 auto 1.25rem;
++  border: 3px solid #d9e0e5;
++  border-top-color: #0f766e;
++  border-radius: 50%;
++  animation: spin 0.8s linear infinite;
++}
++
++.loadingMessage {
++  margin: 0;
++  color: #0b1220;
++  font-size: 1rem;
++  font-weight: 800;
++}
++
++.loadingHint {
++  margin: 0.5rem 0 0;
++  color: #667085;
++  font-size: 0.8125rem;
++  line-height: 1.6;
++}
++
++.footer {
++  padding: 1rem 2.75rem;
++  border-top: 1px solid #d9e0e5;
++  background: #fff;
++  color: #667085;
++  font-size: 0.6875rem;
++}
++
++@keyframes spin {
++  to {
++    transform: rotate(360deg);
++  }
++}
++
++@media (prefers-reduced-motion: reduce) {
++  .spinner {
++    animation: none;
++    border-color: #0f766e;
++  }
++}
++
++@media (max-width: 767px) {
++  .page {
++    min-height: calc(100dvh - var(--mobile-tab-height));
++  }
++
++  .header,
++  .footer {
++    justify-content: flex-start;
++    gap: 0.625rem;
++    padding: 0.75rem 1.125rem;
++  }
++
++  .main,
++  .loadingMain {
++    width: 100%;
++    padding: 2rem 1.125rem;
++  }
++
++  .card,
++  .loadingCard {
++    border-radius: 0.875rem;
++    padding: 1.75rem 1.125rem;
++  }
++
++  .actions {
++    align-items: stretch;
++    flex-direction: column;
++  }
++
++  .primaryAction,
++  .secondaryAction {
++    width: 100%;
++  }
++
++  .recoveryLinks {
++    flex-wrap: wrap;
++    row-gap: 0.75rem;
++  }
++}

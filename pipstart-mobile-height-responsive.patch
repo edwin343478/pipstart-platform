@@ -1,0 +1,47 @@
+diff --git a/apps/pipstart/src/app/globals.css b/apps/pipstart/src/app/globals.css
+index f941e10..e01c421 100644
+--- a/apps/pipstart/src/app/globals.css
++++ b/apps/pipstart/src/app/globals.css
+@@ -68,8 +68,17 @@ body {
+ }
+ 
+ @media (max-width: 767px) {
++  :root {
++    --mobile-tab-height: calc(64px + env(safe-area-inset-bottom));
++  }
++
+   body {
+-    padding-bottom: calc(3.75rem + env(safe-area-inset-bottom));
++    min-height: 100dvh;
++    padding-bottom: var(--mobile-tab-height);
++  }
++
++  body > main {
++    min-height: calc(100dvh - var(--mobile-tab-height));
+   }
+ 
+   button,
+diff --git a/apps/pipstart/src/app/page.module.css b/apps/pipstart/src/app/page.module.css
+index 3af8496..b6ee9c8 100644
+--- a/apps/pipstart/src/app/page.module.css
++++ b/apps/pipstart/src/app/page.module.css
+@@ -288,6 +288,11 @@
+   }
+ }
+ @media (max-width: 767px) {
++  .page {
++    display: flex;
++    min-height: calc(100dvh - var(--mobile-tab-height));
++    flex-direction: column;
++  }
+   .header,
+   .hero,
+   .schools,
+@@ -349,6 +354,7 @@
+   .footer {
+     align-items: flex-start;
+     flex-direction: column;
++    margin-top: auto;
+     padding-bottom: 1.25rem;
+   }
+   .footer nav {

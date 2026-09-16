@@ -1,0 +1,18 @@
+diff --git a/apps/pipstart/e2e/milestone-10-content-publishing.spec.ts b/apps/pipstart/e2e/milestone-10-content-publishing.spec.ts
+--- a/apps/pipstart/e2e/milestone-10-content-publishing.spec.ts
++++ b/apps/pipstart/e2e/milestone-10-content-publishing.spec.ts
+@@ -30,7 +30,10 @@ test.describe("Milestone 10 content publishing", () => {
+   test("does not publish or index a draft lesson route", async ({ page }) => {
+-    const response = await page.goto(
+-      "/learn/crypto/level-1/bitcoin-security-basics",
+-    );
+-    expect(response?.status()).toBe(404);
++    await page.goto("/learn/crypto/level-1/bitcoin-security-basics");
++    await expect(
++      page.getByRole("heading", { name: "This page could not be found" }),
++    ).toBeVisible();
++    await expect(
++      page.getByRole("heading", { name: "Bitcoin security basics" }),
++    ).toHaveCount(0);
+ 
+     await page.goto("/sitemap.xml");

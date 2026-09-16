@@ -1,0 +1,271 @@
+diff --git a/apps/pipstart/src/app/learn/crypto/level-1/page.module.css b/apps/pipstart/src/app/learn/crypto/level-1/page.module.css
+index 9c1f3ac..723ba1d 100644
+--- a/apps/pipstart/src/app/learn/crypto/level-1/page.module.css
++++ b/apps/pipstart/src/app/learn/crypto/level-1/page.module.css
+@@ -52,6 +52,51 @@
+   grid-template-columns: 17rem minmax(0, 1fr);
+   min-height: calc(100vh - 4rem);
+ }
+++ .lessonLayoutCollapsed {
++  grid-template-columns: 3.5rem minmax(0, 1fr);
++}
++
++.sidebarHeading {
++  display: flex;
++  align-items: center;
++  justify-content: space-between;
++  gap: 0.5rem;
++}
++
++.sidebarToggle {
++  display: grid;
++  width: 2.25rem;
++  height: 2.25rem;
++  flex: 0 0 auto;
++  place-items: center;
++  border: 1px solid #d9e0e5;
++  border-radius: 0.5rem;
++  background: #fff;
++  color: #0f766e;
++  cursor: pointer;
++  font-size: 1.35rem;
++}
++
++.sidebarToggle:hover,
++.sidebarToggle:focus-visible {
++  border-color: #0f766e;
++  background: #eaf6f4;
++}
++
++.sidebarCollapsed {
++  padding-right: 0.625rem;
++  padding-left: 0.625rem;
++}
++
++.sidebarCollapsed .sidebarHeading {
++  justify-content: center;
++}
++
++.sidebarCollapsed h2,
++.sidebarCollapsed .progressSummary,
++.sidebarCollapsed nav {
++  display: none;
++}
+ 
+ .sidebar {
+   border-right: 1px solid #d9e0e5;
+diff --git a/apps/pipstart/src/app/learn/crypto/level-1/page.tsx b/apps/pipstart/src/app/learn/crypto/level-1/page.tsx
+index c23157a..9780490 100644
+--- a/apps/pipstart/src/app/learn/crypto/level-1/page.tsx
++++ b/apps/pipstart/src/app/learn/crypto/level-1/page.tsx
+@@ -1,3 +1,7 @@
++"use client";
++
++import { useState } from "react";
++
+ import {
+   LearningHeader,
+   LessonNavigation,
+@@ -15,13 +19,36 @@ const lessons = [
+ ] as const;
+ 
+ export default function CryptoLevelOnePage() {
+-  function renderLessonSidebar(className: string) {
++  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
++
++  function renderLessonSidebar(
++    className: string,
++    collapsible = false,
++    collapsed = false,
++  ) {
+     return (
+       <aside
+-        className={`${styles.sidebar} ${className}`}
++        className={`${styles.sidebar} ${collapsed ? styles.sidebarCollapsed : ""} ${className}`}
+         aria-label="Bitcoin lessons"
++        id={collapsible ? "crypto-desktop-sidebar" : undefined}
+       >
+-        <h2>Bitcoin</h2>
++        <div className={styles.sidebarHeading}>
++          <h2>Bitcoin</h2>
++          {collapsible ? (
++            <button
++              type="button"
++              className={styles.sidebarToggle}
++              aria-controls="crypto-desktop-sidebar"
++              aria-expanded={!collapsed}
++              aria-label={
++                collapsed ? "Expand lesson sidebar" : "Collapse lesson sidebar"
++              }
++              onClick={() => setSidebarCollapsed((current) => !current)}
++            >
++              <span aria-hidden="true">{collapsed ? "›" : "‹"}</span>
++            </button>
++          ) : null}
++        </div>
+         <nav>
+           {lessons.map((lesson) => {
+             const className =
+@@ -56,8 +83,10 @@ export default function CryptoLevelOnePage() {
+         levelLabel="Level 1 · Bitcoin"
+       />
+ 
+-      <div className={styles.lessonLayout}>
+-        {renderLessonSidebar(styles.desktopSidebar)}
++      <div
++        className={`${styles.lessonLayout} ${sidebarCollapsed ? styles.lessonLayoutCollapsed : ""}`}
++      >
++        {renderLessonSidebar(styles.desktopSidebar, true, sidebarCollapsed)}
+         <details className={styles.mobileSidebar}>
+           <summary className={styles.sidebarSummary}>
+             <span>Bitcoin</span>
+diff --git a/apps/pipstart/src/app/learn/forex/level-1/forex-lesson.tsx b/apps/pipstart/src/app/learn/forex/level-1/forex-lesson.tsx
+index 9602366..9b05cb1 100644
+--- a/apps/pipstart/src/app/learn/forex/level-1/forex-lesson.tsx
++++ b/apps/pipstart/src/app/learn/forex/level-1/forex-lesson.tsx
+@@ -1,7 +1,7 @@
+ "use client";
+ 
+ import Link from "next/link";
+-import { useSyncExternalStore } from "react";
++import { useState, useSyncExternalStore } from "react";
+ 
+ import {
+   LearningHeader,
+@@ -50,6 +50,7 @@ function CheckIcon() {
+ }
+ 
+ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
++  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+   const lessonIndex = forexLessons.findIndex(
+     (candidate) => candidate.slug === lesson.slug,
+   );
+@@ -78,13 +79,34 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
+     }
+   }
+ 
+-  function renderLessonSidebar(className: string) {
++  function renderLessonSidebar(
++    className: string,
++    collapsible = false,
++    collapsed = false,
++  ) {
+     return (
+       <aside
+-        className={`${styles.sidebar} ${className}`}
++        className={`${styles.sidebar} ${collapsed ? styles.sidebarCollapsed : ""} ${className}`}
+         aria-label="Forex Kindergarten lessons"
++        id={collapsible ? "forex-desktop-sidebar" : undefined}
+       >
+-        <h2>Forex Kindergarten</h2>
++        <div className={styles.sidebarHeading}>
++          <h2>Forex Kindergarten</h2>
++          {collapsible ? (
++            <button
++              type="button"
++              className={styles.sidebarToggle}
++              aria-controls="forex-desktop-sidebar"
++              aria-expanded={!collapsed}
++              aria-label={
++                collapsed ? "Expand lesson sidebar" : "Collapse lesson sidebar"
++              }
++              onClick={() => setSidebarCollapsed((current) => !current)}
++            >
++              <span aria-hidden="true">{collapsed ? "›" : "‹"}</span>
++            </button>
++          ) : null}
++        </div>
+         <p className={styles.progressSummary} aria-live="polite">
+           {completedLessonSlugs.length} of {forexLessons.length} complete
+         </p>
+@@ -130,8 +152,10 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
+         levelLabel="Level 1 · Forex Kindergarten"
+       />
+ 
+-      <div className={styles.lessonLayout}>
+-        {renderLessonSidebar(styles.desktopSidebar)}
++      <div
++        className={`${styles.lessonLayout} ${sidebarCollapsed ? styles.lessonLayoutCollapsed : ""}`}
++      >
++        {renderLessonSidebar(styles.desktopSidebar, true, sidebarCollapsed)}
+         <details className={styles.mobileSidebar}>
+           <summary className={styles.sidebarSummary}>
+             <span>Forex Kindergarten</span>
+diff --git a/apps/pipstart/src/app/learn/forex/level-1/page.module.css b/apps/pipstart/src/app/learn/forex/level-1/page.module.css
+index e4fdcad..3ee651a 100644
+--- a/apps/pipstart/src/app/learn/forex/level-1/page.module.css
++++ b/apps/pipstart/src/app/learn/forex/level-1/page.module.css
+@@ -52,6 +52,51 @@
+   grid-template-columns: 17rem minmax(0, 1fr);
+   min-height: calc(100vh - 4rem);
+ }
+++ .lessonLayoutCollapsed {
++  grid-template-columns: 3.5rem minmax(0, 1fr);
++}
++
++.sidebarHeading {
++  display: flex;
++  align-items: center;
++  justify-content: space-between;
++  gap: 0.5rem;
++}
++
++.sidebarToggle {
++  display: grid;
++  width: 2.25rem;
++  height: 2.25rem;
++  flex: 0 0 auto;
++  place-items: center;
++  border: 1px solid #d9e0e5;
++  border-radius: 0.5rem;
++  background: #fff;
++  color: #0f766e;
++  cursor: pointer;
++  font-size: 1.35rem;
++}
++
++.sidebarToggle:hover,
++.sidebarToggle:focus-visible {
++  border-color: #0f766e;
++  background: #eaf6f4;
++}
++
++.sidebarCollapsed {
++  padding-right: 0.625rem;
++  padding-left: 0.625rem;
++}
++
++.sidebarCollapsed .sidebarHeading {
++  justify-content: center;
++}
++
++.sidebarCollapsed h2,
++.sidebarCollapsed .progressSummary,
++.sidebarCollapsed nav {
++  display: none;
++}
+ 
+ .sidebar {
+   border-right: 1px solid #d9e0e5;
+diff --git a/apps/pipstart/src/app/milestone-6-acceptance.test.ts b/apps/pipstart/src/app/milestone-6-acceptance.test.ts
+index 4224e02..28f9ad7 100644
+--- a/apps/pipstart/src/app/milestone-6-acceptance.test.ts
++++ b/apps/pipstart/src/app/milestone-6-acceptance.test.ts
+@@ -72,6 +72,9 @@ describe("Milestone 6 release acceptance", () => {
+       expect(source).toContain("mobileSidebar");
+       expect(source).toContain("sidebarSummary");
+       expect(source).toContain("Level 1 quiz");
++      expect(source).toContain("aria-expanded={!collapsed}");
++      expect(source).toContain("Collapse lesson sidebar");
++      expect(source).toContain("Expand lesson sidebar");
+     }
+ 
+     for (const stylesheet of [
+@@ -81,6 +84,7 @@ describe("Milestone 6 release acceptance", () => {
+       const styles = read(stylesheet);
+       expect(styles).toContain(".desktopSidebar");
+       expect(styles).toContain(".mobileSidebar");
++      expect(styles).toContain(".lessonLayoutCollapsed");
+     }
+   });
+ });

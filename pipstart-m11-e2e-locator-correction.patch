@@ -1,0 +1,33 @@
+diff --git a/apps/pipstart/e2e/milestone-11-accounts.spec.ts b/apps/pipstart/e2e/milestone-11-accounts.spec.ts
+index b187501..2363716 100644
+--- a/apps/pipstart/e2e/milestone-11-accounts.spec.ts
++++ b/apps/pipstart/e2e/milestone-11-accounts.spec.ts
+@@ -9,9 +9,9 @@ test.describe("Milestone 11 learner accounts", () => {
+       page.getByRole("heading", { name: "Create your account" }),
+     ).toBeVisible();
+     await page.getByRole("button", { name: "Create account" }).click();
+-    await expect(page.getByRole("alert")).toContainText(
+-      "correct the highlighted fields",
+-    );
++    await expect(
++      page.getByText("Please correct the highlighted fields.", { exact: true }),
++    ).toBeVisible();
+     await expect(page.getByText("Enter a valid email address.")).toBeVisible();
+   });
+ 
+@@ -21,10 +21,11 @@ test.describe("Milestone 11 learner accounts", () => {
+     await page.goto("/forgot-password");
+     await page.getByLabel("Email address").fill("learner@example.com");
+     await page.getByRole("button", { name: "Send reset link" }).click();
+-    const outcome = page.getByRole("status").or(page.getByRole("alert"));
+-    await expect(outcome).toContainText(
+-      /If an account matches that email|temporarily unavailable/,
+-    );
++    await expect(
++      page.getByText(
++        /^(If an account matches that email|Account services are temporarily unavailable)/,
++      ),
++    ).toBeVisible();
+   });
+ 
+   test("redirects anonymous learners away from account and administrator pages", async ({

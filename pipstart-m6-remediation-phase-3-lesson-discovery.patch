@@ -1,0 +1,178 @@
+diff --git a/apps/pipstart/src/app/learn/forex/page.module.css b/apps/pipstart/src/app/learn/forex/page.module.css
+index 5851865..5978dcd 100644
+--- a/apps/pipstart/src/app/learn/forex/page.module.css
++++ b/apps/pipstart/src/app/learn/forex/page.module.css
+@@ -114,28 +114,57 @@
+ }
+ 
+ .levelCard {
++  display: block;
+   border: 1px solid #d9e0e5;
+   border-radius: 1rem;
+   background: #fff;
++  color: inherit;
+   padding: 1.5rem;
++  text-decoration: none;
++}
++
++.availableLevel {
+   transition:
+     transform 200ms ease,
+     border-color 200ms ease,
+     box-shadow 200ms ease;
+ }
+ 
+-.levelCard:hover {
++.availableLevel:hover {
+   transform: translateY(-0.25rem);
+   border-color: rgb(15 118 110 / 60%);
+   box-shadow: 0 12px 24px -8px rgb(11 18 32 / 12%);
+ }
+ 
+-.levelCard > span {
++.availableLevel:focus-visible {
++  outline: 3px solid rgb(15 118 110 / 35%);
++  outline-offset: 3px;
++}
++
++.levelMeta {
++  display: flex;
++  align-items: center;
++  justify-content: space-between;
++  gap: 1rem;
+   color: #0f766e;
+   font-size: 0.75rem;
+   font-weight: 600;
+ }
+ 
++.levelMeta strong {
++  border-radius: 999px;
++  background: #e7f5f2;
++  padding: 0.3rem 0.65rem;
++  font-size: 0.6875rem;
++  letter-spacing: 0.04em;
++  text-transform: uppercase;
++}
++
++article .levelMeta strong {
++  background: #eef1f3;
++  color: #667085;
++}
++
+ .levelCard h3 {
+   margin: 0.45rem 0 0.5rem;
+   font-family: var(--font-pipstart-heading), sans-serif;
+@@ -150,6 +179,14 @@
+   line-height: 1.6;
+ }
+ 
++.startLevel {
++  display: inline-block;
++  margin-top: 1rem;
++  color: #0f766e;
++  font-size: 0.875rem;
++  font-weight: 700;
++}
++
+ .footer {
+   padding: 1rem 3.5rem 1.5rem;
+   border-top: 1px solid #d9e0e5;
+@@ -199,11 +236,11 @@
+ }
+ 
+ @media (prefers-reduced-motion: reduce) {
+-  .levelCard {
++  .availableLevel {
+     transition: none;
+   }
+ 
+-  .levelCard:hover {
++  .availableLevel:hover {
+     transform: none;
+   }
+ }
+diff --git a/apps/pipstart/src/app/learn/forex/page.tsx b/apps/pipstart/src/app/learn/forex/page.tsx
+index 9682592..b8e479b 100644
+--- a/apps/pipstart/src/app/learn/forex/page.tsx
++++ b/apps/pipstart/src/app/learn/forex/page.tsx
+@@ -88,11 +88,30 @@ export default function LearnForexPage() {
+               <span className={styles.marker} aria-hidden="true">
+                 {index}
+               </span>
+-              <article className={styles.levelCard}>
+-                <span>Level {index} of 10</span>
+-                <h3>{level.title}</h3>
+-                <p>{level.description}</p>
+-              </article>
++              {index === 1 ? (
++                <Link
++                  className={`${styles.levelCard} ${styles.availableLevel}`}
++                  href="/learn/forex/level-1"
++                  aria-label="Start Level 1: Forex Kindergarten"
++                >
++                  <span className={styles.levelMeta}>
++                    <span>Level {index} of 10</span>
++                    <strong>Available</strong>
++                  </span>
++                  <h3>{level.title}</h3>
++                  <p>{level.description}</p>
++                  <span className={styles.startLevel}>Start Level 1 →</span>
++                </Link>
++              ) : (
++                <article className={styles.levelCard}>
++                  <span className={styles.levelMeta}>
++                    <span>Level {index} of 10</span>
++                    <strong>Coming soon</strong>
++                  </span>
++                  <h3>{level.title}</h3>
++                  <p>{level.description}</p>
++                </article>
++              )}
+             </li>
+           ))}
+         </ol>
+diff --git a/apps/pipstart/src/app/page.tsx b/apps/pipstart/src/app/page.tsx
+index 2a17218..d99cdeb 100644
+--- a/apps/pipstart/src/app/page.tsx
++++ b/apps/pipstart/src/app/page.tsx
+@@ -104,7 +104,7 @@ export default function Home() {
+               11 levels, from complete beginner to advanced strategy — at your
+               own pace.
+             </div>
+-            <Link href="/learn/forex">Start Level 0 →</Link>
++            <Link href="/learn/forex/level-1">Start Forex Level 1 →</Link>
+           </div>
+         </article>
+         <article className={styles.glowWrap}>
+@@ -115,7 +115,7 @@ export default function Home() {
+             <div>
+               10 levels covering Bitcoin, wallets, exchanges and DeFi risk.
+             </div>
+-            <Link href="/learn/crypto">Start Level 0 →</Link>
++            <Link href="/learn/crypto">Explore Crypto path →</Link>
+           </div>
+         </article>
+       </section>
+diff --git a/apps/pipstart/src/app/route-integrity.test.ts b/apps/pipstart/src/app/route-integrity.test.ts
+index abe693c..e511655 100644
+--- a/apps/pipstart/src/app/route-integrity.test.ts
++++ b/apps/pipstart/src/app/route-integrity.test.ts
+@@ -62,4 +62,18 @@ describe("PipStart internal route integrity", () => {
+     expect(cryptoLesson).not.toContain("Mark complete");
+     expect(cryptoLesson).not.toContain("/learn/crypto/level-1/blockchain");
+   });
++
++  it("links learners to the available Forex level without promising Level 0", () => {
++    const home = fs.readFileSync(path.join(appRoot, "page.tsx"), "utf8");
++    const forexPath = fs.readFileSync(
++      path.join(appRoot, "learn/forex/page.tsx"),
++      "utf8",
++    );
++
++    expect(home).toContain('href="/learn/forex/level-1"');
++    expect(home).not.toContain("Start Level 0");
++    expect(forexPath).toContain('href="/learn/forex/level-1"');
++    expect(forexPath).toContain("Available");
++    expect(forexPath).toContain("Coming soon");
++  });
+ });

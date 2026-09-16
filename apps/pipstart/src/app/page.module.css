@@ -68,6 +68,9 @@
 .signIn:focus-visible {
   background: #115e59;
 }
+.mobileSignIn {
+  display: none;
+}
 .hero {
   padding: 4.75rem 3.5rem 3.75rem;
 }
@@ -251,6 +254,24 @@
     font-weight: 600;
     cursor: pointer;
   }
+  .mobileSignIn {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    border-radius: 0.5rem;
+    background: #0f766e;
+    padding: 0.65rem 1rem;
+    color: #fff;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .mobileSignIn:hover,
+  .mobileSignIn:focus-visible {
+    background: #115e59;
+  }
   .menuButton:hover,
   .menuButton:focus-visible {
     border-color: #0f766e;
@@ -300,9 +321,6 @@
   .footer {
     padding-right: 1.25rem;
     padding-left: 1.25rem;
-  }
-  .signIn {
-    display: none;
   }
   .hero {
     padding-top: 2.5rem;

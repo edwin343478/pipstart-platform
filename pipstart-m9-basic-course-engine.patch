@@ -1,0 +1,1107 @@
+diff --git a/apps/pipstart/src/app/learn/crypto/level-1/lessons.ts b/apps/pipstart/src/app/learn/crypto/level-1/lessons.ts
+new file mode 100644
+index 0000000..33b0ca0
+--- /dev/null
++++ b/apps/pipstart/src/app/learn/crypto/level-1/lessons.ts
+@@ -0,0 +1,46 @@
++import {
++  type PublicationStatus,
++  selectPublishedContent,
++} from "../../../../lib/public-content";
++
++export type CryptoLesson = {
++  estimatedMinutes: number;
++  href: `/${string}`;
++  id: string;
++  introduction: string;
++  keyPoints: string[];
++  objectives: string[];
++  position: number;
++  prerequisites: string[];
++  relatedLessonIds: string[];
++  relatedTermSlugs: string[];
++  slug: string;
++  status: PublicationStatus;
++  title: string;
++};
++
++const allCryptoLessons: CryptoLesson[] = [
++  {
++    estimatedMinutes: 4,
++    href: "/learn/crypto/level-1",
++    id: "what-is-bitcoin",
++    introduction:
++      "Bitcoin is a digital asset that can be transferred between people through a decentralized network. This introductory lesson explains its purpose and provides the foundation for the rest of the Bitcoin level.",
++    keyPoints: [
++      "Bitcoin operates without a central bank.",
++      "Transactions are recorded on a shared blockchain.",
++    ],
++    objectives: [
++      "Explain Bitcoin's purpose and the role of its decentralized network.",
++    ],
++    position: 1,
++    prerequisites: [],
++    relatedLessonIds: [],
++    relatedTermSlugs: ["bitcoin", "blockchain"],
++    slug: "what-is-bitcoin",
++    status: "published",
++    title: "What is Bitcoin?",
++  },
++];
++
++export const cryptoLessons = selectPublishedContent(allCryptoLessons);
+diff --git a/apps/pipstart/src/app/learn/crypto/level-1/page.module.css b/apps/pipstart/src/app/learn/crypto/level-1/page.module.css
+index ffaae09..3ff87bc 100644
+--- a/apps/pipstart/src/app/learn/crypto/level-1/page.module.css
++++ b/apps/pipstart/src/app/learn/crypto/level-1/page.module.css
+@@ -114,6 +114,12 @@
+   text-transform: uppercase;
+ }
+ 
++.progressSummary {
++  margin: -0.55rem 0 1rem;
++  color: #667085;
++  font-size: 0.75rem;
++}
++
+ .sidebar nav {
+   display: flex;
+   flex-direction: column;
+@@ -236,6 +242,15 @@
+   background: #172033;
+ }
+ 
++.completeAction .completedButton {
++  background: #0f766e;
++}
++
++.completeAction .completedButton:hover,
++.completeAction .completedButton:focus-visible {
++  background: #0b6b64;
++}
++
+ .completeAction svg {
+   width: 0.9rem;
+   fill: none;
+diff --git a/apps/pipstart/src/app/learn/crypto/level-1/page.tsx b/apps/pipstart/src/app/learn/crypto/level-1/page.tsx
+index 9780490..f12f0e5 100644
+--- a/apps/pipstart/src/app/learn/crypto/level-1/page.tsx
++++ b/apps/pipstart/src/app/learn/crypto/level-1/page.tsx
+@@ -1,13 +1,53 @@
+ "use client";
+ 
+-import { useState } from "react";
++import Link from "next/link";
++import { useState, useSyncExternalStore } from "react";
+ 
+ import {
+   LearningHeader,
+   LessonNavigation,
+ } from "../../../../components/learning-structure";
++import { cryptoLessons } from "./lessons";
++import {
++  CRYPTO_LEVEL_ONE_PROGRESS_KEY,
++  CRYPTO_PROGRESS_CHANGE_EVENT,
++  parseCryptoLessonProgress,
++  toggleCryptoLessonProgress,
++} from "./progress";
+ import styles from "./page.module.css";
+ 
++const publishedLesson = cryptoLessons[0]!;
++const publishedLessonIds = cryptoLessons.map((lesson) => lesson.id);
++
++function subscribeToProgress(callback: () => void) {
++  window.addEventListener("storage", callback);
++  window.addEventListener(CRYPTO_PROGRESS_CHANGE_EVENT, callback);
++  return () => {
++    window.removeEventListener("storage", callback);
++    window.removeEventListener(CRYPTO_PROGRESS_CHANGE_EVENT, callback);
++  };
++}
++
++function getProgressSnapshot() {
++  try {
++    return window.localStorage.getItem(CRYPTO_LEVEL_ONE_PROGRESS_KEY) ?? "";
++  } catch {
++    return "";
++  }
++}
++
++function getServerProgressSnapshot() {
++  return "";
++}
++
++function CheckIcon() {
++  return (
++    <svg aria-hidden="true" viewBox="0 0 20 20">
++      <path d="M4 10.5 8 14.5 16 6" />
++    </svg>
++  );
++}
++
+ const lessons = [
+   { label: "What is Bitcoin?", status: "current" },
+   { label: "Blockchain", status: "upcoming" },
+@@ -20,6 +60,30 @@ const lessons = [
+ 
+ export default function CryptoLevelOnePage() {
+   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
++  const storedProgress = useSyncExternalStore(
++    subscribeToProgress,
++    getProgressSnapshot,
++    getServerProgressSnapshot,
++  );
++  const completedLessonIds = parseCryptoLessonProgress(
++    storedProgress,
++    publishedLessonIds,
++  );
++  const lessonIsComplete = completedLessonIds.includes(publishedLesson.id);
++
++  function toggleCompletion() {
++    try {
++      const nextProgress = toggleCryptoLessonProgress(
++        storedProgress,
++        publishedLesson.id,
++        publishedLessonIds,
++      );
++      window.localStorage.setItem(CRYPTO_LEVEL_ONE_PROGRESS_KEY, nextProgress);
++      window.dispatchEvent(new Event(CRYPTO_PROGRESS_CHANGE_EVENT));
++    } catch {
++      // The lesson stays usable when browser storage is unavailable.
++    }
++  }
+ 
+   function renderLessonSidebar(
+     className: string,
+@@ -49,6 +113,9 @@ export default function CryptoLevelOnePage() {
+             </button>
+           ) : null}
+         </div>
++        <p className={styles.progressSummary} aria-live="polite">
++          {completedLessonIds.length} of {cryptoLessons.length} complete
++        </p>
+         <nav>
+           {lessons.map((lesson) => {
+             const className =
+@@ -98,22 +165,51 @@ export default function CryptoLevelOnePage() {
+         </details>
+ 
+         <article className={styles.lesson}>
+-          <p className={styles.eyebrow}>Level 1 · Lesson 1 of 6</p>
+-          <h1>What is Bitcoin?</h1>
+-
+-          <p className={styles.introduction}>
+-            Bitcoin is a digital asset that can be transferred between people
+-            through a decentralized network. This introductory lesson explains
+-            its purpose and provides the foundation for the rest of the Bitcoin
+-            level.
++          <p className={styles.eyebrow}>
++            Level 1 · Lesson 1 of {cryptoLessons.length} ·{" "}
++            {publishedLesson.estimatedMinutes}-minute read
+           </p>
++          <h1>{publishedLesson.title}</h1>
++
++          <p className={styles.introduction}>{publishedLesson.introduction}</p>
++
++          <section className={styles.keyPoints} aria-labelledby="objectives">
++            <h2 id="objectives">Learning objectives</h2>
++            {publishedLesson.objectives.map((objective) => (
++              <p key={objective}>✓ {objective}</p>
++            ))}
++            <p>No previous lesson required.</p>
++          </section>
+ 
+           <section className={styles.keyPoints} aria-labelledby="key-points">
+             <h2 id="key-points">Key points</h2>
+-            <p>✓ Bitcoin operates without a central bank</p>
+-            <p>✓ Transactions are recorded on a shared blockchain</p>
++            {publishedLesson.keyPoints.map((point) => (
++              <p key={point}>✓ {point}</p>
++            ))}
+           </section>
+ 
++          <section
++            className={styles.keyPoints}
++            aria-labelledby="related-learning"
++          >
++            <h2 id="related-learning">Related learning</h2>
++            <p>
++              <Link href="/glossary/crypto">Related glossary terms</Link>
++            </p>
++          </section>
++
++          <div className={styles.completeAction}>
++            <button
++              aria-pressed={lessonIsComplete}
++              className={lessonIsComplete ? styles.completedButton : undefined}
++              type="button"
++              onClick={toggleCompletion}
++            >
++              <CheckIcon />
++              {lessonIsComplete ? "Completed" : "Mark complete"}
++            </button>
++          </div>
++
+           <LessonNavigation
+             className={styles.lessonNavigation}
+             next={{ href: "/learn/crypto", label: "Return to Crypto path" }}
+diff --git a/apps/pipstart/src/app/learn/crypto/level-1/progress.ts b/apps/pipstart/src/app/learn/crypto/level-1/progress.ts
+new file mode 100644
+index 0000000..b7bf30c
+--- /dev/null
++++ b/apps/pipstart/src/app/learn/crypto/level-1/progress.ts
+@@ -0,0 +1,13 @@
++import {
++  parseLocalProgress,
++  serializeLocalProgress,
++  toggleLocalProgress,
++} from "../../../../lib/local-progress";
++
++export const CRYPTO_LEVEL_ONE_PROGRESS_KEY =
++  "pipstart:learn:crypto:level-1:progress";
++export const CRYPTO_PROGRESS_CHANGE_EVENT = "pipstart:crypto-progress-change";
++
++export const parseCryptoLessonProgress = parseLocalProgress;
++export const serializeCryptoLessonProgress = serializeLocalProgress;
++export const toggleCryptoLessonProgress = toggleLocalProgress;
+diff --git a/apps/pipstart/src/app/learn/forex/level-1/forex-lesson.tsx b/apps/pipstart/src/app/learn/forex/level-1/forex-lesson.tsx
+index 9b05cb1..987f365 100644
+--- a/apps/pipstart/src/app/learn/forex/level-1/forex-lesson.tsx
++++ b/apps/pipstart/src/app/learn/forex/level-1/forex-lesson.tsx
+@@ -7,25 +7,26 @@ import {
+   LearningHeader,
+   LessonNavigation,
+ } from "../../../../components/learning-structure";
++import { getLessonNavigation } from "../../../../lib/course-engine";
+ import type { ForexLesson } from "./lessons";
+-import { forexLessons } from "./lessons";
++import { forexLessons, getForexLessonById } from "./lessons";
+ import {
+   FOREX_LEVEL_ONE_PROGRESS_KEY,
++  FOREX_PROGRESS_CHANGE_EVENT,
+   parseLessonProgress,
+   toggleLessonProgress,
+ } from "./progress";
+ import styles from "./page.module.css";
+ 
+-const PROGRESS_CHANGE_EVENT = "pipstart:forex-progress-change";
+ const lessonSlugs = forexLessons.map((lesson) => lesson.slug);
+ 
+ function subscribeToProgress(callback: () => void) {
+   window.addEventListener("storage", callback);
+-  window.addEventListener(PROGRESS_CHANGE_EVENT, callback);
++  window.addEventListener(FOREX_PROGRESS_CHANGE_EVENT, callback);
+ 
+   return () => {
+     window.removeEventListener("storage", callback);
+-    window.removeEventListener(PROGRESS_CHANGE_EVENT, callback);
++    window.removeEventListener(FOREX_PROGRESS_CHANGE_EVENT, callback);
+   };
+ }
+ 
+@@ -51,11 +52,15 @@ function CheckIcon() {
+ 
+ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
+   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+-  const lessonIndex = forexLessons.findIndex(
+-    (candidate) => candidate.slug === lesson.slug,
+-  );
+-  const previousLesson = forexLessons[lessonIndex - 1];
+-  const nextLesson = forexLessons[lessonIndex + 1];
++  const navigation = getLessonNavigation(forexLessons, lesson.id);
++  const previousLesson = navigation?.previous;
++  const nextLesson = navigation?.next;
++  const prerequisiteLessons = lesson.prerequisites
++    .map(getForexLessonById)
++    .filter((candidate): candidate is ForexLesson => Boolean(candidate));
++  const relatedLessons = lesson.relatedLessonIds
++    .map(getForexLessonById)
++    .filter((candidate): candidate is ForexLesson => Boolean(candidate));
+   const storedProgress = useSyncExternalStore(
+     subscribeToProgress,
+     getProgressSnapshot,
+@@ -73,7 +78,7 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
+         lessonSlugs,
+       );
+       window.localStorage.setItem(FOREX_LEVEL_ONE_PROGRESS_KEY, nextProgress);
+-      window.dispatchEvent(new Event(PROGRESS_CHANGE_EVENT));
++      window.dispatchEvent(new Event(FOREX_PROGRESS_CHANGE_EVENT));
+     } catch {
+       // The lesson stays usable when browser storage is unavailable.
+     }
+@@ -168,12 +173,35 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
+ 
+         <article className={styles.lesson}>
+           <p className={styles.eyebrow}>
+-            Level 1 · Lesson {lesson.position} of {forexLessons.length}
++            Level 1 · Lesson {navigation?.position ?? lesson.position} of{" "}
++            {navigation?.total ?? forexLessons.length} ·{" "}
++            {lesson.estimatedMinutes}
++            -minute read
+           </p>
+           <h1>{lesson.title}</h1>
+ 
+           <p className={styles.introduction}>{lesson.introduction}</p>
+ 
++          <section className={styles.keyPoints} aria-labelledby="objectives">
++            <h2 id="objectives">Learning objectives</h2>
++            {lesson.objectives.map((objective) => (
++              <p key={objective}>✓ {objective}</p>
++            ))}
++            {prerequisiteLessons.length > 0 ? (
++              <p>
++                Prerequisite:{" "}
++                {prerequisiteLessons.map((prerequisite, index) => (
++                  <span key={prerequisite.id}>
++                    {index > 0 ? ", " : ""}
++                    <Link href={prerequisite.href}>{prerequisite.title}</Link>
++                  </span>
++                ))}
++              </p>
++            ) : (
++              <p>No previous lesson required.</p>
++            )}
++          </section>
++
+           <section className={styles.keyPoints} aria-labelledby="key-points">
+             <h2 id="key-points">Key points</h2>
+             {lesson.keyPoints.map((point) => (
+@@ -181,6 +209,25 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
+             ))}
+           </section>
+ 
++          {relatedLessons.length > 0 || lesson.relatedTermSlugs.length > 0 ? (
++            <section
++              className={styles.keyPoints}
++              aria-labelledby="related-learning"
++            >
++              <h2 id="related-learning">Related learning</h2>
++              {relatedLessons.map((relatedLesson) => (
++                <p key={relatedLesson.id}>
++                  <Link href={relatedLesson.href}>{relatedLesson.title}</Link>
++                </p>
++              ))}
++              {lesson.relatedTermSlugs.length > 0 ? (
++                <p>
++                  <Link href="/glossary">Related glossary terms</Link>
++                </p>
++              ) : null}
++            </section>
++          ) : null}
++
+           <div className={styles.stickyActions}>
+             <div className={styles.completeAction}>
+               <button
+diff --git a/apps/pipstart/src/app/learn/forex/level-1/lessons.ts b/apps/pipstart/src/app/learn/forex/level-1/lessons.ts
+index 436d52f..e425ccb 100644
+--- a/apps/pipstart/src/app/learn/forex/level-1/lessons.ts
++++ b/apps/pipstart/src/app/learn/forex/level-1/lessons.ts
+@@ -4,10 +4,16 @@ import {
+ } from "../../../../lib/public-content";
+ 
+ export type ForexLesson = {
++  estimatedMinutes: number;
+   href: `/${string}`;
++  id: string;
+   introduction: string;
+   keyPoints: string[];
++  objectives: string[];
+   position: number;
++  prerequisites: string[];
++  relatedLessonIds: string[];
++  relatedTermSlugs: string[];
+   slug: string;
+   status: PublicationStatus;
+   title: string;
+@@ -15,7 +21,9 @@ export type ForexLesson = {
+ 
+ const allForexLessons: ForexLesson[] = [
+   {
++    estimatedMinutes: 4,
+     href: "/learn/forex/level-1",
++    id: "what-is-forex",
+     introduction:
+       "Forex, short for foreign exchange, is the global market where one currency is exchanged for another. People, businesses, banks and governments use this market to convert money for trade, travel and investment.",
+     keyPoints: [
+@@ -23,13 +31,21 @@ const allForexLessons: ForexLesson[] = [
+       "Currencies are exchanged in pairs.",
+       "Prices move as demand for each currency changes.",
+     ],
++    objectives: [
++      "Explain what the Forex market is and why currencies are exchanged.",
++    ],
+     position: 1,
++    prerequisites: [],
++    relatedLessonIds: ["currency-pairs"],
++    relatedTermSlugs: [],
+     slug: "what-is-forex",
+     status: "published",
+     title: "What is Forex?",
+   },
+   {
++    estimatedMinutes: 5,
+     href: "/learn/forex/level-1/currency-pairs",
++    id: "currency-pairs",
+     introduction:
+       "A currency pair compares the value of one currency with another. The first is the base currency and the second is the quote currency, so EUR/USD shows how many US dollars are needed for one euro.",
+     keyPoints: [
+@@ -37,13 +53,19 @@ const allForexLessons: ForexLesson[] = [
+       "The second currency is called the quote currency.",
+       "Buying a pair means buying the base while selling the quote.",
+     ],
++    objectives: ["Identify the base and quote currencies in a currency pair."],
+     position: 2,
++    prerequisites: ["what-is-forex"],
++    relatedLessonIds: ["what-is-forex", "pips-and-lots"],
++    relatedTermSlugs: [],
+     slug: "currency-pairs",
+     status: "published",
+     title: "Currency pairs",
+   },
+   {
++    estimatedMinutes: 6,
+     href: "/learn/forex/level-1/pips-and-lots",
++    id: "pips-and-lots",
+     introduction:
+       "A pip is a standard way to describe a small price movement, while a lot describes trade size. Together they help traders compare movement and calculate how much money may be gained or lost.",
+     keyPoints: [
+@@ -51,13 +73,21 @@ const allForexLessons: ForexLesson[] = [
+       "Many JPY pairs use 0.01 as a conventional pip.",
+       "Larger lot sizes make each pip worth more money.",
+     ],
++    objectives: [
++      "Describe pips and lots and how trade size changes pip value.",
++    ],
+     position: 3,
++    prerequisites: ["currency-pairs"],
++    relatedLessonIds: ["currency-pairs", "bid-ask-spread"],
++    relatedTermSlugs: ["pip", "position-size"],
+     slug: "pips-and-lots",
+     status: "published",
+     title: "Pips and lots",
+   },
+   {
++    estimatedMinutes: 5,
+     href: "/learn/forex/level-1/bid-ask-spread",
++    id: "bid-ask-spread",
+     introduction:
+       "A Forex quote normally contains two prices. The bid is the price available when selling the base currency, the ask is the price available when buying it, and the difference is the spread.",
+     keyPoints: [
+@@ -65,13 +95,19 @@ const allForexLessons: ForexLesson[] = [
+       "The spread is an immediate trading cost.",
+       "Spreads can widen when markets are quiet or volatile.",
+     ],
++    objectives: ["Distinguish bid, ask and spread in a Forex quote."],
+     position: 4,
++    prerequisites: ["currency-pairs"],
++    relatedLessonIds: ["pips-and-lots", "trading-sessions"],
++    relatedTermSlugs: [],
+     slug: "bid-ask-spread",
+     status: "published",
+     title: "Bid, ask and spread",
+   },
+   {
++    estimatedMinutes: 5,
+     href: "/learn/forex/level-1/trading-sessions",
++    id: "trading-sessions",
+     introduction:
+       "Forex trades across global financial centres throughout the working week. Activity is commonly discussed through the Sydney, Tokyo, London and New York sessions, whose opening hours overlap.",
+     keyPoints: [
+@@ -79,13 +115,21 @@ const allForexLessons: ForexLesson[] = [
+       "London and New York overlap during part of their sessions.",
+       "Liquidity and volatility can change throughout the day.",
+     ],
++    objectives: [
++      "Name the major Forex sessions and explain why overlaps matter.",
++    ],
+     position: 5,
++    prerequisites: ["what-is-forex"],
++    relatedLessonIds: ["bid-ask-spread", "market-participants"],
++    relatedTermSlugs: [],
+     slug: "trading-sessions",
+     status: "published",
+     title: "Trading sessions",
+   },
+   {
++    estimatedMinutes: 5,
+     href: "/learn/forex/level-1/market-participants",
++    id: "market-participants",
+     introduction:
+       "The Forex market includes central banks, commercial banks, companies, investment funds, brokers and individual traders. Each group participates for different reasons and with very different resources.",
+     keyPoints: [
+@@ -93,7 +137,13 @@ const allForexLessons: ForexLesson[] = [
+       "Central banks may influence currencies through policy.",
+       "Retail traders participate through brokers and trading platforms.",
+     ],
++    objectives: [
++      "Compare the main Forex participants and their reasons for trading.",
++    ],
+     position: 6,
++    prerequisites: ["what-is-forex"],
++    relatedLessonIds: ["trading-sessions"],
++    relatedTermSlugs: [],
+     slug: "market-participants",
+     status: "published",
+     title: "Market participants",
+@@ -105,3 +155,7 @@ export const forexLessons = selectPublishedContent(allForexLessons);
+ export function getForexLesson(slug: string): ForexLesson | undefined {
+   return forexLessons.find((lesson) => lesson.slug === slug);
+ }
++
++export function getForexLessonById(id: string): ForexLesson | undefined {
++  return forexLessons.find((lesson) => lesson.id === id);
++}
+diff --git a/apps/pipstart/src/app/learn/forex/level-1/progress.ts b/apps/pipstart/src/app/learn/forex/level-1/progress.ts
+index 4f214ee..3e745f7 100644
+--- a/apps/pipstart/src/app/learn/forex/level-1/progress.ts
++++ b/apps/pipstart/src/app/learn/forex/level-1/progress.ts
+@@ -1,46 +1,25 @@
++import {
++  parseLocalProgress,
++  toggleLocalProgress,
++} from "../../../../lib/local-progress";
++
+ export const FOREX_LEVEL_ONE_PROGRESS_KEY =
+   "pipstart:learn:forex:level-1:progress";
+-
+-type StoredLessonProgress = {
+-  completedLessonSlugs: string[];
+-  version: 1;
+-};
++export const FOREX_PROGRESS_CHANGE_EVENT = "pipstart:forex-progress-change";
+ 
+ export function parseLessonProgress(
+   storedValue: string | null,
+   validLessonSlugs: readonly string[],
+ ): string[] {
+-  if (!storedValue) return [];
+-
+-  try {
+-    const parsed = JSON.parse(storedValue) as Partial<StoredLessonProgress>;
+-    if (parsed.version !== 1 || !Array.isArray(parsed.completedLessonSlugs)) {
+-      return [];
+-    }
+-
+-    const validSlugs = new Set(validLessonSlugs);
+-    return [
+-      ...new Set(
+-        parsed.completedLessonSlugs.filter(
+-          (slug): slug is string =>
+-            typeof slug === "string" && validSlugs.has(slug),
+-        ),
+-      ),
+-    ];
+-  } catch {
+-    return [];
+-  }
++  return parseLocalProgress(storedValue, validLessonSlugs);
+ }
+ 
+ export function serializeLessonProgress(
+   completedLessonSlugs: string[],
+ ): string {
+-  const progress: StoredLessonProgress = {
+-    completedLessonSlugs,
+-    version: 1,
+-  };
+-
+-  return JSON.stringify(progress);
++  // Preserve the original Forex payload shape for existing browser data and
++  // previously shipped clients while using the shared parser internally.
++  return JSON.stringify({ completedLessonSlugs, version: 1 });
+ }
+ 
+ export function toggleLessonProgress(
+@@ -48,10 +27,11 @@ export function toggleLessonProgress(
+   lessonSlug: string,
+   validLessonSlugs: readonly string[],
+ ): string {
+-  const completed = new Set(parseLessonProgress(storedValue, validLessonSlugs));
+-
+-  if (completed.has(lessonSlug)) completed.delete(lessonSlug);
+-  else if (validLessonSlugs.includes(lessonSlug)) completed.add(lessonSlug);
+-
+-  return serializeLessonProgress([...completed]);
++  const sharedValue = toggleLocalProgress(
++    storedValue,
++    lessonSlug,
++    validLessonSlugs,
++  );
++  const completed = parseLocalProgress(sharedValue, validLessonSlugs);
++  return serializeLessonProgress(completed);
+ }
+diff --git a/apps/pipstart/src/app/learn/forex/page.tsx b/apps/pipstart/src/app/learn/forex/page.tsx
+index d96ac7e..3be069d 100644
+--- a/apps/pipstart/src/app/learn/forex/page.tsx
++++ b/apps/pipstart/src/app/learn/forex/page.tsx
+@@ -1,11 +1,41 @@
+ "use client";
+ 
+ import Link from "next/link";
+-import { useState } from "react";
++import { useState, useSyncExternalStore } from "react";
+ 
+ import { CompactFooter, CompactHeader } from "../../../components/site-chrome";
++import { getContinueLearningLesson } from "../../../lib/course-engine";
++import { forexLessons } from "./level-1/lessons";
++import {
++  FOREX_LEVEL_ONE_PROGRESS_KEY,
++  FOREX_PROGRESS_CHANGE_EVENT,
++  parseLessonProgress,
++} from "./level-1/progress";
+ import styles from "./page.module.css";
+ 
++const lessonSlugs = forexLessons.map((lesson) => lesson.slug);
++
++function subscribeToProgress(callback: () => void) {
++  window.addEventListener("storage", callback);
++  window.addEventListener(FOREX_PROGRESS_CHANGE_EVENT, callback);
++  return () => {
++    window.removeEventListener("storage", callback);
++    window.removeEventListener(FOREX_PROGRESS_CHANGE_EVENT, callback);
++  };
++}
++
++function getProgressSnapshot() {
++  try {
++    return window.localStorage.getItem(FOREX_LEVEL_ONE_PROGRESS_KEY) ?? "";
++  } catch {
++    return "";
++  }
++}
++
++function getServerProgressSnapshot() {
++  return "";
++}
++
+ const forexLevels = [
+   {
+     title: "Orientation and Safety",
+@@ -66,6 +96,16 @@ const forexLevels = [
+ 
+ export default function LearnForexPage() {
+   const [expanded, setExpanded] = useState(false);
++  const storedProgress = useSyncExternalStore(
++    subscribeToProgress,
++    getProgressSnapshot,
++    getServerProgressSnapshot,
++  );
++  const completedLessonSlugs = parseLessonProgress(storedProgress, lessonSlugs);
++  const continueLesson = getContinueLearningLesson(
++    forexLessons.map((lesson) => ({ ...lesson, id: lesson.slug })),
++    completedLessonSlugs,
++  );
+   return (
+     <main className={styles.page}>
+       <CompactHeader className={styles.header} section="Learn Forex" />
+@@ -93,7 +133,7 @@ export default function LearnForexPage() {
+               {index === 1 ? (
+                 <Link
+                   className={`${styles.levelCard} ${styles.availableLevel}`}
+-                  href="/learn/forex/level-1"
++                  href={continueLesson?.href ?? "/learn/forex/level-1"}
+                   aria-label="Start Level 1: Forex Kindergarten"
+                 >
+                   <span className={styles.levelMeta}>
+diff --git a/apps/pipstart/src/app/milestone-9-course-engine.test.tsx b/apps/pipstart/src/app/milestone-9-course-engine.test.tsx
+new file mode 100644
+index 0000000..9b71f54
+--- /dev/null
++++ b/apps/pipstart/src/app/milestone-9-course-engine.test.tsx
+@@ -0,0 +1,63 @@
++import { renderToStaticMarkup } from "react-dom/server";
++import { describe, expect, it } from "vitest";
++
++import CryptoLevelOnePage from "./learn/crypto/level-1/page";
++import ForexLevelOnePage from "./learn/forex/level-1/page";
++import { forexLessons } from "./learn/forex/level-1/lessons";
++import { learningPaths } from "../lib/curriculum";
++
++describe("Milestone 9 basic course engine", () => {
++  it("provides two working modules and at least five published lessons", () => {
++    const modules = learningPaths.flatMap((path) =>
++      path.levels.flatMap((level) =>
++        level.courses.flatMap((course) => course.modules),
++      ),
++    );
++    expect(modules).toHaveLength(2);
++    expect(
++      modules.flatMap((module) => module.lessons).length,
++    ).toBeGreaterThanOrEqual(5);
++  });
++
++  it("provides complete structured metadata for every published lesson", () => {
++    const lessons = learningPaths.flatMap((path) =>
++      path.levels.flatMap((level) =>
++        level.courses.flatMap((course) =>
++          course.modules.flatMap((module) => module.lessons),
++        ),
++      ),
++    );
++
++    for (const lesson of lessons) {
++      expect(lesson.estimatedMinutes).toBeGreaterThan(0);
++      expect(lesson.objectives.length).toBeGreaterThan(0);
++      expect(Array.isArray(lesson.prerequisites)).toBe(true);
++      expect(Array.isArray(lesson.relatedLessonIds)).toBe(true);
++      expect(Array.isArray(lesson.relatedTermSlugs)).toBe(true);
++    }
++  });
++
++  it("exposes metadata through the approved Forex and Crypto lesson layouts", () => {
++    const forexMarkup = renderToStaticMarkup(<ForexLevelOnePage />);
++    const cryptoMarkup = renderToStaticMarkup(<CryptoLevelOnePage />);
++
++    for (const markup of [forexMarkup, cryptoMarkup]) {
++      expect(markup).toContain("minute read");
++      expect(markup).toContain("Learning objectives");
++      expect(markup).toContain("Related learning");
++      expect(markup).toContain("Mark complete");
++    }
++  });
++
++  it("keeps stable unique Forex IDs, positions and direct URLs", () => {
++    expect(new Set(forexLessons.map((lesson) => lesson.id)).size).toBe(
++      forexLessons.length,
++    );
++    expect(forexLessons.map((lesson) => lesson.position)).toEqual([
++      1, 2, 3, 4, 5, 6,
++    ]);
++    expect(new Set(forexLessons.map((lesson) => lesson.href)).size).toBe(
++      forexLessons.length,
++    );
++  });
++});
+diff --git a/apps/pipstart/src/lib/course-engine.test.ts b/apps/pipstart/src/lib/course-engine.test.ts
+new file mode 100644
+index 0000000..1490e3e
+--- /dev/null
++++ b/apps/pipstart/src/lib/course-engine.test.ts
+@@ -0,0 +1,46 @@
++import { describe, expect, it } from "vitest";
++
++import {
++  getContinueLearningLesson,
++  getLessonNavigation,
++  sortPublishedLessons,
++} from "./course-engine";
++
++const lessons = [
++  { href: "/third", id: "third", position: 3, status: "published" },
++  { href: "/draft", id: "draft", position: 2, status: "draft" },
++  { href: "/first", id: "first", position: 1, status: "published" },
++] as const;
++
++describe("course engine", () => {
++  it("orders published lessons and excludes drafts", () => {
++    expect(sortPublishedLessons(lessons).map((lesson) => lesson.id)).toEqual([
++      "first",
++      "third",
++    ]);
++  });
++
++  it("returns safe previous and next boundaries", () => {
++    expect(getLessonNavigation(lessons, "first")).toMatchObject({
++      next: { id: "third" },
++      position: 1,
++      previous: undefined,
++      total: 2,
++    });
++    expect(getLessonNavigation(lessons, "third")).toMatchObject({
++      next: undefined,
++      position: 2,
++      previous: { id: "first" },
++      total: 2,
++    });
++    expect(getLessonNavigation(lessons, "missing")).toBeUndefined();
++  });
++
++  it("continues at the first incomplete lesson and restarts after completion", () => {
++    expect(getContinueLearningLesson(lessons, [])?.id).toBe("first");
++    expect(getContinueLearningLesson(lessons, ["first"])?.id).toBe("third");
++    expect(getContinueLearningLesson(lessons, ["first", "third"])?.id).toBe(
++      "first",
++    );
++  });
++});
+diff --git a/apps/pipstart/src/lib/course-engine.ts b/apps/pipstart/src/lib/course-engine.ts
+new file mode 100644
+index 0000000..90f1b5d
+--- /dev/null
++++ b/apps/pipstart/src/lib/course-engine.ts
+@@ -0,0 +1,42 @@
++export type OrderedLesson = {
++  href: `/${string}`;
++  id: string;
++  position: number;
++  status: "draft" | "published";
++};
++
++export function sortPublishedLessons<T extends OrderedLesson>(
++  lessons: readonly T[],
++): T[] {
++  return [...lessons]
++    .filter((lesson) => lesson.status === "published")
++    .sort((first, second) => first.position - second.position);
++}
++
++export function getLessonNavigation<T extends OrderedLesson>(
++  lessons: readonly T[],
++  lessonId: string,
++) {
++  const published = sortPublishedLessons(lessons);
++  const index = published.findIndex((lesson) => lesson.id === lessonId);
++
++  if (index < 0) return undefined;
++
++  return {
++    current: published[index],
++    next: published[index + 1],
++    position: index + 1,
++    previous: published[index - 1],
++    total: published.length,
++  };
++}
++
++export function getContinueLearningLesson<T extends OrderedLesson>(
++  lessons: readonly T[],
++  completedLessonIds: readonly string[],
++): T | undefined {
++  const published = sortPublishedLessons(lessons);
++  const completed = new Set(completedLessonIds);
++
++  return published.find((lesson) => !completed.has(lesson.id)) ?? published[0];
++}
+diff --git a/apps/pipstart/src/lib/curriculum.ts b/apps/pipstart/src/lib/curriculum.ts
+index 8555fdb..3609cc6 100644
+--- a/apps/pipstart/src/lib/curriculum.ts
++++ b/apps/pipstart/src/lib/curriculum.ts
+@@ -2,12 +2,18 @@ import {
+   type PublicationStatus,
+   selectPublishedContent,
+ } from "./public-content";
++import { cryptoLessons } from "../app/learn/crypto/level-1/lessons";
++import { forexLessons } from "../app/learn/forex/level-1/lessons";
+ 
+ export type CurriculumLesson = {
+-  duration?: string;
++  estimatedMinutes: number;
+   href: `/${string}`;
+   id: string;
++  objectives: readonly string[];
+   order: number;
++  prerequisites: readonly string[];
++  relatedLessonIds: readonly string[];
++  relatedTermSlugs: readonly string[];
+   status: PublicationStatus;
+   title: string;
+   type: "lesson" | "quiz";
+@@ -50,27 +56,6 @@ export type LearningPath = {
+   title: string;
+ };
+ 
+-const forexLessons = [
+-  ["what-is-forex", "What is Forex?", "/learn/forex/level-1"],
+-  ["currency-pairs", "Currency pairs", "/learn/forex/level-1/currency-pairs"],
+-  ["pips-and-lots", "Pips and lots", "/learn/forex/level-1/pips-and-lots"],
+-  [
+-    "bid-ask-spread",
+-    "Bid, ask and spread",
+-    "/learn/forex/level-1/bid-ask-spread",
+-  ],
+-  [
+-    "trading-sessions",
+-    "Trading sessions",
+-    "/learn/forex/level-1/trading-sessions",
+-  ],
+-  [
+-    "market-participants",
+-    "Market participants",
+-    "/learn/forex/level-1/market-participants",
+-  ],
+-] as const;
+-
+ const allLearningPaths: LearningPath[] = [
+   {
+     href: "/learn/forex",
+@@ -103,18 +88,28 @@ const allLearningPaths: LearningPath[] = [
+                 status: "published",
+                 title: "Forex Foundations",
+                 lessons: [
+-                  ...forexLessons.map(([id, title, href], index) => ({
+-                    href,
+-                    id,
+-                    order: index + 1,
+-                    status: "published" as const,
+-                    title,
++                  ...forexLessons.map((lesson) => ({
++                    estimatedMinutes: lesson.estimatedMinutes,
++                    href: lesson.href,
++                    id: lesson.id,
++                    objectives: lesson.objectives,
++                    order: lesson.position,
++                    prerequisites: lesson.prerequisites,
++                    relatedLessonIds: lesson.relatedLessonIds,
++                    relatedTermSlugs: lesson.relatedTermSlugs,
++                    status: lesson.status,
++                    title: lesson.title,
+                     type: "lesson" as const,
+                   })),
+                   {
++                    estimatedMinutes: 5,
+                     href: "/learn/forex/level-1/quiz",
+                     id: "level-1-quiz",
++                    objectives: [],
+                     order: 7,
++                    prerequisites: ["market-participants"],
++                    relatedLessonIds: [],
++                    relatedTermSlugs: [],
+                     status: "draft",
+                     title: "Level 1 quiz",
+                     type: "quiz",
+@@ -157,16 +152,19 @@ const allLearningPaths: LearningPath[] = [
+                 order: 1,
+                 status: "published",
+                 title: "Bitcoin Foundations",
+-                lessons: [
+-                  {
+-                    href: "/learn/crypto/level-1",
+-                    id: "what-is-bitcoin",
+-                    order: 1,
+-                    status: "published",
+-                    title: "What is Bitcoin?",
+-                    type: "lesson",
+-                  },
+-                ],
++                lessons: cryptoLessons.map((lesson) => ({
++                  estimatedMinutes: lesson.estimatedMinutes,
++                  href: lesson.href,
++                  id: lesson.id,
++                  objectives: lesson.objectives,
++                  order: lesson.position,
++                  prerequisites: lesson.prerequisites,
++                  relatedLessonIds: lesson.relatedLessonIds,
++                  relatedTermSlugs: lesson.relatedTermSlugs,
++                  status: lesson.status,
++                  title: lesson.title,
++                  type: "lesson" as const,
++                })),
+               },
+             ],
+           },
+diff --git a/apps/pipstart/src/lib/local-progress.test.ts b/apps/pipstart/src/lib/local-progress.test.ts
+new file mode 100644
+index 0000000..9fde279
+--- /dev/null
++++ b/apps/pipstart/src/lib/local-progress.test.ts
+@@ -0,0 +1,51 @@
++import { describe, expect, it } from "vitest";
++
++import {
++  parseLocalProgress,
++  serializeLocalProgress,
++  toggleLocalProgress,
++} from "./local-progress";
++
++const validIds = ["first", "second", "third"];
++
++describe("shared local lesson progress", () => {
++  it("recovers safely from empty, corrupt and unsupported data", () => {
++    expect(parseLocalProgress(null, validIds)).toEqual([]);
++    expect(parseLocalProgress("not-json", validIds)).toEqual([]);
++    expect(
++      parseLocalProgress(
++        '{"version":2,"completedLessonIds":["first"]}',
++        validIds,
++      ),
++    ).toEqual([]);
++  });
++
++  it("filters unknown and duplicate IDs while preserving lesson order", () => {
++    expect(
++      parseLocalProgress(
++        '{"version":1,"completedLessonIds":["third","unknown","first","third"]}',
++        validIds,
++      ),
++    ).toEqual(["first", "third"]);
++  });
++
++  it("reads the existing Forex completedLessonSlugs payload", () => {
++    expect(
++      parseLocalProgress(
++        '{"version":1,"completedLessonSlugs":["second"]}',
++        validIds,
++      ),
++    ).toEqual(["second"]);
++  });
++
++  it("serializes and toggles valid progress", () => {
++    const stored = serializeLocalProgress(["first"]);
++    expect(parseLocalProgress(stored, validIds)).toEqual(["first"]);
++    expect(
++      parseLocalProgress(
++        toggleLocalProgress(stored, "second", validIds),
++        validIds,
++      ),
++    ).toEqual(["first", "second"]);
++  });
++});
+diff --git a/apps/pipstart/src/lib/local-progress.ts b/apps/pipstart/src/lib/local-progress.ts
+new file mode 100644
+index 0000000..b383ed5
+--- /dev/null
++++ b/apps/pipstart/src/lib/local-progress.ts
+@@ -0,0 +1,52 @@
++export type StoredLessonProgress = {
++  completedLessonIds: string[];
++  version: 1;
++};
++
++export function parseLocalProgress(
++  storedValue: string | null,
++  validLessonIds: readonly string[],
++): string[] {
++  if (!storedValue) return [];
++
++  try {
++    const parsed = JSON.parse(storedValue) as Partial<StoredLessonProgress> & {
++      completedLessonSlugs?: unknown;
++    };
++    const storedIds = Array.isArray(parsed.completedLessonIds)
++      ? parsed.completedLessonIds
++      : parsed.completedLessonSlugs;
++
++    if (parsed.version !== 1 || !Array.isArray(storedIds)) return [];
++
++    const completed = new Set(
++      storedIds.filter(
++        (id): id is string =>
++          typeof id === "string" && validLessonIds.includes(id),
++      ),
++    );
++
++    return validLessonIds.filter((id) => completed.has(id));
++  } catch {
++    return [];
++  }
++}
++
++export function serializeLocalProgress(completedLessonIds: string[]): string {
++  return JSON.stringify({ completedLessonIds, version: 1 });
++}
++
++export function toggleLocalProgress(
++  storedValue: string | null,
++  lessonId: string,
++  validLessonIds: readonly string[],
++): string {
++  const completed = new Set(parseLocalProgress(storedValue, validLessonIds));
++
++  if (completed.has(lessonId)) completed.delete(lessonId);
++  else if (validLessonIds.includes(lessonId)) completed.add(lessonId);
++
++  return serializeLocalProgress(
++    validLessonIds.filter((id) => completed.has(id)),
++  );
++}
+

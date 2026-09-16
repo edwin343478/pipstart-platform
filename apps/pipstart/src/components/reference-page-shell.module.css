@@ -1,7 +1,10 @@
 .page {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
   background: #f5f7f8;
   color: #0b1220;
+  font-family: var(--font-pipstart-body), Arial, sans-serif;
 }
 
 .header {
@@ -27,20 +30,29 @@
 }
 
 .main {
+  flex: 1 0 auto;
   width: min(100%, 40rem);
   margin: 0 auto;
   padding: 2.5rem 3.5rem 3rem;
 }
 
 .footer {
+  flex: 0 0 auto;
+  width: 100%;
   padding: 1rem 2.75rem;
   border-top: 1px solid #d9e0e5;
   background: #fff;
   color: #667085;
   font-size: 0.6875rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
 }
 
 @media (max-width: 767px) {
+  .page {
+    min-height: calc(100dvh - var(--mobile-tab-height));
+  }
+
   .header,
   .footer {
     justify-content: flex-start;

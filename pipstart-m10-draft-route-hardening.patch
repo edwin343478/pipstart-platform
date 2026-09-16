@@ -1,0 +1,35 @@
+diff --git a/apps/pipstart/src/app/learn/crypto/level-1/[lesson]/page.tsx b/apps/pipstart/src/app/learn/crypto/level-1/[lesson]/page.tsx
+--- a/apps/pipstart/src/app/learn/crypto/level-1/[lesson]/page.tsx
++++ b/apps/pipstart/src/app/learn/crypto/level-1/[lesson]/page.tsx
+@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
+ import { createDynamicMetadata } from "../../../../../lib/seo";
+ import CryptoLevelOnePage from "../page";
+ import { cryptoLessons, getCryptoLesson } from "../lessons";
+ 
++export const dynamicParams = false;
++
+ export function generateStaticParams() {
+   return cryptoLessons.slice(1).map((lesson) => ({ lesson: lesson.slug }));
+ }
+diff --git a/apps/pipstart/src/app/milestone-10-content-publishing.test.tsx b/apps/pipstart/src/app/milestone-10-content-publishing.test.tsx
+--- a/apps/pipstart/src/app/milestone-10-content-publishing.test.tsx
++++ b/apps/pipstart/src/app/milestone-10-content-publishing.test.tsx
+@@ -1,4 +1,6 @@
+ import { describe, expect, it } from "vitest";
++import { readFileSync } from "node:fs";
++import { join } from "node:path";
+ 
+ import sitemap from "./sitemap";
+ import { cryptoLessons } from "./learn/crypto/level-1/lessons";
+@@ -40,5 +42,11 @@ describe("Milestone 10 content publishing", () => {
+   it("uses metadata-driven SEO and generic future lesson routes", () => {
+     expect(forexLessons[1].seoTitle).toBe("Currency Pairs Explained");
+     expect(cryptoLessons[0].href).toBe("/learn/crypto/level-1");
++    expect(
++      readFileSync(
++        join(process.cwd(), "src/app/learn/crypto/level-1/[lesson]/page.tsx"),
++        "utf8",
++      ),
++    ).toContain("export const dynamicParams = false");
+   });
+ });

@@ -1,0 +1,683 @@
+diff --git a/apps/pipstart/src/app/learn/crypto/level-1/bitcoin/bitcoin-foundations/page.tsx b/apps/pipstart/src/app/learn/crypto/level-1/bitcoin/bitcoin-foundations/page.tsx
+new file mode 100644
+index 0000000..104c6cc
+--- /dev/null
++++ b/apps/pipstart/src/app/learn/crypto/level-1/bitcoin/bitcoin-foundations/page.tsx
+@@ -0,0 +1,30 @@
++import { notFound } from "next/navigation";
++
++import { CurriculumPage } from "../../../../../../components/curriculum-page";
++import {
++  getCurriculumCourse,
++  getCurriculumModule,
++  getLearningPath,
++} from "../../../../../../lib/curriculum";
++import { createPageMetadata } from "../../../../../../lib/seo";
++
++export const metadata = createPageMetadata(
++  "/learn/crypto/level-1/bitcoin/bitcoin-foundations",
++);
++
++export default function BitcoinFoundationsPage() {
++  const learningPath = getLearningPath("crypto");
++  const course = getCurriculumCourse("crypto", "bitcoin");
++  const curriculumModule = getCurriculumModule("crypto", "bitcoin-foundations");
++
++  if (!learningPath || !course || !curriculumModule) notFound();
++
++  return (
++    <CurriculumPage
++      course={course}
++      kind="module"
++      learningPath={learningPath}
++      module={curriculumModule}
++    />
++  );
++}
+diff --git a/apps/pipstart/src/app/learn/crypto/level-1/bitcoin/page.tsx b/apps/pipstart/src/app/learn/crypto/level-1/bitcoin/page.tsx
+new file mode 100644
+index 0000000..d64e47c
+--- /dev/null
++++ b/apps/pipstart/src/app/learn/crypto/level-1/bitcoin/page.tsx
+@@ -0,0 +1,21 @@
++import { notFound } from "next/navigation";
++
++import { CurriculumPage } from "../../../../../components/curriculum-page";
++import {
++  getCurriculumCourse,
++  getLearningPath,
++} from "../../../../../lib/curriculum";
++import { createPageMetadata } from "../../../../../lib/seo";
++
++export const metadata = createPageMetadata("/learn/crypto/level-1/bitcoin");
++
++export default function BitcoinCoursePage() {
++  const learningPath = getLearningPath("crypto");
++  const course = getCurriculumCourse("crypto", "bitcoin");
++
++  if (!learningPath || !course) notFound();
++
++  return (
++    <CurriculumPage course={course} kind="course" learningPath={learningPath} />
++  );
++}
+diff --git a/apps/pipstart/src/app/learn/forex/level-1/forex-kindergarten/forex-foundations/page.tsx b/apps/pipstart/src/app/learn/forex/level-1/forex-kindergarten/forex-foundations/page.tsx
+new file mode 100644
+index 0000000..8c92c2b
+--- /dev/null
++++ b/apps/pipstart/src/app/learn/forex/level-1/forex-kindergarten/forex-foundations/page.tsx
+@@ -0,0 +1,30 @@
++import { notFound } from "next/navigation";
++
++import { CurriculumPage } from "../../../../../../components/curriculum-page";
++import {
++  getCurriculumCourse,
++  getCurriculumModule,
++  getLearningPath,
++} from "../../../../../../lib/curriculum";
++import { createPageMetadata } from "../../../../../../lib/seo";
++
++export const metadata = createPageMetadata(
++  "/learn/forex/level-1/forex-kindergarten/forex-foundations",
++);
++
++export default function ForexFoundationsPage() {
++  const learningPath = getLearningPath("forex");
++  const course = getCurriculumCourse("forex", "forex-kindergarten");
++  const curriculumModule = getCurriculumModule("forex", "forex-foundations");
++
++  if (!learningPath || !course || !curriculumModule) notFound();
++
++  return (
++    <CurriculumPage
++      course={course}
++      kind="module"
++      learningPath={learningPath}
++      module={curriculumModule}
++    />
++  );
++}
+diff --git a/apps/pipstart/src/app/learn/forex/level-1/forex-kindergarten/page.tsx b/apps/pipstart/src/app/learn/forex/level-1/forex-kindergarten/page.tsx
+new file mode 100644
+index 0000000..e4d30d0
+--- /dev/null
++++ b/apps/pipstart/src/app/learn/forex/level-1/forex-kindergarten/page.tsx
+@@ -0,0 +1,23 @@
++import { notFound } from "next/navigation";
++
++import { CurriculumPage } from "../../../../../components/curriculum-page";
++import {
++  getCurriculumCourse,
++  getLearningPath,
++} from "../../../../../lib/curriculum";
++import { createPageMetadata } from "../../../../../lib/seo";
++
++export const metadata = createPageMetadata(
++  "/learn/forex/level-1/forex-kindergarten",
++);
++
++export default function ForexKindergartenPage() {
++  const learningPath = getLearningPath("forex");
++  const course = getCurriculumCourse("forex", "forex-kindergarten");
++
++  if (!learningPath || !course) notFound();
++
++  return (
++    <CurriculumPage course={course} kind="course" learningPath={learningPath} />
++  );
++}
+diff --git a/apps/pipstart/src/app/milestone-8-course-hierarchy.test.tsx b/apps/pipstart/src/app/milestone-8-course-hierarchy.test.tsx
+new file mode 100644
+index 0000000..d500f30
+--- /dev/null
++++ b/apps/pipstart/src/app/milestone-8-course-hierarchy.test.tsx
+@@ -0,0 +1,33 @@
++import { renderToStaticMarkup } from "react-dom/server";
++import { describe, expect, it } from "vitest";
++
++import BitcoinCoursePage from "./learn/crypto/level-1/bitcoin/page";
++import BitcoinFoundationsPage from "./learn/crypto/level-1/bitcoin/bitcoin-foundations/page";
++import ForexKindergartenPage from "./learn/forex/level-1/forex-kindergarten/page";
++import ForexFoundationsPage from "./learn/forex/level-1/forex-kindergarten/forex-foundations/page";
++
++describe("Milestone 8 course and module pages", () => {
++  it.each([
++    ["Forex Kindergarten", ForexKindergartenPage, "Forex Foundations"],
++    ["Bitcoin", BitcoinCoursePage, "Bitcoin Foundations"],
++  ])("renders the %s course and its module", (_, Page, moduleTitle) => {
++    const markup = renderToStaticMarkup(<Page />);
++
++    expect(markup).toContain("Course");
++    expect(markup).toContain(moduleTitle);
++    expect(markup).toContain('aria-label="Breadcrumb"');
++    expect(markup).toContain('"@type":"BreadcrumbList"');
++  });
++
++  it.each([
++    ["Forex Foundations", ForexFoundationsPage, "What is Forex?"],
++    ["Bitcoin Foundations", BitcoinFoundationsPage, "What is Bitcoin?"],
++  ])("renders the %s module and its published lessons", (_, Page, lesson) => {
++    const markup = renderToStaticMarkup(<Page />);
++
++    expect(markup).toContain("Module");
++    expect(markup).toContain(lesson);
++    expect(markup).not.toContain("Coming soon");
++    expect(markup).not.toContain("Level 1 quiz");
++  });
++});
+diff --git a/apps/pipstart/src/app/sitemap.ts b/apps/pipstart/src/app/sitemap.ts
+index bf17f70..62e1cf7 100644
+--- a/apps/pipstart/src/app/sitemap.ts
++++ b/apps/pipstart/src/app/sitemap.ts
+@@ -2,12 +2,16 @@ import type { MetadataRoute } from "next";
+ 
+ import { analysisPosts } from "./analysis/posts";
+ import { forexLessons } from "./learn/forex/level-1/lessons";
++import { publishedHierarchyRoutes } from "../lib/curriculum";
+ import { seoEntries, siteUrl } from "../lib/seo";
+ 
+ export default function sitemap(): MetadataRoute.Sitemap {
+-  const staticRoutes = seoEntries.map(({ path }) => ({
+-    url: new URL(path, siteUrl).href,
+-  }));
++  const hierarchyRouteSet = new Set<string>(publishedHierarchyRoutes);
++  const staticRoutes = seoEntries
++    .filter(({ path }) => !hierarchyRouteSet.has(path))
++    .map(({ path }) => ({
++      url: new URL(path, siteUrl).href,
++    }));
+   const articles = analysisPosts.map((post) => ({
+     url: new URL(`/analysis/${post.slug}`, siteUrl).href,
+     lastModified: new Date(post.reviewedAt),
+@@ -15,6 +19,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
+   const lessons = forexLessons
+     .slice(1)
+     .map((lesson) => ({ url: new URL(lesson.href, siteUrl).href }));
++  const hierarchy = publishedHierarchyRoutes.map((path) => ({
++    url: new URL(path, siteUrl).href,
++  }));
+ 
+-  return [...staticRoutes, ...articles, ...lessons];
++  return [...staticRoutes, ...articles, ...lessons, ...hierarchy];
+ }
+diff --git a/apps/pipstart/src/components/curriculum-page.tsx b/apps/pipstart/src/components/curriculum-page.tsx
+new file mode 100644
+index 0000000..84e5811
+--- /dev/null
++++ b/apps/pipstart/src/components/curriculum-page.tsx
+@@ -0,0 +1,113 @@
++import Link from "next/link";
++
++import type {
++  CurriculumCourse,
++  CurriculumModule,
++  LearningPath,
++} from "../lib/curriculum";
++import { createBreadcrumbJsonLd } from "../lib/seo";
++import { Breadcrumbs } from "./breadcrumbs";
++import { JsonLd } from "./json-ld";
++import { CompactFooter, CompactHeader } from "./site-chrome";
++// Course and module hierarchy pages intentionally reuse the already-approved
++// learning-path visual system. Keep hierarchy changes structural rather than
++// introducing a second set of cards, spacing or responsive rules.
++import styles from "../app/learn/forex/page.module.css";
++
++type CurriculumPageProps = {
++  course: CurriculumCourse;
++  kind: "course" | "module";
++  learningPath: LearningPath;
++  module?: CurriculumModule;
++};
++
++export function CurriculumPage({
++  course,
++  kind,
++  learningPath,
++  module,
++}: CurriculumPageProps) {
++  const current = module ?? course;
++  const breadcrumbs = [
++    { href: "/", label: "Home", name: "Home", path: "/" },
++    {
++      href: learningPath.href,
++      label: learningPath.title,
++      name: learningPath.title,
++      path: learningPath.href,
++    },
++    {
++      href: learningPath.levels[0]?.href,
++      label: "Level 1",
++      name: "Level 1",
++      path: learningPath.levels[0]?.href ?? learningPath.href,
++    },
++    ...(module
++      ? [
++          {
++            href: course.href,
++            label: course.title,
++            name: course.title,
++            path: course.href,
++          },
++        ]
++      : []),
++    { label: current.title, name: current.title, path: current.href },
++  ];
++  const cards = module ? module.lessons : course.modules;
++
++  return (
++    <main className={styles.page}>
++      <CompactHeader
++        className={styles.header}
++        section={`${learningPath.title} · Level 1`}
++      />
++      <JsonLd
++        data={createBreadcrumbJsonLd(
++          breadcrumbs.map(({ name, path }) => ({ name, path })),
++        )}
++      />
++      <section className={styles.introduction}>
++        <Breadcrumbs
++          items={breadcrumbs.map(({ href, label }) => ({ href, label }))}
++        />
++        <span>Level 1 · {kind === "course" ? "Course" : "Module"}</span>
++        <h1>{current.title}</h1>
++        <p>{current.description}</p>
++      </section>
++
++      <section className={styles.curriculum} aria-labelledby="curriculum-items">
++        <h2 id="curriculum-items">
++          {kind === "course" ? "What You’ll Learn" : "Lessons"}
++        </h2>
++        <ol className={styles.timeline}>
++          {cards.map((item, index) => (
++            <li key={item.id}>
++              <span className={styles.marker} aria-hidden="true">
++                {index + 1}
++              </span>
++              <Link
++                className={`${styles.levelCard} ${styles.availableLevel}`}
++                href={item.href}
++              >
++                <span className={styles.levelMeta}>
++                  <span>
++                    {"type" in item ? item.type : "Module"} {index + 1} of{" "}
++                    {cards.length}
++                  </span>
++                  <strong>Available</strong>
++                </span>
++                <h3>{item.title}</h3>
++                {"description" in item ? <p>{item.description}</p> : null}
++                <span className={styles.startLevel}>
++                  {"type" in item ? "Start lesson" : "View module"} →
++                </span>
++              </Link>
++            </li>
++          ))}
++        </ol>
++      </section>
++      <CompactFooter className={styles.footer} />
++    </main>
++  );
++}
+diff --git a/apps/pipstart/src/lib/curriculum.test.ts b/apps/pipstart/src/lib/curriculum.test.ts
+new file mode 100644
+index 0000000..ec6905f
+--- /dev/null
++++ b/apps/pipstart/src/lib/curriculum.test.ts
+@@ -0,0 +1,82 @@
++import { describe, expect, it } from "vitest";
++
++import {
++  getCurriculumCourse,
++  getCurriculumModule,
++  learningPaths,
++  publishedHierarchyRoutes,
++} from "./curriculum";
++
++describe("published curriculum hierarchy", () => {
++  it("publishes the approved Forex and Crypto hierarchy", () => {
++    expect(
++      learningPaths.map((path) => ({
++        courses: path.levels.flatMap((level) =>
++          level.courses.map((course) => course.id),
++        ),
++        id: path.id,
++        levels: path.levels.map((level) => level.id),
++      })),
++    ).toEqual([
++      { courses: ["forex-kindergarten"], id: "forex", levels: ["level-1"] },
++      { courses: ["bitcoin"], id: "crypto", levels: ["level-1"] },
++    ]);
++  });
++
++  it("keeps identifiers, routes and order unique", () => {
++    for (const path of learningPaths) {
++      for (const level of path.levels) {
++        const courses = [...level.courses].sort((a, b) => a.order - b.order);
++        expect(new Set(courses.map((course) => course.id)).size).toBe(
++          courses.length,
++        );
++
++        for (const course of courses) {
++          const modules = [...course.modules].sort((a, b) => a.order - b.order);
++          expect(new Set(modules.map((module) => module.id)).size).toBe(
++            modules.length,
++          );
++
++          for (const curriculumModule of modules) {
++            const lessons = [...curriculumModule.lessons].sort(
++              (a, b) => a.order - b.order,
++            );
++            expect(new Set(lessons.map((lesson) => lesson.id)).size).toBe(
++              lessons.length,
++            );
++            expect(new Set(lessons.map((lesson) => lesson.href)).size).toBe(
++              lessons.length,
++            );
++            expect(lessons.map((lesson) => lesson.order)).toEqual(
++              lessons.map((_, index) => index + 1),
++            );
++          }
++        }
++      }
++    }
++
++    expect(new Set(publishedHierarchyRoutes).size).toBe(
++      publishedHierarchyRoutes.length,
++    );
++  });
++
++  it("excludes draft quizzes and preserves existing lesson routes", () => {
++    const forexModule = getCurriculumModule("forex", "forex-foundations");
++    const cryptoModule = getCurriculumModule("crypto", "bitcoin-foundations");
++
++    expect(forexModule?.lessons).toHaveLength(6);
++    expect(forexModule?.lessons.some((lesson) => lesson.type === "quiz")).toBe(
++      false,
++    );
++    expect(forexModule?.lessons[0]?.href).toBe("/learn/forex/level-1");
++    expect(cryptoModule?.lessons[0]?.href).toBe("/learn/crypto/level-1");
++  });
++
++  it("returns only published courses and modules", () => {
++    expect(
++      getCurriculumCourse("forex", "forex-kindergarten")?.modules,
++    ).toHaveLength(1);
++    expect(getCurriculumCourse("crypto", "bitcoin")?.modules).toHaveLength(1);
++    expect(getCurriculumCourse("forex", "missing")).toBeUndefined();
++  });
++});
+diff --git a/apps/pipstart/src/lib/curriculum.ts b/apps/pipstart/src/lib/curriculum.ts
+new file mode 100644
+index 0000000..8555fdb
+--- /dev/null
++++ b/apps/pipstart/src/lib/curriculum.ts
+@@ -0,0 +1,225 @@
++import {
++  type PublicationStatus,
++  selectPublishedContent,
++} from "./public-content";
++
++export type CurriculumLesson = {
++  duration?: string;
++  href: `/${string}`;
++  id: string;
++  order: number;
++  status: PublicationStatus;
++  title: string;
++  type: "lesson" | "quiz";
++};
++
++export type CurriculumModule = {
++  description: string;
++  href: `/${string}`;
++  id: string;
++  lessons: readonly CurriculumLesson[];
++  order: number;
++  status: PublicationStatus;
++  title: string;
++};
++
++export type CurriculumCourse = {
++  description: string;
++  href: `/${string}`;
++  id: string;
++  modules: readonly CurriculumModule[];
++  order: number;
++  status: PublicationStatus;
++  title: string;
++};
++
++export type CurriculumLevel = {
++  courses: readonly CurriculumCourse[];
++  href: `/${string}`;
++  id: string;
++  order: number;
++  status: PublicationStatus;
++  title: string;
++};
++
++export type LearningPath = {
++  href: `/${string}`;
++  id: "crypto" | "forex";
++  levels: readonly CurriculumLevel[];
++  status: PublicationStatus;
++  title: string;
++};
++
++const forexLessons = [
++  ["what-is-forex", "What is Forex?", "/learn/forex/level-1"],
++  ["currency-pairs", "Currency pairs", "/learn/forex/level-1/currency-pairs"],
++  ["pips-and-lots", "Pips and lots", "/learn/forex/level-1/pips-and-lots"],
++  [
++    "bid-ask-spread",
++    "Bid, ask and spread",
++    "/learn/forex/level-1/bid-ask-spread",
++  ],
++  [
++    "trading-sessions",
++    "Trading sessions",
++    "/learn/forex/level-1/trading-sessions",
++  ],
++  [
++    "market-participants",
++    "Market participants",
++    "/learn/forex/level-1/market-participants",
++  ],
++] as const;
++
++const allLearningPaths: LearningPath[] = [
++  {
++    href: "/learn/forex",
++    id: "forex",
++    status: "published",
++    title: "Learn Forex",
++    levels: [
++      {
++        href: "/learn/forex/level-1",
++        id: "level-1",
++        order: 1,
++        status: "published",
++        title: "Level 1",
++        courses: [
++          {
++            description:
++              "Build a practical vocabulary for understanding the global currency market.",
++            href: "/learn/forex/level-1/forex-kindergarten",
++            id: "forex-kindergarten",
++            order: 1,
++            status: "published",
++            title: "Forex Kindergarten",
++            modules: [
++              {
++                description:
++                  "Learn how currency pairs, prices, trade sizes, sessions and participants fit together.",
++                href: "/learn/forex/level-1/forex-kindergarten/forex-foundations",
++                id: "forex-foundations",
++                order: 1,
++                status: "published",
++                title: "Forex Foundations",
++                lessons: [
++                  ...forexLessons.map(([id, title, href], index) => ({
++                    href,
++                    id,
++                    order: index + 1,
++                    status: "published" as const,
++                    title,
++                    type: "lesson" as const,
++                  })),
++                  {
++                    href: "/learn/forex/level-1/quiz",
++                    id: "level-1-quiz",
++                    order: 7,
++                    status: "draft",
++                    title: "Level 1 quiz",
++                    type: "quiz",
++                  },
++                ],
++              },
++            ],
++          },
++        ],
++      },
++    ],
++  },
++  {
++    href: "/learn/crypto",
++    id: "crypto",
++    status: "published",
++    title: "Learn Crypto",
++    levels: [
++      {
++        href: "/learn/crypto/level-1",
++        id: "level-1",
++        order: 1,
++        status: "published",
++        title: "Level 1",
++        courses: [
++          {
++            description:
++              "Understand Bitcoin's purpose before exploring the technology behind it.",
++            href: "/learn/crypto/level-1/bitcoin",
++            id: "bitcoin",
++            order: 1,
++            status: "published",
++            title: "Bitcoin",
++            modules: [
++              {
++                description:
++                  "Begin with Bitcoin's decentralized network, shared ledger and core ideas.",
++                href: "/learn/crypto/level-1/bitcoin/bitcoin-foundations",
++                id: "bitcoin-foundations",
++                order: 1,
++                status: "published",
++                title: "Bitcoin Foundations",
++                lessons: [
++                  {
++                    href: "/learn/crypto/level-1",
++                    id: "what-is-bitcoin",
++                    order: 1,
++                    status: "published",
++                    title: "What is Bitcoin?",
++                    type: "lesson",
++                  },
++                ],
++              },
++            ],
++          },
++        ],
++      },
++    ],
++  },
++];
++
++export const learningPaths = selectPublishedContent(allLearningPaths).map(
++  (path) => ({
++    ...path,
++    levels: selectPublishedContent(path.levels).map((level) => ({
++      ...level,
++      courses: selectPublishedContent(level.courses).map((course) => ({
++        ...course,
++        modules: selectPublishedContent(course.modules).map((module) => ({
++          ...module,
++          lessons: selectPublishedContent(module.lessons),
++        })),
++      })),
++    })),
++  }),
++);
++
++export function getLearningPath(id: LearningPath["id"]) {
++  return learningPaths.find((path) => path.id === id);
++}
++
++export function getCurriculumCourse(
++  pathId: LearningPath["id"],
++  courseId: string,
++) {
++  return getLearningPath(pathId)
++    ?.levels.flatMap((level) => level.courses)
++    .find((course) => course.id === courseId);
++}
++
++export function getCurriculumModule(
++  pathId: LearningPath["id"],
++  moduleId: string,
++) {
++  return getLearningPath(pathId)
++    ?.levels.flatMap((level) => level.courses)
++    .flatMap((course) => course.modules)
++    .find((curriculumModule) => curriculumModule.id === moduleId);
++}
++
++export const publishedHierarchyRoutes = learningPaths.flatMap((path) =>
++  path.levels.flatMap((level) =>
++    level.courses.flatMap((course) => [
++      course.href,
++      ...course.modules.map((module) => module.href),
++    ]),
++  ),
++);
+diff --git a/apps/pipstart/src/lib/seo.ts b/apps/pipstart/src/lib/seo.ts
+index b68eb81..22490b7 100644
+--- a/apps/pipstart/src/lib/seo.ts
++++ b/apps/pipstart/src/lib/seo.ts
+@@ -61,6 +61,18 @@ export const seoEntries = [
+     description:
+       "Learn currency pairs, pips, lots, spreads, sessions and Forex market participants.",
+   },
++  {
++    path: "/learn/forex/level-1/forex-kindergarten",
++    title: "Forex Kindergarten Course",
++    description:
++      "Explore the Forex Kindergarten course and its published foundation modules.",
++  },
++  {
++    path: "/learn/forex/level-1/forex-kindergarten/forex-foundations",
++    title: "Forex Foundations Module",
++    description:
++      "Study currency pairs, prices, trade sizes, sessions and market participants in order.",
++  },
+   {
+     path: "/learn/crypto",
+     title: "Learn Cryptocurrency",
+@@ -73,6 +85,18 @@ export const seoEntries = [
+     description:
+       "Learn what Bitcoin is and how its decentralized network records transactions.",
+   },
++  {
++    path: "/learn/crypto/level-1/bitcoin",
++    title: "Bitcoin Course",
++    description:
++      "Explore the Bitcoin course and its published foundation modules.",
++  },
++  {
++    path: "/learn/crypto/level-1/bitcoin/bitcoin-foundations",
++    title: "Bitcoin Foundations Module",
++    description:
++      "Begin with Bitcoin's purpose, decentralized network and core ideas.",
++  },
+   {
+     path: "/analysis",
+     title: "Market Analysis",
+
