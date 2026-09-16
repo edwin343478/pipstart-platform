@@ -11,6 +11,7 @@ import {
   completedLessonIds,
   type ProgressSnapshot,
 } from "./permanent-progress";
+import { runProgressSave } from "./progress-save-transition";
 
 type Configuration = {
   courseId: string;
@@ -63,10 +64,18 @@ export function usePermanentProgress(config: Configuration) {
     void (async () => {
       try {
         let result = await loadProgressAction();
-        if (result.authenticated && localIds.length) {
+        // Hydration begins with the server snapshot (an empty string). Read
+        // storage again here so a full post-login navigation cannot skip an
+        // anonymous import before useSyncExternalStore publishes its client
+        // snapshot.
+        const storedIds = config.parse(
+          read(config.storageKey),
+          config.validIds,
+        );
+        if (result.authenticated && storedIds.length) {
           result = await importAnonymousProgressAction({
             courseId: config.courseId,
-            lessonIds: localIds,
+            lessonIds: storedIds,
           });
           try {
             window.localStorage.removeItem(config.storageKey);
@@ -131,44 +140,28 @@ export function usePermanentProgress(config: Configuration) {
   const save = useCallback(
     async (complete: boolean) => {
       if (!config.lessonId || !remote) return;
+      const lessonId = config.lessonId;
       const previous = remote;
-      const record = remote.lessons.find(
-        (item) => item.lessonId === config.lessonId,
-      );
-      setRemote({
-        ...remote,
-        lessons: [
-          ...remote.lessons.filter((item) => item.lessonId !== config.lessonId),
-          {
-            completedAt: complete ? new Date().toISOString() : null,
-            isComplete: complete,
-            lastVisitedAt: new Date().toISOString(),
-            lessonId: config.lessonId,
-            revision: record?.revision ?? 0,
-          },
-        ],
-      });
+      const record = remote.lessons.find((item) => item.lessonId === lessonId);
       setState("saving");
       setMessage("Saving progress…");
       setFailed(null);
-      try {
-        setRemote(
-          await setLessonCompletionAction({
+      const result = await runProgressSave({
+        complete,
+        lessonId,
+        onOptimistic: setRemote,
+        persist: () =>
+          setLessonCompletionAction({
             complete,
             expectedRevision: record?.revision ?? null,
-            lessonId: config.lessonId,
+            lessonId,
           }),
-        );
-        setState("saved");
-        setMessage("Progress saved to your account.");
-      } catch (error) {
-        setRemote(previous);
-        setFailed(complete);
-        setState("error");
-        setMessage(
-          error instanceof Error ? error.message : "Progress was not saved.",
-        );
-      }
+        previous,
+      });
+      setRemote(result.snapshot);
+      setFailed(result.retryComplete);
+      setState(result.state);
+      setMessage(result.message);
     },
     [config.lessonId, remote],
   );
