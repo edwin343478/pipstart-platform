@@ -34,7 +34,7 @@ const allFaqEntries: FaqEntry[] = [
   {
     question: "How is lesson progress saved?",
     answer:
-      "Available Forex lesson progress is stored locally in your browser. It is not currently connected to an account and may not follow you to another browser or device.",
+      "Anonymous progress is stored locally in your browser. When you sign in, valid local progress is imported securely and your completion history follows your PipStart account across devices.",
     status: "published",
   },
   {

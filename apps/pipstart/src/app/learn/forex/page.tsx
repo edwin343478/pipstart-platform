@@ -1,40 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useSyncExternalStore } from "react";
+import { useState } from "react";
 
 import { CompactFooter, CompactHeader } from "../../../components/site-chrome";
 import { getContinueLearningState } from "../../../lib/course-engine";
+import { usePermanentProgress } from "../../../lib/use-permanent-progress";
 import { forexLessons } from "./level-1/lessons";
 import {
   FOREX_LEVEL_ONE_PROGRESS_KEY,
   FOREX_PROGRESS_CHANGE_EVENT,
   parseLessonProgress,
+  serializeLessonProgress,
 } from "./level-1/progress";
 import styles from "./page.module.css";
 
 const lessonSlugs = forexLessons.map((lesson) => lesson.slug);
-
-function subscribeToProgress(callback: () => void) {
-  window.addEventListener("storage", callback);
-  window.addEventListener(FOREX_PROGRESS_CHANGE_EVENT, callback);
-  return () => {
-    window.removeEventListener("storage", callback);
-    window.removeEventListener(FOREX_PROGRESS_CHANGE_EVENT, callback);
-  };
-}
-
-function getProgressSnapshot() {
-  try {
-    return window.localStorage.getItem(FOREX_LEVEL_ONE_PROGRESS_KEY) ?? "";
-  } catch {
-    return "";
-  }
-}
-
-function getServerProgressSnapshot() {
-  return "";
-}
 
 const forexLevels = [
   {
@@ -96,12 +77,15 @@ const forexLevels = [
 
 export default function LearnForexPage() {
   const [expanded, setExpanded] = useState(false);
-  const storedProgress = useSyncExternalStore(
-    subscribeToProgress,
-    getProgressSnapshot,
-    getServerProgressSnapshot,
-  );
-  const completedLessonSlugs = parseLessonProgress(storedProgress, lessonSlugs);
+  const progress = usePermanentProgress({
+    courseId: "forex-kindergarten",
+    eventName: FOREX_PROGRESS_CHANGE_EVENT,
+    parse: parseLessonProgress,
+    serialize: serializeLessonProgress,
+    storageKey: FOREX_LEVEL_ONE_PROGRESS_KEY,
+    validIds: lessonSlugs,
+  });
+  const completedLessonSlugs = progress.completedIds;
   const continueState = getContinueLearningState(
     forexLessons.map((lesson) => ({ ...lesson, id: lesson.slug })),
     completedLessonSlugs,

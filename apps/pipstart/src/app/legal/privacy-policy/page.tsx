@@ -17,15 +17,16 @@ export default function PrivacyPolicyPage() {
         <h1 className={`${styles.title} ${styles.legalTitle}`}>
           Privacy Policy
         </h1>
-        <p className={styles.updated}>Last updated: 15 September 2026</p>
+        <p className={styles.updated}>Last updated: 16 September 2026</p>
 
         <section className={styles.legalSection}>
           <h2>Current production data handling</h2>
           <p>
             PipStart stores anonymous lesson progress locally on your device. If
             you create an account, we also store your email address, display
-            name, role, and email preferences. Broker and exchange links may be
-            tracked for affiliate attribution when clicked.
+            name, role, email preferences, enrollment, lesson completion and
+            recent learning activity. Broker and exchange links may be tracked
+            for affiliate attribution when clicked.
           </p>
         </section>
 
@@ -34,8 +35,8 @@ export default function PrivacyPolicyPage() {
           <p>
             We collect the account details you provide, authentication and
             security records needed to protect the service, and the email
-            preferences you select. Anonymous progress remains on your device
-            until the progress synchronization feature is introduced.
+            preferences you select. When you sign in, valid anonymous progress
+            can be imported for cross-device synchronization.
           </p>
         </section>
 
@@ -43,8 +44,8 @@ export default function PrivacyPolicyPage() {
           <h2>How the information will be used</h2>
           <p>
             To create and secure your learner account, provide account settings,
-            deliver messages you request, and respect your communication
-            choices.
+            synchronize learning progress, deliver messages you request, and
+            respect your communication choices.
           </p>
         </section>
 
@@ -62,10 +63,11 @@ export default function PrivacyPolicyPage() {
           <h2>Retention and deletion</h2>
           <p>
             Account deletion removes the authentication account and its linked
-            PipStart profile and email preferences. Records that must be
-            retained for security, fraud prevention, or legal compliance may be
-            retained only for the period required. Local progress must be
-            cleared separately from the learner&apos;s browser.
+            PipStart profile, preferences, enrollment, progress and learning
+            events. Records that must be retained for security, fraud
+            prevention, or legal compliance may be retained only for the period
+            required. Local progress must be cleared separately from the
+            learner&apos;s browser.
           </p>
         </section>
       </article>

@@ -17,23 +17,22 @@ export default function CookiePolicyPage() {
         <h1 className={`${styles.title} ${styles.legalTitle}`}>
           Cookie Policy
         </h1>
-        <p className={styles.updated}>Last updated: 8 September 2026</p>
+        <p className={styles.updated}>Last updated: 16 September 2026</p>
 
         <section className={styles.legalSection}>
           <h2>Current website</h2>
           <p>
-            PipStart currently uses browser local storage, not cookies, to save
-            your lesson progress on this device. This policy will expand as
-            account features and analytics are added.
+            PipStart uses local storage for anonymous lesson progress and
+            essential cookies to maintain signed-in learner sessions.
           </p>
         </section>
 
         <section className={styles.legalSection}>
           <h2>Essential technologies</h2>
           <p>
-            Local storage is used to remember which lessons you&apos;ve
-            completed. This stays on your device and is never transmitted to
-            PipStart&apos;s servers in the current version.
+            Local storage remembers anonymous completion. When you sign in,
+            valid progress is imported and removed locally only after the server
+            confirms persistence.
           </p>
         </section>
 

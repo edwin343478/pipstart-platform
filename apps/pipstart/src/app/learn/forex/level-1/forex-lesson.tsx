@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useSyncExternalStore } from "react";
+import { useState } from "react";
 
 import {
   LearningHeader,
@@ -9,41 +9,21 @@ import {
 } from "../../../../components/learning-structure";
 import { Breadcrumbs } from "../../../../components/breadcrumbs";
 import { LessonBlocks } from "../../../../components/lesson-blocks";
+import { ProgressSyncStatus } from "../../../../components/progress-sync-status";
 import { getLessonNavigation } from "../../../../lib/course-engine";
 import { getRelatedTermLabels } from "../../../../lib/related-learning";
+import { usePermanentProgress } from "../../../../lib/use-permanent-progress";
 import type { ForexLesson } from "./lessons";
 import { forexLessons, getForexLessonById } from "./lessons";
 import {
   FOREX_LEVEL_ONE_PROGRESS_KEY,
   FOREX_PROGRESS_CHANGE_EVENT,
   parseLessonProgress,
-  toggleLessonProgress,
+  serializeLessonProgress,
 } from "./progress";
 import styles from "./page.module.css";
 
 const lessonSlugs = forexLessons.map((lesson) => lesson.slug);
-
-function subscribeToProgress(callback: () => void) {
-  window.addEventListener("storage", callback);
-  window.addEventListener(FOREX_PROGRESS_CHANGE_EVENT, callback);
-
-  return () => {
-    window.removeEventListener("storage", callback);
-    window.removeEventListener(FOREX_PROGRESS_CHANGE_EVENT, callback);
-  };
-}
-
-function getProgressSnapshot() {
-  try {
-    return window.localStorage.getItem(FOREX_LEVEL_ONE_PROGRESS_KEY) ?? "";
-  } catch {
-    return "";
-  }
-}
-
-function getServerProgressSnapshot() {
-  return "";
-}
 
 function CheckIcon() {
   return (
@@ -64,27 +44,21 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
   const relatedLessons = lesson.relatedLessonIds
     .map(getForexLessonById)
     .filter((candidate): candidate is ForexLesson => Boolean(candidate));
-  const storedProgress = useSyncExternalStore(
-    subscribeToProgress,
-    getProgressSnapshot,
-    getServerProgressSnapshot,
-  );
-  const completedLessonSlugs = parseLessonProgress(storedProgress, lessonSlugs);
+  const progress = usePermanentProgress({
+    courseId: lesson.course,
+    eventName: FOREX_PROGRESS_CHANGE_EVENT,
+    lessonId: lesson.id,
+    parse: parseLessonProgress,
+    serialize: serializeLessonProgress,
+    storageKey: FOREX_LEVEL_ONE_PROGRESS_KEY,
+    validIds: lessonSlugs,
+  });
+  const completedLessonSlugs = progress.completedIds;
   const completedLessons = new Set(completedLessonSlugs);
   const lessonIsComplete = completedLessons.has(lesson.slug);
 
   function toggleCompletion() {
-    try {
-      const nextProgress = toggleLessonProgress(
-        storedProgress,
-        lesson.slug,
-        lessonSlugs,
-      );
-      window.localStorage.setItem(FOREX_LEVEL_ONE_PROGRESS_KEY, nextProgress);
-      window.dispatchEvent(new Event(FOREX_PROGRESS_CHANGE_EVENT));
-    } catch {
-      // The lesson stays usable when browser storage is unavailable.
-    }
+    progress.toggle(lesson.id);
   }
 
   function renderLessonSidebar(
@@ -256,11 +230,18 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
                   lessonIsComplete ? styles.completedButton : undefined
                 }
                 type="button"
+                disabled={progress.syncState === "saving"}
                 onClick={toggleCompletion}
               >
                 <CheckIcon />
                 {lessonIsComplete ? "Completed" : "Mark complete"}
               </button>
+              <ProgressSyncStatus
+                className={styles.syncStatus}
+                message={progress.message}
+                retry={progress.retry}
+                state={progress.syncState}
+              />
             </div>
 
             <LessonNavigation

@@ -37,8 +37,8 @@ export default async function AccountSettingsPage({
           <p>Change your password or manage signed-in sessions.</p>
         </Link>
         <Link className={styles.card} href="/start-here">
-          <h2>Continue learning</h2>
-          <p>Return to the Forex and Crypto learning paths.</p>
+          <h2>Learning progress</h2>
+          <p>Continue your synchronized Forex or Crypto learning path.</p>
         </Link>
       </div>
     </AccountShell>

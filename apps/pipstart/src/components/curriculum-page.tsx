@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 import type {
@@ -7,6 +9,12 @@ import type {
   LearningPath,
 } from "../lib/curriculum";
 import { createBreadcrumbJsonLd } from "../lib/seo";
+import { calculateProgress } from "../lib/permanent-progress";
+import {
+  parseLocalProgress,
+  serializeLocalProgress,
+} from "../lib/local-progress";
+import { usePermanentProgress } from "../lib/use-permanent-progress";
 import { Breadcrumbs } from "./breadcrumbs";
 import { JsonLd } from "./json-ld";
 import { CompactFooter, CompactHeader } from "./site-chrome";
@@ -58,6 +66,27 @@ export function CurriculumPage({
     { label: current.title, name: current.title, path: current.href },
   ];
   const cards = module ? module.lessons : course.modules;
+  const lessons = module
+    ? module.lessons
+    : course.modules.flatMap((item) => item.lessons);
+  const pathProgress =
+    learningPath.id === "forex"
+      ? {
+          eventName: "pipstart:forex-progress-change",
+          storageKey: "pipstart:learn:forex:level-1:progress",
+        }
+      : {
+          eventName: "pipstart:crypto-progress-change",
+          storageKey: "pipstart:learn:crypto:level-1:progress",
+        };
+  const progress = usePermanentProgress({
+    courseId: course.id,
+    ...pathProgress,
+    parse: parseLocalProgress,
+    serialize: serializeLocalProgress,
+    validIds: lessons.map((lesson) => lesson.id),
+  });
+  const summary = calculateProgress(lessons, progress.completedIds);
 
   return (
     <main className={styles.page}>
@@ -79,6 +108,10 @@ export function CurriculumPage({
         </span>
         <h1>{current.title}</h1>
         <p>{current.description}</p>
+        <p aria-live="polite">
+          {summary.completed} of {summary.total} lessons complete ·{" "}
+          {summary.percentage}%
+        </p>
       </section>
 
       <section className={styles.curriculum} aria-labelledby="curriculum-items">
@@ -86,30 +119,45 @@ export function CurriculumPage({
           {kind === "course" ? "What You’ll Learn" : "Lessons"}
         </h2>
         <ol className={styles.timeline}>
-          {cards.map((item, index) => (
-            <li key={item.id}>
-              <span className={styles.marker} aria-hidden="true">
-                {index + 1}
-              </span>
-              <Link
-                className={`${styles.levelCard} ${styles.availableLevel}`}
-                href={item.href}
-              >
-                <span className={styles.levelMeta}>
-                  <span>
-                    {"type" in item ? item.type : "Module"} {index + 1} of{" "}
-                    {cards.length}
+          {cards.map((item, index) => {
+            const itemProgress = calculateProgress(
+              "type" in item ? [item] : item.lessons,
+              progress.completedIds,
+            );
+            return (
+              <li key={item.id}>
+                <span className={styles.marker} aria-hidden="true">
+                  {index + 1}
+                </span>
+                <Link
+                  className={`${styles.levelCard} ${styles.availableLevel}`}
+                  href={item.href}
+                >
+                  <span className={styles.levelMeta}>
+                    <span>
+                      {"type" in item ? item.type : "Module"} {index + 1} of{" "}
+                      {cards.length}
+                    </span>
+                    <strong>
+                      {itemProgress.percentage === 100
+                        ? "Completed"
+                        : "Available"}
+                    </strong>
                   </span>
-                  <strong>Available</strong>
-                </span>
-                <h3>{item.title}</h3>
-                {"description" in item ? <p>{item.description}</p> : null}
-                <span className={styles.startLevel}>
-                  {"type" in item ? "Start lesson" : "View module"} →
-                </span>
-              </Link>
-            </li>
-          ))}
+                  <h3>{item.title}</h3>
+                  {"description" in item ? <p>{item.description}</p> : null}
+                  <span className={styles.startLevel}>
+                    {itemProgress.completed > 0
+                      ? "Continue"
+                      : "type" in item
+                        ? "Start lesson"
+                        : "View module"}{" "}
+                    →
+                  </span>
+                </Link>
+              </li>
+            );
+          })}
         </ol>
       </section>
       <CompactFooter className={styles.footer} />

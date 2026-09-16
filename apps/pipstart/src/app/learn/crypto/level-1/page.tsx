@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useSyncExternalStore } from "react";
+import { useState } from "react";
 
 import {
   LearningHeader,
@@ -9,39 +9,20 @@ import {
 } from "../../../../components/learning-structure";
 import { Breadcrumbs } from "../../../../components/breadcrumbs";
 import { LessonBlocks } from "../../../../components/lesson-blocks";
+import { ProgressSyncStatus } from "../../../../components/progress-sync-status";
 import { getLessonNavigation } from "../../../../lib/course-engine";
 import { getRelatedTermLabels } from "../../../../lib/related-learning";
+import { usePermanentProgress } from "../../../../lib/use-permanent-progress";
 import { type CryptoLesson, cryptoLessons } from "./lessons";
 import {
   CRYPTO_LEVEL_ONE_PROGRESS_KEY,
   CRYPTO_PROGRESS_CHANGE_EVENT,
   parseCryptoLessonProgress,
-  toggleCryptoLessonProgress,
+  serializeCryptoLessonProgress,
 } from "./progress";
 import styles from "./page.module.css";
 
 const publishedLessonIds = cryptoLessons.map((lesson) => lesson.id);
-
-function subscribeToProgress(callback: () => void) {
-  window.addEventListener("storage", callback);
-  window.addEventListener(CRYPTO_PROGRESS_CHANGE_EVENT, callback);
-  return () => {
-    window.removeEventListener("storage", callback);
-    window.removeEventListener(CRYPTO_PROGRESS_CHANGE_EVENT, callback);
-  };
-}
-
-function getProgressSnapshot() {
-  try {
-    return window.localStorage.getItem(CRYPTO_LEVEL_ONE_PROGRESS_KEY) ?? "";
-  } catch {
-    return "";
-  }
-}
-
-function getServerProgressSnapshot() {
-  return "";
-}
 
 function CheckIcon() {
   return (
@@ -57,30 +38,21 @@ export default function CryptoLevelOnePage({
   lesson?: CryptoLesson;
 }) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const storedProgress = useSyncExternalStore(
-    subscribeToProgress,
-    getProgressSnapshot,
-    getServerProgressSnapshot,
-  );
-  const completedLessonIds = parseCryptoLessonProgress(
-    storedProgress,
-    publishedLessonIds,
-  );
+  const progress = usePermanentProgress({
+    courseId: publishedLesson.course,
+    eventName: CRYPTO_PROGRESS_CHANGE_EVENT,
+    lessonId: publishedLesson.id,
+    parse: parseCryptoLessonProgress,
+    serialize: serializeCryptoLessonProgress,
+    storageKey: CRYPTO_LEVEL_ONE_PROGRESS_KEY,
+    validIds: publishedLessonIds,
+  });
+  const completedLessonIds = progress.completedIds;
   const lessonIsComplete = completedLessonIds.includes(publishedLesson.id);
   const navigation = getLessonNavigation(cryptoLessons, publishedLesson.id);
 
   function toggleCompletion() {
-    try {
-      const nextProgress = toggleCryptoLessonProgress(
-        storedProgress,
-        publishedLesson.id,
-        publishedLessonIds,
-      );
-      window.localStorage.setItem(CRYPTO_LEVEL_ONE_PROGRESS_KEY, nextProgress);
-      window.dispatchEvent(new Event(CRYPTO_PROGRESS_CHANGE_EVENT));
-    } catch {
-      // The lesson stays usable when browser storage is unavailable.
-    }
+    progress.toggle(publishedLesson.id);
   }
 
   function renderLessonSidebar(
@@ -216,11 +188,18 @@ export default function CryptoLevelOnePage({
               aria-pressed={lessonIsComplete}
               className={lessonIsComplete ? styles.completedButton : undefined}
               type="button"
+              disabled={progress.syncState === "saving"}
               onClick={toggleCompletion}
             >
               <CheckIcon />
               {lessonIsComplete ? "Completed" : "Mark complete"}
             </button>
+            <ProgressSyncStatus
+              className={styles.syncStatus}
+              message={progress.message}
+              retry={progress.retry}
+              state={progress.syncState}
+            />
           </div>
 
           <LessonNavigation

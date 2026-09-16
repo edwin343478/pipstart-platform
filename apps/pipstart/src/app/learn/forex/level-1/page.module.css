@@ -273,6 +273,25 @@
   background: #115e59;
 }
 
+.syncStatus {
+  margin: 0.5rem 0 0;
+  color: #667085;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.completeAction .syncStatus button {
+  display: inline;
+  width: auto;
+  min-height: 0;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: #0f766e;
+  font-size: inherit;
+  text-decoration: underline;
+}
+
 .completeAction svg {
   width: 0.9rem;
   fill: none;
