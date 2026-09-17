@@ -4,7 +4,7 @@ import { getLoginRedirect, isProtectedAuthPath } from "./redirects";
 
 describe("Milestone 11 protected-route redirects", () => {
   it.each([
-    [undefined, "/login?next=%2Faccount%2Fsettings"],
+    [undefined, "/login?next=%2Fdashboard"],
     ["/account/profile", "/login?next=%2Faccount%2Fprofile"],
     [
       "/account/email-preferences",
@@ -22,13 +22,14 @@ describe("Milestone 11 protected-route redirects", () => {
   it.each(["https://evil.example", "//evil.example", "/\\evil.example"])(
     "rejects unsafe destination %j",
     (next) => {
-      expect(getLoginRedirect(next)).toBe("/login?next=%2Faccount%2Fsettings");
+      expect(getLoginRedirect(next)).toBe("/login?next=%2Fdashboard");
     },
   );
 
   it.each([
     ["/account", true],
     ["/account/profile", true],
+    ["/dashboard", true],
     ["/account-deleted", false],
     ["/admin", true],
     ["/admin/reports", true],

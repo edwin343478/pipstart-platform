@@ -52,7 +52,8 @@ describe("Milestone 11 learner accounts", () => {
     const welcome = read("welcome/page.tsx");
     expect(welcome).toContain("You’re all set!");
     expect(welcome).toContain("Start learning");
-    expect(welcome).toContain("View my account");
+    expect(welcome).toContain("View my dashboard");
+    expect(welcome).toContain('href="/dashboard"');
     expect(welcome).toContain("index: false");
   });
 

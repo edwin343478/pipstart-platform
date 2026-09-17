@@ -27,9 +27,8 @@ describe("Milestone 6 release acceptance", () => {
     expect(home).not.toContain("Start Level 0");
   });
 
-  it("does not expose placeholder Calendar or Dashboard routes", () => {
+  it("does not expose the placeholder Calendar route", () => {
     expect(fs.existsSync(path.join(appRoot, "calendar/page.tsx"))).toBe(false);
-    expect(fs.existsSync(path.join(appRoot, "dashboard/page.tsx"))).toBe(false);
   });
 
   it("discloses and safely marks every broker affiliate link", () => {
@@ -77,9 +76,7 @@ describe("Milestone 6 release acceptance", () => {
     }
 
     const forexLessonSource = read("learn/forex/level-1/forex-lesson.tsx");
-    expect(forexLessonSource).toContain(
-      'href="/learn/forex/level-1/quiz"',
-    );
+    expect(forexLessonSource).toContain('href="/learn/forex/level-1/quiz"');
     expect(forexLessonSource).toContain("Forex Foundations quiz");
 
     const cryptoLessonSource = read("learn/crypto/level-1/page.tsx");

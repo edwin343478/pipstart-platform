@@ -153,6 +153,26 @@ export function calculateCourseCompletion(
     lessons,
   };
 }
+export function calculateCourseProgress(
+  course: CurriculumCourse,
+  snapshot: ProgressSnapshot,
+) {
+  const completion = calculateCourseCompletion(course, snapshot);
+  const completed =
+    completion.lessons.completed + completion.assessments.completed;
+  const total = completion.lessons.total + completion.assessments.total;
+  return {
+    ...completion,
+    completed,
+    percentage: total
+      ? Math.round((completed / total) * 100)
+      : completion.complete
+        ? 100
+        : 0,
+    total,
+  };
+}
+
 export function selectContinueLesson(
   course: CurriculumCourse,
   snapshot: ProgressSnapshot,
@@ -169,6 +189,28 @@ export function selectContinueLesson(
     ? byId.get(recent.lessonId)
     : lessons.find((lesson) => !complete.has(lesson.id));
 }
+
+export function selectContinueTarget(
+  course: CurriculumCourse,
+  snapshot: ProgressSnapshot,
+) {
+  const completedLessons = new Set(completedLessonIds(snapshot));
+  const lesson = course.modules
+    .flatMap((curriculumModule) => lessonItems(curriculumModule.lessons))
+    .find((item) => !completedLessons.has(item.id));
+  if (lesson) return lesson;
+
+  const completedAssessments = new Set(completedAssessmentIds(snapshot));
+  const nextAssessmentId = getCourseRequiredAssessmentIds(course).find(
+    (assessmentId) => !completedAssessments.has(assessmentId),
+  );
+  if (!nextAssessmentId) return undefined;
+
+  return course.modules
+    .flatMap((curriculumModule) => curriculumModule.lessons)
+    .find((item) => item.type === "quiz" && item.id === nextAssessmentId);
+}
+
 export function assertUniqueCurriculumIds() {
   const seen = new Set<string>();
   for (const path of learningPaths)

@@ -2,10 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 import { hasSupabaseAuthCookie } from "@/lib/auth/cookies";
-import {
-  getLoginRedirect,
-  isProtectedAuthPath,
-} from "@/lib/auth/redirects";
+import { getLoginRedirect, isProtectedAuthPath } from "@/lib/auth/redirects";
 
 import { getSupabasePublicConfiguration } from "./config";
 

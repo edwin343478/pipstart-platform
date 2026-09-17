@@ -157,7 +157,9 @@ describe("Milestone 13 trusted assessment core", () => {
     const retired = cloneQuiz({ status: "retired" });
     const withdrawn = cloneQuiz({ status: "withdrawn" });
     expect(() => assertValidAssessmentRegistry([quiz, retired])).not.toThrow();
-    expect(() => assertValidAssessmentRegistry([quiz, withdrawn])).not.toThrow();
+    expect(() =>
+      assertValidAssessmentRegistry([quiz, withdrawn]),
+    ).not.toThrow();
   });
 
   it("requires assessment ownership, review dates, sources and retake pacing", () => {

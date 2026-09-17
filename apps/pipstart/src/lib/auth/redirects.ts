@@ -1,6 +1,6 @@
 import { safeInternalRedirect } from "./validation";
 
-export const DEFAULT_ACCOUNT_ROUTE = "/account/settings";
+export const DEFAULT_ACCOUNT_ROUTE = "/dashboard";
 
 export function isProtectedAuthPath(pathname: string) {
   return (
@@ -8,6 +8,8 @@ export function isProtectedAuthPath(pathname: string) {
     pathname.startsWith("/admin/") ||
     pathname === "/account" ||
     pathname.startsWith("/account/") ||
+    pathname === "/dashboard" ||
+    pathname.startsWith("/dashboard/") ||
     pathname === "/reset-password"
   );
 }

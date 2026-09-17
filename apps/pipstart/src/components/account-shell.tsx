@@ -27,7 +27,8 @@ export function AccountShell({
         <p>{description}</p>
       </div>
       {navigation ? (
-        <nav className={styles.navigation} aria-label="Account settings">
+        <nav className={styles.navigation} aria-label="Learner account">
+          <Link href="/dashboard">Dashboard</Link>
           <Link href="/account/settings">Overview</Link>
           <Link href="/account/profile">Profile</Link>
           <Link href="/account/email-preferences">Emails</Link>

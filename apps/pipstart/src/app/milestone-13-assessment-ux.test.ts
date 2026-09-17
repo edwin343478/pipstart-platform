@@ -14,7 +14,10 @@ const client = fs.readFileSync(
   "utf8",
 );
 const css = fs.readFileSync(
-  path.resolve(process.cwd(), "src/app/learn/forex/level-1/quiz/quiz.module.css"),
+  path.resolve(
+    process.cwd(),
+    "src/app/learn/forex/level-1/quiz/quiz.module.css",
+  ),
   "utf8",
 );
 

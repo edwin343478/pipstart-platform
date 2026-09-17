@@ -63,7 +63,9 @@ test.describe("Milestone 13 authenticated assessment journey", () => {
     await page.getByLabel("Email address").fill(email);
     await page.getByLabel("Password").fill(password);
     await page.getByRole("button", { name: "Log in" }).click();
-    await expect(page).toHaveURL(/\/learn\/forex\/level-1\/quiz$/);
+    await expect(page).toHaveURL(/\/learn\/forex\/level-1\/quiz$/, {
+      timeout: 15_000,
+    });
 
     const firstAnswer = page.getByLabel("Exchanging one currency for another");
     await firstAnswer.check();
@@ -72,7 +74,7 @@ test.describe("Milestone 13 authenticated assessment journey", () => {
     ).toBeVisible({ timeout: 15_000 });
 
     await page.reload();
-    await expect(firstAnswer).toBeChecked();
+    await expect(firstAnswer).toBeChecked({ timeout: 15_000 });
 
     await page.getByLabel("EUR", { exact: true }).check();
     await page.getByLabel("A pip measures a small price movement").check();
@@ -105,13 +107,13 @@ test.describe("Milestone 13 authenticated assessment journey", () => {
     const secondContext = await browser.newContext();
     try {
       const secondPage = await secondContext.newPage();
-      await secondPage.goto(
-        "/login?next=%2Flearn%2Fforex%2Flevel-1%2Fquiz",
-      );
+      await secondPage.goto("/login?next=%2Flearn%2Fforex%2Flevel-1%2Fquiz");
       await secondPage.getByLabel("Email address").fill(email);
       await secondPage.getByLabel("Password").fill(password);
       await secondPage.getByRole("button", { name: "Log in" }).click();
-      await expect(secondPage).toHaveURL(/\/learn\/forex\/level-1\/quiz$/);
+      await expect(secondPage).toHaveURL(/\/learn\/forex\/level-1\/quiz$/, {
+        timeout: 15_000,
+      });
       await expect(
         secondPage.getByRole("heading", { name: "Attempt history" }),
       ).toBeVisible({ timeout: 15_000 });

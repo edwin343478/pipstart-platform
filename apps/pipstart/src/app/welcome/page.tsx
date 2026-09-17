@@ -28,8 +28,8 @@ export default function WelcomePage() {
         <Link className={styles.primaryAction} href="/start-here">
           Start learning
         </Link>
-        <Link className={styles.secondaryAction} href="/account/settings">
-          View my account
+        <Link className={styles.secondaryAction} href="/dashboard">
+          View my dashboard
         </Link>
       </div>
     </AccountShell>

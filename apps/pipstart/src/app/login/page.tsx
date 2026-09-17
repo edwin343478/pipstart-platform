@@ -16,8 +16,9 @@ export default async function LoginPage({
 }: {
   searchParams: Promise<{ next?: string; notice?: string }>;
 }) {
-  if (await getCurrentUser()) redirect("/account/settings");
   const { next, notice } = await searchParams;
+  const destination = safeInternalRedirect(next, "/dashboard");
+  if (await getCurrentUser()) redirect(destination);
   const description =
     notice === "invalid-link"
       ? "That authentication link is invalid or has expired. Log in or request a fresh link."
@@ -26,7 +27,7 @@ export default async function LoginPage({
         : "Welcome back. Continue with your PipStart learner account.";
   return (
     <AccountShell description={description} title="Log in">
-      <LoginForm next={safeInternalRedirect(next)} />
+      <LoginForm next={destination} />
     </AccountShell>
   );
 }

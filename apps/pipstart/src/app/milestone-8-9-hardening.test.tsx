@@ -2,7 +2,11 @@ import fs from "node:fs";
 import path from "node:path";
 
 import { renderToStaticMarkup } from "react-dom/server";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+
+vi.mock("../components/lesson-bookmark-button", () => ({
+  LessonBookmarkButton: () => null,
+}));
 
 import CryptoLevelOnePage from "./learn/crypto/level-1/page";
 import ForexLevelOnePage from "./learn/forex/level-1/page";

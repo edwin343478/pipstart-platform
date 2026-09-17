@@ -93,7 +93,9 @@ export async function loginAction(
   });
   if (error)
     return { message: "Email or password is incorrect.", status: "error" };
-  redirect(safeInternalRedirect(String(formData.get("next") ?? "")));
+  redirect(
+    safeInternalRedirect(String(formData.get("next") ?? ""), "/dashboard"),
+  );
 }
 
 export async function forgotPasswordAction(

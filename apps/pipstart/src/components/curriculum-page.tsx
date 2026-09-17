@@ -159,9 +159,7 @@ export function CurriculumPage({
                       {"type" in item ? item.type : "Module"} {index + 1} of{" "}
                       {cards.length}
                     </span>
-                    <strong>
-                      {itemComplete ? "Completed" : "Available"}
-                    </strong>
+                    <strong>{itemComplete ? "Completed" : "Available"}</strong>
                   </span>
                   <h3>{item.title}</h3>
                   {"description" in item ? <p>{item.description}</p> : null}

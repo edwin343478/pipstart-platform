@@ -12,6 +12,7 @@
     "test:e2e:assessment-ui": "playwright test e2e/milestone-13-assessment.spec.ts",
     "test:e2e:assessment-authenticated": "playwright test e2e/milestone-13-authenticated-assessment.spec.ts",
     "test:e2e:assessment-release": "pnpm test:e2e:assessment-db && pnpm test:e2e:assessment-ui && pnpm test:e2e:assessment-authenticated",
+    "test:e2e:dashboard-release": "playwright test e2e/milestone-14-dashboard.spec.ts",
     "test": "vitest run --exclude=e2e/**",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"

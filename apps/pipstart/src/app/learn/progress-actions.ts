@@ -28,9 +28,7 @@ async function session() {
   const supabase = await createSupabaseServerClient();
   if (!supabase) return null;
   const { data, error } = await supabase.auth.getUser();
-  return error || !data.user
-    ? null
-    : { supabase, userId: data.user.id };
+  return error || !data.user ? null : { supabase, userId: data.user.id };
 }
 function assessmentCompletion(
   row: AssessmentCompletionRow,

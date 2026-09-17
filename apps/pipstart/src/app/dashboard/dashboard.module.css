@@ -1,0 +1,276 @@
+.section,
+.onboarding {
+  margin: 0 0 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--surface);
+  padding: 1.25rem;
+}
+
+.onboarding {
+  background: #eaf6f4;
+}
+
+.onboarding h2,
+.section h2,
+.card h3,
+.courseCard h3 {
+  margin: 0;
+  font-family:
+    var(--font-pipstart-heading), var(--font-pipstart-body), Arial, sans-serif;
+  color: #0b1220;
+}
+
+.onboarding h2,
+.section h2 {
+  font-size: 1.05rem;
+}
+
+.onboarding > p:not(.sectionEyebrow) {
+  margin: 0.75rem 0 0;
+  color: #3d4551;
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+
+.sectionHeading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.sectionEyebrow,
+.cardLabel {
+  margin: 0 0 0.3rem;
+  color: var(--brand-accent);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.primaryAction,
+.secondaryAction,
+.textLink {
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.primaryAction,
+.secondaryAction {
+  display: inline-flex;
+  min-height: 2.6rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  padding: 0.65rem 0.9rem;
+  font-size: 0.8rem;
+}
+
+.primaryAction {
+  background: #0b1220;
+  color: #fff;
+}
+
+.secondaryAction {
+  border: 1px solid #c9d2d9;
+  background: #fff;
+  color: #0b1220;
+}
+
+.primaryAction:hover,
+.primaryAction:focus-visible {
+  background: #172033;
+}
+
+.secondaryAction:hover,
+.secondaryAction:focus-visible,
+.settingCard:hover,
+.settingCard:focus-visible {
+  border-color: var(--brand-accent);
+}
+
+.cardGrid,
+.settingsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.card,
+.courseCard,
+.settingCard {
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 0.65rem;
+  background: #fff;
+  padding: 1rem;
+}
+
+.card h3,
+.courseCard h3 {
+  font-size: 0.95rem;
+}
+
+.card p:not(.cardLabel),
+.courseCard p {
+  margin: 0.5rem 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.textLink {
+  display: inline-block;
+  margin-top: 0.75rem;
+  color: var(--brand-accent);
+  font-size: 0.78rem;
+}
+
+.textLink:hover,
+.textLink:focus-visible,
+.list a:hover,
+.list a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.stack {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.courseTopline,
+.cardFooter {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.courseTopline strong {
+  color: #0f766e;
+  font-size: 0.9rem;
+}
+
+.courseCard progress {
+  width: 100%;
+  height: 0.55rem;
+  margin-top: 0.9rem;
+  accent-color: #0f766e;
+}
+
+.cardFooter {
+  align-items: center;
+  margin-top: 0.65rem;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.cardFooter .textLink {
+  flex: 0 0 auto;
+  margin-top: 0;
+}
+
+.twoColumn {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.list {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list li {
+  display: grid;
+  min-width: 0;
+  gap: 0.25rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.list li:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.list li:last-child {
+  padding-bottom: 0;
+}
+
+.list a {
+  min-width: 0;
+  color: #0b1220;
+  font-size: 0.8rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+  text-decoration: none;
+}
+
+.list span,
+.empty {
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.empty {
+  margin: 0;
+}
+
+.settingCard {
+  display: grid;
+  gap: 0.35rem;
+  color: #0b1220;
+  text-decoration: none;
+}
+
+.settingCard strong {
+  font-size: 0.8rem;
+}
+
+.settingCard span {
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 767px) {
+  .cardGrid,
+  .settingsGrid,
+  .twoColumn {
+    grid-template-columns: 1fr;
+  }
+
+  .courseTopline,
+  .cardFooter {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .actions,
+  .primaryAction,
+  .secondaryAction {
+    width: 100%;
+  }
+
+  .section,
+  .onboarding {
+    padding: 1rem;
+  }
+}

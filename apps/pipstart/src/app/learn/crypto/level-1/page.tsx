@@ -9,6 +9,7 @@ import {
 } from "../../../../components/learning-structure";
 import { Breadcrumbs } from "../../../../components/breadcrumbs";
 import { LessonBlocks } from "../../../../components/lesson-blocks";
+import { LessonBookmarkButton } from "../../../../components/lesson-bookmark-button";
 import { ProgressSyncStatus } from "../../../../components/progress-sync-status";
 import { getLessonNavigation } from "../../../../lib/course-engine";
 import { getRelatedTermLabels } from "../../../../lib/related-learning";
@@ -157,6 +158,11 @@ export default function CryptoLevelOnePage({
             Published {publishedLesson.publishedDate} · Reviewed{" "}
             {publishedLesson.reviewDate}
           </p>
+
+          <LessonBookmarkButton
+            lessonHref={publishedLesson.href}
+            lessonId={publishedLesson.id}
+          />
 
           <section className={styles.keyPoints} aria-labelledby="objectives">
             <h2 id="objectives">Learning objectives</h2>
