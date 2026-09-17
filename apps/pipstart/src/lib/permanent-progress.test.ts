@@ -11,6 +11,7 @@ import {
 describe("Milestone 12 permanent progress", () => {
   const course = getPublishedCourse("forex-kindergarten")!;
   const lessons = course.modules.flatMap((module) => module.lessons);
+  const lessonItems = lessons.filter((lesson) => lesson.type === "lesson");
   it("keeps published lesson identifiers globally unique", () => {
     expect(assertUniqueCurriculumIds()).toBeUndefined();
   });
@@ -19,8 +20,8 @@ describe("Milestone 12 permanent progress", () => {
       calculateProgress(lessons, [lessons[0]!.id, "removed-lesson"]),
     ).toEqual({
       completed: 1,
-      percentage: Math.round(100 / lessons.length),
-      total: lessons.length,
+      percentage: Math.round(100 / lessonItems.length),
+      total: lessonItems.length,
     });
   });
   it("continues at the latest incomplete published lesson", () => {
@@ -47,7 +48,7 @@ describe("Milestone 12 permanent progress", () => {
   });
   it("provides the published allowlist for imports", () => {
     expect(getCourseLessonIds(course)).toEqual(
-      lessons.map((lesson) => lesson.id),
+      lessonItems.map((lesson) => lesson.id),
     );
   });
 });

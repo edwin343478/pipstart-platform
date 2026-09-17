@@ -9,7 +9,11 @@ import type {
   LearningPath,
 } from "../lib/curriculum";
 import { createBreadcrumbJsonLd } from "../lib/seo";
-import { calculateProgress } from "../lib/permanent-progress";
+import {
+  calculateModuleCompletion,
+  calculateProgress,
+  getModuleRequiredAssessmentIds,
+} from "../lib/permanent-progress";
 import {
   parseLocalProgress,
   serializeLocalProgress,
@@ -84,7 +88,9 @@ export function CurriculumPage({
     ...pathProgress,
     parse: parseLocalProgress,
     serialize: serializeLocalProgress,
-    validIds: lessons.map((lesson) => lesson.id),
+    validIds: lessons
+      .filter((lesson) => lesson.type === "lesson")
+      .map((lesson) => lesson.id),
   });
   const summary = calculateProgress(lessons, progress.completedIds);
 
@@ -124,6 +130,21 @@ export function CurriculumPage({
               "type" in item ? [item] : item.lessons,
               progress.completedIds,
             );
+            const assessmentComplete =
+              "type" in item &&
+              item.type === "quiz" &&
+              progress.snapshot?.assessments?.some(
+                (assessment) => assessment.assessmentId === item.id,
+              );
+            const itemComplete =
+              "type" in item
+                ? item.type === "quiz"
+                  ? Boolean(assessmentComplete)
+                  : itemProgress.percentage === 100
+                : progress.snapshot?.authenticated
+                  ? calculateModuleCompletion(item, progress.snapshot).complete
+                  : itemProgress.percentage === 100 &&
+                    getModuleRequiredAssessmentIds(item).length === 0;
             return (
               <li key={item.id}>
                 <span className={styles.marker} aria-hidden="true">
@@ -139,19 +160,21 @@ export function CurriculumPage({
                       {cards.length}
                     </span>
                     <strong>
-                      {itemProgress.percentage === 100
-                        ? "Completed"
-                        : "Available"}
+                      {itemComplete ? "Completed" : "Available"}
                     </strong>
                   </span>
                   <h3>{item.title}</h3>
                   {"description" in item ? <p>{item.description}</p> : null}
                   <span className={styles.startLevel}>
-                    {itemProgress.completed > 0
-                      ? "Continue"
-                      : "type" in item
-                        ? "Start lesson"
-                        : "View module"}{" "}
+                    {"type" in item && item.type === "quiz"
+                      ? itemComplete
+                        ? "Retake quiz"
+                        : "Start quiz"
+                      : itemProgress.completed > 0
+                        ? "Continue"
+                        : "type" in item
+                          ? "Start lesson"
+                          : "View module"}{" "}
                     →
                   </span>
                 </Link>

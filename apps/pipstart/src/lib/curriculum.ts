@@ -5,7 +5,13 @@ import {
 import { cryptoLessons } from "../app/learn/crypto/level-1/lessons";
 import { forexLessons } from "../app/learn/forex/level-1/lessons";
 
+export type CurriculumAssessmentRequirement = {
+  assessmentId: string;
+  completionPolicy: "any-passed-version";
+};
+
 export type CurriculumLesson = {
+  assessmentRequirements?: readonly CurriculumAssessmentRequirement[];
   estimatedMinutes: number;
   href: `/${string}`;
   id: string;
@@ -20,6 +26,7 @@ export type CurriculumLesson = {
 };
 
 export type CurriculumModule = {
+  assessmentRequirements?: readonly CurriculumAssessmentRequirement[];
   description: string;
   href: `/${string}`;
   id: string;
@@ -30,6 +37,7 @@ export type CurriculumModule = {
 };
 
 export type CurriculumCourse = {
+  assessmentRequirements?: readonly CurriculumAssessmentRequirement[];
   description: string;
   href: `/${string}`;
   id: string;
@@ -87,6 +95,12 @@ const allLearningPaths: LearningPath[] = [
                 order: 1,
                 status: "published",
                 title: "Forex Foundations",
+                assessmentRequirements: [
+                  {
+                    assessmentId: "forex-foundations-quiz",
+                    completionPolicy: "any-passed-version",
+                  },
+                ],
                 lessons: [
                   ...forexLessons.map((lesson) => ({
                     estimatedMinutes: lesson.estimatedMinutes,
@@ -104,14 +118,16 @@ const allLearningPaths: LearningPath[] = [
                   {
                     estimatedMinutes: 5,
                     href: "/learn/forex/level-1/quiz",
-                    id: "level-1-quiz",
-                    objectives: [],
+                    id: "forex-foundations-quiz",
+                    objectives: [
+                      "Check your understanding of the six Forex Foundations lessons.",
+                    ],
                     order: 7,
                     prerequisites: ["market-participants"],
                     relatedLessonIds: [],
                     relatedTermSlugs: [],
-                    status: "draft",
-                    title: "Level 1 quiz",
+                    status: "published",
+                    title: "Forex Foundations quiz",
                     type: "quiz",
                   },
                 ],

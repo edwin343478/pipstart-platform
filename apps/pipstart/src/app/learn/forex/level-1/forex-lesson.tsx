@@ -118,9 +118,12 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
               </Link>
             );
           })}
-          <span className={styles.upcomingLesson}>
-            Level 1 quiz · Coming soon
-          </span>
+          <Link
+            className={styles.upcomingLesson}
+            href="/learn/forex/level-1/quiz"
+          >
+            Forex Foundations quiz
+          </Link>
         </nav>
       </aside>
     );
@@ -254,7 +257,10 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
               next={
                 nextLesson
                   ? { href: nextLesson.href, label: nextLesson.title }
-                  : { href: "/learn/forex", label: "Return to Forex path" }
+                  : {
+                      href: "/learn/forex/level-1/quiz",
+                      label: "Take the Forex Foundations quiz",
+                    }
               }
             />
           </div>

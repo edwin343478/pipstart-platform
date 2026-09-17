@@ -76,9 +76,11 @@ describe("Milestone 6 release acceptance", () => {
       expect(source).toContain("Expand lesson sidebar");
     }
 
-    expect(read("learn/forex/level-1/forex-lesson.tsx")).toContain(
-      "Level 1 quiz",
+    const forexLessonSource = read("learn/forex/level-1/forex-lesson.tsx");
+    expect(forexLessonSource).toContain(
+      'href="/learn/forex/level-1/quiz"',
     );
+    expect(forexLessonSource).toContain("Forex Foundations quiz");
 
     const cryptoLessonSource = read("learn/crypto/level-1/page.tsx");
     expect(cryptoLessonSource).toContain("cryptoLessons.map");

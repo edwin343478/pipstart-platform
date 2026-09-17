@@ -1,4 +1,9 @@
-import type { CurriculumCourse, CurriculumLesson } from "./curriculum";
+import type {
+  CurriculumAssessmentRequirement,
+  CurriculumCourse,
+  CurriculumLesson,
+  CurriculumModule,
+} from "./curriculum";
 import { learningPaths } from "./curriculum";
 
 export type LessonProgressRecord = {
@@ -8,7 +13,14 @@ export type LessonProgressRecord = {
   lessonId: string;
   revision: number;
 };
+export type AssessmentCompletionRecord = {
+  assessmentId: string;
+  earnedAt: string;
+  highestPassedVersion: number;
+  lastPassedAt: string;
+};
 export type ProgressSnapshot = {
+  assessments?: AssessmentCompletionRecord[];
   authenticated: boolean;
   lessons: LessonProgressRecord[];
 };
@@ -18,7 +30,11 @@ export function getPublishedLessonContext(lessonId: string) {
     for (const level of path.levels)
       for (const course of level.courses)
         for (const curriculumModule of course.modules)
-          if (curriculumModule.lessons.some((lesson) => lesson.id === lessonId))
+          if (
+            curriculumModule.lessons.some(
+              (lesson) => lesson.type === "lesson" && lesson.id === lessonId,
+            )
+          )
             return {
               courseId: course.id,
               lessonId,
@@ -32,9 +48,12 @@ export function getPublishedCourse(courseId: string) {
     .flatMap((level) => level.courses)
     .find((course) => course.id === courseId);
 }
+function lessonItems(lessons: readonly CurriculumLesson[]) {
+  return lessons.filter((lesson) => lesson.type === "lesson");
+}
 export function getCourseLessonIds(course: CurriculumCourse) {
-  return course.modules.flatMap((module) =>
-    module.lessons.map((lesson) => lesson.id),
+  return course.modules.flatMap((curriculumModule) =>
+    lessonItems(curriculumModule.lessons).map((lesson) => lesson.id),
   );
 }
 export function completedLessonIds(snapshot: ProgressSnapshot) {
@@ -42,23 +61,105 @@ export function completedLessonIds(snapshot: ProgressSnapshot) {
     .filter((lesson) => lesson.isComplete)
     .map((lesson) => lesson.lessonId);
 }
+export function completedAssessmentIds(snapshot: ProgressSnapshot) {
+  return (snapshot.assessments ?? []).map((item) => item.assessmentId);
+}
+function assessmentIds(
+  requirements: readonly CurriculumAssessmentRequirement[] | undefined,
+) {
+  return (requirements ?? []).map((requirement) => requirement.assessmentId);
+}
+function unique(values: readonly string[]) {
+  return [...new Set(values)];
+}
+export function getModuleRequiredAssessmentIds(
+  curriculumModule: CurriculumModule,
+) {
+  return unique([
+    ...assessmentIds(curriculumModule.assessmentRequirements),
+    ...curriculumModule.lessons.flatMap((lesson) =>
+      assessmentIds(lesson.assessmentRequirements),
+    ),
+  ]);
+}
+export function getCourseRequiredAssessmentIds(course: CurriculumCourse) {
+  return unique([
+    ...assessmentIds(course.assessmentRequirements),
+    ...course.modules.flatMap(getModuleRequiredAssessmentIds),
+  ]);
+}
 export function calculateProgress(
   lessons: readonly CurriculumLesson[],
   completedIds: readonly string[],
 ) {
+  const publishedLessons = lessonItems(lessons);
   const completed = new Set(completedIds);
-  const count = lessons.filter((lesson) => completed.has(lesson.id)).length;
+  const count = publishedLessons.filter((lesson) =>
+    completed.has(lesson.id),
+  ).length;
   return {
     completed: count,
-    percentage: lessons.length ? Math.round((count / lessons.length) * 100) : 0,
-    total: lessons.length,
+    percentage: publishedLessons.length
+      ? Math.round((count / publishedLessons.length) * 100)
+      : 0,
+    total: publishedLessons.length,
+  };
+}
+function calculateAssessmentProgress(
+  requiredAssessmentIds: readonly string[],
+  snapshot: ProgressSnapshot,
+) {
+  const passed = new Set(completedAssessmentIds(snapshot));
+  const completed = requiredAssessmentIds.filter((id) => passed.has(id)).length;
+  return {
+    complete: completed === requiredAssessmentIds.length,
+    completed,
+    total: requiredAssessmentIds.length,
+  };
+}
+export function calculateModuleCompletion(
+  curriculumModule: CurriculumModule,
+  snapshot: ProgressSnapshot,
+) {
+  const lessons = calculateProgress(
+    curriculumModule.lessons,
+    completedLessonIds(snapshot),
+  );
+  const assessments = calculateAssessmentProgress(
+    getModuleRequiredAssessmentIds(curriculumModule),
+    snapshot,
+  );
+  return {
+    assessments,
+    complete: lessons.completed === lessons.total && assessments.complete,
+    lessons,
+  };
+}
+export function calculateCourseCompletion(
+  course: CurriculumCourse,
+  snapshot: ProgressSnapshot,
+) {
+  const lessons = calculateProgress(
+    course.modules.flatMap((curriculumModule) => curriculumModule.lessons),
+    completedLessonIds(snapshot),
+  );
+  const assessments = calculateAssessmentProgress(
+    getCourseRequiredAssessmentIds(course),
+    snapshot,
+  );
+  return {
+    assessments,
+    complete: lessons.completed === lessons.total && assessments.complete,
+    lessons,
   };
 }
 export function selectContinueLesson(
   course: CurriculumCourse,
   snapshot: ProgressSnapshot,
 ) {
-  const lessons = course.modules.flatMap((module) => module.lessons);
+  const lessons = course.modules.flatMap((curriculumModule) =>
+    lessonItems(curriculumModule.lessons),
+  );
   const byId = new Map(lessons.map((lesson) => [lesson.id, lesson]));
   const complete = new Set(completedLessonIds(snapshot));
   const recent = [...snapshot.lessons]

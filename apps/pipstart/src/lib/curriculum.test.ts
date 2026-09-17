@@ -60,14 +60,17 @@ describe("published curriculum hierarchy", () => {
     );
   });
 
-  it("excludes draft quizzes and preserves existing lesson routes", () => {
+  it("publishes the Forex module quiz and preserves existing lesson routes", () => {
     const forexModule = getCurriculumModule("forex", "forex-foundations");
     const cryptoModule = getCurriculumModule("crypto", "bitcoin-foundations");
 
-    expect(forexModule?.lessons).toHaveLength(6);
-    expect(forexModule?.lessons.some((lesson) => lesson.type === "quiz")).toBe(
-      false,
-    );
+    expect(forexModule?.lessons).toHaveLength(7);
+    expect(forexModule?.lessons.at(-1)).toMatchObject({
+      href: "/learn/forex/level-1/quiz",
+      id: "forex-foundations-quiz",
+      status: "published",
+      type: "quiz",
+    });
     expect(forexModule?.lessons[0]?.href).toBe("/learn/forex/level-1");
     expect(cryptoModule?.lessons[0]?.href).toBe("/learn/crypto/level-1");
   });
