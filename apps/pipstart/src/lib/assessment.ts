@@ -1,5 +1,15 @@
-export type AssessmentQuestionType = "single-choice" | "multiple-choice" | "true-false";
-export type AssessmentPublicationStatus = "draft" | "published";
+export type AssessmentQuestionType =
+  "single-choice" | "multiple-answer" | "true-false";
+export type AssessmentPublicationStatus =
+  "draft" | "published" | "retired" | "withdrawn";
+
+export type AssessmentGovernance = {
+  author: string;
+  nextReviewAt: string;
+  reviewedAt: string;
+  reviewer: string;
+  sources: readonly string[];
+};
 
 export type AssessmentChoice = { id: string; label: string };
 
@@ -22,7 +32,9 @@ export type AssessmentDefinition = {
   moduleId?: string;
   lessonId?: string;
   passingPercentage: number;
+  retakeCooldownSeconds: number;
   status: AssessmentPublicationStatus;
+  governance: AssessmentGovernance;
   questions: readonly AssessmentQuestion[];
 };
 
@@ -39,6 +51,7 @@ export function toPublicAssessment(assessment: AssessmentDefinition) {
     moduleId: assessment.moduleId,
     lessonId: assessment.lessonId,
     passingPercentage: assessment.passingPercentage,
+    retakeCooldownSeconds: assessment.retakeCooldownSeconds,
     questions: assessment.questions.map(({ id, prompt, type, choices }) => ({
       id,
       prompt,
@@ -68,11 +81,14 @@ export function gradeAssessment(
 
   for (const [questionId, submitted] of Object.entries(answers)) {
     const question = questionsById.get(questionId);
-    if (!question) throw new Error(`Unknown assessment question: ${questionId}`);
+    if (!question)
+      throw new Error(`Unknown assessment question: ${questionId}`);
     const known = new Set(question.choices.map((choice) => choice.id));
     for (const choiceId of submitted) {
       if (!known.has(choiceId)) {
-        throw new Error(`Unknown choice "${choiceId}" for question "${questionId}"`);
+        throw new Error(
+          `Unknown choice "${choiceId}" for question "${questionId}"`,
+        );
       }
     }
   }

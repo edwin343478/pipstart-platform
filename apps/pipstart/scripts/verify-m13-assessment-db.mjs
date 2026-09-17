@@ -39,7 +39,8 @@ function assert(condition, message) {
 
 function firstRow(data, label) {
   const row = Array.isArray(data) ? data[0] : data;
-  if (!row || typeof row !== "object") throw new Error(`${label} returned no row.`);
+  if (!row || typeof row !== "object")
+    throw new Error(`${label} returned no row.`);
   return row;
 }
 
@@ -55,9 +56,8 @@ const remoteOverrides = {
   secretKey: process.env.PIPSTART_M13_SUPABASE_SECRET_KEY?.trim(),
   url: process.env.PIPSTART_M13_SUPABASE_URL?.trim(),
 };
-const suppliedRemoteOverrideCount = Object.values(remoteOverrides).filter(
-  Boolean,
-).length;
+const suppliedRemoteOverrideCount =
+  Object.values(remoteOverrides).filter(Boolean).length;
 if (suppliedRemoteOverrideCount > 0 && suppliedRemoteOverrideCount < 3) {
   throw new Error(
     "Set all three PIPSTART_M13_SUPABASE_URL, PIPSTART_M13_SUPABASE_PUBLISHABLE_KEY and PIPSTART_M13_SUPABASE_SECRET_KEY values together.",
@@ -139,7 +139,9 @@ async function submitAttempt({ attemptId, passed, score, token, marker }) {
     await admin.rpc("pipstart_submit_assessment_attempt", {
       requested_answers: { verification: [marker] },
       requested_attempt_id: attemptId,
+      requested_course_id: courseId,
       requested_max_score: questionOrder.length,
+      requested_module_id: moduleId,
       requested_passed: passed,
       requested_review_snapshot: { marker },
       requested_score: score,
@@ -164,6 +166,22 @@ try {
   userId = created.data.user?.id ?? null;
   assert(userId, "Verification learner has no user id.");
 
+  const rateLimitKey = `m13-verifier-${randomUUID()}`;
+  for (const [index, expected] of [true, true, false].entries()) {
+    const rateLimit = await requireNoError(
+      await admin.rpc("pipstart_consume_assessment_rate_limit", {
+        requested_client_key: rateLimitKey,
+        requested_limit: 2,
+        requested_window_seconds: 60,
+      }),
+      `consume shared assessment rate limit ${index + 1}`,
+    );
+    assert(
+      rateLimit.data === expected,
+      `Shared assessment rate limit result ${index + 1} was incorrect.`,
+    );
+  }
+
   await requireNoError(
     await learner.auth.signInWithPassword({ email, password }),
     "sign in verification learner",
@@ -173,7 +191,10 @@ try {
     startAttempt(),
     startAttempt(),
   ]);
-  assert(firstStart.id === concurrentStart.id, "Concurrent starts created two attempts.");
+  assert(
+    firstStart.id === concurrentStart.id,
+    "Concurrent starts created two attempts.",
+  );
   assert(firstStart.attempt_number === 1, "First attempt number is not 1.");
 
   const activeCount = await requireNoError(
@@ -195,20 +216,29 @@ try {
       .single(),
     "learner RLS read",
   );
-  assert(ownRead.data.review_snapshot === null, "Pre-submit review snapshot leaked.");
+  assert(
+    ownRead.data.review_snapshot === null,
+    "Pre-submit review snapshot leaked.",
+  );
 
   const anonymousRead = await anonymous
     .from("pipstart_assessment_attempts")
     .select("id")
     .eq("id", firstStart.id)
     .maybeSingle();
-  assert(Boolean(anonymousRead.error), "Anonymous user unexpectedly read an attempt.");
+  assert(
+    Boolean(anonymousRead.error),
+    "Anonymous user unexpectedly read an attempt.",
+  );
 
   const directMutation = await learner
     .from("pipstart_assessment_attempts")
     .update({ draft_answers: { direct: ["blocked"] } })
     .eq("id", firstStart.id);
-  assert(Boolean(directMutation.error), "Learner unexpectedly mutated an attempt directly.");
+  assert(
+    Boolean(directMutation.error),
+    "Learner unexpectedly mutated an attempt directly.",
+  );
 
   await requireNoError(
     await admin.rpc("pipstart_save_assessment_draft", {
@@ -246,9 +276,18 @@ try {
     score: 6,
     token: randomUUID(),
   });
-  assert(failed.id === staleRetry.id, "Repeat submit returned a different attempt.");
-  assert(staleRetry.score === 4 && staleRetry.passed === false, "Stale submit changed the persisted result.");
-  assert(staleRetry.submission_token === firstToken, "Stale submit replaced the first submission token.");
+  assert(
+    failed.id === staleRetry.id,
+    "Repeat submit returned a different attempt.",
+  );
+  assert(
+    staleRetry.score === 4 && staleRetry.passed === false,
+    "Stale submit changed the persisted result.",
+  );
+  assert(
+    staleRetry.submission_token === firstToken,
+    "Stale submit replaced the first submission token.",
+  );
 
   const completionAfterFailure = await requireNoError(
     await admin
@@ -258,20 +297,29 @@ try {
       .eq("quiz_id", quizId),
     "check failed-attempt completion",
   );
-  assert(completionAfterFailure.count === 0, "Failed attempt created durable completion.");
+  assert(
+    completionAfterFailure.count === 0,
+    "Failed attempt created durable completion.",
+  );
 
   const immutableDraft = await admin.rpc("pipstart_save_assessment_draft", {
     requested_answers: { verification: ["too-late"] },
     requested_attempt_id: firstStart.id,
     requested_user_id: userId,
   });
-  assert(Boolean(immutableDraft.error), "Submitted attempt accepted a later draft save.");
+  assert(
+    Boolean(immutableDraft.error),
+    "Submitted attempt accepted a later draft save.",
+  );
 
   const [retake, concurrentRetake] = await Promise.all([
     startAttempt(),
     startAttempt(),
   ]);
-  assert(retake.id === concurrentRetake.id, "Concurrent retake starts created two attempts.");
+  assert(
+    retake.id === concurrentRetake.id,
+    "Concurrent retake starts created two attempts.",
+  );
   assert(retake.attempt_number === 2, "Second attempt number is not 2.");
 
   const passed = await submitAttempt({
@@ -281,7 +329,10 @@ try {
     score: 5,
     token: randomUUID(),
   });
-  assert(passed.passed === true && passed.score === 5, "Passing retake was not persisted.");
+  assert(
+    passed.passed === true && passed.score === 5,
+    "Passing retake was not persisted.",
+  );
 
   const completion = await requireNoError(
     await admin
@@ -292,7 +343,10 @@ try {
       .single(),
     "read durable assessment completion",
   );
-  assert(completion.data.highest_passed_version === 1, "Durable pass version is incorrect.");
+  assert(
+    completion.data.highest_passed_version === 1,
+    "Durable pass version is incorrect.",
+  );
 
   for (const lessonId of lessonIds) {
     await requireNoError(
@@ -307,6 +361,21 @@ try {
     );
   }
 
+  const moduleReconciled = await requireNoError(
+    await admin.rpc("pipstart_reconcile_module_completion", {
+      requested_assessment_ids: [quizId],
+      requested_course_id: courseId,
+      requested_lesson_ids: lessonIds,
+      requested_module_id: moduleId,
+      requested_user_id: userId,
+    }),
+    "reconcile completed module",
+  );
+  assert(
+    moduleReconciled.data === true,
+    "Module did not complete after its requirements.",
+  );
+
   const reconciled = await requireNoError(
     await admin.rpc("pipstart_reconcile_course_completion", {
       requested_assessment_ids: [quizId],
@@ -316,7 +385,10 @@ try {
     }),
     "reconcile completed course",
   );
-  assert(reconciled.data === true, "Course did not complete after lessons plus passing quiz.");
+  assert(
+    reconciled.data === true,
+    "Course did not complete after lessons plus passing quiz.",
+  );
 
   const enrollment = await requireNoError(
     await admin
@@ -327,8 +399,33 @@ try {
       .single(),
     "read completed enrollment",
   );
-  assert(enrollment.data.status === "completed", "Enrollment was not marked completed.");
-  assert(Boolean(enrollment.data.completed_at), "Completed enrollment has no completion timestamp.");
+  assert(
+    enrollment.data.status === "completed",
+    "Enrollment was not marked completed.",
+  );
+  assert(
+    Boolean(enrollment.data.completed_at),
+    "Completed enrollment has no completion timestamp.",
+  );
+
+  const learningEvents = await requireNoError(
+    await admin
+      .from("pipstart_learning_events")
+      .select("event_type")
+      .eq("user_id", userId),
+    "read assessment learning events",
+  );
+  const eventTypes = new Set(
+    learningEvents.data.map((event) => event.event_type),
+  );
+  for (const eventType of [
+    "quiz_attempted",
+    "quiz_passed",
+    "module_completed",
+    "course_completed",
+  ]) {
+    assert(eventTypes.has(eventType), `Missing ${eventType} learning event.`);
+  }
 
   const laterRetake = await startAttempt();
   assert(laterRetake.attempt_number === 3, "Third attempt number is not 3.");
@@ -363,20 +460,29 @@ try {
     }),
     "reconcile after later failure",
   );
-  assert(stillComplete.data === true, "Later failure reduced earned course completion.");
+  assert(
+    stillComplete.data === true,
+    "Later failure reduced earned course completion.",
+  );
 
   const immutableSubmittedRow = await admin
     .from("pipstart_assessment_attempts")
     .update({ score: 0 })
     .eq("id", retake.id);
-  assert(Boolean(immutableSubmittedRow.error), "Submitted attempt was mutable through direct update.");
+  assert(
+    Boolean(immutableSubmittedRow.error),
+    "Submitted attempt was mutable through direct update.",
+  );
 
   console.log("Milestone 13 remote assessment lifecycle passed.");
 } finally {
   await learner.auth.signOut().catch(() => undefined);
   if (userId) {
     const deletion = await admin.auth.admin.deleteUser(userId, false);
-    if (deletion.error) throw new Error(`cleanup verification learner: ${deletion.error.message}`);
+    if (deletion.error)
+      throw new Error(
+        `cleanup verification learner: ${deletion.error.message}`,
+      );
 
     const deletedUser = await admin.auth.admin.getUserById(userId);
     assert(
@@ -389,9 +495,14 @@ try {
       ["pipstart_assessment_completions", "assessment completions"],
       ["pipstart_lesson_progress", "lesson progress"],
       ["pipstart_enrollments", "enrollments"],
+      ["pipstart_learning_events", "learning events"],
     ]) {
       const remaining = await requireNoError(
-        await admin.from(table).select("user_id").eq("user_id", userId).limit(1),
+        await admin
+          .from(table)
+          .select("user_id")
+          .eq("user_id", userId)
+          .limit(1),
         `verify ${label} cascade cleanup`,
       );
       assert(

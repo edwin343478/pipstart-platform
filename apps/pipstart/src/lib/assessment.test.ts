@@ -1,10 +1,15 @@
 import { describe, expect, it } from "vitest";
 
-import { gradeAssessment, toPublicAssessment, type AssessmentDefinition } from "./assessment";
+import {
+  gradeAssessment,
+  toPublicAssessment,
+  type AssessmentDefinition,
+} from "./assessment";
 import {
   assessmentRegistry,
   assertValidAssessmentRegistry,
   getAssessment,
+  getContinuableAssessment,
   getCurrentPublishedAssessment,
 } from "./assessment-registry";
 
@@ -14,11 +19,16 @@ const quiz: AssessmentDefinition = foundQuiz;
 
 function correctAnswers(assessment: AssessmentDefinition = quiz) {
   return Object.fromEntries(
-    assessment.questions.map((question) => [question.id, [...question.correctChoiceIds]]),
+    assessment.questions.map((question) => [
+      question.id,
+      [...question.correctChoiceIds],
+    ]),
   );
 }
 
-function cloneQuiz(changes: Partial<AssessmentDefinition>): AssessmentDefinition {
+function cloneQuiz(
+  changes: Partial<AssessmentDefinition>,
+): AssessmentDefinition {
   return { ...quiz, id: `test-${Math.random()}`, status: "draft", ...changes };
 }
 
@@ -26,7 +36,7 @@ describe("Milestone 13 trusted assessment core", () => {
   it("registers six Forex questions using all supported types and unique ids", () => {
     expect(quiz.questions).toHaveLength(6);
     expect(new Set(quiz.questions.map((question) => question.type))).toEqual(
-      new Set(["single-choice", "multiple-choice", "true-false"]),
+      new Set(["single-choice", "multiple-answer", "true-false"]),
     );
     expect(new Set(quiz.questions.map((question) => question.id)).size).toBe(6);
   });
@@ -54,13 +64,20 @@ describe("Milestone 13 trusted assessment core", () => {
     expect(fiveGrade.questions[0]?.correct).toBe(false);
   });
 
-  it("requires an exact set for multiple-choice and deduplicates submissions", () => {
-    const question = quiz.questions.find((item) => item.type === "multiple-choice");
-    if (!question) throw new Error("Multiple-choice question missing");
-    const oneQuestion = cloneQuiz({ questions: [question], passingPercentage: 100 });
+  it("requires an exact set for multiple-answer and deduplicates submissions", () => {
+    const question = quiz.questions.find(
+      (item) => item.type === "multiple-answer",
+    );
+    if (!question) throw new Error("Multiple-answer question missing");
+    const oneQuestion = cloneQuiz({
+      questions: [question],
+      passingPercentage: 100,
+    });
 
     expect(
-      gradeAssessment(oneQuestion, { [question.id]: [...question.correctChoiceIds] }).passed,
+      gradeAssessment(oneQuestion, {
+        [question.id]: [...question.correctChoiceIds],
+      }).passed,
     ).toBe(true);
 
     expect(
@@ -81,7 +98,10 @@ describe("Milestone 13 trusted assessment core", () => {
 
     const single = quiz.questions.find((item) => item.type === "single-choice");
     if (!single) throw new Error("Single-choice question missing");
-    const singleQuiz = cloneQuiz({ questions: [single], passingPercentage: 100 });
+    const singleQuiz = cloneQuiz({
+      questions: [single],
+      passingPercentage: 100,
+    });
     const correct = single.correctChoiceIds[0]!;
     expect(
       gradeAssessment(singleQuiz, { [single.id]: [correct, correct] }).score,
@@ -121,13 +141,44 @@ describe("Milestone 13 trusted assessment core", () => {
     expect(getAssessment("forex-foundations-quiz", 1)).toBe(quiz);
     expect(getAssessment("forex-foundations-quiz", 2)).toBeUndefined();
     expect(getCurrentPublishedAssessment("forex-foundations-quiz")).toBe(quiz);
-    expect(() => assertValidAssessmentRegistry(assessmentRegistry)).not.toThrow();
+    expect(() =>
+      assertValidAssessmentRegistry(assessmentRegistry),
+    ).not.toThrow();
 
     expect(() =>
       assertValidAssessmentRegistry([
         { ...quiz, id: "bad-course", courseId: "missing-course" },
       ]),
     ).toThrow(/Unknown published course/);
+  });
+
+  it("accepts explicit lifecycle states and keeps the current version continuable", () => {
+    expect(getContinuableAssessment("forex-foundations-quiz", 1)).toBe(quiz);
+    const retired = cloneQuiz({ status: "retired" });
+    const withdrawn = cloneQuiz({ status: "withdrawn" });
+    expect(() => assertValidAssessmentRegistry([quiz, retired])).not.toThrow();
+    expect(() => assertValidAssessmentRegistry([quiz, withdrawn])).not.toThrow();
+  });
+
+  it("requires assessment ownership, review dates, sources and retake pacing", () => {
+    expect(() =>
+      assertValidAssessmentRegistry([
+        cloneQuiz({ governance: { ...quiz.governance, sources: [] } }),
+      ]),
+    ).toThrow(/requires at least one source/);
+    expect(() =>
+      assertValidAssessmentRegistry([
+        cloneQuiz({
+          governance: {
+            ...quiz.governance,
+            nextReviewAt: "2025-01-01",
+          },
+        }),
+      ]),
+    ).toThrow(/next review/);
+    expect(() =>
+      assertValidAssessmentRegistry([cloneQuiz({ retakeCooldownSeconds: -1 })]),
+    ).toThrow(/retake cooldown/);
   });
 
   it("returns post-submit review data", () => {

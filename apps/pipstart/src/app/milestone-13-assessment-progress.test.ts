@@ -9,6 +9,13 @@ const migration = fs.readFileSync(
   ),
   "utf8",
 );
+const hardeningMigration = fs.readFileSync(
+  path.resolve(
+    process.cwd(),
+    "../../supabase/migrations/20260917100000_pipstart_assessment_hardening.sql",
+  ),
+  "utf8",
+);
 const assessmentActions = fs.readFileSync(
   path.resolve(process.cwd(), "src/app/learn/assessment-actions.ts"),
   "utf8",
@@ -27,9 +34,7 @@ describe("Milestone 13 assessment progress database contract", () => {
     expect(migration).toContain(
       "create table public.pipstart_assessment_completions",
     );
-    expect(migration).toContain(
-      "references auth.users(id) on delete cascade",
-    );
+    expect(migration).toContain("references auth.users(id) on delete cascade");
     expect(migration).toContain("primary key (user_id, quiz_id)");
     expect(migration).toContain(
       "alter table public.pipstart_assessment_completions enable row level security",
@@ -51,33 +56,64 @@ describe("Milestone 13 assessment progress database contract", () => {
   });
 
   it("reconciles course completion from trusted lessons and durable passes", () => {
-    expect(migration).toContain(
+    expect(hardeningMigration).toContain(
       "create or replace function public.pipstart_reconcile_course_completion",
     );
-    expect(migration).toContain(
+    expect(hardeningMigration).toContain(
       "from public.pipstart_lesson_progress as progress",
     );
-    expect(migration).toContain(
+    expect(hardeningMigration).toContain(
       "from public.pipstart_assessment_completions as completion",
     );
-    expect(migration).toContain(
+    expect(hardeningMigration).toContain(
       "grant execute on function public.pipstart_reconcile_course_completion",
     );
-    expect(migration).toContain("to service_role");
-    expect(migration).toContain(
-      "revoke execute on function public.pipstart_set_enrollment_completion(text, boolean)",
+    expect(hardeningMigration).toContain("to service_role");
+    expect(hardeningMigration).toContain(
+      "drop function if exists public.pipstart_set_enrollment_completion(text, boolean)",
     );
-    expect(migration).toContain("from authenticated");
+  });
+
+  it("records assessment, module and course learning events", () => {
+    for (const event of [
+      "quiz_attempted",
+      "quiz_passed",
+      "module_completed",
+      "course_completed",
+    ]) {
+      expect(hardeningMigration).toContain(`'${event}'`);
+    }
+    expect(hardeningMigration).toContain(
+      "create or replace function public.pipstart_reconcile_module_completion",
+    );
   });
 
   it("uses curriculum-derived reconciliation after lesson and quiz mutations", () => {
     expect(reconciliation).toContain("getCourseLessonIds(course)");
     expect(reconciliation).toContain("getCourseRequiredAssessmentIds(course)");
     expect(reconciliation).toContain(
+      "getModuleRequiredAssessmentIds(curriculumModule)",
+    );
+    expect(reconciliation).toContain(
+      'admin.rpc(\n      "pipstart_reconcile_module_completion"',
+    );
+    expect(reconciliation).toContain(
       'admin.rpc("pipstart_reconcile_course_completion"',
     );
     expect(progressActions).toContain("reconcileCourseEnrollmentForUser(");
     expect(assessmentActions).toContain("reconcileCourseEnrollmentForUser(");
+  });
+
+  it("uses a shared database rate limiter for anonymous submissions", () => {
+    expect(hardeningMigration).toContain(
+      "create table public.pipstart_assessment_rate_limits",
+    );
+    expect(hardeningMigration).toContain(
+      "create or replace function public.pipstart_consume_assessment_rate_limit",
+    );
+    expect(assessmentActions).toContain(
+      'admin.rpc(\n    "pipstart_consume_assessment_rate_limit"',
+    );
   });
 
   it("loads assessment completions into the permanent progress snapshot", () => {

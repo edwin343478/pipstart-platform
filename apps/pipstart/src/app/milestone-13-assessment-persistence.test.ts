@@ -35,7 +35,9 @@ describe("Milestone 13 assessment persistence contract", () => {
     expect(migration).toContain(
       "revoke all on table public.pipstart_assessment_attempts\n  from public, anon, authenticated",
     );
-    expect(migration).not.toMatch(/grant (insert|update|delete).*authenticated/i);
+    expect(migration).not.toMatch(
+      /grant (insert|update|delete).*authenticated/i,
+    );
     expect(migration.match(/security definer/g) ?? []).toHaveLength(3);
     expect(migration.match(/set search_path = ''/g) ?? []).toHaveLength(4);
     expect(migration.match(/to service_role;/g) ?? []).toHaveLength(3);
@@ -49,7 +51,9 @@ describe("Milestone 13 assessment persistence contract", () => {
     expect(migration).toContain("pipstart_assessment_one_active_attempt_idx");
     expect(migration).toContain("where status = 'in_progress'");
     expect(migration).toContain("coalesce(max(attempt_number), 0) + 1");
-    expect(migration).toContain("if found then\n    return next current_attempt");
+    expect(migration).toContain(
+      "if found then\n    return next current_attempt",
+    );
   });
 
   it("freezes presentation state, persists drafts and makes submit idempotent", () => {
@@ -69,9 +73,9 @@ describe("Milestone 13 assessment persistence contract", () => {
     expect(actions).toContain("createSupabaseAdminClient");
     expect(actions).toContain('admin.rpc("pipstart_start_assessment_attempt"');
     expect(actions).toContain('admin.rpc("pipstart_save_assessment_draft"');
-    expect(actions).toContain('admin.rpc("pipstart_submit_assessment_attempt"');
+    expect(actions).toContain('"pipstart_submit_assessment_attempt"');
     expect(actions).toContain("gradeAnonymousAssessmentAction");
-    expect(actions).toContain("createAssessmentRateLimiter(20, 60_000)");
+    expect(actions).toContain("pipstart_consume_assessment_rate_limit");
   });
 
   it("keeps historical answer keys out of pre-submit history payloads", () => {

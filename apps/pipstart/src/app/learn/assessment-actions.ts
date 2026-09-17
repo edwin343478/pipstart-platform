@@ -8,11 +8,10 @@ import {
 } from "../../lib/assessment";
 import {
   createAssessmentAttemptPresentation,
-  createAssessmentRateLimiter,
   parseAssessmentAnswers,
 } from "../../lib/assessment-attempt";
 import {
-  getAssessment,
+  getContinuableAssessment,
   getCurrentPublishedAssessment,
 } from "../../lib/assessment-registry";
 import { reconcileCourseEnrollmentForUser } from "../../lib/course-progress-server";
@@ -21,7 +20,6 @@ import { createSupabaseServerClient } from "../../lib/supabase/server";
 
 const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-const anonymousGradingLimiter = createAssessmentRateLimiter(20, 60_000);
 const ATTEMPT_SELECT =
   "id,quiz_id,quiz_version,attempt_number,status,question_order,choice_order,draft_answers,public_snapshot,submitted_answers,score,max_score,passed,started_at,submitted_at,review_snapshot";
 const HISTORY_SELECT =
@@ -79,19 +77,20 @@ function requireAdminClient() {
 function requireAssessment(
   quizId: string,
   version: number,
-  publishedOnly: boolean,
+  mode: "continue" | "start",
 ): AssessmentDefinition {
   if (!quizId || !Number.isInteger(version) || version <= 0) {
     throw new Error("Assessment reference is invalid.");
   }
 
-  const assessment = publishedOnly
-    ? getCurrentPublishedAssessment(quizId)
-    : getAssessment(quizId, version);
+  const assessment =
+    mode === "start"
+      ? getCurrentPublishedAssessment(quizId)
+      : getContinuableAssessment(quizId, version);
   if (
     !assessment ||
     assessment.version !== version ||
-    (publishedOnly && assessment.status !== "published")
+    (mode === "start" && assessment.status !== "published")
   ) {
     throw new Error("Assessment is unavailable.");
   }
@@ -183,7 +182,11 @@ async function anonymousClientKey() {
     .get("x-forwarded-for")
     ?.split(",")[0]
     ?.trim();
-  return forwarded || requestHeaders.get("x-real-ip")?.trim() || "unknown";
+  const address =
+    forwarded || requestHeaders.get("x-real-ip")?.trim() || "unknown";
+  const userAgent =
+    requestHeaders.get("user-agent")?.slice(0, 256) ?? "unknown";
+  return `${address}:${userAgent}`;
 }
 
 export async function gradeAnonymousAssessmentAction(input: {
@@ -191,12 +194,23 @@ export async function gradeAnonymousAssessmentAction(input: {
   quizId: string;
   version: number;
 }) {
-  const key = await anonymousClientKey();
-  if (!anonymousGradingLimiter.consume(key)) {
+  const admin = requireAdminClient();
+  const { data: allowed, error: limitError } = await admin.rpc(
+    "pipstart_consume_assessment_rate_limit",
+    {
+      requested_client_key: await anonymousClientKey(),
+      requested_limit: 20,
+      requested_window_seconds: 60,
+    },
+  );
+  if (limitError) {
+    throw new Error("Quiz submission could not be checked. Try again shortly.");
+  }
+  if (!allowed) {
     throw new Error("Too many quiz submissions. Try again shortly.");
   }
 
-  const assessment = requireAssessment(input.quizId, input.version, true);
+  const assessment = requireAssessment(input.quizId, input.version, "start");
   const answers = parseAssessmentAnswers(input.answers);
   return {
     authenticated: false,
@@ -208,7 +222,7 @@ export async function startAssessmentAttemptAction(input: {
   quizId: string;
   version: number;
 }) {
-  requireAssessment(input.quizId, input.version, false);
+  requireAssessment(input.quizId, input.version, "continue");
   const session = await authenticatedSession();
 
   if (session) {
@@ -230,7 +244,29 @@ export async function startAssessmentAttemptAction(input: {
     }
   }
 
-  const assessment = requireAssessment(input.quizId, input.version, true);
+  const assessment = requireAssessment(input.quizId, input.version, "start");
+  if (session && assessment.retakeCooldownSeconds > 0) {
+    const { data: latest, error: latestError } = await session.supabase
+      .from("pipstart_assessment_attempts")
+      .select("submitted_at")
+      .eq("quiz_id", assessment.id)
+      .eq("quiz_version", assessment.version)
+      .eq("status", "submitted")
+      .order("submitted_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    if (latestError)
+      throw new Error("Assessment attempt could not be started.");
+    if (
+      latest?.submitted_at &&
+      Date.now() - new Date(latest.submitted_at).getTime() <
+        assessment.retakeCooldownSeconds * 1000
+    ) {
+      throw new Error(
+        `Wait ${assessment.retakeCooldownSeconds} seconds before starting another attempt.`,
+      );
+    }
+  }
   const presentation = createAssessmentAttemptPresentation(assessment);
   if (!session) {
     return { authenticated: false, attempt: null, presentation };
@@ -258,7 +294,7 @@ export async function saveAssessmentDraftAction(input: {
   version: number;
 }) {
   requireUuid(input.attemptId, "Assessment attempt");
-  const assessment = requireAssessment(input.quizId, input.version, false);
+  const assessment = requireAssessment(input.quizId, input.version, "continue");
   const { answers } = gradeAndNormalize(assessment, input.answers);
   const session = await authenticatedSession();
   if (!session) throw new Error("Sign in to save quiz progress.");
@@ -283,35 +319,58 @@ export async function submitAssessmentAttemptAction(input: {
 }) {
   requireUuid(input.attemptId, "Assessment attempt");
   requireUuid(input.submissionToken, "Submission token");
-  const assessment = requireAssessment(input.quizId, input.version, false);
+  const assessment = requireAssessment(input.quizId, input.version, "continue");
   const { answers, grade } = gradeAndNormalize(assessment, input.answers);
   const session = await authenticatedSession();
   if (!session) throw new Error("Sign in to save this quiz attempt.");
 
   const admin = requireAdminClient();
-  const { data, error } = await admin.rpc("pipstart_submit_assessment_attempt", {
-    requested_answers: answers,
-    requested_attempt_id: input.attemptId,
-    requested_max_score: grade.maxScore,
-    requested_passed: grade.passed,
-    requested_review_snapshot: grade,
-    requested_score: grade.score,
-    requested_submission_token: input.submissionToken,
-    requested_user_id: session.user.id,
-  });
+  const { data, error } = await admin.rpc(
+    "pipstart_submit_assessment_attempt",
+    {
+      requested_answers: answers,
+      requested_attempt_id: input.attemptId,
+      requested_course_id: assessment.courseId,
+      requested_max_score: grade.maxScore,
+      requested_module_id: assessment.moduleId ?? null,
+      requested_passed: grade.passed,
+      requested_review_snapshot: grade,
+      requested_score: grade.score,
+      requested_submission_token: input.submissionToken,
+      requested_user_id: session.user.id,
+    },
+  );
   if (error) throw new Error("Quiz submission was not saved. Try again.");
 
   const row = rpcRow(data);
+  let progressReconciliationPending = false;
   try {
-    await reconcileCourseEnrollmentForUser(session.user.id, assessment.courseId);
-  } catch {
-    throw new Error("Quiz saved, but course progress needs a refresh.");
+    await reconcileCourseEnrollmentForUser(
+      session.user.id,
+      assessment.courseId,
+    );
+  } catch (cause) {
+    progressReconciliationPending = true;
+    console.error("Assessment progress reconciliation failed", {
+      attemptId: row.id,
+      courseId: assessment.courseId,
+      userId: session.user.id,
+      cause: cause instanceof Error ? cause.message : "unknown",
+    });
   }
   return {
     authenticated: true,
     attempt: safeAttempt(row),
     grade: persistedGrade(row.review_snapshot, assessment),
+    progressReconciliationPending,
   };
+}
+
+export async function retryAssessmentProgressAction(courseId: string) {
+  const session = await authenticatedSession();
+  if (!session) throw new Error("Sign in to refresh course progress.");
+  await reconcileCourseEnrollmentForUser(session.user.id, courseId);
+  return { refreshed: true };
 }
 
 export async function loadAssessmentHistoryAction(quizId?: string) {

@@ -1,3 +1,4 @@
+import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
 test.describe("Milestone 13 assessment UX", () => {
@@ -9,6 +10,7 @@ test.describe("Milestone 13 assessment UX", () => {
     await expect(page.locator("fieldset")).toHaveCount(6);
     await expect(page.getByText("Needs review")).toHaveCount(0);
     await expect(page.getByText("Correct answer:")).toHaveCount(0);
+    expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
 
     await page.getByRole("button", { name: "Submit quiz" }).click();
     const confirmation = page.getByRole("alert").filter({
@@ -31,6 +33,7 @@ test.describe("Milestone 13 assessment UX", () => {
         "Forex is the global market where one currency is exchanged for another.",
       ),
     ).toBeVisible();
+    expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
     await expect(
       page.getByRole("link", {
         name: "Sign in to save future quiz attempts and build your history.",
@@ -38,7 +41,9 @@ test.describe("Milestone 13 assessment UX", () => {
     ).toBeVisible();
 
     await page.getByRole("button", { name: "Try again" }).click();
-    await expect(page.getByRole("button", { name: "Submit quiz" })).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Submit quiz" }),
+    ).toBeVisible();
     await expect(page.getByText("Needs review")).toHaveCount(0);
   });
 
@@ -60,7 +65,9 @@ test.describe("Milestone 13 assessment UX", () => {
     ).toBe(false);
 
     await page.reload();
-    await expect(page.getByRole("button", { name: "Submit quiz" })).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Submit quiz" }),
+    ).toBeVisible();
     await expect(page.locator("input:checked")).toHaveCount(0);
     await expect(page.getByText("Passed")).toHaveCount(0);
     await expect(page.getByText("Ready to retry")).toHaveCount(0);

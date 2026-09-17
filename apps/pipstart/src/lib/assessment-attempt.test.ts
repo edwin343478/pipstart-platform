@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 
 import { gradeAssessment } from "./assessment";
 import {
-  createAssessmentRateLimiter,
   createAssessmentAttemptPresentation,
   normalizeAssessmentAnswers,
   parseAssessmentAnswers,
@@ -53,15 +52,5 @@ describe("assessment attempt boundary", () => {
     expect(normalized[question.id]).toEqual([correct]);
     const grade = gradeAssessment(forexFoundationsQuizV1, normalized);
     expect(grade.questions[0]?.correct).toBe(true);
-  });
-
-  it("limits repeated anonymous grading requests in a fixed window", () => {
-    const limiter = createAssessmentRateLimiter(2, 1_000);
-
-    expect(limiter.consume("client", 1_000)).toBe(true);
-    expect(limiter.consume("client", 1_100)).toBe(true);
-    expect(limiter.consume("client", 1_200)).toBe(false);
-    expect(limiter.consume("client", 2_000)).toBe(true);
-    expect(limiter.consume("other-client", 2_000)).toBe(true);
   });
 });

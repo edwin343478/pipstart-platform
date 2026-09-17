@@ -21,7 +21,9 @@ function shuffled<T>(values: readonly T[], random: () => number): T[] {
   for (let index = result.length - 1; index > 0; index -= 1) {
     const value = random();
     if (!Number.isFinite(value) || value < 0 || value >= 1) {
-      throw new Error("Assessment random source must return a value from 0 to 1.");
+      throw new Error(
+        "Assessment random source must return a value from 0 to 1.",
+      );
     }
     const target = Math.floor(value * (index + 1));
     [result[index], result[target]] = [result[target]!, result[index]!];
@@ -76,7 +78,10 @@ export function parseAssessmentAnswers(input: unknown): AssessmentAnswers {
     if (!questionId || questionId.length > MAX_IDENTIFIER_LENGTH) {
       throw new Error("Assessment question id is invalid.");
     }
-    if (!Array.isArray(rawChoices) || rawChoices.length > MAX_CHOICES_PER_QUESTION) {
+    if (
+      !Array.isArray(rawChoices) ||
+      rawChoices.length > MAX_CHOICES_PER_QUESTION
+    ) {
       throw new Error(`Assessment answers for "${questionId}" are invalid.`);
     }
 
@@ -105,36 +110,9 @@ export function normalizeAssessmentAnswers(
   return Object.fromEntries(
     grade.questions
       .filter((question) => question.answered)
-      .map((question) => [question.questionId, [...question.submittedChoiceIds]]),
+      .map((question) => [
+        question.questionId,
+        [...question.submittedChoiceIds],
+      ]),
   );
-}
-
-export function createAssessmentRateLimiter(limit: number, windowMs: number) {
-  if (!Number.isInteger(limit) || limit <= 0 || windowMs <= 0) {
-    throw new Error("Assessment rate limiter configuration is invalid.");
-  }
-
-  const windows = new Map<string, { count: number; resetAt: number }>();
-
-  return {
-    consume(key: string, now = Date.now()): boolean {
-      if (!key) return false;
-
-      const current = windows.get(key);
-      if (!current || current.resetAt <= now) {
-        windows.set(key, { count: 1, resetAt: now + windowMs });
-      } else if (current.count >= limit) {
-        return false;
-      } else {
-        current.count += 1;
-      }
-
-      if (windows.size > 10_000) {
-        for (const [storedKey, window] of windows) {
-          if (window.resetAt <= now) windows.delete(storedKey);
-        }
-      }
-      return true;
-    },
-  };
 }

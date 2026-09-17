@@ -37,7 +37,9 @@ export function coerceAssessmentAnswers(
     if (!Array.isArray(rawChoices)) continue;
     answers[questionId] = [
       ...new Set(
-        rawChoices.filter((choice): choice is string => typeof choice === "string"),
+        rawChoices.filter(
+          (choice): choice is string => typeof choice === "string",
+        ),
       ),
     ];
   }
@@ -58,6 +60,16 @@ export function normalizeAssessmentPresentation(
     (value.publicSnapshot as { id?: unknown }).id === fallback.id
       ? (value.publicSnapshot as PublicAssessment)
       : fallback;
+  const normalizedSnapshot = {
+    ...snapshot,
+    questions: snapshot.questions.map((question) => ({
+      ...question,
+      type:
+        (question.type as string) === "multiple-choice"
+          ? ("multiple-answer" as const)
+          : question.type,
+    })),
+  };
   const questionOrder = Array.isArray(value.questionOrder)
     ? value.questionOrder.filter((id): id is string => typeof id === "string")
     : [];
@@ -72,7 +84,7 @@ export function normalizeAssessmentPresentation(
     }
   }
 
-  return { choiceOrder, publicSnapshot: snapshot, questionOrder };
+  return { choiceOrder, publicSnapshot: normalizedSnapshot, questionOrder };
 }
 
 export function orderedAssessmentQuestions(
@@ -117,7 +129,7 @@ export function updateAssessmentAnswer(
   choiceId: string,
   checked: boolean,
 ): AssessmentClientAnswers {
-  if (question.type !== "multiple-choice") {
+  if (question.type !== "multiple-answer") {
     if (!checked) return answers;
     return { ...answers, [question.id]: [choiceId] };
   }

@@ -1,6 +1,7 @@
 import {
   getCourseLessonIds,
   getCourseRequiredAssessmentIds,
+  getModuleRequiredAssessmentIds,
   getPublishedCourse,
 } from "./permanent-progress";
 
@@ -17,6 +18,25 @@ export async function reconcileCourseEnrollmentForUser(
   const { createSupabaseAdminClient } = await import("./supabase/admin");
   const admin = createSupabaseAdminClient();
   if (!admin) throw new Error("Course progress persistence is unavailable.");
+
+  for (const curriculumModule of course.modules) {
+    const { error: moduleError } = await admin.rpc(
+      "pipstart_reconcile_module_completion",
+      {
+        requested_assessment_ids:
+          getModuleRequiredAssessmentIds(curriculumModule),
+        requested_course_id: course.id,
+        requested_lesson_ids: curriculumModule.lessons
+          .filter((lesson) => lesson.type === "lesson")
+          .map((lesson) => lesson.id),
+        requested_module_id: curriculumModule.id,
+        requested_user_id: userId,
+      },
+    );
+    if (moduleError) {
+      throw new Error("Module progress could not be reconciled.");
+    }
+  }
 
   const { error } = await admin.rpc("pipstart_reconcile_course_completion", {
     requested_assessment_ids: getCourseRequiredAssessmentIds(course),

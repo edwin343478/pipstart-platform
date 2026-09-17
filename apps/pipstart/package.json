@@ -8,6 +8,10 @@
     "start": "next start --port 3000",
     "test:e2e": "playwright test",
     "test:e2e:account-lifecycle": "node scripts/verify-account-lifecycle-env.mjs && playwright test e2e/milestone-11-account-lifecycle.spec.ts",
+    "test:e2e:assessment-db": "node scripts/verify-m13-assessment-db.mjs",
+    "test:e2e:assessment-ui": "playwright test e2e/milestone-13-assessment.spec.ts",
+    "test:e2e:assessment-authenticated": "playwright test e2e/milestone-13-authenticated-assessment.spec.ts",
+    "test:e2e:assessment-release": "pnpm test:e2e:assessment-db && pnpm test:e2e:assessment-ui && pnpm test:e2e:assessment-authenticated",
     "test": "vitest run --exclude=e2e/**",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"

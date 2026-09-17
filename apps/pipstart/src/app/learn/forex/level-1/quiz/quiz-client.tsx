@@ -8,6 +8,7 @@ import { LearningHeader } from "../../../../../components/learning-structure";
 import {
   gradeAnonymousAssessmentAction,
   loadAssessmentHistoryAction,
+  retryAssessmentProgressAction,
   saveAssessmentDraftAction,
   startAssessmentAttemptAction,
   submitAssessmentAttemptAction,
@@ -69,6 +70,38 @@ function historyDate(value: string | null) {
   }).format(new Date(value));
 }
 
+function draftBackupKey(attemptId: string) {
+  return `pipstart:assessment-draft:${attemptId}`;
+}
+
+function readDraftBackup(attemptId: string) {
+  try {
+    const value = window.localStorage.getItem(draftBackupKey(attemptId));
+    return value ? coerceAssessmentAnswers(JSON.parse(value)) : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeDraftBackup(attemptId: string, answers: AssessmentClientAnswers) {
+  try {
+    window.localStorage.setItem(
+      draftBackupKey(attemptId),
+      JSON.stringify(answers),
+    );
+  } catch {
+    /* The debounced account save remains available. */
+  }
+}
+
+function clearDraftBackup(attemptId: string) {
+  try {
+    window.localStorage.removeItem(draftBackupKey(attemptId));
+  } catch {
+    /* A stale local backup is harmless and is scoped to this attempt. */
+  }
+}
+
 export function ForexFoundationsQuiz({
   assessment,
 }: {
@@ -85,6 +118,7 @@ export function ForexFoundationsQuiz({
   const [error, setError] = useState<string | null>(null);
   const [saveMessage, setSaveMessage] = useState("Preparing quiz…");
   const [saveFailed, setSaveFailed] = useState(false);
+  const [progressPending, setProgressPending] = useState(false);
   const [saveRetryVersion, setSaveRetryVersion] = useState(0);
   const savedFingerprint = useRef("");
   const saveGeneration = useRef(0);
@@ -107,6 +141,7 @@ export function ForexFoundationsQuiz({
     setResult(null);
     setConfirmUnanswered(false);
     setSaveFailed(false);
+    setProgressPending(false);
     saveGeneration.current += 1;
 
     try {
@@ -116,12 +151,16 @@ export function ForexFoundationsQuiz({
       });
 
       if (started.authenticated) {
-        if (!started.attempt) throw new Error("Quiz attempt could not be loaded.");
+        if (!started.attempt)
+          throw new Error("Quiz attempt could not be loaded.");
         const presentation = normalizeAssessmentPresentation(
           assessment,
           started.attempt,
         );
-        const restored = coerceAssessmentAnswers(started.attempt.draftAnswers);
+        const remoteDraft = coerceAssessmentAnswers(
+          started.attempt.draftAnswers,
+        );
+        const restored = readDraftBackup(started.attempt.id) ?? remoteDraft;
         setQuiz({
           attemptId: started.attempt.id,
           attemptNumber: started.attempt.attemptNumber,
@@ -129,11 +168,13 @@ export function ForexFoundationsQuiz({
           presentation,
         });
         setAnswers(restored);
-        savedFingerprint.current = JSON.stringify(restored);
+        savedFingerprint.current = JSON.stringify(remoteDraft);
         setSaveMessage("Your selections save automatically to your account.");
 
         try {
-          const loadedHistory = await loadAssessmentHistoryAction(assessment.id);
+          const loadedHistory = await loadAssessmentHistoryAction(
+            assessment.id,
+          );
           setHistory(loadedHistory.attempts as HistoryAttempt[]);
         } catch {
           setHistory([]);
@@ -201,6 +242,7 @@ export function ForexFoundationsQuiz({
           savedFingerprint.current = fingerprint;
           setSaveFailed(false);
           setSaveMessage("Selections saved to your account.");
+          clearDraftBackup(quiz.attemptId!);
         })
         .catch((cause) => {
           if (saveGeneration.current !== generation) return;
@@ -240,15 +282,16 @@ export function ForexFoundationsQuiz({
     [quiz],
   );
   const reviewByQuestion = useMemo(
-    () => new Map(result?.questions.map((item) => [item.questionId, item]) ?? []),
+    () =>
+      new Map(result?.questions.map((item) => [item.questionId, item]) ?? []),
     [result],
   );
   const completedLessons = new Set(progress.completedIds);
   const quizPassed = Boolean(
     (quiz?.authenticated && result?.passed) ||
-      progress.snapshot?.assessments?.some(
-        (completion) => completion.assessmentId === assessment.id,
-      ),
+    progress.snapshot?.assessments?.some(
+      (completion) => completion.assessmentId === assessment.id,
+    ),
   );
 
   function renderSidebar(
@@ -331,9 +374,13 @@ export function ForexFoundationsQuiz({
     setConfirmUnanswered(false);
     setSaveFailed(false);
     if (quiz?.authenticated) setSaveMessage("Saving selections…");
-    setAnswers((current) =>
-      updateAssessmentAnswer(current, question, choiceId, checked),
-    );
+    setAnswers((current) => {
+      const next = updateAssessmentAnswer(current, question, choiceId, checked);
+      if (quiz?.authenticated && quiz.attemptId) {
+        writeDraftBackup(quiz.attemptId, next);
+      }
+      return next;
+    });
   }
 
   async function submit(force = false) {
@@ -366,14 +413,24 @@ export function ForexFoundationsQuiz({
           version: assessment.version,
         });
         grade = submitted.grade;
-        setSaveMessage("Quiz attempt saved to your account.");
+        clearDraftBackup(quiz.attemptId);
+        setProgressPending(submitted.progressReconciliationPending);
+        setSaveMessage(
+          submitted.progressReconciliationPending
+            ? "Quiz attempt saved. Course progress needs a refresh."
+            : "Quiz attempt and course progress saved to your account.",
+        );
         try {
-          const loadedHistory = await loadAssessmentHistoryAction(assessment.id);
+          const loadedHistory = await loadAssessmentHistoryAction(
+            assessment.id,
+          );
           setHistory(loadedHistory.attempts as HistoryAttempt[]);
         } catch {
-          setSaveMessage(
-            "Quiz attempt saved. Attempt history could not be refreshed.",
-          );
+          if (!submitted.progressReconciliationPending) {
+            setSaveMessage(
+              "Quiz attempt saved. Attempt history could not be refreshed.",
+            );
+          }
         }
       } else {
         const submitted = await gradeAnonymousAssessmentAction({
@@ -395,10 +452,8 @@ export function ForexFoundationsQuiz({
   }
 
   const unansweredCount = quiz
-    ? unansweredAssessmentQuestionIds(
-        quiz.presentation.publicSnapshot,
-        answers,
-      ).length
+    ? unansweredAssessmentQuestionIds(quiz.presentation.publicSnapshot, answers)
+        .length
     : 0;
 
   return (
@@ -418,11 +473,7 @@ export function ForexFoundationsQuiz({
           sidebarCollapsed ? lessonStyles.lessonLayoutCollapsed : ""
         }`}
       >
-        {renderSidebar(
-          lessonStyles.desktopSidebar,
-          true,
-          sidebarCollapsed,
-        )}
+        {renderSidebar(lessonStyles.desktopSidebar, true, sidebarCollapsed)}
         <details className={lessonStyles.mobileSidebar}>
           <summary className={lessonStyles.sidebarSummary}>
             <span>Forex Kindergarten</span>
@@ -450,8 +501,8 @@ export function ForexFoundationsQuiz({
             ]}
           />
           <p className={lessonStyles.eyebrow}>
-            Level 1 · Module quiz · {assessment.questions.length} questions · Pass
-            mark {assessment.passingPercentage}%
+            Level 1 · Module quiz · {assessment.questions.length} questions ·
+            Pass mark {assessment.passingPercentage}%
           </p>
           <h1>{assessment.title}</h1>
           <p className={lessonStyles.introduction}>
@@ -459,9 +510,15 @@ export function ForexFoundationsQuiz({
             can retake the quiz as many times as you need.
           </p>
 
-          <section className={lessonStyles.keyPoints} aria-labelledby="quiz-help">
+          <section
+            className={lessonStyles.keyPoints}
+            aria-labelledby="quiz-help"
+          >
             <h2 id="quiz-help">Before you start</h2>
-            <p>Choose one answer unless the question says “Choose all that apply.”</p>
+            <p>
+              Choose one answer unless the question says “Choose all that
+              apply.”
+            </p>
             <p>Explanations appear after you submit.</p>
             <p aria-live="polite">
               {saveMessage}
@@ -519,7 +576,9 @@ export function ForexFoundationsQuiz({
                 const selected = answers[question.id] ?? [];
                 const review = reviewByQuestion.get(question.id);
                 const correctLabels = review?.correctChoiceIds.flatMap((id) => {
-                  const choice = question.choices.find((item) => item.id === id);
+                  const choice = question.choices.find(
+                    (item) => item.id === id,
+                  );
                   return choice ? [choice.label] : [];
                 });
 
@@ -539,8 +598,10 @@ export function ForexFoundationsQuiz({
                         {question.prompt}
                       </span>
                     </legend>
-                    {question.type === "multiple-choice" ? (
-                      <p className={styles.questionHint}>Choose all that apply.</p>
+                    {question.type === "multiple-answer" ? (
+                      <p className={styles.questionHint}>
+                        Choose all that apply.
+                      </p>
                     ) : null}
                     <div className={styles.choices}>
                       {question.choices.map((choice) => (
@@ -556,7 +617,7 @@ export function ForexFoundationsQuiz({
                               )
                             }
                             type={
-                              question.type === "multiple-choice"
+                              question.type === "multiple-answer"
                                 ? "checkbox"
                                 : "radio"
                             }
@@ -639,17 +700,54 @@ export function ForexFoundationsQuiz({
                     {result.passed ? "Passed" : "Ready to retry"}
                   </span>
                   <h2>
-                    {result.score} of {result.maxScore} correct · {result.percentage}%
+                    {result.score} of {result.maxScore} correct ·{" "}
+                    {result.percentage}%
                   </h2>
                   <p>
                     {result.passed
                       ? "Nice work — this module assessment is complete."
                       : "Review the explanations above, then try again when you’re ready."}
                   </p>
+                  {quiz.authenticated && progressPending ? (
+                    <p>
+                      <button
+                        className={styles.retrySave}
+                        type="button"
+                        onClick={() => {
+                          setError(null);
+                          setSaveMessage("Refreshing course progress…");
+                          void retryAssessmentProgressAction(
+                            assessment.courseId,
+                          )
+                            .then(() => {
+                              setProgressPending(false);
+                              setSaveMessage(
+                                "Quiz attempt and course progress saved to your account.",
+                              );
+                              window.dispatchEvent(new Event("focus"));
+                            })
+                            .catch((cause) => {
+                              setError(
+                                message(
+                                  cause,
+                                  "Course progress could not be refreshed. Try again.",
+                                ),
+                              );
+                              setSaveMessage(
+                                "Quiz attempt saved. Course progress still needs a refresh.",
+                              );
+                            });
+                        }}
+                      >
+                        Refresh course progress
+                      </button>
+                    </p>
+                  ) : null}
                   {!quiz.authenticated ? (
                     <p>
                       <Link href="/login?next=%2Flearn%2Fforex%2Flevel-1%2Fquiz">
-                        Sign in to save future quiz attempts and build your history.
+                        Sign in to save future quiz attempts and build your
+                        history.
                       </Link>
                     </p>
                   ) : null}
@@ -688,7 +786,10 @@ export function ForexFoundationsQuiz({
 
           {quiz?.authenticated &&
           history.some((item) => item.status === "submitted") ? (
-            <section className={styles.history} aria-labelledby="attempt-history">
+            <section
+              className={styles.history}
+              aria-labelledby="attempt-history"
+            >
               <h2 id="attempt-history">Attempt history</h2>
               <ol>
                 {history
@@ -696,7 +797,8 @@ export function ForexFoundationsQuiz({
                   .map((item) => (
                     <li key={item.id}>
                       <span>
-                        Attempt {item.attemptNumber} · {historyDate(item.submittedAt)}
+                        Attempt {item.attemptNumber} ·{" "}
+                        {historyDate(item.submittedAt)}
                       </span>
                       <strong>
                         {item.score ?? 0}/

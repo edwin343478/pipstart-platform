@@ -1,12 +1,16 @@
 import { expect, test } from "@playwright/test";
 
-const email = process.env.PIPSTART_E2E_ACCOUNT_EMAIL ?? "";
+const configuredEmail = process.env.PIPSTART_E2E_ACCOUNT_EMAIL ?? "";
+const email = configuredEmail.replace(
+  /^([^@]+)@(.+)$/,
+  `$1+pipstart-m13-${Date.now()}@$2`,
+);
 const password = process.env.PIPSTART_E2E_ACCOUNT_PASSWORD ?? "";
 const updatedPassword = `${password}A1!`;
 
 test.describe("Milestone 11 real Supabase account lifecycle", () => {
   test.skip(
-    !email || !password,
+    !configuredEmail || !password,
     "Run pnpm test:e2e:account-lifecycle with the required release-gate environment.",
   );
 

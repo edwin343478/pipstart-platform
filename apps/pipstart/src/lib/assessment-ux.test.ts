@@ -39,7 +39,7 @@ describe("assessment learner UX helpers", () => {
       (question) => question.type === "single-choice",
     )!;
     const multiple = assessment.questions.find(
-      (question) => question.type === "multiple-choice",
+      (question) => question.type === "multiple-answer",
     )!;
     let answers = updateAssessmentAnswer(
       {},
