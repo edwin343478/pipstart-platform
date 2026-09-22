@@ -137,14 +137,7 @@ export default function CryptoLevelOnePage({
         </details>
 
         <article className={styles.lesson}>
-          <Breadcrumbs
-            items={[
-              { href: "/", label: "Home" },
-              { href: "/learn/crypto", label: "Learn Crypto" },
-              { href: "/learn/crypto/level-1/bitcoin", label: "Bitcoin" },
-              { label: publishedLesson.title },
-            ]}
-          />
+          <Breadcrumbs items={[{ label: publishedLesson.title }]} />
           <p className={styles.eyebrow}>
             Level 1 · Lesson {navigation?.position ?? publishedLesson.position}{" "}
             of {navigation?.total ?? cryptoLessons.length} ·{" "}
@@ -169,7 +162,7 @@ export default function CryptoLevelOnePage({
             {publishedLesson.objectives.map((objective) => (
               <p key={objective}>✓ {objective}</p>
             ))}
-            <p>No previous lesson required.</p>
+            <p>✓ No previous lesson required.</p>
           </section>
 
           <LessonBlocks blocks={publishedLesson.blocks} />

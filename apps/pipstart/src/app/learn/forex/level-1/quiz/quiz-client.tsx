@@ -169,7 +169,7 @@ export function ForexFoundationsQuiz({
         });
         setAnswers(restored);
         savedFingerprint.current = JSON.stringify(remoteDraft);
-        setSaveMessage("Your selections save automatically to your account.");
+        setSaveMessage("Your answers are saved as you go.");
 
         try {
           const loadedHistory = await loadAssessmentHistoryAction(
@@ -485,21 +485,7 @@ export function ForexFoundationsQuiz({
         </details>
 
         <article className={lessonStyles.lesson}>
-          <Breadcrumbs
-            items={[
-              { href: "/", label: "Home" },
-              { href: "/learn/forex", label: "Learn Forex" },
-              {
-                href: "/learn/forex/level-1/forex-kindergarten",
-                label: "Forex Kindergarten",
-              },
-              {
-                href: "/learn/forex/level-1/forex-kindergarten/forex-foundations",
-                label: "Forex Foundations",
-              },
-              { label: "Quiz" },
-            ]}
-          />
+          <Breadcrumbs items={[{ label: assessment.title }]} />
           <p className={lessonStyles.eyebrow}>
             Level 1 · Module quiz · {assessment.questions.length} questions ·
             Pass mark {assessment.passingPercentage}%

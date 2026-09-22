@@ -23,6 +23,34 @@ test.describe("Milestone 12 permanent progress", () => {
       ),
     ).toBe(false);
   });
+  test("shows only the current learning title in visual breadcrumbs", async ({
+    page,
+  }) => {
+    const cases = [
+      { route: "/learn/forex/level-1", title: "What is Forex?" },
+      { route: "/learn/crypto/level-1", title: "What is Bitcoin?" },
+      {
+        route: "/learn/forex/level-1/forex-kindergarten",
+        title: "Forex Kindergarten",
+      },
+      {
+        route: "/learn/forex/level-1/forex-kindergarten/forex-foundations",
+        title: "Forex Foundations",
+      },
+      {
+        route: "/learn/forex/level-1/quiz",
+        title: "Forex Foundations quiz",
+      },
+    ];
+
+    for (const { route, title } of cases) {
+      await page.goto(route);
+      const breadcrumb = page.getByRole("navigation", { name: "Breadcrumb" });
+      await expect(breadcrumb).toBeVisible();
+      await expect(breadcrumb.getByRole("link")).toHaveCount(0);
+      await expect(breadcrumb).toHaveText(title);
+    }
+  });
   test("keeps protected progress entry redirects at HTTP level", async ({
     request,
   }) => {

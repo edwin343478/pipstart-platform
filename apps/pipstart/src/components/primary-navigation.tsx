@@ -4,11 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
+import { useLearnerNavigationAction } from "./learner-navigation-context";
+
 type NavigationItem = {
   emphasized?: boolean;
   href: `/${string}`;
   label: string;
-  signIn?: boolean;
 };
 const navigationItems: readonly NavigationItem[] = [
   { href: "/start-here", label: "Start Here" },
@@ -19,7 +20,6 @@ const navigationItems: readonly NavigationItem[] = [
   { href: "/tools", label: "Tools" },
   { href: "/brokers", label: "Brokers" },
   { href: "/faq", label: "FAQ" },
-  { href: "/login", label: "Log in", signIn: true },
 ];
 
 type PrimaryNavigationProps = {
@@ -41,6 +41,11 @@ export function PrimaryNavigation({
 }: PrimaryNavigationProps) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const learnerNavigationAction = useLearnerNavigationAction();
+  const accountAction = learnerNavigationAction ?? {
+    href: "/login",
+    label: "Log in",
+  };
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const navigationRef = useRef<HTMLElement>(null);
 
@@ -72,8 +77,8 @@ export function PrimaryNavigation({
     .join(" ");
   return (
     <>
-      <Link className={mobileSignInClassName} href="/login">
-        Log in
+      <Link className={mobileSignInClassName} href={accountAction.href}>
+        {accountAction.label}
       </Link>
       <button
         ref={menuButtonRef}
@@ -96,13 +101,7 @@ export function PrimaryNavigation({
       >
         {navigationItems.map((item) => (
           <Link
-            className={
-              item.emphasized
-                ? analysisLinkClassName
-                : item.signIn
-                  ? signInClassName
-                  : undefined
-            }
+            className={item.emphasized ? analysisLinkClassName : undefined}
             href={item.href}
             key={item.href}
             aria-current={pathname === item.href ? "page" : undefined}
@@ -116,6 +115,13 @@ export function PrimaryNavigation({
             ) : null}
           </Link>
         ))}
+        <Link
+          className={signInClassName}
+          href={accountAction.href}
+          onClick={() => setOpen(false)}
+        >
+          {accountAction.label}
+        </Link>
       </nav>
     </>
   );

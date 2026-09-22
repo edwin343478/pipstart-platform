@@ -106,9 +106,7 @@ export function CurriculumPage({
         )}
       />
       <section className={styles.introduction}>
-        <Breadcrumbs
-          items={breadcrumbs.map(({ href, label }) => ({ href, label }))}
-        />
+        <Breadcrumbs items={[{ label: current.title }]} />
         <span>
           {level.title} · {kind === "course" ? "Course" : "Module"}
         </span>

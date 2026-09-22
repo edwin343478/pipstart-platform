@@ -107,9 +107,15 @@ export async function forgotPasswordAction(
     return { fieldErrors: { email: email.message }, status: "error" };
   const supabase = await createSupabaseServerClient();
   if (!supabase) return unavailable;
-  await supabase.auth.resetPasswordForEmail(email.value, {
+  const { error } = await supabase.auth.resetPasswordForEmail(email.value, {
     redirectTo: `${getSiteUrl()}/auth/callback?next=/reset-password`,
   });
+  if (error) {
+    console.error("PipStart password recovery request failed", {
+      code: error.code,
+      status: error.status,
+    });
+  }
   return {
     message:
       "If an account matches that email, a password-reset link is on its way.",
@@ -135,6 +141,13 @@ export async function resetPasswordAction(
   const { error } = await supabase.auth.updateUser({
     password: password.value,
   });
+  if (error?.code === "same_password") {
+    return {
+      message:
+        "Choose a new password that is different from your current password.",
+      status: "error",
+    };
+  }
   if (error)
     return {
       message: "This recovery link is invalid or has expired.",

@@ -157,17 +157,7 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
         </details>
 
         <article className={styles.lesson}>
-          <Breadcrumbs
-            items={[
-              { href: "/", label: "Home" },
-              { href: "/learn/forex", label: "Learn Forex" },
-              {
-                href: "/learn/forex/level-1/forex-kindergarten",
-                label: "Forex Kindergarten",
-              },
-              { label: lesson.title },
-            ]}
-          />
+          <Breadcrumbs items={[{ label: lesson.title }]} />
           <p className={styles.eyebrow}>
             Level 1 · Lesson {navigation?.position ?? lesson.position} of{" "}
             {navigation?.total ?? forexLessons.length} ·{" "}
@@ -190,8 +180,8 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
               <p key={objective}>✓ {objective}</p>
             ))}
             {prerequisiteLessons.length > 0 ? (
-              <p>
-                Prerequisite:{" "}
+              <p className={styles.prerequisite}>
+                ✓ Prerequisite:{" "}
                 {prerequisiteLessons.map((prerequisite, index) => (
                   <span key={prerequisite.id}>
                     {index > 0 ? ", " : ""}
@@ -200,7 +190,7 @@ export default function ForexLessonPage({ lesson }: { lesson: ForexLesson }) {
                 ))}
               </p>
             ) : (
-              <p>No previous lesson required.</p>
+              <p>✓ No previous lesson required.</p>
             )}
           </section>
 

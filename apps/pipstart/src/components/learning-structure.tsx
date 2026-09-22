@@ -1,6 +1,9 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { LearnerNavigationLink } from "./learner-navigation-context";
+import styles from "./site-chrome.module.css";
+
 type LearningHeaderProps = {
   allLevelsClassName?: string;
   allLevelsHref: string;
@@ -26,9 +29,12 @@ export function LearningHeader({
         PipStart
       </Link>
       <div className={contextClassName}>
-        <Link className={allLevelsClassName} href={allLevelsHref}>
-          ← {allLevelsLabel}
-        </Link>
+        <div className={styles.learningActions}>
+          <Link className={allLevelsClassName} href={allLevelsHref}>
+            ← {allLevelsLabel}
+          </Link>
+          <LearnerNavigationLink className={allLevelsClassName} />
+        </div>
         <span>{levelLabel}</span>
       </div>
     </header>

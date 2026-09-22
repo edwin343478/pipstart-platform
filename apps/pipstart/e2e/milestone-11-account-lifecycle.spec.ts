@@ -31,7 +31,46 @@ test.describe("Milestone 11 real Supabase account lifecycle", () => {
       page.getByRole("heading", { name: "Welcome to PipStart" }),
     ).toBeVisible();
 
+    await page.setViewportSize({ height: 720, width: 1280 });
+    await page.goto("/");
+    await expect(
+      page.getByRole("link", { name: "Dashboard", exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Log in", exact: true }),
+    ).toHaveCount(0);
+
     await page.setViewportSize({ height: 844, width: 390 });
+    await page.goto("/");
+    await expect(
+      page.getByRole("link", { name: "Dashboard", exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Log in", exact: true }),
+    ).toHaveCount(0);
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth),
+    ).toBeLessThanOrEqual(
+      await page.evaluate(() => document.documentElement.clientWidth),
+    );
+
+    for (const route of [
+      "/start-here",
+      "/learn/forex",
+      "/learn/forex/level-1/forex-kindergarten",
+      "/learn/forex/level-1",
+      "/learn/forex/level-1/quiz",
+      "/learn/crypto",
+    ]) {
+      await page.goto(route);
+      const dashboardLink = page.getByRole("link", {
+        name: "Dashboard",
+        exact: true,
+      });
+      await expect(dashboardLink).toBeVisible();
+      await expect(dashboardLink).toHaveAttribute("href", "/dashboard");
+    }
+
     await page.goto("/learn/forex/level-1");
     await expect(
       page.getByText("Progress is synchronized with your account."),
@@ -100,6 +139,14 @@ test.describe("Milestone 11 real Supabase account lifecycle", () => {
     await page.getByRole("button", { name: "Sign out everywhere" }).click();
     await expect(page).toHaveURL(/\/login\?notice=signed-out/);
 
+    await page.goto("/");
+    await expect(
+      page.getByRole("link", { name: "Log in", exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Dashboard", exact: true }),
+    ).toHaveCount(0);
+
     await page.evaluate(() => {
       window.localStorage.setItem(
         "pipstart:learn:forex:level-1:progress",
@@ -109,6 +156,7 @@ test.describe("Milestone 11 real Supabase account lifecycle", () => {
         }),
       );
     });
+    await page.goto("/login");
 
     await page.getByLabel("Email address").fill(email);
     await page.getByLabel("Password").fill(updatedPassword);

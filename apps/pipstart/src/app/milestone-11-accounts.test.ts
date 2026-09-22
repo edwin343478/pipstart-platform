@@ -10,6 +10,7 @@ const migrationPath = path.join(
   "supabase/migrations/20260915143000_pipstart_learner_accounts.sql",
 );
 const supabaseConfigPath = path.join(repositoryRoot, "supabase/config.toml");
+const envExamplePath = path.join(repositoryRoot, "apps/pipstart/.env.example");
 const read = (relativePath: string) =>
   fs.readFileSync(path.join(appRoot, relativePath), "utf8");
 
@@ -36,6 +37,41 @@ describe("Milestone 11 learner accounts", () => {
     expect(actions).toContain("Email or password is incorrect.");
     expect(actions).toContain("If an account matches that email");
     expect(actions).not.toContain("No account exists");
+    const diagnostic = actions.match(
+      /console\.error\("PipStart password recovery request failed", \{[\s\S]*?\n\s+\}\);/,
+    )?.[0];
+    expect(diagnostic).toContain("code: error.code");
+    expect(diagnostic).toContain("status: error.status");
+    expect(diagnostic).not.toContain("email.value");
+    expect(diagnostic).not.toContain("message: error.message");
+  });
+
+  it("keeps password recovery on an allow-listed same-origin callback", () => {
+    const actions = read("account/actions.ts");
+    const callback = read("auth/callback/route.ts");
+    const config = fs.readFileSync(supabaseConfigPath, "utf8");
+    const envExample = fs.readFileSync(envExamplePath, "utf8");
+    expect(actions).toContain(
+      'redirectTo: `${getSiteUrl()}/auth/callback?next=/reset-password`',
+    );
+    expect(callback).toContain("exchangeCodeForSession(code)");
+    expect(config).toContain('site_url = "http://localhost:3000"');
+    expect(config).toContain('"http://localhost:3000/**"');
+    expect(config).toContain('"http://127.0.0.1:3100/auth/callback"');
+    expect(envExample).toContain(
+      'NEXT_PUBLIC_SITE_URL="http://localhost:3000"',
+    );
+  });
+
+  it("distinguishes a reused password from an invalid recovery link", () => {
+    const actions = read("account/actions.ts");
+    expect(actions).toContain('error?.code === "same_password"');
+    expect(actions).toContain(
+      "Choose a new password that is different from your current password.",
+    );
+    expect(actions).toContain(
+      "This recovery link is invalid or has expired.",
+    );
   });
 
   it("creates accounts immediately without an email-confirmation step", () => {

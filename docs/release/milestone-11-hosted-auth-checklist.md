@@ -16,7 +16,8 @@ Use this checklist for the hosted PipStart Supabase project before promoting Mil
 ## 2. URLs and environment separation
 
 - [ ] Site URL is the canonical HTTPS production origin.
-- [ ] Allowed redirect URLs include only approved production and preview callback URLs.
+- [ ] `NEXT_PUBLIC_SITE_URL` exactly matches the canonical application origin used to start password recovery.
+- [ ] Allowed redirect URLs include the exact production recovery callback `/auth/callback?next=/reset-password` and only approved preview callback URLs.
 - [ ] `NEXT_PUBLIC_SUPABASE_URL` and the publishable key are configured in the public runtime.
 - [ ] `SUPABASE_SECRET_KEY` exists only in the server runtime and is not exposed through a `NEXT_PUBLIC_` variable, browser bundle, logs, or release evidence.
 - [ ] Local and CI values are separate from production values.
@@ -56,6 +57,8 @@ pnpm --filter pipstart test:e2e:account-lifecycle
 - [ ] Password change succeeds only after current-password reauthentication.
 - [ ] Global sign-out returns the learner to login.
 - [ ] Login succeeds with the new password.
+- [ ] The password-recovery request keeps a neutral response for known and unknown email addresses.
+- [ ] A fresh recovery email returns through `/auth/callback`, reaches `/reset-password`, accepts a new password, rejects the old password, and rejects replay of the used link.
 - [ ] Account deletion succeeds after password reauthentication and removes the account.
 - [ ] Login with the deleted credentials fails.
 - [ ] A missing environment variable, hosted-service outage, or backend error fails this dedicated gate; it is not accepted as a passing result.
@@ -67,6 +70,7 @@ pnpm --filter pipstart test:e2e:account-lifecycle
 - [ ] Each protected account route preserves its exact `next` destination through login.
 - [ ] Registration validation preserves completed field values.
 - [ ] Login and password-reset responses do not disclose whether an account exists.
+- [ ] Password recovery is tested from the same canonical browser origin that generated the request; local development uses `http://localhost:3000`.
 - [ ] Browser developer tools show no secret key or sensitive credential in client requests or bundles.
 
 Record the hosted project identifier, deployment SHA, tester, UTC time, and pass/fail result in the release ticket. Keep credentials and personal data out of that record.

@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { AuthenticatedNavigationProvider } from "../components/authenticated-navigation-provider";
 import { PrimaryNavigation } from "../components/primary-navigation";
 import { createPageMetadata } from "../lib/seo";
 import styles from "./page.module.css";
@@ -65,14 +66,16 @@ export default function Home() {
         <Link className={styles.brand} href="/" aria-label="PipStart home">
           PipStart
         </Link>
-        <PrimaryNavigation
-          analysisLinkClassName={styles.analysisLink}
-          className={styles.navigation}
-          menuButtonClassName={styles.menuButton}
-          mobileSignInClassName={styles.mobileSignIn}
-          openClassName={styles.navigationOpen}
-          signInClassName={styles.signIn}
-        />
+        <AuthenticatedNavigationProvider>
+          <PrimaryNavigation
+            analysisLinkClassName={styles.analysisLink}
+            className={styles.navigation}
+            menuButtonClassName={styles.menuButton}
+            mobileSignInClassName={styles.mobileSignIn}
+            openClassName={styles.navigationOpen}
+            signInClassName={styles.signIn}
+          />
+        </AuthenticatedNavigationProvider>
       </header>
 
       <section className={styles.hero}>

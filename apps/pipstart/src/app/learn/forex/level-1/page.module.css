@@ -235,6 +235,13 @@
   font-size: 0.9375rem;
 }
 
+.prerequisite a {
+  color: #0f766e;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
 .keyPoints p:last-child {
   margin-bottom: 0;
 }

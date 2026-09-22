@@ -2,6 +2,37 @@
   display: none;
 }
 
+.headerActions,
+.learningActions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.headerActions {
+  min-width: 0;
+  margin-left: auto;
+}
+
+.headerActions .accountAction {
+  color: #0f766e;
+  font-family: var(--font-pipstart-body), Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.headerActions .accountAction:hover,
+.headerActions .accountAction:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.learningActions {
+  flex-wrap: wrap;
+}
+
 @media (max-width: 767px) {
   .mobileBack {
     display: flex;
@@ -19,6 +50,11 @@
   }
   .mobileBack + a {
     display: none;
+  }
+  .headerActions {
+    flex: 1 1 auto;
+    justify-content: space-between;
+    margin-left: 0;
   }
   .section {
     color: #0b1220 !important;

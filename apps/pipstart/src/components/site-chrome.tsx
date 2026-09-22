@@ -1,5 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+
+import { LearnerNavigationLink } from "./learner-navigation-context";
 import styles from "./site-chrome.module.css";
 
 type CompactHeaderProps = {
@@ -27,7 +29,10 @@ export function CompactHeader({
       <Link className={brandClassName} href="/" aria-label="PipStart home">
         PipStart
       </Link>
-      <span className={styles.section}>{section}</span>
+      <div className={styles.headerActions}>
+        <span className={styles.section}>{section}</span>
+        <LearnerNavigationLink className={styles.accountAction} />
+      </div>
     </header>
   );
 }

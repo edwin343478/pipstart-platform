@@ -14,7 +14,7 @@ export default async function RegisterPage() {
   if (await getCurrentUser()) redirect("/account/settings");
   return (
     <AccountShell
-      description="Create a free learner account to prepare for synchronized progress in the next milestone."
+      description="Create a free learner account."
       title="Create your account"
     >
       <RegisterForm />

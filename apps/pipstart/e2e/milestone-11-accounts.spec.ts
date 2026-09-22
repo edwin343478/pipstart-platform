@@ -118,17 +118,44 @@ test.describe("Milestone 11 learner accounts", () => {
     }
   });
 
-  test("shows login in the mobile homepage header and expanded menu", async ({
+  test("keeps anonymous homepage navigation on Log in at desktop and mobile widths", async ({
     page,
   }) => {
-    await page.setViewportSize({ width: 390, height: 844 });
+    await page.context().clearCookies();
+
+    await page.setViewportSize({ width: 1280, height: 720 });
     await page.goto("/");
-    await expect(page.getByRole("link", { name: "Log in" })).toBeVisible();
-    await page.getByRole("button", { name: "Menu" }).click();
     await expect(
-      page
-        .getByRole("navigation", { name: "Primary navigation" })
-        .getByRole("link", { name: "Log in" }),
+      page.getByRole("link", { name: "Log in", exact: true }),
     ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Dashboard", exact: true }),
+    ).toHaveCount(0);
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await expect(
+      page.getByRole("link", { name: "Log in", exact: true }),
+    ).toBeVisible();
+    await page.getByRole("button", { name: "Menu" }).click();
+    const primaryNavigation = page.getByRole("navigation", {
+      name: "Primary navigation",
+    });
+    await expect(
+      primaryNavigation.getByRole("link", { name: "Log in", exact: true }),
+    ).toBeVisible();
+    await expect(
+      primaryNavigation.getByRole("link", {
+        name: "Dashboard",
+        exact: true,
+      }),
+    ).toHaveCount(0);
+
+    await page.setViewportSize({ width: 320, height: 720 });
+    const hasOverflow = await page.evaluate(
+      () =>
+        document.documentElement.scrollWidth >
+        document.documentElement.clientWidth,
+    );
+    expect(hasOverflow).toBe(false);
   });
 });
