@@ -35,9 +35,30 @@ function ExchangeIcon() {
 function BlockchainIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <rect x="4" y="4" width="6" height="6" rx="1.5" stroke="var(--brand-accent)" strokeWidth="1.5" />
-      <rect x="10" y="10" width="6" height="6" rx="1.5" stroke="var(--brand-accent)" strokeWidth="1.5" />
-      <path d="M8 10L10 8" stroke="var(--brand-accent)" strokeWidth="1.5" strokeLinecap="round" />
+      <rect
+        x="4"
+        y="4"
+        width="6"
+        height="6"
+        rx="1.5"
+        stroke="var(--brand-accent)"
+        strokeWidth="1.5"
+      />
+      <rect
+        x="10"
+        y="10"
+        width="6"
+        height="6"
+        rx="1.5"
+        stroke="var(--brand-accent)"
+        strokeWidth="1.5"
+      />
+      <path
+        d="M8 10L10 8"
+        stroke="var(--brand-accent)"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
@@ -59,7 +80,13 @@ function WarningIcon() {
 
 function ArrowIcon() {
   return (
-    <svg width="15" height="15" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+    <svg
+      width="15"
+      height="15"
+      viewBox="0 0 20 20"
+      fill="none"
+      aria-hidden="true"
+    >
       <path
         d="M8 5L13 10L8 15"
         stroke="var(--brand-accent)"
@@ -124,14 +151,16 @@ export default function StartHerePage() {
             <div className={styles.hero}>
               <div className={styles.eyebrowRow}>
                 <span className={styles.eyebrowDot} aria-hidden="true" />
-                <span className={styles.eyebrow}>Your learning starts here</span>
+                <span className={styles.eyebrow}>
+                  Your learning starts here
+                </span>
               </div>
               <h1>Build knowledge before risking money</h1>
               <p className={styles.lead}>
                 PipStart gives you a clear route through Forex and
                 cryptocurrency education. Choose a path, work through it in
-                order, and use the tools when a lesson introduces a new
-                number or idea.
+                order, and use the tools when a lesson introduces a new number
+                or idea.
               </p>
             </div>
 
@@ -174,8 +203,8 @@ export default function StartHerePage() {
                 <WarningIcon />
               </span>
               <p>
-                <strong>Education, not a signal service.</strong> PipStart
-                does not tell you what to buy or sell and does not guarantee
+                <strong>Education, not a signal service.</strong> PipStart does
+                not tell you what to buy or sell and does not guarantee
                 outcomes. Markets can move against you, and leverage can make
                 losses larger.
               </p>

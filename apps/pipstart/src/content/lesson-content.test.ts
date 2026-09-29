@@ -279,11 +279,7 @@ describe("lesson publishing safeguards", () => {
       { type: "reflection", title: "Reflection", points: [] },
       "reflection requires",
     ],
-    [
-      "takeaway",
-      { type: "takeaway", children: [] },
-      "takeaway content",
-    ],
+    ["takeaway", { type: "takeaway", children: [] }, "takeaway content"],
     [
       "multi-paragraph example",
       { type: "example", children: ["Good", ""] },

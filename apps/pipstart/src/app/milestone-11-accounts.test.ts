@@ -52,7 +52,7 @@ describe("Milestone 11 learner accounts", () => {
     const config = fs.readFileSync(supabaseConfigPath, "utf8");
     const envExample = fs.readFileSync(envExamplePath, "utf8");
     expect(actions).toContain(
-      'redirectTo: `${getSiteUrl()}/auth/callback?next=/reset-password`',
+      "redirectTo: `${getSiteUrl()}/auth/callback?next=/reset-password`",
     );
     expect(callback).toContain("exchangeCodeForSession(code)");
     expect(config).toContain('site_url = "http://localhost:3000"');
@@ -69,9 +69,7 @@ describe("Milestone 11 learner accounts", () => {
     expect(actions).toContain(
       "Choose a new password that is different from your current password.",
     );
-    expect(actions).toContain(
-      "This recovery link is invalid or has expired.",
-    );
+    expect(actions).toContain("This recovery link is invalid or has expired.");
   });
 
   it("creates accounts immediately without an email-confirmation step", () => {

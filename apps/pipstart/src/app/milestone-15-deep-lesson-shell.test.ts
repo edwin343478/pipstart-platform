@@ -29,9 +29,9 @@ describe("Milestone 15 deep lesson shell", () => {
     expect(page).toContain("<LessonSidebar");
     expect(page).toContain("<SteppedLessonArticle");
     expect(stepper).toContain('role="tablist"');
-    expect(stepper).toContain('Show all sections at once');
-    expect(stepper).not.toContain('Show all sections at once (for review)');
-    expect(stepper).toContain('Next lesson: {nextLesson.title}');
+    expect(stepper).toContain("Show all sections at once");
+    expect(stepper).not.toContain("Show all sections at once (for review)");
+    expect(stepper).toContain("Next lesson: {nextLesson.title}");
     expect(css).toContain(".mobileSidebar");
     expect(css).toContain(".mobileProgress");
   });

@@ -53,7 +53,8 @@
 
 .hero h1 {
   margin: 0;
-  font-family: var(--font-pipstart-heading), var(--font-pipstart-body), Arial, sans-serif;
+  font-family:
+    var(--font-pipstart-heading), var(--font-pipstart-body), Arial, sans-serif;
   font-weight: 800;
   font-size: 2.625rem;
   line-height: 1.14;
@@ -80,7 +81,9 @@
   border-radius: 1.25rem;
   padding: 1.875rem 2rem;
   box-shadow: 0 20px 40px -28px rgba(11, 18, 32, 0.16);
-  transition: box-shadow 160ms ease, border-color 160ms ease;
+  transition:
+    box-shadow 160ms ease,
+    border-color 160ms ease;
 }
 
 .pathCard:hover {
@@ -110,7 +113,8 @@
 
 .pathCard h2 {
   margin: 0 0 0.625rem;
-  font-family: var(--font-pipstart-heading), var(--font-pipstart-body), Arial, sans-serif;
+  font-family:
+    var(--font-pipstart-heading), var(--font-pipstart-body), Arial, sans-serif;
   font-weight: 800;
   font-size: 1.375rem;
   color: var(--brand-primary);
@@ -142,7 +146,8 @@
 
 .steps h2 {
   margin: 0 0 1.125rem;
-  font-family: var(--font-pipstart-heading), var(--font-pipstart-body), Arial, sans-serif;
+  font-family:
+    var(--font-pipstart-heading), var(--font-pipstart-body), Arial, sans-serif;
   font-weight: 800;
   font-size: 1.25rem;
   color: var(--brand-primary);
@@ -182,7 +187,8 @@
 
 .steps h3 {
   margin: 0 0 0.25rem;
-  font-family: var(--font-pipstart-heading), var(--font-pipstart-body), Arial, sans-serif;
+  font-family:
+    var(--font-pipstart-heading), var(--font-pipstart-body), Arial, sans-serif;
   font-weight: 800;
   font-size: 0.96875rem;
   color: var(--brand-primary);

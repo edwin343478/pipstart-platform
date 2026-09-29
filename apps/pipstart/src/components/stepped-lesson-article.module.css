@@ -492,23 +492,78 @@
   }
 }
 
-.footerControls { margin: 1.25rem 0 3rem; color: #667085; font-size: .8125rem; }
-.footerControls button { font: inherit; }
+.footerControls {
+  margin: 1.25rem 0 3rem;
+  color: #667085;
+  font-size: 0.8125rem;
+}
+.footerControls button {
+  font: inherit;
+}
 
 /* Locked section layouts: content sits on the page; individual teaching blocks carry cards. */
-.title { font-size: 2rem; }
-.panel { background: transparent; border: 0; padding: 0; box-shadow: none; border-radius: 0; }
-.mobileProgress { display: none; }
+.title {
+  font-size: 2rem;
+}
+.panel {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  box-shadow: none;
+  border-radius: 0;
+}
+.mobileProgress {
+  display: none;
+}
 @media (max-width: 767px) {
-  .breadcrumb { display: none; }
-  .title { font-size: 1.25rem; line-height: 1.25; margin-bottom: .875rem; }
-  .sectionHeading { font-size: 1.0625rem; }
-  .panel { padding: 0; margin-bottom: 1.5rem; }
-  .progressTrack { display: none; }
-  .mobileProgress { display: flex; align-items: center; gap: 6px; margin: 0 0 1rem; }
-  .dot, .activeDot { width: 6px; height: 6px; border-radius: 999px; flex: 0 0 auto; background: #e7ebee; }
-  .activeDot { width: 20px; background: #0f766e; }
-  .mobileProgressLabel { margin-left: 8px; color: #667085; font-size: .65625rem; }
-  .markComplete { width: 100%; justify-content: center; }
-  .nextLink, .endOfLevelLink { font-size: .8125rem; text-align: right; }
+  .breadcrumb {
+    display: none;
+  }
+  .title {
+    font-size: 1.25rem;
+    line-height: 1.25;
+    margin-bottom: 0.875rem;
+  }
+  .sectionHeading {
+    font-size: 1.0625rem;
+  }
+  .panel {
+    padding: 0;
+    margin-bottom: 1.5rem;
+  }
+  .progressTrack {
+    display: none;
+  }
+  .mobileProgress {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 1rem;
+  }
+  .dot,
+  .activeDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    flex: 0 0 auto;
+    background: #e7ebee;
+  }
+  .activeDot {
+    width: 20px;
+    background: #0f766e;
+  }
+  .mobileProgressLabel {
+    margin-left: 8px;
+    color: #667085;
+    font-size: 0.65625rem;
+  }
+  .markComplete {
+    width: 100%;
+    justify-content: center;
+  }
+  .nextLink,
+  .endOfLevelLink {
+    font-size: 0.8125rem;
+    text-align: right;
+  }
 }

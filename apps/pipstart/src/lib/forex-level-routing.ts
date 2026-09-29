@@ -62,8 +62,8 @@ export function getGenericForexLevelContext(
 
 export function getGenericForexLevelParams() {
   return (
-    getLearningPath("forex")?.levels
-      .filter((level) => level.id !== LEGACY_FOREX_LEVEL_ID)
+    getLearningPath("forex")
+      ?.levels.filter((level) => level.id !== LEGACY_FOREX_LEVEL_ID)
       .filter((level) => Boolean(getGenericForexLevelContext(level.id)))
       .map((level) => ({ level: level.id })) ?? []
   );
@@ -112,17 +112,13 @@ export function getGenericForexLevelRootLesson(levelId: string) {
   return lesson ? { ...context, lesson } : undefined;
 }
 
-export function getGenericForexSecondSegment(
-  levelId: string,
-  segment: string,
-) {
+export function getGenericForexSecondSegment(levelId: string, segment: string) {
   const context = getGenericForexLevelContext(levelId);
   if (!context) return undefined;
 
   const courseMatches = context.course.id === segment;
   const lesson = context.lessons.find(
-    (candidate) =>
-      candidate.slug === segment && candidate.position !== 1,
+    (candidate) => candidate.slug === segment && candidate.position !== 1,
   );
 
   if (courseMatches && lesson) {

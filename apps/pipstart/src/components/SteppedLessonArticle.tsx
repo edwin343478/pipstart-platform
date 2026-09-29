@@ -125,11 +125,14 @@ export function SteppedLessonArticle({
   const tabIdBase = useId();
   const total = sections.length;
   const isLastSection = activeIndex === total - 1;
-  const progressPercent = total ? Math.round(((activeIndex + 1) / total) * 100) : 0;
+  const progressPercent = total
+    ? Math.round(((activeIndex + 1) / total) * 100)
+    : 0;
 
   function goTo(index: number) {
     setActiveIndex(index);
-    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+    if (typeof window !== "undefined")
+      window.scrollTo({ top: 0, behavior: "smooth" });
     // Move focus to the newly shown panel's heading for keyboard/screen
     // reader users — matches the standard ARIA tabs pattern.
     requestAnimationFrame(() => {
@@ -196,9 +199,19 @@ export function SteppedLessonArticle({
         />
       </div>
 
-      <div className={styles.mobileProgress} aria-label={`Section ${activeIndex + 1} of ${total}`}>
-        {sections.map((section, index) => <span key={section.title} className={index === activeIndex ? styles.activeDot : styles.dot} />)}
-        <span className={styles.mobileProgressLabel}>Section {activeIndex + 1} of {total}</span>
+      <div
+        className={styles.mobileProgress}
+        aria-label={`Section ${activeIndex + 1} of ${total}`}
+      >
+        {sections.map((section, index) => (
+          <span
+            key={section.title}
+            className={index === activeIndex ? styles.activeDot : styles.dot}
+          />
+        ))}
+        <span className={styles.mobileProgressLabel}>
+          Section {activeIndex + 1} of {total}
+        </span>
       </div>
 
       <label className={styles.showAllToggle}>
@@ -213,7 +226,15 @@ export function SteppedLessonArticle({
       {sections.map((section, index) => {
         const isActive = index === activeIndex;
         if (!showAll && !isActive) {
-          return <div key={section.title} role="tabpanel" id={`${tabIdBase}-panel-${index}`} aria-labelledby={`${tabIdBase}-tab-${index}`} hidden />;
+          return (
+            <div
+              key={section.title}
+              role="tabpanel"
+              id={`${tabIdBase}-panel-${index}`}
+              aria-labelledby={`${tabIdBase}-tab-${index}`}
+              hidden
+            />
+          );
         }
 
         const isLast = index === total - 1;
@@ -240,8 +261,14 @@ export function SteppedLessonArticle({
             </h2>
 
             <LessonBlocks
-              blocks={section.blocks.map((block) => block.type === "section" && block.title === section.title ? { ...block, title: "" } : block)}
-              checklist={/practice|before moving on|reflection/i.test(section.title)}
+              blocks={section.blocks.map((block) =>
+                block.type === "section" && block.title === section.title
+                  ? { ...block, title: "" }
+                  : block,
+              )}
+              checklist={/practice|before moving on|reflection/i.test(
+                section.title,
+              )}
             />
 
             {isLast && onMarkComplete ? (
@@ -252,7 +279,12 @@ export function SteppedLessonArticle({
                 disabled={completionDisabled}
                 aria-pressed={isComplete}
               >
-                <svg aria-hidden="true" viewBox="0 0 20 20" width="15" height="15">
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 20 20"
+                  width="15"
+                  height="15"
+                >
                   <path
                     d="M4 10.5 8 14.5 16 6"
                     stroke="currentColor"
@@ -266,54 +298,59 @@ export function SteppedLessonArticle({
               </button>
             ) : null}
 
-            {(!showAll || isLast) && <div className={styles.panelNav}>
-              {!showAll && showBack ? (
-                <button
-                  type="button"
-                  className={styles.backLink}
-                  onClick={() => goTo(index - 1)}
-                >
-                  <BackIcon />
-                  Back
-                </button>
-              ) : (
-                <span />
-              )}
+            {(!showAll || isLast) && (
+              <div className={styles.panelNav}>
+                {!showAll && showBack ? (
+                  <button
+                    type="button"
+                    className={styles.backLink}
+                    onClick={() => goTo(index - 1)}
+                  >
+                    <BackIcon />
+                    Back
+                  </button>
+                ) : (
+                  <span />
+                )}
 
-              {!showAll && !isLast ? (
-                <button
-                  type="button"
-                  className={styles.nextLink}
-                  onClick={() => goTo(index + 1)}
-                >
-                  Next: {sections[index + 1].title}
-                  <NextIcon />
-                </button>
-              ) : nextLesson ? (
-                <Link href={nextLesson.href} className={styles.nextLink}>
-                  Next lesson: {nextLesson.title}
-                  <NextIcon />
-                </Link>
-              ) : endOfLevel ? (
-                <Link href={endOfLevel.ctaHref} className={styles.endOfLevelLink}>
-                  {endOfLevel.ctaLabel}
-                  <NextIcon />
-                </Link>
-              ) : null}
-            </div>}
+                {!showAll && !isLast ? (
+                  <button
+                    type="button"
+                    className={styles.nextLink}
+                    onClick={() => goTo(index + 1)}
+                  >
+                    Next: {sections[index + 1].title}
+                    <NextIcon />
+                  </button>
+                ) : nextLesson ? (
+                  <Link href={nextLesson.href} className={styles.nextLink}>
+                    Next lesson: {nextLesson.title}
+                    <NextIcon />
+                  </Link>
+                ) : endOfLevel ? (
+                  <Link
+                    href={endOfLevel.ctaHref}
+                    className={styles.endOfLevelLink}
+                  >
+                    {endOfLevel.ctaLabel}
+                    <NextIcon />
+                  </Link>
+                ) : null}
+              </div>
+            )}
 
             {isLast && endOfLevel ? (
               <div className={styles.endOfLevelBanner}>
-                <p className={styles.endOfLevelEyebrow}>
-                  End of {levelLabel}
-                </p>
+                <p className={styles.endOfLevelEyebrow}>End of {levelLabel}</p>
                 <p className={styles.endOfLevelMessage}>{endOfLevel.message}</p>
               </div>
             ) : null}
           </div>
         );
       })}
-      {footerControls ? <div className={styles.footerControls}>{footerControls}</div> : null}
+      {footerControls ? (
+        <div className={styles.footerControls}>{footerControls}</div>
+      ) : null}
     </article>
   );
 }
@@ -382,10 +419,14 @@ export function LessonSidebar({
             type="button"
             className={styles.sidebarToggleBtn}
             aria-expanded={!collapsed}
-            aria-label={collapsed ? "Expand lesson list" : "Collapse lesson list"}
+            aria-label={
+              collapsed ? "Expand lesson list" : "Collapse lesson list"
+            }
             onClick={() => setCollapsed((current) => !current)}
           >
-            <span className={collapsed ? styles.chevronCollapsed : styles.chevron}>
+            <span
+              className={collapsed ? styles.chevronCollapsed : styles.chevron}
+            >
               <BackIcon />
             </span>
           </button>

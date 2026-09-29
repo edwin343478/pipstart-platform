@@ -137,9 +137,12 @@ describe("PipStart internal route integrity", () => {
       "utf8",
     );
 
-    const sharedPage = fs.readFileSync(path.join(appRoot, "../components/lesson-page.tsx"), "utf8");
+    const sharedPage = fs.readFileSync(
+      path.join(appRoot, "../components/lesson-page.tsx"),
+      "utf8",
+    );
     expect(forexLevel).toContain('path="forex"');
     expect(cryptoLevel).toContain('path="crypto"');
-    expect(sharedPage).toContain('href={`/learn/${path}`}');
+    expect(sharedPage).toContain("href={`/learn/${path}`}");
   });
 });

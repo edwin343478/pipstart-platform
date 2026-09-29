@@ -17,9 +17,7 @@ type GenericForexLevelPageProps = {
   params: Promise<{ level: string }>;
 };
 
-export async function generateMetadata({
-  params,
-}: GenericForexLevelPageProps) {
+export async function generateMetadata({ params }: GenericForexLevelPageProps) {
   const { level } = await params;
   const route = getGenericForexLevelRootLesson(level);
   if (!route) return {};

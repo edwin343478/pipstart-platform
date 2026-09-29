@@ -52,7 +52,13 @@ function SectionHeader({
 function CompassIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
-      <circle cx="10" cy="10" r="7" stroke="var(--brand-accent)" strokeWidth="1.4" />
+      <circle
+        cx="10"
+        cy="10"
+        r="7"
+        stroke="var(--brand-accent)"
+        strokeWidth="1.4"
+      />
       <path
         d="M12.5 7.5L10.8 10.8L7.5 12.5L9.2 9.2L12.5 7.5Z"
         fill="var(--brand-accent)"
@@ -89,7 +95,13 @@ function BookIcon() {
 function ClockIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
-      <circle cx="10" cy="10" r="7" stroke="var(--brand-accent)" strokeWidth="1.4" />
+      <circle
+        cx="10"
+        cy="10"
+        r="7"
+        stroke="var(--brand-accent)"
+        strokeWidth="1.4"
+      />
       <path
         d="M10 6.5V10L12.5 11.8"
         stroke="var(--brand-accent)"
@@ -132,7 +144,12 @@ function BookmarkIcon() {
 function FlagIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
-      <path d="M6 4V16" stroke="var(--brand-accent)" strokeWidth="1.4" strokeLinecap="round" />
+      <path
+        d="M6 4V16"
+        stroke="var(--brand-accent)"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+      />
       <path
         d="M6 4.5C8 3.5 10 5.5 14 4.5V9.5C10 10.5 8 8.5 6 9.5V4.5Z"
         fill="var(--brand-accent)"
@@ -147,9 +164,23 @@ function FlagIcon() {
 function SlidersIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
-      <line x1="4" y1="6" x2="16" y2="6" stroke="var(--brand-accent)" strokeWidth="1.4" />
+      <line
+        x1="4"
+        y1="6"
+        x2="16"
+        y2="6"
+        stroke="var(--brand-accent)"
+        strokeWidth="1.4"
+      />
       <circle cx="8" cy="6" r="1.6" fill="var(--brand-accent)" />
-      <line x1="4" y1="14" x2="16" y2="14" stroke="var(--brand-accent)" strokeWidth="1.4" />
+      <line
+        x1="4"
+        y1="14"
+        x2="16"
+        y2="14"
+        stroke="var(--brand-accent)"
+        strokeWidth="1.4"
+      />
       <circle cx="13" cy="14" r="1.6" fill="var(--brand-accent)" />
     </svg>
   );
@@ -188,8 +219,8 @@ export default async function DashboardPage() {
             </div>
             <h1>Welcome back, {data.displayName}</h1>
             <p>
-              Your learning progress, recent activity and saved lessons in
-              one place.
+              Your learning progress, recent activity and saved lessons in one
+              place.
             </p>
           </div>
 
@@ -206,17 +237,14 @@ export default async function DashboardPage() {
                 <h2 id="getting-started">Choose your first learning path</h2>
                 <p>
                   Start with the market you want to understand first. Your
-                  dashboard will begin tracking progress as soon as you open
-                  a lesson.
+                  dashboard will begin tracking progress as soon as you open a
+                  lesson.
                 </p>
                 <div className={styles.actions}>
                   <Link className={styles.primaryAction} href="/learn/forex">
                     Start with Forex
                   </Link>
-                  <Link
-                    className={styles.secondaryAction}
-                    href="/learn/crypto"
-                  >
+                  <Link className={styles.secondaryAction} href="/learn/crypto">
                     Explore Crypto
                   </Link>
                 </div>
@@ -265,7 +293,10 @@ export default async function DashboardPage() {
           ) : null}
 
           {data.activeCourses.length > 0 ? (
-            <section className={styles.section} aria-labelledby="active-courses">
+            <section
+              className={styles.section}
+              aria-labelledby="active-courses"
+            >
               <SectionHeader
                 eyebrow="In progress"
                 icon={<BookIcon />}
@@ -278,8 +309,8 @@ export default async function DashboardPage() {
                       <div>
                         <h3>{course.title}</h3>
                         <p>
-                          {course.progress.completed} of{" "}
-                          {course.progress.total} required steps complete
+                          {course.progress.completed} of {course.progress.total}{" "}
+                          required steps complete
                         </p>
                       </div>
                       <strong>
@@ -295,7 +326,9 @@ export default async function DashboardPage() {
                       {percentageLabel(course.progress.percentage)}
                     </progress>
                     <div className={styles.cardFooter}>
-                      <span>Last activity {dateLabel(course.lastActivityAt)}</span>
+                      <span>
+                        Last activity {dateLabel(course.lastActivityAt)}
+                      </span>
                       <Link className={styles.textLink} href={course.href}>
                         View course
                       </Link>
@@ -307,7 +340,10 @@ export default async function DashboardPage() {
           ) : null}
 
           <div className={styles.twoColumn}>
-            <section className={styles.section} aria-labelledby="recent-lessons">
+            <section
+              className={styles.section}
+              aria-labelledby="recent-lessons"
+            >
               <SectionHeader
                 eyebrow="Recent activity"
                 icon={<ClockIcon />}
@@ -378,7 +414,10 @@ export default async function DashboardPage() {
           </section>
 
           {data.completedCourses.length > 0 ? (
-            <section className={styles.section} aria-labelledby="completed-courses">
+            <section
+              className={styles.section}
+              aria-labelledby="completed-courses"
+            >
               <SectionHeader
                 eyebrow="Finished"
                 icon={<FlagIcon />}
@@ -395,7 +434,10 @@ export default async function DashboardPage() {
             </section>
           ) : null}
 
-          <section className={styles.section} aria-labelledby="account-settings">
+          <section
+            className={styles.section}
+            aria-labelledby="account-settings"
+          >
             <SectionHeader
               eyebrow="Your account"
               icon={<SlidersIcon />}

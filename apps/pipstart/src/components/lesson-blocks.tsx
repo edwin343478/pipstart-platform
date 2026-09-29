@@ -2,10 +2,7 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 
 import styles from "./lesson-blocks.module.css";
-import type {
-  LessonBlock,
-  LessonTextContent,
-} from "../content/lesson-content";
+import type { LessonBlock, LessonTextContent } from "../content/lesson-content";
 
 function renderInlineText(text: string): ReactNode {
   const parts = text.split(/(\*\*[^*]+\*\*)/g);
@@ -36,7 +33,13 @@ function ExampleIcon() {
   );
 }
 
-export function LessonBlocks({ blocks, checklist = false }: { blocks: readonly LessonBlock[]; checklist?: boolean }) {
+export function LessonBlocks({
+  blocks,
+  checklist = false,
+}: {
+  blocks: readonly LessonBlock[];
+  checklist?: boolean;
+}) {
   return (
     <div className={styles.blocks}>
       {blocks.map((block, index) => {
@@ -56,7 +59,9 @@ export function LessonBlocks({ blocks, checklist = false }: { blocks: readonly L
             return (
               <section className={styles.sectionBlock} key={key}>
                 {block.title ? <h3>{renderInlineText(block.title)}</h3> : null}
-                {block.paragraphs.map((paragraph) => <p key={paragraph}>{renderInlineText(paragraph)}</p>)}
+                {block.paragraphs.map((paragraph) => (
+                  <p key={paragraph}>{renderInlineText(paragraph)}</p>
+                ))}
               </section>
             );
           case "references":
@@ -64,7 +69,15 @@ export function LessonBlocks({ blocks, checklist = false }: { blocks: readonly L
               <section className={styles.referencesBlock} key={key}>
                 <h3>References</h3>
                 {block.items.map((item) => (
-                  <p key={item.url}><a href={item.url} target="_blank" rel="noopener noreferrer">{item.title} ↗</a></p>
+                  <p key={item.url}>
+                    <a
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {item.title} ↗
+                    </a>
+                  </p>
                 ))}
               </section>
             );
@@ -133,9 +146,7 @@ export function LessonBlocks({ blocks, checklist = false }: { blocks: readonly L
                   </span>
                   <span>Example</span>
                 </div>
-                {block.title ? (
-                  <h3>{renderInlineText(block.title)}</h3>
-                ) : null}
+                {block.title ? <h3>{renderInlineText(block.title)}</h3> : null}
                 {textParagraphs(block.children)}
               </aside>
             );
@@ -151,7 +162,10 @@ export function LessonBlocks({ blocks, checklist = false }: { blocks: readonly L
               <section className={styles.checklistCard} key={key}>
                 <h3>{block.title ?? "Check what you know"}</h3>
                 {block.points.map((point) => (
-                  <label key={point}><input type="checkbox" /> <span>{renderInlineText(point)}</span></label>
+                  <label key={point}>
+                    <input type="checkbox" />{" "}
+                    <span>{renderInlineText(point)}</span>
+                  </label>
                 ))}
               </section>
             ) : (

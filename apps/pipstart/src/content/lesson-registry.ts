@@ -5,7 +5,12 @@ import type {
   LessonSection,
 } from "./lesson-content";
 import { selectPublishableLessons } from "./lesson-content";
-import { level0Lesson1, level0Lesson2, level0Lesson3, level0Lesson4 } from "./lessons/forex/level-0-sections";
+import {
+  level0Lesson1,
+  level0Lesson2,
+  level0Lesson3,
+  level0Lesson4,
+} from "./lessons/forex/level-0-sections";
 import { relatedTermSlugs } from "../lib/related-learning";
 import {
   blocks as draftSecurityBlocks,
@@ -75,13 +80,10 @@ type LessonRouteMetadata = Pick<
   "learningPath" | "level" | "position" | "slug"
 >;
 
-export function buildLessonHref(
-  metadata: LessonRouteMetadata,
-): `/${string}` {
-  const levelRoot = `/learn/${metadata.learningPath}/${metadata.level}` as const;
-  return metadata.position === 1
-    ? levelRoot
-    : `${levelRoot}/${metadata.slug}`;
+export function buildLessonHref(metadata: LessonRouteMetadata): `/${string}` {
+  const levelRoot =
+    `/learn/${metadata.learningPath}/${metadata.level}` as const;
+  return metadata.position === 1 ? levelRoot : `${levelRoot}/${metadata.slug}`;
 }
 
 export const publishedLessons: PublishedLesson[] = selectPublishableLessons(

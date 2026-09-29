@@ -13,7 +13,10 @@ describe("Milestone 14 lesson bookmarks", () => {
     expect(sharedPage).toContain("<LessonBookmarkButton");
     expect(sharedPage).toContain("lessonHref={lesson.href}");
     expect(sharedPage).toContain("lessonId={lesson.id}");
-    for (const route of ["learn/forex/level-1/forex-lesson.tsx", "learn/crypto/level-1/page.tsx"]) {
+    for (const route of [
+      "learn/forex/level-1/forex-lesson.tsx",
+      "learn/crypto/level-1/page.tsx",
+    ]) {
       expect(read(route)).toContain("<LessonPage");
     }
   });

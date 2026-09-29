@@ -15,7 +15,13 @@ export const metadata: Metadata = {
 function PersonIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
-      <circle cx="10" cy="7.5" r="2.8" stroke="var(--brand-accent)" strokeWidth="1.4" />
+      <circle
+        cx="10"
+        cy="7.5"
+        r="2.8"
+        stroke="var(--brand-accent)"
+        strokeWidth="1.4"
+      />
       <path
         d="M4.5 15.5C5.5 12.5 7.5 11 10 11C12.5 11 14.5 12.5 15.5 15.5"
         stroke="var(--brand-accent)"
@@ -29,7 +35,15 @@ function PersonIcon() {
 function EnvelopeIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
-      <rect x="4" y="5.5" width="12" height="9" rx="1.5" stroke="var(--brand-accent)" strokeWidth="1.4" />
+      <rect
+        x="4"
+        y="5.5"
+        width="12"
+        height="9"
+        rx="1.5"
+        stroke="var(--brand-accent)"
+        strokeWidth="1.4"
+      />
       <path
         d="M4.5 6.5L10 10.5L15.5 6.5"
         stroke="var(--brand-accent)"
@@ -83,7 +97,14 @@ function InfoIcon() {
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
       <circle cx="10" cy="10" r="8" fill="#CCFBF1" />
       <rect x="9.25" y="8.5" width="1.5" height="5" rx="0.75" fill="#0F766E" />
-      <rect x="9.25" y="5.75" width="1.5" height="1.5" rx="0.75" fill="#0F766E" />
+      <rect
+        x="9.25"
+        y="5.75"
+        width="1.5"
+        height="1.5"
+        rx="0.75"
+        fill="#0F766E"
+      />
     </svg>
   );
 }

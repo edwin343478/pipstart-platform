@@ -17,8 +17,9 @@ const authenticatedAction: LearnerNavigationAction = {
   label: "Dashboard",
 };
 
-const LearnerNavigationContext =
-  createContext<LearnerNavigationAction | null>(null);
+const LearnerNavigationContext = createContext<LearnerNavigationAction | null>(
+  null,
+);
 
 export function LearnerNavigationProvider({
   authenticated,
@@ -40,11 +41,7 @@ export function useLearnerNavigationAction() {
   return useContext(LearnerNavigationContext);
 }
 
-export function LearnerNavigationLink({
-  className,
-}: {
-  className?: string;
-}) {
+export function LearnerNavigationLink({ className }: { className?: string }) {
   const action = useLearnerNavigationAction();
   if (!action) return null;
 

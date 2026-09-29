@@ -22,8 +22,14 @@ describe("Milestone 15 Level 0 deep content", () => {
   it("uses the approved connected manuscript structure", () => {
     for (const lesson of lessons) {
       expect(lesson.sections?.length).toBeGreaterThanOrEqual(5);
-      expect(lesson.blocks.some((block) => block.type === "section")).toBe(true);
-      expect(lesson.blocks.some((block) => block.type === "example" || block.type === "takeaway")).toBe(true);
+      expect(lesson.blocks.some((block) => block.type === "section")).toBe(
+        true,
+      );
+      expect(
+        lesson.blocks.some(
+          (block) => block.type === "example" || block.type === "takeaway",
+        ),
+      ).toBe(true);
       expect(
         lesson.blocks.some((block) => block.type === "riskStatement"),
       ).toBe(true);

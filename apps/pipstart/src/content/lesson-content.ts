@@ -84,7 +84,9 @@ export type LessonSection = {
   blocks: LessonBlock[];
 };
 
-export function flattenSections(sections: readonly LessonSection[]): LessonBlock[] {
+export function flattenSections(
+  sections: readonly LessonSection[],
+): LessonBlock[] {
   return sections.flatMap((section) => section.blocks);
 }
 
@@ -161,11 +163,7 @@ function validateOptionalTitle(
   }
 }
 
-function validateTextContent(
-  value: unknown,
-  errors: string[],
-  label: string,
-) {
+function validateTextContent(value: unknown, errors: string[], label: string) {
   if (isNonEmptyString(value)) return;
 
   if (
@@ -189,10 +187,22 @@ function validateLessonBlock(block: LessonBlock, errors: string[]) {
       }
       break;
     case "section":
-      if (!Array.isArray(block.paragraphs) || !block.paragraphs.length || block.paragraphs.some((entry) => !isNonEmptyString(entry))) errors.push("section paragraphs are required");
+      if (
+        !Array.isArray(block.paragraphs) ||
+        !block.paragraphs.length ||
+        block.paragraphs.some((entry) => !isNonEmptyString(entry))
+      )
+        errors.push("section paragraphs are required");
       break;
     case "references":
-      if (!Array.isArray(block.items) || !block.items.length || block.items.some((item) => !isNonEmptyString(item.title) || !isValidHttpsUrl(item.url))) errors.push("references require HTTPS sources");
+      if (
+        !Array.isArray(block.items) ||
+        !block.items.length ||
+        block.items.some(
+          (item) => !isNonEmptyString(item.title) || !isValidHttpsUrl(item.url),
+        )
+      )
+        errors.push("references require HTTPS sources");
       break;
     case "paragraph":
     case "riskStatement":
@@ -444,8 +454,22 @@ export function validateLessonForPublication(document: LessonDocument) {
   }
 
   if (document.sections) {
-    if (!document.sections.length || document.sections.some((section) => !isNonEmptyString(section.title) || !section.blocks.length || (section.shortTitle !== undefined && !isNonEmptyString(section.shortTitle)))) errors.push("sections require a title and blocks");
-    if (JSON.stringify(blocks) !== JSON.stringify(flattenSections(document.sections))) errors.push("blocks must match flattened sections");
+    if (
+      !document.sections.length ||
+      document.sections.some(
+        (section) =>
+          !isNonEmptyString(section.title) ||
+          !section.blocks.length ||
+          (section.shortTitle !== undefined &&
+            !isNonEmptyString(section.shortTitle)),
+      )
+    )
+      errors.push("sections require a title and blocks");
+    if (
+      JSON.stringify(blocks) !==
+      JSON.stringify(flattenSections(document.sections))
+    )
+      errors.push("blocks must match flattened sections");
   }
 
   for (const block of Array.isArray(blocks) ? blocks : []) {
@@ -459,7 +483,8 @@ export function validateLessonForPublication(document: LessonDocument) {
     metadata.riskWarningRequired &&
     (!Array.isArray(blocks) ||
       !blocks.some(
-        (block) => block.type === "riskNotice" || block.type === "riskStatement",
+        (block) =>
+          block.type === "riskNotice" || block.type === "riskStatement",
       ))
   ) {
     errors.push("risk notice block is required");

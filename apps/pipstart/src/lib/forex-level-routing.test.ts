@@ -81,12 +81,12 @@ describe("generic Forex level routing", () => {
   });
 
   it("preserves Level 1 browser data and isolates Level 0 progress", () => {
-    expect(
-      forexProgressStorageKey("level-1", "forex-kindergarten"),
-    ).toBe("pipstart:learn:forex:level-1:progress");
-    expect(
-      forexProgressStorageKey("level-0", "forex-orientation"),
-    ).toBe("pipstart:learn:forex:level-0:forex-orientation:progress");
+    expect(forexProgressStorageKey("level-1", "forex-kindergarten")).toBe(
+      "pipstart:learn:forex:level-1:progress",
+    );
+    expect(forexProgressStorageKey("level-0", "forex-orientation")).toBe(
+      "pipstart:learn:forex:level-0:forex-orientation:progress",
+    );
     expect(
       forexProgressStorageKey("level-2", "brokers-and-platforms"),
     ).not.toBe(forexProgressStorageKey("level-0", "forex-orientation"));

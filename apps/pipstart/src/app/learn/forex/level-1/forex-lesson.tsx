@@ -19,7 +19,10 @@ type ForexLessonPageProps = {
 };
 
 function moduleLabel(module: string) {
-  return module.split("-").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+  return module
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }
 
 export default function ForexLessonPage({
@@ -30,7 +33,10 @@ export default function ForexLessonPage({
   lesson,
   lessons = forexLessons,
   progressKey = FOREX_LEVEL_ONE_PROGRESS_KEY,
-  quizTarget = { href: "/learn/forex/level-1/quiz", label: "Take the Forex Foundations quiz" },
+  quizTarget = {
+    href: "/learn/forex/level-1/quiz",
+    label: "Take the Forex Foundations quiz",
+  },
 }: ForexLessonPageProps) {
   return (
     <LessonPage
@@ -38,7 +44,14 @@ export default function ForexLessonPage({
       lesson={lesson}
       lessons={lessons}
       contextHref={contextHref ?? courseHref}
-      contextTitle={contextTitle ?? (lesson.level === "level-0" ? "Orientation and Safety" : lesson.module ? moduleLabel(lesson.module) : courseTitle)}
+      contextTitle={
+        contextTitle ??
+        (lesson.level === "level-0"
+          ? "Orientation and Safety"
+          : lesson.module
+            ? moduleLabel(lesson.module)
+            : courseTitle)
+      }
       progressKey={progressKey}
       quizTarget={quizTarget}
     />

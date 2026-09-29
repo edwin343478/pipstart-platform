@@ -475,9 +475,19 @@
   max-width: 100%;
 }
 
-.sectionBlock { margin: 0 0 1rem; color: #3d4551; line-height: 1.7; }
-.sectionBlock h3 { margin: 0 0 .75rem; font-size: 1.125rem; color: #0b1220; }
-.sectionBlock p { margin: 0 0 .75rem; }
+.sectionBlock {
+  margin: 0 0 1rem;
+  color: #3d4551;
+  line-height: 1.7;
+}
+.sectionBlock h3 {
+  margin: 0 0 0.75rem;
+  font-size: 1.125rem;
+  color: #0b1220;
+}
+.sectionBlock p {
+  margin: 0 0 0.75rem;
+}
 
 /* Justify lesson prose on desktop and mobile; keep headings, checkboxes,
    citations and data tables aligned as their components intend. */
@@ -493,13 +503,58 @@
   text-align: justify;
   hyphens: auto;
 }
-.referencesBlock { border-top: 1px solid #e7ebee; padding-top: 1.125rem; margin-top: 1.5rem; font-size: .875rem; }
-.referencesBlock h3 { margin: 0 0 .75rem; color: #0b1220; }
-.referencesBlock p { margin: 0 0 .5rem; }
-.referencesBlock a { color: #0f766e; }
+.referencesBlock {
+  border-top: 1px solid #e7ebee;
+  padding-top: 1.125rem;
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+}
+.referencesBlock h3 {
+  margin: 0 0 0.75rem;
+  color: #0b1220;
+}
+.referencesBlock p {
+  margin: 0 0 0.5rem;
+}
+.referencesBlock a {
+  color: #0f766e;
+}
 
-.checklistCard { background: #f0fdfa; border: 1px solid #99f6e4; border-radius: 18px; padding: 24px 26px; margin-bottom: 20px; }
-.checklistCard h3 { margin: 0 0 12px; color: #115e59; font-family: var(--font-pipstart-heading), sans-serif; font-size: 17px; }
-.checklistCard label { display: flex; gap: 10px; align-items: flex-start; margin: 0 0 9px; color: #115e59; font-size: 14.5px; line-height: 1.5; cursor: pointer; }
-.checklistCard input { width: 17px; height: 17px; margin: 2px 0 0; accent-color: #0f766e; flex: 0 0 auto; }
-@media (max-width: 767px) { .checklistCard { padding: 18px 16px; } .checklistCard label { font-size: 13px; } }
+.checklistCard {
+  background: #f0fdfa;
+  border: 1px solid #99f6e4;
+  border-radius: 18px;
+  padding: 24px 26px;
+  margin-bottom: 20px;
+}
+.checklistCard h3 {
+  margin: 0 0 12px;
+  color: #115e59;
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: 17px;
+}
+.checklistCard label {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin: 0 0 9px;
+  color: #115e59;
+  font-size: 14.5px;
+  line-height: 1.5;
+  cursor: pointer;
+}
+.checklistCard input {
+  width: 17px;
+  height: 17px;
+  margin: 2px 0 0;
+  accent-color: #0f766e;
+  flex: 0 0 auto;
+}
+@media (max-width: 767px) {
+  .checklistCard {
+    padding: 18px 16px;
+  }
+  .checklistCard label {
+    font-size: 13px;
+  }
+}
