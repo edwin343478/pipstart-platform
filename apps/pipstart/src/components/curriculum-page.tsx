@@ -8,6 +8,7 @@ import type {
   CurriculumModule,
   LearningPath,
 } from "../lib/curriculum";
+import { getLearningProgressStorageKey } from "../lib/learning-progress-storage";
 import { createBreadcrumbJsonLd } from "../lib/seo";
 import {
   calculateModuleCompletion,
@@ -73,16 +74,17 @@ export function CurriculumPage({
   const lessons = module
     ? module.lessons
     : course.modules.flatMap((item) => item.lessons);
-  const pathProgress =
-    learningPath.id === "forex"
-      ? {
-          eventName: "pipstart:forex-progress-change",
-          storageKey: "pipstart:learn:forex:level-1:progress",
-        }
-      : {
-          eventName: "pipstart:crypto-progress-change",
-          storageKey: "pipstart:learn:crypto:level-1:progress",
-        };
+  const pathProgress = {
+    eventName:
+      learningPath.id === "forex"
+        ? "pipstart:forex-progress-change"
+        : "pipstart:crypto-progress-change",
+    storageKey: getLearningProgressStorageKey(
+      learningPath.id,
+      level.id,
+      course.id,
+    ),
+  };
   const progress = usePermanentProgress({
     courseId: course.id,
     ...pathProgress,

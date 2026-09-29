@@ -15,6 +15,23 @@ function CheckIcon() {
   );
 }
 
+function PathIcon({ type }: { type: "crypto" | "forex" }) {
+  if (type === "crypto")
+    return (
+      <svg aria-hidden="true" viewBox="0 0 20 20">
+        <rect x="4" y="4" width="6" height="6" rx="1.5" />
+        <rect x="10" y="10" width="6" height="6" rx="1.5" />
+        <path d="M8 10L10 8" />
+      </svg>
+    );
+  return (
+    <svg aria-hidden="true" viewBox="0 0 20 20">
+      <path d="M5 8H14M14 8L11 5M14 8L11 11" />
+      <path d="M15 13H6M6 13L9 10M6 13L9 16" />
+    </svg>
+  );
+}
+
 function ResourceIcon({
   type,
 }: {
@@ -79,7 +96,10 @@ export default function Home() {
       </header>
 
       <section className={styles.hero}>
-        <p>Structured Forex &amp; crypto education</p>
+        <div className={styles.eyebrowRow}>
+          <span className={styles.eyebrowDot} aria-hidden="true" />
+          <p>Structured Forex &amp; crypto education</p>
+        </div>
         <h1>Learn markets with structure, not shortcuts.</h1>
         <div className={styles.heroDescription}>
           A complete, free learning path — from what a currency pair is to
@@ -88,7 +108,9 @@ export default function Home() {
         <ul className={styles.heroTrust}>
           {heroTrustPoints.map((point) => (
             <li key={point}>
-              <CheckIcon />
+              <span className={styles.trustCheck} aria-hidden="true">
+                <CheckIcon />
+              </span>
               {point}
             </li>
           ))}
@@ -99,24 +121,30 @@ export default function Home() {
         <article className={styles.glowWrap}>
           <div className={styles.glowRing} aria-hidden="true" />
           <div className={styles.schoolCard}>
+            <span className={styles.schoolIcon} aria-hidden="true">
+              <PathIcon type="forex" />
+            </span>
             <p>New to forex?</p>
             <h2>School of Forex</h2>
             <div>
               11 levels, from complete beginner to advanced strategy — at your
               own pace.
             </div>
-            <Link href="/learn/forex/level-1">Start Forex Level 1 →</Link>
+            <Link href="/learn/forex">Explore all Forex levels →</Link>
           </div>
         </article>
         <article className={styles.glowWrap}>
           <div className={styles.glowRing} aria-hidden="true" />
           <div className={styles.schoolCard}>
+            <span className={styles.schoolIcon} aria-hidden="true">
+              <PathIcon type="crypto" />
+            </span>
             <p>New to crypto?</p>
             <h2>School of Crypto</h2>
             <div>
               10 levels covering Bitcoin, wallets, exchanges and DeFi risk.
             </div>
-            <Link href="/learn/crypto/level-1">Start Crypto Level 1 →</Link>
+            <Link href="/learn/crypto">Explore all Crypto levels →</Link>
           </div>
         </article>
       </section>
@@ -124,7 +152,9 @@ export default function Home() {
       <nav className={styles.resources} aria-label="Learning resources">
         {resources.map((resource) => (
           <Link href={resource.href} key={resource.href}>
-            <ResourceIcon type={resource.type} />
+            <span className={styles.resourceIcon} aria-hidden="true">
+              <ResourceIcon type={resource.type} />
+            </span>
             <span>{resource.label}</span>
           </Link>
         ))}

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { buildLessonHref } from "../../../../content/lesson-registry";
 import { forexLessons, getForexLesson } from "./lessons";
 
 describe("Forex level-one lesson infrastructure", () => {
@@ -13,6 +14,15 @@ describe("Forex level-one lesson infrastructure", () => {
     expect(forexLessons.every((lesson) => lesson.status === "published")).toBe(
       true,
     );
+    expect(
+      forexLessons.every(
+        (lesson) =>
+          lesson.learningPath === "forex" &&
+          lesson.level === "level-1" &&
+          lesson.course === "forex-kindergarten" &&
+          lesson.module === "forex-foundations",
+      ),
+    ).toBe(true);
   });
 
   it("keeps the approved first lesson at the level root", () => {
@@ -21,6 +31,26 @@ describe("Forex level-one lesson infrastructure", () => {
       slug: "what-is-forex",
       title: "What is Forex?",
     });
+  });
+
+  it("builds lesson URLs from lesson metadata instead of hard-coding Level 1", () => {
+    expect(
+      buildLessonHref({
+        learningPath: "forex",
+        level: "level-3",
+        position: 1,
+        slug: "chart-types",
+      }),
+    ).toBe("/learn/forex/level-3");
+
+    expect(
+      buildLessonHref({
+        learningPath: "forex",
+        level: "level-3",
+        position: 2,
+        slug: "candlesticks",
+      }),
+    ).toBe("/learn/forex/level-3/candlesticks");
   });
 
   it("resolves every lesson slug and rejects unknown slugs", () => {

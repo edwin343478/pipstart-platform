@@ -239,6 +239,62 @@ describe("lesson publishing safeguards", () => {
     expect(() => validateLessonForPublication(document)).toThrow(message);
   });
 
+  it("accepts connected long-form lesson blocks", () => {
+    const document = validDocument();
+    document.blocks = [
+      { type: "heading", children: "Why this matters" },
+      { type: "paragraph", children: "Build the idea before the example." },
+      {
+        type: "example",
+        title: "Everyday example",
+        children: ["First paragraph.", "Second paragraph."],
+      },
+      {
+        type: "list",
+        style: "unordered",
+        items: ["First point", "Second point"],
+      },
+      { type: "quote", children: "A quoted message." },
+      {
+        type: "takeaway",
+        children: ["Remember the main idea.", "Use it before moving on."],
+      },
+    ];
+
+    expect(validateLessonForPublication(document)).toBeTruthy();
+  });
+
+  it.each<[string, LessonBlock, string]>([
+    ["heading", { type: "heading", children: "" }, "heading content"],
+    ["paragraph", { type: "paragraph", children: "" }, "paragraph content"],
+    [
+      "risk statement",
+      { type: "riskStatement", children: "" },
+      "riskStatement content",
+    ],
+    ["list", { type: "list", items: [] }, "list requires"],
+    ["quote", { type: "quote", children: "" }, "quote content"],
+    [
+      "reflection",
+      { type: "reflection", title: "Reflection", points: [] },
+      "reflection requires",
+    ],
+    [
+      "takeaway",
+      { type: "takeaway", children: [] },
+      "takeaway content",
+    ],
+    [
+      "multi-paragraph example",
+      { type: "example", children: ["Good", ""] },
+      "example content",
+    ],
+  ])("rejects invalid rich %s blocks", (_name, block, message) => {
+    const document = validDocument();
+    document.blocks = [block];
+    expect(() => validateLessonForPublication(document)).toThrow(message);
+  });
+
   it("rejects unknown blocks defensively", () => {
     const document = validDocument();
     document.blocks = [{ type: "unsupported" } as unknown as LessonBlock];

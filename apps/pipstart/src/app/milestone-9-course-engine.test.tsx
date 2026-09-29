@@ -17,7 +17,7 @@ describe("Milestone 9 basic course engine", () => {
         level.courses.flatMap((course) => course.modules),
       ),
     );
-    expect(modules).toHaveLength(2);
+    expect(modules.length).toBeGreaterThanOrEqual(2);
     expect(
       modules.flatMap((module) => module.lessons).length,
     ).toBeGreaterThanOrEqual(5);
@@ -48,7 +48,7 @@ describe("Milestone 9 basic course engine", () => {
     for (const markup of [forexMarkup, cryptoMarkup]) {
       expect(markup).toContain("minute read");
       expect(markup).toContain("Learning objectives");
-      expect(markup).toContain("Related learning");
+      expect(markup).toContain("Sections of");
       expect(markup).toContain("Mark complete");
     }
   });

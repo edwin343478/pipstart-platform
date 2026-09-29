@@ -59,7 +59,7 @@ describe("PipStart internal route integrity", () => {
     );
 
     expect(home).not.toContain("/account/sign-in");
-    expect(cryptoLesson).toContain("Mark complete");
+    expect(cryptoLesson).toContain("<LessonPage");
     expect(cryptoLesson).not.toContain("/learn/crypto/level-1/blockchain");
   });
 
@@ -92,32 +92,36 @@ describe("PipStart internal route integrity", () => {
     ).toBe(true);
   });
 
-  it("links learners to the available Forex level without promising Level 0", () => {
+  it("opens the Forex school at the level index", () => {
     const home = fs.readFileSync(path.join(appRoot, "page.tsx"), "utf8");
     const forexPath = fs.readFileSync(
       path.join(appRoot, "learn/forex/page.tsx"),
       "utf8",
     );
 
-    expect(home).toContain('href="/learn/forex/level-1"');
-    expect(home).not.toContain("Start Level 0");
-    expect(forexPath).toContain("href={levelHref}");
+    expect(home).toContain('href="/learn/forex"');
+    expect(home).toContain("Explore all Forex levels");
+    expect(home).not.toContain('href="/learn/forex/level-1"');
+    expect(forexPath).toContain('"/learn/forex/level-0"');
+    expect(forexPath).toContain("Start Level 0: Orientation and Safety");
     expect(forexPath).toContain(
       '"/learn/forex/level-1/forex-kindergarten/forex-foundations"',
     );
+    expect(forexPath).toContain("Start Level 1: Forex Kindergarten");
     expect(forexPath).toContain("Available");
     expect(forexPath).toContain("Coming soon");
   });
 
-  it("links learners to the available Crypto level without promising Level 0", () => {
+  it("opens the Crypto school at the level index", () => {
     const home = fs.readFileSync(path.join(appRoot, "page.tsx"), "utf8");
     const cryptoPath = fs.readFileSync(
       path.join(appRoot, "learn/crypto/page.tsx"),
       "utf8",
     );
 
-    expect(home).toContain('href="/learn/crypto/level-1"');
-    expect(home).not.toContain("Start Level 0");
+    expect(home).toContain('href="/learn/crypto"');
+    expect(home).toContain("Explore all Crypto levels");
+    expect(home).not.toContain('href="/learn/crypto/level-1"');
     expect(cryptoPath).toContain('href="/learn/crypto/level-1"');
     expect(cryptoPath).toContain("Available");
     expect(cryptoPath).toContain("Coming soon");
@@ -133,9 +137,9 @@ describe("PipStart internal route integrity", () => {
       "utf8",
     );
 
-    expect(forexLevel).toContain('allLevelsHref="/learn/forex"');
-    expect(forexLevel).toContain("All Forex levels");
-    expect(cryptoLevel).toContain('allLevelsHref="/learn/crypto"');
-    expect(cryptoLevel).toContain("All Crypto levels");
+    const sharedPage = fs.readFileSync(path.join(appRoot, "../components/lesson-page.tsx"), "utf8");
+    expect(forexLevel).toContain('path="forex"');
+    expect(cryptoLevel).toContain('path="crypto"');
+    expect(sharedPage).toContain('href={`/learn/${path}`}');
   });
 });

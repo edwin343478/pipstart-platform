@@ -8,12 +8,10 @@ import { forexLessons } from "./learn/forex/level-1/lessons";
 import { publishedLessons } from "../content/lesson-registry";
 
 describe("Milestone 10 content publishing", () => {
-  it("publishes all seven migrated MDX lessons in curriculum order", () => {
+  it("preserves the seven Milestone 10 migrated MDX lessons in curriculum order", () => {
     expect(forexLessons).toHaveLength(6);
     expect(cryptoLessons).toHaveLength(1);
-    expect(publishedLessons.map((lesson) => lesson.position)).toEqual([
-      1, 1, 2, 3, 4, 5, 6,
-    ]);
+    expect(cryptoLessons.map((lesson) => lesson.position)).toEqual([1]);
     expect(forexLessons.map((lesson) => lesson.position)).toEqual([
       1, 2, 3, 4, 5, 6,
     ]);

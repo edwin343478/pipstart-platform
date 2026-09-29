@@ -19,9 +19,11 @@ type BookmarkState = {
 export function LessonBookmarkButton({
   lessonHref,
   lessonId,
+  lessonPage = false,
 }: {
   lessonHref: string;
   lessonId: string;
+  lessonPage?: boolean;
 }) {
   const [bookmarkState, setBookmarkState] = useState<BookmarkState | null>(
     null,
@@ -56,7 +58,7 @@ export function LessonBookmarkButton({
     return (
       <div className={styles.wrapper}>
         <button className={styles.button} disabled type="button">
-          Bookmark
+          {lessonPage ? "Save unavailable" : "Bookmark"}
         </button>
         <span className={styles.status} role="alert">
           Bookmarks are temporarily unavailable.
@@ -69,7 +71,7 @@ export function LessonBookmarkButton({
     return (
       <div className={styles.wrapper}>
         <button className={styles.button} disabled type="button">
-          Checking bookmark…
+          {lessonPage ? "Checking save…" : "Checking bookmark…"}
         </button>
       </div>
     );
@@ -82,7 +84,7 @@ export function LessonBookmarkButton({
           className={styles.button}
           href={`/login?next=${encodeURIComponent(lessonHref)}`}
         >
-          Sign in to bookmark
+          {lessonPage ? "Sign in to save" : "Sign in to bookmark"}
         </Link>
       </div>
     );
@@ -123,8 +125,12 @@ export function LessonBookmarkButton({
         {pending
           ? "Saving…"
           : currentState.bookmarked
-            ? "Bookmarked"
-            : "Bookmark"}
+            ? lessonPage
+              ? "Saved lesson"
+              : "Bookmarked"
+            : lessonPage
+              ? "Save lesson"
+              : "Bookmark"}
       </button>
       {message ? (
         <span

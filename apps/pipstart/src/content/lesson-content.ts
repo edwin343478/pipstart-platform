@@ -32,10 +32,31 @@ export type LessonMetadata = {
   title: string;
 };
 
+export type LessonTextContent = string | string[];
+
 export type LessonBlock =
+  | { type: "heading"; level?: 2 | 3; children: string }
+  | { type: "paragraph"; children: string }
+  | { type: "section"; title: string; paragraphs: string[] }
+  | { type: "references"; items: LessonSource[] }
+  | { type: "riskStatement"; children: string }
+  | {
+      type: "list";
+      style?: "ordered" | "unordered";
+      items: string[];
+    }
+  | { type: "quote"; children: string }
+  | {
+      type: "reflection";
+      title: string;
+      introduction?: string[];
+      points: string[];
+      closing?: string[];
+    }
+  | { type: "takeaway"; title?: string; children: LessonTextContent }
   | { type: "definition"; term: string; children: string }
-  | { type: "example"; title?: string; children: string }
-  | { type: "warning"; title?: string; children: string }
+  | { type: "example"; title?: string; children: LessonTextContent }
+  | { type: "warning"; title?: string; children: LessonTextContent }
   | { type: "keyPoint"; title?: string; points: string[] }
   | { type: "formula"; expression: string; explanation: string }
   | { type: "exercise"; prompt: string }
@@ -49,16 +70,27 @@ export type LessonBlock =
     }
   | {
       type: "comparisonTable";
-      caption: string;
+      caption?: string;
       columns: string[];
       rows: string[][];
     }
-  | { type: "riskNotice"; children: string }
+  | { type: "riskNotice"; children: LessonTextContent }
   | { type: "affiliateDisclosure"; children: string }
   | { type: "quizPreview"; title: string; questionCount: number };
 
+export type LessonSection = {
+  title: string;
+  shortTitle?: string;
+  blocks: LessonBlock[];
+};
+
+export function flattenSections(sections: readonly LessonSection[]): LessonBlock[] {
+  return sections.flatMap((section) => section.blocks);
+}
+
 export type LessonDocument = {
   blocks: LessonBlock[];
+  sections?: LessonSection[];
   metadata: LessonMetadata;
 };
 
@@ -129,8 +161,88 @@ function validateOptionalTitle(
   }
 }
 
+function validateTextContent(
+  value: unknown,
+  errors: string[],
+  label: string,
+) {
+  if (isNonEmptyString(value)) return;
+
+  if (
+    Array.isArray(value) &&
+    value.length > 0 &&
+    value.every((entry) => isNonEmptyString(entry))
+  ) {
+    return;
+  }
+
+  errors.push(`${label} content is required`);
+}
+
 function validateLessonBlock(block: LessonBlock, errors: string[]) {
   switch (block.type) {
+    case "heading":
+      if (!isNonEmptyString(block.children))
+        errors.push("heading content is required");
+      if (block.level !== undefined && block.level !== 2 && block.level !== 3) {
+        errors.push("heading level must be 2 or 3");
+      }
+      break;
+    case "section":
+      if (!Array.isArray(block.paragraphs) || !block.paragraphs.length || block.paragraphs.some((entry) => !isNonEmptyString(entry))) errors.push("section paragraphs are required");
+      break;
+    case "references":
+      if (!Array.isArray(block.items) || !block.items.length || block.items.some((item) => !isNonEmptyString(item.title) || !isValidHttpsUrl(item.url))) errors.push("references require HTTPS sources");
+      break;
+    case "paragraph":
+    case "riskStatement":
+      if (!isNonEmptyString(block.children))
+        errors.push(`${block.type} content is required`);
+      break;
+    case "list":
+      if (
+        !Array.isArray(block.items) ||
+        !block.items.length ||
+        block.items.some((item) => !isNonEmptyString(item))
+      ) {
+        errors.push("list requires at least one nonempty item");
+      }
+      if (
+        block.style !== undefined &&
+        block.style !== "ordered" &&
+        block.style !== "unordered"
+      ) {
+        errors.push("list style is invalid");
+      }
+      break;
+    case "quote":
+      if (!isNonEmptyString(block.children))
+        errors.push("quote content is required");
+      break;
+    case "reflection":
+      if (!isNonEmptyString(block.title))
+        errors.push("reflection title is required");
+      if (
+        !Array.isArray(block.points) ||
+        !block.points.length ||
+        block.points.some((point) => !isNonEmptyString(point))
+      ) {
+        errors.push("reflection requires at least one nonempty point");
+      }
+      for (const group of [block.introduction, block.closing]) {
+        if (
+          group !== undefined &&
+          (!Array.isArray(group) ||
+            group.some((paragraph) => !isNonEmptyString(paragraph)))
+        ) {
+          errors.push("reflection paragraphs cannot be blank");
+        }
+      }
+      break;
+    case "takeaway":
+      validateOptionalTitle(block.title, errors, "takeaway");
+      validateTextContent(block.children, errors, "takeaway");
+      break;
     case "definition":
       if (!isNonEmptyString(block.term))
         errors.push("definition term is required");
@@ -140,8 +252,7 @@ function validateLessonBlock(block: LessonBlock, errors: string[]) {
     case "example":
     case "warning":
       validateOptionalTitle(block.title, errors, block.type);
-      if (!isNonEmptyString(block.children))
-        errors.push(`${block.type} content is required`);
+      validateTextContent(block.children, errors, block.type);
       break;
     case "keyPoint":
       validateOptionalTitle(block.title, errors, "key point");
@@ -184,8 +295,8 @@ function validateLessonBlock(block: LessonBlock, errors: string[]) {
       validateOptionalTitle(block.caption, errors, "diagram caption");
       break;
     case "comparisonTable": {
-      if (!isNonEmptyString(block.caption))
-        errors.push("comparison table caption is required");
+      if (block.caption !== undefined && !isNonEmptyString(block.caption))
+        errors.push("comparison table caption cannot be blank");
       if (
         !Array.isArray(block.columns) ||
         !block.columns.length ||
@@ -217,8 +328,7 @@ function validateLessonBlock(block: LessonBlock, errors: string[]) {
       break;
     }
     case "riskNotice":
-      if (!isNonEmptyString(block.children))
-        errors.push("risk notice content is required");
+      validateTextContent(block.children, errors, "risk notice");
       break;
     case "affiliateDisclosure":
       if (!isNonEmptyString(block.children))
@@ -333,6 +443,11 @@ export function validateLessonForPublication(document: LessonDocument) {
     }
   }
 
+  if (document.sections) {
+    if (!document.sections.length || document.sections.some((section) => !isNonEmptyString(section.title) || !section.blocks.length || (section.shortTitle !== undefined && !isNonEmptyString(section.shortTitle)))) errors.push("sections require a title and blocks");
+    if (JSON.stringify(blocks) !== JSON.stringify(flattenSections(document.sections))) errors.push("blocks must match flattened sections");
+  }
+
   for (const block of Array.isArray(blocks) ? blocks : []) {
     validateLessonBlock(block, errors);
   }
@@ -343,7 +458,9 @@ export function validateLessonForPublication(document: LessonDocument) {
   if (
     metadata.riskWarningRequired &&
     (!Array.isArray(blocks) ||
-      !blocks.some((block) => block.type === "riskNotice"))
+      !blocks.some(
+        (block) => block.type === "riskNotice" || block.type === "riskStatement",
+      ))
   ) {
     errors.push("risk notice block is required");
   }

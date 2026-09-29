@@ -2,7 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import {
   getCurriculumCourse,
+  getCurriculumCourseInLevel,
   getCurriculumModule,
+  getCurriculumModuleInCourse,
   learningPaths,
   publishedHierarchyRoutes,
 } from "./curriculum";
@@ -18,8 +20,59 @@ describe("published curriculum hierarchy", () => {
         levels: path.levels.map((level) => level.id),
       })),
     ).toEqual([
-      { courses: ["forex-kindergarten"], id: "forex", levels: ["level-1"] },
+      {
+        courses: ["forex-orientation", "forex-kindergarten"],
+        id: "forex",
+        levels: ["level-0", "level-1"],
+      },
       { courses: ["bitcoin"], id: "crypto", levels: ["level-1"] },
+    ]);
+  });
+
+  it("publishes the four approved Level 0 orientation lessons in order", () => {
+    const course = getCurriculumCourseInLevel(
+      "forex",
+      "level-0",
+      "forex-orientation",
+    );
+    const curriculumModule = getCurriculumModuleInCourse(
+      "forex",
+      "level-0",
+      "forex-orientation",
+      "orientation-and-safety",
+    );
+
+    expect(course?.href).toBe("/learn/forex/level-0/forex-orientation");
+    expect(curriculumModule?.href).toBe(
+      "/learn/forex/level-0/forex-orientation/orientation-and-safety",
+    );
+    expect(
+      curriculumModule?.lessons.map(({ href, id, type }) => ({
+        href,
+        id,
+        type,
+      })),
+    ).toEqual([
+      {
+        href: "/learn/forex/level-0",
+        id: "orientation-course-purpose",
+        type: "lesson",
+      },
+      {
+        href: "/learn/forex/level-0/trading-versus-investing",
+        id: "trading-versus-investing",
+        type: "lesson",
+      },
+      {
+        href: "/learn/forex/level-0/money-risk-and-demo",
+        id: "money-risk-and-demo",
+        type: "lesson",
+      },
+      {
+        href: "/learn/forex/level-0/spot-forex-scams-and-safety",
+        id: "spot-forex-scams-and-safety",
+        type: "lesson",
+      },
     ]);
   });
 
@@ -81,5 +134,31 @@ describe("published curriculum hierarchy", () => {
     ).toHaveLength(1);
     expect(getCurriculumCourse("crypto", "bitcoin")?.modules).toHaveLength(1);
     expect(getCurriculumCourse("forex", "missing")).toBeUndefined();
+  });
+
+  it("supports level- and course-scoped curriculum lookup for future levels", () => {
+    expect(
+      getCurriculumCourseInLevel("forex", "level-1", "forex-kindergarten")?.id,
+    ).toBe("forex-kindergarten");
+    expect(
+      getCurriculumCourseInLevel("forex", "missing", "forex-kindergarten"),
+    ).toBeUndefined();
+
+    expect(
+      getCurriculumModuleInCourse(
+        "forex",
+        "level-1",
+        "forex-kindergarten",
+        "forex-foundations",
+      )?.id,
+    ).toBe("forex-foundations");
+    expect(
+      getCurriculumModuleInCourse(
+        "forex",
+        "level-1",
+        "missing",
+        "forex-foundations",
+      ),
+    ).toBeUndefined();
   });
 });

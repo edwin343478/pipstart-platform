@@ -1,0 +1,352 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+
+export const metadata = {
+  "title": "Money at Risk: Leverage, Losses and Demo Accounts",
+  "slug": "money-risk-and-demo",
+  "description": "Before learning how leverage works, you need to understand a more basic idea: not all money should be put at risk.",
+  "learningPath": "forex",
+  "level": "level-0",
+  "course": "forex-orientation",
+  "module": "orientation-and-safety",
+  "position": 3,
+  "estimatedMinutes": 16,
+  "objectives": [
+    "Identify money that should not be used for trading.",
+    "Calculate a simple leveraged price-move example.",
+    "Explain the limits of practice-account results."
+  ],
+  "prerequisites": [
+    "trading-versus-investing"
+  ],
+  "relatedLessonIds": [],
+  "relatedTermSlugs": [],
+  "author": "PipStart Editorial Team",
+  "reviewer": "PipStart Markets Reviewer",
+  "sources": [
+    {
+      "title": "SEC Investor Bulletin — Foreign Currency Exchange Trading",
+      "url": "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/foreign"
+    },
+    {
+      "title": "CFTC — Eight Things You Should Know Before Trading Forex",
+      "url": "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/CustomerAdvisory_MustKnowForex.html"
+    },
+    {
+      "title": "Consumer Financial Protection Bureau — An Essential Guide to Building an Emergency Fund",
+      "url": "https://www.consumerfinance.gov/an-essential-guide-to-building-an-emergency-fund/"
+    }
+  ],
+  "publishedDate": "2026-09-23",
+  "reviewDate": "2026-09-23",
+  "status": "published",
+  "seoTitle": "Money at Risk: Leverage, Losses and Demo Accounts",
+  "seoDescription": "Understand how small price moves, leverage and trading costs affect real money, and what a demo can and cannot teach.",
+  "riskWarningRequired": true,
+  "affiliateDisclosureRequired": false,
+  "approved": true
+};
+
+export const blocks = [
+  {
+    "type": "heading",
+    "children": "Start with the money, not the trade"
+  },
+  {
+    "type": "paragraph",
+    "children": "Money used for food, rent, transport, school fees, urgent medical costs, or emergencies already has an important purpose."
+  },
+  {
+    "type": "paragraph",
+    "children": "If that money is lost in a trade, the problem is not only the trading loss. The loss can affect everyday life."
+  },
+  {
+    "type": "paragraph",
+    "children": "That is why risk management starts before a trade is opened."
+  },
+  {
+    "type": "paragraph",
+    "children": "It starts with the question: **Can I afford to lose this money without harming an important need?**"
+  },
+  {
+    "type": "heading",
+    "children": "What financial risk means"
+  },
+  {
+    "type": "paragraph",
+    "children": "Financial risk is the possibility that you may lose some or all of the money you put into an activity."
+  },
+  {
+    "type": "paragraph",
+    "children": "Forex trading can create losses quickly because currency prices can move in either direction."
+  },
+  {
+    "type": "paragraph",
+    "children": "Costs also matter. A trade may involve a spread, a commission, overnight financing, slippage, or other provider charges."
+  },
+  {
+    "type": "paragraph",
+    "children": "These costs can reduce gains or increase losses."
+  },
+  {
+    "type": "heading",
+    "children": "What leverage means"
+  },
+  {
+    "type": "paragraph",
+    "children": "Leverage allows a trader to control a position that is larger than the cash they personally put down."
+  },
+  {
+    "type": "paragraph",
+    "children": "This can make small market movements have a much larger effect on the trader's own money."
+  },
+  {
+    "type": "paragraph",
+    "children": "Leverage works in both directions. It can increase gains, but it can also increase losses."
+  },
+  {
+    "type": "heading",
+    "level": 3,
+    "children": "Building the idea step by step"
+  },
+  {
+    "type": "paragraph",
+    "children": "Suppose you use US$10 of your own money."
+  },
+  {
+    "type": "paragraph",
+    "children": "Without leverage, imagine that US$10 controls a US$10 position. If that position falls by 1%, the loss is US$0.10."
+  },
+  {
+    "type": "paragraph",
+    "children": "Now imagine the same US$10 controls a US$100 position."
+  },
+  {
+    "type": "paragraph",
+    "children": "A 1% fall in US$100 is US$1."
+  },
+  {
+    "type": "paragraph",
+    "children": "The market moved only 1%, but you lost US$1 from the US$10 you put down. That is 10% of your cash."
+  },
+  {
+    "type": "paragraph",
+    "children": "So leverage has made a small market movement much more important to you."
+  },
+  {
+    "type": "heading",
+    "level": 3,
+    "children": "Comparison"
+  },
+  {
+    "type": "comparisonTable",
+    "columns": [
+      "Cash put down",
+      "Position controlled",
+      "1% loss on position",
+      "Share of cash lost"
+    ],
+    "rows": [
+      [
+        "US$10",
+        "US$10",
+        "US$0.10",
+        "1%"
+      ],
+      [
+        "US$10",
+        "US$100",
+        "US$1.00",
+        "10%"
+      ],
+      [
+        "US$10",
+        "US$500",
+        "US$5.00",
+        "50%"
+      ]
+    ]
+  },
+  {
+    "type": "paragraph",
+    "children": "This is why leverage can be dangerous for beginners."
+  },
+  {
+    "type": "paragraph",
+    "children": "A small movement in the market can create a large change in the money you put down."
+  },
+  {
+    "type": "riskStatement",
+    "children": "Depending on the product, broker, account agreement, local rules, and available protections, losses may sometimes exceed the amount initially deposited."
+  },
+  {
+    "type": "heading",
+    "children": "Margin"
+  },
+  {
+    "type": "paragraph",
+    "children": "Margin is the amount of money a broker requires you to have in order to open or maintain a leveraged position."
+  },
+  {
+    "type": "paragraph",
+    "children": "You can think of margin as part of the mechanism that allows you to control the larger position."
+  },
+  {
+    "type": "paragraph",
+    "children": "The important point for Level 0 is not to memorize every margin formula yet."
+  },
+  {
+    "type": "paragraph",
+    "children": "The important point is to understand that leverage allows a larger position to be controlled with less cash, which increases the effect of market movements."
+  },
+  {
+    "type": "paragraph",
+    "children": "Later lessons will explain margin more deeply."
+  },
+  {
+    "type": "heading",
+    "children": "Trading costs"
+  },
+  {
+    "type": "paragraph",
+    "children": "Even before the market moves, a trade can begin with a cost."
+  },
+  {
+    "type": "paragraph",
+    "children": "One common cost is the **spread**."
+  },
+  {
+    "type": "paragraph",
+    "children": "The spread is the difference between the price at which you can buy and the price at which you can sell."
+  },
+  {
+    "type": "example",
+    "title": "the fruit stall",
+    "children": [
+      "Imagine a fruit stall in South Africa.",
+      "The stall sells a small bag of oranges for R110.",
+      "But if you immediately try to sell the same bag back to the stall, the stall will only pay R100.",
+      "The R10 difference is similar to the idea of a spread.",
+      "If you buy and sell immediately, you are already starting with a cost.",
+      "Forex quotes work differently from fruit stalls, but the example helps show why the buy and sell prices are not necessarily the same."
+    ]
+  },
+  {
+    "type": "heading",
+    "children": "Why demo accounts come before live accounts"
+  },
+  {
+    "type": "paragraph",
+    "children": "A demo account is a practice environment that uses simulated money."
+  },
+  {
+    "type": "paragraph",
+    "children": "It allows you to learn how a trading platform works without risking the demo balance as real money."
+  },
+  {
+    "type": "paragraph",
+    "children": "A demo account can help you practise finding currency pairs, entering an order, closing an order, recording a trade, reading account information, noticing trading costs, and understanding how mistakes happen."
+  },
+  {
+    "type": "paragraph",
+    "children": "But a demo account is not the same as a live account."
+  },
+  {
+    "type": "heading",
+    "children": "What a demo account cannot prove"
+  },
+  {
+    "type": "paragraph",
+    "children": "A learner may make several successful demo trades."
+  },
+  {
+    "type": "paragraph",
+    "children": "That does not prove that the same results will continue in live trading."
+  },
+  {
+    "type": "paragraph",
+    "children": "Demo conditions may differ from live conditions. Execution may differ. Spreads may differ. Slippage may differ."
+  },
+  {
+    "type": "paragraph",
+    "children": "And most importantly, real money can create emotional pressure that simulated money does not."
+  },
+  {
+    "type": "example",
+    "title": "practising a bus route",
+    "children": [
+      "Min lives in South Korea.",
+      "She wants to learn a new bus route through Seoul.",
+      "She first studies the route on a map. She learns where the bus stops, where she changes buses, and where she gets off.",
+      "This practice is useful.",
+      "But the real journey can still feel different. There may be traffic. She may miss a stop. She may feel pressure because she needs to arrive on time.",
+      "A demo account works in a similar way.",
+      "It is useful practice, but it does not reproduce every live condition."
+    ]
+  },
+  {
+    "type": "heading",
+    "children": "A safer way to use a demo account"
+  },
+  {
+    "type": "paragraph",
+    "children": "Instead of using a demo account to chase a large fake balance, use it to learn a process."
+  },
+  {
+    "type": "paragraph",
+    "children": "For each practice trade, write down why you entered, what you expected to happen, where you would exit if you were wrong, what costs appeared, what actually happened, what surprised you, and what you would do differently next time."
+  },
+  {
+    "type": "paragraph",
+    "children": "The goal is not to prove that you can make money."
+  },
+  {
+    "type": "paragraph",
+    "children": "The goal is to learn how decisions work."
+  },
+  {
+    "type": "heading",
+    "children": "Practice: understanding leverage"
+  },
+  {
+    "type": "paragraph",
+    "children": "Suppose you put down US$20 and control a US$200 position."
+  },
+  {
+    "type": "paragraph",
+    "children": "If the position falls by 2%, calculate the loss before fees."
+  },
+  {
+    "type": "paragraph",
+    "children": "US$200 × 2% = US$4."
+  },
+  {
+    "type": "paragraph",
+    "children": "Now compare that loss with your US$20."
+  },
+  {
+    "type": "paragraph",
+    "children": "US$4 ÷ US$20 = 20%."
+  },
+  {
+    "type": "paragraph",
+    "children": "So a 2% movement in the larger position produced a loss equal to 20% of the cash you put down."
+  },
+  {
+    "type": "paragraph",
+    "children": "Now ask a more important question: What if that US$20 was needed for transport, food, or a bill tomorrow?"
+  },
+  {
+    "type": "paragraph",
+    "children": "That question connects the mathematics back to real financial risk."
+  },
+  {
+    "type": "takeaway",
+    "children": [
+      "Leverage does not remove risk. It increases the effect of market movements on your own money.",
+      "A demo account can help you learn the process, but demo results do not guarantee live results.",
+      "And money needed for essential expenses should not be treated as trading money."
+    ]
+  }
+];
+
+<LessonBlocks blocks={blocks} />

@@ -19,12 +19,15 @@ describe("Milestone 6 release acceptance", () => {
     expect(home).toContain("Affiliate partners always disclosed");
   });
 
-  it("starts learners at the available Forex and Crypto levels", () => {
+  it("opens both schools at their complete level indexes", () => {
     const home = read("page.tsx");
 
-    expect(home).toContain('href="/learn/forex/level-1"');
-    expect(home).toContain('href="/learn/crypto/level-1"');
-    expect(home).not.toContain("Start Level 0");
+    expect(home).toContain('href="/learn/forex"');
+    expect(home).toContain("Explore all Forex levels");
+    expect(home).toContain('href="/learn/crypto"');
+    expect(home).toContain("Explore all Crypto levels");
+    expect(home).not.toContain('href="/learn/forex/level-1"');
+    expect(home).not.toContain('href="/learn/crypto/level-1"');
   });
 
   it("does not expose the placeholder Calendar route", () => {
@@ -61,40 +64,16 @@ describe("Milestone 6 release acceptance", () => {
     }
   });
 
-  it("keeps permanent desktop and collapsible mobile lesson sidebars", () => {
-    for (const route of [
-      "learn/forex/level-1/forex-lesson.tsx",
-      "learn/crypto/level-1/page.tsx",
-    ]) {
-      const source = read(route);
-      expect(source).toContain("desktopSidebar");
-      expect(source).toContain("mobileSidebar");
-      expect(source).toContain("sidebarSummary");
-      expect(source).toContain("aria-expanded={!collapsed}");
-      expect(source).toContain("Collapse lesson sidebar");
-      expect(source).toContain("Expand lesson sidebar");
-    }
-
-    const forexLessonSource = read("learn/forex/level-1/forex-lesson.tsx");
-    expect(forexLessonSource).toContain('href="/learn/forex/level-1/quiz"');
-    expect(forexLessonSource).toContain("Forex Foundations quiz");
-
-    const cryptoLessonSource = read("learn/crypto/level-1/page.tsx");
-    expect(cryptoLessonSource).toContain("cryptoLessons.map");
-    expect(cryptoLessonSource).not.toContain("Level 1 quiz");
-
-    for (const stylesheet of [
-      "learn/forex/level-1/page.module.css",
-      "learn/crypto/level-1/page.module.css",
-    ]) {
-      const styles = read(stylesheet);
-      expect(styles).toContain(".desktopSidebar");
-      expect(styles).toContain(".mobileSidebar");
-      expect(styles).toContain(".lessonLayoutCollapsed");
-      expect(styles).toContain(".sidebar.sidebarCollapsed nav");
-      expect(styles).toContain("padding: 1.25rem 1.25rem 2.5rem");
-      expect(styles).toContain("grid-template-rows: auto minmax(0, 1fr)");
-      expect(styles).not.toMatch(/^\+\s+\./m);
-    }
+  it("shares the collapsible desktop sidebar and native mobile accordion across lesson paths", () => {
+    const sidebar = read("../components/SteppedLessonArticle.tsx");
+    const forex = read("learn/forex/level-1/forex-lesson.tsx");
+    const crypto = read("learn/crypto/level-1/page.tsx");
+    expect(forex).toContain("<LessonPage");
+    expect(crypto).toContain("<LessonPage");
+    expect(sidebar).toContain("<aside");
+    expect(sidebar).toContain("<details");
+    expect(sidebar).toContain("aria-expanded={!collapsed}");
+    expect(sidebar).toContain("Collapse lesson list");
+    expect(sidebar).toContain("Expand lesson list");
   });
 });

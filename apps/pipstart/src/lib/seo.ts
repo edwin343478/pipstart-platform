@@ -239,6 +239,31 @@ export function createPageMetadata(path: SeoEntry["path"]): Metadata {
   };
 }
 
+export function createDynamicPageMetadata(
+  entry: SeoEntry,
+  image = defaultSocialImage,
+): Metadata {
+  return {
+    title: brandedTitle(entry.title),
+    description: entry.description,
+    alternates: { canonical: entry.path },
+    openGraph: {
+      title: entry.title,
+      description: entry.description,
+      type: "website",
+      url: entry.path,
+      siteName: "PipStart",
+      images: [{ url: image, width: 1200, height: 630, alt: entry.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: entry.title,
+      description: entry.description,
+      images: [image],
+    },
+  };
+}
+
 export function createDynamicMetadata(
   entry: SeoEntry,
   image = defaultSocialImage,

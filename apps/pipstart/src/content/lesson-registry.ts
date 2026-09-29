@@ -2,8 +2,10 @@ import type {
   LessonBlock,
   LessonDocument,
   LessonMetadata,
+  LessonSection,
 } from "./lesson-content";
 import { selectPublishableLessons } from "./lesson-content";
+import { level0Lesson1, level0Lesson2, level0Lesson3, level0Lesson4 } from "./lessons/forex/level-0-sections";
 import { relatedTermSlugs } from "../lib/related-learning";
 import {
   blocks as draftSecurityBlocks,
@@ -37,9 +39,9 @@ import {
   blocks as whatIsForexBlocks,
   metadata as whatIsForexMetadata,
 } from "./lessons/forex/what-is-forex.mdx";
-
 export type PublishedLesson = LessonMetadata & {
   blocks: LessonBlock[];
+  sections?: LessonSection[];
   href: `/${string}`;
   id: string;
   introduction: string;
@@ -54,6 +56,10 @@ function lessonDocument(
 }
 
 const allLessonDocuments = [
+  level0Lesson1,
+  level0Lesson2,
+  level0Lesson3,
+  level0Lesson4,
   lessonDocument(whatIsForexMetadata, whatIsForexBlocks),
   lessonDocument(currencyPairsMetadata, currencyPairsBlocks),
   lessonDocument(pipsLotsMetadata, pipsLotsBlocks),
@@ -64,18 +70,28 @@ const allLessonDocuments = [
   lessonDocument(draftSecurityMetadata, draftSecurityBlocks),
 ];
 
-function lessonHref(metadata: LessonMetadata): `/${string}` {
-  if (metadata.position === 1) return `/learn/${metadata.learningPath}/level-1`;
-  return `/learn/${metadata.learningPath}/level-1/${metadata.slug}`;
+type LessonRouteMetadata = Pick<
+  LessonMetadata,
+  "learningPath" | "level" | "position" | "slug"
+>;
+
+export function buildLessonHref(
+  metadata: LessonRouteMetadata,
+): `/${string}` {
+  const levelRoot = `/learn/${metadata.learningPath}/${metadata.level}` as const;
+  return metadata.position === 1
+    ? levelRoot
+    : `${levelRoot}/${metadata.slug}`;
 }
 
 export const publishedLessons: PublishedLesson[] = selectPublishableLessons(
   allLessonDocuments,
   { validTermSlugs: relatedTermSlugs },
-).map(({ blocks, metadata }) => ({
+).map(({ blocks, metadata, sections }) => ({
   ...metadata,
   blocks,
-  href: lessonHref(metadata),
+  sections,
+  href: buildLessonHref(metadata),
   id: metadata.slug,
   introduction: metadata.description,
   keyPoints: blocks
@@ -83,12 +99,34 @@ export const publishedLessons: PublishedLesson[] = selectPublishableLessons(
     .flatMap((block) => block.points),
 }));
 
-export const forexLessonDocuments = publishedLessons.filter(
-  (lesson) => lesson.learningPath === "forex",
-);
-export const cryptoLessonDocuments = publishedLessons.filter(
-  (lesson) => lesson.learningPath === "crypto",
-);
+type PublishedLessonSelector = {
+  course?: string;
+  learningPath: LessonMetadata["learningPath"];
+  level?: string;
+  module?: string;
+};
+
+export function getPublishedLessons({
+  course,
+  learningPath,
+  level,
+  module,
+}: PublishedLessonSelector) {
+  return publishedLessons.filter(
+    (lesson) =>
+      lesson.learningPath === learningPath &&
+      (level === undefined || lesson.level === level) &&
+      (course === undefined || lesson.course === course) &&
+      (module === undefined || lesson.module === module),
+  );
+}
+
+export const forexLessonDocuments = getPublishedLessons({
+  learningPath: "forex",
+});
+export const cryptoLessonDocuments = getPublishedLessons({
+  learningPath: "crypto",
+});
 
 export function getPublishedLesson(path: "crypto" | "forex", slug: string) {
   return publishedLessons.find(

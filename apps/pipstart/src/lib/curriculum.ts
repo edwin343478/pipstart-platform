@@ -4,6 +4,7 @@ import {
 } from "./public-content";
 import { cryptoLessons } from "../app/learn/crypto/level-1/lessons";
 import { forexLessons } from "../app/learn/forex/level-1/lessons";
+import { getPublishedLessons } from "../content/lesson-registry";
 
 export type CurriculumAssessmentRequirement = {
   assessmentId: string;
@@ -64,6 +65,13 @@ export type LearningPath = {
   title: string;
 };
 
+const forexOrientationLessons = getPublishedLessons({
+  learningPath: "forex",
+  level: "level-0",
+  course: "forex-orientation",
+  module: "orientation-and-safety",
+});
+
 const allLearningPaths: LearningPath[] = [
   {
     href: "/learn/forex",
@@ -71,6 +79,48 @@ const allLearningPaths: LearningPath[] = [
     status: "published",
     title: "Learn Forex",
     levels: [
+      {
+        href: "/learn/forex/level-0",
+        id: "level-0",
+        order: 0,
+        status: "published",
+        title: "Level 0",
+        courses: [
+          {
+            description:
+              "Start with the purpose, limits and safety foundations of learning Forex.",
+            href: "/learn/forex/level-0/forex-orientation",
+            id: "forex-orientation",
+            order: 1,
+            status: "published",
+            title: "Forex Orientation",
+            modules: [
+              {
+                description:
+                  "Understand trading versus investing, financial risk, practice accounts, scam warning signs and a safer learning plan.",
+                href: "/learn/forex/level-0/forex-orientation/orientation-and-safety",
+                id: "orientation-and-safety",
+                order: 1,
+                status: "published",
+                title: "Orientation and Safety",
+                lessons: forexOrientationLessons.map((lesson) => ({
+                  estimatedMinutes: lesson.estimatedMinutes,
+                  href: lesson.href,
+                  id: lesson.id,
+                  objectives: lesson.objectives,
+                  order: lesson.position,
+                  prerequisites: lesson.prerequisites,
+                  relatedLessonIds: lesson.relatedLessonIds,
+                  relatedTermSlugs: lesson.relatedTermSlugs,
+                  status: lesson.status,
+                  title: lesson.title,
+                  type: "lesson" as const,
+                })),
+              },
+            ],
+          },
+        ],
+      },
       {
         href: "/learn/forex/level-1",
         id: "level-1",
@@ -219,6 +269,16 @@ export function getCurriculumCourse(
     .find((course) => course.id === courseId);
 }
 
+export function getCurriculumCourseInLevel(
+  pathId: LearningPath["id"],
+  levelId: string,
+  courseId: string,
+) {
+  return getCurriculumLevel(pathId, levelId)?.courses.find(
+    (course) => course.id === courseId,
+  );
+}
+
 export function getCurriculumLevel(
   pathId: LearningPath["id"],
   levelId: string,
@@ -234,6 +294,17 @@ export function getCurriculumModule(
     ?.levels.flatMap((level) => level.courses)
     .flatMap((course) => course.modules)
     .find((curriculumModule) => curriculumModule.id === moduleId);
+}
+
+export function getCurriculumModuleInCourse(
+  pathId: LearningPath["id"],
+  levelId: string,
+  courseId: string,
+  moduleId: string,
+) {
+  return getCurriculumCourseInLevel(pathId, levelId, courseId)?.modules.find(
+    (curriculumModule) => curriculumModule.id === moduleId,
+  );
 }
 
 export const publishedHierarchyRoutes = learningPaths.flatMap((path) =>

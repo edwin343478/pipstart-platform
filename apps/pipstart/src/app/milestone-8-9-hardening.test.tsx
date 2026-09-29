@@ -34,8 +34,7 @@ describe("Milestones 8 and 9 hardening", () => {
 
     expect(forex).toContain('aria-label="Breadcrumb"');
     expect(crypto).toContain('aria-label="Breadcrumb"');
-    expect(crypto).toContain("Bitcoin, Blockchain");
-    expect(crypto).toContain("Open glossary");
+    expect(crypto).toContain("Sources and further reading");
   });
 
   it("derives Crypto navigation exclusively from published lesson data", () => {
@@ -43,7 +42,7 @@ describe("Milestones 8 and 9 hardening", () => {
       path.join(appRoot, "learn/crypto/level-1/page.tsx"),
       "utf8",
     );
-    expect(source).toContain("cryptoLessons.map");
+    expect(source).toContain("lessons={cryptoLessons}");
     expect(source).not.toContain("Transactions and blocks");
     expect(getLessonNavigation(cryptoLessons, "what-is-bitcoin")).toMatchObject(
       {
