@@ -111,7 +111,7 @@ export function LessonPage({
       };
 
   return (
-    <main className={styles.page}>
+    <main className={styles.page} data-learning-path={path}>
       <header className={styles.header}>
         <Link className={styles.brand} href="/">
           PipStart
@@ -124,7 +124,7 @@ export function LessonPage({
           Level {level} · {contextTitle}
         </span>
       </header>
-      <div className={styles.layout}>
+      <div className={`${styles.layout} ${isForex ? styles.forexLayout : ""}`}>
         <LessonSidebar
           levelTitle={contextTitle}
           levelHref={contextHref}

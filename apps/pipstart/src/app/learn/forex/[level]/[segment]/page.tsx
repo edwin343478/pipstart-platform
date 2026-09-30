@@ -15,7 +15,8 @@ import {
 import { getLearningPath } from "../../../../../lib/curriculum";
 import ForexLessonPage from "../../level-1/forex-lesson";
 
-export const dynamicParams = false;
+// Published curriculum resolvers below remain the authority for valid routes.
+export const dynamicParams = true;
 
 export function generateStaticParams() {
   return getGenericForexSecondSegmentParams();

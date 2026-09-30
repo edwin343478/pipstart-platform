@@ -102,9 +102,37 @@
   .layout {
     padding: 20px 16px 40px;
     flex-direction: column;
+    align-items: stretch;
     gap: 0;
+    max-width: 100%;
+    overflow-x: hidden;
   }
   .layout > article {
     width: 100%;
+    min-width: 0;
+  }
+}
+
+/* Desktop Forex lessons: use more room while retaining the shared teaching blocks. */
+@media (min-width: 768px) {
+  .layout.forexLayout {
+    width: 100%;
+    max-width: 1600px;
+    padding-inline: clamp(24px, 2.5vw, 40px);
+  }
+  .forexLayout > article {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+  }
+  .forexLayout:has(> aside button[aria-expanded="false"]) > article {
+    max-width: 1200px;
+    margin-inline: auto;
+  }
+  /* Keep approved diagram typography at its existing scale. */
+  .forexLayout > article picture {
+    display: block;
+    max-width: 740px;
+    margin-inline: auto;
   }
 }

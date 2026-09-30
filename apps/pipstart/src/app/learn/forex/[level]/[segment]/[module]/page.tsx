@@ -8,7 +8,8 @@ import {
 } from "../../../../../../lib/forex-level-routing";
 import { createDynamicPageMetadata } from "../../../../../../lib/seo";
 
-export const dynamicParams = false;
+// Published curriculum resolvers below remain the authority for valid routes.
+export const dynamicParams = true;
 
 export function generateStaticParams() {
   return getGenericForexModuleParams();

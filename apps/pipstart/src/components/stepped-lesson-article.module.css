@@ -388,10 +388,18 @@
   justify-content: space-between;
   gap: 0.5rem;
   min-height: 2.5rem;
+  min-width: 0;
+  box-sizing: border-box;
   border-radius: 0.625rem;
   padding: 0.6875rem 0.75rem;
   font-size: 0.84375rem;
   text-decoration: none;
+}
+
+.navItem span:first-child,
+.navCurrent span:first-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .navItem {
@@ -427,6 +435,8 @@
 @media (max-width: 767px) {
   .article {
     width: 100%;
+    min-width: 0;
+    max-width: 100%;
   }
 
   .title {
@@ -444,6 +454,9 @@
 
   .mobileSidebar {
     display: block;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
     background: #fff;
     border: 1px solid #e7ebee;
     border-radius: 0.875rem;

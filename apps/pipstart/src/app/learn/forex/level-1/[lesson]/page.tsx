@@ -4,6 +4,9 @@ import { createDynamicMetadata } from "../../../../../lib/seo";
 import ForexLessonPage from "../forex-lesson";
 import { forexLessons, getForexLesson } from "../lessons";
 
+// Resolve requests against the published lessons, including in development.
+export const dynamicParams = true;
+
 export function generateStaticParams() {
   return forexLessons.slice(1).map((lesson) => ({ lesson: lesson.slug }));
 }

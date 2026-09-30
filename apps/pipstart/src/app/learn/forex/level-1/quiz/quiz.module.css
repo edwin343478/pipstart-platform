@@ -451,3 +451,23 @@
     margin-left: auto;
   }
 }
+
+/* Desktop quiz content follows the same width and centring as Forex lessons. */
+@media (min-width: 768px) {
+  .desktopLayout[class] {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1600px;
+    margin-inline: auto;
+    padding-inline: clamp(24px, 2.5vw, 40px);
+  }
+  .desktopLayout > article {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+  }
+  .desktopLayoutCollapsed > article {
+    max-width: 1200px;
+    margin-inline: auto;
+  }
+}

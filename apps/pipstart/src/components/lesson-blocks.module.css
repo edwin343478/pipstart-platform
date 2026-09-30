@@ -39,7 +39,7 @@
 .paragraph {
   margin: 0 0 16px;
   color: #3d4551;
-  font-size: 16.5px;
+  font-size: 17px;
   line-height: 1.75;
 }
 
@@ -55,7 +55,7 @@
   margin: 0 0 28px;
   padding-left: 1.35rem;
   color: #3d4551;
-  font-size: 16.5px;
+  font-size: 17px;
   line-height: 1.7;
 }
 
@@ -74,7 +74,7 @@
 .quote p {
   margin: 0;
   color: #3d4551;
-  font-size: 15.5px;
+  font-size: 16.5px;
   font-style: italic;
   line-height: 1.7;
 }
@@ -150,7 +150,7 @@
 .keyPoint p {
   margin: 0 0 14px;
   color: #3d4551;
-  font-size: 15.5px;
+  font-size: 16.5px;
   line-height: 1.7;
 }
 
@@ -210,8 +210,8 @@
 .reflection p {
   margin: 0 0 8px;
   color: #115e59;
-  font-size: 15px;
-  line-height: 1.6;
+  font-size: 16px;
+  line-height: 1.65;
 }
 
 .reflection p:last-child {
@@ -303,7 +303,7 @@
   border-bottom: 1px solid #e7ebee;
   padding: 13px 14px;
   color: #3d4551;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.55;
   text-align: left;
   vertical-align: top;
@@ -335,7 +335,7 @@
 
   .paragraph {
     margin-bottom: 14px;
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.7;
   }
 
@@ -349,7 +349,7 @@
 
   .proseList {
     margin-bottom: 24px;
-    font-size: 15px;
+    font-size: 16px;
   }
 
   .definition,
@@ -396,8 +396,8 @@
   .affiliateDisclosure p,
   .keyPoint p {
     margin-bottom: 12px;
-    font-size: 13.5px;
-    line-height: 1.65;
+    font-size: 16px;
+    line-height: 1.7;
   }
 
   .reflection h2 {
@@ -407,8 +407,8 @@
 
   .reflection p {
     margin-bottom: 7px;
-    font-size: 13.5px;
-    line-height: 1.55;
+    font-size: 16px;
+    line-height: 1.65;
   }
 
   .takeaway {
@@ -424,8 +424,8 @@
   }
 
   .takeaway p:not(.takeawayLabel) {
-    font-size: 14.5px;
-    line-height: 1.55;
+    font-size: 16px;
+    line-height: 1.6;
   }
 
   .quote {
@@ -435,8 +435,8 @@
   }
 
   .quote p {
-    font-size: 13.5px;
-    line-height: 1.65;
+    font-size: 16px;
+    line-height: 1.7;
   }
 
   .tableScroller {
@@ -451,7 +451,7 @@
   .tableScroller th,
   .tableScroller td {
     padding: 11px 12px;
-    font-size: 12.5px;
+    font-size: 14px;
   }
 }
 
@@ -539,8 +539,8 @@
   align-items: flex-start;
   margin: 0 0 9px;
   color: #115e59;
-  font-size: 14.5px;
-  line-height: 1.5;
+  font-size: 15.5px;
+  line-height: 1.55;
   cursor: pointer;
 }
 .checklistCard input {
@@ -555,7 +555,7 @@
     padding: 18px 16px;
   }
   .checklistCard label {
-    font-size: 13px;
+    font-size: 14.5px;
   }
 }
 

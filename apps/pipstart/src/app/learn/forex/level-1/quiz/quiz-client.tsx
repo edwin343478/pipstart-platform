@@ -476,7 +476,7 @@ export function ForexFoundationsQuiz({
       />
 
       <div
-        className={`${lessonStyles.lessonLayout} ${
+        className={`${lessonStyles.lessonLayout} ${styles.desktopLayout} ${sidebarCollapsed ? styles.desktopLayoutCollapsed : ""} ${
           sidebarCollapsed ? lessonStyles.lessonLayoutCollapsed : ""
         }`}
       >
@@ -498,14 +498,14 @@ export function ForexFoundationsQuiz({
             questions · Pass mark {assessment.passingPercentage}%
           </p>
           <h1>{assessment.title}</h1>
-          <p className={lessonStyles.introduction}>
+          <p className={`${lessonStyles.introduction} ${styles.introduction}`}>
             Check what you remember from the {lessons.length}{" "}
             {context.module.title} lessons. You can retake the quiz as many
             times as you need.
           </p>
 
           <section
-            className={lessonStyles.keyPoints}
+            className={`${lessonStyles.keyPoints} ${styles.quizHelp}`}
             aria-labelledby="quiz-help"
           >
             <h2 id="quiz-help">Before you start</h2>
