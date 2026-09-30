@@ -37,6 +37,12 @@ export type LessonTextContent = string | string[];
 export type LessonBlock =
   | { type: "heading"; level?: 2 | 3; children: string }
   | { type: "paragraph"; children: string }
+  | {
+      type: "learningLink";
+      title: string;
+      description: string;
+      href: `/${string}`;
+    }
   | { type: "section"; title: string; paragraphs: string[] }
   | { type: "references"; items: LessonSource[] }
   | { type: "riskStatement"; children: string }
@@ -62,6 +68,7 @@ export type LessonBlock =
   | { type: "exercise"; prompt: string }
   | {
       type: "diagram";
+      desktopSrc?: `/${string}`;
       alt: string;
       caption?: string;
       height: number;
@@ -194,6 +201,18 @@ function validateLessonBlock(block: LessonBlock, errors: string[]) {
       )
         errors.push("section paragraphs are required");
       break;
+    case "learningLink":
+      if (
+        !isNonEmptyString(block.title) ||
+        !isNonEmptyString(block.description)
+      )
+        errors.push("learning link title and description are required");
+      if (
+        typeof block.href !== "string" ||
+        !/^\/tools(?:\/[a-z0-9-]+)?$/.test(block.href)
+      )
+        errors.push("learning link must use a local tools route");
+      break;
     case "references":
       if (
         !Array.isArray(block.items) ||
@@ -301,6 +320,14 @@ function validateLessonBlock(block: LessonBlock, errors: string[]) {
         block.height < 1
       ) {
         errors.push("diagram dimensions must be positive integers");
+      }
+      if (
+        block.desktopSrc !== undefined &&
+        (!isNonEmptyString(block.desktopSrc) ||
+          !block.desktopSrc.startsWith("/") ||
+          block.desktopSrc.startsWith("//"))
+      ) {
+        errors.push("diagram desktop source must be a root-relative path");
       }
       validateOptionalTitle(block.caption, errors, "diagram caption");
       break;

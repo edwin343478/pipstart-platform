@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="525" viewBox="0 0 600 525" role="img" aria-labelledby="title description">
+<title id="title">Read the pair from left to right</title><desc id="description">EUR is the base and USD is the quote. At an illustrative EUR/USD midpoint of 1.1000, one euro corresponds to 1.10 dollars. The inverse midpoint is approximately 0.9091 euros per dollar. Actual bid and ask reciprocals switch sides.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#0f766e"/></marker></defs>
+<rect x="1" y="1" width="598" height="523" rx="22" fill="#f0fdfa" stroke="#99f6e4"/>
+<g font-family="Arial, sans-serif" text-anchor="middle" fill="#0b1220">
+<text x="300" y="40" font-size="26" font-weight="700">Read the pair from left to right</text>
+<rect x="30" y="66" width="540" height="106" rx="16" fill="#fff" stroke="#99f6e4"/>
+<text x="300" y="96" font-size="23" font-weight="700">EUR / USD</text>
+<text x="300" y="130" font-size="29" fill="#0f766e" font-weight="700">Base / Quote</text>
+<text x="300" y="156" font-size="20">One unit of the base is being priced.</text>
+<rect x="30" y="206" width="540" height="106" rx="16" fill="#fff" stroke="#99f6e4"/>
+<text x="300" y="236" font-size="23" font-weight="700">EUR/USD = 1.1000</text>
+<text x="300" y="270" font-size="29" fill="#0f766e" font-weight="700">€1 corresponds to US$1.10</text>
+<text x="300" y="296" font-size="20">The rate is dollars per euro.</text>
+<rect x="30" y="346" width="540" height="106" rx="16" fill="#fff" stroke="#99f6e4"/>
+<text x="300" y="376" font-size="23" font-weight="700">Reverse the illustrative midpoint</text>
+<text x="300" y="410" font-size="29" fill="#0f766e" font-weight="700">USD/EUR ≈ 0.9091</text>
+<text x="300" y="436" font-size="20">The reciprocal is euros per dollar.</text>
+<text x="300" y="508" font-size="20" fill="#475569">Illustrative example, not a live quote.</text>
+</g>
+</svg>

@@ -1,0 +1,54 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { orderTypesAndExitsSections } from "./order-types-and-exits-sections";
+
+export const metadata = {
+  title: "Order types and exits",
+  slug: "order-types-and-exits",
+  description:
+    "Distinguish market, limit, stop and stop-limit instructions for entries and exits. Explain targets, trailing stops, duration and linked-order conditions.",
+  learningPath: "forex",
+  level: "level-2",
+  course: "brokers-and-platforms",
+  module: "broker-foundations",
+  position: 3,
+  estimatedMinutes: 24,
+  objectives: [
+    "Distinguish market, limit, stop and stop-limit instructions for entries and exits.",
+    "Explain targets, trailing stops, duration and linked-order conditions.",
+    "Compare planned distances with actual fills and verify remaining exposure.",
+  ],
+  prerequisites: ["platforms-and-demo-practice"],
+  relatedLessonIds: ["costs-withdrawals-and-safety"],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "Investor.gov — Types of Orders (securities primer)",
+      url: "https://www.investor.gov/introduction-investing/investing-basics/how-stock-markets-work/types-orders",
+    },
+    {
+      title: "CME Group — Futures Order Types (exchange-specific examples)",
+      url: "https://www.cmegroup.com/education/courses/futures-trading-mechanics-and-regulation/futures-order-types",
+    },
+    {
+      title: "MetaTrader 5 — Basic trading principles and trailing stops",
+      url: "https://www.metatrader5.com/en/terminal/help/trading/general_concept",
+    },
+  ],
+  publishedDate: "2026-09-30",
+  reviewDate: "2026-09-30",
+  status: "published",
+  seoTitle: "Order types and exits | Forex Foundations",
+  seoDescription:
+    "Distinguish market, limit, stop and stop-limit instructions for entries and exits. Explain targets, trailing stops, duration and linked-order conditions.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = orderTypesAndExitsSections.flatMap(
+  (section) => section.blocks,
+);
+
+<LessonBlocks blocks={blocks} />

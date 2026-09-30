@@ -1,4 +1,5 @@
 import { LessonBlocks } from "../../../components/lesson-blocks";
+import { pipsAndLotsSections } from "./pips-and-lots-sections";
 
 export const metadata = {
   title: "Pips and lots",
@@ -10,8 +11,12 @@ export const metadata = {
   course: "forex-kindergarten",
   module: "forex-foundations",
   position: 3,
-  estimatedMinutes: 6,
-  objectives: ["Describe pips and lots and how trade size changes pip value."],
+  estimatedMinutes: 15,
+  objectives: [
+    "Distinguish pips, pipettes, units, lots, and margin.",
+    "Calculate a pip value and gross long or short result using executable sides.",
+    "Check quote-to-account conversion and use the PipStart calculators with stated assumptions.",
+  ],
   prerequisites: ["currency-pairs"],
   relatedLessonIds: ["currency-pairs", "bid-ask-spread"],
   relatedTermSlugs: ["pip", "position-size"],
@@ -19,30 +24,29 @@ export const metadata = {
   reviewer: "PipStart Markets Reviewer",
   sources: [
     {
-      title: "CFTC Foreign Currency Trading",
-      url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/fraudadv_forex.html",
+      title: "CME Group — Understanding FX Quote Conventions",
+      url: "https://www.cmegroup.com/education/courses/introduction-to-fx/understanding-fx-quote-conventions",
+    },
+    {
+      title: "SEC Investor Bulletin — Foreign Currency Exchange Trading",
+      url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/foreign",
+    },
+    {
+      title: "CFTC — Eight Things You Should Know Before Trading Forex",
+      url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/CustomerAdvisory_MustKnowForex.html",
     },
   ],
   publishedDate: "2026-09-15",
-  reviewDate: "2026-09-15",
+  reviewDate: "2026-09-30",
   status: "published",
   seoTitle: "Forex Pips and Lots",
   seoDescription:
     "Learn how pips describe price movement and lots describe Forex trade size.",
-  riskWarningRequired: false,
+  riskWarningRequired: true,
   affiliateDisclosureRequired: false,
   approved: true,
 };
 
-export const blocks = [
-  {
-    type: "keyPoint",
-    points: [
-      "Most currency pairs use 0.0001 as a conventional pip.",
-      "Many JPY pairs use 0.01 as a conventional pip.",
-      "Larger lot sizes make each pip worth more money.",
-    ],
-  },
-];
+export const blocks = pipsAndLotsSections.flatMap((section) => section.blocks);
 
 <LessonBlocks blocks={blocks} />

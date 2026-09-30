@@ -25,9 +25,8 @@ import {
   type PublicAssessment,
 } from "../../../../../lib/assessment-ux";
 import { usePermanentProgress } from "../../../../../lib/use-permanent-progress";
-import { forexLessons } from "../lessons";
+import { getForexQuizContext } from "../../../../../lib/forex-quiz-context";
 import {
-  FOREX_LEVEL_ONE_PROGRESS_KEY,
   FOREX_PROGRESS_CHANGE_EVENT,
   parseLessonProgress,
   serializeLessonProgress,
@@ -35,7 +34,6 @@ import {
 import lessonStyles from "../page.module.css";
 import styles from "./quiz.module.css";
 
-const lessonIds = forexLessons.map((lesson) => lesson.id);
 type Grade = ReturnType<typeof gradeAssessment>;
 type HistoryAttempt = {
   attemptNumber: number;
@@ -102,11 +100,22 @@ function clearDraftBackup(attemptId: string) {
   }
 }
 
+function requireQuizContext(courseId: string, moduleId?: string) {
+  const context = getForexQuizContext(courseId, moduleId);
+  if (!context) throw new Error("Quiz curriculum context is unavailable.");
+  return context;
+}
+
 export function ForexFoundationsQuiz({
   assessment,
 }: {
   assessment: PublicAssessment;
 }) {
+  const context = useMemo(
+    () => requireQuizContext(assessment.courseId, assessment.moduleId),
+    [assessment.courseId, assessment.moduleId],
+  );
+  const { lessons, lessonIds } = context;
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [quiz, setQuiz] = useState<QuizState | null>(null);
   const [answers, setAnswers] = useState<AssessmentClientAnswers>({});
@@ -127,11 +136,11 @@ export function ForexFoundationsQuiz({
   const errorRef = useRef<HTMLDivElement | null>(null);
   const resultRef = useRef<HTMLElement | null>(null);
   const progress = usePermanentProgress({
-    courseId: "forex-kindergarten",
+    courseId: assessment.courseId,
     eventName: FOREX_PROGRESS_CHANGE_EVENT,
     parse: parseLessonProgress,
     serialize: serializeLessonProgress,
-    storageKey: FOREX_LEVEL_ONE_PROGRESS_KEY,
+    storageKey: context.progressKey,
     validIds: lessonIds,
   });
 
@@ -304,14 +313,12 @@ export function ForexFoundationsQuiz({
         className={`${lessonStyles.sidebar} ${
           collapsed ? lessonStyles.sidebarCollapsed : ""
         } ${className}`}
-        aria-label="Forex Kindergarten lessons"
+        aria-label={`${context.module.title} lessons`}
         id={collapsible ? "forex-quiz-desktop-sidebar" : undefined}
       >
         <div className={lessonStyles.sidebarHeading}>
           <h2>
-            <Link href="/learn/forex/level-1/forex-kindergarten">
-              Forex Kindergarten
-            </Link>
+            <Link href={context.course.href}>{context.course.title}</Link>
           </h2>
           {collapsible ? (
             <button
@@ -329,10 +336,10 @@ export function ForexFoundationsQuiz({
           ) : null}
         </div>
         <p className={lessonStyles.progressSummary} aria-live="polite">
-          {progress.completedIds.length} of {forexLessons.length} complete
+          {progress.completedIds.length} of {lessons.length} complete
         </p>
         <nav>
-          {forexLessons.map((lesson) => (
+          {lessons.map((lesson) => (
             <Link
               className={lessonStyles.upcomingLesson}
               href={lesson.href}
@@ -352,9 +359,9 @@ export function ForexFoundationsQuiz({
           <Link
             aria-current="page"
             className={lessonStyles.currentLesson}
-            href="/learn/forex/level-1/quiz"
+            href={context.quiz.href}
           >
-            <span>Forex Foundations quiz</span>
+            <span>{assessment.title}</span>
             {quizPassed ? (
               <span className={lessonStyles.completedMarker} aria-hidden="true">
                 ✓
@@ -459,13 +466,13 @@ export function ForexFoundationsQuiz({
   return (
     <main className={lessonStyles.page}>
       <LearningHeader
-        allLevelsClassName={lessonStyles.allLevels}
+        allLevelsClassName={styles.headerLink}
         allLevelsHref="/learn/forex"
         allLevelsLabel="All Forex levels"
-        brandClassName={lessonStyles.brand}
-        className={lessonStyles.header}
-        contextClassName={lessonStyles.levelContext}
-        levelLabel="Level 1 · Forex Kindergarten"
+        brandClassName={styles.headerBrand}
+        className={styles.header}
+        contextClassName={styles.headerContext}
+        levelLabel={`${context.levelLabel} · ${context.course.title}`}
       />
 
       <div
@@ -476,7 +483,7 @@ export function ForexFoundationsQuiz({
         {renderSidebar(lessonStyles.desktopSidebar, true, sidebarCollapsed)}
         <details className={lessonStyles.mobileSidebar}>
           <summary className={lessonStyles.sidebarSummary}>
-            <span>Forex Kindergarten</span>
+            <span>{context.course.title}</span>
             <svg aria-hidden="true" viewBox="0 0 20 20">
               <path d="m5 8 5 5 5-5" />
             </svg>
@@ -487,13 +494,14 @@ export function ForexFoundationsQuiz({
         <article className={lessonStyles.lesson}>
           <Breadcrumbs items={[{ label: assessment.title }]} />
           <p className={lessonStyles.eyebrow}>
-            Level 1 · Module quiz · {assessment.questions.length} questions ·
-            Pass mark {assessment.passingPercentage}%
+            {context.levelLabel} · Module quiz · {assessment.questions.length}{" "}
+            questions · Pass mark {assessment.passingPercentage}%
           </p>
           <h1>{assessment.title}</h1>
           <p className={lessonStyles.introduction}>
-            Check what you remember from the six Forex Foundations lessons. You
-            can retake the quiz as many times as you need.
+            Check what you remember from the {lessons.length}{" "}
+            {context.module.title} lessons. You can retake the quiz as many
+            times as you need.
           </p>
 
           <section
@@ -569,69 +577,70 @@ export function ForexFoundationsQuiz({
                 });
 
                 return (
-                  <fieldset
-                    className={styles.questionCard}
-                    disabled={Boolean(result) || submitting}
-                    id={`question-${question.id}`}
-                    key={question.id}
-                    tabIndex={-1}
-                  >
-                    <legend>
-                      <span className={styles.questionNumber}>
-                        Question {index + 1} of {questions.length}
-                      </span>
-                      <span className={styles.questionPrompt}>
-                        {question.prompt}
-                      </span>
-                    </legend>
-                    {question.type === "multiple-answer" ? (
-                      <p className={styles.questionHint}>
-                        Choose all that apply.
-                      </p>
-                    ) : null}
-                    <div className={styles.choices}>
-                      {question.choices.map((choice) => (
-                        <label className={styles.choice} key={choice.id}>
-                          <input
-                            checked={selected.includes(choice.id)}
-                            name={question.id}
-                            onChange={(event) =>
-                              changeAnswer(
-                                question,
-                                choice.id,
-                                event.currentTarget.checked,
-                              )
-                            }
-                            type={
-                              question.type === "multiple-answer"
-                                ? "checkbox"
-                                : "radio"
-                            }
-                            value={choice.id}
-                          />
-                          <span>{choice.label}</span>
-                        </label>
-                      ))}
-                    </div>
-
-                    {review ? (
-                      <div
-                        className={
-                          review.correct
-                            ? styles.correctReview
-                            : styles.incorrectReview
-                        }
-                      >
-                        <strong>
-                          {review.correct ? "Correct" : "Needs review"}
-                        </strong>
-                        <p>{review.explanation}</p>
-                        {!review.correct && correctLabels?.length ? (
-                          <p>Correct answer: {correctLabels.join(", ")}</p>
-                        ) : null}
+                  <div className={styles.questionCard} key={question.id}>
+                    <fieldset
+                      className={styles.questionGroup}
+                      disabled={Boolean(result) || submitting}
+                      id={`question-${question.id}`}
+                      tabIndex={-1}
+                    >
+                      <legend>
+                        <span className={styles.questionNumber}>
+                          Question {index + 1} of {questions.length}
+                        </span>
+                        <span className={styles.questionPrompt}>
+                          {question.prompt}
+                        </span>
+                      </legend>
+                      {question.type === "multiple-answer" ? (
+                        <p className={styles.questionHint}>
+                          Choose all that apply.
+                        </p>
+                      ) : null}
+                      <div className={styles.choices}>
+                        {question.choices.map((choice) => (
+                          <label className={styles.choice} key={choice.id}>
+                            <input
+                              checked={selected.includes(choice.id)}
+                              name={question.id}
+                              onChange={(event) =>
+                                changeAnswer(
+                                  question,
+                                  choice.id,
+                                  event.currentTarget.checked,
+                                )
+                              }
+                              type={
+                                question.type === "multiple-answer"
+                                  ? "checkbox"
+                                  : "radio"
+                              }
+                              value={choice.id}
+                            />
+                            <span>{choice.label}</span>
+                          </label>
+                        ))}
                       </div>
-                    ) : null}
-                  </fieldset>
+
+                      {review ? (
+                        <div
+                          className={
+                            review.correct
+                              ? styles.correctReview
+                              : styles.incorrectReview
+                          }
+                        >
+                          <strong>
+                            {review.correct ? "Correct" : "Needs review"}
+                          </strong>
+                          <p>{review.explanation}</p>
+                          {!review.correct && correctLabels?.length ? (
+                            <p>Correct answer: {correctLabels.join(", ")}</p>
+                          ) : null}
+                        </div>
+                      ) : null}
+                    </fieldset>
+                  </div>
                 );
               })}
 
@@ -731,7 +740,9 @@ export function ForexFoundationsQuiz({
                   ) : null}
                   {!quiz.authenticated ? (
                     <p>
-                      <Link href="/login?next=%2Flearn%2Fforex%2Flevel-1%2Fquiz">
+                      <Link
+                        href={`/login?next=${encodeURIComponent(context.quiz.href)}`}
+                      >
                         Sign in to save future quiz attempts and build your
                         history.
                       </Link>
@@ -740,7 +751,7 @@ export function ForexFoundationsQuiz({
                 </section>
               ) : null}
 
-              <div className={lessonStyles.stickyActions}>
+              <div className={styles.actionCard}>
                 <div className={styles.submitArea}>
                   {result ? (
                     <button
@@ -761,9 +772,9 @@ export function ForexFoundationsQuiz({
                   )}
                   <Link
                     className={styles.moduleLink}
-                    href="/learn/forex/level-1/forex-kindergarten/forex-foundations"
+                    href={context.module.href}
                   >
-                    Back to Forex Foundations
+                    Back to {context.module.title}
                   </Link>
                 </div>
               </div>

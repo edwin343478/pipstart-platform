@@ -1,0 +1,58 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { choosingAProviderSections } from "./choosing-a-forex-provider-sections";
+
+export const metadata = {
+  title: "Choosing a Forex provider",
+  slug: "choosing-a-forex-provider",
+  description:
+    "Identify the contracting company, product and counterparty. Independently verify claimed permissions and genuine contact details.",
+  learningPath: "forex",
+  level: "level-2",
+  course: "brokers-and-platforms",
+  module: "broker-foundations",
+  position: 1,
+  estimatedMinutes: 20,
+  objectives: [
+    "Identify the contracting company, product and counterparty.",
+    "Independently verify claimed permissions and genuine contact details.",
+    "Compare broker models, costs, protections and withdrawal terms without relying on slogans.",
+  ],
+  prerequisites: ["market-participants"],
+  relatedLessonIds: ["platforms-and-demo-practice"],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "CFTC — Eight Things You Should Know Before Trading Forex",
+      url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/CustomerAdvisory_MustKnowForex.html",
+    },
+    {
+      title: "NFA — Forex Transactions: Regulatory Guide (US rules)",
+      url: "https://www.nfa.futures.org/members/member-resources/files/forex-regulatory-guide.html",
+    },
+    {
+      title: "FCA — Firm Checker",
+      url: "https://www.fca.org.uk/consumers/fca-firm-checker",
+    },
+    {
+      title: "FCA — Clone firms and individuals",
+      url: "https://www.fca.org.uk/consumers/clone-firms-individuals",
+    },
+  ],
+  publishedDate: "2026-09-30",
+  reviewDate: "2026-09-30",
+  status: "published",
+  seoTitle: "Choosing a Forex provider | Forex Foundations",
+  seoDescription:
+    "Identify the contracting company, product and counterparty. Independently verify claimed permissions and genuine contact details.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = choosingAProviderSections.flatMap(
+  (section) => section.blocks,
+);
+
+<LessonBlocks blocks={blocks} />

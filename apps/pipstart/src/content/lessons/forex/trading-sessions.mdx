@@ -1,4 +1,5 @@
 import { LessonBlocks } from "../../../components/lesson-blocks";
+import { tradingSessionsSections } from "./trading-sessions-sections";
 
 export const metadata = {
   title: "Trading sessions",
@@ -10,9 +11,11 @@ export const metadata = {
   course: "forex-kindergarten",
   module: "forex-foundations",
   position: 5,
-  estimatedMinutes: 5,
+  estimatedMinutes: 16,
   objectives: [
-    "Name the major Forex sessions and explain why overlaps matter.",
+    "Read session windows as date-sensitive teaching conventions.",
+    "Convert UTC to local time and account for differing daylight-saving dates.",
+    "Compare demo quotes without assuming activity guarantees a safe or profitable trade.",
   ],
   prerequisites: ["what-is-forex"],
   relatedLessonIds: ["bid-ask-spread", "market-participants"],
@@ -21,30 +24,45 @@ export const metadata = {
   reviewer: "PipStart Markets Reviewer",
   sources: [
     {
-      title: "BIS Triennial Central Bank Survey",
-      url: "https://www.bis.org/statistics/rpfx22.htm",
+      title:
+        "BIS — The global foreign exchange market in a higher-volatility environment",
+      url: "https://www.bis.org/publications/qr-202212/global-foreign-exchange-market-higher-volatility-environment",
+    },
+    {
+      title: "Bank of England — Who sets exchange rates?",
+      url: "https://www.bankofengland.co.uk/explainers/who-sets-exchange-rates",
+    },
+    {
+      title: "CFTC — Eight Things You Should Know Before Trading Forex",
+      url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/CustomerAdvisory_MustKnowForex.html",
+    },
+    {
+      title:
+        "OANDA — Forex trading sessions (provider teaching convention, not a universal schedule)",
+      url: "https://www.oanda.com/us-en/skills-and-insights/education/trading-asset-classes/forex/when-is-the-best-time-for-forex-trading/",
+    },
+    {
+      title: "UK Government — When do the clocks change?",
+      url: "https://www.gov.uk/when-do-the-clocks-change",
+    },
+    {
+      title: "NIST — Daylight Saving Time Rules",
+      url: "https://www.nist.gov/pml/time-and-frequency-division/popular-links/daylight-saving-time-dst",
     },
   ],
   publishedDate: "2026-09-15",
-  reviewDate: "2026-09-15",
+  reviewDate: "2026-09-30",
   status: "published",
   seoTitle: "Forex Trading Sessions",
   seoDescription:
     "Learn the major Forex trading sessions and why session overlaps matter.",
-  riskWarningRequired: false,
+  riskWarningRequired: true,
   affiliateDisclosureRequired: false,
   approved: true,
 };
 
-export const blocks = [
-  {
-    type: "keyPoint",
-    points: [
-      "Forex activity moves between major global centres.",
-      "London and New York overlap during part of their sessions.",
-      "Liquidity and volatility can change throughout the day.",
-    ],
-  },
-];
+export const blocks = tradingSessionsSections.flatMap(
+  (section) => section.blocks,
+);
 
 <LessonBlocks blocks={blocks} />

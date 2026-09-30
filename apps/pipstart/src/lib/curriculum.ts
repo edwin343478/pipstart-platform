@@ -72,6 +72,20 @@ const forexOrientationLessons = getPublishedLessons({
   module: "orientation-and-safety",
 });
 
+const forexBrokerLessons = getPublishedLessons({
+  learningPath: "forex",
+  level: "level-2",
+  course: "brokers-and-platforms",
+  module: "broker-foundations",
+});
+
+const forexChartLessons = getPublishedLessons({
+  learningPath: "forex",
+  level: "level-3",
+  course: "charts",
+  module: "chart-foundations",
+});
+
 const allLearningPaths: LearningPath[] = [
   {
     href: "/learn/forex",
@@ -181,6 +195,113 @@ const allLearningPaths: LearningPath[] = [
                     type: "quiz",
                   },
                 ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        href: "/learn/forex/level-2",
+        id: "level-2",
+        order: 2,
+        status: "published",
+        title: "Level 2",
+        courses: [
+          {
+            description:
+              "Research providers, rehearse platform controls, understand orders and reconcile costs before considering live funding.",
+            href: "/learn/forex/level-2/brokers-and-platforms",
+            id: "brokers-and-platforms",
+            order: 1,
+            status: "published",
+            title: "Brokers and Platforms",
+            modules: [
+              {
+                description:
+                  "Four practical lessons on provider identity, demo life cycles, order instructions, trading costs and withdrawal safety.",
+                href: "/learn/forex/level-2/brokers-and-platforms/broker-foundations",
+                id: "broker-foundations",
+                order: 1,
+                status: "published",
+                title: "Broker Foundations",
+                assessmentRequirements: [
+                  {
+                    assessmentId: "broker-foundations-quiz",
+                    completionPolicy: "any-passed-version",
+                  },
+                ],
+                lessons: [
+                  ...forexBrokerLessons.map((lesson) => ({
+                    estimatedMinutes: lesson.estimatedMinutes,
+                    href: lesson.href,
+                    id: lesson.id,
+                    objectives: lesson.objectives,
+                    order: lesson.position,
+                    prerequisites: lesson.prerequisites,
+                    relatedLessonIds: lesson.relatedLessonIds,
+                    relatedTermSlugs: lesson.relatedTermSlugs,
+                    status: lesson.status,
+                    title: lesson.title,
+                    type: "lesson" as const,
+                  })),
+                  {
+                    estimatedMinutes: 10,
+                    href: "/learn/forex/level-2/quiz",
+                    id: "broker-foundations-quiz",
+                    objectives: [
+                      "Check provider research, demo practice, order instructions and cost safety.",
+                    ],
+                    order: 5,
+                    prerequisites: ["costs-withdrawals-and-safety"],
+                    relatedLessonIds: [],
+                    relatedTermSlugs: [],
+                    status: "published",
+                    title: "Broker Foundations quiz",
+                    type: "quiz",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        href: "/learn/forex/level-3",
+        id: "level-3",
+        order: 3,
+        status: "published",
+        title: "Level 3",
+        courses: [
+          {
+            description:
+              "Read chart data carefully before interpreting trends, swings, breakouts or volume.",
+            href: "/learn/forex/level-3/charts",
+            id: "charts",
+            order: 1,
+            status: "published",
+            title: "Charts",
+            modules: [
+              {
+                description:
+                  "Four detailed lessons on chart types and timeframes, price landmarks, consistent breakout rules and data limits.",
+                href: "/learn/forex/level-3/charts/chart-foundations",
+                id: "chart-foundations",
+                order: 1,
+                status: "published",
+                title: "Chart Foundations",
+                lessons: forexChartLessons.map((lesson) => ({
+                  estimatedMinutes: lesson.estimatedMinutes,
+                  href: lesson.href,
+                  id: lesson.id,
+                  objectives: lesson.objectives,
+                  order: lesson.position,
+                  prerequisites: lesson.prerequisites,
+                  relatedLessonIds: lesson.relatedLessonIds,
+                  relatedTermSlugs: lesson.relatedTermSlugs,
+                  status: lesson.status,
+                  title: lesson.title,
+                  type: "lesson" as const,
+                })),
               },
             ],
           },

@@ -76,6 +76,7 @@ export function getGenericForexSecondSegmentParams() {
 
     const segments = [
       context.course.id,
+      ...(context.quizTarget ? ["quiz"] : []),
       ...context.lessons
         .filter((lesson) => lesson.position !== 1)
         .map((lesson) => lesson.slug),
@@ -115,6 +116,9 @@ export function getGenericForexLevelRootLesson(levelId: string) {
 export function getGenericForexSecondSegment(levelId: string, segment: string) {
   const context = getGenericForexLevelContext(levelId);
   if (!context) return undefined;
+
+  if (segment === "quiz" && context.quizTarget)
+    return { ...context, kind: "quiz" as const };
 
   const courseMatches = context.course.id === segment;
   const lesson = context.lessons.find(

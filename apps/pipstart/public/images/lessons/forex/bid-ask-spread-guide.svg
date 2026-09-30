@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="525" viewBox="0 0 600 525" role="img" aria-labelledby="title description">
+<title id="title">Two sides of the same quote</title><desc id="description">At an unchanged illustrative EUR/USD quote, a customer buys euros at ask 1.1002 and sells at bid 1.1000. The difference is 0.0002 dollars per euro, or two conventional pips, before separate charges.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#0f766e"/></marker></defs>
+<rect x="1" y="1" width="598" height="523" rx="22" fill="#f0fdfa" stroke="#99f6e4"/>
+<g font-family="Arial, sans-serif" text-anchor="middle" fill="#0b1220">
+<text x="300" y="40" font-size="26" font-weight="700">Two sides of the same quote</text>
+<rect x="30" y="66" width="540" height="106" rx="16" fill="#fff" stroke="#99f6e4"/>
+<text x="300" y="96" font-size="23" font-weight="700">Customer buys the base currency</text>
+<text x="300" y="130" font-size="29" fill="#0f766e" font-weight="700">Ask: 1.1002</text>
+<text x="300" y="156" font-size="20">Buy one euro for US$1.1002.</text>
+<rect x="30" y="206" width="540" height="106" rx="16" fill="#fff" stroke="#99f6e4"/>
+<text x="300" y="236" font-size="23" font-weight="700">Customer sells the base currency</text>
+<text x="300" y="270" font-size="29" fill="#0f766e" font-weight="700">Bid: 1.1000</text>
+<text x="300" y="296" font-size="20">Sell one euro for US$1.1000.</text>
+<rect x="30" y="346" width="540" height="106" rx="16" fill="#fff" stroke="#99f6e4"/>
+<text x="300" y="376" font-size="23" font-weight="700">Ask minus bid</text>
+<text x="300" y="410" font-size="29" fill="#0f766e" font-weight="700">0.0002 = 2 pips</text>
+<text x="300" y="436" font-size="20">EUR/USD conventional pip: 0.0001</text>
+<text x="300" y="508" font-size="20" fill="#475569">Illustrative example, not a live quote.</text>
+</g>
+</svg>

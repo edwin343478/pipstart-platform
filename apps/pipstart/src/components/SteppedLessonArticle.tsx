@@ -372,12 +372,14 @@ export type LessonSidebarProps = {
   levelTitle: string;
   levelHref: string;
   lessons: SidebarLessonInfo[];
+  quiz?: SidebarLessonInfo;
 };
 
 export function LessonSidebar({
   levelTitle,
   levelHref,
   lessons,
+  quiz,
 }: LessonSidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
   const completedCount = lessons.filter((lesson) => lesson.complete).length;
@@ -385,7 +387,7 @@ export function LessonSidebar({
 
   const nav = (
     <nav>
-      {lessons.map((lesson) => (
+      {[...lessons, ...(quiz ? [quiz] : [])].map((lesson) => (
         <Link
           key={lesson.href}
           href={lesson.href}

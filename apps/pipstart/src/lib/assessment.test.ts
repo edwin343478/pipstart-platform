@@ -156,9 +156,11 @@ describe("Milestone 13 trusted assessment core", () => {
     expect(getContinuableAssessment("forex-foundations-quiz", 1)).toBe(quiz);
     const retired = cloneQuiz({ status: "retired" });
     const withdrawn = cloneQuiz({ status: "withdrawn" });
-    expect(() => assertValidAssessmentRegistry([quiz, retired])).not.toThrow();
     expect(() =>
-      assertValidAssessmentRegistry([quiz, withdrawn]),
+      assertValidAssessmentRegistry([...assessmentRegistry, retired]),
+    ).not.toThrow();
+    expect(() =>
+      assertValidAssessmentRegistry([...assessmentRegistry, withdrawn]),
     ).not.toThrow();
   });
 

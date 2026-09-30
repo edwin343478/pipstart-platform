@@ -1,4 +1,5 @@
 import { LessonBlocks } from "../../../components/lesson-blocks";
+import { currencyPairsSections } from "./currency-pairs-sections";
 
 export const metadata = {
   title: "Currency pairs",
@@ -10,8 +11,12 @@ export const metadata = {
   course: "forex-kindergarten",
   module: "forex-foundations",
   position: 2,
-  estimatedMinutes: 5,
-  objectives: ["Identify the base and quote currencies in a currency pair."],
+  estimatedMinutes: 15,
+  objectives: [
+    "Identify base and quote currencies and read a rate aloud.",
+    "Convert amounts, invert a quote, and derive an illustrative cross with correct units.",
+    "Recognize common pair categories without treating them as safety ratings.",
+  ],
   prerequisites: ["what-is-forex"],
   relatedLessonIds: ["what-is-forex", "pips-and-lots"],
   relatedTermSlugs: [],
@@ -19,30 +24,31 @@ export const metadata = {
   reviewer: "PipStart Markets Reviewer",
   sources: [
     {
-      title: "CFTC Foreign Currency Trading",
-      url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/fraudadv_forex.html",
+      title: "CME Group — Understanding FX Quote Conventions",
+      url: "https://www.cmegroup.com/education/courses/introduction-to-fx/understanding-fx-quote-conventions",
+    },
+    {
+      title: "SEC Investor Bulletin — Foreign Currency Exchange Trading",
+      url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/foreign",
+    },
+    {
+      title: "CFTC — Eight Things You Should Know Before Trading Forex",
+      url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/CustomerAdvisory_MustKnowForex.html",
     },
   ],
   publishedDate: "2026-09-15",
-  reviewDate: "2026-09-15",
+  reviewDate: "2026-09-30",
   status: "published",
   seoTitle: "Currency Pairs Explained",
   seoDescription:
     "Identify base and quote currencies and understand how Forex pairs are written.",
-  riskWarningRequired: false,
+  riskWarningRequired: true,
   affiliateDisclosureRequired: false,
   approved: true,
 };
 
-export const blocks = [
-  {
-    type: "keyPoint",
-    points: [
-      "The first currency is called the base currency.",
-      "The second currency is called the quote currency.",
-      "Buying a pair means buying the base while selling the quote.",
-    ],
-  },
-];
+export const blocks = currencyPairsSections.flatMap(
+  (section) => section.blocks,
+);
 
 <LessonBlocks blocks={blocks} />

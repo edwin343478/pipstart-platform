@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="520" viewBox="0 0 600 520" role="img" aria-labelledby="title description">
+<title id="title">A school-book payment from Japan to the United States</title>
+<desc id="description">The parent pays 3,140 yen. The provider converts 3,040 yen into 20 US dollars at the assumed rate of 152 yen per dollar, and charges a separate 100-yen fee. The US shop receives the 20-dollar book payment.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#0f766e"/></marker></defs>
+<rect x="1" y="1" width="598" height="518" rx="22" fill="#f0fdfa" stroke="#99f6e4"/>
+<g font-family="Arial, sans-serif" text-anchor="middle" fill="#0b1220">
+<text x="300" y="39" font-size="27" font-weight="700">One book, two currencies</text>
+<rect x="32" y="66" width="536" height="106" rx="16" fill="#ffffff" stroke="#99f6e4"/>
+<text x="300" y="96" font-size="24" font-weight="700">Parent in Japan</text><text x="300" y="128" font-size="28" fill="#0f766e" font-weight="700">Pays ¥3,140</text><text x="300" y="155" font-size="21">Book conversion + provider fee</text>
+<rect x="32" y="210" width="536" height="106" rx="16" fill="#ffffff" stroke="#99f6e4"/>
+<text x="300" y="240" font-size="24" font-weight="700">Card provider</text><text x="300" y="272" font-size="28" fill="#0f766e" font-weight="700">¥3,040 → US$20</text><text x="300" y="299" font-size="21">152 JPY per USD · Plus ¥100 fee</text>
+<rect x="32" y="354" width="536" height="106" rx="16" fill="#ffffff" stroke="#99f6e4"/>
+<text x="300" y="384" font-size="24" font-weight="700">Shop in the United States</text><text x="300" y="416" font-size="28" fill="#0f766e" font-weight="700">Book payment: US$20</text><text x="300" y="443" font-size="21">The shop's price is in dollars</text>
+<text x="300" y="495" font-size="20" fill="#475569">Illustrative rates and charges, not a live quote.</text>
+</g><path d="M300 179V200" stroke="#0f766e" stroke-width="4" marker-end="url(#arrow)"/><path d="M300 323V344" stroke="#0f766e" stroke-width="4" marker-end="url(#arrow)"/>
+</svg>

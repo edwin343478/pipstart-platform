@@ -1,0 +1,58 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { costsWithdrawalsAndSafetySections } from "./costs-withdrawals-and-safety-sections";
+
+export const metadata = {
+  title: "Costs, withdrawals and safety",
+  slug: "costs-withdrawals-and-safety",
+  description:
+    "Compare complete costs and signed holding adjustments. Reconcile executable-price results without double-counting and use correct conversion units.",
+  learningPath: "forex",
+  level: "level-2",
+  course: "brokers-and-platforms",
+  module: "broker-foundations",
+  position: 4,
+  estimatedMinutes: 22,
+  objectives: [
+    "Compare complete costs and signed holding adjustments.",
+    "Reconcile executable-price results without double-counting and use correct conversion units.",
+    "Check funding and withdrawal terms and recognise access and payment scams.",
+  ],
+  prerequisites: ["order-types-and-exits"],
+  relatedLessonIds: ["choosing-a-forex-provider"],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "CFTC — Eight Things You Should Know Before Trading Forex",
+      url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/CustomerAdvisory_MustKnowForex.html",
+    },
+    {
+      title: "FCA — Clone firms and individuals",
+      url: "https://www.fca.org.uk/consumers/clone-firms-individuals",
+    },
+    {
+      title: "FOREX.com — Rollover rates (provider-specific example)",
+      url: "https://www.forex.com/en-us/about-us/financial-transparency/rollover-rates/",
+    },
+    {
+      title: "FOREX.com — Trading costs (provider-specific example)",
+      url: "https://www.forex.com/en/about-us/financial-transparency/trading-costs/",
+    },
+  ],
+  publishedDate: "2026-09-30",
+  reviewDate: "2026-09-30",
+  status: "published",
+  seoTitle: "Costs, withdrawals and safety | Forex Foundations",
+  seoDescription:
+    "Compare complete costs and signed holding adjustments. Reconcile executable-price results without double-counting and use correct conversion units.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = costsWithdrawalsAndSafetySections.flatMap(
+  (section) => section.blocks,
+);
+
+<LessonBlocks blocks={blocks} />

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600" role="img" aria-labelledby="title description">
+<title id="title">Three ways to mark price landmarks</title><desc id="description">Schematic rising path shown with a horizontal reaction zone, a trend line through selected lows and a parallel channel. These drawings illustrate annotation methods, not price forecasts or barriers.</desc>
+<rect x="1" y="1" width="598" height="598" rx="22" fill="#f0fdfa" stroke="#99f6e4"/>
+<text x="300" y="38" font-family="Arial, sans-serif" font-size="24" text-anchor="middle" fill="#0b1220" font-weight="700">Three ways to mark price landmarks</text>
+<rect x="30" y="65" width="540" height="145" rx="16" fill="#fff" stroke="#99f6e4"/>
+<text x="48" y="94" font-family="Arial, sans-serif" font-size="20" text-anchor="start" fill="#0b1220" font-weight="700">Horizontal reaction zone</text>
+<rect x="58" y="185" width="460" height="20" rx="3" fill="#ccfbf1" stroke="#99f6e4"/>
+<polyline points="70,195 125,163 175,200 230,153 285,182 350,140 410,170 500,125" fill="none" stroke="#0f766e" stroke-width="3" stroke-linejoin="round"/>
+<rect x="30" y="230" width="540" height="145" rx="16" fill="#fff" stroke="#99f6e4"/>
+<text x="48" y="259" font-family="Arial, sans-serif" font-size="20" text-anchor="start" fill="#0b1220" font-weight="700">Trend line through selected lows</text>
+<line x1="175" y1="365" x2="500" y2="323.5" stroke="#64748b" stroke-width="2" stroke-dasharray="6 5"/>
+<polyline points="70,360 125,328 175,365 230,318 285,347 350,305 410,335 500,290" fill="none" stroke="#0f766e" stroke-width="3" stroke-linejoin="round"/>
+<rect x="30" y="395" width="540" height="145" rx="16" fill="#fff" stroke="#99f6e4"/>
+<text x="48" y="424" font-family="Arial, sans-serif" font-size="20" text-anchor="start" fill="#0b1220" font-weight="700">Parallel channel around a path</text>
+<line x1="175" y1="530" x2="500" y2="488.5" stroke="#64748b" stroke-width="2" stroke-dasharray="6 5"/>
+<line x1="175" y1="485" x2="500" y2="443.5" stroke="#64748b" stroke-width="2" stroke-dasharray="6 5"/>
+<polyline points="70,525 125,493 175,530 230,483 285,512 350,470 410,500 500,455" fill="none" stroke="#0f766e" stroke-width="3" stroke-linejoin="round"/>
+<text x="300" y="588" font-family="Arial, sans-serif" font-size="17" text-anchor="middle" fill="#0b1220">Schematic data; annotations do not constrain price.</text>
+</svg>

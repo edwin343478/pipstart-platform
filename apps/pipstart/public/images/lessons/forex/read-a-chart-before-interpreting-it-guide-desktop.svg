@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600" role="img" aria-labelledby="title description">
+<title id="title">Four prices, one selected period</title><desc id="description">Hypothetical GBP/USD candle with open 1.2500, high 1.2550, low 1.2470 and close 1.2520 in dollars per pound. Body 20 conventional pips, upper and lower wicks 30 pips each, total range 80 pips. The order of the high and low is unknown.</desc>
+<rect x="1" y="1" width="598" height="598" rx="22" fill="#f0fdfa" stroke="#99f6e4"/>
+<text x="300" y="38" font-family="Arial, sans-serif" font-size="17" text-anchor="middle" fill="#0b1220" font-weight="700">Four prices, one selected period</text>
+<text x="300" y="66" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#0b1220">GBP/USD · US dollars per pound</text>
+<rect x="30" y="86" width="540" height="340" rx="16" fill="#fff" stroke="#99f6e4"/>
+<line x1="180" y1="130" x2="180" y2="370" stroke="#0f766e" stroke-width="4"/>
+<rect x="150" y="220" width="60" height="60" rx="2" fill="#0f766e" stroke="#0f766e"/>
+<line x1="185" y1="130" x2="275" y2="130" stroke="#64748b" stroke-width="1"/>
+<text x="290" y="136" font-family="Arial, sans-serif" font-size="14" text-anchor="start" fill="#0b1220" font-weight="700">High 1.2550</text>
+<line x1="215" y1="220" x2="275" y2="220" stroke="#64748b" stroke-width="1"/>
+<text x="290" y="226" font-family="Arial, sans-serif" font-size="14" text-anchor="start" fill="#0b1220" font-weight="700">Close 1.2520</text>
+<line x1="215" y1="280" x2="275" y2="280" stroke="#64748b" stroke-width="1"/>
+<text x="290" y="286" font-family="Arial, sans-serif" font-size="14" text-anchor="start" fill="#0b1220" font-weight="700">Open 1.2500</text>
+<line x1="185" y1="370" x2="275" y2="370" stroke="#64748b" stroke-width="1"/>
+<text x="290" y="376" font-family="Arial, sans-serif" font-size="14" text-anchor="start" fill="#0b1220" font-weight="700">Low 1.2470</text>
+<text x="300" y="410" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#0b1220">Body = open to close; wicks = extremes</text>
+<rect x="30" y="446" width="540" height="92" rx="16" fill="#fff" stroke="#99f6e4"/>
+<text x="300" y="480" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#0f766e" font-weight="700">Body: 20 pips · Total range: 80 pips</text>
+<text x="300" y="514" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#0b1220">Neither number is an actual trade result.</text>
+<text x="300" y="576" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#0b1220">Illustrative OHLC; intraperiod sequence is unknown.</text>
+</svg>

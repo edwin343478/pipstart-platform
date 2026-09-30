@@ -1,0 +1,54 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { platformsAndDemoSections } from "./platforms-and-demo-practice-sections";
+
+export const metadata = {
+  title: "Platforms and demo practice",
+  slug: "platforms-and-demo-practice",
+  description:
+    "Read account, quote, size and margin fields correctly. Rehearse orders, cancellations and closure with an auditable demo record.",
+  learningPath: "forex",
+  level: "level-2",
+  course: "brokers-and-platforms",
+  module: "broker-foundations",
+  position: 2,
+  estimatedMinutes: 22,
+  objectives: [
+    "Read account, quote, size and margin fields correctly.",
+    "Rehearse orders, cancellations and closure with an auditable demo record.",
+    "Explain demo limitations, position accounting and connectivity risks.",
+  ],
+  prerequisites: ["choosing-a-forex-provider"],
+  relatedLessonIds: ["order-types-and-exits"],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "MetaTrader 5 — Demo account opening (Android example)",
+      url: "https://www.metatrader5.com/en/mobile-trading/android/help/settings_accounts/account_open",
+    },
+    {
+      title: "MetaTrader 5 — Basic trading principles and trailing stops",
+      url: "https://www.metatrader5.com/en/terminal/help/trading/general_concept",
+    },
+    {
+      title: "CFTC — Eight Things You Should Know Before Trading Forex",
+      url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/CustomerAdvisory_MustKnowForex.html",
+    },
+  ],
+  publishedDate: "2026-09-30",
+  reviewDate: "2026-09-30",
+  status: "published",
+  seoTitle: "Platforms and demo practice | Forex Foundations",
+  seoDescription:
+    "Read account, quote, size and margin fields correctly. Rehearse orders, cancellations and closure with an auditable demo record.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = platformsAndDemoSections.flatMap(
+  (section) => section.blocks,
+);
+
+<LessonBlocks blocks={blocks} />

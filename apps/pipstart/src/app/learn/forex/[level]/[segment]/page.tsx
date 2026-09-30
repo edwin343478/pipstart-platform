@@ -1,3 +1,6 @@
+import { toPublicAssessment } from "../../../../../lib/assessment";
+import { getCurrentPublishedAssessment } from "../../../../../lib/assessment-registry";
+import { ForexFoundationsQuiz } from "../../level-1/quiz/quiz-client";
 import { notFound } from "next/navigation";
 
 import { CurriculumPage } from "../../../../../components/curriculum-page";
@@ -29,6 +32,14 @@ export async function generateMetadata({
   const route = getGenericForexSecondSegment(level, segment);
   if (!route) return {};
 
+  if (route.kind === "quiz") {
+    return createDynamicPageMetadata({
+      path: `/learn/forex/${route.level.id}/quiz`,
+      title: route.quizTarget!.label,
+      description: `Review the ${route.module.title} lessons with a module quiz.`,
+    });
+  }
+
   if (route.kind === "lesson") {
     return createDynamicMetadata({
       path: route.lesson.href,
@@ -50,6 +61,13 @@ export default async function GenericForexSecondSegmentPage({
   const { level, segment } = await params;
   const route = getGenericForexSecondSegment(level, segment);
   if (!route) notFound();
+
+  if (route.kind === "quiz") {
+    const entry = route.module.lessons.find((item) => item.type === "quiz");
+    const assessment = entry && getCurrentPublishedAssessment(entry.id);
+    if (!assessment) notFound();
+    return <ForexFoundationsQuiz assessment={toPublicAssessment(assessment)} />;
+  }
 
   if (route.kind === "lesson") {
     return (

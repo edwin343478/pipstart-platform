@@ -1,4 +1,5 @@
 import { LessonBlocks } from "../../../components/lesson-blocks";
+import { bidAskSpreadSections } from "./bid-ask-spread-sections";
 
 export const metadata = {
   title: "Bid, ask and spread",
@@ -10,8 +11,12 @@ export const metadata = {
   course: "forex-kindergarten",
   module: "forex-foundations",
   position: 4,
-  estimatedMinutes: 5,
-  objectives: ["Distinguish bid, ask and spread in a Forex quote."],
+  estimatedMinutes: 16,
+  objectives: [
+    "Choose the bid or ask for a customer transaction.",
+    "Calculate a spread in pips and money.",
+    "Separate gross price-move results from total costs without double counting the spread.",
+  ],
   prerequisites: ["currency-pairs"],
   relatedLessonIds: ["pips-and-lots", "trading-sessions"],
   relatedTermSlugs: [],
@@ -19,30 +24,25 @@ export const metadata = {
   reviewer: "PipStart Markets Reviewer",
   sources: [
     {
-      title: "CFTC Foreign Currency Trading",
-      url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/fraudadv_forex.html",
+      title: "SEC Investor Bulletin — Foreign Currency Exchange Trading",
+      url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/foreign",
+    },
+    {
+      title: "CFTC — Eight Things You Should Know Before Trading Forex",
+      url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/CustomerAdvisory_MustKnowForex.html",
     },
   ],
   publishedDate: "2026-09-15",
-  reviewDate: "2026-09-15",
+  reviewDate: "2026-09-30",
   status: "published",
   seoTitle: "Forex Bid, Ask and Spread",
   seoDescription:
     "Understand the bid price, ask price and spread in a Forex quote.",
-  riskWarningRequired: false,
+  riskWarningRequired: true,
   affiliateDisclosureRequired: false,
   approved: true,
 };
 
-export const blocks = [
-  {
-    type: "keyPoint",
-    points: [
-      "The bid is normally lower than the ask.",
-      "The spread is an immediate trading cost.",
-      "Spreads can widen when markets are quiet or volatile.",
-    ],
-  },
-];
+export const blocks = bidAskSpreadSections.flatMap((section) => section.blocks);
 
 <LessonBlocks blocks={blocks} />

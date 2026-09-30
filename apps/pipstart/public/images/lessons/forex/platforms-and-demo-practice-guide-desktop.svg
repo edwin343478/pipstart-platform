@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="525" viewBox="0 0 600 525" role="img" aria-labelledby="title description">
+<title id="title">Follow the recorded demo status</title><desc id="description">Follow the recorded demo status. Waiting instruction; An order is not a position; Cancel it; confirm the final status.. Filled instruction; Open exposure now exists; Check actual size, fill and exits.. Closed position; Find the history record; Confirm no unwanted exposure remains.. A demo record is a rehearsal, not live proof.</desc>
+<rect x="1" y="1" width="598" height="523" rx="22" fill="#f0fdfa" stroke="#99f6e4"/>
+<g font-family="Arial, sans-serif" text-anchor="middle">
+<text x="300" y="40" font-size="18" font-weight="700" fill="#0b1220">Follow the recorded demo status</text>
+<rect x="30" y="66" width="540" height="106" rx="16" fill="#fff" stroke="#99f6e4"/>
+<text x="300" y="96" font-size="15" font-weight="700" fill="#0b1220">Waiting instruction</text>
+<text x="300" y="130" font-size="19" font-weight="700" fill="#0f766e">An order is not a position</text>
+<text x="300" y="156" font-size="13" fill="#0b1220">Cancel it; confirm the final status.</text>
+<rect x="30" y="206" width="540" height="106" rx="16" fill="#fff" stroke="#99f6e4"/>
+<text x="300" y="236" font-size="15" font-weight="700" fill="#0b1220">Filled instruction</text>
+<text x="300" y="270" font-size="19" font-weight="700" fill="#0f766e">Open exposure now exists</text>
+<text x="300" y="296" font-size="13" fill="#0b1220">Check actual size, fill and exits.</text>
+<rect x="30" y="346" width="540" height="106" rx="16" fill="#fff" stroke="#99f6e4"/>
+<text x="300" y="376" font-size="15" font-weight="700" fill="#0b1220">Closed position</text>
+<text x="300" y="410" font-size="19" font-weight="700" fill="#0f766e">Find the history record</text>
+<text x="300" y="436" font-size="13" fill="#0b1220">Confirm no unwanted exposure remains.</text>
+<text x="300" y="508" font-size="13" fill="#475569">A demo record is a rehearsal, not live proof.</text>
+</g>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600" role="img" aria-labelledby="title description">
+<title id="title">Whose activity does the bar count?</title><desc id="description">Two separate hypothetical counts: a retail AUD/USD feed reports 1,000 quote updates, while a listed currency future reports 50,000 traded contracts on its own venue. Different units and populations mean the figures are not a shared-scale measure of global spot volume.</desc>
+<rect x="1" y="1" width="598" height="598" rx="22" fill="#f0fdfa" stroke="#99f6e4"/>
+<text x="300" y="38" font-family="Arial, sans-serif" font-size="24" text-anchor="middle" fill="#0b1220" font-weight="700">Whose activity does the bar count?</text>
+<rect x="30" y="65" width="540" height="190" rx="16" fill="#fff" stroke="#99f6e4"/>
+<text x="300" y="98" font-family="Arial, sans-serif" font-size="20" text-anchor="middle" fill="#0b1220" font-weight="700">Retail AUD/USD feed</text>
+<rect x="75" y="122" width="50" height="95" rx="3" fill="#0f766e" stroke="#0f766e"/>
+<text x="175" y="155" font-family="Arial, sans-serif" font-size="20" text-anchor="start" fill="#0f766e" font-weight="700">1,000 quote updates</text>
+<text x="175" y="192" font-family="Arial, sans-serif" font-size="17" text-anchor="start" fill="#0b1220">This feed’s tick count</text>
+<text x="175" y="222" font-family="Arial, sans-serif" font-size="17" text-anchor="start" fill="#0b1220">Not all global transactions</text>
+<rect x="30" y="280" width="540" height="190" rx="16" fill="#fff" stroke="#99f6e4"/>
+<text x="300" y="314" font-family="Arial, sans-serif" font-size="20" text-anchor="middle" fill="#0b1220" font-weight="700">One listed currency future</text>
+<rect x="75" y="338" width="50" height="95" rx="3" fill="#0b1220" stroke="#0b1220"/>
+<text x="175" y="371" font-family="Arial, sans-serif" font-size="20" text-anchor="start" fill="#0b1220" font-weight="700">50,000 contracts</text>
+<text x="175" y="408" font-family="Arial, sans-serif" font-size="17" text-anchor="start" fill="#0b1220">This contract and venue</text>
+<text x="175" y="438" font-family="Arial, sans-serif" font-size="17" text-anchor="start" fill="#0b1220">A different unit and population</text>
+<text x="300" y="516" font-family="Arial, sans-serif" font-size="17" text-anchor="middle" fill="#0b1220">Illustrative counts; independent bar scales.</text>
+<text x="300" y="556" font-family="Arial, sans-serif" font-size="17" text-anchor="middle" fill="#0b1220" font-weight="700">Neither bar is total live spot Forex volume.</text>
+</svg>

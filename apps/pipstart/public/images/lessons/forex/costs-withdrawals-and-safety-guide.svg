@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="525" viewBox="0 0 600 525" role="img" aria-labelledby="title description">
+<title id="title">A ledger using executable fills</title><desc id="description">A ledger using executable fills. Gross price-move result; C$8; The actual entry and exit are used.. Separate charges; −C$1 commission · −C$3 holding; Do not subtract the spread again.. Net trading illustration; C$4; Before further conversion or account fees.. Hypothetical amounts, not a provider quote.</desc>
+<rect x="1" y="1" width="598" height="523" rx="22" fill="#f0fdfa" stroke="#99f6e4"/>
+<g font-family="Arial, sans-serif" text-anchor="middle">
+<text x="300" y="40" font-size="26" font-weight="700" fill="#0b1220">A ledger using executable fills</text>
+<rect x="30" y="66" width="540" height="106" rx="16" fill="#fff" stroke="#99f6e4"/>
+<text x="300" y="96" font-size="23" font-weight="700" fill="#0b1220">Gross price-move result</text>
+<text x="300" y="130" font-size="29" font-weight="700" fill="#0f766e">C$8</text>
+<text x="300" y="156" font-size="20" fill="#0b1220">The actual entry and exit are used.</text>
+<rect x="30" y="206" width="540" height="106" rx="16" fill="#fff" stroke="#99f6e4"/>
+<text x="300" y="236" font-size="23" font-weight="700" fill="#0b1220">Separate charges</text>
+<text x="300" y="270" font-size="23" font-weight="700" fill="#0f766e">−C$1 commission · −C$3 holding</text>
+<text x="300" y="296" font-size="20" fill="#0b1220">Do not subtract the spread again.</text>
+<rect x="30" y="346" width="540" height="106" rx="16" fill="#fff" stroke="#99f6e4"/>
+<text x="300" y="376" font-size="23" font-weight="700" fill="#0b1220">Net trading illustration</text>
+<text x="300" y="410" font-size="29" font-weight="700" fill="#0f766e">C$4</text>
+<text x="300" y="436" font-size="20" fill="#0b1220">Before further conversion or account fees.</text>
+<text x="300" y="508" font-size="20" fill="#475569">Hypothetical amounts, not a provider quote.</text>
+</g>
+</svg>

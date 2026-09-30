@@ -1,0 +1,52 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { readAChartSections } from "./read-a-chart-before-interpreting-it-sections";
+
+export const metadata = {
+  title: "Read a chart before interpreting it",
+  slug: "read-a-chart-before-interpreting-it",
+  description:
+    "Identify chart labels, price basis and complete versus forming periods. Read OHLC, measure candle distances and aggregate compatible bars.",
+  learningPath: "forex",
+  level: "level-3",
+  course: "charts",
+  module: "chart-foundations",
+  position: 1,
+  estimatedMinutes: 22,
+  objectives: [
+    "Identify chart labels, price basis and complete versus forming periods.",
+    "Read OHLC, measure candle distances and aggregate compatible bars.",
+    "Explain what chart summaries cannot establish about sequence or execution.",
+  ],
+  prerequisites: ["costs-withdrawals-and-safety"],
+  relatedLessonIds: ["trends-and-price-landmarks"],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "CME Group — Chart Types: candlestick, line, bar",
+      url: "https://www.cmegroup.com/education/courses/technical-analysis/chart-types-candlestick-line-bar",
+    },
+    {
+      title: "MetaTrader 5 — Price Data (platform-specific guide)",
+      url: "https://www.metatrader5.com/en/terminal/help/trading_advanced/price_data",
+    },
+    {
+      title: "CandleCharts — About Steve Nison (historical reading)",
+      url: "https://candlecharts.com/about-steve-nison/",
+    },
+  ],
+  publishedDate: "2026-09-30",
+  reviewDate: "2026-09-30",
+  status: "published",
+  seoTitle: "Read a chart before interpreting it",
+  seoDescription:
+    "Identify chart labels, price basis and complete versus forming periods. Read OHLC, measure candle distances and aggregate compatible bars.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = readAChartSections.flatMap((section) => section.blocks);
+
+<LessonBlocks blocks={blocks} />

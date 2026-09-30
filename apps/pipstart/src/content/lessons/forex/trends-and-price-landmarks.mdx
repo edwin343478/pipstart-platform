@@ -1,0 +1,54 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { trendsAndLandmarksSections } from "./trends-and-price-landmarks-sections";
+
+export const metadata = {
+  title: "Trends and price landmarks",
+  slug: "trends-and-price-landmarks",
+  description:
+    "Describe trends and zones under stated timeframe and swing rules. Draw reproducible trend lines and channels with dated anchors.",
+  learningPath: "forex",
+  level: "level-3",
+  course: "charts",
+  module: "chart-foundations",
+  position: 2,
+  estimatedMinutes: 22,
+  objectives: [
+    "Describe trends and zones under stated timeframe and swing rules.",
+    "Draw reproducible trend lines and channels with dated anchors.",
+    "Distinguish observed touches and breaks from predictions.",
+  ],
+  prerequisites: ["read-a-chart-before-interpreting-it"],
+  relatedLessonIds: ["swings-breakouts-and-false-signals"],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "CME Group — Support and Resistance",
+      url: "https://www.cmegroup.com/education/courses/trading-and-analysis/support-and-resistance",
+    },
+    {
+      title: "CME Group — Technical Analysis",
+      url: "https://www.cmegroup.com/education/courses/technical-analysis",
+    },
+    {
+      title: "CME Group — Chart Types: candlestick, line, bar",
+      url: "https://www.cmegroup.com/education/courses/technical-analysis/chart-types-candlestick-line-bar",
+    },
+  ],
+  publishedDate: "2026-09-30",
+  reviewDate: "2026-09-30",
+  status: "published",
+  seoTitle: "Trends and price landmarks",
+  seoDescription:
+    "Describe trends and zones under stated timeframe and swing rules. Draw reproducible trend lines and channels with dated anchors.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = trendsAndLandmarksSections.flatMap(
+  (section) => section.blocks,
+);
+
+<LessonBlocks blocks={blocks} />

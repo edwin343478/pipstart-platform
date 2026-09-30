@@ -27,13 +27,26 @@ describe("generic Forex level routing", () => {
     ).toBeUndefined();
   });
 
-  it("publishes Level 0 while keeping later Forex levels unavailable", () => {
-    expect(getGenericForexLevelParams()).toEqual([{ level: "level-0" }]);
+  it("publishes Levels 0, 2 and 3 while keeping unimplemented Forex levels unavailable", () => {
+    expect(getGenericForexLevelParams()).toEqual([
+      { level: "level-0" },
+      { level: "level-2" },
+      { level: "level-3" },
+    ]);
     expect(getGenericForexSecondSegmentParams()).toEqual([
       { level: "level-0", segment: "forex-orientation" },
       { level: "level-0", segment: "trading-versus-investing" },
       { level: "level-0", segment: "money-risk-and-demo" },
       { level: "level-0", segment: "spot-forex-scams-and-safety" },
+      { level: "level-2", segment: "brokers-and-platforms" },
+      { level: "level-2", segment: "quiz" },
+      { level: "level-2", segment: "platforms-and-demo-practice" },
+      { level: "level-2", segment: "order-types-and-exits" },
+      { level: "level-2", segment: "costs-withdrawals-and-safety" },
+      { level: "level-3", segment: "charts" },
+      { level: "level-3", segment: "trends-and-price-landmarks" },
+      { level: "level-3", segment: "swings-breakouts-and-false-signals" },
+      { level: "level-3", segment: "volume-and-chart-limits" },
     ]);
     expect(getGenericForexModuleParams()).toEqual([
       {
@@ -41,6 +54,12 @@ describe("generic Forex level routing", () => {
         module: "orientation-and-safety",
         segment: "forex-orientation",
       },
+      {
+        level: "level-2",
+        module: "broker-foundations",
+        segment: "brokers-and-platforms",
+      },
+      { level: "level-3", module: "chart-foundations", segment: "charts" },
     ]);
 
     expect(getGenericForexLevelRootLesson("level-0")).toMatchObject({
@@ -77,7 +96,8 @@ describe("generic Forex level routing", () => {
         "brokers-and-platforms",
         "broker-foundations",
       ),
-    ).toBeUndefined();
+    ).toBeDefined();
+    expect(getGenericForexLevelContext("level-4")).toBeUndefined();
   });
 
   it("preserves Level 1 browser data and isolates Level 0 progress", () => {

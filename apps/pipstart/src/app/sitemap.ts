@@ -2,15 +2,32 @@ import type { MetadataRoute } from "next";
 
 import { analysisPosts } from "./analysis/posts";
 import { publishedLessons } from "../content/lesson-registry";
-import { publishedHierarchyRoutes } from "../lib/curriculum";
+import { learningPaths, publishedHierarchyRoutes } from "../lib/curriculum";
 import { seoEntries, siteUrl } from "../lib/seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const quizRoutes = learningPaths.flatMap((path) =>
+    path.levels.flatMap((level) =>
+      level.courses.flatMap((course) =>
+        course.modules.flatMap((curriculumModule) =>
+          curriculumModule.lessons
+            .filter(
+              (item) => item.type === "quiz" && item.status === "published",
+            )
+            .map((item) => item.href),
+        ),
+      ),
+    ),
+  );
+  const quizRouteSet = new Set<string>(quizRoutes);
   const hierarchyRouteSet = new Set<string>(publishedHierarchyRoutes);
   const lessonRouteSet = new Set(publishedLessons.map(({ href }) => href));
   const staticRoutes = seoEntries
     .filter(
-      ({ path }) => !hierarchyRouteSet.has(path) && !lessonRouteSet.has(path),
+      ({ path }) =>
+        !hierarchyRouteSet.has(path) &&
+        !lessonRouteSet.has(path) &&
+        !quizRouteSet.has(path),
     )
     .map(({ path }) => ({
       url: new URL(path, siteUrl).href,
@@ -27,5 +44,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: new URL(path, siteUrl).href,
   }));
 
-  return [...staticRoutes, ...articles, ...lessons, ...hierarchy];
+  return [
+    ...staticRoutes,
+    ...articles,
+    ...lessons,
+    ...hierarchy,
+    ...Array.from(quizRouteSet).map((path) => ({
+      url: new URL(path, siteUrl).href,
+    })),
+  ];
 }

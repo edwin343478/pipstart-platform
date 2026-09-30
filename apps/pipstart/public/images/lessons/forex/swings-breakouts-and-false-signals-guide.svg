@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600" role="img" aria-labelledby="title description">
+<title id="title">Different rules, different observations</title><desc id="description">Two independent hypothetical USD/JPY examples around 151.00. First: high 151.20, close 150.90, so a wick crosses but a close rule does not qualify. Second: two completed closes 151.15 and 151.25 qualify under a two-close rule. Confirmation does not guarantee continuation.</desc>
+<rect x="1" y="1" width="598" height="598" rx="22" fill="#f0fdfa" stroke="#99f6e4"/>
+<text x="300" y="38" font-family="Arial, sans-serif" font-size="24" text-anchor="middle" fill="#0b1220" font-weight="700">Different rules, different observations</text>
+<rect x="30" y="65" width="540" height="220" rx="16" fill="#fff" stroke="#99f6e4"/>
+<text x="50" y="98" font-family="Arial, sans-serif" font-size="20" text-anchor="start" fill="#0b1220" font-weight="700">A wick crosses; the close does not</text>
+<line x1="60" y1="210" x2="550" y2="210" stroke="#64748b" stroke-width="2" stroke-dasharray="6 5"/>
+<line x1="160" y1="170" x2="160" y2="250" stroke="#0f766e" stroke-width="4"/>
+<rect x="140" y="220" width="40" height="10" rx="2" fill="#0b1220" stroke="#0b1220"/>
+<text x="270" y="166" font-family="Arial, sans-serif" font-size="20" text-anchor="start" fill="#0b1220" font-weight="700">High: 151.20</text>
+<text x="270" y="198" font-family="Arial, sans-serif" font-size="17" text-anchor="start" fill="#0b1220">Boundary: 151.00</text>
+<text x="270" y="238" font-family="Arial, sans-serif" font-size="20" text-anchor="start" fill="#0b1220" font-weight="700">Close: 150.90</text>
+<rect x="30" y="310" width="540" height="222" rx="16" fill="#fff" stroke="#99f6e4"/>
+<text x="50" y="344" font-family="Arial, sans-serif" font-size="20" text-anchor="start" fill="#0b1220" font-weight="700">Two completed closes above the line</text>
+<line x1="60" y1="470" x2="550" y2="470" stroke="#64748b" stroke-width="2" stroke-dasharray="6 5"/>
+<line x1="150" y1="410" x2="150" y2="460" stroke="#0f766e" stroke-width="3"/>
+<rect x="135" y="440" width="30" height="14" rx="2" fill="#0f766e" stroke="#0f766e"/>
+<line x1="240" y1="400" x2="240" y2="446" stroke="#0f766e" stroke-width="3"/>
+<rect x="225" y="420" width="30" height="20" rx="2" fill="#0f766e" stroke="#0f766e"/>
+<text x="310" y="410" font-family="Arial, sans-serif" font-size="17" text-anchor="start" fill="#0b1220" font-weight="700">First close: 151.15</text>
+<text x="310" y="440" font-family="Arial, sans-serif" font-size="17" text-anchor="start" fill="#0b1220" font-weight="700">Second close: 151.25</text>
+<text x="300" y="504" font-family="Arial, sans-serif" font-size="17" text-anchor="middle" fill="#0b1220">Boundary: 151.00</text>
+<text x="300" y="570" font-family="Arial, sans-serif" font-size="17" text-anchor="middle" fill="#0b1220">A rule can qualify without predicting the next move.</text>
+</svg>

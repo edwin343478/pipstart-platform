@@ -88,7 +88,7 @@
   accent-color: #0f766e;
 }
 
-.questionCard:disabled .choice {
+.questionGroup:disabled .choice {
   cursor: default;
 }
 
@@ -185,9 +185,10 @@
 }
 
 .submitArea {
-  justify-content: space-between;
-  padding-top: 1.25rem;
-  border-top: 1px solid #d9e0e5;
+  width: 100%;
+  min-width: 0;
+  justify-content: center;
+  text-align: center;
 }
 
 .primaryButton,
@@ -276,7 +277,6 @@
   }
 
   .inlineActions,
-  .submitArea,
   .history li {
     align-items: stretch;
     flex-direction: column;
@@ -290,13 +290,164 @@
   }
 
   .submitArea {
-    padding-top: 0;
-    border-top: 0;
+    flex-direction: column;
+    align-items: center;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .choice {
     scroll-behavior: auto;
+  }
+}
+
+/* Quiz-specific header: full text links need room at every viewport width. */
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 1px solid #d9e0e5;
+  background: #fff;
+  padding: 1rem 2.5rem;
+}
+.headerBrand {
+  flex: 0 0 auto;
+  color: #0b1220;
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: 1.1875rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+.headerContext {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.25rem;
+  color: #667085;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+.headerContext > div {
+  min-width: 0;
+  flex-wrap: wrap;
+}
+.headerContext > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.headerLink {
+  display: inline-flex;
+  min-height: 2.5rem;
+  max-width: 100%;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e7ebee;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  color: #0b1220;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.4;
+  text-decoration: none;
+  white-space: normal;
+}
+.headerLink:hover {
+  border-color: #0f766e;
+  color: #0f766e;
+}
+.headerLink:focus-visible,
+.moduleLink:focus-visible,
+.primaryButton:focus-visible,
+.secondaryButton:focus-visible {
+  outline: 3px solid rgb(15 118 110 / 35%);
+  outline-offset: 3px;
+}
+/* An outer card contains the native legend as well as the answers. */
+.questionGroup {
+  min-width: 0;
+  width: 100%;
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+.questionCard,
+.questionGroup,
+.questionCard legend,
+.choice,
+.actionCard,
+.submitArea,
+.headerLink {
+  box-sizing: border-box;
+}
+.questionCard legend {
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.choice > span {
+  min-width: 0;
+  flex: 1;
+  overflow-wrap: anywhere;
+}
+.actionCard {
+  position: static;
+  width: 100%;
+  min-width: 0;
+  border: 1px solid #e7ebee;
+  border-radius: 1rem;
+  background: #fff;
+  padding: 1.25rem;
+  box-shadow: 0 20px 40px -28px rgb(11 18 32 / 16%);
+}
+.submitArea .moduleLink {
+  max-width: 100%;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 767px) {
+  .header {
+    padding: 0.75rem 1rem;
+  }
+  .headerBrand {
+    display: none;
+  }
+  .headerContext {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .headerContext > div {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+  }
+  .headerContext > span {
+    width: 100%;
+    text-align: center;
+    font-weight: 700;
+    color: #0b1220;
+  }
+  .submitArea .primaryButton,
+  .submitArea .moduleLink {
+    width: auto;
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .headerContext {
+    flex-wrap: nowrap;
+  }
+  .headerContext > div {
+    display: contents;
+  }
+  .headerContext > div > :last-child {
+    order: 2;
+  }
+  .headerContext > span {
+    margin-left: auto;
   }
 }

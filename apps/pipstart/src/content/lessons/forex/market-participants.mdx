@@ -1,4 +1,5 @@
 import { LessonBlocks } from "../../../components/lesson-blocks";
+import { marketParticipantsSections } from "./market-participants-sections";
 
 export const metadata = {
   title: "Market participants",
@@ -10,9 +11,11 @@ export const metadata = {
   course: "forex-kindergarten",
   module: "forex-foundations",
   position: 6,
-  estimatedMinutes: 5,
+  estimatedMinutes: 16,
   objectives: [
-    "Compare the main Forex participants and their reasons for trading.",
+    "Compare the purposes of households, businesses, banks, funds, and central banks.",
+    "Distinguish a dealer from an agent and identify contractual responsibilities.",
+    "Connect currency needs, quotes, transaction size, timing, costs, and provider checks.",
   ],
   prerequisites: ["what-is-forex"],
   relatedLessonIds: ["trading-sessions"],
@@ -21,30 +24,32 @@ export const metadata = {
   reviewer: "PipStart Markets Reviewer",
   sources: [
     {
-      title: "BIS Triennial Central Bank Survey",
-      url: "https://www.bis.org/statistics/rpfx22.htm",
+      title:
+        "BIS — The global foreign exchange market in a higher-volatility environment",
+      url: "https://www.bis.org/publications/qr-202212/global-foreign-exchange-market-higher-volatility-environment",
+    },
+    {
+      title: "SEC Investor Bulletin — Foreign Currency Exchange Trading",
+      url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/foreign",
+    },
+    {
+      title: "CFTC — Eight Things You Should Know Before Trading Forex",
+      url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/CustomerAdvisory_MustKnowForex.html",
     },
   ],
   publishedDate: "2026-09-15",
-  reviewDate: "2026-09-15",
+  reviewDate: "2026-09-30",
   status: "published",
   seoTitle: "Forex Market Participants",
   seoDescription:
     "Compare the main participants in the Forex market and why they exchange currencies.",
-  riskWarningRequired: false,
+  riskWarningRequired: true,
   affiliateDisclosureRequired: false,
   approved: true,
 };
 
-export const blocks = [
-  {
-    type: "keyPoint",
-    points: [
-      "Companies exchange currencies for international business.",
-      "Central banks may influence currencies through policy.",
-      "Retail traders participate through brokers and trading platforms.",
-    ],
-  },
-];
+export const blocks = marketParticipantsSections.flatMap(
+  (section) => section.blocks,
+);
 
 <LessonBlocks blocks={blocks} />

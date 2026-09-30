@@ -10,16 +10,17 @@ function read(relativePath: string): string {
 }
 
 describe("Milestone 15 Level 0 Forex entry", () => {
-  it("makes Levels 0 and 1 available while keeping later levels locked", () => {
+  it("makes Levels 0, 1, 2 and 3 available while keeping later levels locked", () => {
     const forexPage = read("learn/forex/page.tsx");
 
-    expect(forexPage).toContain("{index <= 1 ? (");
+    expect(forexPage).toContain("{index <= 3 ? (");
     expect(forexPage).toContain('"/learn/forex/level-0"');
     expect(forexPage).toContain("Start Level 0: Orientation and Safety");
     expect(forexPage).toContain("Start Level 1: Forex Kindergarten");
-    expect(forexPage).toContain(
-      '{index === 0 ? "Start Level 0" : levelAction} →',
-    );
+    expect(forexPage).toContain("Start Level 2: Brokers and Platforms");
+    expect(forexPage).toContain('"/learn/forex/level-2"');
+    expect(forexPage).toContain("Start Level 3: Charts");
+    expect(forexPage).toContain('"/learn/forex/level-3"');
     expect(forexPage).toContain("<strong>Coming soon</strong>");
   });
 

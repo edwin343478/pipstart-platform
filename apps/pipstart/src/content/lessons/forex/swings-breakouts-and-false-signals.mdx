@@ -1,0 +1,58 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { swingsAndBreakoutsSections } from "./swings-breakouts-and-false-signals-sections";
+
+export const metadata = {
+  title: "Swings, breakouts and false signals",
+  slug: "swings-breakouts-and-false-signals",
+  description:
+    "Identify swing confirmation delays and consistent selection rules. Define breakout boundaries, confirmation and return conditions before later data.",
+  learningPath: "forex",
+  level: "level-3",
+  course: "charts",
+  module: "chart-foundations",
+  position: 3,
+  estimatedMinutes: 22,
+  objectives: [
+    "Identify swing confirmation delays and consistent selection rules.",
+    "Define breakout boundaries, confirmation and return conditions before later data.",
+    "Separate chart observations from executable outcomes and costs.",
+  ],
+  prerequisites: ["trends-and-price-landmarks"],
+  relatedLessonIds: ["volume-and-chart-limits"],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "CME Group — Chart Types: candlestick, line, bar",
+      url: "https://www.cmegroup.com/education/courses/technical-analysis/chart-types-candlestick-line-bar",
+    },
+    {
+      title: "CME Group — Technical Analysis",
+      url: "https://www.cmegroup.com/education/courses/technical-analysis",
+    },
+    {
+      title: "CME Group — Support and Resistance",
+      url: "https://www.cmegroup.com/education/courses/trading-and-analysis/support-and-resistance",
+    },
+    {
+      title: "MetaTrader 5 — Price Data (platform-specific guide)",
+      url: "https://www.metatrader5.com/en/terminal/help/trading_advanced/price_data",
+    },
+  ],
+  publishedDate: "2026-09-30",
+  reviewDate: "2026-09-30",
+  status: "published",
+  seoTitle: "Swings, breakouts and false signals",
+  seoDescription:
+    "Identify swing confirmation delays and consistent selection rules. Define breakout boundaries, confirmation and return conditions before later data.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = swingsAndBreakoutsSections.flatMap(
+  (section) => section.blocks,
+);
+
+<LessonBlocks blocks={blocks} />

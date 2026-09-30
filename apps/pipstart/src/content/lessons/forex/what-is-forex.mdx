@@ -1,4 +1,5 @@
 import { LessonBlocks } from "../../../components/lesson-blocks";
+import { whatIsForexSections } from "./what-is-forex-sections";
 
 export const metadata = {
   title: "What is Forex?",
@@ -10,9 +11,13 @@ export const metadata = {
   course: "forex-kindergarten",
   module: "forex-foundations",
   position: 1,
-  estimatedMinutes: 4,
+  estimatedMinutes: 16,
   objectives: [
-    "Explain what the Forex market is and why currencies are exchanged.",
+    "Explain what Forex is and why people exchange currencies.",
+    "Read a simple exchange rate and calculate a conversion in either direction.",
+    "Distinguish a practical payment from currency speculation.",
+    "Explain the difference between a displayed quote and a final conversion bill.",
+    "Recognize that cash exchange and currency contracts have different terms.",
   ],
   prerequisites: [],
   relatedLessonIds: ["currency-pairs"],
@@ -21,30 +26,43 @@ export const metadata = {
   reviewer: "PipStart Markets Reviewer",
   sources: [
     {
-      title: "BIS Triennial Central Bank Survey",
+      title: "Bank of England — Who sets exchange rates?",
+      url: "https://www.bankofengland.co.uk/explainers/who-sets-exchange-rates",
+    },
+    {
+      title: "SEC Investor Bulletin — Foreign Currency Exchange Trading",
+      url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/foreign",
+    },
+    {
+      title:
+        "BIS — The global foreign exchange market in a higher-volatility environment",
+      url: "https://www.bis.org/publications/qr-202212/global-foreign-exchange-market-higher-volatility-environment",
+    },
+    {
+      title: "BIS — Sizing up global foreign exchange markets",
+      url: "https://www.bis.org/publications/qr-201912/sizing-global-foreign-exchange-markets",
+    },
+    {
+      title:
+        "IMF — Evolution not Revolution: The Changing Role of the IMF in the Global Economy",
+      url: "https://www.imf.org/en/news/articles/2015/09/28/04/53/sp022306",
+    },
+    {
+      title: "BIS Triennial Central Bank Survey — 2022 historical survey",
       url: "https://www.bis.org/statistics/rpfx22.htm",
     },
   ],
   publishedDate: "2026-09-15",
-  reviewDate: "2026-09-15",
+  reviewDate: "2026-09-30",
   status: "published",
   seoTitle: "What Is Forex?",
   seoDescription:
     "Learn what the Forex market is and why currencies are exchanged.",
-  riskWarningRequired: false,
+  riskWarningRequired: true,
   affiliateDisclosureRequired: false,
   approved: true,
 };
 
-export const blocks = [
-  {
-    type: "keyPoint",
-    points: [
-      "Forex means foreign exchange.",
-      "Currencies are exchanged in pairs.",
-      "Prices move as demand for each currency changes.",
-    ],
-  },
-];
+export const blocks = whatIsForexSections.flatMap((section) => section.blocks);
 
 <LessonBlocks blocks={blocks} />

@@ -1,3 +1,4 @@
+import { brokerFoundationsQuizV1 } from "./broker-foundations-assessment";
 import type { AssessmentDefinition, AssessmentQuestion } from "./assessment";
 import {
   getCurriculumCourse,
@@ -133,6 +134,7 @@ export const forexFoundationsQuizV1: AssessmentDefinition = {
 
 export const assessmentRegistry: readonly AssessmentDefinition[] = [
   forexFoundationsQuizV1,
+  brokerFoundationsQuizV1,
 ];
 
 function nonEmpty(value: string, label: string) {

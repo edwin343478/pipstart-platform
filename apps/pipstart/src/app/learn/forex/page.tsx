@@ -122,14 +122,26 @@ export default function LearnForexPage() {
               <span className={styles.marker} aria-hidden="true">
                 {index}
               </span>
-              {index <= 1 ? (
+              {index <= 3 ? (
                 <Link
                   className={`${styles.levelCard} ${styles.availableLevel}`}
-                  href={index === 0 ? "/learn/forex/level-0" : levelHref}
+                  href={
+                    index === 0
+                      ? "/learn/forex/level-0"
+                      : index === 1
+                        ? levelHref
+                        : index === 2
+                          ? "/learn/forex/level-2"
+                          : "/learn/forex/level-3"
+                  }
                   aria-label={
                     index === 0
                       ? "Start Level 0: Orientation and Safety"
-                      : "Start Level 1: Forex Kindergarten"
+                      : index === 1
+                        ? "Start Level 1: Forex Kindergarten"
+                        : index === 2
+                          ? "Start Level 2: Brokers and Platforms"
+                          : "Start Level 3: Charts"
                   }
                 >
                   <span className={styles.levelMeta}>
@@ -139,7 +151,14 @@ export default function LearnForexPage() {
                   <h3>{level.title}</h3>
                   <p>{level.description}</p>
                   <span className={styles.startLevel}>
-                    {index === 0 ? "Start Level 0" : levelAction} →
+                    {index === 0
+                      ? "Start Level 0"
+                      : index === 1
+                        ? levelAction
+                        : index === 2
+                          ? "Start Level 2"
+                          : "Start Level 3"}{" "}
+                    →
                   </span>
                 </Link>
               ) : (

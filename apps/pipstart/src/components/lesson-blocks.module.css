@@ -558,3 +558,36 @@
     font-size: 13px;
   }
 }
+
+/* A clear calculator action within the existing teaching card. */
+.toolLink,
+.toolLink:visited {
+  display: inline-flex;
+  max-width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #0f766e;
+  border-radius: 10px;
+  background: #0f766e;
+  padding: 10px 14px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+.toolLink:hover {
+  background: #115e59;
+  border-color: #115e59;
+}
+.toolLink:focus-visible {
+  outline: 3px solid #0f766e;
+  outline-offset: 4px;
+}
+@media (max-width: 767px) {
+  .toolLink {
+    font-size: 14px;
+  }
+}

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { ReactNode } from "react";
 
 import styles from "./lesson-blocks.module.css";
@@ -63,6 +64,20 @@ export function LessonBlocks({
                   <p key={paragraph}>{renderInlineText(paragraph)}</p>
                 ))}
               </section>
+            );
+          case "learningLink":
+            return (
+              <aside className={styles.takeaway} key={key}>
+                <p className={styles.takeawayLabel}>
+                  Practise with a PipStart tool
+                </p>
+                <p>
+                  <Link className={styles.toolLink} href={block.href}>
+                    {block.title} →
+                  </Link>
+                </p>
+                <p>{renderInlineText(block.description)}</p>
+              </aside>
             );
           case "references":
             return (
@@ -193,12 +208,20 @@ export function LessonBlocks({
           case "diagram":
             return (
               <figure className={styles.diagram} key={key}>
-                <Image
-                  alt={block.alt}
-                  height={block.height}
-                  src={block.src}
-                  width={block.width}
-                />
+                <picture>
+                  {block.desktopSrc ? (
+                    <source
+                      media="(min-width: 768px)"
+                      srcSet={block.desktopSrc}
+                    />
+                  ) : null}
+                  <Image
+                    alt={block.alt}
+                    height={block.height}
+                    src={block.src}
+                    width={block.width}
+                  />
+                </picture>
                 {block.caption ? (
                   <figcaption>{block.caption}</figcaption>
                 ) : null}

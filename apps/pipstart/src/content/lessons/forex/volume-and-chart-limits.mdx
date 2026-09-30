@@ -1,0 +1,59 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { volumeAndChartLimitsSections } from "./volume-and-chart-limits-sections";
+
+export const metadata = {
+  title: "Volume and chart limits",
+  slug: "volume-and-chart-limits",
+  description:
+    "Identify the unit, source and population of volume data. Distinguish tick counts, exchange transactions and broad market surveys.",
+  learningPath: "forex",
+  level: "level-3",
+  course: "charts",
+  module: "chart-foundations",
+  position: 4,
+  estimatedMinutes: 22,
+  objectives: [
+    "Identify the unit, source and population of volume data.",
+    "Distinguish tick counts, exchange transactions and broad market surveys.",
+    "Create a complete chart-reading record with explicit data and execution limits.",
+  ],
+  prerequisites: ["swings-breakouts-and-false-signals"],
+  relatedLessonIds: ["read-a-chart-before-interpreting-it"],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "MetaTrader 5 — Price Data (platform-specific guide)",
+      url: "https://www.metatrader5.com/en/terminal/help/trading_advanced/price_data",
+    },
+    {
+      title: "MetaTrader 5 — Volumes (platform-specific indicator)",
+      url: "https://www.metatrader5.com/en/terminal/help/indicators/volume_indicators/volumes",
+    },
+    {
+      title:
+        "BIS — OTC foreign exchange turnover in April 2025 (survey methodology)",
+      url: "https://www.bis.org/publications/202509-commentary-otc-derivatives",
+    },
+    {
+      title: "CME Group — Chart Types: candlestick, line, bar",
+      url: "https://www.cmegroup.com/education/courses/technical-analysis/chart-types-candlestick-line-bar",
+    },
+  ],
+  publishedDate: "2026-09-30",
+  reviewDate: "2026-09-30",
+  status: "published",
+  seoTitle: "Volume and chart limits",
+  seoDescription:
+    "Identify the unit, source and population of volume data. Distinguish tick counts, exchange transactions and broad market surveys.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = volumeAndChartLimitsSections.flatMap(
+  (section) => section.blocks,
+);
+
+<LessonBlocks blocks={blocks} />

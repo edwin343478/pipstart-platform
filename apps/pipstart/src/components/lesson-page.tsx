@@ -19,6 +19,7 @@ import {
   parseCryptoLessonProgress,
   serializeCryptoLessonProgress,
 } from "../app/learn/crypto/level-1/progress";
+import { getCurriculumModule } from "../lib/curriculum";
 import styles from "./lesson-page.module.css";
 
 type Target = { href: string; label: string };
@@ -83,6 +84,14 @@ export function LessonPage({
   const next = lessons[currentIndex + 1];
   const isComplete = progress.completedIds.includes(lesson.id);
   const sections = sectionsFor(lesson);
+  const registeredQuiz = lesson.module
+    ? getCurriculumModule(path, lesson.module)?.lessons.find(
+        (item) => item.type === "quiz",
+      )
+    : undefined;
+  const resolvedQuizTarget = registeredQuiz
+    ? { href: registeredQuiz.href, label: `Take the ${registeredQuiz.title}` }
+    : quizTarget;
   const endOfLevel = next
     ? undefined
     : {
@@ -93,12 +102,12 @@ export function LessonPage({
         ctaLabel:
           lesson.level === "level-0"
             ? "You've finished Level 0 — start Level 1"
-            : (quizTarget?.label ??
+            : (resolvedQuizTarget?.label ??
               `Return to ${path === "forex" ? "Forex" : "Crypto"} levels`),
         ctaHref:
           lesson.level === "level-0"
             ? "/learn/forex/level-1"
-            : (quizTarget?.href ?? `/learn/${path}`),
+            : (resolvedQuizTarget?.href ?? `/learn/${path}`),
       };
 
   return (
@@ -125,6 +134,20 @@ export function LessonPage({
             complete: progress.completedIds.includes(item.id),
             current: item.id === lesson.id,
           }))}
+          quiz={
+            registeredQuiz
+              ? {
+                  title: registeredQuiz.title,
+                  href: registeredQuiz.href,
+                  complete: Boolean(
+                    progress.snapshot?.assessments?.some(
+                      (item) => item.assessmentId === registeredQuiz.id,
+                    ),
+                  ),
+                  current: false,
+                }
+              : undefined
+          }
         />
         <SteppedLessonArticle
           key={lesson.id}

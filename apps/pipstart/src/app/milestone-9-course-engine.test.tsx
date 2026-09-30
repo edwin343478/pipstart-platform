@@ -49,8 +49,11 @@ describe("Milestone 9 basic course engine", () => {
       expect(markup).toContain("minute read");
       expect(markup).toContain("Learning objectives");
       expect(markup).toContain("Sections of");
-      expect(markup).toContain("Mark complete");
     }
+    // The first Forex section is no longer the final section.
+    expect(forexMarkup).not.toContain("Mark complete");
+    expect(forexMarkup).toContain("Next: Reading an exchange rate");
+    expect(cryptoMarkup).toContain("Mark complete");
   });
 
   it("keeps stable unique Forex IDs, positions and direct URLs", () => {

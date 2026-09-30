@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="525" viewBox="0 0 600 525" role="img" aria-labelledby="title description">
+<title id="title">Three different instruction jobs</title><desc id="description">Three different instruction jobs. Limit; Control the acceptable price; The order can remain unfilled.. Ordinary stop; Act after the trigger; The actual fill can be worse.. Stop-limit; Trigger, then limit the price; Exposure can remain after activation.. Check the product’s exact trigger and fill rules.</desc>
+<rect x="1" y="1" width="598" height="523" rx="22" fill="#f0fdfa" stroke="#99f6e4"/>
+<g font-family="Arial, sans-serif" text-anchor="middle">
+<text x="300" y="40" font-size="18" font-weight="700" fill="#0b1220">Three different instruction jobs</text>
+<rect x="30" y="66" width="540" height="106" rx="16" fill="#fff" stroke="#99f6e4"/>
+<text x="300" y="96" font-size="15" font-weight="700" fill="#0b1220">Limit</text>
+<text x="300" y="130" font-size="19" font-weight="700" fill="#0f766e">Control the acceptable price</text>
+<text x="300" y="156" font-size="13" fill="#0b1220">The order can remain unfilled.</text>
+<rect x="30" y="206" width="540" height="106" rx="16" fill="#fff" stroke="#99f6e4"/>
+<text x="300" y="236" font-size="15" font-weight="700" fill="#0b1220">Ordinary stop</text>
+<text x="300" y="270" font-size="19" font-weight="700" fill="#0f766e">Act after the trigger</text>
+<text x="300" y="296" font-size="13" fill="#0b1220">The actual fill can be worse.</text>
+<rect x="30" y="346" width="540" height="106" rx="16" fill="#fff" stroke="#99f6e4"/>
+<text x="300" y="376" font-size="15" font-weight="700" fill="#0b1220">Stop-limit</text>
+<text x="300" y="410" font-size="19" font-weight="700" fill="#0f766e">Trigger, then limit the price</text>
+<text x="300" y="436" font-size="13" fill="#0b1220">Exposure can remain after activation.</text>
+<text x="300" y="508" font-size="13" fill="#475569">Check the product’s exact trigger and fill rules.</text>
+</g>
+</svg>

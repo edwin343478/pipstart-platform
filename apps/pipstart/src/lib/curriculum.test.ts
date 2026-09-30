@@ -21,9 +21,14 @@ describe("published curriculum hierarchy", () => {
       })),
     ).toEqual([
       {
-        courses: ["forex-orientation", "forex-kindergarten"],
+        courses: [
+          "forex-orientation",
+          "forex-kindergarten",
+          "brokers-and-platforms",
+          "charts",
+        ],
         id: "forex",
-        levels: ["level-0", "level-1"],
+        levels: ["level-0", "level-1", "level-2", "level-3"],
       },
       { courses: ["bitcoin"], id: "crypto", levels: ["level-1"] },
     ]);
