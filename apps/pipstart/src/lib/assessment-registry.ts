@@ -1,3 +1,11 @@
+import { advancedForexFoundationsQuizV1 } from "./advanced-forex-foundations-assessment";
+import { strategyDevelopmentFoundationsQuizV1 } from "./strategy-development-foundations-assessment";
+import { psychologyFoundationsQuizV1 } from "./psychology-foundations-assessment";
+import { fundamentalAnalysisFoundationsQuizV1 } from "./fundamental-analysis-foundations-assessment";
+import { priceActionFoundationsQuizV1 } from "./price-action-foundations-assessment";
+import { riskManagementFoundationsQuizV1 } from "./risk-management-foundations-assessment";
+import { chartFoundationsQuizV1 } from "./chart-foundations-assessment";
+import { technicalToolFoundationsQuizV1 } from "./technical-tool-foundations-assessment";
 import { brokerFoundationsQuizV1 } from "./broker-foundations-assessment";
 import type { AssessmentDefinition, AssessmentQuestion } from "./assessment";
 import {
@@ -135,6 +143,14 @@ export const forexFoundationsQuizV1: AssessmentDefinition = {
 export const assessmentRegistry: readonly AssessmentDefinition[] = [
   forexFoundationsQuizV1,
   brokerFoundationsQuizV1,
+  chartFoundationsQuizV1,
+  technicalToolFoundationsQuizV1,
+  riskManagementFoundationsQuizV1,
+  priceActionFoundationsQuizV1,
+  fundamentalAnalysisFoundationsQuizV1,
+  psychologyFoundationsQuizV1,
+  strategyDevelopmentFoundationsQuizV1,
+  advancedForexFoundationsQuizV1,
 ];
 
 function nonEmpty(value: string, label: string) {

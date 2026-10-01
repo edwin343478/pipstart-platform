@@ -1,0 +1,70 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { reviewTheWholePortfolioSections } from "./review-the-whole-portfolio-sections";
+
+export const metadata = {
+  title: "Review the whole portfolio",
+  slug: "review-the-whole-portfolio",
+  description:
+    "Reconcile currency exposure, combined after-charge risk scenarios, margin and execution records. Separate process quality from outcomes in a complete dated journal and performance review.",
+  learningPath: "forex",
+  level: "level-10",
+  course: "advanced-forex",
+  module: "advanced-forex-foundations",
+  position: 3,
+  estimatedMinutes: 39,
+  objectives: [
+    "Reconcile currency exposure, combined after-charge risk scenarios, margin and execution records.",
+    "Separate process quality from outcomes in a complete dated journal and performance review.",
+    "Assemble seven reproducible graduation deliverables and critically examine provider and challenge claims.",
+  ],
+  prerequisites: ["liquidity-and-market-positioning"],
+  relatedLessonIds: [
+    "stops-targets-and-a-checklist",
+    "read-the-results-honestly",
+    "use-an-economic-calendar-safely",
+  ],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "CME Group — Risk Management and Your Trade Plan",
+      url: "https://www.cmegroup.com/education/courses/building-a-trade-plan/risk-management-and-your-trade-plan",
+    },
+    {
+      title: "CME Group — Proper Position Size",
+      url: "https://www.cmegroup.com/education/courses/trade-and-risk-management/proper-position-size",
+    },
+    {
+      title: "MetaTrader 5 — Executing Trades and account information",
+      url: "https://www.metatrader5.com/en/terminal/help/trading/performing_deals",
+    },
+    {
+      title: "CME Group — Keep a Trade Log",
+      url: "https://www.cmegroup.com/education/courses/building-a-trade-plan/keep-a-trade-log",
+    },
+    {
+      title: "CFTC — Forex fraud",
+      url: "https://www.cftc.gov/LearnAndProtect/forexfrauds",
+    },
+    {
+      title: "CFTC — AI will not turn trading bots into money machines",
+      url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/AITradingBots.html",
+    },
+  ],
+  publishedDate: "2026-10-01",
+  reviewDate: "2026-10-01",
+  status: "published",
+  seoTitle: "Review the whole portfolio",
+  seoDescription:
+    "Reconcile currency exposure, combined after-charge risk scenarios, margin and execution records. Separate process quality from outcomes in a complete dated journal and performance review.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = reviewTheWholePortfolioSections.flatMap(
+  (section) => section.blocks,
+);
+
+<LessonBlocks blocks={blocks} />

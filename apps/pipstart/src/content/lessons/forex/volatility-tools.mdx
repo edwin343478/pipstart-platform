@@ -1,0 +1,61 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { volatilityToolsSections } from "./volatility-tools-sections";
+
+export const metadata = {
+  title: "Volatility tools",
+  slug: "volatility-tools",
+  description:
+    "Calculate true range and interpret ATR units and smoothing. Explain Bollinger Band construction and its statistical limits.",
+  learningPath: "forex",
+  level: "level-4",
+  course: "technical-tools",
+  module: "technical-tool-foundations",
+  position: 2,
+  estimatedMinutes: 23,
+  objectives: [
+    "Calculate true range and interpret ATR units and smoothing.",
+    "Explain Bollinger Band construction and its statistical limits.",
+    "Translate distance into a rounded demo size without confusing volatility with cash risk.",
+  ],
+  prerequisites: ["averages-and-momentum"],
+  relatedLessonIds: [
+    "read-a-chart-before-interpreting-it",
+    "trends-and-price-landmarks",
+  ],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "MetaTrader 5 — Average True Range",
+      url: "https://www.metatrader5.com/en/terminal/help/indicators/oscillators/atr",
+    },
+    {
+      title: "Fidelity — Average True Range",
+      url: "https://www.fidelity.com/learning-center/trading-investing/technical-analysis/technical-indicator-guide/atr",
+    },
+    {
+      title: "John Bollinger — Bollinger Band rules",
+      url: "https://www.bollingerbands.com/bollinger-band-rules",
+    },
+    {
+      title: "John Bollinger — Bollinger Bands",
+      url: "https://www.bollingerbands.com/bollinger-bands",
+    },
+  ],
+  publishedDate: "2026-10-01",
+  reviewDate: "2026-10-01",
+  status: "published",
+  seoTitle: "Volatility tools",
+  seoDescription:
+    "Calculate true range and interpret ATR units and smoothing. Explain Bollinger Band construction and its statistical limits.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = volatilityToolsSections.flatMap(
+  (section) => section.blocks,
+);
+
+<LessonBlocks blocks={blocks} />

@@ -1,0 +1,63 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { howThinkingCanGoWrongSections } from "./how-thinking-can-go-wrong-sections";
+
+export const metadata = {
+  title: "How thinking can go wrong",
+  slug: "how-thinking-can-go-wrong",
+  description:
+    "Recognise evidence-selection, recency, loss, anchoring and hindsight patterns without diagnosing a person. Keep the full sample, costs and available-data decision separate from the later outcome.",
+  learningPath: "forex",
+  level: "level-8",
+  course: "psychology",
+  module: "psychology-foundations",
+  position: 2,
+  estimatedMinutes: 29,
+  objectives: [
+    "Recognise evidence-selection, recency, loss, anchoring and hindsight patterns without diagnosing a person.",
+    "Keep the full sample, costs and available-data decision separate from the later outcome.",
+    "Use competing explanations, result-hidden review and versioned corrections honestly.",
+  ],
+  prerequisites: ["emotions-around-a-decision"],
+  relatedLessonIds: [
+    "combined-exposure-and-losing-streaks",
+    "stops-targets-and-a-checklist",
+    "use-an-economic-calendar-safely",
+  ],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title:
+        "Kahneman and Tversky (1979) — Prospect Theory: An Analysis of Decision under Risk",
+      url: "https://www.jstor.org/stable/1914185",
+    },
+    {
+      title: "Investor.gov — Behavioral Patterns of U.S. Investors",
+      url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-72",
+    },
+    {
+      title: "CME Group — Risk Management and Your Trade Plan",
+      url: "https://www.cmegroup.com/education/courses/building-a-trade-plan/risk-management-and-your-trade-plan",
+    },
+    {
+      title: "Investor.gov — Risks of short-term trading based on social media",
+      url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-alerts/investor-alert-thinking-about-investing-latest-hot-stock-understand-significant-risks-short-term",
+    },
+  ],
+  publishedDate: "2026-10-01",
+  reviewDate: "2026-10-01",
+  status: "published",
+  seoTitle: "How thinking can go wrong",
+  seoDescription:
+    "Recognise evidence-selection, recency, loss, anchoring and hindsight patterns without diagnosing a person. Keep the full sample, costs and available-data decision separate from the later outcome.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = howThinkingCanGoWrongSections.flatMap(
+  (section) => section.blocks,
+);
+
+<LessonBlocks blocks={blocks} />

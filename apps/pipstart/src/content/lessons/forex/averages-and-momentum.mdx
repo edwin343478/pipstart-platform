@@ -1,0 +1,61 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { averagesAndMomentumSections } from "./averages-and-momentum-sections";
+
+export const metadata = {
+  title: "Averages and momentum",
+  slug: "averages-and-momentum",
+  description:
+    "Calculate and update simple and exponential averages. Explain RSI, MACD and stochastic inputs without turning readings into forecasts.",
+  learningPath: "forex",
+  level: "level-4",
+  course: "technical-tools",
+  module: "technical-tool-foundations",
+  position: 1,
+  estimatedMinutes: 25,
+  objectives: [
+    "Calculate and update simple and exponential averages.",
+    "Explain RSI, MACD and stochastic inputs without turning readings into forecasts.",
+    "Compare completed-bar settings and recognise correlated evidence.",
+  ],
+  prerequisites: ["volume-and-chart-limits"],
+  relatedLessonIds: [
+    "read-a-chart-before-interpreting-it",
+    "trends-and-price-landmarks",
+  ],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "MetaTrader 5 — Moving Average",
+      url: "https://www.metatrader5.com/en/terminal/help/indicators/trend_indicators/ma",
+    },
+    {
+      title: "MetaTrader 5 — RSI",
+      url: "https://www.metatrader5.com/en/terminal/help/indicators/oscillators/rsi",
+    },
+    {
+      title: "MetaTrader 5 — MACD (platform convention)",
+      url: "https://www.metatrader5.com/en/terminal/help/indicators/oscillators/macd",
+    },
+    {
+      title: "CME Group — Oscillators: MACD, RSI, Stochastics",
+      url: "https://www.cmegroup.com/education/courses/technical-analysis/oscillators-macd-rsi-stochastics",
+    },
+  ],
+  publishedDate: "2026-10-01",
+  reviewDate: "2026-10-01",
+  status: "published",
+  seoTitle: "Averages and momentum",
+  seoDescription:
+    "Calculate and update simple and exponential averages. Explain RSI, MACD and stochastic inputs without turning readings into forecasts.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = averagesAndMomentumSections.flatMap(
+  (section) => section.blocks,
+);
+
+<LessonBlocks blocks={blocks} />

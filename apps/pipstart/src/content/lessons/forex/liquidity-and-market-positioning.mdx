@@ -1,0 +1,71 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { liquidityAndMarketPositioningSections } from "./liquidity-and-market-positioning-sections";
+
+export const metadata = {
+  title: "Liquidity and market positioning",
+  slug: "liquidity-and-market-positioning",
+  description:
+    "Separate spread, depth, tick activity and actual execution under a stated venue and size. Calculate a weighted fill and a simplified funded carry result with explicit limitations.",
+  learningPath: "forex",
+  level: "level-10",
+  course: "advanced-forex",
+  module: "advanced-forex-foundations",
+  position: 2,
+  estimatedMinutes: 32,
+  objectives: [
+    "Separate spread, depth, tick activity and actual execution under a stated venue and size.",
+    "Calculate a weighted fill and a simplified funded carry result with explicit limitations.",
+    "Read delayed positioning and sentiment information with its source, units and publication lag.",
+  ],
+  prerequisites: ["relationships-that-can-change"],
+  relatedLessonIds: [
+    "stops-targets-and-a-checklist",
+    "read-the-results-honestly",
+    "use-an-economic-calendar-safely",
+  ],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "CFTC — Commitments of Traders reporting history",
+      url: "https://www.cftc.gov/PressRoom/PressReleases/8612-22",
+    },
+    {
+      title:
+        "BIS — The global foreign exchange market in a higher-volatility environment",
+      url: "https://www.bis.org/publications/qr-202212/global-foreign-exchange-market-higher-volatility-environment",
+    },
+    {
+      title: "MetaTrader 5 — Depth of Market",
+      url: "https://www.metatrader5.com/en/terminal/help/trading/depth_of_market",
+    },
+    {
+      title: "CFTC — Commitments of Traders: coverage and reporting dates",
+      url: "https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm",
+    },
+    {
+      title: "BIS — Carry off, carry on",
+      url: "https://www.bis.org/publications/qr-202409/carry-off-carry-on",
+    },
+    {
+      title: "CFTC — Eight Things You Should Know Before Trading Forex",
+      url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/CustomerAdvisory_MustKnowForex.html",
+    },
+  ],
+  publishedDate: "2026-10-01",
+  reviewDate: "2026-10-01",
+  status: "published",
+  seoTitle: "Liquidity and market positioning",
+  seoDescription:
+    "Separate spread, depth, tick activity and actual execution under a stated venue and size. Calculate a weighted fill and a simplified funded carry result with explicit limitations.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = liquidityAndMarketPositioningSections.flatMap(
+  (section) => section.blocks,
+);
+
+<LessonBlocks blocks={blocks} />

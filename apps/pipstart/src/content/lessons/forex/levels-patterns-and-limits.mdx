@@ -1,0 +1,61 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { levelsPatternsAndLimitsSections } from "./levels-patterns-and-limits-sections";
+
+export const metadata = {
+  title: "Levels, patterns and limits",
+  slug: "levels-patterns-and-limits",
+  description:
+    "Calculate anchored Fibonacci retracements and classic pivots. Describe sixteen core candle patterns and common multi-bar patterns with context.",
+  learningPath: "forex",
+  level: "level-4",
+  course: "technical-tools",
+  module: "technical-tool-foundations",
+  position: 3,
+  estimatedMinutes: 28,
+  objectives: [
+    "Calculate anchored Fibonacci retracements and classic pivots.",
+    "Describe sixteen core candle patterns and common multi-bar patterns with context.",
+    "Define divergence, confirmation, failure and costs before testing a chart idea.",
+  ],
+  prerequisites: ["volatility-tools"],
+  relatedLessonIds: [
+    "read-a-chart-before-interpreting-it",
+    "trends-and-price-landmarks",
+  ],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "MacTutor — Leonardo of Pisa (Fibonacci)",
+      url: "https://mathshistory.st-andrews.ac.uk/Biographies/Fibonacci/",
+    },
+    {
+      title: "CME Group — Technical Analysis",
+      url: "https://www.cmegroup.com/education/courses/technical-analysis",
+    },
+    {
+      title: "CME Group — Chart Types",
+      url: "https://www.cmegroup.com/education/courses/technical-analysis/chart-types-candlestick-line-bar",
+    },
+    {
+      title: "John Bollinger — Indicator overlap and band limitations",
+      url: "https://www.bollingerbands.com/bollinger-band-rules",
+    },
+  ],
+  publishedDate: "2026-10-01",
+  reviewDate: "2026-10-01",
+  status: "published",
+  seoTitle: "Levels, patterns and limits",
+  seoDescription:
+    "Calculate anchored Fibonacci retracements and classic pivots. Describe sixteen core candle patterns and common multi-bar patterns with context.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = levelsPatternsAndLimitsSections.flatMap(
+  (section) => section.blocks,
+);
+
+<LessonBlocks blocks={blocks} />

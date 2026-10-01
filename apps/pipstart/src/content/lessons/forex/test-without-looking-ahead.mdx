@@ -1,0 +1,68 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { testWithoutLookingAheadSections } from "./test-without-looking-ahead-sections";
+
+export const metadata = {
+  title: "Test without looking ahead",
+  slug: "test-without-looking-ahead",
+  description:
+    "Build a chronological development, reserved evaluation and forward-observation plan. Keep future information, fill uncertainty and repeated costs out of earlier decisions.",
+  learningPath: "forex",
+  level: "level-9",
+  course: "strategy-development",
+  module: "strategy-development-foundations",
+  position: 2,
+  estimatedMinutes: 31,
+  objectives: [
+    "Build a chronological development, reserved evaluation and forward-observation plan.",
+    "Keep future information, fill uncertainty and repeated costs out of earlier decisions.",
+    "Reconcile candidates, skips, completed cases and unresolved outcomes under disclosed assumptions.",
+  ],
+  prerequisites: ["write-a-strategy-that-can-be-checked"],
+  relatedLessonIds: [
+    "stops-targets-and-a-checklist",
+    "a-repeatable-practice-habit",
+    "use-an-economic-calendar-safely",
+  ],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title:
+        "NFA — Hypothetical Performance Results: limitations and presentation",
+      url: "https://www.nfa.futures.org/rulebooksql/rules.aspx?RuleID=9025&Section=9",
+    },
+    {
+      title:
+        "Bailey, Borwein, López de Prado and Zhu — The Probability of Backtest Overfitting",
+      url: "https://scholarworks.wmich.edu/math_pubs/42/",
+    },
+    {
+      title: "CME Group — Trading Strategies in Your Trade Plan",
+      url: "https://www.cmegroup.com/education/courses/building-a-trade-plan/trading-strategies-in-your-trade-plan",
+    },
+    {
+      title: "CME Group — Keep a Trade Log",
+      url: "https://www.cmegroup.com/education/courses/building-a-trade-plan/keep-a-trade-log",
+    },
+    {
+      title: "MetaTrader 5 — Executing Trades and account information",
+      url: "https://www.metatrader5.com/en/terminal/help/trading/performing_deals",
+    },
+  ],
+  publishedDate: "2026-10-01",
+  reviewDate: "2026-10-01",
+  status: "published",
+  seoTitle: "Test without looking ahead",
+  seoDescription:
+    "Build a chronological development, reserved evaluation and forward-observation plan. Keep future information, fill uncertainty and repeated costs out of earlier decisions.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = testWithoutLookingAheadSections.flatMap(
+  (section) => section.blocks,
+);
+
+<LessonBlocks blocks={blocks} />

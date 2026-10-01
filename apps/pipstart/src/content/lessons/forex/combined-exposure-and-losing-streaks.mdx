@@ -1,0 +1,58 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { combinedExposureAndLosingStreaksSections } from "./combined-exposure-and-losing-streaks-sections";
+
+export const metadata = {
+  title: "Combined exposure and losing streaks",
+  slug: "combined-exposure-and-losing-streaks",
+  description:
+    "Inventory shared currency directions and total planned cash loss. Interpret sample correlation, loss-limit rules and losing-streak arithmetic.",
+  learningPath: "forex",
+  level: "level-5",
+  course: "risk-management",
+  module: "risk-management-foundations",
+  position: 3,
+  estimatedMinutes: 30,
+  objectives: [
+    "Inventory shared currency directions and total planned cash loss.",
+    "Interpret sample correlation, loss-limit rules and losing-streak arithmetic.",
+    "Write a personal demo policy and explain why ruin probabilities require stated assumptions.",
+  ],
+  prerequisites: ["margin-leverage-and-drawdown"],
+  relatedLessonIds: [
+    "money-risk-and-demo",
+    "pips-and-lots",
+    "volatility-tools",
+  ],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "NIST — Correlation coefficient",
+      url: "https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/correlat.htm",
+    },
+    {
+      title: "CME Group — Risk Management and Your Trade Plan",
+      url: "https://www.cmegroup.com/education/courses/building-a-trade-plan/risk-management-and-your-trade-plan",
+    },
+    {
+      title: "CFTC — Eight Things You Should Know Before Trading Forex",
+      url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/CustomerAdvisory_MustKnowForex.html",
+    },
+  ],
+  publishedDate: "2026-10-01",
+  reviewDate: "2026-10-01",
+  status: "published",
+  seoTitle: "Combined exposure and losing streaks",
+  seoDescription:
+    "Inventory shared currency directions and total planned cash loss. Interpret sample correlation, loss-limit rules and losing-streak arithmetic.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = combinedExposureAndLosingStreaksSections.flatMap(
+  (section) => section.blocks,
+);
+
+<LessonBlocks blocks={blocks} />

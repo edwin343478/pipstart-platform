@@ -1,0 +1,62 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { buildATestableObservationSections } from "./build-a-testable-observation-sections";
+
+export const metadata = {
+  title: "Build a testable observation",
+  slug: "build-a-testable-observation",
+  description:
+    "Define a zone, touch, trigger, expiry and discard condition reproducibly. Align multiple timeframes and distinguish chart events from executable fills.",
+  learningPath: "forex",
+  level: "level-6",
+  course: "price-action",
+  module: "price-action-foundations",
+  position: 2,
+  estimatedMinutes: 28,
+  objectives: [
+    "Define a zone, touch, trigger, expiry and discard condition reproducibly.",
+    "Align multiple timeframes and distinguish chart events from executable fills.",
+    "Record all eligible cases, ambiguous outcomes and rule revisions honestly.",
+  ],
+  prerequisites: ["describe-structure-without-guessing"],
+  relatedLessonIds: [
+    "read-a-chart-before-interpreting-it",
+    "swings-breakouts-and-false-signals",
+    "decide-the-loss-before-the-size",
+  ],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "CME Group — Technical Analysis",
+      url: "https://www.cmegroup.com/education/courses/technical-analysis",
+    },
+    {
+      title: "CME Group — Support and Resistance",
+      url: "https://www.cmegroup.com/education/courses/technical-analysis/support-and-resistance",
+    },
+    {
+      title: "MetaTrader 5 — Executing Trades and account information",
+      url: "https://www.metatrader5.com/en/terminal/help/trading/performing_deals",
+    },
+    {
+      title: "CME Group — Risk Management and Your Trade Plan",
+      url: "https://www.cmegroup.com/education/courses/building-a-trade-plan/risk-management-and-your-trade-plan",
+    },
+  ],
+  publishedDate: "2026-10-01",
+  reviewDate: "2026-10-01",
+  status: "published",
+  seoTitle: "Build a testable observation",
+  seoDescription:
+    "Define a zone, touch, trigger, expiry and discard condition reproducibly. Align multiple timeframes and distinguish chart events from executable fills.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = buildATestableObservationSections.flatMap(
+  (section) => section.blocks,
+);
+
+<LessonBlocks blocks={blocks} />

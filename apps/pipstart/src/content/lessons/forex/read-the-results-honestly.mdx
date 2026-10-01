@@ -1,0 +1,64 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { readTheResultsHonestlySections } from "./read-the-results-honestly-sections";
+
+export const metadata = {
+  title: "Read the results honestly",
+  slug: "read-the-results-honestly",
+  description:
+    "Calculate consistent net win/loss/zero rates, averages, sample expectancy and profit factor. Read the account path and distinguish observed drawdown from final change and future risk.",
+  learningPath: "forex",
+  level: "level-9",
+  course: "strategy-development",
+  module: "strategy-development-foundations",
+  position: 3,
+  estimatedMinutes: 32,
+  objectives: [
+    "Calculate consistent net win/loss/zero rates, averages, sample expectancy and profit factor.",
+    "Read the account path and distinguish observed drawdown from final change and future risk.",
+    "Report complete denominators, costs, sensitivity and version history without overstating evidence.",
+  ],
+  prerequisites: ["test-without-looking-ahead"],
+  relatedLessonIds: [
+    "stops-targets-and-a-checklist",
+    "a-repeatable-practice-habit",
+    "use-an-economic-calendar-safely",
+  ],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "CME Group — Keep a Trade Log",
+      url: "https://www.cmegroup.com/education/courses/building-a-trade-plan/keep-a-trade-log",
+    },
+    {
+      title: "CME Group — Risk Management and Your Trade Plan",
+      url: "https://www.cmegroup.com/education/courses/building-a-trade-plan/risk-management-and-your-trade-plan",
+    },
+    {
+      title:
+        "Bailey, Borwein, López de Prado and Zhu — The Probability of Backtest Overfitting",
+      url: "https://scholarworks.wmich.edu/math_pubs/42/",
+    },
+    {
+      title:
+        "NFA — Hypothetical Performance Results: limitations and presentation",
+      url: "https://www.nfa.futures.org/rulebooksql/rules.aspx?RuleID=9025&Section=9",
+    },
+  ],
+  publishedDate: "2026-10-01",
+  reviewDate: "2026-10-01",
+  status: "published",
+  seoTitle: "Read the results honestly",
+  seoDescription:
+    "Calculate consistent net win/loss/zero rates, averages, sample expectancy and profit factor. Read the account path and distinguish observed drawdown from final change and future risk.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = readTheResultsHonestlySections.flatMap(
+  (section) => section.blocks,
+);
+
+<LessonBlocks blocks={blocks} />

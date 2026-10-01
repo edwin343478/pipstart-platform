@@ -41,8 +41,8 @@ import { assertValidAssessmentRegistry } from "../lib/assessment-registry";
 import { gradeAssessment, toPublicAssessment } from "../lib/assessment";
 import { brokerFoundationsQuizV1 } from "../lib/broker-foundations-assessment";
 import sitemap from "./sitemap";
-describe("Level 1 and 2 quiz completion links", () => {
-  it.each([1, 2])(
+describe("Published Forex quiz completion links", () => {
+  it.each([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])(
     "ends Level %i with its registered quiz without an explicit target",
     (level) => {
       const lessons = getPublishedLessons({
@@ -71,7 +71,7 @@ describe("Level 1 and 2 quiz completion links", () => {
       ).toHaveLength(2);
     },
   );
-  it("keeps the Level 0 transition and Level 3 fallback", () => {
+  it("keeps the Level 0 transition and Level 3 quiz", () => {
     for (const level of [0, 3]) {
       const lessons = getPublishedLessons({
         learningPath: "forex",
@@ -87,7 +87,7 @@ describe("Level 1 and 2 quiz completion links", () => {
         />,
       );
       expect(markup).toContain(
-        level === 0 ? "start Level 1" : "Return to Forex levels",
+        level === 0 ? "start Level 1" : "Take the Chart Foundations quiz",
       );
     }
   });
@@ -104,7 +104,7 @@ describe("Level 1 and 2 quiz completion links", () => {
       expect(getGenericForexSecondSegment("level-2", lesson.slug)?.kind).toBe(
         "lesson",
       );
-    expect(getGenericForexSecondSegment("level-3", "quiz")).toBeUndefined();
+    expect(getGenericForexSecondSegment("level-3", "quiz")?.kind).toBe("quiz");
   });
   it("isolates each quiz's lessons, progress and return link", () => {
     const one = getForexQuizContext("forex-kindergarten", "forex-foundations")!;
@@ -180,7 +180,7 @@ describe("Level 1 and 2 quiz completion links", () => {
   });
   it("includes each quiz exactly once in the sitemap", () => {
     const urls = sitemap().map((item) => item.url);
-    for (const level of [1, 2])
+    for (const level of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
       expect(
         urls.filter((url) => url.endsWith(`/learn/forex/level-${level}/quiz`)),
       ).toHaveLength(1);

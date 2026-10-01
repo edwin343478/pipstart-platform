@@ -1,0 +1,62 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { emotionsAroundADecisionSections } from "./emotions-around-a-decision-sections";
+
+export const metadata = {
+  title: "Emotions around a decision",
+  slug: "emotions-around-a-decision",
+  description:
+    "Separate market facts, feelings, urges and actual actions in a dated record. Identify chasing, excessive activity and recovery-driven size escalation.",
+  learningPath: "forex",
+  level: "level-8",
+  course: "psychology",
+  module: "psychology-foundations",
+  position: 1,
+  estimatedMinutes: 28,
+  objectives: [
+    "Separate market facts, feelings, urges and actual actions in a dated record.",
+    "Identify chasing, excessive activity and recovery-driven size escalation.",
+    "Use a checkable pause procedure and compare late-entry cash scenarios without changing the rule.",
+  ],
+  prerequisites: ["use-an-economic-calendar-safely"],
+  relatedLessonIds: [
+    "combined-exposure-and-losing-streaks",
+    "stops-targets-and-a-checklist",
+    "use-an-economic-calendar-safely",
+  ],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "Investor.gov — Behavioral Patterns of U.S. Investors",
+      url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-72",
+    },
+    {
+      title: "CME Group — Risk Management and Your Trade Plan",
+      url: "https://www.cmegroup.com/education/courses/building-a-trade-plan/risk-management-and-your-trade-plan",
+    },
+    {
+      title: "Investor.gov — Risks of short-term trading based on social media",
+      url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-alerts/investor-alert-thinking-about-investing-latest-hot-stock-understand-significant-risks-short-term",
+    },
+    {
+      title: "CFTC — Eight Things You Should Know Before Trading Forex",
+      url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/CustomerAdvisory_MustKnowForex.html",
+    },
+  ],
+  publishedDate: "2026-10-01",
+  reviewDate: "2026-10-01",
+  status: "published",
+  seoTitle: "Emotions around a decision",
+  seoDescription:
+    "Separate market facts, feelings, urges and actual actions in a dated record. Identify chasing, excessive activity and recovery-driven size escalation.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = emotionsAroundADecisionSections.flatMap(
+  (section) => section.blocks,
+);
+
+<LessonBlocks blocks={blocks} />

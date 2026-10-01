@@ -1,0 +1,62 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { aRepeatablePracticeHabitSections } from "./a-repeatable-practice-habit-sections";
+
+export const metadata = {
+  title: "A repeatable practice habit",
+  slug: "a-repeatable-practice-habit",
+  description:
+    "Build a bounded observation or demo routine that fits ordinary responsibilities. Record no-setup, tired, unclear and executed cases with explicit process definitions.",
+  learningPath: "forex",
+  level: "level-8",
+  course: "psychology",
+  module: "psychology-foundations",
+  position: 3,
+  estimatedMinutes: 30,
+  objectives: [
+    "Build a bounded observation or demo routine that fits ordinary responsibilities.",
+    "Record no-setup, tired, unclear and executed cases with explicit process definitions.",
+    "Review complete records, apply prewritten gates and improve one habit without rewriting earlier decisions.",
+  ],
+  prerequisites: ["how-thinking-can-go-wrong"],
+  relatedLessonIds: [
+    "combined-exposure-and-losing-streaks",
+    "stops-targets-and-a-checklist",
+    "use-an-economic-calendar-safely",
+  ],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "CME Group — Risk Management and Your Trade Plan",
+      url: "https://www.cmegroup.com/education/courses/building-a-trade-plan/risk-management-and-your-trade-plan",
+    },
+    {
+      title: "Investor.gov — Behavioral Patterns of U.S. Investors",
+      url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-72",
+    },
+    {
+      title: "CFTC — Eight Things You Should Know Before Trading Forex",
+      url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/CustomerAdvisory_MustKnowForex.html",
+    },
+    {
+      title: "MetaTrader 5 — Executing Trades and account information",
+      url: "https://www.metatrader5.com/en/terminal/help/trading/performing_deals",
+    },
+  ],
+  publishedDate: "2026-10-01",
+  reviewDate: "2026-10-01",
+  status: "published",
+  seoTitle: "A repeatable practice habit",
+  seoDescription:
+    "Build a bounded observation or demo routine that fits ordinary responsibilities. Record no-setup, tired, unclear and executed cases with explicit process definitions.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = aRepeatablePracticeHabitSections.flatMap(
+  (section) => section.blocks,
+);
+
+<LessonBlocks blocks={blocks} />

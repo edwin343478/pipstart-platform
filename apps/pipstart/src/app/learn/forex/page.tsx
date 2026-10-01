@@ -122,7 +122,7 @@ export default function LearnForexPage() {
               <span className={styles.marker} aria-hidden="true">
                 {index}
               </span>
-              {index <= 3 ? (
+              {index <= 10 ? (
                 <Link
                   className={`${styles.levelCard} ${styles.availableLevel}`}
                   href={
@@ -132,7 +132,21 @@ export default function LearnForexPage() {
                         ? levelHref
                         : index === 2
                           ? "/learn/forex/level-2"
-                          : "/learn/forex/level-3"
+                          : index === 3
+                            ? "/learn/forex/level-3"
+                            : index === 4
+                              ? "/learn/forex/level-4"
+                              : index === 5
+                                ? "/learn/forex/level-5"
+                                : index === 6
+                                  ? "/learn/forex/level-6"
+                                  : index === 7
+                                    ? "/learn/forex/level-7"
+                                    : index === 8
+                                      ? "/learn/forex/level-8"
+                                      : index === 9
+                                        ? "/learn/forex/level-9"
+                                        : "/learn/forex/level-10"
                   }
                   aria-label={
                     index === 0
@@ -141,7 +155,21 @@ export default function LearnForexPage() {
                         ? "Start Level 1: Forex Kindergarten"
                         : index === 2
                           ? "Start Level 2: Brokers and Platforms"
-                          : "Start Level 3: Charts"
+                          : index === 3
+                            ? "Start Level 3: Charts"
+                            : index === 4
+                              ? "Start Level 4: Indicators and Patterns"
+                              : index === 5
+                                ? "Start Level 5: Risk Management"
+                                : index === 6
+                                  ? "Start Level 6: Price Action"
+                                  : index === 7
+                                    ? "Start Level 7: Fundamental Analysis"
+                                    : index === 8
+                                      ? "Start Level 8: Psychology"
+                                      : index === 9
+                                        ? "Start Level 9: Strategy Development"
+                                        : "Start Level 10: Advanced Forex"
                   }
                 >
                   <span className={styles.levelMeta}>
@@ -157,7 +185,21 @@ export default function LearnForexPage() {
                         ? levelAction
                         : index === 2
                           ? "Start Level 2"
-                          : "Start Level 3"}{" "}
+                          : index === 3
+                            ? "Start Level 3"
+                            : index === 4
+                              ? "Start Level 4"
+                              : index === 5
+                                ? "Start Level 5"
+                                : index === 6
+                                  ? "Start Level 6"
+                                  : index === 7
+                                    ? "Start Level 7"
+                                    : index === 8
+                                      ? "Start Level 8"
+                                      : index === 9
+                                        ? "Start Level 9"
+                                        : "Start Level 10"}{" "}
                     →
                   </span>
                 </Link>

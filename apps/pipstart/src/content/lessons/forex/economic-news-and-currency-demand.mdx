@@ -1,0 +1,78 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { economicNewsAndCurrencyDemandSections } from "./economic-news-and-currency-demand-sections";
+
+export const metadata = {
+  title: "Economic news and currency demand",
+  slug: "economic-news-and-currency-demand",
+  description:
+    "Explain currency demand through payments, investment and changing expectations. Read inflation, employment and growth with the correct units and revisions.",
+  learningPath: "forex",
+  level: "level-7",
+  course: "fundamental-analysis",
+  module: "fundamental-analysis-foundations",
+  position: 1,
+  estimatedMinutes: 26,
+  objectives: [
+    "Explain currency demand through payments, investment and changing expectations.",
+    "Read inflation, employment and growth with the correct units and revisions.",
+    "Separate an actual/forecast comparison from a guaranteed currency response.",
+  ],
+  prerequisites: ["stops-targets-and-a-checklist"],
+  relatedLessonIds: [
+    "currency-pairs",
+    "combined-exposure-and-losing-streaks",
+    "stops-targets-and-a-checklist",
+  ],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "Bank of England — Who sets exchange rates?",
+      url: "https://www.bankofengland.co.uk/explainers/who-sets-exchange-rates",
+    },
+    {
+      title: "BLS — Current Employment Statistics FAQ",
+      url: "https://www.bls.gov/web/empsit/cesfaq.htm",
+    },
+    {
+      title: "BLS — Consumer Price Index FAQ",
+      url: "https://www.bls.gov/cpi/questions-and-answers.htm",
+    },
+    {
+      title: "BEA — Gross Domestic Product learning guide",
+      url: "https://www.bea.gov/resources/learning-center/what-to-know-gdp",
+    },
+    {
+      title: "BEA — Personal Consumption Expenditures Price Index",
+      url: "https://www.bea.gov/data/personal-consumption-expenditures-price-index",
+    },
+    {
+      title: "BLS — Producer Price Indexes",
+      url: "https://www.bls.gov/ppi/",
+    },
+    {
+      title: "U.S. Census Bureau — Monthly Retail Trade",
+      url: "https://www.census.gov/retail/index.html",
+    },
+    {
+      title: "ISM — PMI Reports",
+      url: "https://www.ismworld.org/supply-management-news-and-reports/reports/ism-pmi-reports/",
+    },
+  ],
+  publishedDate: "2026-10-01",
+  reviewDate: "2026-10-01",
+  status: "published",
+  seoTitle: "Economic news and currency demand",
+  seoDescription:
+    "Explain currency demand through payments, investment and changing expectations. Read inflation, employment and growth with the correct units and revisions.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = economicNewsAndCurrencyDemandSections.flatMap(
+  (section) => section.blocks,
+);
+
+<LessonBlocks blocks={blocks} />

@@ -1,0 +1,58 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { marginLeverageAndDrawdownSections } from "./margin-leverage-and-drawdown-sections";
+
+export const metadata = {
+  title: "Margin, leverage and drawdown",
+  slug: "margin-leverage-and-drawdown",
+  description:
+    "Distinguish notional exposure, required margin and effective account leverage. Calculate equity, free margin and hypothetical margin-level conditions.",
+  learningPath: "forex",
+  level: "level-5",
+  course: "risk-management",
+  module: "risk-management-foundations",
+  position: 2,
+  estimatedMinutes: 24,
+  objectives: [
+    "Distinguish notional exposure, required margin and effective account leverage.",
+    "Calculate equity, free margin and hypothetical margin-level conditions.",
+    "Measure drawdown and recovery with consistent account references.",
+  ],
+  prerequisites: ["decide-the-loss-before-the-size"],
+  relatedLessonIds: [
+    "money-risk-and-demo",
+    "pips-and-lots",
+    "volatility-tools",
+  ],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "MetaTrader 5 — Executing Trades and account information",
+      url: "https://www.metatrader5.com/en/terminal/help/trading/performing_deals",
+    },
+    {
+      title: "CFTC — Eight Things You Should Know Before Trading Forex",
+      url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/CustomerAdvisory_MustKnowForex.html",
+    },
+    {
+      title: "CME Group — Risk Management and Your Trade Plan",
+      url: "https://www.cmegroup.com/education/courses/building-a-trade-plan/risk-management-and-your-trade-plan",
+    },
+  ],
+  publishedDate: "2026-10-01",
+  reviewDate: "2026-10-01",
+  status: "published",
+  seoTitle: "Margin, leverage and drawdown",
+  seoDescription:
+    "Distinguish notional exposure, required margin and effective account leverage. Calculate equity, free margin and hypothetical margin-level conditions.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = marginLeverageAndDrawdownSections.flatMap(
+  (section) => section.blocks,
+);
+
+<LessonBlocks blocks={blocks} />

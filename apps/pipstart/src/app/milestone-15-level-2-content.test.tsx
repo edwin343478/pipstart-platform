@@ -66,7 +66,7 @@ describe("Milestone 15 complete Level 2", () => {
     expect(getGenericForexLevelContext("level-2")?.quizTarget?.href).toBe(
       "/learn/forex/level-2/quiz",
     );
-    expect(getGenericForexLevelContext("level-4")).toBeUndefined();
+    expect(getGenericForexLevelContext("level-11")).toBeUndefined();
   });
   it.each(lessons)(
     "opens $slug through the shared stepper and renders final checkboxes",

@@ -1,0 +1,58 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { describeStructureWithoutGuessingSections } from "./describe-structure-without-guessing-sections";
+
+export const metadata = {
+  title: "Describe structure without guessing",
+  slug: "describe-structure-without-guessing",
+  description:
+    "Describe confirmed swings, trend and range with a fixed timeframe and information cutoff. Separate continuation/reversal interpretations from observable facts.",
+  learningPath: "forex",
+  level: "level-6",
+  course: "price-action",
+  module: "price-action-foundations",
+  position: 1,
+  estimatedMinutes: 25,
+  objectives: [
+    "Describe confirmed swings, trend and range with a fixed timeframe and information cutoff.",
+    "Separate continuation/reversal interpretations from observable facts.",
+    "Define structure-break and invalidation conditions without using future bars.",
+  ],
+  prerequisites: ["combined-exposure-and-losing-streaks"],
+  relatedLessonIds: [
+    "read-a-chart-before-interpreting-it",
+    "swings-breakouts-and-false-signals",
+    "decide-the-loss-before-the-size",
+  ],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "CME Group — Technical Analysis",
+      url: "https://www.cmegroup.com/education/courses/technical-analysis",
+    },
+    {
+      title: "CME Group — Support and Resistance",
+      url: "https://www.cmegroup.com/education/courses/technical-analysis/support-and-resistance",
+    },
+    {
+      title: "CMT Association — 2026 Program Guide: Dow Theory",
+      url: "https://cmtassociation.org/wp-content/uploads/2025/12/CMT-PROGRAM-GUIDE-2026-1.pdf",
+    },
+  ],
+  publishedDate: "2026-10-01",
+  reviewDate: "2026-10-01",
+  status: "published",
+  seoTitle: "Describe structure without guessing",
+  seoDescription:
+    "Describe confirmed swings, trend and range with a fixed timeframe and information cutoff. Separate continuation/reversal interpretations from observable facts.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = describeStructureWithoutGuessingSections.flatMap(
+  (section) => section.blocks,
+);
+
+<LessonBlocks blocks={blocks} />

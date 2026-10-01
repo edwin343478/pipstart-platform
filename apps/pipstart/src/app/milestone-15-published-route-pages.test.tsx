@@ -41,30 +41,38 @@ describe("Published Forex route page resolution", () => {
             });
     expect(page.props.lesson.id).toBe(lesson.id);
   });
-  it.each(["level-0", "level-2", "level-3"])(
-    "resolves %s course and module",
-    async (level) => {
-      const context = getGenericForexLevelContext(level)!;
-      expect(
-        (
-          await GenericSegment({
-            params: Promise.resolve({ level, segment: context.course.id }),
-          })
-        ).props.course.id,
-      ).toBe(context.course.id);
-      expect(
-        (
-          await GenericModule({
-            params: Promise.resolve({
-              level,
-              segment: context.course.id,
-              module: context.module.id,
-            }),
-          })
-        ).props.module.id,
-      ).toBe(context.module.id);
-    },
-  );
+  it.each([
+    "level-0",
+    "level-2",
+    "level-3",
+    "level-4",
+    "level-5",
+    "level-6",
+    "level-7",
+    "level-8",
+    "level-9",
+    "level-10",
+  ])("resolves %s course and module", async (level) => {
+    const context = getGenericForexLevelContext(level)!;
+    expect(
+      (
+        await GenericSegment({
+          params: Promise.resolve({ level, segment: context.course.id }),
+        })
+      ).props.course.id,
+    ).toBe(context.course.id);
+    expect(
+      (
+        await GenericModule({
+          params: Promise.resolve({
+            level,
+            segment: context.course.id,
+            module: context.module.id,
+          }),
+        })
+      ).props.module.id,
+    ).toBe(context.module.id);
+  });
   it("resolves the Broker Foundations quiz", async () => {
     const page = await GenericSegment({
       params: Promise.resolve({ level: "level-2", segment: "quiz" }),
@@ -76,7 +84,7 @@ describe("Published Forex route page resolution", () => {
   });
   it("continues to reject unavailable or unknown routes", async () => {
     await expect(
-      GenericRoot({ params: Promise.resolve({ level: "level-4" }) }),
+      GenericRoot({ params: Promise.resolve({ level: "level-11" }) }),
     ).rejects.toThrow("PUBLISHED_ROUTE_NOT_FOUND");
     await expect(
       GenericSegment({

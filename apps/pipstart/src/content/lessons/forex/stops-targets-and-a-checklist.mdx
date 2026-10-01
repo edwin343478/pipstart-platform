@@ -1,0 +1,62 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { stopsTargetsAndAChecklistSections } from "./stops-targets-and-a-checklist-sections";
+
+export const metadata = {
+  title: "Stops, targets and a checklist",
+  slug: "stops-targets-and-a-checklist",
+  description:
+    "Separate chart invalidation, stop instructions and planned cash risk. Calculate valid long/short distances, rounded sizing and worse-fill outcomes.",
+  learningPath: "forex",
+  level: "level-6",
+  course: "price-action",
+  module: "price-action-foundations",
+  position: 3,
+  estimatedMinutes: 28,
+  objectives: [
+    "Separate chart invalidation, stop instructions and planned cash risk.",
+    "Calculate valid long/short distances, rounded sizing and worse-fill outcomes.",
+    "Complete a cost-aware demo checklist and record valid no-trade decisions.",
+  ],
+  prerequisites: ["build-a-testable-observation"],
+  relatedLessonIds: [
+    "read-a-chart-before-interpreting-it",
+    "swings-breakouts-and-false-signals",
+    "decide-the-loss-before-the-size",
+  ],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "CME Group — Proper Position Size",
+      url: "https://www.cmegroup.com/education/courses/trade-and-risk-management/proper-position-size",
+    },
+    {
+      title: "MetaTrader 5 — Executing Trades and account information",
+      url: "https://www.metatrader5.com/en/terminal/help/trading/performing_deals",
+    },
+    {
+      title: "CME Group — Risk Management and Your Trade Plan",
+      url: "https://www.cmegroup.com/education/courses/building-a-trade-plan/risk-management-and-your-trade-plan",
+    },
+    {
+      title: "CFTC — Eight Things You Should Know Before Trading Forex",
+      url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/CustomerAdvisory_MustKnowForex.html",
+    },
+  ],
+  publishedDate: "2026-10-01",
+  reviewDate: "2026-10-01",
+  status: "published",
+  seoTitle: "Stops, targets and a checklist",
+  seoDescription:
+    "Separate chart invalidation, stop instructions and planned cash risk. Calculate valid long/short distances, rounded sizing and worse-fill outcomes.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = stopsTargetsAndAChecklistSections.flatMap(
+  (section) => section.blocks,
+);
+
+<LessonBlocks blocks={blocks} />

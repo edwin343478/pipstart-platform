@@ -1,0 +1,70 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { useAnEconomicCalendarSafelySections } from "./use-an-economic-calendar-safely-sections";
+
+export const metadata = {
+  title: "Use an economic calendar safely",
+  slug: "use-an-economic-calendar-safely",
+  description:
+    "Prepare a source-verified calendar record with date-aware time conversion. Compare saved forecasts, actuals and revisions without hindsight.",
+  learningPath: "forex",
+  level: "level-7",
+  course: "fundamental-analysis",
+  module: "fundamental-analysis-foundations",
+  position: 3,
+  estimatedMinutes: 26,
+  objectives: [
+    "Prepare a source-verified calendar record with date-aware time conversion.",
+    "Compare saved forecasts, actuals and revisions without hindsight.",
+    "Check spreads, pending exposure and pause conditions in an observation or demo exercise.",
+  ],
+  prerequisites: ["policy-and-market-relationships"],
+  relatedLessonIds: [
+    "currency-pairs",
+    "combined-exposure-and-losing-streaks",
+    "stops-targets-and-a-checklist",
+  ],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "BLS — Employment Situation release schedule",
+      url: "https://www.bls.gov/schedule/news_release/empsit.htm",
+    },
+    {
+      title: "BLS — Current Employment Statistics FAQ",
+      url: "https://www.bls.gov/web/empsit/cesfaq.htm",
+    },
+    {
+      title: "BLS — Consumer Price Index FAQ",
+      url: "https://www.bls.gov/cpi/questions-and-answers.htm",
+    },
+    {
+      title: "BEA — Gross Domestic Product learning guide",
+      url: "https://www.bea.gov/resources/learning-center/what-to-know-gdp",
+    },
+    {
+      title: "CFTC — Eight Things You Should Know Before Trading Forex",
+      url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/CustomerAdvisory_MustKnowForex.html",
+    },
+    {
+      title: "MetaTrader 5 — Executing Trades and account information",
+      url: "https://www.metatrader5.com/en/terminal/help/trading/performing_deals",
+    },
+  ],
+  publishedDate: "2026-10-01",
+  reviewDate: "2026-10-01",
+  status: "published",
+  seoTitle: "Use an economic calendar safely",
+  seoDescription:
+    "Prepare a source-verified calendar record with date-aware time conversion. Compare saved forecasts, actuals and revisions without hindsight.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = useAnEconomicCalendarSafelySections.flatMap(
+  (section) => section.blocks,
+);
+
+<LessonBlocks blocks={blocks} />

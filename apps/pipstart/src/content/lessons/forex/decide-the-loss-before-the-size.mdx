@@ -1,0 +1,58 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { decideTheLossBeforeTheSizeSections } from "./decide-the-loss-before-the-size-sections";
+
+export const metadata = {
+  title: "Decide the loss before the size",
+  slug: "decide-the-loss-before-the-size",
+  description:
+    "Calculate planned cash risk and rounded position size with explicit units. Compare balance, equity, costs and currency conversion before sizing.",
+  learningPath: "forex",
+  level: "level-5",
+  course: "risk-management",
+  module: "risk-management-foundations",
+  position: 1,
+  estimatedMinutes: 26,
+  objectives: [
+    "Calculate planned cash risk and rounded position size with explicit units.",
+    "Compare balance, equity, costs and currency conversion before sizing.",
+    "Explain proposed reward-to-risk and break-even assumptions without implying a forecast.",
+  ],
+  prerequisites: ["levels-patterns-and-limits"],
+  relatedLessonIds: [
+    "money-risk-and-demo",
+    "pips-and-lots",
+    "volatility-tools",
+  ],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "CME Group — Proper Position Size",
+      url: "https://www.cmegroup.com/education/courses/trade-and-risk-management/proper-position-size",
+    },
+    {
+      title: "CME Group — Risk Management and Your Trade Plan",
+      url: "https://www.cmegroup.com/education/courses/building-a-trade-plan/risk-management-and-your-trade-plan",
+    },
+    {
+      title: "CFTC — Eight Things You Should Know Before Trading Forex",
+      url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/CustomerAdvisory_MustKnowForex.html",
+    },
+  ],
+  publishedDate: "2026-10-01",
+  reviewDate: "2026-10-01",
+  status: "published",
+  seoTitle: "Decide the loss before the size",
+  seoDescription:
+    "Calculate planned cash risk and rounded position size with explicit units. Compare balance, equity, costs and currency conversion before sizing.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = decideTheLossBeforeTheSizeSections.flatMap(
+  (section) => section.blocks,
+);
+
+<LessonBlocks blocks={blocks} />

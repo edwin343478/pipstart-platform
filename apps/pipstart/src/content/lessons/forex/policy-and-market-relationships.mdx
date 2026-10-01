@@ -1,0 +1,71 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { policyAndMarketRelationshipsSections } from "./policy-and-market-relationships-sections";
+
+export const metadata = {
+  title: "Policy and market relationships",
+  slug: "policy-and-market-relationships",
+  description:
+    "Distinguish monetary/fiscal decisions, current rates and future-path expectations. Calculate basis points and separate bond yield, real return and currency return.",
+  learningPath: "forex",
+  level: "level-7",
+  course: "fundamental-analysis",
+  module: "fundamental-analysis-foundations",
+  position: 2,
+  estimatedMinutes: 28,
+  objectives: [
+    "Distinguish monetary/fiscal decisions, current rates and future-path expectations.",
+    "Calculate basis points and separate bond yield, real return and currency return.",
+    "Describe conditional risk and commodity relationships without automatic trading rules.",
+  ],
+  prerequisites: ["economic-news-and-currency-demand"],
+  relatedLessonIds: [
+    "currency-pairs",
+    "combined-exposure-and-losing-streaks",
+    "stops-targets-and-a-checklist",
+  ],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "Federal Reserve — Monetary policy and fiscal policy",
+      url: "https://www.federalreserve.gov/faqs/money_12855.htm",
+    },
+    {
+      title: "Investor.gov — Interest rates and fixed-rate bond prices",
+      url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-86",
+    },
+    {
+      title: "RBA — Determinants of the Australian Dollar",
+      url: "https://www.rba.gov.au/publications/bulletin/2021/mar/determinants-of-the-australian-dollar-over-recent-years.html",
+    },
+    {
+      title: "Bank of England — Who sets exchange rates?",
+      url: "https://www.bankofengland.co.uk/explainers/who-sets-exchange-rates",
+    },
+    {
+      title: "Bank of England — Quantitative easing and tightening",
+      url: "https://www.bankofengland.co.uk/monetary-policy/quantitative-easing",
+    },
+    {
+      title:
+        "Bank of England — Evaluation of the QE programme and its 2009 launch",
+      url: "https://www.bankofengland.co.uk/independent-evaluation-office/ieo-report-january-2021/ieo-evaluation-of-the-bank-of-englands-approach-to-quantitative-easing",
+    },
+  ],
+  publishedDate: "2026-10-01",
+  reviewDate: "2026-10-01",
+  status: "published",
+  seoTitle: "Policy and market relationships",
+  seoDescription:
+    "Distinguish monetary/fiscal decisions, current rates and future-path expectations. Calculate basis points and separate bond yield, real return and currency return.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = policyAndMarketRelationshipsSections.flatMap(
+  (section) => section.blocks,
+);
+
+<LessonBlocks blocks={blocks} />

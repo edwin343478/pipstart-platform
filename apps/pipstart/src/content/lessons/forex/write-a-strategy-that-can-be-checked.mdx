@@ -1,0 +1,62 @@
+import { LessonBlocks } from "../../../components/lesson-blocks";
+import { writeAStrategyThatCanBeCheckedSections } from "./write-a-strategy-that-can-be-checked-sections";
+
+export const metadata = {
+  title: "Write a strategy that can be checked",
+  slug: "write-a-strategy-that-can-be-checked",
+  description:
+    "Specify market, data, trigger, entry, exits, size and skip rules another learner can reproduce. Separate chart eligibility, executable-order assumptions and account gates.",
+  learningPath: "forex",
+  level: "level-9",
+  course: "strategy-development",
+  module: "strategy-development-foundations",
+  position: 1,
+  estimatedMinutes: 30,
+  objectives: [
+    "Specify market, data, trigger, entry, exits, size and skip rules another learner can reproduce.",
+    "Separate chart eligibility, executable-order assumptions and account gates.",
+    "Calculate a complete quote-side risk scenario and preserve method versions.",
+  ],
+  prerequisites: ["a-repeatable-practice-habit"],
+  relatedLessonIds: [
+    "stops-targets-and-a-checklist",
+    "a-repeatable-practice-habit",
+    "use-an-economic-calendar-safely",
+  ],
+  relatedTermSlugs: [],
+  author: "PipStart Editorial Team",
+  reviewer: "PipStart Markets Reviewer",
+  sources: [
+    {
+      title: "CME Group — Trading Strategies in Your Trade Plan",
+      url: "https://www.cmegroup.com/education/courses/building-a-trade-plan/trading-strategies-in-your-trade-plan",
+    },
+    {
+      title: "CME Group — Risk Management and Your Trade Plan",
+      url: "https://www.cmegroup.com/education/courses/building-a-trade-plan/risk-management-and-your-trade-plan",
+    },
+    {
+      title: "CME Group — Proper Position Size",
+      url: "https://www.cmegroup.com/education/courses/trade-and-risk-management/proper-position-size",
+    },
+    {
+      title: "MetaTrader 5 — Executing Trades and account information",
+      url: "https://www.metatrader5.com/en/terminal/help/trading/performing_deals",
+    },
+  ],
+  publishedDate: "2026-10-01",
+  reviewDate: "2026-10-01",
+  status: "published",
+  seoTitle: "Write a strategy that can be checked",
+  seoDescription:
+    "Specify market, data, trigger, entry, exits, size and skip rules another learner can reproduce. Separate chart eligibility, executable-order assumptions and account gates.",
+  riskWarningRequired: true,
+  affiliateDisclosureRequired: false,
+  approved: true,
+};
+
+export const blocks = writeAStrategyThatCanBeCheckedSections.flatMap(
+  (section) => section.blocks,
+);
+
+<LessonBlocks blocks={blocks} />
