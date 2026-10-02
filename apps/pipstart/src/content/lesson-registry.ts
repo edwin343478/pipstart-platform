@@ -1,3 +1,5 @@
+import "server-only";
+
 import { relationshipsThatCanChangeSections } from "./lessons/forex/relationships-that-can-change-sections";
 import {
   blocks as level10Blocks0,

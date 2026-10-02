@@ -38,7 +38,7 @@ describe("sectioned lessons on the published routes", () => {
     }
   });
 
-  it("shows the first section, completion only at the end and a real next lesson", () => {
+  it("renders every section, final completion control and a real next lesson", () => {
     const markup = renderToStaticMarkup(
       <LessonPage
         path="forex"
@@ -51,8 +51,8 @@ describe("sectioned lessons on the published routes", () => {
     expect(markup).toContain('role="tablist"');
     expect(markup).toContain('aria-selected="true"');
     expect(markup).toContain("Section 1 of 8");
-    expect(markup).toContain("Next: What this course is designed to teach");
-    expect(markup).not.toContain("Mark complete");
+    expect(markup).toContain("What this course is designed to teach");
+    expect(markup).toContain("Mark complete");
   });
 
   it("uses a Level 1 CTA for the last Level 0 lesson", () => {
@@ -65,7 +65,7 @@ describe("sectioned lessons on the published routes", () => {
         contextHref="/learn/forex/level-0"
       />,
     );
-    expect(markup).not.toContain('href="/learn/forex/level-1"');
+    expect(markup).toContain('href="/learn/forex/level-1"');
     expect(lessons[3].sections?.at(-1)?.title).toBe("Final Level 0 reflection");
     expect(markup).toContain("Section 1 of 7");
   });

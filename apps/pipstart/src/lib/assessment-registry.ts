@@ -1,3 +1,5 @@
+import "server-only";
+
 import { advancedForexFoundationsQuizV1 } from "./advanced-forex-foundations-assessment";
 import { strategyDevelopmentFoundationsQuizV1 } from "./strategy-development-foundations-assessment";
 import { psychologyFoundationsQuizV1 } from "./psychology-foundations-assessment";

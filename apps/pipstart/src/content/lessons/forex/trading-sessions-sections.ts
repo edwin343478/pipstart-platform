@@ -139,6 +139,7 @@ export const tradingSessionsSections: LessonSection[] = [
       },
       {
         type: "keyPoint",
+        checklist: true,
         title: "Check your understanding",
         points: [
           "Record which financial centers appear active.",
@@ -319,6 +320,7 @@ export const tradingSessionsSections: LessonSection[] = [
     blocks: [
       {
         type: "keyPoint",
+        checklist: true,
         title: "Check what you can explain",
         points: [
           "I can read session windows as date-sensitive teaching conventions.",

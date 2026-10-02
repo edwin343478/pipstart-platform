@@ -1,3 +1,4 @@
+import { getForexQuizClientContext } from "../../../../../lib/forex-quiz-context";
 import { toPublicAssessment } from "../../../../../lib/assessment";
 import { getCurrentPublishedAssessment } from "../../../../../lib/assessment-registry";
 import { ForexFoundationsQuiz } from "../../level-1/quiz/quiz-client";
@@ -66,8 +67,16 @@ export default async function GenericForexSecondSegmentPage({
   if (route.kind === "quiz") {
     const entry = route.module.lessons.find((item) => item.type === "quiz");
     const assessment = entry && getCurrentPublishedAssessment(entry.id);
-    if (!assessment) notFound();
-    return <ForexFoundationsQuiz assessment={toPublicAssessment(assessment)} />;
+    const context =
+      assessment &&
+      getForexQuizClientContext(assessment.courseId, assessment.moduleId);
+    if (!assessment || !context) notFound();
+    return (
+      <ForexFoundationsQuiz
+        assessment={toPublicAssessment(assessment)}
+        context={context}
+      />
+    );
   }
 
   if (route.kind === "lesson") {

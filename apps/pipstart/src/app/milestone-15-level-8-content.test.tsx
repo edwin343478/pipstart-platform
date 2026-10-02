@@ -100,7 +100,7 @@ describe("Milestone 15 complete Level 8", () => {
       );
       expect(markup).toContain("Show all sections at once");
       expect(markup).toContain(`Section 1 of ${lesson.sections!.length}`);
-      expect(markup).toContain(`Next: ${lesson.sections![1].title}`);
+      expect(markup).toContain(`${lesson.sections![1].title}`);
       expect(markup).toContain("/learn/forex/level-8/quiz");
       const all = renderToStaticMarkup(
         <LessonBlocks blocks={lesson.blocks} checklist />,

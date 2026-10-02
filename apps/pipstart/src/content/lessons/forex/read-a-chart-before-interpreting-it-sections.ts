@@ -312,6 +312,7 @@ export const readAChartSections: LessonSection[] = [
       },
       {
         type: "keyPoint",
+        checklist: true,
         title: "I can explain this without guessing",
         points: [
           "I can label the product, source, price basis, timeframe and time zone.",

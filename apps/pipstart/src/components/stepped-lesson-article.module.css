@@ -580,3 +580,58 @@
     text-align: right;
   }
 }
+
+/* Progressive reading: keep complete HTML while retaining the approved stepper. */
+.article[data-enhanced="false"] .stepRow,
+.article[data-enhanced="false"] .progressTrack,
+.article[data-enhanced="false"] .mobileProgress,
+.article[data-enhanced="false"] .showAllToggle,
+.article[data-enhanced="false"] .markComplete,
+.article[data-enhanced="false"] .footerControls button,
+.article[data-enhanced="false"] .footerControls [role="status"] {
+  display: none;
+}
+
+/* Until-found must retain a layout box for native Find and fragment reveal. */
+.panel[hidden="until-found"] {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+  contain-intrinsic-size: 0;
+}
+
+@media print {
+  .article {
+    width: 100%;
+    max-width: none;
+  }
+  .article .panel,
+  .article .panel[hidden] {
+    display: block !important;
+    content-visibility: visible !important;
+    contain: none;
+    margin: 0 0 1.5rem;
+    padding: 0;
+    border: 0;
+    box-shadow: none;
+  }
+  .stepRow,
+  .progressTrack,
+  .mobileProgress,
+  .showAllToggle,
+  .panelNav,
+  .markComplete,
+  .sidebar,
+  .mobileSidebar {
+    display: none !important;
+  }
+  .sectionHeading {
+    break-after: avoid;
+  }
+  .article tr,
+  .article picture {
+    break-inside: avoid;
+  }
+}

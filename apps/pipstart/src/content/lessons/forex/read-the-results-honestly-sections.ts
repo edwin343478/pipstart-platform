@@ -609,6 +609,7 @@ export const readTheResultsHonestlySections: LessonSection[] = [
       },
       {
         type: "keyPoint",
+        checklist: true,
         title: "Before you mark this lesson complete",
         points: [
           "I can name the rule version, product, inputs, timeframe and information cutoff.",

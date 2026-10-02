@@ -375,6 +375,7 @@ export const costsWithdrawalsAndSafetySections: LessonSection[] = [
       },
       {
         type: "keyPoint",
+        checklist: true,
         title: "I can explain this without guessing",
         points: [
           "I can compare like-for-like total costs, including per-side versus round-trip commission.",

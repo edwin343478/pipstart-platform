@@ -417,6 +417,7 @@ export const decideTheLossBeforeTheSizeSections: LessonSection[] = [
       },
       {
         type: "keyPoint",
+        checklist: true,
         title: "Before you mark this lesson complete",
         points: [
           "I can repeat the worked arithmetic and state its currency units.",

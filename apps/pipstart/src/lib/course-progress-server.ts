@@ -2,8 +2,8 @@ import {
   getCourseLessonIds,
   getCourseRequiredAssessmentIds,
   getModuleRequiredAssessmentIds,
-  getPublishedCourse,
 } from "./permanent-progress";
+import { getPublishedCourse } from "./permanent-progress-catalogue";
 
 export async function reconcileCourseEnrollmentForUser(
   userId: string,

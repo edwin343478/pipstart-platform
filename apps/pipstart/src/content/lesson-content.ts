@@ -63,7 +63,7 @@ export type LessonBlock =
   | { type: "definition"; term: string; children: string }
   | { type: "example"; title?: string; children: LessonTextContent }
   | { type: "warning"; title?: string; children: LessonTextContent }
-  | { type: "keyPoint"; title?: string; points: string[] }
+  | { type: "keyPoint"; title?: string; points: string[]; checklist?: boolean }
   | { type: "formula"; expression: string; explanation: string }
   | { type: "exercise"; prompt: string }
   | {

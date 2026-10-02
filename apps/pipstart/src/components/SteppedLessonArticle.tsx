@@ -25,11 +25,25 @@
 // =============================================================================
 
 import Link from "next/link";
-import { useId, useState, type ReactNode } from "react";
+import { useLessonReadingState } from "../lib/use-lesson-reading-state";
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type ReactNode,
+} from "react";
+import { flushSync } from "react-dom";
 
 import { LessonBlocks } from "./lesson-blocks"; // adjust path per integration notes
 import type { LessonSection } from "../content/lesson-content"; // adjust path per integration notes
 import styles from "./stepped-lesson-article.module.css";
+
+// SSR and the hydration pass expose the complete lesson. Only then enhance it.
+const subscribeToEnhancement = () => () => {};
+const clientEnhanced = () => true;
+const serverEnhanced = () => false;
 
 function BackIcon() {
   return (
@@ -75,6 +89,7 @@ export type EndOfLevelInfo = {
 
 export type SteppedLessonArticleProps = {
   /** e.g. "Level 0" */
+  lessonId?: string;
   levelLabel: string;
   /** 1-indexed position of this lesson within the level, e.g. 4 */
   lessonPosition: number;
@@ -100,6 +115,7 @@ export type SteppedLessonArticleProps = {
 };
 
 export function SteppedLessonArticle({
+  lessonId,
   levelLabel,
   lessonPosition,
   lessonTotal,
@@ -120,8 +136,30 @@ export function SteppedLessonArticle({
     }
   }
 
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [showAll, setShowAll] = useState(false);
+  const reading = useLessonReadingState(lessonId ?? title, sections);
+  const { activeIndex } = reading;
+  const enhanced = useSyncExternalStore(
+    subscribeToEnhancement,
+    clientEnhanced,
+    serverEnhanced,
+  );
+  const showAll = !enhanced || reading.showAll;
+  const articleRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const article = articleRef.current;
+    function revealMatch(event: Event) {
+      if (!(event.target instanceof HTMLElement)) return;
+      const index = Number(event.target.dataset.sectionIndex);
+      if (!Number.isInteger(index) || index < 0 || index >= sections.length)
+        return;
+      // Let native Find/fragment navigation scroll to its match. Keep tabs,
+      // progress and saved position in sync without moving keyboard focus.
+      flushSync(() => reading.select(index));
+    }
+    article?.addEventListener("beforematch", revealMatch);
+    return () => article?.removeEventListener("beforematch", revealMatch);
+  }, [reading, sections.length]);
   const tabIdBase = useId();
   const total = sections.length;
   const isLastSection = activeIndex === total - 1;
@@ -129,19 +167,29 @@ export function SteppedLessonArticle({
     ? Math.round(((activeIndex + 1) / total) * 100)
     : 0;
 
-  function goTo(index: number) {
-    setActiveIndex(index);
-    if (typeof window !== "undefined")
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    // Move focus to the newly shown panel's heading for keyboard/screen
-    // reader users — matches the standard ARIA tabs pattern.
+  function goTo(index: number, focus: "heading" | "tab" = "heading") {
+    reading.select(index);
+    if (focus === "tab") {
+      document.getElementById(`${tabIdBase}-tab-${index}`)?.focus();
+      return;
+    }
+    const reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
     requestAnimationFrame(() => {
-      document.getElementById(`${tabIdBase}-panel-${index}-heading`)?.focus();
+      document
+        .getElementById(`${tabIdBase}-panel-${index}-heading`)
+        ?.focus({ preventScroll: true });
     });
   }
 
   return (
-    <article className={styles.article}>
+    <article
+      ref={articleRef}
+      className={styles.article}
+      data-enhanced={enhanced}
+    >
       <nav aria-label="Breadcrumb" className={styles.breadcrumb}>
         {levelLabel} <span aria-hidden="true">/</span> {title}
       </nav>
@@ -176,12 +224,18 @@ export function SteppedLessonArticle({
               className={active ? styles.pillActive : styles.pill}
               onClick={() => goTo(index)}
               onKeyDown={(event) => {
-                if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+                if (
+                  ["ArrowRight", "ArrowLeft", "Home", "End"].includes(event.key)
+                ) {
                   event.preventDefault();
                   const direction = event.key === "ArrowRight" ? 1 : -1;
-                  const next = (index + direction + total) % total;
-                  goTo(next);
-                  document.getElementById(`${tabIdBase}-tab-${next}`)?.focus();
+                  const next =
+                    event.key === "Home"
+                      ? 0
+                      : event.key === "End"
+                        ? total - 1
+                        : (index + direction + total) % total;
+                  goTo(next, "tab");
                 }
               }}
             >
@@ -218,25 +272,13 @@ export function SteppedLessonArticle({
         <input
           type="checkbox"
           checked={showAll}
-          onChange={(event) => setShowAll(event.target.checked)}
+          onChange={(event) => reading.setShowAll(event.target.checked)}
         />
         Show all sections at once
       </label>
 
       {sections.map((section, index) => {
         const isActive = index === activeIndex;
-        if (!showAll && !isActive) {
-          return (
-            <div
-              key={section.title}
-              role="tabpanel"
-              id={`${tabIdBase}-panel-${index}`}
-              aria-labelledby={`${tabIdBase}-tab-${index}`}
-              hidden
-            />
-          );
-        }
-
         const isLast = index === total - 1;
         const showBack = index > 0;
 
@@ -247,7 +289,21 @@ export function SteppedLessonArticle({
             id={`${tabIdBase}-panel-${index}`}
             aria-labelledby={`${tabIdBase}-tab-${index}`}
             className={styles.panel}
-            hidden={!showAll && !isActive}
+            data-section-index={index}
+            aria-hidden={!showAll && !isActive ? true : undefined}
+            ref={(panel) => {
+              if (!panel) return;
+              // React 19.2 treats hidden as boolean; use the native enumerated
+              // attribute so until-found is not silently changed to hidden="".
+              if (!showAll && !isActive) {
+                panel.setAttribute(
+                  "hidden",
+                  "onbeforematch" in panel ? "until-found" : "",
+                );
+              } else {
+                panel.removeAttribute("hidden");
+              }
+            }}
           >
             <p className={styles.sectionEyebrow}>
               Section {index + 1} of {total}
@@ -266,9 +322,11 @@ export function SteppedLessonArticle({
                   ? { ...block, title: "" }
                   : block,
               )}
-              checklist={/practice|before moving on|reflection/i.test(
-                section.title,
-              )}
+              checklistState={{
+                prefix: reading.sectionIds[index],
+                checked: reading.checked,
+                onChange: reading.setChecked,
+              }}
             />
 
             {isLast && onMarkComplete ? (

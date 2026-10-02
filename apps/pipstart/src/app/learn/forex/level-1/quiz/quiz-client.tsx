@@ -25,7 +25,7 @@ import {
   type PublicAssessment,
 } from "../../../../../lib/assessment-ux";
 import { usePermanentProgress } from "../../../../../lib/use-permanent-progress";
-import { getForexQuizContext } from "../../../../../lib/forex-quiz-context";
+import type { ForexQuizClientContext } from "../../../../../lib/forex-quiz-client-context";
 import {
   FOREX_PROGRESS_CHANGE_EVENT,
   parseLessonProgress,
@@ -100,21 +100,13 @@ function clearDraftBackup(attemptId: string) {
   }
 }
 
-function requireQuizContext(courseId: string, moduleId?: string) {
-  const context = getForexQuizContext(courseId, moduleId);
-  if (!context) throw new Error("Quiz curriculum context is unavailable.");
-  return context;
-}
-
 export function ForexFoundationsQuiz({
   assessment,
+  context,
 }: {
   assessment: PublicAssessment;
+  context: ForexQuizClientContext;
 }) {
-  const context = useMemo(
-    () => requireQuizContext(assessment.courseId, assessment.moduleId),
-    [assessment.courseId, assessment.moduleId],
-  );
   const { lessons, lessonIds } = context;
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [quiz, setQuiz] = useState<QuizState | null>(null);

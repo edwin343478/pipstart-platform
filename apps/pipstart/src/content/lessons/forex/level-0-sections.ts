@@ -185,6 +185,7 @@ const level0Lesson1Sections: LessonSection[] = [
     blocks: [
       {
         type: "keyPoint",
+        checklist: true,
         title: "Before moving on",
         points: [
           "Why do I want to learn Forex?",
@@ -221,6 +222,7 @@ const level0Lesson1Sections: LessonSection[] = [
       },
       {
         type: "keyPoint",
+        checklist: true,
         title: "A useful habit for every lesson",
         points: [
           "Explain the main idea in my own words without looking.",
@@ -765,6 +767,7 @@ const level0Lesson4Sections: LessonSection[] = [
       },
       {
         type: "keyPoint",
+        checklist: true,
         title: "Three warning signs in this message",
         points: [
           "The unrealistic return — a fixed 15% weekly return is an extremely strong claim; markets do not produce guaranteed returns on demand.",
@@ -814,6 +817,7 @@ const level0Lesson4Sections: LessonSection[] = [
     blocks: [
       {
         type: "keyPoint",
+        checklist: true,
         title:
           "Before continuing, make sure you can explain these ideas in your own words",
         points: [

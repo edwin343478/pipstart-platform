@@ -51,7 +51,7 @@ describe("Milestone 15 first Level 1 lesson", () => {
     ).toEqual([8, 6, 6, 7]);
   });
 
-  it("opens as one section in the approved shared stepper", () => {
+  it("renders complete lesson HTML for progressive enhancement", () => {
     const markup = renderToStaticMarkup(
       <LessonPage
         path="forex"
@@ -62,10 +62,10 @@ describe("Milestone 15 first Level 1 lesson", () => {
       />,
     );
     expect(markup).toContain("Section 1 of 10");
-    expect(markup).toContain("Next: Reading an exchange rate");
+    expect(markup).toContain("Reading an exchange rate");
     expect(markup).toContain("Show all sections at once");
-    expect(markup).not.toContain("The complete school-book calculation");
-    expect(markup).not.toContain("Mark complete");
+    expect(markup).toContain("The complete school-book calculation");
+    expect(markup).toContain("Mark complete");
   });
 
   it("renders accessible native tables, final checkboxes, and a real diagram asset", () => {

@@ -348,6 +348,7 @@ export const marketParticipantsSections: LessonSection[] = [
     blocks: [
       {
         type: "keyPoint",
+        checklist: true,
         title: "Check what you can explain",
         points: [
           "I can compare the purposes of households, businesses, banks, funds, and central banks.",

@@ -316,6 +316,7 @@ export const pipsAndLotsSections: LessonSection[] = [
     blocks: [
       {
         type: "keyPoint",
+        checklist: true,
         title: "Check what you can explain",
         points: [
           "I can distinguish pips, pipettes, units, lots, and margin.",

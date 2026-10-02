@@ -1,3 +1,5 @@
+import "server-only";
+
 import { getPublishedLessons } from "../content/lesson-registry";
 import { getCurriculumCourse, getCurriculumModule } from "./curriculum";
 import { getLearningProgressStorageKey } from "./learning-progress-storage";
@@ -30,4 +32,23 @@ export function getForexQuizContext(courseId: string, moduleId?: string) {
     levelLabel: `Level ${levelId.replace("level-", "")}`,
     progressKey: getLearningProgressStorageKey("forex", levelId, course.id),
   };
+}
+
+export function getForexQuizClientContext(courseId: string, moduleId?: string) {
+  const context = getForexQuizContext(courseId, moduleId);
+  if (!context) return undefined;
+  const compact = (entry: { id: string; title: string; href: string }) => ({
+    id: entry.id,
+    title: entry.title,
+    href: entry.href,
+  });
+  return {
+    course: compact(context.course),
+    module: compact(context.module),
+    quiz: compact(context.quiz),
+    lessons: context.lessons.map(compact),
+    lessonIds: context.lessonIds,
+    levelLabel: context.levelLabel,
+    progressKey: context.progressKey,
+  } satisfies import("./forex-quiz-client-context").ForexQuizClientContext;
 }

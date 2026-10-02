@@ -601,6 +601,7 @@ export const liquidityAndMarketPositioningSections: LessonSection[] = [
       },
       {
         type: "keyPoint",
+        checklist: true,
         title: "Before you mark this lesson complete",
         points: [
           "I can name the product, units, source, observation window and information cutoff.",

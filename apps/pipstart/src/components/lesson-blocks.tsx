@@ -37,9 +37,15 @@ function ExampleIcon() {
 export function LessonBlocks({
   blocks,
   checklist = false,
+  checklistState,
 }: {
   blocks: readonly LessonBlock[];
   checklist?: boolean;
+  checklistState?: {
+    prefix: string;
+    checked: readonly string[];
+    onChange: (id: string, checked: boolean) => void;
+  };
 }) {
   return (
     <div className={styles.blocks}>
@@ -173,12 +179,30 @@ export function LessonBlocks({
               </aside>
             );
           case "keyPoint":
-            return checklist ? (
+            return block.checklist || checklist ? (
               <section className={styles.checklistCard} key={key}>
                 <h3>{block.title ?? "Check what you know"}</h3>
-                {block.points.map((point) => (
+                {block.points.map((point, pointIndex) => (
                   <label key={point}>
-                    <input type="checkbox" />{" "}
+                    <input
+                      type="checkbox"
+                      checked={
+                        checklistState
+                          ? checklistState.checked.includes(
+                              `${checklistState.prefix}:${index}:${pointIndex}`,
+                            )
+                          : undefined
+                      }
+                      onChange={
+                        checklistState
+                          ? (event) =>
+                              checklistState.onChange(
+                                `${checklistState.prefix}:${index}:${pointIndex}`,
+                                event.target.checked,
+                              )
+                          : undefined
+                      }
+                    />{" "}
                     <span>{renderInlineText(point)}</span>
                   </label>
                 ))}

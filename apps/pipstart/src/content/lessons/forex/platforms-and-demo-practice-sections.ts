@@ -406,6 +406,7 @@ export const platformsAndDemoSections: LessonSection[] = [
       },
       {
         type: "keyPoint",
+        checklist: true,
         title: "I can explain this without guessing",
         points: [
           "I can confirm the demo account, exact product and size units before clicking.",

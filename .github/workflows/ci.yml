@@ -55,6 +55,15 @@ jobs:
       - name: Build applications
         run: pnpm build
 
+      - name: Verify public lesson bundles
+        run: pnpm --filter pipstart verify:public-bundles
+
+      - name: Install Chromium for publication smoke checks
+        run: pnpm --filter pipstart exec playwright install --with-deps chromium
+
+      - name: Verify approved publication routes and lesson interactions
+        run: pnpm --filter pipstart test:e2e:h4
+
   assessment-live:
     name: Live learner release gates
     if: github.event_name == 'workflow_dispatch'

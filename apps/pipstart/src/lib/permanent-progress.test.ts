@@ -1,12 +1,14 @@
 import { describe, expect, it } from "vitest";
 import {
-  assertUniqueCurriculumIds,
   calculateProgress,
   getCourseLessonIds,
-  getPublishedCourse,
   selectContinueLesson,
   type ProgressSnapshot,
 } from "./permanent-progress";
+import {
+  assertUniqueCurriculumIds,
+  getPublishedCourse,
+} from "./permanent-progress-catalogue";
 
 describe("Milestone 12 permanent progress", () => {
   const course = getPublishedCourse("forex-kindergarten")!;

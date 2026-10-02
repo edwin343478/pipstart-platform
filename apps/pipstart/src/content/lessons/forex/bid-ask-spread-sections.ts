@@ -325,6 +325,7 @@ export const bidAskSpreadSections: LessonSection[] = [
     blocks: [
       {
         type: "keyPoint",
+        checklist: true,
         title: "Check what you can explain",
         points: [
           "I can choose the bid or ask for a customer transaction.",

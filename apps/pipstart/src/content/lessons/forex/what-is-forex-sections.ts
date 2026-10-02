@@ -395,6 +395,7 @@ export const whatIsForexSections: LessonSection[] = [
     blocks: [
       {
         type: "keyPoint",
+        checklist: true,
         title: "Explain these in your own words",
         points: [
           "I can explain why a traveler, family, or business may need to exchange currency.",

@@ -6,7 +6,7 @@ import styles from "./route-state.module.css";
 
 export default function Loading() {
   return (
-    <div className={styles.page}>
+    <div className={styles.page} data-route-loading>
       <CompactHeader
         brandClassName={styles.brand}
         className={styles.header}

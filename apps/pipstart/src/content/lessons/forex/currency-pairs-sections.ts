@@ -302,6 +302,7 @@ export const currencyPairsSections: LessonSection[] = [
     blocks: [
       {
         type: "keyPoint",
+        checklist: true,
         title: "Check your understanding",
         points: [
           "In GBP/USD, which currency is the base?",
@@ -341,6 +342,7 @@ export const currencyPairsSections: LessonSection[] = [
     blocks: [
       {
         type: "keyPoint",
+        checklist: true,
         title: "Check what you can explain",
         points: [
           "I can identify base and quote currencies and read a rate aloud.",

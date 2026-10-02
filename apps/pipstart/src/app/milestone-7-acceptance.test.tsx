@@ -55,7 +55,7 @@ describe("Milestone 7 acceptance", () => {
       "utf8",
     );
     const forexPage = fs.readFileSync(
-      path.join(appRoot, "learn/forex/page.tsx"),
+      path.join(appRoot, "learn/forex/forex-index-client.tsx"),
       "utf8",
     );
     const cryptoPage = fs.readFileSync(

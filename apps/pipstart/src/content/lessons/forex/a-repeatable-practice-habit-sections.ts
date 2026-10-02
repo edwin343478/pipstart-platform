@@ -543,6 +543,7 @@ export const aRepeatablePracticeHabitSections: LessonSection[] = [
       },
       {
         type: "keyPoint",
+        checklist: true,
         title: "Before you mark this lesson complete",
         points: [
           "I can distinguish a fact, a feeling, an urge and an action.",

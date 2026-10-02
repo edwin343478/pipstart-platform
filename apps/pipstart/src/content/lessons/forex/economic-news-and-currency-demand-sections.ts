@@ -516,6 +516,7 @@ export const economicNewsAndCurrencyDemandSections: LessonSection[] = [
       },
       {
         type: "keyPoint",
+        checklist: true,
         title: "Before you mark this lesson complete",
         points: [
           "I can name the source, series, period, unit and timestamp.",

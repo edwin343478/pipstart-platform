@@ -333,6 +333,7 @@ export const trendsAndLandmarksSections: LessonSection[] = [
       },
       {
         type: "keyPoint",
+        checklist: true,
         title: "I can explain this without guessing",
         points: [
           "I can distinguish a horizontal reaction zone, a trend line and a channel.",

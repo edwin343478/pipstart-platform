@@ -371,6 +371,7 @@ export const swingsAndBreakoutsSections: LessonSection[] = [
       },
       {
         type: "keyPoint",
+        checklist: true,
         title: "I can explain this without guessing",
         points: [
           "I can define a swing and record its confirmation delay and tie rule.",

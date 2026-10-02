@@ -136,3 +136,36 @@
     margin-inline: auto;
   }
 }
+
+@media print {
+  .page {
+    min-height: 0;
+    background: white;
+  }
+  .header,
+  .footer button,
+  .footer [role="status"],
+  .footer [role="alert"] {
+    display: none !important;
+  }
+  .page .layout,
+  .page .layout.forexLayout {
+    display: block;
+    width: 100%;
+    max-width: none;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+  }
+  .page .layout > article {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+  .footer details::details-content {
+    content-visibility: visible;
+  }
+  .footer details > :not(summary) {
+    display: block !important;
+  }
+}

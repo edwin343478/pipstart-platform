@@ -78,7 +78,7 @@ describe("Milestone 15 complete Level 4", () => {
       expect(markup).toContain("Show all sections at once");
       expect(markup).not.toContain("(for review)");
       expect(markup).toContain(`Section 1 of ${lesson.sections!.length}`);
-      expect(markup).toContain(`Next: ${lesson.sections![1].title}`);
+      expect(markup).toContain(`${lesson.sections![1].title}`);
       const last = renderToStaticMarkup(
         <LessonBlocks blocks={lesson.sections!.at(-1)!.blocks} checklist />,
       );

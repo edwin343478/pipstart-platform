@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 
 import { createDynamicMetadata } from "../../../../../lib/seo";
-import CryptoLevelOnePage from "../page";
+import { CryptoLessonPage } from "../crypto-lesson";
 import { cryptoLessons, getCryptoLesson } from "../lessons";
 
 export const dynamicParams = false;
@@ -33,5 +33,5 @@ export default async function CryptoLessonRoute({
   const lesson = getCryptoLesson(lessonSlug);
   if (!lesson || lesson.position === 1) notFound();
 
-  return <CryptoLevelOnePage lesson={lesson} />;
+  return <CryptoLessonPage lesson={lesson} />;
 }

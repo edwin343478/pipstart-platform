@@ -1,4 +1,4 @@
-"use client";
+import "server-only";
 
 import { LessonPage } from "../../../../components/lesson-page";
 import type { ForexLesson } from "./lessons";

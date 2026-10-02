@@ -2,10 +2,10 @@ import type { CurriculumCourse, CurriculumLesson } from "./curriculum";
 import { learningPaths } from "./curriculum";
 import {
   calculateCourseProgress,
-  getPublishedCourse,
   selectContinueTarget,
   type ProgressSnapshot,
 } from "./permanent-progress";
+import { getPublishedCourse } from "./permanent-progress-catalogue";
 
 export type DashboardEnrollmentRecord = {
   completedAt: string | null;

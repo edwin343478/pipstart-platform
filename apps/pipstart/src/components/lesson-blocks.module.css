@@ -591,3 +591,17 @@
     font-size: 14px;
   }
 }
+
+@media print {
+  .tableScroller {
+    overflow: visible;
+  }
+  .tableScroller table {
+    min-width: 0;
+    width: 100%;
+  }
+  .tableScroller th,
+  .tableScroller td {
+    overflow-wrap: anywhere;
+  }
+}

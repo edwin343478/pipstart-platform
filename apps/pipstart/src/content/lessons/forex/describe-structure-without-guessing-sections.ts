@@ -447,6 +447,7 @@ export const describeStructureWithoutGuessingSections: LessonSection[] = [
       },
       {
         type: "keyPoint",
+        checklist: true,
         title: "Before you mark this lesson complete",
         points: [
           "I can state the pair, source, price side, timeframe and data cutoff.",

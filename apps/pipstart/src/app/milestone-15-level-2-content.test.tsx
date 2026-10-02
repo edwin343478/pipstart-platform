@@ -14,10 +14,8 @@ import {
   getGenericForexLevelRootLesson,
   getGenericForexSecondSegment,
 } from "../lib/forex-level-routing";
-import {
-  getPublishedLessonContext,
-  getCourseLessonIds,
-} from "../lib/permanent-progress";
+import { getCourseLessonIds } from "../lib/permanent-progress";
+import { getPublishedLessonContext } from "../lib/permanent-progress-catalogue";
 import {
   calculateMargin,
   calculatePipValue,
@@ -82,10 +80,10 @@ describe("Milestone 15 complete Level 2", () => {
         />,
       );
       expect(markup).toContain(`Section 1 of ${lesson.sections!.length}`);
-      expect(markup).toContain(`Next: ${lesson.sections![1].title}`);
+      expect(markup).toContain(`${lesson.sections![1].title}`);
       expect(markup).toContain("Show all sections at once");
       expect(markup).not.toContain("(for review)");
-      expect(markup).not.toContain("Mark complete");
+      expect(markup).toContain("Mark complete");
       const last = renderToStaticMarkup(
         <LessonBlocks blocks={lesson.sections!.at(-1)!.blocks} checklist />,
       );

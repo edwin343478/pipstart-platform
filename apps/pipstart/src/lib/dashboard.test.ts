@@ -8,10 +8,10 @@ import {
 import {
   calculateCourseProgress,
   getCourseLessonIds,
-  getPublishedCourse,
   selectContinueTarget,
   type ProgressSnapshot,
 } from "./permanent-progress";
+import { getPublishedCourse } from "./permanent-progress-catalogue";
 
 const course = getPublishedCourse("forex-kindergarten")!;
 const lessonIds = getCourseLessonIds(course);

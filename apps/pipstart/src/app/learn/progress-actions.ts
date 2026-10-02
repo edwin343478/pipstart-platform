@@ -4,11 +4,13 @@ import { createHash } from "node:crypto";
 import { reconcileCourseEnrollmentForUser } from "../../lib/course-progress-server";
 import {
   getCourseLessonIds,
-  getPublishedCourse,
-  getPublishedLessonContext,
   type AssessmentCompletionRecord,
   type ProgressSnapshot,
 } from "../../lib/permanent-progress";
+import {
+  getPublishedCourse,
+  getPublishedLessonContext,
+} from "../../lib/permanent-progress-catalogue";
 import { createSupabaseServerClient } from "../../lib/supabase/server";
 
 type Row = {

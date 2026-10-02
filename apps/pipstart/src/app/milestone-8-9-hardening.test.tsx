@@ -39,7 +39,7 @@ describe("Milestones 8 and 9 hardening", () => {
 
   it("derives Crypto navigation exclusively from published lesson data", () => {
     const source = fs.readFileSync(
-      path.join(appRoot, "learn/crypto/level-1/page.tsx"),
+      path.join(appRoot, "learn/crypto/level-1/crypto-lesson.tsx"),
       "utf8",
     );
     expect(source).toContain("lessons={cryptoLessons}");

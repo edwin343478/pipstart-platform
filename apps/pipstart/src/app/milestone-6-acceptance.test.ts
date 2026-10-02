@@ -67,7 +67,7 @@ describe("Milestone 6 release acceptance", () => {
   it("shares the collapsible desktop sidebar and native mobile accordion across lesson paths", () => {
     const sidebar = read("../components/SteppedLessonArticle.tsx");
     const forex = read("learn/forex/level-1/forex-lesson.tsx");
-    const crypto = read("learn/crypto/level-1/page.tsx");
+    const crypto = read("learn/crypto/level-1/crypto-lesson.tsx");
     expect(forex).toContain("<LessonPage");
     expect(crypto).toContain("<LessonPage");
     expect(sidebar).toContain("<aside");

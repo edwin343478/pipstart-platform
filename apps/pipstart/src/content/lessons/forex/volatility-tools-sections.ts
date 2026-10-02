@@ -357,6 +357,7 @@ export const volatilityToolsSections: LessonSection[] = [
       },
       {
         type: "keyPoint",
+        checklist: true,
         title: "Before you mark this lesson complete",
         points: [
           "I can identify the pair, source, timeframe, completed bars and units.",

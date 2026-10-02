@@ -54,7 +54,7 @@ describe("PipStart internal route integrity", () => {
   it("does not expose unavailable account or unpublished Crypto lesson routes", () => {
     const home = fs.readFileSync(path.join(appRoot, "page.tsx"), "utf8");
     const cryptoLesson = fs.readFileSync(
-      path.join(appRoot, "learn/crypto/level-1/page.tsx"),
+      path.join(appRoot, "learn/crypto/level-1/crypto-lesson.tsx"),
       "utf8",
     );
 
@@ -95,7 +95,7 @@ describe("PipStart internal route integrity", () => {
   it("opens the Forex school at the level index", () => {
     const home = fs.readFileSync(path.join(appRoot, "page.tsx"), "utf8");
     const forexPath = fs.readFileSync(
-      path.join(appRoot, "learn/forex/page.tsx"),
+      path.join(appRoot, "learn/forex/forex-index-client.tsx"),
       "utf8",
     );
 
@@ -133,12 +133,12 @@ describe("PipStart internal route integrity", () => {
       "utf8",
     );
     const cryptoLevel = fs.readFileSync(
-      path.join(appRoot, "learn/crypto/level-1/page.tsx"),
+      path.join(appRoot, "learn/crypto/level-1/crypto-lesson.tsx"),
       "utf8",
     );
 
     const sharedPage = fs.readFileSync(
-      path.join(appRoot, "../components/lesson-page.tsx"),
+      path.join(appRoot, "../components/lesson-page-client.tsx"),
       "utf8",
     );
     expect(forexLevel).toContain('path="forex"');

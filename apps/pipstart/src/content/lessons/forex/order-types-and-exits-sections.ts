@@ -402,6 +402,7 @@ export const orderTypesAndExitsSections: LessonSection[] = [
       },
       {
         type: "keyPoint",
+        checklist: true,
         title: "I can explain this without guessing",
         points: [
           "I can choose between prompt execution, a limit price and a stop trigger.",

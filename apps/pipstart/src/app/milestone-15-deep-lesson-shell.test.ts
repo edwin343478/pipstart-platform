@@ -23,7 +23,7 @@ describe("Milestone 15 deep lesson shell", () => {
   });
 
   it("uses the new stepper and responsive lesson layout", () => {
-    const page = read("../components/lesson-page.tsx");
+    const page = read("../components/lesson-page-client.tsx");
     const stepper = read("../components/SteppedLessonArticle.tsx");
     const css = read("../components/stepped-lesson-article.module.css");
     expect(page).toContain("<LessonSidebar");

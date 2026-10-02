@@ -354,6 +354,7 @@ export const choosingAProviderSections: LessonSection[] = [
       },
       {
         type: "keyPoint",
+        checklist: true,
         title: "I can explain this without guessing",
         points: [
           "I can identify the contracting company and the product behind a pair symbol.",

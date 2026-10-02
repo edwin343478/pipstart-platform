@@ -366,6 +366,7 @@ export const volumeAndChartLimitsSections: LessonSection[] = [
       },
       {
         type: "keyPoint",
+        checklist: true,
         title: "I can explain this without guessing",
         points: [
           "I can name the unit, source, interval and population behind a volume bar.",

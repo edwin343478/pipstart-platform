@@ -11,7 +11,7 @@ function read(relativePath: string): string {
 
 describe("Milestone 15 Level 0 Forex entry", () => {
   it("makes Levels 0, 1, 2 and 3 available while keeping later levels locked", () => {
-    const forexPage = read("learn/forex/page.tsx");
+    const forexPage = read("learn/forex/forex-index-client.tsx");
 
     expect(forexPage).toContain("{index <= 10 ? (");
     expect(forexPage).toContain('"/learn/forex/level-0"');
@@ -39,7 +39,7 @@ describe("Milestone 15 Level 0 Forex entry", () => {
   });
 
   it("preserves the existing Level 1 continuation destination", () => {
-    const forexPage = read("learn/forex/page.tsx");
+    const forexPage = read("learn/forex/forex-index-client.tsx");
 
     expect(forexPage).toContain("continueState.lesson.href");
     expect(forexPage).toContain(

@@ -1,3 +1,4 @@
+import { getForexQuizClientContext } from "../../../../../lib/forex-quiz-context";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -14,7 +15,15 @@ export const metadata: Metadata = {
 
 export default function ForexFoundationsQuizPage() {
   const assessment = getCurrentPublishedAssessment("forex-foundations-quiz");
-  if (!assessment) notFound();
+  const context =
+    assessment &&
+    getForexQuizClientContext(assessment.courseId, assessment.moduleId);
+  if (!assessment || !context) notFound();
 
-  return <ForexFoundationsQuiz assessment={toPublicAssessment(assessment)} />;
+  return (
+    <ForexFoundationsQuiz
+      assessment={toPublicAssessment(assessment)}
+      context={context}
+    />
+  );
 }

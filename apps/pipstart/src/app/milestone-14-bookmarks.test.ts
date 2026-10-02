@@ -9,13 +9,13 @@ const read = (relativePath: string) =>
 
 describe("Milestone 14 lesson bookmarks", () => {
   it("offers the same bookmark control on published Forex and Crypto lessons", () => {
-    const sharedPage = read("../components/lesson-page.tsx");
+    const sharedPage = read("../components/lesson-page-client.tsx");
     expect(sharedPage).toContain("<LessonBookmarkButton");
     expect(sharedPage).toContain("lessonHref={lesson.href}");
     expect(sharedPage).toContain("lessonId={lesson.id}");
     for (const route of [
       "learn/forex/level-1/forex-lesson.tsx",
-      "learn/crypto/level-1/page.tsx",
+      "learn/crypto/level-1/crypto-lesson.tsx",
     ]) {
       expect(read(route)).toContain("<LessonPage");
     }

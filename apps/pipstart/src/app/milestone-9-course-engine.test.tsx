@@ -50,9 +50,9 @@ describe("Milestone 9 basic course engine", () => {
       expect(markup).toContain("Learning objectives");
       expect(markup).toContain("Sections of");
     }
-    // The first Forex section is no longer the final section.
-    expect(forexMarkup).not.toContain("Mark complete");
-    expect(forexMarkup).toContain("Next: Reading an exchange rate");
+    // Complete server HTML includes the final section; client enhancement hides it until selected.
+    expect(forexMarkup).toContain("Mark complete");
+    expect(forexMarkup).toContain("Reading an exchange rate");
     expect(cryptoMarkup).toContain("Mark complete");
   });
 

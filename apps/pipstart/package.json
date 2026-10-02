@@ -15,19 +15,25 @@
     "test:e2e:dashboard-release": "playwright test e2e/milestone-14-dashboard.spec.ts",
     "test": "vitest run --exclude=e2e/**",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "verify:public-bundles": "node scripts/verify-public-bundles.mjs",
+    "test:e2e:h1": "playwright test --config=playwright.h1.config.ts",
+    "test:e2e:h2": "playwright test --config=playwright.h2.config.ts",
+    "test:e2e:h3": "playwright test --config=playwright.h3.config.ts",
+    "test:e2e:h4": "playwright test --config=playwright.h4.config.ts"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
-    "@next/mdx": "16.3.4",
+    "@next/mdx": "16.3.6",
     "@repo/brand": "workspace:*",
     "@repo/ui": "workspace:*",
     "@supabase/ssr": "0.7.0",
     "@supabase/supabase-js": "2.100.0",
-    "next": "16.3.4",
+    "next": "16.3.6",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "server-only": "0.0.1"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
@@ -39,7 +45,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.3.4",
+    "eslint-config-next": "16.3.6",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^4.1.10"

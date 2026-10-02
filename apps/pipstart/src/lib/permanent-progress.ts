@@ -4,7 +4,6 @@ import type {
   CurriculumLesson,
   CurriculumModule,
 } from "./curriculum";
-import { learningPaths } from "./curriculum";
 
 export type LessonProgressRecord = {
   completedAt: string | null;
@@ -25,29 +24,6 @@ export type ProgressSnapshot = {
   lessons: LessonProgressRecord[];
 };
 
-export function getPublishedLessonContext(lessonId: string) {
-  for (const path of learningPaths)
-    for (const level of path.levels)
-      for (const course of level.courses)
-        for (const curriculumModule of course.modules)
-          if (
-            curriculumModule.lessons.some(
-              (lesson) => lesson.type === "lesson" && lesson.id === lessonId,
-            )
-          )
-            return {
-              courseId: course.id,
-              lessonId,
-              moduleId: curriculumModule.id,
-            };
-}
-
-export function getPublishedCourse(courseId: string) {
-  return learningPaths
-    .flatMap((path) => path.levels)
-    .flatMap((level) => level.courses)
-    .find((course) => course.id === courseId);
-}
 function lessonItems(lessons: readonly CurriculumLesson[]) {
   return lessons.filter((lesson) => lesson.type === "lesson");
 }
@@ -209,17 +185,4 @@ export function selectContinueTarget(
   return course.modules
     .flatMap((curriculumModule) => curriculumModule.lessons)
     .find((item) => item.type === "quiz" && item.id === nextAssessmentId);
-}
-
-export function assertUniqueCurriculumIds() {
-  const seen = new Set<string>();
-  for (const path of learningPaths)
-    for (const level of path.levels)
-      for (const course of level.courses)
-        for (const curriculumModule of course.modules)
-          for (const lesson of curriculumModule.lessons) {
-            if (seen.has(lesson.id))
-              throw new Error(`Duplicate published lesson id: ${lesson.id}`);
-            seen.add(lesson.id);
-          }
 }
