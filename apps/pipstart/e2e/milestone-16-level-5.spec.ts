@@ -162,14 +162,14 @@ for (const width of [1440, 390]) {
         page.getByRole("checkbox", { name: "Show all sections at once" }),
       ).not.toBeChecked();
     }
-    await choose("Supply Market Capitalisation and Fully Diluted Value");
+    await choose("Supply, Market Capitalisation and Fully Diluted Value");
     await page.getByRole("tab").nth(2).click();
-    await choose("Altcoins Utility Governance and Hype");
+    await choose("Altcoins, Utility, Governance and Hype");
     await page.getByRole("tab").last().click();
     await expect(
       page.getByRole("tabpanel").getByRole("checkbox").first(),
     ).toBeChecked();
-    await choose("Altcoins Utility Governance and Hype");
+    await choose("Altcoins, Utility, Governance and Hype");
   });
 }
 
@@ -244,7 +244,7 @@ test("the curriculum opens Level 5 and both hierarchy pages expose all four less
 }) => {
   await page.goto("/learn/crypto");
   const entry = page.getByRole("link", {
-    name: "Start Level 5: Tokens Supply and Research",
+    name: "Start Level 5: Tokens, Supply and Research",
     exact: true,
   });
   await expect(entry).toBeVisible();
@@ -252,7 +252,7 @@ test("the curriculum opens Level 5 and both hierarchy pages expose all four less
   await entry.click();
   await expect(
     page.getByRole("heading", {
-      name: "Altcoins Utility Governance and Hype",
+      name: "Altcoins, Utility, Governance and Hype",
       exact: true,
     }),
   ).toBeVisible();

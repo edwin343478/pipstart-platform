@@ -32,25 +32,25 @@ const metadata1: LessonMetadata = {
   slug: "choose-the-loss-budget-before-the-position-size",
   sources: [
     {
-      title: "CFTC  Understand the Risks of Virtual Currency Trading",
+      title: "CFTC: Understand the Risks of Virtual Currency Trading",
       url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
     },
     {
-      title: "FCA  Investing in crypto",
+      title: "FCA: Investing in crypto",
       url: "https://www.fca.org.uk/investsmart/investing-crypto",
     },
     {
-      title: "Coinbase  Advanced trade order types",
+      title: "Coinbase: Advanced trade order types",
       url: "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/advanced-trade/order-types",
     },
     {
       title:
-        "Financial Conduct Authority  Financial Conduct Authority — Cryptoassets",
+        "Financial Conduct Authority: Financial Conduct Authority — Cryptoassets",
       url: "https://www.fca.org.uk/consumers/cryptoassets",
     },
     {
       title:
-        "Investor.gov  Investor.gov — Beginners' Guide to Asset Allocation, Diversification, and Rebalancing",
+        "Investor.gov: Investor.gov — Beginners' Guide to Asset Allocation, Diversification, and Rebalancing",
       url: "https://www.investor.gov/additional-resources/general-resources/publications-research/info-sheets/beginners-guide-asset",
     },
   ],
@@ -284,7 +284,7 @@ const sections1: LessonSection[] = [
     ],
   },
   {
-    title: "Costs units rounding and worse fills",
+    title: "Costs, units, rounding and worse fills",
     shortTitle: "Costs units rounding and worse fills",
     blocks: [
       {
@@ -364,7 +364,7 @@ const sections1: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -450,25 +450,25 @@ const sections1: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "CFTC  Understand the Risks of Virtual Currency Trading",
+            title: "CFTC: Understand the Risks of Virtual Currency Trading",
             url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
           },
           {
-            title: "FCA  Investing in crypto",
+            title: "FCA: Investing in crypto",
             url: "https://www.fca.org.uk/investsmart/investing-crypto",
           },
           {
-            title: "Coinbase  Advanced trade order types",
+            title: "Coinbase: Advanced trade order types",
             url: "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/advanced-trade/order-types",
           },
           {
             title:
-              "Financial Conduct Authority  Financial Conduct Authority — Cryptoassets",
+              "Financial Conduct Authority: Financial Conduct Authority — Cryptoassets",
             url: "https://www.fca.org.uk/consumers/cryptoassets",
           },
           {
             title:
-              "Investor.gov  Investor.gov — Beginners' Guide to Asset Allocation, Diversification, and Rebalancing",
+              "Investor.gov: Investor.gov — Beginners' Guide to Asset Allocation, Diversification, and Rebalancing",
             url: "https://www.investor.gov/additional-resources/general-resources/publications-research/info-sheets/beginners-guide-asset",
           },
         ],
@@ -503,48 +503,48 @@ const metadata2: LessonMetadata = {
   riskWarningRequired: true,
   seoDescription:
     "Explain why collateral posted is not the same as the exposure or maximum possible loss.",
-  seoTitle: "Leverage Margin and Liquidation Risk",
+  seoTitle: "Leverage, Margin and Liquidation Risk",
   slug: "leverage-margin-and-liquidation-risk",
   sources: [
     {
       title:
-        "Kraken  Managing margin and liquidations in multi collateral trading",
+        "Kraken: Managing margin and liquidations in multi collateral trading",
       url: "https://support.kraken.com/gb/articles/4844463246100-margining-liquidations-multi-collateral-derivatives",
     },
     {
-      title: "Coinbase  What is the funding rate",
+      title: "Coinbase: What is the funding rate",
       url: "https://help.coinbase.com/en/international-exchange/funding/what-is-the-funding-rate",
     },
     {
-      title: "CFTC  Understand the Risks of Virtual Currency Trading",
+      title: "CFTC: Understand the Risks of Virtual Currency Trading",
       url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
     },
     {
-      title: "FINRA  Crypto Assets",
+      title: "FINRA: Crypto Assets",
       url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
     },
     {
       title:
-        "Financial Conduct Authority  Financial Conduct Authority — FCA bans the sale of crypto-derivatives to retail consumers",
+        "Financial Conduct Authority: Financial Conduct Authority — FCA bans the sale of crypto-derivatives to retail consumers",
       url: "https://www.fca.org.uk/news/press-releases/fca-bans-sale-crypto-derivatives-retail-consumers",
     },
     {
       title:
-        "ESMA  ESMA — ESMA agrees to prohibit binary options and restrict CFDs to protect retail investors (27 March 2018)",
+        "ESMA: ESMA — ESMA agrees to prohibit binary options and restrict CFDs to protect retail investors (27 March 2018)",
       url: "https://www.esma.europa.eu/sites/default/files/library/esma71-98-128_press_release_product_intervention.pdf",
     },
     {
       title:
-        "CFTC  CFTC — CFTC Issues Final Interpretive Guidance on Actual Delivery for Digital Assets (24 March 2020)",
+        "CFTC: CFTC — CFTC Issues Final Interpretive Guidance on Actual Delivery for Digital Assets (24 March 2020)",
       url: "https://www.cftc.gov/PressRoom/PressReleases/8139-20",
     },
   ],
   status: "published",
-  title: "Leverage Margin and Liquidation Risk",
+  title: "Leverage, Margin and Liquidation Risk",
 };
 const sections2: LessonSection[] = [
   {
-    title: "Leverage margin and contract conventions",
+    title: "Leverage, margin and contract conventions",
     shortTitle: "Leverage margin and contract conventions",
     blocks: [
       {
@@ -572,7 +572,7 @@ const sections2: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Notional initial margin and maintenance equity",
+        children: "Notional, initial margin and maintenance equity",
       },
       {
         type: "paragraph",
@@ -663,13 +663,13 @@ const sections2: LessonSection[] = [
     ],
   },
   {
-    title: "Liquidation costs exits and the limits of shortcuts",
+    title: "Liquidation costs, exits and the limits of shortcuts",
     shortTitle: "Liquidation costs exits and the limits of shortcuts",
     blocks: [
       {
         type: "heading",
         level: 3,
-        children: "Liquidation references fees and loss handling",
+        children: "Liquidation references, fees and loss handling",
       },
       {
         type: "paragraph",
@@ -773,7 +773,7 @@ const sections2: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -846,34 +846,34 @@ const sections2: LessonSection[] = [
         items: [
           {
             title:
-              "Kraken  Managing margin and liquidations in multi collateral trading",
+              "Kraken: Managing margin and liquidations in multi collateral trading",
             url: "https://support.kraken.com/gb/articles/4844463246100-margining-liquidations-multi-collateral-derivatives",
           },
           {
-            title: "Coinbase  What is the funding rate",
+            title: "Coinbase: What is the funding rate",
             url: "https://help.coinbase.com/en/international-exchange/funding/what-is-the-funding-rate",
           },
           {
-            title: "CFTC  Understand the Risks of Virtual Currency Trading",
+            title: "CFTC: Understand the Risks of Virtual Currency Trading",
             url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
           },
           {
-            title: "FINRA  Crypto Assets",
+            title: "FINRA: Crypto Assets",
             url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
           },
           {
             title:
-              "Financial Conduct Authority  Financial Conduct Authority — FCA bans the sale of crypto-derivatives to retail consumers",
+              "Financial Conduct Authority: Financial Conduct Authority — FCA bans the sale of crypto-derivatives to retail consumers",
             url: "https://www.fca.org.uk/news/press-releases/fca-bans-sale-crypto-derivatives-retail-consumers",
           },
           {
             title:
-              "ESMA  ESMA — ESMA agrees to prohibit binary options and restrict CFDs to protect retail investors (27 March 2018)",
+              "ESMA: ESMA — ESMA agrees to prohibit binary options and restrict CFDs to protect retail investors (27 March 2018)",
             url: "https://www.esma.europa.eu/sites/default/files/library/esma71-98-128_press_release_product_intervention.pdf",
           },
           {
             title:
-              "CFTC  CFTC — CFTC Issues Final Interpretive Guidance on Actual Delivery for Digital Assets (24 March 2020)",
+              "CFTC: CFTC — CFTC Issues Final Interpretive Guidance on Actual Delivery for Digital Assets (24 March 2020)",
             url: "https://www.cftc.gov/PressRoom/PressReleases/8139-20",
           },
         ],
@@ -904,52 +904,52 @@ const metadata3: LessonMetadata = {
   reviewDate: "2026-10-05",
   riskWarningRequired: true,
   seoDescription: "Assess combined exposure beyond the number of assets held.",
-  seoTitle: "Concentration Correlation and Shared Dependencies",
+  seoTitle: "Concentration, Correlation and Shared Dependencies",
   slug: "concentration-correlation-and-shared-dependencies",
   sources: [
     {
       title:
-        "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+        "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
       url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
     },
     {
-      title: "Circle  USDC Risk Factors",
+      title: "Circle: USDC Risk Factors",
       url: "https://www.circle.com/legal/usdc-risk-factors",
     },
     {
       title:
-        "ESMA and the European Supervisory Authorities  Consumer warning on crypto assets and limited protection",
+        "ESMA and the European Supervisory Authorities: Consumer warning on crypto assets and limited protection",
       url: "https://www.esma.europa.eu/press-news/esma-news/eu-supervisory-authorities-warn-consumers-risks-and-limited-protection-certain",
     },
     {
-      title: "Circle  USDC Terms",
+      title: "Circle: USDC Terms",
       url: "https://www.circle.com/legal/usdc-terms",
     },
     {
-      title: "FCA  Investing in crypto",
+      title: "FCA: Investing in crypto",
       url: "https://www.fca.org.uk/investsmart/investing-crypto",
     },
     {
-      title: "Glassnode  Exchange Data Transparency Notice",
+      title: "Glassnode: Exchange Data Transparency Notice",
       url: "https://docs.glassnode.com/further-information/exchange-data-transparency-notice",
     },
     {
-      title: "CFTC  Understand the Risks of Virtual Currency Trading",
+      title: "CFTC: Understand the Risks of Virtual Currency Trading",
       url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
     },
     {
       title:
-        "Financial Conduct Authority  Financial Conduct Authority — Cryptoassets",
+        "Financial Conduct Authority: Financial Conduct Authority — Cryptoassets",
       url: "https://www.fca.org.uk/consumers/cryptoassets",
     },
     {
       title:
-        "Investor.gov  Investor.gov — Beginners' Guide to Asset Allocation, Diversification, and Rebalancing",
+        "Investor.gov: Investor.gov — Beginners' Guide to Asset Allocation, Diversification, and Rebalancing",
       url: "https://www.investor.gov/additional-resources/general-resources/publications-research/info-sheets/beginners-guide-asset",
     },
   ],
   status: "published",
-  title: "Concentration Correlation and Shared Dependencies",
+  title: "Concentration, Correlation and Shared Dependencies",
 };
 const sections3: LessonSection[] = [
   {
@@ -1210,7 +1210,7 @@ const sections3: LessonSection[] = [
     ],
   },
   {
-    title: "Policy boundaries stress tests and recovery",
+    title: "Policy boundaries, stress tests and recovery",
     shortTitle: "Policy boundaries stress tests and recovery",
     blocks: [
       {
@@ -1275,7 +1275,7 @@ const sections3: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -1362,42 +1362,42 @@ const sections3: LessonSection[] = [
         items: [
           {
             title:
-              "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+              "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
             url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
           },
           {
-            title: "Circle  USDC Risk Factors",
+            title: "Circle: USDC Risk Factors",
             url: "https://www.circle.com/legal/usdc-risk-factors",
           },
           {
             title:
-              "ESMA and the European Supervisory Authorities  Consumer warning on crypto assets and limited protection",
+              "ESMA and the European Supervisory Authorities: Consumer warning on crypto assets and limited protection",
             url: "https://www.esma.europa.eu/press-news/esma-news/eu-supervisory-authorities-warn-consumers-risks-and-limited-protection-certain",
           },
           {
-            title: "Circle  USDC Terms",
+            title: "Circle: USDC Terms",
             url: "https://www.circle.com/legal/usdc-terms",
           },
           {
-            title: "FCA  Investing in crypto",
+            title: "FCA: Investing in crypto",
             url: "https://www.fca.org.uk/investsmart/investing-crypto",
           },
           {
-            title: "Glassnode  Exchange Data Transparency Notice",
+            title: "Glassnode: Exchange Data Transparency Notice",
             url: "https://docs.glassnode.com/further-information/exchange-data-transparency-notice",
           },
           {
-            title: "CFTC  Understand the Risks of Virtual Currency Trading",
+            title: "CFTC: Understand the Risks of Virtual Currency Trading",
             url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
           },
           {
             title:
-              "Financial Conduct Authority  Financial Conduct Authority — Cryptoassets",
+              "Financial Conduct Authority: Financial Conduct Authority — Cryptoassets",
             url: "https://www.fca.org.uk/consumers/cryptoassets",
           },
           {
             title:
-              "Investor.gov  Investor.gov — Beginners' Guide to Asset Allocation, Diversification, and Rebalancing",
+              "Investor.gov: Investor.gov — Beginners' Guide to Asset Allocation, Diversification, and Rebalancing",
             url: "https://www.investor.gov/additional-resources/general-resources/publications-research/info-sheets/beginners-guide-asset",
           },
         ],
@@ -1429,47 +1429,47 @@ const metadata4: LessonMetadata = {
   riskWarningRequired: true,
   seoDescription:
     "Compare a recurring-purchase plan and maintain a record that explains the outcome.",
-  seoTitle: "DCA Rebalancing Exits and Useful Records",
+  seoTitle: "DCA, Rebalancing, Exits and Useful Records",
   slug: "dca-rebalancing-exits-and-useful-records",
   sources: [
     {
-      title: "IRS  Digital assets",
+      title: "IRS: Digital assets",
       url: "https://www.irs.gov/filing/digital-assets",
     },
     {
-      title: "Kraken  How to deposit cryptocurrencies to your Kraken account",
+      title: "Kraken: How to deposit cryptocurrencies to your Kraken account",
       url: "https://support.kraken.com/articles/360000672643-how-to-deposit-cryptocurrencies-to-your-kraken-account?mode=consumerapp",
     },
     {
-      title: "FCA  Investing in crypto",
+      title: "FCA: Investing in crypto",
       url: "https://www.fca.org.uk/investsmart/investing-crypto",
     },
     {
       title:
-        "ESMA and the European Supervisory Authorities  Consumer warning on crypto assets and limited protection",
+        "ESMA and the European Supervisory Authorities: Consumer warning on crypto assets and limited protection",
       url: "https://www.esma.europa.eu/press-news/esma-news/eu-supervisory-authorities-warn-consumers-risks-and-limited-protection-certain",
     },
     {
-      title: "Investor.gov  Investor.gov — Dollar Cost Averaging",
+      title: "Investor.gov: Investor.gov — Dollar Cost Averaging",
       url: "https://www.investor.gov/introduction-investing/investing-basics/glossary/dollar-cost-averaging",
     },
     {
       title:
-        "Vanguard  Vanguard — Cost averaging: Invest now or temporarily hold your cash? (Finlay and Zorn, February 2023)",
+        "Vanguard: Vanguard — Cost averaging: Invest now or temporarily hold your cash? (Finlay and Zorn, February 2023)",
       url: "https://corporate.vanguard.com/content/dam/corp/research/pdf/cost_averaging_invest_now_or_temporarily_hold_your_cash.pdf",
     },
     {
       title:
-        "Vanguard  Vanguard — Lump-sum investing versus cost averaging: Which is better?",
+        "Vanguard: Vanguard — Lump-sum investing versus cost averaging: Which is better?",
       url: "https://investor.vanguard.com/investor-resources-education/news/lump-sum-investing-versus-cost-averaging-which-is-better",
     },
   ],
   status: "published",
-  title: "DCA Rebalancing Exits and Useful Records",
+  title: "DCA, Rebalancing, Exits and Useful Records",
 };
 const sections4: LessonSection[] = [
   {
-    title: "Recurring purchases fees and average cost",
+    title: "Recurring purchases, fees and average cost",
     shortTitle: "Recurring purchases fees and average cost",
     blocks: [
       {
@@ -1750,7 +1750,7 @@ const sections4: LessonSection[] = [
     ],
   },
   {
-    title: "Complete records local requirements and the policy",
+    title: "Complete records, local requirements and the policy",
     shortTitle: "Complete records local requirements and the policy",
     blocks: [
       {
@@ -1871,7 +1871,7 @@ const sections4: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Find your own tax authority s guidance",
+        children: "Find your own tax authority's guidance",
       },
       {
         type: "paragraph",
@@ -1946,7 +1946,7 @@ const sections4: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -2039,35 +2039,35 @@ const sections4: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "IRS  Digital assets",
+            title: "IRS: Digital assets",
             url: "https://www.irs.gov/filing/digital-assets",
           },
           {
             title:
-              "Kraken  How to deposit cryptocurrencies to your Kraken account",
+              "Kraken: How to deposit cryptocurrencies to your Kraken account",
             url: "https://support.kraken.com/articles/360000672643-how-to-deposit-cryptocurrencies-to-your-kraken-account?mode=consumerapp",
           },
           {
-            title: "FCA  Investing in crypto",
+            title: "FCA: Investing in crypto",
             url: "https://www.fca.org.uk/investsmart/investing-crypto",
           },
           {
             title:
-              "ESMA and the European Supervisory Authorities  Consumer warning on crypto assets and limited protection",
+              "ESMA and the European Supervisory Authorities: Consumer warning on crypto assets and limited protection",
             url: "https://www.esma.europa.eu/press-news/esma-news/eu-supervisory-authorities-warn-consumers-risks-and-limited-protection-certain",
           },
           {
-            title: "Investor.gov  Investor.gov — Dollar Cost Averaging",
+            title: "Investor.gov: Investor.gov — Dollar Cost Averaging",
             url: "https://www.investor.gov/introduction-investing/investing-basics/glossary/dollar-cost-averaging",
           },
           {
             title:
-              "Vanguard  Vanguard — Cost averaging: Invest now or temporarily hold your cash? (Finlay and Zorn, February 2023)",
+              "Vanguard: Vanguard — Cost averaging: Invest now or temporarily hold your cash? (Finlay and Zorn, February 2023)",
             url: "https://corporate.vanguard.com/content/dam/corp/research/pdf/cost_averaging_invest_now_or_temporarily_hold_your_cash.pdf",
           },
           {
             title:
-              "Vanguard  Vanguard — Lump-sum investing versus cost averaging: Which is better?",
+              "Vanguard: Vanguard — Lump-sum investing versus cost averaging: Which is better?",
             url: "https://investor.vanguard.com/investor-resources-education/news/lump-sum-investing-versus-cost-averaging-which-is-better",
           },
         ],

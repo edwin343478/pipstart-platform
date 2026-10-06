@@ -46,7 +46,7 @@ export const cryptoRiskPortfoliosQuizV1: AssessmentDefinition = {
       prompt:
         'Lerato in Cape Town has R4,000 of savings and no emergency fund. Her rent is paid from her salary each month. A friend urges her to start buying crypto this week "before it\'s too late". Following this level, what should she do first?',
       explanation:
-        "Correct choice  B. Build an emergency fund first, and only later set a loss budget from spare money beyond it.\n\nThe emergency fund comes first, and any crypto comes later from money she could lose entirely, sized by a written loss budget. C is tempting, but DCA changes when money goes in, not whether it is money she can afford to lose.",
+        "Correct choice: Build an emergency fund first, and only later set a loss budget from spare money beyond it.\n\nThe emergency fund comes first, and any crypto comes later from money she could lose entirely, sized by a written loss budget. The answer “Use DCA with the full R4,000 so that timing does not matter” is tempting, but DCA changes when money goes in, not whether it is money she can afford to lose.",
       type: "single-choice",
       choices: [
         {
@@ -76,7 +76,7 @@ export const cryptoRiskPortfoliosQuizV1: AssessmentDefinition = {
       prompt:
         "Marco in Naples will risk at most US$30 on one idea. He plans to buy an invented coin at US$10 and exit if it falls to US$9 (invented prices, ignore fees). Using the position-size formula, how large can the position be?",
       explanation:
-        "Correct choice  A. US$300, or 30 coins\n\nThe distance to exit is 1 ÷ 10 = 10%, so the position is 30 ÷ 0.10 = US$300, which is 30 coins at US$10. B confuses the loss budget with the position size; the budget is what he could lose at the exit, not what he buys.",
+        "Correct choice: US$300, or 30 coins\n\nThe distance to exit is 1 ÷ 10 = 10%, so the position is 30 ÷ 0.10 = US$300, which is 30 coins at US$10. The answer “US$30, or 3 coins” confuses the loss budget with the position size; the budget is what he could lose at the exit, not what he buys.",
       type: "single-choice",
       choices: [
         {
@@ -103,7 +103,7 @@ export const cryptoRiskPortfoliosQuizV1: AssessmentDefinition = {
       prompt:
         "With the same loss budget, Ji-woo moves her planned exit further away from her entry because the coin is more volatile. What must happen to her position size?",
       explanation:
-        "Correct choice  D. It must get smaller.\n\nPosition size = amount at risk ÷ distance to exit, so a wider distance with the same budget gives a smaller position. C is tempting, but keeping the size while widening the exit would increase the loss if the exit is reached.",
+        "Correct choice: It must get smaller.\n\nPosition size = amount at risk ÷ distance to exit, so a wider distance with the same budget gives a smaller position. The answer “It stays the same, because the budget has not changed” is tempting, but keeping the size while widening the exit would increase the loss if the exit is reached.",
       type: "single-choice",
       choices: [
         {
@@ -130,7 +130,7 @@ export const cryptoRiskPortfoliosQuizV1: AssessmentDefinition = {
       prompt:
         "Kemal holds five different altcoins and one stablecoin, all on the same exchange, and says he is well diversified. Which description of his position is most accurate?",
       explanation:
-        "Correct choice  B. His coins may move together like one bet, and one exchange failure could freeze everything at once.\n\nMany crypto assets have tended to fall together in sell-offs, and holding everything on one platform concentrates exchange risk. A is tempting, but different names do not mean independent risks; in 2022 the whole market shrank by roughly 70%.",
+        "Correct choice: His coins may move together like one bet, and one exchange failure could freeze everything at once.\n\nMany crypto assets have tended to fall together in sell-offs, and holding everything on one platform concentrates exchange risk. The answer “He is diversified, because five different coins cannot all fall together” is tempting, but different names do not mean independent risks; in 2022 the whole market shrank by roughly 70%.",
       type: "single-choice",
       choices: [
         {
@@ -160,7 +160,7 @@ export const cryptoRiskPortfoliosQuizV1: AssessmentDefinition = {
       prompt:
         "A crypto portfolio falls 60% from its high. Using gain needed = L ÷ (1 − L), what gain would bring it back to where it started?",
       explanation:
-        "Correct choice  C. 150%\n\n0.60 ÷ 0.40 = 1.5, a 150% gain. A is the tempting wrong answer: after a fall, the remaining amount is smaller, so the same percentage gain does not get you back.",
+        "Correct choice: 150%\n\n0.60 ÷ 0.40 = 1.5, a 150% gain. The answer “60%” is the tempting wrong answer: after a fall, the remaining amount is smaller, so the same percentage gain does not get you back.",
       type: "single-choice",
       choices: [
         {
@@ -186,7 +186,7 @@ export const cryptoRiskPortfoliosQuizV1: AssessmentDefinition = {
       id: "crypto-risk-and-portfolios-6",
       prompt: "What is the maintenance margin on a leveraged position?",
       explanation:
-        "Correct choice  D. The required equity support for keeping a position open; breaching the applicable boundary can trigger liquidation under the venue rules.\n\nInitial margin and maintenance requirements are different. Product rules determine the reference price, threshold, reduction process and deficit treatment. Reaching a boundary does not promise an instantaneous fill at that price.",
+        "Correct choice: The required equity support for keeping a position open; breaching the applicable boundary can trigger liquidation under the venue rules.\n\nInitial margin and maintenance requirements are different. Product rules determine the reference price, threshold, reduction process and deficit treatment. Reaching a boundary does not promise an instantaneous fill at that price.",
       type: "single-choice",
       choices: [
         {
@@ -214,7 +214,7 @@ export const cryptoRiskPortfoliosQuizV1: AssessmentDefinition = {
       prompt:
         "Tomás holds a 10× leveraged long for several weeks. The price has not moved, yet the liquidation price shown by his exchange has crept closer to the current price. What is the most likely reason?",
       explanation:
-        "Correct choice  D. Trading fees and funding payments have been taken from his margin, shrinking his cushion.\n\nCosts come out of margin, so the adverse move needed to reach maintenance margin gets smaller over time. B is tempting if you have watched liquidation prices change, but the change follows from the arithmetic of margin minus costs, not from sentiment.",
+        "Correct choice: Trading fees and funding payments have been taken from his margin, shrinking his cushion.\n\nCosts come out of margin, so the adverse move needed to reach maintenance margin gets smaller over time. The answer “Liquidation prices move randomly with market sentiment” is tempting if you have watched liquidation prices change, but the change follows from the arithmetic of margin minus costs, not from sentiment.",
       type: "single-choice",
       choices: [
         {
@@ -243,7 +243,7 @@ export const cryptoRiskPortfoliosQuizV1: AssessmentDefinition = {
       prompt:
         "Aditi has USD 5,000 in a derivatives account. Which statement correctly describes a possible cross-margin arrangement?",
       explanation:
-        "Correct choice  A. Eligible shared balances can support a position, but losses can affect those balances and other positions using them.\n\nRead asset eligibility, collateral haircuts, automatic settings and deficit rules. Shared support can provide a larger cushion than a smaller isolated allocation while increasing dependencies. It is not a universal promise that every account asset is usable or that losses end at one displayed amount.",
+        "Correct choice: Eligible shared balances can support a position, but losses can affect those balances and other positions using them.\n\nRead asset eligibility, collateral haircuts, automatic settings and deficit rules. Shared support can provide a larger cushion than a smaller isolated allocation while increasing dependencies. It is not a universal promise that every account asset is usable or that losses end at one displayed amount.",
       type: "single-choice",
       choices: [
         {
@@ -272,7 +272,7 @@ export const cryptoRiskPortfoliosQuizV1: AssessmentDefinition = {
       prompt:
         "Pedro in Curitiba buys an invented coin three times: R$300 at R$30, R$300 at R$20 and R$300 at R$60 (no fees). What is his average cost per unit?",
       explanation:
-        "Correct choice  D. R$30.00\n\nHe buys 10 + 15 + 5 = 30 units for R$900, so his average cost is 900 ÷ 30 = R$30. A is the simple average of the three prices, which is higher because DCA buys more units when the price is low.",
+        "Correct choice: R$30.00\n\nHe buys 10 + 15 + 5 = 30 units for R$900, so his average cost is 900 ÷ 30 = R$30. The answer “R$36.67” is the simple average of the three prices, which is higher because DCA buys more units when the price is low.",
       type: "single-choice",
       choices: [
         {
@@ -299,7 +299,7 @@ export const cryptoRiskPortfoliosQuizV1: AssessmentDefinition = {
       prompt:
         "Faisal wrote an exit plan before buying a token. Which line is an example of a thesis-invalidation exit?",
       explanation:
-        "Correct choice  B. If independently verified project abandonment invalidates my thesis, I follow the documented exit procedure and record execution limits.\n\nA thesis-invalidation rule names evidence that challenges the original reason for holding. The decision to attempt an exit and the ability to execute it at a particular price are separate. Profit-taking answers a different question.",
+        "Correct choice: If independently verified project abandonment invalidates my thesis, I follow the documented exit procedure and record execution limits.\n\nA thesis-invalidation rule names evidence that challenges the original reason for holding. The decision to attempt an exit and the ability to execute it at a particular price are separate. Profit-taking answers a different question.",
       type: "single-choice",
       choices: [
         {
@@ -327,7 +327,7 @@ export const cryptoRiskPortfoliosQuizV1: AssessmentDefinition = {
       prompt:
         "Olivia moves 0.5 ETH from an exchange to her own hardware wallet, paying the network fee in ETH. What should she record?",
       explanation:
-        "Correct choice  D. The date and time, both addresses, the transaction ID, the amounts sent and received, and the fee with its value in her home currency.\n\nA full record shows it was her own transfer, and some authorities, such as the ATO, treat a fee paid from your crypto as a disposal. C is dangerous: records should never contain seed phrases or private keys.",
+        "Correct choice: The date and time, both addresses, the transaction ID, the amounts sent and received, and the fee with its value in her home currency.\n\nA full record shows it was her own transfer, and some authorities, such as the ATO, treat a fee paid from your crypto as a disposal. The answer “Her seed phrase, so the record proves she owns the wallet” is dangerous: records should never contain seed phrases or private keys.",
       type: "single-choice",
       choices: [
         {
@@ -356,7 +356,7 @@ export const cryptoRiskPortfoliosQuizV1: AssessmentDefinition = {
       prompt:
         "The 3.8-unit position exits at GBP 43 instead of 45. What is price loss before costs?",
       explanation:
-        "Correct choice  D. GBP 26.60\n\nA. GBP 19. That assumes the original planned exit.\n\nB. GBP 20 exactly. The budget cannot force the actual fill.\n\nC. GBP 7. That is per-unit distance, not total loss.\n\nD. GBP 26.60. 3.8 × (50 − 43) equals 26.60.",
+        "Correct choice: GBP 26.60\n\nGBP 19. That assumes the original planned exit.\n\nGBP 20 exactly. The budget cannot force the actual fill.\n\nGBP 7. That is per-unit distance, not total loss.\n\nGBP 26.60. 3.8 × (50 − 43) equals 26.60.",
       type: "single-choice",
       choices: [
         {
@@ -382,7 +382,7 @@ export const cryptoRiskPortfoliosQuizV1: AssessmentDefinition = {
       id: "crypto-risk-and-portfolios-13",
       prompt: "What is a key cross-margin dependency?",
       explanation:
-        "Correct choice  B. Eligible shared balances can support several positions\n\nA. Entry divided by leverage gives every liquidation exactly. Maintenance and other rules invalidate that shortcut.\n\nB. Eligible shared balances can support several positions. Losses can transmit across the shared account arrangement.\n\nC. Every position is completely isolated. That describes a different allocation model.\n\nD. Collateral prices never matter. Valuation and haircuts can affect margin.",
+        "Correct choice: Eligible shared balances can support several positions\n\nEntry divided by leverage gives every liquidation exactly. Maintenance and other rules invalidate that shortcut.\n\nEligible shared balances can support several positions. Losses can transmit across the shared account arrangement.\n\nEvery position is completely isolated. That describes a different allocation model.\n\nCollateral prices never matter. Valuation and haircuts can affect margin.",
       type: "single-choice",
       choices: [
         {
@@ -409,7 +409,7 @@ export const cryptoRiskPortfoliosQuizV1: AssessmentDefinition = {
       prompt:
         "Five tokens are held at one exchange. Which concentration clearly remains?",
       explanation:
-        "Correct choice  D. Custodian and withdrawal dependence\n\nA. No common risk. The provider is a shared dependency.\n\nB. Only denomination risk. Operational access is also concentrated.\n\nC. Guaranteed negative correlation. Holding location does not establish statistical relationships.\n\nD. Custodian and withdrawal dependence. Different asset names do not distribute provider access.",
+        "Correct choice: Custodian and withdrawal dependence\n\nNo common risk. The provider is a shared dependency.\n\nOnly denomination risk. Operational access is also concentrated.\n\nGuaranteed negative correlation. Holding location does not establish statistical relationships.\n\nCustodian and withdrawal dependence. Different asset names do not distribute provider access.",
       type: "single-choice",
       choices: [
         {
@@ -435,7 +435,7 @@ export const cryptoRiskPortfoliosQuizV1: AssessmentDefinition = {
       id: "crypto-risk-and-portfolios-15",
       prompt: "Which entry must be separated from market performance?",
       explanation:
-        "Correct choice  C. A new deposit from the owner\n\nA. A trading fee. It is a relevant performance cost.\n\nB. A realised sale result. It is part of the trading-result ledger under stated accounting.\n\nC. A new deposit from the owner. External cash flow can raise equity without a trading gain.\n\nD. A price change in an existing holding. That is relevant to valuation performance.",
+        "Correct choice: A new deposit from the owner\n\nA trading fee. It is a relevant performance cost.\n\nA realised sale result. It is part of the trading-result ledger under stated accounting.\n\nA new deposit from the owner. External cash flow can raise equity without a trading gain.\n\nA price change in an existing holding. That is relevant to valuation performance.",
       type: "single-choice",
       choices: [
         {

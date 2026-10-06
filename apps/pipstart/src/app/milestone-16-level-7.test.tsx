@@ -17,10 +17,10 @@ import { prepareLessonPageData } from "../lib/lesson-page-server-data";
 import { assertUniqueCurriculumIds } from "../lib/permanent-progress-catalogue";
 const titles = [
   "Read Charts and Describe Price Structure",
-  "Cycles Dominance and Market Context",
-  "Derivatives Funding Open Interest and Liquidations",
-  "On Chain Data Explorers and Measurement Limits",
-  "Sentiment Narratives and an Evidence Based Research Note",
+  "Cycles, Dominance and Market Context",
+  "Derivatives, Funding, Open Interest and Liquidations",
+  "On-Chain Data, Explorers and Measurement Limits",
+  "Sentiment, Narratives and an Evidence-Based Research Note",
 ];
 describe("Milestone 16 approved Crypto Level 7", () => {
   it("publishes five complete lessons with sequential prerequisites and all published routes", () => {
@@ -86,7 +86,7 @@ describe("Milestone 16 approved Crypto Level 7", () => {
         path: "crypto",
         lesson,
         lessons: cryptoLessons,
-        contextTitle: "Charts Market Context and Evidence",
+        contextTitle: "Charts, Market Context and Evidence",
         contextHref: "/learn/crypto/level-7/crypto-charts-and-evidence",
       });
       expect(data.registeredQuiz?.href).toBe("/learn/crypto/level-7/quiz");

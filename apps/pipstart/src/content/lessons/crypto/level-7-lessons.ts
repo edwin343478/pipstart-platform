@@ -32,33 +32,33 @@ const metadata1: LessonMetadata = {
   slug: "read-charts-and-describe-price-structure",
   sources: [
     {
-      title: "TradingView  Introduction to candlestick charts and patterns",
+      title: "TradingView: Introduction to candlestick charts and patterns",
       url: "https://www.tradingview.com/support/solutions/43000745269-introduction-to-candlestick-charts-and-patterns/",
     },
     {
-      title: "TradingView  Simple Moving Average",
+      title: "TradingView: Simple Moving Average",
       url: "https://www.tradingview.com/support/solutions/43000696841-simple-moving-average/",
     },
     {
-      title: "MIT OpenCourseWare  Blockchain and Money",
+      title: "MIT OpenCourseWare: Blockchain and Money",
       url: "https://ocw.mit.edu/courses/15-s12-blockchain-and-money-fall-2018/",
     },
     {
-      title: "Coinbase  Advanced trade order types",
+      title: "Coinbase: Advanced trade order types",
       url: "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/advanced-trade/order-types",
     },
     {
-      title: "CFTC  Understand the Risks of Virtual Currency Trading",
+      title: "CFTC: Understand the Risks of Virtual Currency Trading",
       url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
     },
     {
       title:
-        "IMF Blog  IMF Blog — Crypto Prices Move More in Sync With Stocks, Posing New Risks (11 January 2022)",
+        "IMF Blog: IMF Blog — Crypto Prices Move More in Sync With Stocks, Posing New Risks (11 January 2022)",
       url: "https://www.imf.org/en/blogs/articles/2022/01/11/crypto-prices-move-more-in-sync-with-stocks-posing-new-risks",
     },
     {
       title:
-        "US SEC  US SEC — Statement on the Approval of Spot Bitcoin Exchange-Traded Products",
+        "US SEC: US SEC — Statement on the Approval of Spot Bitcoin Exchange-Traded Products",
       url: "https://www.sec.gov/newsroom/speeches-statements/gensler-statement-spot-bitcoin-011023",
     },
   ],
@@ -194,13 +194,13 @@ const sections1: LessonSection[] = [
     ],
   },
   {
-    title: "Describe structure volume and indicators",
+    title: "Describe structure, volume and indicators",
     shortTitle: "Describe structure volume and indicators",
     blocks: [
       {
         type: "heading",
         level: 3,
-        children: "Trends ranges support and resistance",
+        children: "Trends, ranges, support and resistance",
       },
       {
         type: "paragraph",
@@ -263,7 +263,7 @@ const sections1: LessonSection[] = [
     ],
   },
   {
-    title: "Compare timeframes venues and scales",
+    title: "Compare timeframes, venues and scales",
     shortTitle: "Compare timeframes venues and scales",
     blocks: [
       {
@@ -350,7 +350,7 @@ const sections1: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -421,33 +421,33 @@ const sections1: LessonSection[] = [
         items: [
           {
             title:
-              "TradingView  Introduction to candlestick charts and patterns",
+              "TradingView: Introduction to candlestick charts and patterns",
             url: "https://www.tradingview.com/support/solutions/43000745269-introduction-to-candlestick-charts-and-patterns/",
           },
           {
-            title: "TradingView  Simple Moving Average",
+            title: "TradingView: Simple Moving Average",
             url: "https://www.tradingview.com/support/solutions/43000696841-simple-moving-average/",
           },
           {
-            title: "MIT OpenCourseWare  Blockchain and Money",
+            title: "MIT OpenCourseWare: Blockchain and Money",
             url: "https://ocw.mit.edu/courses/15-s12-blockchain-and-money-fall-2018/",
           },
           {
-            title: "Coinbase  Advanced trade order types",
+            title: "Coinbase: Advanced trade order types",
             url: "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/advanced-trade/order-types",
           },
           {
-            title: "CFTC  Understand the Risks of Virtual Currency Trading",
+            title: "CFTC: Understand the Risks of Virtual Currency Trading",
             url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
           },
           {
             title:
-              "IMF Blog  IMF Blog — Crypto Prices Move More in Sync With Stocks, Posing New Risks (11 January 2022)",
+              "IMF Blog: IMF Blog — Crypto Prices Move More in Sync With Stocks, Posing New Risks (11 January 2022)",
             url: "https://www.imf.org/en/blogs/articles/2022/01/11/crypto-prices-move-more-in-sync-with-stocks-posing-new-risks",
           },
           {
             title:
-              "US SEC  US SEC — Statement on the Approval of Spot Bitcoin Exchange-Traded Products",
+              "US SEC: US SEC — Statement on the Approval of Spot Bitcoin Exchange-Traded Products",
             url: "https://www.sec.gov/newsroom/speeches-statements/gensler-statement-spot-bitcoin-011023",
           },
         ],
@@ -482,38 +482,38 @@ const metadata2: LessonMetadata = {
   riskWarningRequired: true,
   seoDescription:
     "Use market-wide measures with explicit definitions rather than treating a narrative as a timetable.",
-  seoTitle: "Cycles Dominance and Market Context",
+  seoTitle: "Cycles, Dominance and Market Context",
   slug: "cycles-dominance-and-market-context",
   sources: [
     {
-      title: "MIT OpenCourseWare  Blockchain and Money",
+      title: "MIT OpenCourseWare: Blockchain and Money",
       url: "https://ocw.mit.edu/courses/15-s12-blockchain-and-money-fall-2018/",
     },
     {
-      title: "CFTC  Understand the Risks of Virtual Currency Trading",
+      title: "CFTC: Understand the Risks of Virtual Currency Trading",
       url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
     },
     {
-      title: "FINRA  Crypto Assets",
+      title: "FINRA: Crypto Assets",
       url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
     },
     {
       title:
-        "IMF Blog  IMF Blog — Crypto Prices Move More in Sync With Stocks, Posing New Risks (11 January 2022)",
+        "IMF Blog: IMF Blog — Crypto Prices Move More in Sync With Stocks, Posing New Risks (11 January 2022)",
       url: "https://www.imf.org/en/blogs/articles/2022/01/11/crypto-prices-move-more-in-sync-with-stocks-posing-new-risks",
     },
     {
       title:
-        "US SEC  US SEC — Statement on the Approval of Spot Bitcoin Exchange-Traded Products",
+        "US SEC: US SEC — Statement on the Approval of Spot Bitcoin Exchange-Traded Products",
       url: "https://www.sec.gov/newsroom/speeches-statements/gensler-statement-spot-bitcoin-011023",
     },
   ],
   status: "published",
-  title: "Cycles Dominance and Market Context",
+  title: "Cycles, Dominance and Market Context",
 };
 const sections2: LessonSection[] = [
   {
-    title: "Cycles dominance and the denominator",
+    title: "Cycles, dominance and the denominator",
     shortTitle: "Cycles dominance and the denominator",
     blocks: [
       {
@@ -696,13 +696,13 @@ const sections2: LessonSection[] = [
     ],
   },
   {
-    title: "Macro conditions flows and testable narratives",
+    title: "Macro conditions, flows and testable narratives",
     shortTitle: "Macro conditions flows and testable narratives",
     blocks: [
       {
         type: "heading",
         level: 3,
-        children: "Macro conditions exchange rates flows and events",
+        children: "Macro conditions, exchange rates, flows and events",
       },
       {
         type: "paragraph",
@@ -737,7 +737,7 @@ const sections2: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Follow the macro drivers rates the dollar and liquidity",
+        children: "Follow the macro drivers: rates, the dollar and liquidity",
       },
       {
         type: "paragraph",
@@ -834,7 +834,7 @@ const sections2: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -906,25 +906,25 @@ const sections2: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "MIT OpenCourseWare  Blockchain and Money",
+            title: "MIT OpenCourseWare: Blockchain and Money",
             url: "https://ocw.mit.edu/courses/15-s12-blockchain-and-money-fall-2018/",
           },
           {
-            title: "CFTC  Understand the Risks of Virtual Currency Trading",
+            title: "CFTC: Understand the Risks of Virtual Currency Trading",
             url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
           },
           {
-            title: "FINRA  Crypto Assets",
+            title: "FINRA: Crypto Assets",
             url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
           },
           {
             title:
-              "IMF Blog  IMF Blog — Crypto Prices Move More in Sync With Stocks, Posing New Risks (11 January 2022)",
+              "IMF Blog: IMF Blog — Crypto Prices Move More in Sync With Stocks, Posing New Risks (11 January 2022)",
             url: "https://www.imf.org/en/blogs/articles/2022/01/11/crypto-prices-move-more-in-sync-with-stocks-posing-new-risks",
           },
           {
             title:
-              "US SEC  US SEC — Statement on the Approval of Spot Bitcoin Exchange-Traded Products",
+              "US SEC: US SEC — Statement on the Approval of Spot Bitcoin Exchange-Traded Products",
             url: "https://www.sec.gov/newsroom/speeches-statements/gensler-statement-spot-bitcoin-011023",
           },
         ],
@@ -959,41 +959,41 @@ const metadata3: LessonMetadata = {
   riskWarningRequired: true,
   seoDescription:
     "Distinguish derivative measurements and explain why they do not establish a certain direction.",
-  seoTitle: "Derivatives Funding Open Interest and Liquidations",
+  seoTitle: "Derivatives, Funding, Open Interest and Liquidations",
   slug: "derivatives-funding-open-interest-and-liquidations",
   sources: [
     {
-      title: "CME Group  Introduction to Options",
+      title: "CME Group: Introduction to Options",
       url: "https://www.cmegroup.com/education/courses/introduction-to-options/introduction-to-options",
     },
     {
       title:
-        "Kraken  Managing margin and liquidations in multi collateral trading",
+        "Kraken: Managing margin and liquidations in multi collateral trading",
       url: "https://support.kraken.com/gb/articles/4844463246100-margining-liquidations-multi-collateral-derivatives",
     },
     {
-      title: "Coinbase  What is the funding rate",
+      title: "Coinbase: What is the funding rate",
       url: "https://help.coinbase.com/en/international-exchange/funding/what-is-the-funding-rate",
     },
     {
-      title: "CME Group  Open Interest",
+      title: "CME Group: Open Interest",
       url: "https://www.cmegroup.com/education/courses/introduction-to-futures/open-interest",
     },
     {
-      title: "CFTC  Understand the Risks of Virtual Currency Trading",
+      title: "CFTC: Understand the Risks of Virtual Currency Trading",
       url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
     },
     {
-      title: "FINRA  Crypto Assets",
+      title: "FINRA: Crypto Assets",
       url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
     },
   ],
   status: "published",
-  title: "Derivatives Funding Open Interest and Liquidations",
+  title: "Derivatives, Funding, Open Interest and Liquidations",
 };
 const sections3: LessonSection[] = [
   {
-    title: "Derivative types prices and basis",
+    title: "Derivative types, prices and basis",
     shortTitle: "Derivative types prices and basis",
     blocks: [
       {
@@ -1021,7 +1021,7 @@ const sections3: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Dated futures perpetuals and options",
+        children: "Dated futures, perpetuals and options",
       },
       {
         type: "paragraph",
@@ -1041,7 +1041,7 @@ const sections3: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Last index mark and futures basis",
+        children: "Last, index, mark and futures basis",
       },
       {
         type: "paragraph",
@@ -1089,7 +1089,7 @@ const sections3: LessonSection[] = [
     ],
   },
   {
-    title: "Funding direction payments and intervals",
+    title: "Funding direction, payments and intervals",
     shortTitle: "Funding direction payments and intervals",
     blocks: [
       {
@@ -1261,13 +1261,13 @@ const sections3: LessonSection[] = [
     ],
   },
   {
-    title: "Open interest ratios and liquidation cascades",
+    title: "Open interest, ratios and liquidation cascades",
     shortTitle: "Open interest ratios and liquidation cascades",
     blocks: [
       {
         type: "heading",
         level: 3,
-        children: "Open interest volume and long short ratios",
+        children: "Open interest, volume and long-short ratios",
       },
       {
         type: "heading",
@@ -1369,7 +1369,7 @@ const sections3: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Liquidations cascades and estimated heatmaps",
+        children: "Liquidations, cascades and estimated heatmaps",
       },
       {
         type: "paragraph",
@@ -1476,7 +1476,7 @@ const sections3: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -1548,28 +1548,28 @@ const sections3: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "CME Group  Introduction to Options",
+            title: "CME Group: Introduction to Options",
             url: "https://www.cmegroup.com/education/courses/introduction-to-options/introduction-to-options",
           },
           {
             title:
-              "Kraken  Managing margin and liquidations in multi collateral trading",
+              "Kraken: Managing margin and liquidations in multi collateral trading",
             url: "https://support.kraken.com/gb/articles/4844463246100-margining-liquidations-multi-collateral-derivatives",
           },
           {
-            title: "Coinbase  What is the funding rate",
+            title: "Coinbase: What is the funding rate",
             url: "https://help.coinbase.com/en/international-exchange/funding/what-is-the-funding-rate",
           },
           {
-            title: "CME Group  Open Interest",
+            title: "CME Group: Open Interest",
             url: "https://www.cmegroup.com/education/courses/introduction-to-futures/open-interest",
           },
           {
-            title: "CFTC  Understand the Risks of Virtual Currency Trading",
+            title: "CFTC: Understand the Risks of Virtual Currency Trading",
             url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
           },
           {
-            title: "FINRA  Crypto Assets",
+            title: "FINRA: Crypto Assets",
             url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
           },
         ],
@@ -1601,51 +1601,51 @@ const metadata4: LessonMetadata = {
   riskWarningRequired: true,
   seoDescription:
     "Interpret a metric using its method, coverage and timestamp.",
-  seoTitle: "On Chain Data Explorers and Measurement Limits",
+  seoTitle: "On-Chain Data, Explorers and Measurement Limits",
   slug: "on-chain-data-explorers-and-measurement-limits",
   sources: [
     {
-      title: "Glassnode  Entities metric definitions",
+      title: "Glassnode: Entities metric definitions",
       url: "https://docs.glassnode.com/basic-api/endpoints/entities",
     },
     {
-      title: "Glassnode  Addresses metric definitions",
+      title: "Glassnode: Addresses metric definitions",
       url: "https://docs.glassnode.com/basic-api/endpoints/addresses",
     },
     {
-      title: "Glassnode  Exchange Data Transparency Notice",
+      title: "Glassnode: Exchange Data Transparency Notice",
       url: "https://docs.glassnode.com/further-information/exchange-data-transparency-notice",
     },
     {
-      title: "Bitcoin community  Bitcoin Developer Guide Transactions",
+      title: "Bitcoin community: Bitcoin Developer Guide Transactions",
       url: "https://developer.bitcoin.org/devguide/transactions.html",
     },
     {
-      title: "Ethereum  Transactions",
+      title: "Ethereum: Transactions",
       url: "https://ethereum.org/developers/docs/transactions/",
     },
     {
       title:
-        "Coin Metrics  Coin Metrics — Active Addresses (network data documentation)",
+        "Coin Metrics: Coin Metrics — Active Addresses (network data documentation)",
       url: "https://gitbook-docs.coinmetrics.io/network-data/network-data-overview/addresses/active-addresses",
     },
     {
       title:
-        "Coin Metrics  Coin Metrics — Active Wallets (network data documentation)",
+        "Coin Metrics: Coin Metrics — Active Wallets (network data documentation)",
       url: "https://gitbook-docs.coinmetrics.io/network-data/network-data-overview/wallets/active-wallets",
     },
     {
       title:
-        "Glassnode  Glassnode — Bitcoin On-Chain Exchange Metrics: The Good, The Bad, The Ugly (2021, updated 2025)",
+        "Glassnode: Glassnode — Bitcoin On-Chain Exchange Metrics: The Good, The Bad, The Ugly (2021, updated 2025)",
       url: "https://research.glassnode.com/exchange-metrics/",
     },
   ],
   status: "published",
-  title: "On Chain Data Explorers and Measurement Limits",
+  title: "On-Chain Data, Explorers and Measurement Limits",
 };
 const sections4: LessonSection[] = [
   {
-    title: "Addresses people and exchange transfers",
+    title: "Addresses, people and exchange transfers",
     shortTitle: "Addresses people and exchange transfers",
     blocks: [
       {
@@ -1673,7 +1673,7 @@ const sections4: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Addresses transactions and people",
+        children: "Addresses, transactions and people",
       },
       {
         type: "heading",
@@ -1810,7 +1810,7 @@ const sections4: LessonSection[] = [
     ],
   },
   {
-    title: "Transfer value valuation and stablecoin supply",
+    title: "Transfer value, valuation and stablecoin supply",
     shortTitle: "Transfer value valuation and stablecoin supply",
     blocks: [
       {
@@ -1918,13 +1918,13 @@ const sections4: LessonSection[] = [
     ],
   },
   {
-    title: "Methodology timestamps and bounded conclusions",
+    title: "Methodology, timestamps and bounded conclusions",
     shortTitle: "Methodology timestamps and bounded conclusions",
     blocks: [
       {
         type: "heading",
         level: 3,
-        children: "Timestamps revised history and methodology",
+        children: "Timestamps, revised history and methodology",
       },
       {
         type: "paragraph",
@@ -1980,7 +1980,7 @@ const sections4: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -2052,38 +2052,38 @@ const sections4: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "Glassnode  Entities metric definitions",
+            title: "Glassnode: Entities metric definitions",
             url: "https://docs.glassnode.com/basic-api/endpoints/entities",
           },
           {
-            title: "Glassnode  Addresses metric definitions",
+            title: "Glassnode: Addresses metric definitions",
             url: "https://docs.glassnode.com/basic-api/endpoints/addresses",
           },
           {
-            title: "Glassnode  Exchange Data Transparency Notice",
+            title: "Glassnode: Exchange Data Transparency Notice",
             url: "https://docs.glassnode.com/further-information/exchange-data-transparency-notice",
           },
           {
-            title: "Bitcoin community  Bitcoin Developer Guide Transactions",
+            title: "Bitcoin community: Bitcoin Developer Guide Transactions",
             url: "https://developer.bitcoin.org/devguide/transactions.html",
           },
           {
-            title: "Ethereum  Transactions",
+            title: "Ethereum: Transactions",
             url: "https://ethereum.org/developers/docs/transactions/",
           },
           {
             title:
-              "Coin Metrics  Coin Metrics — Active Addresses (network data documentation)",
+              "Coin Metrics: Coin Metrics — Active Addresses (network data documentation)",
             url: "https://gitbook-docs.coinmetrics.io/network-data/network-data-overview/addresses/active-addresses",
           },
           {
             title:
-              "Coin Metrics  Coin Metrics — Active Wallets (network data documentation)",
+              "Coin Metrics: Coin Metrics — Active Wallets (network data documentation)",
             url: "https://gitbook-docs.coinmetrics.io/network-data/network-data-overview/wallets/active-wallets",
           },
           {
             title:
-              "Glassnode  Glassnode — Bitcoin On-Chain Exchange Metrics: The Good, The Bad, The Ugly (2021, updated 2025)",
+              "Glassnode: Glassnode — Bitcoin On-Chain Exchange Metrics: The Good, The Bad, The Ugly (2021, updated 2025)",
             url: "https://research.glassnode.com/exchange-metrics/",
           },
         ],
@@ -2115,64 +2115,64 @@ const metadata5: LessonMetadata = {
   riskWarningRequired: true,
   seoDescription:
     "Combine information while keeping observation separate from speculation.",
-  seoTitle: "Sentiment Narratives and an Evidence Based Research Note",
+  seoTitle: "Sentiment, Narratives and an Evidence-Based Research Note",
   slug: "sentiment-narratives-and-an-evidence-based-research-note",
   sources: [
     {
-      title: "CFTC  Beware Virtual Currency Pump and Dump Schemes",
+      title: "CFTC: Beware Virtual Currency Pump and Dump Schemes",
       url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/beware_virtual_currency_pump_dump.html",
     },
     {
-      title: "FCA  Investing in crypto",
+      title: "FCA: Investing in crypto",
       url: "https://www.fca.org.uk/investsmart/investing-crypto",
     },
     {
-      title: "MIT OpenCourseWare  Blockchain and Money",
+      title: "MIT OpenCourseWare: Blockchain and Money",
       url: "https://ocw.mit.edu/courses/15-s12-blockchain-and-money-fall-2018/",
     },
     {
-      title: "CFTC  Understand the Risks of Virtual Currency Trading",
+      title: "CFTC: Understand the Risks of Virtual Currency Trading",
       url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
     },
     {
-      title: "Glassnode  Entities metric definitions",
+      title: "Glassnode: Entities metric definitions",
       url: "https://docs.glassnode.com/basic-api/endpoints/entities",
     },
     {
-      title: "Glassnode  Exchange Data Transparency Notice",
+      title: "Glassnode: Exchange Data Transparency Notice",
       url: "https://docs.glassnode.com/further-information/exchange-data-transparency-notice",
     },
     {
       title:
-        "Coin Metrics  Coin Metrics — Active Addresses (network data documentation)",
+        "Coin Metrics: Coin Metrics — Active Addresses (network data documentation)",
       url: "https://gitbook-docs.coinmetrics.io/network-data/network-data-overview/addresses/active-addresses",
     },
     {
       title:
-        "Coin Metrics  Coin Metrics — Active Wallets (network data documentation)",
+        "Coin Metrics: Coin Metrics — Active Wallets (network data documentation)",
       url: "https://gitbook-docs.coinmetrics.io/network-data/network-data-overview/wallets/active-wallets",
     },
     {
       title:
-        "Glassnode  Glassnode — Bitcoin On-Chain Exchange Metrics: The Good, The Bad, The Ugly (2021, updated 2025)",
+        "Glassnode: Glassnode — Bitcoin On-Chain Exchange Metrics: The Good, The Bad, The Ugly (2021, updated 2025)",
       url: "https://research.glassnode.com/exchange-metrics/",
     },
     {
       title:
-        "Alternative.me  Crypto Fear and Greed Index: published methodology",
+        "Alternative.me: Crypto Fear and Greed Index: published methodology",
       url: "https://alternative.me/crypto/fear-and-greed-index/",
     },
     {
-      title: "Google Trends Help  FAQ about Google Trends data",
+      title: "Google Trends Help: FAQ about Google Trends data",
       url: "https://support.google.com/trends/answer/4365533?hl=en",
     },
   ],
   status: "published",
-  title: "Sentiment Narratives and an Evidence Based Research Note",
+  title: "Sentiment, Narratives and an Evidence-Based Research Note",
 };
 const sections5: LessonSection[] = [
   {
-    title: "Sentiment measures claims and incentives",
+    title: "Sentiment measures, claims and incentives",
     shortTitle: "Sentiment measures claims and incentives",
     blocks: [
       {
@@ -2304,14 +2304,14 @@ const sections5: LessonSection[] = [
     ],
   },
   {
-    title: "Label evidence test alternatives and write a research note",
+    title: "Label evidence, test alternatives and write a research note",
     shortTitle: "Label evidence test alternatives and write a research note",
     blocks: [
       {
         type: "heading",
         level: 3,
         children:
-          "Separate facts calculations estimates hypotheses and forecasts",
+          "Separate facts, calculations, estimates, hypotheses and forecasts",
       },
       {
         type: "paragraph",
@@ -2413,7 +2413,7 @@ const sections5: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -2485,51 +2485,51 @@ const sections5: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "CFTC  Beware Virtual Currency Pump and Dump Schemes",
+            title: "CFTC: Beware Virtual Currency Pump and Dump Schemes",
             url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/beware_virtual_currency_pump_dump.html",
           },
           {
-            title: "FCA  Investing in crypto",
+            title: "FCA: Investing in crypto",
             url: "https://www.fca.org.uk/investsmart/investing-crypto",
           },
           {
-            title: "MIT OpenCourseWare  Blockchain and Money",
+            title: "MIT OpenCourseWare: Blockchain and Money",
             url: "https://ocw.mit.edu/courses/15-s12-blockchain-and-money-fall-2018/",
           },
           {
-            title: "CFTC  Understand the Risks of Virtual Currency Trading",
+            title: "CFTC: Understand the Risks of Virtual Currency Trading",
             url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
           },
           {
-            title: "Glassnode  Entities metric definitions",
+            title: "Glassnode: Entities metric definitions",
             url: "https://docs.glassnode.com/basic-api/endpoints/entities",
           },
           {
-            title: "Glassnode  Exchange Data Transparency Notice",
+            title: "Glassnode: Exchange Data Transparency Notice",
             url: "https://docs.glassnode.com/further-information/exchange-data-transparency-notice",
           },
           {
             title:
-              "Coin Metrics  Coin Metrics — Active Addresses (network data documentation)",
+              "Coin Metrics: Coin Metrics — Active Addresses (network data documentation)",
             url: "https://gitbook-docs.coinmetrics.io/network-data/network-data-overview/addresses/active-addresses",
           },
           {
             title:
-              "Coin Metrics  Coin Metrics — Active Wallets (network data documentation)",
+              "Coin Metrics: Coin Metrics — Active Wallets (network data documentation)",
             url: "https://gitbook-docs.coinmetrics.io/network-data/network-data-overview/wallets/active-wallets",
           },
           {
             title:
-              "Glassnode  Glassnode — Bitcoin On-Chain Exchange Metrics: The Good, The Bad, The Ugly (2021, updated 2025)",
+              "Glassnode: Glassnode — Bitcoin On-Chain Exchange Metrics: The Good, The Bad, The Ugly (2021, updated 2025)",
             url: "https://research.glassnode.com/exchange-metrics/",
           },
           {
             title:
-              "Alternative.me  Crypto Fear and Greed Index: published methodology",
+              "Alternative.me: Crypto Fear and Greed Index: published methodology",
             url: "https://alternative.me/crypto/fear-and-greed-index/",
           },
           {
-            title: "Google Trends Help  FAQ about Google Trends data",
+            title: "Google Trends Help: FAQ about Google Trends data",
             url: "https://support.google.com/trends/answer/4365533?hl=en",
           },
         ],

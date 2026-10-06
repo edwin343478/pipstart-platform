@@ -163,7 +163,7 @@ for (const width of [1440, 390]) {
         page.getByRole("checkbox", { name: "Show all sections at once" }),
       ).not.toBeChecked();
     }
-    await choose("Cycles Dominance and Market Context");
+    await choose("Cycles, Dominance and Market Context");
     await page.getByRole("tab").nth(2).click();
     await choose("Read Charts and Describe Price Structure");
     await page.getByRole("tab").last().click();
@@ -234,7 +234,7 @@ test("Level 7 grades all fifteen approved answers on the server and reveals expl
   await expect(page.getByText("Passed", { exact: true }).first()).toBeVisible();
   await expect(
     page.getByText(
-      'Crypto never closes, so a "daily close" is a charting convention set by a cut-off time, often 00:00 UTC, and changing it reshapes the daily candles. B is tempting, but crypto trades 24 hours a day, 7 days a week, so there is no nightly closure.',
+      'Crypto never closes, so a "daily close" is a charting convention set by a cut-off time, often 00:00 UTC, and changing it reshapes the daily candles. The answer “Crypto exchanges close for a few hours each night, and the gap is handled differently” is tempting, but crypto trades 24 hours a day, 7 days a week, so there is no nightly closure.',
       { exact: false },
     ),
   ).toBeVisible();
@@ -245,7 +245,7 @@ test("the curriculum opens Level 7 and both hierarchy pages expose all five less
 }) => {
   await page.goto("/learn/crypto");
   const entry = page.getByRole("link", {
-    name: "Start Level 7: Charts Market Context and Evidence",
+    name: "Start Level 7: Charts, Market Context and Evidence",
     exact: true,
   });
   await expect(entry).toBeVisible();

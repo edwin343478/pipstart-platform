@@ -165,12 +165,12 @@ for (const width of [1440, 390]) {
     }
     await choose("Liquidity Provision and Impermanent Loss");
     await page.getByRole("tab").nth(2).click();
-    await choose("Decentralised Exchanges Pools and Swaps");
+    await choose("Decentralised Exchanges, Pools and Swaps");
     await page.getByRole("tab").last().click();
     await expect(
       page.getByRole("tabpanel").getByRole("checkbox").first(),
     ).toBeChecked();
-    await choose("Decentralised Exchanges Pools and Swaps");
+    await choose("Decentralised Exchanges, Pools and Swaps");
   });
 }
 
@@ -234,7 +234,7 @@ test("Level 6 grades all fifteen approved answers on the server and reveals expl
   await expect(page.getByText("Passed", { exact: true }).first()).toBeVisible();
   await expect(
     page.getByText(
-      "k = 200 × 400,000 = 80,000,000; after the swap the pool holds 210 ETH, so USDC = 80,000,000 ÷ 210 = 380,952.38, and Ravi receives 400,000 − 380,952.38 = 19,047.62. Option A uses the starting price of 2,000 and ignores the price impact of his own trade.",
+      "k = 200 × 400,000 = 80,000,000; after the swap the pool holds 210 ETH, so USDC = 80,000,000 ÷ 210 = 380,952.38, and Ravi receives 400,000 − 380,952.38 = 19,047.62. The answer “20,000.00 USDC” uses the starting price of 2,000 and ignores the price impact of his own trade.",
       { exact: false },
     ),
   ).toBeVisible();
@@ -245,7 +245,7 @@ test("the curriculum opens Level 6 and both hierarchy pages expose all five less
 }) => {
   await page.goto("/learn/crypto");
   const entry = page.getByRole("link", {
-    name: "Start Level 6: DeFi Liquidity Lending and Rewards",
+    name: "Start Level 6: DeFi: Liquidity, Lending and Rewards",
     exact: true,
   });
   await expect(entry).toBeVisible();
@@ -253,7 +253,7 @@ test("the curriculum opens Level 6 and both hierarchy pages expose all five less
   await entry.click();
   await expect(
     page.getByRole("heading", {
-      name: "Decentralised Exchanges Pools and Swaps",
+      name: "Decentralised Exchanges, Pools and Swaps",
       exact: true,
     }),
   ).toBeVisible();

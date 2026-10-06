@@ -28,84 +28,84 @@ const metadata1: LessonMetadata = {
   riskWarningRequired: true,
   seoDescription:
     "Compare network trust assumptions and trace linked failure risks.",
-  seoTitle: "Consensus Network Security and Cross Chain Dependencies",
+  seoTitle: "Consensus, Network Security and Cross-Chain Dependencies",
   slug: "crypto-consensus-network-security-and-cross-chain-dependencies",
   sources: [
     {
-      title: "NIST  Blockchain Technology Overview NISTIR 8202",
+      title: "NIST: Blockchain Technology Overview NISTIR 8202",
       url: "https://csrc.nist.gov/pubs/ir/8202/final",
     },
     {
-      title: "Bitcoin community  Bitcoin Developer Guide Block Chain",
+      title: "Bitcoin community: Bitcoin Developer Guide Block Chain",
       url: "https://developer.bitcoin.org/devguide/block_chain.html",
     },
     {
-      title: "Ethereum  Proof of stake",
+      title: "Ethereum: Proof of stake",
       url: "https://ethereum.org/developers/docs/consensus-mechanisms/pos/",
     },
     {
-      title: "Bitcoin community  Bitcoin A Peer to Peer Electronic Cash System",
+      title: "Bitcoin community: Bitcoin A Peer to Peer Electronic Cash System",
       url: "https://bitcoin.org/bitcoin.pdf",
     },
     {
-      title: "Bitcoin community  Bitcoin Core Validation",
+      title: "Bitcoin community: Bitcoin Core Validation",
       url: "https://bitcoin.org/en/bitcoin-core/features/validation",
     },
     {
-      title: "Ethereum  Layer 2",
+      title: "Ethereum: Layer 2",
       url: "https://ethereum.org/layer-2/",
     },
     {
-      title: "Ethereum  Introduction to blockchain bridges",
+      title: "Ethereum: Introduction to blockchain bridges",
       url: "https://ethereum.org/bridges/",
     },
     {
-      title: "Ethereum  How to bridge tokens to layer 2",
+      title: "Ethereum: How to bridge tokens to layer 2",
       url: "https://ethereum.org/guides/how-to-use-a-bridge/",
     },
     {
-      title: "Ethereum  Pooled staking",
+      title: "Ethereum: Pooled staking",
       url: "https://ethereum.org/staking/pools/",
     },
     {
-      title: "Ethereum  Restaking",
+      title: "Ethereum: Restaking",
       url: "https://ethereum.org/restaking/",
     },
     {
-      title: "Bitcoin Developer Guide  Bitcoin Developer Guide — Mining",
+      title: "Bitcoin Developer Guide: Bitcoin Developer Guide — Mining",
       url: "https://developer.bitcoin.org/devguide/mining.html",
     },
     {
-      title: "ethereum.org  ethereum.org — Proof-of-stake (PoS)",
+      title: "ethereum.org: ethereum.org — Proof-of-stake (PoS)",
       url: "https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/",
     },
     {
-      title: "ethereum.org  ethereum.org — Client diversity",
+      title: "ethereum.org: ethereum.org — Client diversity",
       url: "https://ethereum.org/en/developers/docs/nodes-and-clients/client-diversity/",
     },
     {
-      title: "ethereum.org  ethereum.org — Introduction to Ethereum governance",
+      title: "ethereum.org: ethereum.org — Introduction to Ethereum governance",
       url: "https://ethereum.org/en/governance/",
     },
     {
-      title: "ethereum.org  ethereum.org — Introduction to blockchain bridges",
+      title: "ethereum.org: ethereum.org — Introduction to blockchain bridges",
       url: "https://ethereum.org/en/developers/docs/bridges/",
     },
     {
-      title: "ethereum.org  ethereum.org — Oracles",
+      title: "ethereum.org: ethereum.org — Oracles",
       url: "https://ethereum.org/en/developers/docs/oracles/",
     },
     {
-      title: "ethereum.org  ethereum.org — Smart contract security",
+      title: "ethereum.org: ethereum.org — Smart contract security",
       url: "https://ethereum.org/en/developers/docs/smart-contracts/security/",
     },
   ],
   status: "published",
-  title: "Consensus Network Security and Cross Chain Dependencies",
+  title: "Consensus, Network Security and Cross-Chain Dependencies",
 };
 const sections1: LessonSection[] = [
   {
-    title: "Consensus assumptions finality and availability",
+    title: "Consensus assumptions, finality and availability",
     shortTitle: "Consensus assumptions finality and availability",
     blocks: [
       {
@@ -225,7 +225,7 @@ const sections1: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Safety liveness finality and availability",
+        children: "Safety, liveness, finality and availability",
       },
       {
         type: "paragraph",
@@ -366,7 +366,7 @@ const sections1: LessonSection[] = [
     ],
   },
   {
-    title: "Concentration forks and governance",
+    title: "Concentration, forks and governance",
     shortTitle: "Concentration forks and governance",
     blocks: [
       {
@@ -571,13 +571,13 @@ const sections1: LessonSection[] = [
     ],
   },
   {
-    title: "Cross-chain verification exits and reused stake",
+    title: "Cross-chain verification, exits and reused stake",
     shortTitle: "Cross-chain verification exits and reused stake",
     blocks: [
       {
         type: "heading",
         level: 3,
-        children: "Cross chain verification data and exit paths",
+        children: "Cross-chain verification, data and exit paths",
       },
       {
         type: "paragraph",
@@ -711,7 +711,7 @@ const sections1: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -783,74 +783,74 @@ const sections1: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "NIST  Blockchain Technology Overview NISTIR 8202",
+            title: "NIST: Blockchain Technology Overview NISTIR 8202",
             url: "https://csrc.nist.gov/pubs/ir/8202/final",
           },
           {
-            title: "Bitcoin community  Bitcoin Developer Guide Block Chain",
+            title: "Bitcoin community: Bitcoin Developer Guide Block Chain",
             url: "https://developer.bitcoin.org/devguide/block_chain.html",
           },
           {
-            title: "Ethereum  Proof of stake",
+            title: "Ethereum: Proof of stake",
             url: "https://ethereum.org/developers/docs/consensus-mechanisms/pos/",
           },
           {
             title:
-              "Bitcoin community  Bitcoin A Peer to Peer Electronic Cash System",
+              "Bitcoin community: Bitcoin A Peer to Peer Electronic Cash System",
             url: "https://bitcoin.org/bitcoin.pdf",
           },
           {
-            title: "Bitcoin community  Bitcoin Core Validation",
+            title: "Bitcoin community: Bitcoin Core Validation",
             url: "https://bitcoin.org/en/bitcoin-core/features/validation",
           },
           {
-            title: "Ethereum  Layer 2",
+            title: "Ethereum: Layer 2",
             url: "https://ethereum.org/layer-2/",
           },
           {
-            title: "Ethereum  Introduction to blockchain bridges",
+            title: "Ethereum: Introduction to blockchain bridges",
             url: "https://ethereum.org/bridges/",
           },
           {
-            title: "Ethereum  How to bridge tokens to layer 2",
+            title: "Ethereum: How to bridge tokens to layer 2",
             url: "https://ethereum.org/guides/how-to-use-a-bridge/",
           },
           {
-            title: "Ethereum  Pooled staking",
+            title: "Ethereum: Pooled staking",
             url: "https://ethereum.org/staking/pools/",
           },
           {
-            title: "Ethereum  Restaking",
+            title: "Ethereum: Restaking",
             url: "https://ethereum.org/restaking/",
           },
           {
-            title: "Bitcoin Developer Guide  Bitcoin Developer Guide — Mining",
+            title: "Bitcoin Developer Guide: Bitcoin Developer Guide — Mining",
             url: "https://developer.bitcoin.org/devguide/mining.html",
           },
           {
-            title: "ethereum.org  ethereum.org — Proof-of-stake (PoS)",
+            title: "ethereum.org: ethereum.org — Proof-of-stake (PoS)",
             url: "https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/",
           },
           {
-            title: "ethereum.org  ethereum.org — Client diversity",
+            title: "ethereum.org: ethereum.org — Client diversity",
             url: "https://ethereum.org/en/developers/docs/nodes-and-clients/client-diversity/",
           },
           {
             title:
-              "ethereum.org  ethereum.org — Introduction to Ethereum governance",
+              "ethereum.org: ethereum.org — Introduction to Ethereum governance",
             url: "https://ethereum.org/en/governance/",
           },
           {
             title:
-              "ethereum.org  ethereum.org — Introduction to blockchain bridges",
+              "ethereum.org: ethereum.org — Introduction to blockchain bridges",
             url: "https://ethereum.org/en/developers/docs/bridges/",
           },
           {
-            title: "ethereum.org  ethereum.org — Oracles",
+            title: "ethereum.org: ethereum.org — Oracles",
             url: "https://ethereum.org/en/developers/docs/oracles/",
           },
           {
-            title: "ethereum.org  ethereum.org — Smart contract security",
+            title: "ethereum.org: ethereum.org — Smart contract security",
             url: "https://ethereum.org/en/developers/docs/smart-contracts/security/",
           },
         ],
@@ -887,53 +887,53 @@ const metadata2: LessonMetadata = {
   riskWarningRequired: true,
   seoDescription:
     "Assess who can change a system and what a security report actually examines.",
-  seoTitle: "DAOs Governance Oracles and Audit Limits",
+  seoTitle: "DAOs, Governance, Oracles and Audit Limits",
   slug: "daos-governance-oracles-and-audit-limits",
   sources: [
     {
-      title: "Ethereum  Decentralised Autonomous Organisations",
+      title: "Ethereum: Decentralised Autonomous Organisations",
       url: "https://ethereum.org/dao/",
     },
     {
-      title: "Chainlink  What is a Blockchain Oracle",
+      title: "Chainlink: What is a Blockchain Oracle",
       url: "https://chain.link/education/blockchain-oracles",
     },
     {
-      title: "Ethereum  Ethereum security and scam prevention",
+      title: "Ethereum: Ethereum security and scam prevention",
       url: "https://ethereum.org/security/",
     },
     {
       title:
-        "PCAOB  Investor Bulletin on claims about PCAOB registration and oversight",
+        "PCAOB: Investor Bulletin on claims about PCAOB registration and oversight",
       url: "https://pcaobus.org/resources/information-for-investors/investor-advisories/investor-bulletin-comment-proposal-protect-investors-false-misleading-statements-pcaob-registration-oversight",
     },
     {
-      title: "ethereum.org  ethereum.org — Proof-of-stake (PoS)",
+      title: "ethereum.org: ethereum.org — Proof-of-stake (PoS)",
       url: "https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/",
     },
     {
-      title: "ethereum.org  ethereum.org — Client diversity",
+      title: "ethereum.org: ethereum.org — Client diversity",
       url: "https://ethereum.org/en/developers/docs/nodes-and-clients/client-diversity/",
     },
     {
-      title: "ethereum.org  ethereum.org — Introduction to Ethereum governance",
+      title: "ethereum.org: ethereum.org — Introduction to Ethereum governance",
       url: "https://ethereum.org/en/governance/",
     },
     {
-      title: "ethereum.org  ethereum.org — Introduction to blockchain bridges",
+      title: "ethereum.org: ethereum.org — Introduction to blockchain bridges",
       url: "https://ethereum.org/en/developers/docs/bridges/",
     },
     {
-      title: "ethereum.org  ethereum.org — Oracles",
+      title: "ethereum.org: ethereum.org — Oracles",
       url: "https://ethereum.org/en/developers/docs/oracles/",
     },
     {
-      title: "ethereum.org  ethereum.org — Smart contract security",
+      title: "ethereum.org: ethereum.org — Smart contract security",
       url: "https://ethereum.org/en/developers/docs/smart-contracts/security/",
     },
   ],
   status: "published",
-  title: "DAOs Governance Oracles and Audit Limits",
+  title: "DAOs, Governance, Oracles and Audit Limits",
 };
 const sections2: LessonSection[] = [
   {
@@ -1111,7 +1111,7 @@ const sections2: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Know what an audit promises and what it doesn t",
+        children: "Know what an audit promises and what it doesn't",
       },
       {
         type: "paragraph",
@@ -1252,7 +1252,7 @@ const sections2: LessonSection[] = [
     ],
   },
   {
-    title: "Privacy incidents and independent verification",
+    title: "Privacy, incidents and independent verification",
     shortTitle: "Privacy incidents and independent verification",
     blocks: [
       {
@@ -1402,7 +1402,7 @@ const sections2: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -1474,46 +1474,46 @@ const sections2: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "Ethereum  Decentralised Autonomous Organisations",
+            title: "Ethereum: Decentralised Autonomous Organisations",
             url: "https://ethereum.org/dao/",
           },
           {
-            title: "Chainlink  What is a Blockchain Oracle",
+            title: "Chainlink: What is a Blockchain Oracle",
             url: "https://chain.link/education/blockchain-oracles",
           },
           {
-            title: "Ethereum  Ethereum security and scam prevention",
+            title: "Ethereum: Ethereum security and scam prevention",
             url: "https://ethereum.org/security/",
           },
           {
             title:
-              "PCAOB  Investor Bulletin on claims about PCAOB registration and oversight",
+              "PCAOB: Investor Bulletin on claims about PCAOB registration and oversight",
             url: "https://pcaobus.org/resources/information-for-investors/investor-advisories/investor-bulletin-comment-proposal-protect-investors-false-misleading-statements-pcaob-registration-oversight",
           },
           {
-            title: "ethereum.org  ethereum.org — Proof-of-stake (PoS)",
+            title: "ethereum.org: ethereum.org — Proof-of-stake (PoS)",
             url: "https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/",
           },
           {
-            title: "ethereum.org  ethereum.org — Client diversity",
+            title: "ethereum.org: ethereum.org — Client diversity",
             url: "https://ethereum.org/en/developers/docs/nodes-and-clients/client-diversity/",
           },
           {
             title:
-              "ethereum.org  ethereum.org — Introduction to Ethereum governance",
+              "ethereum.org: ethereum.org — Introduction to Ethereum governance",
             url: "https://ethereum.org/en/governance/",
           },
           {
             title:
-              "ethereum.org  ethereum.org — Introduction to blockchain bridges",
+              "ethereum.org: ethereum.org — Introduction to blockchain bridges",
             url: "https://ethereum.org/en/developers/docs/bridges/",
           },
           {
-            title: "ethereum.org  ethereum.org — Oracles",
+            title: "ethereum.org: ethereum.org — Oracles",
             url: "https://ethereum.org/en/developers/docs/oracles/",
           },
           {
-            title: "ethereum.org  ethereum.org — Smart contract security",
+            title: "ethereum.org: ethereum.org — Smart contract security",
             url: "https://ethereum.org/en/developers/docs/smart-contracts/security/",
           },
         ],
@@ -1548,79 +1548,79 @@ const metadata3: LessonMetadata = {
   riskWarningRequired: true,
   seoDescription:
     "Compare asset exposure and product claims through rights, costs and current official evidence.",
-  seoTitle: "Valuation Regulation and Institutional Products",
+  seoTitle: "Valuation, Regulation and Institutional Products",
   slug: "crypto-valuation-regulation-and-institutional-products",
   sources: [
     {
       title:
-        "SEC Investor gov  Exchange Traded Products Providing Exposure to Bitcoin and Ether Investor Bulletin",
+        "SEC Investor.gov: Exchange Traded Products Providing Exposure to Bitcoin and Ether Investor Bulletin",
       url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/ETPBulletinSeptember2024",
     },
     {
       title:
-        "SEC Investor gov and CFTC  Funds Trading in Bitcoin Futures Investor Bulletin",
+        "SEC Investor.gov and CFTC: Funds Trading in Bitcoin Futures Investor Bulletin",
       url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/funds-trading-bitcoin-futures-investor-bulletin",
     },
     {
-      title: "Ethereum  Maximal extractable value",
+      title: "Ethereum: Maximal extractable value",
       url: "https://ethereum.org/developers/docs/mev/",
     },
     {
-      title: "FCA  Investing in crypto",
+      title: "FCA: Investing in crypto",
       url: "https://www.fca.org.uk/investsmart/investing-crypto",
     },
     {
       title:
-        "ESMA and the European Supervisory Authorities  Consumer warning on crypto assets and limited protection",
+        "ESMA and the European Supervisory Authorities: Consumer warning on crypto assets and limited protection",
       url: "https://www.esma.europa.eu/press-news/esma-news/eu-supervisory-authorities-warn-consumers-risks-and-limited-protection-certain",
     },
     {
       title:
-        "FATF  2026 targeted update on virtual assets and service providers",
+        "FATF: 2026 targeted update on virtual assets and service providers",
       url: "https://www.fatf-gafi.org/en/news/targeted-updated-va-vasps-2026.html",
     },
     {
-      title: "IRS  Digital assets",
+      title: "IRS: Digital assets",
       url: "https://www.irs.gov/filing/digital-assets",
     },
     {
       title:
-        "MIT OpenCourseWare  Blockchain and the Design of Financial Systems lecture notes",
+        "MIT OpenCourseWare: Blockchain and the Design of Financial Systems lecture notes",
       url: "https://ocw.mit.edu/courses/14-129-blockchain-and-the-design-of-financial-systems-spring-2025/pages/lecture-notes/",
     },
     {
       title:
-        "PCAOB  Investor Bulletin on claims about PCAOB registration and oversight",
+        "PCAOB: Investor Bulletin on claims about PCAOB registration and oversight",
       url: "https://pcaobus.org/resources/information-for-investors/investor-advisories/investor-bulletin-comment-proposal-protect-investors-false-misleading-statements-pcaob-registration-oversight",
     },
     {
-      title: "CFTC  Understand the Risks of Virtual Currency Trading",
+      title: "CFTC: Understand the Risks of Virtual Currency Trading",
       url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
     },
     {
-      title: "FINRA  Crypto Assets",
+      title: "FINRA: Crypto Assets",
       url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
     },
     {
       title:
-        "BIS  BIS — Annual Economic Report 2025, Chapter III: The next-generation monetary and financial system",
+        "BIS: BIS — Annual Economic Report 2025, Chapter III: The next-generation monetary and financial system",
       url: "https://www.bis.org/publ/arpdf/ar2025e3.htm",
     },
     {
-      title: "ESMA  ESMA — Markets in Crypto-Assets Regulation (MiCA)",
+      title: "ESMA: ESMA — Markets in Crypto-Assets Regulation (MiCA)",
       url: "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica",
     },
     {
-      title: "FCA  Qualifying retail crypto ETNs and continuing restrictions",
+      title: "FCA: Qualifying retail crypto ETNs and continuing restrictions",
       url: "https://www.fca.org.uk/news/statements/information-firms-offer-crypto-exchange-traded-notes",
     },
     {
-      title: "SEC  Crypto asset interpretation effective March 2026",
+      title: "SEC: Crypto asset interpretation effective March 2026",
       url: "https://www.sec.gov/rules-regulations/2026/03/s7-2026-09",
     },
   ],
   status: "published",
-  title: "Valuation Regulation and Institutional Products",
+  title: "Valuation, Regulation and Institutional Products",
 };
 const sections3: LessonSection[] = [
   {
@@ -1672,7 +1672,7 @@ const sections3: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Weigh network effects and Metcalfe s law",
+        children: "Weigh network effects and Metcalfe's law",
       },
       {
         type: "paragraph",
@@ -1800,7 +1800,7 @@ const sections3: LessonSection[] = [
     ],
   },
   {
-    title: "Custody product rights fees and tracking",
+    title: "Custody, product rights, fees and tracking",
     shortTitle: "Custody product rights fees and tracking",
     blocks: [
       {
@@ -1885,7 +1885,7 @@ const sections3: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Tracking fund fees rolling and market hours",
+        children: "Tracking, fund fees, rolling and market hours",
       },
       {
         type: "paragraph",
@@ -1953,7 +1953,7 @@ const sections3: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Tokenised assets CBDCs and stablecoins",
+        children: "Tokenised assets, CBDCs and stablecoins",
       },
       {
         type: "heading",
@@ -1984,7 +1984,7 @@ const sections3: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Compare CBDCs stablecoins and crypto",
+        children: "Compare CBDCs, stablecoins and crypto",
       },
       {
         type: "paragraph",
@@ -2041,7 +2041,7 @@ const sections3: LessonSection[] = [
     ],
   },
   {
-    title: "Verify jurisdiction product and effective date",
+    title: "Verify jurisdiction, product and effective date",
     shortTitle: "Verify jurisdiction product and effective date",
     blocks: [
       {
@@ -2072,7 +2072,7 @@ const sections3: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -2145,70 +2145,70 @@ const sections3: LessonSection[] = [
         items: [
           {
             title:
-              "SEC Investor gov  Exchange Traded Products Providing Exposure to Bitcoin and Ether Investor Bulletin",
+              "SEC Investor.gov: Exchange Traded Products Providing Exposure to Bitcoin and Ether Investor Bulletin",
             url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/ETPBulletinSeptember2024",
           },
           {
             title:
-              "SEC Investor gov and CFTC  Funds Trading in Bitcoin Futures Investor Bulletin",
+              "SEC Investor.gov and CFTC: Funds Trading in Bitcoin Futures Investor Bulletin",
             url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/funds-trading-bitcoin-futures-investor-bulletin",
           },
           {
-            title: "Ethereum  Maximal extractable value",
+            title: "Ethereum: Maximal extractable value",
             url: "https://ethereum.org/developers/docs/mev/",
           },
           {
-            title: "FCA  Investing in crypto",
+            title: "FCA: Investing in crypto",
             url: "https://www.fca.org.uk/investsmart/investing-crypto",
           },
           {
             title:
-              "ESMA and the European Supervisory Authorities  Consumer warning on crypto assets and limited protection",
+              "ESMA and the European Supervisory Authorities: Consumer warning on crypto assets and limited protection",
             url: "https://www.esma.europa.eu/press-news/esma-news/eu-supervisory-authorities-warn-consumers-risks-and-limited-protection-certain",
           },
           {
             title:
-              "FATF  2026 targeted update on virtual assets and service providers",
+              "FATF: 2026 targeted update on virtual assets and service providers",
             url: "https://www.fatf-gafi.org/en/news/targeted-updated-va-vasps-2026.html",
           },
           {
-            title: "IRS  Digital assets",
+            title: "IRS: Digital assets",
             url: "https://www.irs.gov/filing/digital-assets",
           },
           {
             title:
-              "MIT OpenCourseWare  Blockchain and the Design of Financial Systems lecture notes",
+              "MIT OpenCourseWare: Blockchain and the Design of Financial Systems lecture notes",
             url: "https://ocw.mit.edu/courses/14-129-blockchain-and-the-design-of-financial-systems-spring-2025/pages/lecture-notes/",
           },
           {
             title:
-              "PCAOB  Investor Bulletin on claims about PCAOB registration and oversight",
+              "PCAOB: Investor Bulletin on claims about PCAOB registration and oversight",
             url: "https://pcaobus.org/resources/information-for-investors/investor-advisories/investor-bulletin-comment-proposal-protect-investors-false-misleading-statements-pcaob-registration-oversight",
           },
           {
-            title: "CFTC  Understand the Risks of Virtual Currency Trading",
+            title: "CFTC: Understand the Risks of Virtual Currency Trading",
             url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
           },
           {
-            title: "FINRA  Crypto Assets",
+            title: "FINRA: Crypto Assets",
             url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
           },
           {
             title:
-              "BIS  BIS — Annual Economic Report 2025, Chapter III: The next-generation monetary and financial system",
+              "BIS: BIS — Annual Economic Report 2025, Chapter III: The next-generation monetary and financial system",
             url: "https://www.bis.org/publ/arpdf/ar2025e3.htm",
           },
           {
-            title: "ESMA  ESMA — Markets in Crypto-Assets Regulation (MiCA)",
+            title: "ESMA: ESMA — Markets in Crypto-Assets Regulation (MiCA)",
             url: "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica",
           },
           {
             title:
-              "FCA  Qualifying retail crypto ETNs and continuing restrictions",
+              "FCA: Qualifying retail crypto ETNs and continuing restrictions",
             url: "https://www.fca.org.uk/news/statements/information-firms-offer-crypto-exchange-traded-notes",
           },
           {
-            title: "SEC  Crypto asset interpretation effective March 2026",
+            title: "SEC: Crypto asset interpretation effective March 2026",
             url: "https://www.sec.gov/rules-regulations/2026/03/s7-2026-09",
           },
         ],
@@ -2244,47 +2244,47 @@ const metadata4: LessonMetadata = {
   slug: "complete-the-crypto-graduation-research-and-safety-review",
   sources: [
     {
-      title: "MIT OpenCourseWare  Blockchain and Money",
+      title: "MIT OpenCourseWare: Blockchain and Money",
       url: "https://ocw.mit.edu/courses/15-s12-blockchain-and-money-fall-2018/",
     },
     {
       title:
-        "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+        "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
       url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
     },
     {
-      title: "CFTC  Understand the Risks of Virtual Currency Trading",
+      title: "CFTC: Understand the Risks of Virtual Currency Trading",
       url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
     },
     {
-      title: "FCA  Investing in crypto",
+      title: "FCA: Investing in crypto",
       url: "https://www.fca.org.uk/investsmart/investing-crypto",
     },
     {
       title:
-        "ESMA and the European Supervisory Authorities  Consumer warning on crypto assets and limited protection",
+        "ESMA and the European Supervisory Authorities: Consumer warning on crypto assets and limited protection",
       url: "https://www.esma.europa.eu/press-news/esma-news/eu-supervisory-authorities-warn-consumers-risks-and-limited-protection-certain",
     },
     {
-      title: "Glassnode  Entities metric definitions",
+      title: "Glassnode: Entities metric definitions",
       url: "https://docs.glassnode.com/basic-api/endpoints/entities",
     },
     {
-      title: "Glassnode  Exchange Data Transparency Notice",
+      title: "Glassnode: Exchange Data Transparency Notice",
       url: "https://docs.glassnode.com/further-information/exchange-data-transparency-notice",
     },
     {
       title:
-        "BIS  BIS — Annual Economic Report 2025, Chapter III: The next-generation monetary and financial system",
+        "BIS: BIS — Annual Economic Report 2025, Chapter III: The next-generation monetary and financial system",
       url: "https://www.bis.org/publ/arpdf/ar2025e3.htm",
     },
     {
-      title: "ESMA  ESMA — Markets in Crypto-Assets Regulation (MiCA)",
+      title: "ESMA: ESMA — Markets in Crypto-Assets Regulation (MiCA)",
       url: "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica",
     },
     {
       title:
-        "SEC Investor gov  Exchange Traded Products Providing Exposure to Bitcoin and Ether Investor Bulletin",
+        "SEC Investor.gov: Exchange Traded Products Providing Exposure to Bitcoin and Ether Investor Bulletin",
       url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/ETPBulletinSeptember2024",
     },
   ],
@@ -2474,7 +2474,7 @@ const sections4: LessonSection[] = [
     ],
   },
   {
-    title: "Workbook security and backup plans",
+    title: "Workbook: security and backup plans",
     shortTitle: "Workbook security and backup plans",
     blocks: [
       {
@@ -2620,7 +2620,7 @@ const sections4: LessonSection[] = [
     ],
   },
   {
-    title: "Workbook token and provider research",
+    title: "Workbook: token and provider research",
     shortTitle: "Workbook token and provider research",
     blocks: [
       {
@@ -2755,7 +2755,7 @@ const sections4: LessonSection[] = [
     ],
   },
   {
-    title: "Workbook portfolio scam assessment and research report",
+    title: "Workbook: portfolio, scam assessment and research report",
     shortTitle: "Workbook portfolio scam assessment and research report",
     blocks: [
       {
@@ -3076,7 +3076,7 @@ const sections4: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -3148,47 +3148,47 @@ const sections4: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "MIT OpenCourseWare  Blockchain and Money",
+            title: "MIT OpenCourseWare: Blockchain and Money",
             url: "https://ocw.mit.edu/courses/15-s12-blockchain-and-money-fall-2018/",
           },
           {
             title:
-              "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+              "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
             url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
           },
           {
-            title: "CFTC  Understand the Risks of Virtual Currency Trading",
+            title: "CFTC: Understand the Risks of Virtual Currency Trading",
             url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
           },
           {
-            title: "FCA  Investing in crypto",
+            title: "FCA: Investing in crypto",
             url: "https://www.fca.org.uk/investsmart/investing-crypto",
           },
           {
             title:
-              "ESMA and the European Supervisory Authorities  Consumer warning on crypto assets and limited protection",
+              "ESMA and the European Supervisory Authorities: Consumer warning on crypto assets and limited protection",
             url: "https://www.esma.europa.eu/press-news/esma-news/eu-supervisory-authorities-warn-consumers-risks-and-limited-protection-certain",
           },
           {
-            title: "Glassnode  Entities metric definitions",
+            title: "Glassnode: Entities metric definitions",
             url: "https://docs.glassnode.com/basic-api/endpoints/entities",
           },
           {
-            title: "Glassnode  Exchange Data Transparency Notice",
+            title: "Glassnode: Exchange Data Transparency Notice",
             url: "https://docs.glassnode.com/further-information/exchange-data-transparency-notice",
           },
           {
             title:
-              "BIS  BIS — Annual Economic Report 2025, Chapter III: The next-generation monetary and financial system",
+              "BIS: BIS — Annual Economic Report 2025, Chapter III: The next-generation monetary and financial system",
             url: "https://www.bis.org/publ/arpdf/ar2025e3.htm",
           },
           {
-            title: "ESMA  ESMA — Markets in Crypto-Assets Regulation (MiCA)",
+            title: "ESMA: ESMA — Markets in Crypto-Assets Regulation (MiCA)",
             url: "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica",
           },
           {
             title:
-              "SEC Investor gov  Exchange Traded Products Providing Exposure to Bitcoin and Ether Investor Bulletin",
+              "SEC Investor.gov: Exchange Traded Products Providing Exposure to Bitcoin and Ether Investor Bulletin",
             url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/ETPBulletinSeptember2024",
           },
         ],

@@ -33,28 +33,28 @@ const metadata1: LessonMetadata = {
   slug: "what-is-bitcoin",
   sources: [
     {
-      title: "Bitcoin community  Bitcoin A Peer to Peer Electronic Cash System",
+      title: "Bitcoin community: Bitcoin A Peer to Peer Electronic Cash System",
       url: "https://bitcoin.org/bitcoin.pdf",
     },
     {
-      title: "Bitcoin community  Bitcoin FAQ",
+      title: "Bitcoin community: Bitcoin FAQ",
       url: "https://bitcoin.org/en/faq",
     },
     {
-      title: "MIT OpenCourseWare  Blockchain and Money",
+      title: "MIT OpenCourseWare: Blockchain and Money",
       url: "https://ocw.mit.edu/courses/15-s12-blockchain-and-money-fall-2018/",
     },
     {
-      title: "NIST  Blockchain Technology Overview NISTIR 8202",
+      title: "NIST: Blockchain Technology Overview NISTIR 8202",
       url: "https://csrc.nist.gov/pubs/ir/8202/final",
     },
     {
-      title: "Bitcoin community  Bitcoin Core Validation",
+      title: "Bitcoin community: Bitcoin Core Validation",
       url: "https://bitcoin.org/en/bitcoin-core/features/validation",
     },
     {
       title:
-        "Ledger Academy  Ledger Academy — When Was Bitcoin Invented? The Complete History and Timeline",
+        "Ledger Academy: Ledger Academy — When Was Bitcoin Invented? The Complete History and Timeline",
       url: "https://www.ledger.com/academy/topics/crypto/when-was-bitcoin-invented",
     },
   ],
@@ -344,7 +344,7 @@ const sections1: LessonSection[] = [
     ],
   },
   {
-    title: "The network the coin and early use",
+    title: "The network, the coin and early use",
     shortTitle: "The network the coin and early use",
     blocks: [
       {
@@ -519,28 +519,28 @@ const sections1: LessonSection[] = [
         items: [
           {
             title:
-              "Bitcoin community  Bitcoin A Peer to Peer Electronic Cash System",
+              "Bitcoin community: Bitcoin A Peer to Peer Electronic Cash System",
             url: "https://bitcoin.org/bitcoin.pdf",
           },
           {
-            title: "Bitcoin community  Bitcoin FAQ",
+            title: "Bitcoin community: Bitcoin FAQ",
             url: "https://bitcoin.org/en/faq",
           },
           {
-            title: "MIT OpenCourseWare  Blockchain and Money",
+            title: "MIT OpenCourseWare: Blockchain and Money",
             url: "https://ocw.mit.edu/courses/15-s12-blockchain-and-money-fall-2018/",
           },
           {
-            title: "NIST  Blockchain Technology Overview NISTIR 8202",
+            title: "NIST: Blockchain Technology Overview NISTIR 8202",
             url: "https://csrc.nist.gov/pubs/ir/8202/final",
           },
           {
-            title: "Bitcoin community  Bitcoin Core Validation",
+            title: "Bitcoin community: Bitcoin Core Validation",
             url: "https://bitcoin.org/en/bitcoin-core/features/validation",
           },
           {
             title:
-              "Ledger Academy  Ledger Academy — When Was Bitcoin Invented? The Complete History and Timeline",
+              "Ledger Academy: Ledger Academy — When Was Bitcoin Invented? The Complete History and Timeline",
             url: "https://www.ledger.com/academy/topics/crypto/when-was-bitcoin-invented",
           },
         ],
@@ -580,31 +580,31 @@ const metadata2: LessonMetadata = {
   slug: "shared-ledger-checks-and-security",
   sources: [
     {
-      title: "Bitcoin community  Bitcoin Developer Guide Transactions",
+      title: "Bitcoin community: Bitcoin Developer Guide Transactions",
       url: "https://developer.bitcoin.org/devguide/transactions.html",
     },
     {
-      title: "Bitcoin community  Bitcoin Developer Guide Block Chain",
+      title: "Bitcoin community: Bitcoin Developer Guide Block Chain",
       url: "https://developer.bitcoin.org/devguide/block_chain.html",
     },
     {
-      title: "NIST  Blockchain Technology Overview NISTIR 8202",
+      title: "NIST: Blockchain Technology Overview NISTIR 8202",
       url: "https://csrc.nist.gov/pubs/ir/8202/final",
     },
     {
-      title: "Bitcoin community  Bitcoin Core Validation",
+      title: "Bitcoin community: Bitcoin Core Validation",
       url: "https://bitcoin.org/en/bitcoin-core/features/validation",
     },
     {
-      title: "Bitcoin community  Bitcoin A Peer to Peer Electronic Cash System",
+      title: "Bitcoin community: Bitcoin A Peer to Peer Electronic Cash System",
       url: "https://bitcoin.org/bitcoin.pdf",
     },
     {
-      title: "Bitcoin Developer Guide  Bitcoin Developer Guide — P2P Network",
+      title: "Bitcoin Developer Guide: Bitcoin Developer Guide — P2P Network",
       url: "https://developer.bitcoin.org/devguide/p2p_network.html",
     },
     {
-      title: "Bitcoin Developer Guide  Bitcoin Developer Guide — Mining",
+      title: "Bitcoin Developer Guide: Bitcoin Developer Guide — Mining",
       url: "https://developer.bitcoin.org/devguide/mining.html",
     },
   ],
@@ -956,7 +956,7 @@ const sections2: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Check the winner s work in a split second",
+        children: "Check the winner's work in a split second",
       },
       {
         type: "paragraph",
@@ -1138,33 +1138,33 @@ const sections2: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "Bitcoin community  Bitcoin Developer Guide Transactions",
+            title: "Bitcoin community: Bitcoin Developer Guide Transactions",
             url: "https://developer.bitcoin.org/devguide/transactions.html",
           },
           {
-            title: "Bitcoin community  Bitcoin Developer Guide Block Chain",
+            title: "Bitcoin community: Bitcoin Developer Guide Block Chain",
             url: "https://developer.bitcoin.org/devguide/block_chain.html",
           },
           {
-            title: "NIST  Blockchain Technology Overview NISTIR 8202",
+            title: "NIST: Blockchain Technology Overview NISTIR 8202",
             url: "https://csrc.nist.gov/pubs/ir/8202/final",
           },
           {
-            title: "Bitcoin community  Bitcoin Core Validation",
+            title: "Bitcoin community: Bitcoin Core Validation",
             url: "https://bitcoin.org/en/bitcoin-core/features/validation",
           },
           {
             title:
-              "Bitcoin community  Bitcoin A Peer to Peer Electronic Cash System",
+              "Bitcoin community: Bitcoin A Peer to Peer Electronic Cash System",
             url: "https://bitcoin.org/bitcoin.pdf",
           },
           {
             title:
-              "Bitcoin Developer Guide  Bitcoin Developer Guide — P2P Network",
+              "Bitcoin Developer Guide: Bitcoin Developer Guide — P2P Network",
             url: "https://developer.bitcoin.org/devguide/p2p_network.html",
           },
           {
-            title: "Bitcoin Developer Guide  Bitcoin Developer Guide — Mining",
+            title: "Bitcoin Developer Guide: Bitcoin Developer Guide — Mining",
             url: "https://developer.bitcoin.org/devguide/mining.html",
           },
         ],
@@ -1200,45 +1200,45 @@ const metadata3: LessonMetadata = {
   riskWarningRequired: true,
   seoDescription:
     "Trace how a transaction is authorised while keeping secrets separate from public information.",
-  seoTitle: "Keys Signatures and Bitcoin Transactions",
+  seoTitle: "Keys, Signatures and Bitcoin Transactions",
   slug: "keys-signatures-and-bitcoin-transactions",
   sources: [
     {
-      title: "Bitcoin community  Bitcoin Developer Guide Transactions",
+      title: "Bitcoin community: Bitcoin Developer Guide Transactions",
       url: "https://developer.bitcoin.org/devguide/transactions.html",
     },
     {
       title:
-        "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+        "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
       url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
     },
     {
-      title: "Glassnode  Addresses metric definitions",
+      title: "Glassnode: Addresses metric definitions",
       url: "https://docs.glassnode.com/basic-api/endpoints/addresses",
     },
     {
-      title: "Bitcoin community  Bitcoin A Peer to Peer Electronic Cash System",
+      title: "Bitcoin community: Bitcoin A Peer to Peer Electronic Cash System",
       url: "https://bitcoin.org/bitcoin.pdf",
     },
     {
-      title: "Bitcoin Developer Guide  Bitcoin Developer Guide — P2P Network",
+      title: "Bitcoin Developer Guide: Bitcoin Developer Guide — P2P Network",
       url: "https://developer.bitcoin.org/devguide/p2p_network.html",
     },
     {
-      title: "Bitcoin.org  Bitcoin.org — Some things you need to know",
+      title: "Bitcoin.org: Bitcoin.org — Some things you need to know",
       url: "https://bitcoin.org/en/you-need-to-know",
     },
     {
-      title: "Bitcoin Developer Guide  Bitcoin Developer Guide — Wallets",
+      title: "Bitcoin Developer Guide: Bitcoin Developer Guide — Wallets",
       url: "https://developer.bitcoin.org/devguide/wallets.html",
     },
   ],
   status: "published",
-  title: "Keys Signatures and Bitcoin Transactions",
+  title: "Keys, Signatures and Bitcoin Transactions",
 };
 const sections3: LessonSection[] = [
   {
-    title: "Private keys public keys and addresses",
+    title: "Private keys, public keys and addresses",
     shortTitle: "Private keys public keys and addresses",
     blocks: [
       {
@@ -1390,7 +1390,7 @@ const sections3: LessonSection[] = [
     ],
   },
   {
-    title: "Inputs outputs and change",
+    title: "Inputs, outputs and change",
     shortTitle: "Inputs outputs and change",
     blocks: [
       {
@@ -1639,34 +1639,34 @@ const sections3: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "Bitcoin community  Bitcoin Developer Guide Transactions",
+            title: "Bitcoin community: Bitcoin Developer Guide Transactions",
             url: "https://developer.bitcoin.org/devguide/transactions.html",
           },
           {
             title:
-              "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+              "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
             url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
           },
           {
-            title: "Glassnode  Addresses metric definitions",
+            title: "Glassnode: Addresses metric definitions",
             url: "https://docs.glassnode.com/basic-api/endpoints/addresses",
           },
           {
             title:
-              "Bitcoin community  Bitcoin A Peer to Peer Electronic Cash System",
+              "Bitcoin community: Bitcoin A Peer to Peer Electronic Cash System",
             url: "https://bitcoin.org/bitcoin.pdf",
           },
           {
             title:
-              "Bitcoin Developer Guide  Bitcoin Developer Guide — P2P Network",
+              "Bitcoin Developer Guide: Bitcoin Developer Guide — P2P Network",
             url: "https://developer.bitcoin.org/devguide/p2p_network.html",
           },
           {
-            title: "Bitcoin.org  Bitcoin.org — Some things you need to know",
+            title: "Bitcoin.org: Bitcoin.org — Some things you need to know",
             url: "https://bitcoin.org/en/you-need-to-know",
           },
           {
-            title: "Bitcoin Developer Guide  Bitcoin Developer Guide — Wallets",
+            title: "Bitcoin Developer Guide: Bitcoin Developer Guide — Wallets",
             url: "https://developer.bitcoin.org/devguide/wallets.html",
           },
         ],
@@ -1702,48 +1702,48 @@ const metadata4: LessonMetadata = {
   riskWarningRequired: true,
   seoDescription:
     "Explain why a broadcast transaction and a settled payment are different stages.",
-  seoTitle: "Mining Fees Confirmations and Finality",
+  seoTitle: "Mining, Fees, Confirmations and Finality",
   slug: "mining-fees-confirmations-and-finality",
   sources: [
     {
-      title: "Bitcoin community  Bitcoin Developer Guide Block Chain",
+      title: "Bitcoin community: Bitcoin Developer Guide Block Chain",
       url: "https://developer.bitcoin.org/devguide/block_chain.html",
     },
     {
-      title: "Bitcoin community  Bitcoin Core Validation",
+      title: "Bitcoin community: Bitcoin Core Validation",
       url: "https://bitcoin.org/en/bitcoin-core/features/validation",
     },
     {
-      title: "Bitcoin Core  Current mempool replacement policy",
+      title: "Bitcoin Core: Current mempool replacement policy",
       url: "https://github.com/bitcoin/bitcoin/blob/master/doc/policy/mempool-replacements.md",
     },
     {
-      title: "Lightning Labs  Payment channels",
+      title: "Lightning Labs: Payment channels",
       url: "https://docs.lightning.engineering/the-lightning-network/payment-channels",
     },
     {
-      title: "Bitcoin community  Bitcoin Developer Guide Transactions",
+      title: "Bitcoin community: Bitcoin Developer Guide Transactions",
       url: "https://developer.bitcoin.org/devguide/transactions.html",
     },
     {
-      title: "Bitcoin Developer Guide  Bitcoin Developer Guide — P2P Network",
+      title: "Bitcoin Developer Guide: Bitcoin Developer Guide — P2P Network",
       url: "https://developer.bitcoin.org/devguide/p2p_network.html",
     },
     {
-      title: "Bitcoin.org  Bitcoin.org — Some things you need to know",
+      title: "Bitcoin.org: Bitcoin.org — Some things you need to know",
       url: "https://bitcoin.org/en/you-need-to-know",
     },
     {
-      title: "Bitcoin community  Bitcoin A Peer to Peer Electronic Cash System",
+      title: "Bitcoin community: Bitcoin A Peer to Peer Electronic Cash System",
       url: "https://bitcoin.org/bitcoin.pdf",
     },
     {
-      title: "Bitcoin Developer Guide  Bitcoin Developer Guide — Mining",
+      title: "Bitcoin Developer Guide: Bitcoin Developer Guide — Mining",
       url: "https://developer.bitcoin.org/devguide/mining.html",
     },
   ],
   status: "published",
-  title: "Mining Fees Confirmations and Finality",
+  title: "Mining, Fees, Confirmations and Finality",
 };
 const sections4: LessonSection[] = [
   {
@@ -1835,7 +1835,7 @@ const sections4: LessonSection[] = [
     ],
   },
   {
-    title: "Mining rewards machines and pools",
+    title: "Mining rewards, machines and pools",
     shortTitle: "Mining rewards machines and pools",
     blocks: [
       {
@@ -1926,13 +1926,13 @@ const sections4: LessonSection[] = [
     ],
   },
   {
-    title: "Calculate size fee rate and fee",
+    title: "Calculate size, fee rate and fee",
     shortTitle: "Calculate size fee rate and fee",
     blocks: [
       {
         type: "heading",
         level: 3,
-        children: "Measure the fee in sat vB",
+        children: "Measure the fee in sat/vB",
       },
       {
         type: "paragraph",
@@ -2022,7 +2022,7 @@ const sections4: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Accept that confirmed means final",
+        children: "Understand confirmation and practical finality",
       },
       {
         type: "paragraph",
@@ -2070,7 +2070,7 @@ const sections4: LessonSection[] = [
     ],
   },
   {
-    title: "Energy economics and cloud mining claims",
+    title: "Energy, economics and cloud mining claims",
     shortTitle: "Energy economics and cloud mining claims",
     blocks: [
       {
@@ -2202,41 +2202,41 @@ const sections4: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "Bitcoin community  Bitcoin Developer Guide Block Chain",
+            title: "Bitcoin community: Bitcoin Developer Guide Block Chain",
             url: "https://developer.bitcoin.org/devguide/block_chain.html",
           },
           {
-            title: "Bitcoin community  Bitcoin Core Validation",
+            title: "Bitcoin community: Bitcoin Core Validation",
             url: "https://bitcoin.org/en/bitcoin-core/features/validation",
           },
           {
-            title: "Bitcoin Core  Current mempool replacement policy",
+            title: "Bitcoin Core: Current mempool replacement policy",
             url: "https://github.com/bitcoin/bitcoin/blob/master/doc/policy/mempool-replacements.md",
           },
           {
-            title: "Lightning Labs  Payment channels",
+            title: "Lightning Labs: Payment channels",
             url: "https://docs.lightning.engineering/the-lightning-network/payment-channels",
           },
           {
-            title: "Bitcoin community  Bitcoin Developer Guide Transactions",
+            title: "Bitcoin community: Bitcoin Developer Guide Transactions",
             url: "https://developer.bitcoin.org/devguide/transactions.html",
           },
           {
             title:
-              "Bitcoin Developer Guide  Bitcoin Developer Guide — P2P Network",
+              "Bitcoin Developer Guide: Bitcoin Developer Guide — P2P Network",
             url: "https://developer.bitcoin.org/devguide/p2p_network.html",
           },
           {
-            title: "Bitcoin.org  Bitcoin.org — Some things you need to know",
+            title: "Bitcoin.org: Bitcoin.org — Some things you need to know",
             url: "https://bitcoin.org/en/you-need-to-know",
           },
           {
             title:
-              "Bitcoin community  Bitcoin A Peer to Peer Electronic Cash System",
+              "Bitcoin community: Bitcoin A Peer to Peer Electronic Cash System",
             url: "https://bitcoin.org/bitcoin.pdf",
           },
           {
-            title: "Bitcoin Developer Guide  Bitcoin Developer Guide — Mining",
+            title: "Bitcoin Developer Guide: Bitcoin Developer Guide — Mining",
             url: "https://developer.bitcoin.org/devguide/mining.html",
           },
         ],
@@ -2269,54 +2269,54 @@ const metadata5: LessonMetadata = {
   riskWarningRequired: true,
   seoDescription:
     "Explain issuance and the halving while separating known rules from uncertain market outcomes.",
-  seoTitle: "Supply Halvings and Common Bitcoin Claims",
+  seoTitle: "Supply, Halvings and Common Bitcoin Claims",
   slug: "bitcoin-supply-halvings-and-claims",
   sources: [
     {
-      title: "Bitcoin community  Bitcoin Developer Guide Block Chain",
+      title: "Bitcoin community: Bitcoin Developer Guide Block Chain",
       url: "https://developer.bitcoin.org/devguide/block_chain.html",
     },
     {
-      title: "Bitcoin community  Bitcoin FAQ",
+      title: "Bitcoin community: Bitcoin FAQ",
       url: "https://bitcoin.org/en/faq",
     },
     {
-      title: "Ethereum  Introduction to blockchain bridges",
+      title: "Ethereum: Introduction to blockchain bridges",
       url: "https://ethereum.org/bridges/",
     },
     {
       title:
-        "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+        "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
       url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
     },
     {
-      title: "Bitcoin community  Bitcoin A Peer to Peer Electronic Cash System",
+      title: "Bitcoin community: Bitcoin A Peer to Peer Electronic Cash System",
       url: "https://bitcoin.org/bitcoin.pdf",
     },
     {
-      title: "Bitcoin community  Bitcoin Core Validation",
+      title: "Bitcoin community: Bitcoin Core Validation",
       url: "https://bitcoin.org/en/bitcoin-core/features/validation",
     },
     {
-      title: "CFTC  Understand the Risks of Virtual Currency Trading",
+      title: "CFTC: Understand the Risks of Virtual Currency Trading",
       url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
     },
     {
       title:
-        "Bitcoin Developer Documentation  Bitcoin Developer Documentation — Glossary",
+        "Bitcoin Developer Documentation: Bitcoin Developer Documentation — Glossary",
       url: "https://developer.bitcoin.org/glossary.html",
     },
     {
-      title: "Bitcoin community  Bitcoin Developer Guide Transactions",
+      title: "Bitcoin community: Bitcoin Developer Guide Transactions",
       url: "https://developer.bitcoin.org/devguide/transactions.html",
     },
     {
-      title: "Bitcoin Developer Guide  Bitcoin Developer Guide — Wallets",
+      title: "Bitcoin Developer Guide: Bitcoin Developer Guide — Wallets",
       url: "https://developer.bitcoin.org/devguide/wallets.html",
     },
   ],
   status: "published",
-  title: "Supply Halvings and Common Bitcoin Claims",
+  title: "Supply, Halvings and Common Bitcoin Claims",
 };
 const sections5: LessonSection[] = [
   {
@@ -2655,7 +2655,7 @@ const sections5: LessonSection[] = [
     ],
   },
   {
-    title: "Lost coins scarcity and demand",
+    title: "Lost coins, scarcity and demand",
     shortTitle: "Lost coins scarcity and demand",
     blocks: [
       {
@@ -2773,46 +2773,46 @@ const sections5: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "Bitcoin community  Bitcoin Developer Guide Block Chain",
+            title: "Bitcoin community: Bitcoin Developer Guide Block Chain",
             url: "https://developer.bitcoin.org/devguide/block_chain.html",
           },
           {
-            title: "Bitcoin community  Bitcoin FAQ",
+            title: "Bitcoin community: Bitcoin FAQ",
             url: "https://bitcoin.org/en/faq",
           },
           {
-            title: "Ethereum  Introduction to blockchain bridges",
+            title: "Ethereum: Introduction to blockchain bridges",
             url: "https://ethereum.org/bridges/",
           },
           {
             title:
-              "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+              "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
             url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
           },
           {
             title:
-              "Bitcoin community  Bitcoin A Peer to Peer Electronic Cash System",
+              "Bitcoin community: Bitcoin A Peer to Peer Electronic Cash System",
             url: "https://bitcoin.org/bitcoin.pdf",
           },
           {
-            title: "Bitcoin community  Bitcoin Core Validation",
+            title: "Bitcoin community: Bitcoin Core Validation",
             url: "https://bitcoin.org/en/bitcoin-core/features/validation",
           },
           {
-            title: "CFTC  Understand the Risks of Virtual Currency Trading",
+            title: "CFTC: Understand the Risks of Virtual Currency Trading",
             url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
           },
           {
             title:
-              "Bitcoin Developer Documentation  Bitcoin Developer Documentation — Glossary",
+              "Bitcoin Developer Documentation: Bitcoin Developer Documentation — Glossary",
             url: "https://developer.bitcoin.org/glossary.html",
           },
           {
-            title: "Bitcoin community  Bitcoin Developer Guide Transactions",
+            title: "Bitcoin community: Bitcoin Developer Guide Transactions",
             url: "https://developer.bitcoin.org/devguide/transactions.html",
           },
           {
-            title: "Bitcoin Developer Guide  Bitcoin Developer Guide — Wallets",
+            title: "Bitcoin Developer Guide: Bitcoin Developer Guide — Wallets",
             url: "https://developer.bitcoin.org/devguide/wallets.html",
           },
         ],

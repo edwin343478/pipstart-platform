@@ -11,7 +11,7 @@ import { createDynamicMetadata } from "../../../../../../lib/seo";
 
 export const metadata = createDynamicMetadata({
   path: "/learn/crypto/level-5/crypto-tokens-and-research/token-supply-and-research",
-  title: "Tokens Supply and Research",
+  title: "Tokens, Supply and Research",
   description:
     "Four complete token-category, supply, vesting and research lessons with examples, practice and a fifteen-question quiz.",
 });

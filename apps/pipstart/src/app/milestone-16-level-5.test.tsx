@@ -16,9 +16,9 @@ import { getCurriculumModule } from "../lib/curriculum";
 import { prepareLessonPageData } from "../lib/lesson-page-server-data";
 import { assertUniqueCurriculumIds } from "../lib/permanent-progress-catalogue";
 const titles = [
-  "Altcoins Utility Governance and Hype",
-  "Supply Market Capitalisation and Fully Diluted Value",
-  "Allocations Vesting Unlocks and Control",
+  "Altcoins, Utility, Governance and Hype",
+  "Supply, Market Capitalisation and Fully Diluted Value",
+  "Allocations, Vesting, Unlocks and Control",
   "Build a Token Dossier and Check Liquidity",
 ];
 describe("Milestone 16 approved Crypto Level 5", () => {
@@ -83,7 +83,7 @@ describe("Milestone 16 approved Crypto Level 5", () => {
         path: "crypto",
         lesson,
         lessons: cryptoLessons,
-        contextTitle: "Tokens Supply and Research",
+        contextTitle: "Tokens, Supply and Research",
         contextHref: "/learn/crypto/level-5/crypto-tokens-and-research",
       });
       expect(data.registeredQuiz?.href).toBe("/learn/crypto/level-5/quiz");

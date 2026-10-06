@@ -11,7 +11,7 @@ import { createDynamicMetadata } from "../../../../../../lib/seo";
 
 export const metadata = createDynamicMetadata({
   path: "/learn/crypto/level-4/crypto-ethereum-and-networks/ethereum-contracts-and-connected-networks",
-  title: "Ethereum Contracts and Connected Networks",
+  title: "Ethereum, Contracts and Connected Networks",
   description:
     "Five complete Ethereum, smart-contract, gas, token-standard and bridge lessons with examples, practice and a fifteen-question quiz.",
 });

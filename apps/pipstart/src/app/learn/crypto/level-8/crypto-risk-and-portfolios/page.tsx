@@ -10,7 +10,7 @@ import { createDynamicMetadata } from "../../../../../lib/seo";
 
 export const metadata = createDynamicMetadata({
   path: "/learn/crypto/level-8/crypto-risk-and-portfolios",
-  title: "Sizing Leverage and Portfolio Risk",
+  title: "Sizing, Leverage and Portfolio Risk",
   description:
     "Four complete lessons covering loss budgets, leverage, portfolio dependencies, purchase schedules and records, with practice and a fifteen-question quiz.",
 });

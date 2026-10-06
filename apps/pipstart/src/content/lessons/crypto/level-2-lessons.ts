@@ -34,40 +34,40 @@ const metadata1: LessonMetadata = {
   sources: [
     {
       title:
-        "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+        "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
       url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
     },
     {
-      title: "Ethereum  Ethereum security and scam prevention",
+      title: "Ethereum: Ethereum security and scam prevention",
       url: "https://ethereum.org/security/",
     },
     {
-      title: "FINRA  Crypto Assets",
+      title: "FINRA: Crypto Assets",
       url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
     },
     {
-      title: "Bitcoin community  Bitcoin A Peer to Peer Electronic Cash System",
+      title: "Bitcoin community: Bitcoin A Peer to Peer Electronic Cash System",
       url: "https://bitcoin.org/bitcoin.pdf",
     },
     {
-      title: "Bitcoin community  Bitcoin Developer Guide Transactions",
+      title: "Bitcoin community: Bitcoin Developer Guide Transactions",
       url: "https://developer.bitcoin.org/devguide/transactions.html",
     },
     {
-      title: "Bitcoin Developer Guide  Bitcoin Developer Guide — Wallets",
+      title: "Bitcoin Developer Guide: Bitcoin Developer Guide — Wallets",
       url: "https://developer.bitcoin.org/devguide/wallets.html",
     },
     {
-      title: "ethereum.org  ethereum.org — Ethereum wallets",
+      title: "ethereum.org: ethereum.org — Ethereum wallets",
       url: "https://ethereum.org/en/wallets/",
     },
     {
-      title: "Bitcoin.org  Bitcoin.org — Securing your wallet",
+      title: "Bitcoin.org: Bitcoin.org — Securing your wallet",
       url: "https://bitcoin.org/en/secure-your-wallet",
     },
     {
       title:
-        "Ledger Academy  Ledger Academy — What are the different types of crypto wallets?",
+        "Ledger Academy: Ledger Academy — What are the different types of crypto wallets?",
       url: "https://www.ledger.com/academy/topics/crypto/types-of-crypto-wallets",
     },
   ],
@@ -166,7 +166,7 @@ const sections1: LessonSection[] = [
     ],
   },
   {
-    title: "Custody is a trade off",
+    title: "Custody is a trade-off",
     shortTitle: "Custody is a trade off",
     blocks: [
       {
@@ -234,7 +234,7 @@ const sections1: LessonSection[] = [
     ],
   },
   {
-    title: "Hot cold software and watch only",
+    title: "Hot, cold, software and watch-only",
     shortTitle: "Hot cold software and watch only",
     blocks: [
       {
@@ -277,7 +277,7 @@ const sections1: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Meet software wallets on phones computers and browsers",
+        children: "Meet software wallets on phones, computers and browsers",
       },
       {
         type: "paragraph",
@@ -334,7 +334,7 @@ const sections1: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Look without touching watch only wallets",
+        children: "Look without touching: watch-only wallets",
       },
       {
         type: "paragraph",
@@ -531,41 +531,41 @@ const sections1: LessonSection[] = [
         items: [
           {
             title:
-              "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+              "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
             url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
           },
           {
-            title: "Ethereum  Ethereum security and scam prevention",
+            title: "Ethereum: Ethereum security and scam prevention",
             url: "https://ethereum.org/security/",
           },
           {
-            title: "FINRA  Crypto Assets",
+            title: "FINRA: Crypto Assets",
             url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
           },
           {
             title:
-              "Bitcoin community  Bitcoin A Peer to Peer Electronic Cash System",
+              "Bitcoin community: Bitcoin A Peer to Peer Electronic Cash System",
             url: "https://bitcoin.org/bitcoin.pdf",
           },
           {
-            title: "Bitcoin community  Bitcoin Developer Guide Transactions",
+            title: "Bitcoin community: Bitcoin Developer Guide Transactions",
             url: "https://developer.bitcoin.org/devguide/transactions.html",
           },
           {
-            title: "Bitcoin Developer Guide  Bitcoin Developer Guide — Wallets",
+            title: "Bitcoin Developer Guide: Bitcoin Developer Guide — Wallets",
             url: "https://developer.bitcoin.org/devguide/wallets.html",
           },
           {
-            title: "ethereum.org  ethereum.org — Ethereum wallets",
+            title: "ethereum.org: ethereum.org — Ethereum wallets",
             url: "https://ethereum.org/en/wallets/",
           },
           {
-            title: "Bitcoin.org  Bitcoin.org — Securing your wallet",
+            title: "Bitcoin.org: Bitcoin.org — Securing your wallet",
             url: "https://bitcoin.org/en/secure-your-wallet",
           },
           {
             title:
-              "Ledger Academy  Ledger Academy — What are the different types of crypto wallets?",
+              "Ledger Academy: Ledger Academy — What are the different types of crypto wallets?",
             url: "https://www.ledger.com/academy/topics/crypto/types-of-crypto-wallets",
           },
         ],
@@ -602,56 +602,56 @@ const metadata2: LessonMetadata = {
   slug: "protect-recovery-material-and-accounts",
   sources: [
     {
-      title: "Ethereum  Ethereum security and scam prevention",
+      title: "Ethereum: Ethereum security and scam prevention",
       url: "https://ethereum.org/security/",
     },
     {
       title:
-        "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+        "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
       url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
     },
     {
-      title: "MetaMask  I have been hacked or scammed",
+      title: "MetaMask: I have been hacked or scammed",
       url: "https://support.metamask.io/stay-safe/protect-yourself/ive-been-hacked-scammed-unauthorized-transactions-on-my-account",
     },
     {
-      title: "Bitcoin community  Bitcoin A Peer to Peer Electronic Cash System",
+      title: "Bitcoin community: Bitcoin A Peer to Peer Electronic Cash System",
       url: "https://bitcoin.org/bitcoin.pdf",
     },
     {
-      title: "Bitcoin community  Bitcoin Developer Guide Transactions",
+      title: "Bitcoin community: Bitcoin Developer Guide Transactions",
       url: "https://developer.bitcoin.org/devguide/transactions.html",
     },
     {
-      title: "Bitcoin Developer Guide  Bitcoin Developer Guide — Wallets",
+      title: "Bitcoin Developer Guide: Bitcoin Developer Guide — Wallets",
       url: "https://developer.bitcoin.org/devguide/wallets.html",
     },
     {
       title:
-        "Bitcoin Improvement Proposals  Bitcoin Improvement Proposals — BIP-39: Mnemonic code for generating deterministic keys",
+        "Bitcoin Improvement Proposals: Bitcoin Improvement Proposals — BIP-39: Mnemonic code for generating deterministic keys",
       url: "https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki",
     },
     {
-      title: "Bitcoin community  Bitcoin FAQ",
+      title: "Bitcoin community: Bitcoin FAQ",
       url: "https://bitcoin.org/en/faq",
     },
     {
-      title: "Bitcoin.org  Bitcoin.org — Securing your wallet",
+      title: "Bitcoin.org: Bitcoin.org — Securing your wallet",
       url: "https://bitcoin.org/en/secure-your-wallet",
     },
     {
       title:
-        "Federal Trade Commission  Federal Trade Commission — SIM swap scams: how to protect yourself",
+        "Federal Trade Commission: Federal Trade Commission — SIM swap scams: how to protect yourself",
       url: "https://consumer.ftc.gov/consumer-alerts/2019/10/sim-swap-scams-how-protect-yourself",
     },
     {
       title:
-        "FBI IC3  FBI IC3 — Criminals increasing SIM swap schemes to steal millions of dollars from US public (8 February 2022)",
+        "FBI IC3: FBI IC3 — Criminals increasing SIM swap schemes to steal millions of dollars from US public (8 February 2022)",
       url: "https://www.ic3.gov/PSA/2022/PSA220208",
     },
     {
       title:
-        "Ledger Academy  Ledger Academy — What are address poisoning attacks in crypto and how to avoid them?",
+        "Ledger Academy: Ledger Academy — What are address poisoning attacks in crypto and how to avoid them?",
       url: "https://www.ledger.com/academy/topics/security/what-are-address-poisoning-attacks-in-crypto-and-how-to-avoid-them",
     },
   ],
@@ -729,7 +729,7 @@ const sections2: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Read the BIP 39 word list in plain words",
+        children: "Read the BIP-39 word list in plain words",
       },
       {
         type: "paragraph",
@@ -787,7 +787,7 @@ const sections2: LessonSection[] = [
     ],
   },
   {
-    title: "Passphrases multisig and other recovery models",
+    title: "Passphrases, multisig and other recovery models",
     shortTitle: "Passphrases multisig and other recovery models",
     blocks: [
       {
@@ -876,7 +876,7 @@ const sections2: LessonSection[] = [
     ],
   },
   {
-    title: "Write store and test backups safely",
+    title: "Write, store and test backups safely",
     shortTitle: "Write store and test backups safely",
     blocks: [
       {
@@ -977,7 +977,7 @@ const sections2: LessonSection[] = [
     ],
   },
   {
-    title: "Phishing devices and account recovery",
+    title: "Phishing, devices and account recovery",
     shortTitle: "Phishing devices and account recovery",
     blocks: [
       {
@@ -1411,57 +1411,57 @@ const sections2: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "Ethereum  Ethereum security and scam prevention",
+            title: "Ethereum: Ethereum security and scam prevention",
             url: "https://ethereum.org/security/",
           },
           {
             title:
-              "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+              "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
             url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
           },
           {
-            title: "MetaMask  I have been hacked or scammed",
+            title: "MetaMask: I have been hacked or scammed",
             url: "https://support.metamask.io/stay-safe/protect-yourself/ive-been-hacked-scammed-unauthorized-transactions-on-my-account",
           },
           {
             title:
-              "Bitcoin community  Bitcoin A Peer to Peer Electronic Cash System",
+              "Bitcoin community: Bitcoin A Peer to Peer Electronic Cash System",
             url: "https://bitcoin.org/bitcoin.pdf",
           },
           {
-            title: "Bitcoin community  Bitcoin Developer Guide Transactions",
+            title: "Bitcoin community: Bitcoin Developer Guide Transactions",
             url: "https://developer.bitcoin.org/devguide/transactions.html",
           },
           {
-            title: "Bitcoin Developer Guide  Bitcoin Developer Guide — Wallets",
+            title: "Bitcoin Developer Guide: Bitcoin Developer Guide — Wallets",
             url: "https://developer.bitcoin.org/devguide/wallets.html",
           },
           {
             title:
-              "Bitcoin Improvement Proposals  Bitcoin Improvement Proposals — BIP-39: Mnemonic code for generating deterministic keys",
+              "Bitcoin Improvement Proposals: Bitcoin Improvement Proposals — BIP-39: Mnemonic code for generating deterministic keys",
             url: "https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki",
           },
           {
-            title: "Bitcoin community  Bitcoin FAQ",
+            title: "Bitcoin community: Bitcoin FAQ",
             url: "https://bitcoin.org/en/faq",
           },
           {
-            title: "Bitcoin.org  Bitcoin.org — Securing your wallet",
+            title: "Bitcoin.org: Bitcoin.org — Securing your wallet",
             url: "https://bitcoin.org/en/secure-your-wallet",
           },
           {
             title:
-              "Federal Trade Commission  Federal Trade Commission — SIM swap scams: how to protect yourself",
+              "Federal Trade Commission: Federal Trade Commission — SIM swap scams: how to protect yourself",
             url: "https://consumer.ftc.gov/consumer-alerts/2019/10/sim-swap-scams-how-protect-yourself",
           },
           {
             title:
-              "FBI IC3  FBI IC3 — Criminals increasing SIM swap schemes to steal millions of dollars from US public (8 February 2022)",
+              "FBI IC3: FBI IC3 — Criminals increasing SIM swap schemes to steal millions of dollars from US public (8 February 2022)",
             url: "https://www.ic3.gov/PSA/2022/PSA220208",
           },
           {
             title:
-              "Ledger Academy  Ledger Academy — What are address poisoning attacks in crypto and how to avoid them?",
+              "Ledger Academy: Ledger Academy — What are address poisoning attacks in crypto and how to avoid them?",
             url: "https://www.ledger.com/academy/topics/security/what-are-address-poisoning-attacks-in-crypto-and-how-to-avoid-them",
           },
         ],
@@ -1501,52 +1501,52 @@ const metadata3: LessonMetadata = {
   slug: "check-a-crypto-transfer",
   sources: [
     {
-      title: "Kraken  How to deposit cryptocurrencies to your Kraken account",
+      title: "Kraken: How to deposit cryptocurrencies to your Kraken account",
       url: "https://support.kraken.com/articles/360000672643-how-to-deposit-cryptocurrencies-to-your-kraken-account?mode=consumerapp",
     },
     {
-      title: "Ethereum  How to bridge tokens to layer 2",
+      title: "Ethereum: How to bridge tokens to layer 2",
       url: "https://ethereum.org/guides/how-to-use-a-bridge/",
     },
     {
-      title: "Ethereum  Transactions",
+      title: "Ethereum: Transactions",
       url: "https://ethereum.org/developers/docs/transactions/",
     },
     {
-      title: "Bitcoin community  Bitcoin Developer Guide Transactions",
+      title: "Bitcoin community: Bitcoin Developer Guide Transactions",
       url: "https://developer.bitcoin.org/devguide/transactions.html",
     },
     {
-      title: "Ethereum  Token standards",
+      title: "Ethereum: Token standards",
       url: "https://ethereum.org/developers/docs/standards/tokens/",
     },
     {
       title:
-        "Federal Trade Commission  Federal Trade Commission — SIM swap scams: how to protect yourself",
+        "Federal Trade Commission: Federal Trade Commission — SIM swap scams: how to protect yourself",
       url: "https://consumer.ftc.gov/consumer-alerts/2019/10/sim-swap-scams-how-protect-yourself",
     },
     {
       title:
-        "FBI IC3  FBI IC3 — Criminals increasing SIM swap schemes to steal millions of dollars from US public (8 February 2022)",
+        "FBI IC3: FBI IC3 — Criminals increasing SIM swap schemes to steal millions of dollars from US public (8 February 2022)",
       url: "https://www.ic3.gov/PSA/2022/PSA220208",
     },
     {
       title:
-        "Ledger Academy  Ledger Academy — What are address poisoning attacks in crypto and how to avoid them?",
+        "Ledger Academy: Ledger Academy — What are address poisoning attacks in crypto and how to avoid them?",
       url: "https://www.ledger.com/academy/topics/security/what-are-address-poisoning-attacks-in-crypto-and-how-to-avoid-them",
     },
     {
       title:
-        "FBI IC3  FBI IC3 — North Korea responsible for US$1.5 billion Bybit hack (26 February 2025)",
+        "FBI IC3: FBI IC3 — North Korea responsible for US$1.5 billion Bybit hack (26 February 2025)",
       url: "https://www.ic3.gov/PSA/2025/PSA250226",
     },
     {
-      title: "Ledger Academy  Ledger Academy — What is blind signing?",
+      title: "Ledger Academy: Ledger Academy — What is blind signing?",
       url: "https://www.ledger.com/academy/cryptos-greatest-weakness-blind-signing-explained",
     },
     {
       title:
-        "Trezor  Trezor — Trezor's Trusted Display: verify every address on your device",
+        "Trezor: Trezor — Trezor's Trusted Display: verify every address on your device",
       url: "https://trezor.io/guides/trezor-devices/trezor-fundamentals/trezor-s-trusted-display-verify-every-address-on-your-device",
     },
   ],
@@ -1771,7 +1771,7 @@ const sections3: LessonSection[] = [
     ],
   },
   {
-    title: "Memos minimums and recipient credit",
+    title: "Memos, minimums and recipient credit",
     shortTitle: "Memos minimums and recipient credit",
     blocks: [
       {
@@ -1982,52 +1982,52 @@ const sections3: LessonSection[] = [
         items: [
           {
             title:
-              "Kraken  How to deposit cryptocurrencies to your Kraken account",
+              "Kraken: How to deposit cryptocurrencies to your Kraken account",
             url: "https://support.kraken.com/articles/360000672643-how-to-deposit-cryptocurrencies-to-your-kraken-account?mode=consumerapp",
           },
           {
-            title: "Ethereum  How to bridge tokens to layer 2",
+            title: "Ethereum: How to bridge tokens to layer 2",
             url: "https://ethereum.org/guides/how-to-use-a-bridge/",
           },
           {
-            title: "Ethereum  Transactions",
+            title: "Ethereum: Transactions",
             url: "https://ethereum.org/developers/docs/transactions/",
           },
           {
-            title: "Bitcoin community  Bitcoin Developer Guide Transactions",
+            title: "Bitcoin community: Bitcoin Developer Guide Transactions",
             url: "https://developer.bitcoin.org/devguide/transactions.html",
           },
           {
-            title: "Ethereum  Token standards",
+            title: "Ethereum: Token standards",
             url: "https://ethereum.org/developers/docs/standards/tokens/",
           },
           {
             title:
-              "Federal Trade Commission  Federal Trade Commission — SIM swap scams: how to protect yourself",
+              "Federal Trade Commission: Federal Trade Commission — SIM swap scams: how to protect yourself",
             url: "https://consumer.ftc.gov/consumer-alerts/2019/10/sim-swap-scams-how-protect-yourself",
           },
           {
             title:
-              "FBI IC3  FBI IC3 — Criminals increasing SIM swap schemes to steal millions of dollars from US public (8 February 2022)",
+              "FBI IC3: FBI IC3 — Criminals increasing SIM swap schemes to steal millions of dollars from US public (8 February 2022)",
             url: "https://www.ic3.gov/PSA/2022/PSA220208",
           },
           {
             title:
-              "Ledger Academy  Ledger Academy — What are address poisoning attacks in crypto and how to avoid them?",
+              "Ledger Academy: Ledger Academy — What are address poisoning attacks in crypto and how to avoid them?",
             url: "https://www.ledger.com/academy/topics/security/what-are-address-poisoning-attacks-in-crypto-and-how-to-avoid-them",
           },
           {
             title:
-              "FBI IC3  FBI IC3 — North Korea responsible for US$1.5 billion Bybit hack (26 February 2025)",
+              "FBI IC3: FBI IC3 — North Korea responsible for US$1.5 billion Bybit hack (26 February 2025)",
             url: "https://www.ic3.gov/PSA/2025/PSA250226",
           },
           {
-            title: "Ledger Academy  Ledger Academy — What is blind signing?",
+            title: "Ledger Academy: Ledger Academy — What is blind signing?",
             url: "https://www.ledger.com/academy/cryptos-greatest-weakness-blind-signing-explained",
           },
           {
             title:
-              "Trezor  Trezor — Trezor's Trusted Display: verify every address on your device",
+              "Trezor: Trezor — Trezor's Trusted Display: verify every address on your device",
             url: "https://trezor.io/guides/trezor-devices/trezor-fundamentals/trezor-s-trusted-display-verify-every-address-on-your-device",
           },
         ],
@@ -2063,85 +2063,85 @@ const metadata4: LessonMetadata = {
   riskWarningRequired: true,
   seoDescription:
     "Identify the authority granted by a wallet request before accepting it.",
-  seoTitle: "Connections Signatures and Token Permissions",
+  seoTitle: "Connections, Signatures and Token Permissions",
   slug: "connections-signatures-and-token-permissions",
   sources: [
     {
-      title: "MetaMask  What is a token approval",
+      title: "MetaMask: What is a token approval",
       url: "https://support.metamask.io/stay-safe/safety-in-web3/what-is-a-token-approval/",
     },
     {
-      title: "MetaMask  Disconnect wallet from a dapp",
+      title: "MetaMask: Disconnect wallet from a dapp",
       url: "https://support.metamask.io/more-web3/dapps/disconnect-wallet-from-a-dapp/",
     },
     {
-      title: "MetaMask  I have been hacked or scammed",
+      title: "MetaMask: I have been hacked or scammed",
       url: "https://support.metamask.io/stay-safe/protect-yourself/ive-been-hacked-scammed-unauthorized-transactions-on-my-account",
     },
     {
-      title: "Ethereum  Ethereum security and scam prevention",
+      title: "Ethereum: Ethereum security and scam prevention",
       url: "https://ethereum.org/security/",
     },
     {
       title:
-        "Federal Trade Commission  Federal Trade Commission — SIM swap scams: how to protect yourself",
+        "Federal Trade Commission: Federal Trade Commission — SIM swap scams: how to protect yourself",
       url: "https://consumer.ftc.gov/consumer-alerts/2019/10/sim-swap-scams-how-protect-yourself",
     },
     {
       title:
-        "FBI IC3  FBI IC3 — Criminals increasing SIM swap schemes to steal millions of dollars from US public (8 February 2022)",
+        "FBI IC3: FBI IC3 — Criminals increasing SIM swap schemes to steal millions of dollars from US public (8 February 2022)",
       url: "https://www.ic3.gov/PSA/2022/PSA220208",
     },
     {
       title:
-        "Ledger Academy  Ledger Academy — What are address poisoning attacks in crypto and how to avoid them?",
+        "Ledger Academy: Ledger Academy — What are address poisoning attacks in crypto and how to avoid them?",
       url: "https://www.ledger.com/academy/topics/security/what-are-address-poisoning-attacks-in-crypto-and-how-to-avoid-them",
     },
     {
       title:
-        "FBI IC3  FBI IC3 — North Korea responsible for US$1.5 billion Bybit hack (26 February 2025)",
+        "FBI IC3: FBI IC3 — North Korea responsible for US$1.5 billion Bybit hack (26 February 2025)",
       url: "https://www.ic3.gov/PSA/2025/PSA250226",
     },
     {
-      title: "Ledger Academy  Ledger Academy — What is blind signing?",
+      title: "Ledger Academy: Ledger Academy — What is blind signing?",
       url: "https://www.ledger.com/academy/cryptos-greatest-weakness-blind-signing-explained",
     },
     {
       title:
-        "Trezor  Trezor — Trezor's Trusted Display: verify every address on your device",
+        "Trezor: Trezor — Trezor's Trusted Display: verify every address on your device",
       url: "https://trezor.io/guides/trezor-devices/trezor-fundamentals/trezor-s-trusted-display-verify-every-address-on-your-device",
     },
     {
-      title: "ethereum.org  ethereum.org — Gas and fees",
+      title: "ethereum.org: ethereum.org — Gas and fees",
       url: "https://ethereum.org/en/developers/docs/gas/",
     },
     {
-      title: "ethereum.org  ethereum.org — ERC-20 token standard",
+      title: "ethereum.org: ethereum.org — ERC-20 token standard",
       url: "https://ethereum.org/en/developers/docs/standards/tokens/erc-20/",
     },
     {
-      title: "ethereum.org  ethereum.org — ERC-721 non-fungible token standard",
+      title: "ethereum.org: ethereum.org — ERC-721 non-fungible token standard",
       url: "https://ethereum.org/en/developers/docs/standards/tokens/erc-721/",
     },
     {
-      title: "Ethereum  EIP 7702 Set Code for EOAs",
+      title: "Ethereum: EIP 7702 Set Code for EOAs",
       url: "https://eips.ethereum.org/EIPS/eip-7702",
     },
     {
-      title: "Ethereum  Pectra account delegation guidelines",
+      title: "Ethereum: Pectra account delegation guidelines",
       url: "https://ethereum.org/roadmap/pectra/7702/",
     },
     {
-      title: "Ethereum  Fusaka upgrade",
+      title: "Ethereum: Fusaka upgrade",
       url: "https://ethereum.org/roadmap/fusaka/",
     },
     {
-      title: "Ethereum  Validator recovery and balance credentials",
+      title: "Ethereum: Validator recovery and balance credentials",
       url: "https://launchpad.ethereum.org/en/faq",
     },
   ],
   status: "published",
-  title: "Connections Signatures and Token Permissions",
+  title: "Connections, Signatures and Token Permissions",
 };
 const sections4: LessonSection[] = [
   {
@@ -2151,7 +2151,7 @@ const sections4: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Connection message transaction and approval",
+        children: "Connection, message, transaction and approval",
       },
       {
         type: "takeaway",
@@ -2415,77 +2415,77 @@ const sections4: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "MetaMask  What is a token approval",
+            title: "MetaMask: What is a token approval",
             url: "https://support.metamask.io/stay-safe/safety-in-web3/what-is-a-token-approval/",
           },
           {
-            title: "MetaMask  Disconnect wallet from a dapp",
+            title: "MetaMask: Disconnect wallet from a dapp",
             url: "https://support.metamask.io/more-web3/dapps/disconnect-wallet-from-a-dapp/",
           },
           {
-            title: "MetaMask  I have been hacked or scammed",
+            title: "MetaMask: I have been hacked or scammed",
             url: "https://support.metamask.io/stay-safe/protect-yourself/ive-been-hacked-scammed-unauthorized-transactions-on-my-account",
           },
           {
-            title: "Ethereum  Ethereum security and scam prevention",
+            title: "Ethereum: Ethereum security and scam prevention",
             url: "https://ethereum.org/security/",
           },
           {
             title:
-              "Federal Trade Commission  Federal Trade Commission — SIM swap scams: how to protect yourself",
+              "Federal Trade Commission: Federal Trade Commission — SIM swap scams: how to protect yourself",
             url: "https://consumer.ftc.gov/consumer-alerts/2019/10/sim-swap-scams-how-protect-yourself",
           },
           {
             title:
-              "FBI IC3  FBI IC3 — Criminals increasing SIM swap schemes to steal millions of dollars from US public (8 February 2022)",
+              "FBI IC3: FBI IC3 — Criminals increasing SIM swap schemes to steal millions of dollars from US public (8 February 2022)",
             url: "https://www.ic3.gov/PSA/2022/PSA220208",
           },
           {
             title:
-              "Ledger Academy  Ledger Academy — What are address poisoning attacks in crypto and how to avoid them?",
+              "Ledger Academy: Ledger Academy — What are address poisoning attacks in crypto and how to avoid them?",
             url: "https://www.ledger.com/academy/topics/security/what-are-address-poisoning-attacks-in-crypto-and-how-to-avoid-them",
           },
           {
             title:
-              "FBI IC3  FBI IC3 — North Korea responsible for US$1.5 billion Bybit hack (26 February 2025)",
+              "FBI IC3: FBI IC3 — North Korea responsible for US$1.5 billion Bybit hack (26 February 2025)",
             url: "https://www.ic3.gov/PSA/2025/PSA250226",
           },
           {
-            title: "Ledger Academy  Ledger Academy — What is blind signing?",
+            title: "Ledger Academy: Ledger Academy — What is blind signing?",
             url: "https://www.ledger.com/academy/cryptos-greatest-weakness-blind-signing-explained",
           },
           {
             title:
-              "Trezor  Trezor — Trezor's Trusted Display: verify every address on your device",
+              "Trezor: Trezor — Trezor's Trusted Display: verify every address on your device",
             url: "https://trezor.io/guides/trezor-devices/trezor-fundamentals/trezor-s-trusted-display-verify-every-address-on-your-device",
           },
           {
-            title: "ethereum.org  ethereum.org — Gas and fees",
+            title: "ethereum.org: ethereum.org — Gas and fees",
             url: "https://ethereum.org/en/developers/docs/gas/",
           },
           {
-            title: "ethereum.org  ethereum.org — ERC-20 token standard",
+            title: "ethereum.org: ethereum.org — ERC-20 token standard",
             url: "https://ethereum.org/en/developers/docs/standards/tokens/erc-20/",
           },
           {
             title:
-              "ethereum.org  ethereum.org — ERC-721 non-fungible token standard",
+              "ethereum.org: ethereum.org — ERC-721 non-fungible token standard",
             url: "https://ethereum.org/en/developers/docs/standards/tokens/erc-721/",
           },
           {
-            title: "Ethereum  EIP 7702 Set Code for EOAs",
+            title: "Ethereum: EIP 7702 Set Code for EOAs",
             url: "https://eips.ethereum.org/EIPS/eip-7702",
           },
           {
-            title: "Ethereum  Pectra account delegation guidelines",
+            title: "Ethereum: Pectra account delegation guidelines",
             url: "https://ethereum.org/roadmap/pectra/7702/",
           },
           {
-            title: "Ethereum  Fusaka upgrade",
+            title: "Ethereum: Fusaka upgrade",
             url: "https://ethereum.org/roadmap/fusaka/",
           },
           {
-            title: "Ethereum  Validator recovery and balance credentials",
+            title: "Ethereum: Validator recovery and balance credentials",
             url: "https://launchpad.ethereum.org/en/faq",
           },
         ],
@@ -2522,20 +2522,20 @@ const metadata5: LessonMetadata = {
   slug: "respond-to-a-crypto-compromise",
   sources: [
     {
-      title: "MetaMask  I have been hacked or scammed",
+      title: "MetaMask: I have been hacked or scammed",
       url: "https://support.metamask.io/stay-safe/protect-yourself/ive-been-hacked-scammed-unauthorized-transactions-on-my-account",
     },
     {
       title:
-        "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+        "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
       url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
     },
     {
-      title: "Ethereum  Ethereum security and scam prevention",
+      title: "Ethereum: Ethereum security and scam prevention",
       url: "https://ethereum.org/security/",
     },
     {
-      title: "FCA  Investing in crypto",
+      title: "FCA: Investing in crypto",
       url: "https://www.fca.org.uk/investsmart/investing-crypto",
     },
   ],
@@ -2819,20 +2819,20 @@ const sections5: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "MetaMask  I have been hacked or scammed",
+            title: "MetaMask: I have been hacked or scammed",
             url: "https://support.metamask.io/stay-safe/protect-yourself/ive-been-hacked-scammed-unauthorized-transactions-on-my-account",
           },
           {
             title:
-              "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+              "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
             url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
           },
           {
-            title: "Ethereum  Ethereum security and scam prevention",
+            title: "Ethereum: Ethereum security and scam prevention",
             url: "https://ethereum.org/security/",
           },
           {
-            title: "FCA  Investing in crypto",
+            title: "FCA: Investing in crypto",
             url: "https://www.fca.org.uk/investsmart/investing-crypto",
           },
         ],

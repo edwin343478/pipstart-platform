@@ -45,7 +45,7 @@ export const cryptoPlanningPracticeQuizV1: AssessmentDefinition = {
       prompt:
         "Omar in Jeddah sees an invented coin jump 35% in one evening. Two friends post their profits in a group chat, but Omar has learned nothing new about the coin itself. He feels he must buy before bedtime. What is the best description of what is happening, and the most sensible response?",
       explanation:
-        "Correct choice  B. This is FOMO: speed and other people's gains with no new information. He should record the feeling and apply his cooling-off rule rather than buy now.\n\nFear of missing out typically arrives with a fast move, other people's gains and nothing new about the asset; urgency cannot answer whether the coin passes his checks. A is tempting because the price did move, but a price change alone says nothing about whether the coin fits his plan or checklist.",
+        "Correct choice: This is FOMO: speed and other people's gains with no new information. He should record the feeling and apply his cooling-off rule rather than buy now.\n\nFear of missing out typically arrives with a fast move, other people's gains and nothing new about the asset; urgency cannot answer whether the coin passes his checks. The answer “The price jump is new information about the coin, so buying quickly is the disciplined choice” is tempting because the price did move, but a price change alone says nothing about whether the coin fits his plan or checklist.",
       type: "single-choice",
       choices: [
         {
@@ -75,7 +75,7 @@ export const cryptoPlanningPracticeQuizV1: AssessmentDefinition = {
       prompt:
         "Yuki in Kyoto holds an invented token. A post says her national regulator has added the token's platform to its warning list, and the token's community replies \"ignore it, that's FUD\". What should she do?",
       explanation:
-        "Correct choice  A. Check the regulator's own website; if the warning is there, treat it as evidence, not FUD.\n\n\"That's FUD\" is a label, not evidence, and a regulator's warning does not become false because a community dislikes it; checking the primary source settles the question. D is tempting because communities sound confident, but holders have every reason to wave criticism away.",
+        "Correct choice: Check the regulator's own website; if the warning is there, treat it as evidence, not FUD.\n\n\"That's FUD\" is a label, not evidence, and a regulator's warning does not become false because a community dislikes it; checking the primary source settles the question. The answer “Trust the community, because people who hold the token know it best” is tempting because communities sound confident, but holders have every reason to wave criticism away.",
       type: "single-choice",
       choices: [
         {
@@ -106,7 +106,7 @@ export const cryptoPlanningPracticeQuizV1: AssessmentDefinition = {
       prompt:
         "Liam in Brisbane has an account worth A$600 (an invented amount) and is thinking of joining a signal group that costs A$30 a month. What is the monthly cost drag, and what would a year cost as a share of the account?",
       explanation:
-        "Correct choice  C. 5% a month; A$360 a year, or 60% of the account\n\nMonthly cost drag = A$30 ÷ A$600 × 100 = 5%, and 12 × A$30 = A$360, which is 60% of A$600, before any trade wins or loses. D is tempting because the yearly figure is right, but it divides the account by the fee (600 ÷ 30 = 20) instead of the fee by the account.",
+        "Correct choice: 5% a month; A$360 a year, or 60% of the account\n\nMonthly cost drag = A$30 ÷ A$600 × 100 = 5%, and 12 × A$30 = A$360, which is 60% of A$600, before any trade wins or loses. The answer “20% a month; A$360 a year, or 60% of the account” is tempting because the yearly figure is right, but it divides the account by the fee (600 ÷ 30 = 20) instead of the fee by the account.",
       type: "single-choice",
       choices: [
         {
@@ -133,7 +133,7 @@ export const cryptoPlanningPracticeQuizV1: AssessmentDefinition = {
       prompt:
         'Pedro in Recife holds two invented coins. One is up 40% and the other is down 45%. He sells the winner "before it disappears" and keeps the loser "because selling would make the loss real". Which pattern does this show?',
       explanation:
-        'Correct choice  C. The disposition effect, driven by loss aversion\n\nThe disposition effect is selling winners too soon and holding losers too long, and loss aversion makes turning a paper loss into a real one feel especially painful. D is tempting because Pedro hopes the loser will recover, but the gambler\'s fallacy is about believing a run of outcomes makes the opposite "due".',
+        "Correct choice: The disposition effect, driven by loss aversion\n\nThe disposition effect is selling winners too soon and holding losers too long, and loss aversion makes turning a paper loss into a real one feel especially painful. The answer “The gambler's fallacy” is tempting because Pedro hopes the loser will recover, but the gambler's fallacy is about believing a run of outcomes makes the opposite \"due\".",
       type: "single-choice",
       choices: [
         {
@@ -160,7 +160,7 @@ export const cryptoPlanningPracticeQuizV1: AssessmentDefinition = {
       prompt:
         'Hannah in Frankfurt has spent eight months and €200 in fees on an invented project. The team has stopped posting updates and liquidity is shrinking. She says, "I\'ve put too much in to stop now." Which bias is this, and which question helps?',
       explanation:
-        'Correct choice  C. The sunk-cost fallacy; she should ask, "What would I do if I found this project today, starting fresh?"\n\nThe €200 and the eight months are gone whatever she does next, so they are no reason to add more; the fresh-start question takes them out of the decision. D is tempting because both involve the past, but anchoring is about fixing on an earlier number such as a price, not on effort or costs already spent.',
+        'Correct choice: The sunk-cost fallacy; she should ask, "What would I do if I found this project today, starting fresh?"\n\nThe €200 and the eight months are gone whatever she does next, so they are no reason to add more; the fresh-start question takes them out of the decision. The answer “Anchoring; she should wait until the price returns to her entry” is tempting because both involve the past, but anchoring is about fixing on an earlier number such as a price, not on effort or costs already spent.',
       type: "single-choice",
       choices: [
         {
@@ -191,7 +191,7 @@ export const cryptoPlanningPracticeQuizV1: AssessmentDefinition = {
       prompt:
         "Arif in Surabaya hears that a colleague turned Rp1,000,000 into Rp40,000,000 (invented amounts) on a memecoin. He feels foolish for missing it. Which question best protects him from survivorship bias?",
       explanation:
-        "Correct choice  D. How many people bought comparable tokens and lost, and how were cases selected for the story?\n\nLooking only at visible survivors omits the unsuccessful cases. Even an independently verified success does not establish the frequency or odds of success. A screenshot alone may not verify even that one result.",
+        "Correct choice: How many people bought comparable tokens and lost, and how were cases selected for the story?\n\nLooking only at visible survivors omits the unsuccessful cases. Even an independently verified success does not establish the frequency or odds of success. A screenshot alone may not verify even that one result.",
       type: "single-choice",
       choices: [
         {
@@ -219,7 +219,7 @@ export const cryptoPlanningPracticeQuizV1: AssessmentDefinition = {
       prompt:
         "What makes a decision journal different from an ordinary transaction record?",
       explanation:
-        'Correct choice  C. It records why you decided, what you knew and how you felt at the time, with the later outcome added in a separate field.\n\nTransaction records show what happened; the journal records your reasons, evidence, feelings and expectations at the time, so you can review your thinking without hindsight. B is tempting because it keeps the journal "accurate", but editing earlier reasons after the result destroys exactly what the journal is for.',
+        'Correct choice: It records why you decided, what you knew and how you felt at the time, with the later outcome added in a separate field.\n\nTransaction records show what happened; the journal records your reasons, evidence, feelings and expectations at the time, so you can review your thinking without hindsight. The answer “It is rewritten after each result so that the reasons match what happened” is tempting because it keeps the journal "accurate", but editing earlier reasons after the result destroys exactly what the journal is for.',
       type: "single-choice",
       choices: [
         {
@@ -248,7 +248,7 @@ export const cryptoPlanningPracticeQuizV1: AssessmentDefinition = {
       prompt:
         "Nisha in Chennai's written plan bans buying any token she first heard about that day. She breaks the rule after a group-chat tip, and the token rises 30%. How should she classify this at her review?",
       explanation:
-        "Correct choice  A. A broken rule with a good outcome: it stays a breach, and the gain does not prove the rule was wrong.\n\nRecord the gain and the rule breach separately. A favourable outcome does not show that the procedure was followed or that the rule is unnecessary. Revising a rule requires a deliberate evidence-based review, not retrospective relabeling of this action.",
+        "Correct choice: A broken rule with a good outcome: it stays a breach, and the gain does not prove the rule was wrong.\n\nRecord the gain and the rule breach separately. A favourable outcome does not show that the procedure was followed or that the rule is unnecessary. Revising a rule requires a deliberate evidence-based review, not retrospective relabeling of this action.",
       type: "single-choice",
       choices: [
         {
@@ -276,7 +276,7 @@ export const cryptoPlanningPracticeQuizV1: AssessmentDefinition = {
       prompt:
         'Diego in Rosario paper-tests the rule "buy whenever the price falls 20% in a week" for three months. Afterwards he sees that "25%" would have looked better, so he changes the number and reports the old three months as if the new rule had been tested. What is wrong?',
       explanation:
-        "Correct choice  A. He has used hindsight; a changed rule needs a new version and a new test period that starts after the change.\n\nRules must be written before a test, and applying a better-looking rule to old dates is hindsight, not evidence. D is tempting because the data are the same, but that is exactly the problem: the new rule was chosen because it fitted results he had already seen.",
+        "Correct choice: He has used hindsight; a changed rule needs a new version and a new test period that starts after the change.\n\nRules must be written before a test, and applying a better-looking rule to old dates is hindsight, not evidence. The answer “Nothing, because the new rule uses the same data” is tempting because the data are the same, but that is exactly the problem: the new rule was chosen because it fitted results he had already seen.",
       type: "single-choice",
       choices: [
         {
@@ -304,7 +304,7 @@ export const cryptoPlanningPracticeQuizV1: AssessmentDefinition = {
       prompt:
         "Sophie in Marseille reviews 15 journal entries for the quarter: 10 followed her plan, 3 broke it, and 2 have no time recorded, so she cannot tell. How should she report her process-followed rate?",
       explanation:
-        "Correct choice  B. 10 ÷ 13 ≈ 77% of 13 assessable entries, keeping the 2 unclear entries visible.\n\nThe rate uses the entries she can assess (10 + 3 = 13), so 10 ÷ 13 × 100 ≈ 77%, and the two unclear entries stay visible rather than hidden or counted as successes. C is tempting because it gives a higher number, but missing evidence cannot be treated as a confirmed rule-following decision.",
+        "Correct choice: 10 ÷ 13 ≈ 77% of 13 assessable entries, keeping the 2 unclear entries visible.\n\nThe rate uses the entries she can assess (10 + 3 = 13), so 10 ÷ 13 × 100 ≈ 77%, and the two unclear entries stay visible rather than hidden or counted as successes. The answer “12 ÷ 15 = 80%, counting the unclear entries as followed” is tempting because it gives a higher number, but missing evidence cannot be treated as a confirmed rule-following decision.",
       type: "single-choice",
       choices: [
         {
@@ -332,7 +332,7 @@ export const cryptoPlanningPracticeQuizV1: AssessmentDefinition = {
       prompt:
         "Ahmed in Dammam notices that he is losing sleep checking prices, has started thinking about borrowing to win back a loss, and is hiding his activity from his family. According to the course, what is the most sensible step?",
       explanation:
-        "Correct choice  D. Pause all new crypto decisions under his stop conditions, follow his existing exit and security rules, and talk to someone he trusts or a support service.\n\nThese are clear stop signs, and pausing means no new decisions until written restart conditions are met, while support from trusted people or services is a sensible step, not a failure. B is tempting because it ends the activity, but a pause is a plan, not a panic, and it does not require hurried selling.",
+        "Correct choice: Pause all new crypto decisions under his stop conditions, follow his existing exit and security rules, and talk to someone he trusts or a support service.\n\nThese are clear stop signs, and pausing means no new decisions until written restart conditions are met, while support from trusted people or services is a sensible step, not a failure. The answer “Sell every holding immediately in a panic to end the stress” is tempting because it ends the activity, but a pause is a plan, not a panic, and it does not require hurried selling.",
       type: "single-choice",
       choices: [
         {
@@ -362,7 +362,7 @@ export const cryptoPlanningPracticeQuizV1: AssessmentDefinition = {
       prompt:
         "A rule-breaking action makes money. What should the journal record?",
       explanation:
-        "Correct choice  A. The gain and the rule breach separately\n\nA. The gain and the rule breach separately. Outcome cannot certify adherence.\n\nB. Only the gain. That hides the process issue.\n\nC. The action followed the rule because it won. Success does not retroactively change the instruction.\n\nD. No entry because it was profitable. All relevant observations belong in the sample.",
+        "Correct choice: The gain and the rule breach separately\n\nThe gain and the rule breach separately. Outcome cannot certify adherence.\n\nOnly the gain. That hides the process issue.\n\nThe action followed the rule because it won. Success does not retroactively change the instruction.\n\nNo entry because it was profitable. All relevant observations belong in the sample.",
       type: "single-choice",
       choices: [
         {
@@ -388,7 +388,7 @@ export const cryptoPlanningPracticeQuizV1: AssessmentDefinition = {
       id: "crypto-planning-and-practice-13",
       prompt: "Which test specification is missing a critical field?",
       explanation:
-        "Correct choice  C. Buy when the trend looks strong and exit when it feels weak\n\nA. Record fee and fill assumptions. These support net feasibility.\n\nB. Do nothing when required data is absent. That is an explicit no-action rule.\n\nC. Buy when the trend looks strong and exit when it feels weak. The signal and exit are not reproducible conditions.\n\nD. Use a named pair and UTC intervals. These define environment and timing.",
+        "Correct choice: Buy when the trend looks strong and exit when it feels weak\n\nRecord fee and fill assumptions. These support net feasibility.\n\nDo nothing when required data is absent. That is an explicit no-action rule.\n\nBuy when the trend looks strong and exit when it feels weak. The signal and exit are not reproducible conditions.\n\nUse a named pair and UTC intervals. These define environment and timing.",
       type: "single-choice",
       choices: [
         {
@@ -415,7 +415,7 @@ export const cryptoPlanningPracticeQuizV1: AssessmentDefinition = {
       prompt:
         "A researcher tunes a rule repeatedly after inspecting the holdout. What happened?",
       explanation:
-        "Correct choice  A. The holdout influenced development\n\nA. The holdout influenced development. It is no longer untouched evaluation evidence.\n\nB. Independence increased automatically. Repeated tuning weakens the separation.\n\nC. The old results became real trades. A simulation remains a simulation.\n\nD. All future uncertainty disappeared. Selection and changing conditions remain.",
+        "Correct choice: The holdout influenced development\n\nThe holdout influenced development. It is no longer untouched evaluation evidence.\n\nIndependence increased automatically. Repeated tuning weakens the separation.\n\nThe old results became real trades. A simulation remains a simulation.\n\nAll future uncertainty disappeared. Selection and changing conditions remain.",
       type: "single-choice",
       choices: [
         {
@@ -442,7 +442,7 @@ export const cryptoPlanningPracticeQuizV1: AssessmentDefinition = {
       prompt:
         "Six gross wins of USD 20 and four gross losses of USD 40, with USD 1 cost per trade, produce what net result?",
       explanation:
-        "Correct choice  C. Negative USD 50\n\nA. Negative USD 40. That excludes the costs.\n\nB. Positive USD 120. That counts gains while omitting losses and costs.\n\nC. Negative USD 50. 120 minus 160 minus 10 equals negative 50.\n\nD. Positive USD 60. A 60 percent win rate is not a USD result.",
+        "Correct choice: Negative USD 50\n\nNegative USD 40. That excludes the costs.\n\nPositive USD 120. That counts gains while omitting losses and costs.\n\nNegative USD 50. 120 minus 160 minus 10 equals negative 50.\n\nPositive USD 60. A 60 percent win rate is not a USD result.",
       type: "single-choice",
       choices: [
         {

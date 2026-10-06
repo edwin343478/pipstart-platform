@@ -18,9 +18,9 @@ import { assertUniqueCurriculumIds } from "../lib/permanent-progress-catalogue";
 const titles = [
   "What Is Bitcoin",
   "How a Shared Ledger Is Checked and Secured",
-  "Keys Signatures and Bitcoin Transactions",
-  "Mining Fees Confirmations and Finality",
-  "Supply Halvings and Common Bitcoin Claims",
+  "Keys, Signatures and Bitcoin Transactions",
+  "Mining, Fees, Confirmations and Finality",
+  "Supply, Halvings and Common Bitcoin Claims",
 ];
 describe("Milestone 16 approved Crypto Level 1", () => {
   it("publishes five complete lessons with stable Bitcoin identity and all additional routes", () => {

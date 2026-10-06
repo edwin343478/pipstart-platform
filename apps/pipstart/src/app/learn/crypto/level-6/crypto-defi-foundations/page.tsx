@@ -10,7 +10,7 @@ import { createDynamicMetadata } from "../../../../../lib/seo";
 
 export const metadata = createDynamicMetadata({
   path: "/learn/crypto/level-6/crypto-defi-foundations",
-  title: "DeFi Liquidity Lending and Rewards",
+  title: "DeFi: Liquidity, Lending and Rewards",
   description:
     "Five complete DeFi lessons covering swaps, liquidity provision, lending, rewards and protocol dependencies, with practice and a fifteen-question quiz.",
 });

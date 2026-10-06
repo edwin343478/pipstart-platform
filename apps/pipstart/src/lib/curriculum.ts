@@ -1055,11 +1055,11 @@ const allLearningPaths: LearningPath[] = [
         id: "level-3",
         order: 3,
         status: "published",
-        title: "Level 2",
+        title: "Level 3",
         courses: [
           {
             id: "crypto-exchanges-and-markets",
-            title: "Exchanges Stablecoins and Market Orders",
+            title: "Exchanges, Stablecoins and Market Orders",
             description:
               "Compare exchange services, spot markets, execution costs, stablecoins and custody failure risks.",
             href: "/learn/crypto/level-3/crypto-exchanges-and-markets",
@@ -1068,7 +1068,7 @@ const allLearningPaths: LearningPath[] = [
             modules: [
               {
                 id: "exchanges-stablecoins-and-orders",
-                title: "Exchanges Stablecoins and Market Orders",
+                title: "Exchanges, Stablecoins and Market Orders",
                 description:
                   "Five complete beginner lessons with fictional examples, paper practice and a fifteen-question quiz.",
                 href: "/learn/crypto/level-3/crypto-exchanges-and-markets/exchanges-stablecoins-and-orders",
@@ -1131,7 +1131,7 @@ const allLearningPaths: LearningPath[] = [
         courses: [
           {
             id: "crypto-ethereum-and-networks",
-            title: "Ethereum Contracts and Connected Networks",
+            title: "Ethereum, Contracts and Connected Networks",
             description:
               "Understand Ethereum, smart-contract dependencies, gas, token identity and connected-network risks.",
             href: "/learn/crypto/level-4/crypto-ethereum-and-networks",
@@ -1140,7 +1140,7 @@ const allLearningPaths: LearningPath[] = [
             modules: [
               {
                 id: "ethereum-contracts-and-connected-networks",
-                title: "Ethereum Contracts and Connected Networks",
+                title: "Ethereum, Contracts and Connected Networks",
                 description:
                   "Five complete beginner lessons with fictional examples, paper practice and a fifteen-question quiz.",
                 href: "/learn/crypto/level-4/crypto-ethereum-and-networks/ethereum-contracts-and-connected-networks",
@@ -1201,7 +1201,7 @@ const allLearningPaths: LearningPath[] = [
         courses: [
           {
             id: "crypto-tokens-and-research",
-            title: "Tokens Supply and Research",
+            title: "Tokens, Supply and Research",
             description:
               "Understand token rights, supply and valuation, allocations and vesting, and evidence-based liquidity research.",
             href: "/learn/crypto/level-5/crypto-tokens-and-research",
@@ -1210,7 +1210,7 @@ const allLearningPaths: LearningPath[] = [
             modules: [
               {
                 id: "token-supply-and-research",
-                title: "Tokens Supply and Research",
+                title: "Tokens, Supply and Research",
                 description:
                   "Four complete beginner lessons with fictional examples, paper practice and a fifteen-question quiz.",
                 href: "/learn/crypto/level-5/crypto-tokens-and-research/token-supply-and-research",
@@ -1273,7 +1273,7 @@ const allLearningPaths: LearningPath[] = [
         courses: [
           {
             id: "crypto-defi-foundations",
-            title: "DeFi Liquidity Lending and Rewards",
+            title: "DeFi: Liquidity, Lending and Rewards",
             description:
               "Understand swaps, liquidity provision, borrowing and liquidation, staking rewards and interacting DeFi risks.",
             href: "/learn/crypto/level-6/crypto-defi-foundations",
@@ -1282,7 +1282,7 @@ const allLearningPaths: LearningPath[] = [
             modules: [
               {
                 id: "defi-liquidity-lending-and-rewards",
-                title: "DeFi Liquidity Lending and Rewards",
+                title: "DeFi: Liquidity, Lending and Rewards",
                 description:
                   "Five complete beginner lessons with fictional examples, paper practice and a fifteen-question quiz.",
                 href: "/learn/crypto/level-6/crypto-defi-foundations/defi-liquidity-lending-and-rewards",
@@ -1345,7 +1345,7 @@ const allLearningPaths: LearningPath[] = [
         courses: [
           {
             id: "crypto-charts-and-evidence",
-            title: "Charts Market Context and Evidence",
+            title: "Charts, Market Context and Evidence",
             description:
               "Read price structure and market context, understand derivatives and on-chain measurement limits, and write an evidence-based research note.",
             href: "/learn/crypto/level-7/crypto-charts-and-evidence",
@@ -1354,7 +1354,7 @@ const allLearningPaths: LearningPath[] = [
             modules: [
               {
                 id: "charts-market-context-and-evidence",
-                title: "Charts Market Context and Evidence",
+                title: "Charts, Market Context and Evidence",
                 description:
                   "Five complete beginner lessons with fictional examples, paper practice and a fifteen-question quiz.",
                 href: "/learn/crypto/level-7/crypto-charts-and-evidence/charts-market-context-and-evidence",
@@ -1417,7 +1417,7 @@ const allLearningPaths: LearningPath[] = [
         courses: [
           {
             id: "crypto-risk-and-portfolios",
-            title: "Sizing Leverage and Portfolio Risk",
+            title: "Sizing, Leverage and Portfolio Risk",
             description:
               "Choose a loss budget, understand leverage and shared risks, and document purchase schedules, exits and portfolio records.",
             href: "/learn/crypto/level-8/crypto-risk-and-portfolios",
@@ -1426,7 +1426,7 @@ const allLearningPaths: LearningPath[] = [
             modules: [
               {
                 id: "sizing-leverage-and-portfolio-risk",
-                title: "Sizing Leverage and Portfolio Risk",
+                title: "Sizing, Leverage and Portfolio Risk",
                 description:
                   "Four complete beginner lessons with fictional examples, paper practice and a fifteen-question quiz.",
                 href: "/learn/crypto/level-8/crypto-risk-and-portfolios/sizing-leverage-and-portfolio-risk",
@@ -1487,7 +1487,7 @@ const allLearningPaths: LearningPath[] = [
         courses: [
           {
             id: "crypto-planning-and-practice",
-            title: "Psychology Planning and Paper Practice",
+            title: "Psychology, Planning and Paper Practice",
             description:
               "Recognise biases, write observable rules, test without hindsight and review paper-practice evidence honestly.",
             href: "/learn/crypto/level-9/crypto-planning-and-practice",
@@ -1496,7 +1496,7 @@ const allLearningPaths: LearningPath[] = [
             modules: [
               {
                 id: "psychology-planning-and-paper-practice",
-                title: "Psychology Planning and Paper Practice",
+                title: "Psychology, Planning and Paper Practice",
                 description:
                   "Four complete beginner lessons with fictional examples, paper practice and a fifteen-question quiz.",
                 href: "/learn/crypto/level-9/crypto-planning-and-practice/psychology-planning-and-paper-practice",

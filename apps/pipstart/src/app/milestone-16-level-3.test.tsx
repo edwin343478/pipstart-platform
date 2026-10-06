@@ -18,9 +18,9 @@ import { assertUniqueCurriculumIds } from "../lib/permanent-progress-catalogue";
 const titles = [
   "Choose an Exchange Service by What It Does",
   "Read a Spot Market and an Order Book",
-  "Orders Fees and the Cost of Execution",
+  "Orders, Fees and the Cost of Execution",
   "Stablecoins and What the Peg Promises",
-  "Deposits Withdrawals and Exchange Failure",
+  "Deposits, Withdrawals and Exchange Failure",
 ];
 describe("Milestone 16 approved Crypto Level 3", () => {
   it("publishes five complete lessons with sequential prerequisites and all published routes", () => {
@@ -86,7 +86,7 @@ describe("Milestone 16 approved Crypto Level 3", () => {
         path: "crypto",
         lesson,
         lessons: cryptoLessons,
-        contextTitle: "Exchanges Stablecoins and Market Orders",
+        contextTitle: "Exchanges, Stablecoins and Market Orders",
         contextHref: "/learn/crypto/level-3/crypto-exchanges-and-markets",
       });
       expect(data.registeredQuiz?.href).toBe("/learn/crypto/level-3/quiz");

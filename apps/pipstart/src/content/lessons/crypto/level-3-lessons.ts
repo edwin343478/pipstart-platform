@@ -34,96 +34,96 @@ const metadata1: LessonMetadata = {
   sources: [
     {
       title:
-        "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+        "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
       url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
     },
     {
-      title: "Coinbase  Advanced trade order types",
+      title: "Coinbase: Advanced trade order types",
       url: "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/advanced-trade/order-types",
     },
     {
-      title: "Uniswap  How Uniswap works",
+      title: "Uniswap: How Uniswap works",
       url: "https://developers.uniswap.org/docs/get-started/concepts/how-uniswap-works",
     },
     {
       title:
-        "FATF  2026 targeted update on virtual assets and service providers",
+        "FATF: 2026 targeted update on virtual assets and service providers",
       url: "https://www.fatf-gafi.org/en/news/targeted-updated-va-vasps-2026.html",
     },
     {
-      title: "CFTC  Understand the Risks of Virtual Currency Trading",
+      title: "CFTC: Understand the Risks of Virtual Currency Trading",
       url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
     },
     {
-      title: "FINRA  Crypto Assets",
+      title: "FINRA: Crypto Assets",
       url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
     },
     {
-      title: "FCA  Investing in crypto",
+      title: "FCA: Investing in crypto",
       url: "https://www.fca.org.uk/investsmart/investing-crypto",
     },
     {
       title:
-        "ESMA and the European Supervisory Authorities  Consumer warning on crypto assets and limited protection",
+        "ESMA and the European Supervisory Authorities: Consumer warning on crypto assets and limited protection",
       url: "https://www.esma.europa.eu/press-news/esma-news/eu-supervisory-authorities-warn-consumers-risks-and-limited-protection-certain",
     },
     {
-      title: "Coinbase Help  Coinbase Help — Coinbase Advanced fees",
+      title: "Coinbase Help: Coinbase Help — Coinbase Advanced fees",
       url: "https://help.coinbase.com/en/coinbase/trading-and-funding/advanced-trade/advanced-trade-fees",
     },
     {
       title:
-        "Investor.gov (SEC)  Investor.gov (SEC) — Exercise Caution with Crypto Asset Securities: Investor Alert (2023)",
+        "Investor.gov (SEC): Investor.gov (SEC) — Exercise Caution with Crypto Asset Securities: Investor Alert (2023)",
       url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-alerts/crypto-asset-securities",
     },
     {
       title:
-        "Federal Trade Commission  Federal Trade Commission — Bitcoin ATMs: a payment portal for scammers (Data Spotlight, September 2024)",
+        "Federal Trade Commission: Federal Trade Commission — Bitcoin ATMs: a payment portal for scammers (Data Spotlight, September 2024)",
       url: "https://www.ftc.gov/news-events/data-visualizations/data-spotlight/2024/09/bitcoin-atms-payment-portal-scammers",
     },
     {
-      title: "ESMA  ESMA — Markets in Crypto-Assets Regulation (MiCA)",
+      title: "ESMA: ESMA — Markets in Crypto-Assets Regulation (MiCA)",
       url: "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica",
     },
     {
       title:
-        "Financial Conduct Authority  Financial Conduct Authority — Cryptoassets",
+        "Financial Conduct Authority: Financial Conduct Authority — Cryptoassets",
       url: "https://www.fca.org.uk/consumers/cryptoassets",
     },
     {
       title:
-        "FATF  FATF — Targeted update on implementation of the FATF standards on virtual assets and VASPs",
+        "FATF: FATF — Targeted update on implementation of the FATF standards on virtual assets and VASPs",
       url: "https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Targeted-update-virtual-assets-vasps.html",
     },
     {
-      title: "Coinbase Learn  Coinbase Learn — What is a stablecoin?",
+      title: "Coinbase Learn: Coinbase Learn — What is a stablecoin?",
       url: "https://www.coinbase.com/learn/crypto-basics/what-is-a-stablecoin",
     },
     {
       title:
-        "US SEC  US SEC — SEC charges Terraform and CEO Do Kwon with defrauding investors (16 February 2023)",
+        "US SEC: US SEC — SEC charges Terraform and CEO Do Kwon with defrauding investors (16 February 2023)",
       url: "https://www.sec.gov/newsroom/press-releases/2023-32",
     },
     {
       title:
-        "BIS  BIS — Annual Economic Report 2025, Chapter III: The next-generation monetary and financial system",
+        "BIS: BIS — Annual Economic Report 2025, Chapter III: The next-generation monetary and financial system",
       url: "https://www.bis.org/publ/arpdf/ar2025e3.htm",
     },
     {
-      title: "FCA  Qualifying retail crypto ETNs and continuing restrictions",
+      title: "FCA: Qualifying retail crypto ETNs and continuing restrictions",
       url: "https://www.fca.org.uk/news/statements/information-firms-offer-crypto-exchange-traded-notes",
     },
     {
-      title: "SEC  Crypto asset interpretation effective March 2026",
+      title: "SEC: Crypto asset interpretation effective March 2026",
       url: "https://www.sec.gov/rules-regulations/2026/03/s7-2026-09",
     },
     {
-      title: "ESMA  MiCA transition measures and authorisation",
+      title: "ESMA: MiCA transition measures and authorisation",
       url: "https://www.esma.europa.eu/publications-and-data/interactive-single-rulebook/mica/article-143-transitional-measures",
     },
     {
       title:
-        "FSCA  Crypto asset declaration and transitional licensing arrangements",
+        "FSCA: Crypto asset declaration and transitional licensing arrangements",
       url: "https://www.fsca.co.za/News%20Documents/FSCA%20Press%20Release_Declaration%20of%20Crypto%20Assets%20As%20A%20Financial%20Product_20%20October%202022.pdf",
     },
   ],
@@ -132,7 +132,7 @@ const metadata1: LessonMetadata = {
 };
 const sections1: LessonSection[] = [
   {
-    title: "Exchange broker and other service arrangements",
+    title: "Exchange, broker and other service arrangements",
     shortTitle: "Exchange broker and other service arrangements",
     blocks: [
       {
@@ -226,7 +226,7 @@ const sections1: LessonSection[] = [
     ],
   },
   {
-    title: "On ramps payment methods and delivery",
+    title: "On-ramps, payment methods and delivery",
     shortTitle: "On ramps payment methods and delivery",
     blocks: [
       {
@@ -737,97 +737,97 @@ const sections1: LessonSection[] = [
         items: [
           {
             title:
-              "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+              "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
             url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
           },
           {
-            title: "Coinbase  Advanced trade order types",
+            title: "Coinbase: Advanced trade order types",
             url: "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/advanced-trade/order-types",
           },
           {
-            title: "Uniswap  How Uniswap works",
+            title: "Uniswap: How Uniswap works",
             url: "https://developers.uniswap.org/docs/get-started/concepts/how-uniswap-works",
           },
           {
             title:
-              "FATF  2026 targeted update on virtual assets and service providers",
+              "FATF: 2026 targeted update on virtual assets and service providers",
             url: "https://www.fatf-gafi.org/en/news/targeted-updated-va-vasps-2026.html",
           },
           {
-            title: "CFTC  Understand the Risks of Virtual Currency Trading",
+            title: "CFTC: Understand the Risks of Virtual Currency Trading",
             url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
           },
           {
-            title: "FINRA  Crypto Assets",
+            title: "FINRA: Crypto Assets",
             url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
           },
           {
-            title: "FCA  Investing in crypto",
+            title: "FCA: Investing in crypto",
             url: "https://www.fca.org.uk/investsmart/investing-crypto",
           },
           {
             title:
-              "ESMA and the European Supervisory Authorities  Consumer warning on crypto assets and limited protection",
+              "ESMA and the European Supervisory Authorities: Consumer warning on crypto assets and limited protection",
             url: "https://www.esma.europa.eu/press-news/esma-news/eu-supervisory-authorities-warn-consumers-risks-and-limited-protection-certain",
           },
           {
-            title: "Coinbase Help  Coinbase Help — Coinbase Advanced fees",
+            title: "Coinbase Help: Coinbase Help — Coinbase Advanced fees",
             url: "https://help.coinbase.com/en/coinbase/trading-and-funding/advanced-trade/advanced-trade-fees",
           },
           {
             title:
-              "Investor.gov (SEC)  Investor.gov (SEC) — Exercise Caution with Crypto Asset Securities: Investor Alert (2023)",
+              "Investor.gov (SEC): Investor.gov (SEC) — Exercise Caution with Crypto Asset Securities: Investor Alert (2023)",
             url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-alerts/crypto-asset-securities",
           },
           {
             title:
-              "Federal Trade Commission  Federal Trade Commission — Bitcoin ATMs: a payment portal for scammers (Data Spotlight, September 2024)",
+              "Federal Trade Commission: Federal Trade Commission — Bitcoin ATMs: a payment portal for scammers (Data Spotlight, September 2024)",
             url: "https://www.ftc.gov/news-events/data-visualizations/data-spotlight/2024/09/bitcoin-atms-payment-portal-scammers",
           },
           {
-            title: "ESMA  ESMA — Markets in Crypto-Assets Regulation (MiCA)",
+            title: "ESMA: ESMA — Markets in Crypto-Assets Regulation (MiCA)",
             url: "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica",
           },
           {
             title:
-              "Financial Conduct Authority  Financial Conduct Authority — Cryptoassets",
+              "Financial Conduct Authority: Financial Conduct Authority — Cryptoassets",
             url: "https://www.fca.org.uk/consumers/cryptoassets",
           },
           {
             title:
-              "FATF  FATF — Targeted update on implementation of the FATF standards on virtual assets and VASPs",
+              "FATF: FATF — Targeted update on implementation of the FATF standards on virtual assets and VASPs",
             url: "https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Targeted-update-virtual-assets-vasps.html",
           },
           {
-            title: "Coinbase Learn  Coinbase Learn — What is a stablecoin?",
+            title: "Coinbase Learn: Coinbase Learn — What is a stablecoin?",
             url: "https://www.coinbase.com/learn/crypto-basics/what-is-a-stablecoin",
           },
           {
             title:
-              "US SEC  US SEC — SEC charges Terraform and CEO Do Kwon with defrauding investors (16 February 2023)",
+              "US SEC: US SEC — SEC charges Terraform and CEO Do Kwon with defrauding investors (16 February 2023)",
             url: "https://www.sec.gov/newsroom/press-releases/2023-32",
           },
           {
             title:
-              "BIS  BIS — Annual Economic Report 2025, Chapter III: The next-generation monetary and financial system",
+              "BIS: BIS — Annual Economic Report 2025, Chapter III: The next-generation monetary and financial system",
             url: "https://www.bis.org/publ/arpdf/ar2025e3.htm",
           },
           {
             title:
-              "FCA  Qualifying retail crypto ETNs and continuing restrictions",
+              "FCA: Qualifying retail crypto ETNs and continuing restrictions",
             url: "https://www.fca.org.uk/news/statements/information-firms-offer-crypto-exchange-traded-notes",
           },
           {
-            title: "SEC  Crypto asset interpretation effective March 2026",
+            title: "SEC: Crypto asset interpretation effective March 2026",
             url: "https://www.sec.gov/rules-regulations/2026/03/s7-2026-09",
           },
           {
-            title: "ESMA  MiCA transition measures and authorisation",
+            title: "ESMA: MiCA transition measures and authorisation",
             url: "https://www.esma.europa.eu/publications-and-data/interactive-single-rulebook/mica/article-143-transitional-measures",
           },
           {
             title:
-              "FSCA  Crypto asset declaration and transitional licensing arrangements",
+              "FSCA: Crypto asset declaration and transitional licensing arrangements",
             url: "https://www.fsca.co.za/News%20Documents/FSCA%20Press%20Release_Declaration%20of%20Crypto%20Assets%20As%20A%20Financial%20Product_20%20October%202022.pdf",
           },
         ],
@@ -867,29 +867,29 @@ const metadata2: LessonMetadata = {
   slug: "read-a-spot-market-and-order-book",
   sources: [
     {
-      title: "Coinbase  Advanced trade order types",
+      title: "Coinbase: Advanced trade order types",
       url: "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/advanced-trade/order-types",
     },
     {
-      title: "Kraken  What are Maker and Taker fees",
+      title: "Kraken: What are Maker and Taker fees",
       url: "https://support.kraken.com/in/articles/360000526126-what-are-maker-and-taker-fees-",
     },
     {
-      title: "CFTC  Understand the Risks of Virtual Currency Trading",
+      title: "CFTC: Understand the Risks of Virtual Currency Trading",
       url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
     },
     {
-      title: "Coinbase Help  Coinbase Help — Coinbase Advanced fees",
+      title: "Coinbase Help: Coinbase Help — Coinbase Advanced fees",
       url: "https://help.coinbase.com/en/coinbase/trading-and-funding/advanced-trade/advanced-trade-fees",
     },
     {
       title:
-        "Investor.gov (SEC)  Investor.gov (SEC) — Exercise Caution with Crypto Asset Securities: Investor Alert (2023)",
+        "Investor.gov (SEC): Investor.gov (SEC) — Exercise Caution with Crypto Asset Securities: Investor Alert (2023)",
       url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-alerts/crypto-asset-securities",
     },
     {
       title:
-        "Federal Trade Commission  Federal Trade Commission — Bitcoin ATMs: a payment portal for scammers (Data Spotlight, September 2024)",
+        "Federal Trade Commission: Federal Trade Commission — Bitcoin ATMs: a payment portal for scammers (Data Spotlight, September 2024)",
       url: "https://www.ftc.gov/news-events/data-visualizations/data-spotlight/2024/09/bitcoin-atms-payment-portal-scammers",
     },
   ],
@@ -1167,29 +1167,29 @@ const sections2: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "Coinbase  Advanced trade order types",
+            title: "Coinbase: Advanced trade order types",
             url: "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/advanced-trade/order-types",
           },
           {
-            title: "Kraken  What are Maker and Taker fees",
+            title: "Kraken: What are Maker and Taker fees",
             url: "https://support.kraken.com/in/articles/360000526126-what-are-maker-and-taker-fees-",
           },
           {
-            title: "CFTC  Understand the Risks of Virtual Currency Trading",
+            title: "CFTC: Understand the Risks of Virtual Currency Trading",
             url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
           },
           {
-            title: "Coinbase Help  Coinbase Help — Coinbase Advanced fees",
+            title: "Coinbase Help: Coinbase Help — Coinbase Advanced fees",
             url: "https://help.coinbase.com/en/coinbase/trading-and-funding/advanced-trade/advanced-trade-fees",
           },
           {
             title:
-              "Investor.gov (SEC)  Investor.gov (SEC) — Exercise Caution with Crypto Asset Securities: Investor Alert (2023)",
+              "Investor.gov (SEC): Investor.gov (SEC) — Exercise Caution with Crypto Asset Securities: Investor Alert (2023)",
             url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-alerts/crypto-asset-securities",
           },
           {
             title:
-              "Federal Trade Commission  Federal Trade Commission — Bitcoin ATMs: a payment portal for scammers (Data Spotlight, September 2024)",
+              "Federal Trade Commission: Federal Trade Commission — Bitcoin ATMs: a payment portal for scammers (Data Spotlight, September 2024)",
             url: "https://www.ftc.gov/news-events/data-visualizations/data-spotlight/2024/09/bitcoin-atms-payment-portal-scammers",
           },
         ],
@@ -1225,56 +1225,56 @@ const metadata3: LessonMetadata = {
   riskWarningRequired: true,
   seoDescription:
     "Choose an order description and calculate costs while recognising execution limits.",
-  seoTitle: "Orders Fees and the Cost of Execution",
+  seoTitle: "Orders, Fees and the Cost of Execution",
   slug: "crypto-orders-fees-and-execution-costs",
   sources: [
     {
-      title: "Coinbase  Advanced trade order types",
+      title: "Coinbase: Advanced trade order types",
       url: "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/advanced-trade/order-types",
     },
     {
-      title: "Kraken  What are Maker and Taker fees",
+      title: "Kraken: What are Maker and Taker fees",
       url: "https://support.kraken.com/in/articles/360000526126-what-are-maker-and-taker-fees-",
     },
     {
-      title: "Uniswap  How Uniswap works",
+      title: "Uniswap: How Uniswap works",
       url: "https://developers.uniswap.org/docs/get-started/concepts/how-uniswap-works",
     },
     {
-      title: "CFTC  Understand the Risks of Virtual Currency Trading",
+      title: "CFTC: Understand the Risks of Virtual Currency Trading",
       url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
     },
     {
-      title: "Coinbase Help  Coinbase Help — Coinbase Advanced fees",
+      title: "Coinbase Help: Coinbase Help — Coinbase Advanced fees",
       url: "https://help.coinbase.com/en/coinbase/trading-and-funding/advanced-trade/advanced-trade-fees",
     },
     {
       title:
-        "Investor.gov (SEC)  Investor.gov (SEC) — Exercise Caution with Crypto Asset Securities: Investor Alert (2023)",
+        "Investor.gov (SEC): Investor.gov (SEC) — Exercise Caution with Crypto Asset Securities: Investor Alert (2023)",
       url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-alerts/crypto-asset-securities",
     },
     {
       title:
-        "Federal Trade Commission  Federal Trade Commission — Bitcoin ATMs: a payment portal for scammers (Data Spotlight, September 2024)",
+        "Federal Trade Commission: Federal Trade Commission — Bitcoin ATMs: a payment portal for scammers (Data Spotlight, September 2024)",
       url: "https://www.ftc.gov/news-events/data-visualizations/data-spotlight/2024/09/bitcoin-atms-payment-portal-scammers",
     },
     {
-      title: "ESMA  ESMA — Markets in Crypto-Assets Regulation (MiCA)",
+      title: "ESMA: ESMA — Markets in Crypto-Assets Regulation (MiCA)",
       url: "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica",
     },
     {
       title:
-        "Financial Conduct Authority  Financial Conduct Authority — Cryptoassets",
+        "Financial Conduct Authority: Financial Conduct Authority — Cryptoassets",
       url: "https://www.fca.org.uk/consumers/cryptoassets",
     },
     {
       title:
-        "FATF  FATF — Targeted update on implementation of the FATF standards on virtual assets and VASPs",
+        "FATF: FATF — Targeted update on implementation of the FATF standards on virtual assets and VASPs",
       url: "https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Targeted-update-virtual-assets-vasps.html",
     },
   ],
   status: "published",
-  title: "Orders Fees and the Cost of Execution",
+  title: "Orders, Fees and the Cost of Execution",
 };
 const sections3: LessonSection[] = [
   {
@@ -1353,7 +1353,7 @@ const sections3: LessonSection[] = [
     ],
   },
   {
-    title: "Maker taker and marketable limit orders",
+    title: "Maker, taker and marketable limit orders",
     shortTitle: "Maker taker and marketable limit orders",
     blocks: [
       {
@@ -1398,7 +1398,7 @@ const sections3: LessonSection[] = [
     ],
   },
   {
-    title: "Separate fees spread impact and slippage",
+    title: "Separate fees, spread, impact and slippage",
     shortTitle: "Separate fees spread impact and slippage",
     blocks: [
       {
@@ -1600,47 +1600,47 @@ const sections3: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "Coinbase  Advanced trade order types",
+            title: "Coinbase: Advanced trade order types",
             url: "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/advanced-trade/order-types",
           },
           {
-            title: "Kraken  What are Maker and Taker fees",
+            title: "Kraken: What are Maker and Taker fees",
             url: "https://support.kraken.com/in/articles/360000526126-what-are-maker-and-taker-fees-",
           },
           {
-            title: "Uniswap  How Uniswap works",
+            title: "Uniswap: How Uniswap works",
             url: "https://developers.uniswap.org/docs/get-started/concepts/how-uniswap-works",
           },
           {
-            title: "CFTC  Understand the Risks of Virtual Currency Trading",
+            title: "CFTC: Understand the Risks of Virtual Currency Trading",
             url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
           },
           {
-            title: "Coinbase Help  Coinbase Help — Coinbase Advanced fees",
+            title: "Coinbase Help: Coinbase Help — Coinbase Advanced fees",
             url: "https://help.coinbase.com/en/coinbase/trading-and-funding/advanced-trade/advanced-trade-fees",
           },
           {
             title:
-              "Investor.gov (SEC)  Investor.gov (SEC) — Exercise Caution with Crypto Asset Securities: Investor Alert (2023)",
+              "Investor.gov (SEC): Investor.gov (SEC) — Exercise Caution with Crypto Asset Securities: Investor Alert (2023)",
             url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-alerts/crypto-asset-securities",
           },
           {
             title:
-              "Federal Trade Commission  Federal Trade Commission — Bitcoin ATMs: a payment portal for scammers (Data Spotlight, September 2024)",
+              "Federal Trade Commission: Federal Trade Commission — Bitcoin ATMs: a payment portal for scammers (Data Spotlight, September 2024)",
             url: "https://www.ftc.gov/news-events/data-visualizations/data-spotlight/2024/09/bitcoin-atms-payment-portal-scammers",
           },
           {
-            title: "ESMA  ESMA — Markets in Crypto-Assets Regulation (MiCA)",
+            title: "ESMA: ESMA — Markets in Crypto-Assets Regulation (MiCA)",
             url: "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica",
           },
           {
             title:
-              "Financial Conduct Authority  Financial Conduct Authority — Cryptoassets",
+              "Financial Conduct Authority: Financial Conduct Authority — Cryptoassets",
             url: "https://www.fca.org.uk/consumers/cryptoassets",
           },
           {
             title:
-              "FATF  FATF — Targeted update on implementation of the FATF standards on virtual assets and VASPs",
+              "FATF: FATF — Targeted update on implementation of the FATF standards on virtual assets and VASPs",
             url: "https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Targeted-update-virtual-assets-vasps.html",
           },
         ],
@@ -1680,43 +1680,43 @@ const metadata4: LessonMetadata = {
   slug: "stablecoins-and-peg-promises",
   sources: [
     {
-      title: "Circle  USDC Terms",
+      title: "Circle: USDC Terms",
       url: "https://www.circle.com/legal/usdc-terms",
     },
     {
-      title: "Circle  USDC Risk Factors",
+      title: "Circle: USDC Risk Factors",
       url: "https://www.circle.com/legal/usdc-risk-factors",
     },
     {
       title:
-        "ESMA and the European Supervisory Authorities  Consumer warning on crypto assets and limited protection",
+        "ESMA and the European Supervisory Authorities: Consumer warning on crypto assets and limited protection",
       url: "https://www.esma.europa.eu/press-news/esma-news/eu-supervisory-authorities-warn-consumers-risks-and-limited-protection-certain",
     },
     {
       title:
-        "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+        "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
       url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
     },
     {
-      title: "FCA  Investing in crypto",
+      title: "FCA: Investing in crypto",
       url: "https://www.fca.org.uk/investsmart/investing-crypto",
     },
     {
-      title: "FINRA  Crypto Assets",
+      title: "FINRA: Crypto Assets",
       url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
     },
     {
-      title: "Coinbase Learn  Coinbase Learn — What is a stablecoin?",
+      title: "Coinbase Learn: Coinbase Learn — What is a stablecoin?",
       url: "https://www.coinbase.com/learn/crypto-basics/what-is-a-stablecoin",
     },
     {
       title:
-        "US SEC  US SEC — SEC charges Terraform and CEO Do Kwon with defrauding investors (16 February 2023)",
+        "US SEC: US SEC — SEC charges Terraform and CEO Do Kwon with defrauding investors (16 February 2023)",
       url: "https://www.sec.gov/newsroom/press-releases/2023-32",
     },
     {
       title:
-        "BIS  BIS — Annual Economic Report 2025, Chapter III: The next-generation monetary and financial system",
+        "BIS: BIS — Annual Economic Report 2025, Chapter III: The next-generation monetary and financial system",
       url: "https://www.bis.org/publ/arpdf/ar2025e3.htm",
     },
   ],
@@ -2113,43 +2113,43 @@ const sections4: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "Circle  USDC Terms",
+            title: "Circle: USDC Terms",
             url: "https://www.circle.com/legal/usdc-terms",
           },
           {
-            title: "Circle  USDC Risk Factors",
+            title: "Circle: USDC Risk Factors",
             url: "https://www.circle.com/legal/usdc-risk-factors",
           },
           {
             title:
-              "ESMA and the European Supervisory Authorities  Consumer warning on crypto assets and limited protection",
+              "ESMA and the European Supervisory Authorities: Consumer warning on crypto assets and limited protection",
             url: "https://www.esma.europa.eu/press-news/esma-news/eu-supervisory-authorities-warn-consumers-risks-and-limited-protection-certain",
           },
           {
             title:
-              "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+              "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
             url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
           },
           {
-            title: "FCA  Investing in crypto",
+            title: "FCA: Investing in crypto",
             url: "https://www.fca.org.uk/investsmart/investing-crypto",
           },
           {
-            title: "FINRA  Crypto Assets",
+            title: "FINRA: Crypto Assets",
             url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
           },
           {
-            title: "Coinbase Learn  Coinbase Learn — What is a stablecoin?",
+            title: "Coinbase Learn: Coinbase Learn — What is a stablecoin?",
             url: "https://www.coinbase.com/learn/crypto-basics/what-is-a-stablecoin",
           },
           {
             title:
-              "US SEC  US SEC — SEC charges Terraform and CEO Do Kwon with defrauding investors (16 February 2023)",
+              "US SEC: US SEC — SEC charges Terraform and CEO Do Kwon with defrauding investors (16 February 2023)",
             url: "https://www.sec.gov/newsroom/press-releases/2023-32",
           },
           {
             title:
-              "BIS  BIS — Annual Economic Report 2025, Chapter III: The next-generation monetary and financial system",
+              "BIS: BIS — Annual Economic Report 2025, Chapter III: The next-generation monetary and financial system",
             url: "https://www.bis.org/publ/arpdf/ar2025e3.htm",
           },
         ],
@@ -2182,98 +2182,98 @@ const metadata5: LessonMetadata = {
   riskWarningRequired: true,
   seoDescription:
     "Assess provider exposure and prepare records before a service interruption.",
-  seoTitle: "Deposits Withdrawals and Exchange Failure",
+  seoTitle: "Deposits, Withdrawals and Exchange Failure",
   slug: "crypto-deposits-withdrawals-and-exchange-failure",
   sources: [
     {
-      title: "Kraken  How to deposit cryptocurrencies to your Kraken account",
+      title: "Kraken: How to deposit cryptocurrencies to your Kraken account",
       url: "https://support.kraken.com/articles/360000672643-how-to-deposit-cryptocurrencies-to-your-kraken-account?mode=consumerapp",
     },
     {
       title:
-        "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+        "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
       url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
     },
     {
-      title: "FINRA  Crypto Assets",
+      title: "FINRA: Crypto Assets",
       url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
     },
     {
-      title: "Kraken  Proof of Reserves",
+      title: "Kraken: Proof of Reserves",
       url: "https://www.kraken.com/gb/proof-of-reserves",
     },
     {
       title:
-        "PCAOB  Investor Bulletin on claims about PCAOB registration and oversight",
+        "PCAOB: Investor Bulletin on claims about PCAOB registration and oversight",
       url: "https://pcaobus.org/resources/information-for-investors/investor-advisories/investor-bulletin-comment-proposal-protect-investors-false-misleading-statements-pcaob-registration-oversight",
     },
     {
       title:
-        "ESMA and the European Supervisory Authorities  Consumer warning on crypto assets and limited protection",
+        "ESMA and the European Supervisory Authorities: Consumer warning on crypto assets and limited protection",
       url: "https://www.esma.europa.eu/press-news/esma-news/eu-supervisory-authorities-warn-consumers-risks-and-limited-protection-certain",
     },
     {
-      title: "FCA  Investing in crypto",
+      title: "FCA: Investing in crypto",
       url: "https://www.fca.org.uk/investsmart/investing-crypto",
     },
     {
-      title: "Glassnode  Exchange Data Transparency Notice",
+      title: "Glassnode: Exchange Data Transparency Notice",
       url: "https://docs.glassnode.com/further-information/exchange-data-transparency-notice",
     },
     {
-      title: "ESMA  ESMA — Markets in Crypto-Assets Regulation (MiCA)",
+      title: "ESMA: ESMA — Markets in Crypto-Assets Regulation (MiCA)",
       url: "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica",
     },
     {
       title:
-        "Financial Conduct Authority  Financial Conduct Authority — Cryptoassets",
+        "Financial Conduct Authority: Financial Conduct Authority — Cryptoassets",
       url: "https://www.fca.org.uk/consumers/cryptoassets",
     },
     {
       title:
-        "FATF  FATF — Targeted update on implementation of the FATF standards on virtual assets and VASPs",
+        "FATF: FATF — Targeted update on implementation of the FATF standards on virtual assets and VASPs",
       url: "https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Targeted-update-virtual-assets-vasps.html",
     },
     {
-      title: "Coinbase Learn  Coinbase Learn — What is a stablecoin?",
+      title: "Coinbase Learn: Coinbase Learn — What is a stablecoin?",
       url: "https://www.coinbase.com/learn/crypto-basics/what-is-a-stablecoin",
     },
     {
       title:
-        "US SEC  US SEC — SEC charges Terraform and CEO Do Kwon with defrauding investors (16 February 2023)",
+        "US SEC: US SEC — SEC charges Terraform and CEO Do Kwon with defrauding investors (16 February 2023)",
       url: "https://www.sec.gov/newsroom/press-releases/2023-32",
     },
     {
       title:
-        "BIS  BIS — Annual Economic Report 2025, Chapter III: The next-generation monetary and financial system",
+        "BIS: BIS — Annual Economic Report 2025, Chapter III: The next-generation monetary and financial system",
       url: "https://www.bis.org/publ/arpdf/ar2025e3.htm",
     },
     {
       title:
-        "Mt. Gox Rehabilitation Trustee  Mt. Gox Rehabilitation Trustee — Official notices",
+        "Mt. Gox Rehabilitation Trustee: Mt. Gox Rehabilitation Trustee — Official notices",
       url: "https://www.mtgox.com",
     },
     {
       title:
-        "US Department of Justice  US Department of Justice — Samuel Bankman-Fried Sentenced to 25 Years",
+        "US Department of Justice: US Department of Justice — Samuel Bankman-Fried Sentenced to 25 Years",
       url: "https://www.justice.gov/archives/opa/pr/samuel-bankman-fried-sentenced-25-years-his-orchestration-multiple-fraudulent-schemes",
     },
     {
       title:
-        "Federal Trade Commission  Federal Trade Commission — FTC reaches settlement with crypto platform Celsius Network; charges former executives (13 July 2023)",
+        "Federal Trade Commission: Federal Trade Commission — FTC reaches settlement with crypto platform Celsius Network; charges former executives (13 July 2023)",
       url: "https://www.ftc.gov/news-events/news/press-releases/2023/07/ftc-reaches-settlement-crypto-platform-celsius-network-charges-former-executives-duping-consumers",
     },
     {
-      title: "OSC staff  QuadrigaCX review",
+      title: "OSC staff: QuadrigaCX review",
       url: "https://www.osc.gov.on.ca/quadrigacxreport/",
     },
   ],
   status: "published",
-  title: "Deposits Withdrawals and Exchange Failure",
+  title: "Deposits, Withdrawals and Exchange Failure",
 };
 const sections5: LessonSection[] = [
   {
-    title: "Deposits withdrawals fees and holds",
+    title: "Deposits, withdrawals, fees and holds",
     shortTitle: "Deposits withdrawals fees and holds",
     blocks: [
       {
@@ -2646,7 +2646,7 @@ const sections5: LessonSection[] = [
     ],
   },
   {
-    title: "Reports insurance warning signs and an incident plan",
+    title: "Reports, insurance, warning signs and an incident plan",
     shortTitle: "Reports insurance warning signs and an incident plan",
     blocks: [
       {
@@ -2837,85 +2837,85 @@ const sections5: LessonSection[] = [
         items: [
           {
             title:
-              "Kraken  How to deposit cryptocurrencies to your Kraken account",
+              "Kraken: How to deposit cryptocurrencies to your Kraken account",
             url: "https://support.kraken.com/articles/360000672643-how-to-deposit-cryptocurrencies-to-your-kraken-account?mode=consumerapp",
           },
           {
             title:
-              "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+              "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
             url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
           },
           {
-            title: "FINRA  Crypto Assets",
+            title: "FINRA: Crypto Assets",
             url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
           },
           {
-            title: "Kraken  Proof of Reserves",
+            title: "Kraken: Proof of Reserves",
             url: "https://www.kraken.com/gb/proof-of-reserves",
           },
           {
             title:
-              "PCAOB  Investor Bulletin on claims about PCAOB registration and oversight",
+              "PCAOB: Investor Bulletin on claims about PCAOB registration and oversight",
             url: "https://pcaobus.org/resources/information-for-investors/investor-advisories/investor-bulletin-comment-proposal-protect-investors-false-misleading-statements-pcaob-registration-oversight",
           },
           {
             title:
-              "ESMA and the European Supervisory Authorities  Consumer warning on crypto assets and limited protection",
+              "ESMA and the European Supervisory Authorities: Consumer warning on crypto assets and limited protection",
             url: "https://www.esma.europa.eu/press-news/esma-news/eu-supervisory-authorities-warn-consumers-risks-and-limited-protection-certain",
           },
           {
-            title: "FCA  Investing in crypto",
+            title: "FCA: Investing in crypto",
             url: "https://www.fca.org.uk/investsmart/investing-crypto",
           },
           {
-            title: "Glassnode  Exchange Data Transparency Notice",
+            title: "Glassnode: Exchange Data Transparency Notice",
             url: "https://docs.glassnode.com/further-information/exchange-data-transparency-notice",
           },
           {
-            title: "ESMA  ESMA — Markets in Crypto-Assets Regulation (MiCA)",
+            title: "ESMA: ESMA — Markets in Crypto-Assets Regulation (MiCA)",
             url: "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica",
           },
           {
             title:
-              "Financial Conduct Authority  Financial Conduct Authority — Cryptoassets",
+              "Financial Conduct Authority: Financial Conduct Authority — Cryptoassets",
             url: "https://www.fca.org.uk/consumers/cryptoassets",
           },
           {
             title:
-              "FATF  FATF — Targeted update on implementation of the FATF standards on virtual assets and VASPs",
+              "FATF: FATF — Targeted update on implementation of the FATF standards on virtual assets and VASPs",
             url: "https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Targeted-update-virtual-assets-vasps.html",
           },
           {
-            title: "Coinbase Learn  Coinbase Learn — What is a stablecoin?",
+            title: "Coinbase Learn: Coinbase Learn — What is a stablecoin?",
             url: "https://www.coinbase.com/learn/crypto-basics/what-is-a-stablecoin",
           },
           {
             title:
-              "US SEC  US SEC — SEC charges Terraform and CEO Do Kwon with defrauding investors (16 February 2023)",
+              "US SEC: US SEC — SEC charges Terraform and CEO Do Kwon with defrauding investors (16 February 2023)",
             url: "https://www.sec.gov/newsroom/press-releases/2023-32",
           },
           {
             title:
-              "BIS  BIS — Annual Economic Report 2025, Chapter III: The next-generation monetary and financial system",
+              "BIS: BIS — Annual Economic Report 2025, Chapter III: The next-generation monetary and financial system",
             url: "https://www.bis.org/publ/arpdf/ar2025e3.htm",
           },
           {
             title:
-              "Mt. Gox Rehabilitation Trustee  Mt. Gox Rehabilitation Trustee — Official notices",
+              "Mt. Gox Rehabilitation Trustee: Mt. Gox Rehabilitation Trustee — Official notices",
             url: "https://www.mtgox.com",
           },
           {
             title:
-              "US Department of Justice  US Department of Justice — Samuel Bankman-Fried Sentenced to 25 Years",
+              "US Department of Justice: US Department of Justice — Samuel Bankman-Fried Sentenced to 25 Years",
             url: "https://www.justice.gov/archives/opa/pr/samuel-bankman-fried-sentenced-25-years-his-orchestration-multiple-fraudulent-schemes",
           },
           {
             title:
-              "Federal Trade Commission  Federal Trade Commission — FTC reaches settlement with crypto platform Celsius Network; charges former executives (13 July 2023)",
+              "Federal Trade Commission: Federal Trade Commission — FTC reaches settlement with crypto platform Celsius Network; charges former executives (13 July 2023)",
             url: "https://www.ftc.gov/news-events/news/press-releases/2023/07/ftc-reaches-settlement-crypto-platform-celsius-network-charges-former-executives-duping-consumers",
           },
           {
-            title: "OSC staff  QuadrigaCX review",
+            title: "OSC staff: QuadrigaCX review",
             url: "https://www.osc.gov.on.ca/quadrigacxreport/",
           },
         ],

@@ -46,7 +46,7 @@ export const cryptoTokenResearchQuizV1: AssessmentDefinition = {
       prompt:
         'Kenji in Osaka compares two invented cloud-storage projects. Project A requires its token to pay for every gigabyte, and storage providers are paid in it. Project B lets users pay by bank card; its token only gives holders a "community badge". Which conclusion fits what you have learned?',
       explanation:
-        "Correct choice  D. Project A's token is part of how its service works, while Project B's token could disappear without users noticing.\n\nA token has a real use when something actually requires it, and only Project A's service does. A is the tempting trap: a real use promises nothing about price, because a token can be needed by a service few people want or be created in far greater numbers than its use needs.",
+        "Correct choice: Project A's token is part of how its service works, while Project B's token could disappear without users noticing.\n\nA token has a real use when something actually requires it, and only Project A's service does. The answer “Project A's token will rise in price, because the service needs it” is the tempting trap: a real use promises nothing about price, because a token can be needed by a service few people want or be created in far greater numbers than its use needs.",
       type: "single-choice",
       choices: [
         {
@@ -77,7 +77,7 @@ export const cryptoTokenResearchQuizV1: AssessmentDefinition = {
       prompt:
         "How does an initial exchange offering (IEO) differ from an initial coin offering (ICO)?",
       explanation:
-        "Correct choice  B. In an IEO a centralised exchange runs the sale and does some checks, while in an ICO the project usually sells directly to the public.\n\nIn an IEO the exchange handles the sale and some due diligence, which an ICO often lacks. C is tempting, but a sale on a decentralised exchange is an IDO, which usually has less vetting, not more.",
+        "Correct choice: In an IEO a centralised exchange runs the sale and does some checks, while in an ICO the project usually sells directly to the public.\n\nIn an IEO the exchange handles the sale and some due diligence, which an ICO often lacks. The answer “An IEO runs on a decentralised exchange that anyone can join, while an ICO runs through a regulated bank” is tempting, but a sale on a decentralised exchange is an IDO, which usually has less vetting, not more.",
       type: "single-choice",
       choices: [
         {
@@ -108,7 +108,7 @@ export const cryptoTokenResearchQuizV1: AssessmentDefinition = {
       prompt:
         'Inès in Marseille notices an unknown token in her wallet. Its name contains a web address and the words "Claim your reward", and the wallet shows it as worth €3,000 (an invented amount). What is the safest thing to do?',
       explanation:
-        "Correct choice  A. Leave the token untouched, and check for any genuine airdrop only through the project's official channels, reached from her own bookmark.\n\nUnexpected tokens with a link in their name are a common airdrop-scam bait, so the safest move is not to interact at all. B is tempting, but connecting and signing on that site could grant an approval that lets the scammer move her real tokens; and no genuine team ever needs a seed phrase.",
+        "Correct choice: Leave the token untouched, and check for any genuine airdrop only through the project's official channels, reached from her own bookmark.\n\nUnexpected tokens with a link in their name are a common airdrop-scam bait, so the safest move is not to interact at all. The answer “Visit the web address in the token's name and connect her wallet, to see whether the reward is real” is tempting, but connecting and signing on that site could grant an approval that lets the scammer move her real tokens; and no genuine team ever needs a seed phrase.",
       type: "single-choice",
       choices: [
         {
@@ -139,7 +139,7 @@ export const cryptoTokenResearchQuizV1: AssessmentDefinition = {
       prompt:
         "At the same moment, two aggregators use the same quoted token price but show different market caps. What could explain the difference?",
       explanation:
-        "Correct choice  C. Circulating supply involves judgement about which holdings to exclude, so the sites may count different numbers of tokens.\n\nDifferent circulating-supply definitions, exclusions and source updates can give different indicated market caps at the same supplied price. If prices also differ, that is another possible cause. Compare the actual fields and timestamps.",
+        "Correct choice: Circulating supply involves judgement about which holdings to exclude, so the sites may count different numbers of tokens.\n\nDifferent circulating-supply definitions, exclusions and source updates can give different indicated market caps at the same supplied price. If prices also differ, that is another possible cause. Compare the actual fields and timestamps.",
       type: "single-choice",
       choices: [
         {
@@ -170,7 +170,7 @@ export const cryptoTokenResearchQuizV1: AssessmentDefinition = {
       prompt:
         "An invented token trades at INR 20, with 30 million circulating units, 120 million total units and a 200 million maximum. Using maximum supply as the stated FDV basis, what are market cap and FDV?",
       explanation:
-        "Correct choice  B. Market cap ₹600 million; FDV ₹4 billion\n\nMarket cap is INR 20 × 30 million = INR 600 million. FDV on the question's maximum basis is INR 20 × 200 million = INR 4 billion. A provider using total supply would report a different basis, so the word FDV alone cannot decide the denominator.",
+        "Correct choice: Market cap ₹600 million; FDV ₹4 billion\n\nMarket cap is INR 20 × 30 million = INR 600 million. FDV on the question's maximum basis is INR 20 × 200 million = INR 4 billion. A provider using total supply would report a different basis, so the word FDV alone cannot decide the denominator.",
       type: "single-choice",
       choices: [
         {
@@ -197,7 +197,7 @@ export const cryptoTokenResearchQuizV1: AssessmentDefinition = {
       prompt:
         "An invented token has market cap USD 45 million and FDV USD 300 million. Both use the same unit price, and FDV explicitly uses maximum supply. What share of that supply is counted as circulating?",
       explanation:
-        "Correct choice  D. 15%\n\nThe common price cancels: 45 divided by 300 is 15 percent. This conclusion depends on the supplied maximum-supply basis. The remaining 85 percent is outside that circulating estimate, not necessarily a scheduled future sale.",
+        "Correct choice: 15%\n\nThe common price cancels: 45 divided by 300 is 15 percent. This conclusion depends on the supplied maximum-supply basis. The remaining 85 percent is outside that circulating estimate, not necessarily a scheduled future sale.",
       type: "single-choice",
       choices: [
         {
@@ -224,7 +224,7 @@ export const cryptoTokenResearchQuizV1: AssessmentDefinition = {
       prompt:
         "In an invented project, team members and investors hold 240 million tokens. After a one-year cliff, 25% unlocks at once and the rest unlocks in equal monthly amounts over the next three years. How many tokens unlock on the cliff date, and how many each month after that?",
       explanation:
-        "Correct choice  C. 60 million on the cliff date, then 5 million a month\n\n25% of 240 million is 60 million on the cliff date, leaving 180 million to spread over 36 months: 180 ÷ 36 = 5 million a month. A is tempting, but it divides all 240 million by 36 and forgets that 60 million were already released at the cliff.",
+        "Correct choice: 60 million on the cliff date, then 5 million a month\n\n25% of 240 million is 60 million on the cliff date, leaving 180 million to spread over 36 months: 180 ÷ 36 = 5 million a month. The answer “60 million on the cliff date, then about 6.7 million a month” is tempting, but it divides all 240 million by 36 and forgets that 60 million were already released at the cliff.",
       type: "single-choice",
       choices: [
         {
@@ -251,7 +251,7 @@ export const cryptoTokenResearchQuizV1: AssessmentDefinition = {
       prompt:
         "Hyun-woo in Busan looks at an invented token launching at ₩800. Only 8% of its maximum supply is circulating. Private investors paid ₩40 per token two years earlier, hold 25% of the supply and can sell after a one-year cliff. What is the main concern for a later buyer like him?",
       explanation:
-        "Correct choice  B. Insiders with a much lower purchase price can remain profitable after a fall, and future releases create a supply-and-incentive question for later buyers.\n\nAt half the fictional launch price, an investor who paid one-twentieth of that price still has a large gross gain. Low circulation and future release rights deserve investigation. Eligibility to sell does not show that all tokens will be sold or force a particular price.",
+        "Correct choice: Insiders with a much lower purchase price can remain profitable after a fall, and future releases create a supply-and-incentive question for later buyers.\n\nAt half the fictional launch price, an investor who paid one-twentieth of that price still has a large gross gain. Low circulation and future release rights deserve investigation. Eligibility to sell does not show that all tokens will be sold or force a particular price.",
       type: "single-choice",
       choices: [
         {
@@ -282,7 +282,7 @@ export const cryptoTokenResearchQuizV1: AssessmentDefinition = {
       prompt:
         'What does it mean when a block explorer such as Etherscan shows a token\'s contract as "verified"?',
       explanation:
-        "Correct choice  A. The explorer's verification procedure matches published source and build information to the identified deployed bytecode; it does not certify safety.\n\nCheck the relevant contract, build settings and current implementation. A proxy can point to other code, and upgrades can change the operative version. Source verification, a security review and legal rights are separate questions.",
+        "Correct choice: The explorer's verification procedure matches published source and build information to the identified deployed bytecode; it does not certify safety.\n\nCheck the relevant contract, build settings and current implementation. A proxy can point to other code, and upgrades can change the operative version. Source verification, a security review and legal rights are separate questions.",
       type: "single-choice",
       choices: [
         {
@@ -313,7 +313,7 @@ export const cryptoTokenResearchQuizV1: AssessmentDefinition = {
       prompt:
         "Lukas in Munich sees an invented token whose price has only risen for three days. The explorer shows 900 buy transactions and 3 sells, all three from the address that deployed the contract. What is the best reading?",
       explanation:
-        "Correct choice  C. It looks like a possible honeypot, and a small test purchase would not be a safe check, so he should avoid it.\n\nMany buys and almost no sells, with only the creator selling, fits the honeypot pattern where buyers cannot get out. B is tempting, but a test is not safe, because the contract may let small sells through or change its rules later.",
+        "Correct choice: It looks like a possible honeypot, and a small test purchase would not be a safe check, so he should avoid it.\n\nMany buys and almost no sells, with only the creator selling, fits the honeypot pattern where buyers cannot get out. The answer “It looks like a possible honeypot, so he should buy a small amount first to test whether selling works” is tempting, but a test is not safe, because the contract may let small sells through or change its rules later.",
       type: "single-choice",
       choices: [
         {
@@ -344,7 +344,7 @@ export const cryptoTokenResearchQuizV1: AssessmentDefinition = {
       prompt:
         'Ayşe in Ankara is filling in the "Unlocks" row of her token research template for an invented token. Its maximum supply is 1 billion and its circulating supply is 50 million. A team wallet holding 30% of the maximum supply unlocks in two weeks. How many tokens could the team sell after the unlock, compared with today\'s circulating supply?',
       explanation:
-        "Correct choice  B. 300 million, which is six times today's circulating supply\n\nThirty percent of one billion is 300 million units, six times the supplied circulating estimate of 50 million. That is potential release capacity under the stated terms, not six times today's trading volume, proof of a sale or a forecast of price.",
+        "Correct choice: 300 million, which is six times today's circulating supply\n\nThirty percent of one billion is 300 million units, six times the supplied circulating estimate of 50 million. That is potential release capacity under the stated terms, not six times today's trading volume, proof of a sale or a forecast of price.",
       type: "single-choice",
       choices: [
         {
@@ -371,7 +371,7 @@ export const cryptoTokenResearchQuizV1: AssessmentDefinition = {
       prompt:
         "At USD 0.50 with 80 million circulating units and 200 million maximum units, what are the indicated values?",
       explanation:
-        "Correct choice  B. USD 40 million market cap and USD 100 million FDV on the maximum basis\n\nA. USD 0.50 for both. Unit price omits the supply dimension.\n\nB. USD 40 million market cap and USD 100 million FDV on the maximum basis. Each uses price multiplied by its specified supply.\n\nC. USD 100 million market cap and USD 40 million FDV. The supply bases are reversed.\n\nD. USD 280 million for both. Adding supply figures does not calculate either metric.",
+        "Correct choice: USD 40 million market cap and USD 100 million FDV on the maximum basis\n\nUSD 0.50 for both. Unit price omits the supply dimension.\n\nUSD 40 million market cap and USD 100 million FDV on the maximum basis. Each uses price multiplied by its specified supply.\n\nUSD 100 million market cap and USD 40 million FDV. The supply bases are reversed.\n\nUSD 280 million for both. Adding supply figures does not calculate either metric.",
       type: "single-choice",
       choices: [
         {
@@ -398,7 +398,7 @@ export const cryptoTokenResearchQuizV1: AssessmentDefinition = {
       id: "crypto-token-research-13",
       prompt: "What does market capitalisation represent?",
       explanation:
-        "Correct choice  C. Price multiplied by a stated circulating estimate\n\nA. The project's treasury bank balance. Treasury assets are a separate measure.\n\nB. Cumulative deposits made into the project. The metric is not a cash-flow ledger.\n\nC. Price multiplied by a stated circulating estimate. It is an indicated valuation under those inputs.\n\nD. Cash guaranteed available for all holders to exit. Liquidity may be much smaller.",
+        "Correct choice: Price multiplied by a stated circulating estimate\n\nThe project's treasury bank balance. Treasury assets are a separate measure.\n\nCumulative deposits made into the project. The metric is not a cash-flow ledger.\n\nPrice multiplied by a stated circulating estimate. It is an indicated valuation under those inputs.\n\nCash guaranteed available for all holders to exit. Liquidity may be much smaller.",
       type: "single-choice",
       choices: [
         {
@@ -425,7 +425,7 @@ export const cryptoTokenResearchQuizV1: AssessmentDefinition = {
       prompt:
         "A cliff releases 3 million units, followed by two monthly releases of 750,000. How many have unlocked?",
       explanation:
-        "Correct choice  A. 4.5 million units\n\nA. 4.5 million units. Three million plus 1.5 million gives 4.5 million.\n\nB. 1.5 million units. This ignores the cliff release.\n\nC. 12 million units. That is the complete example allocation, not the current release.\n\nD. All circulating units by definition. Unlock and circulation are different classifications.",
+        "Correct choice: 4.5 million units\n\n4.5 million units. Three million plus 1.5 million gives 4.5 million.\n\n1.5 million units. This ignores the cliff release.\n\n12 million units. That is the complete example allocation, not the current release.\n\nAll circulating units by definition. Unlock and circulation are different classifications.",
       type: "single-choice",
       choices: [
         {
@@ -452,7 +452,7 @@ export const cryptoTokenResearchQuizV1: AssessmentDefinition = {
       prompt:
         "An audit covers version 1 but version 2 is deployed. What is the appropriate dossier statement?",
       explanation:
-        "Correct choice  D. Current changes and applicable review remain to be checked\n\nA. Version 2 is fully certified by the old report. The conclusion exceeds the evidence.\n\nB. No version information is needed. Version is central to security-report scope.\n\nC. Only a price chart can resolve the code question. Price history cannot establish reviewed code behaviour.\n\nD. Current changes and applicable review remain to be checked. An older scope cannot automatically cover a later version.",
+        "Correct choice: Current changes and applicable review remain to be checked\n\nVersion 2 is fully certified by the old report. The conclusion exceeds the evidence.\n\nNo version information is needed. Version is central to security-report scope.\n\nOnly a price chart can resolve the code question. Price history cannot establish reviewed code behaviour.\n\nCurrent changes and applicable review remain to be checked. An older scope cannot automatically cover a later version.",
       type: "single-choice",
       choices: [
         {

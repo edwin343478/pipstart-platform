@@ -162,14 +162,14 @@ for (const width of [1440, 390]) {
         page.getByRole("checkbox", { name: "Show all sections at once" }),
       ).not.toBeChecked();
     }
-    await choose("DAOs Governance Oracles and Audit Limits");
+    await choose("DAOs, Governance, Oracles and Audit Limits");
     await page.getByRole("tab").nth(2).click();
-    await choose("Consensus Network Security and Cross Chain Dependencies");
+    await choose("Consensus, Network Security and Cross-Chain Dependencies");
     await page.getByRole("tab").last().click();
     await expect(
       page.getByRole("tabpanel").getByRole("checkbox").first(),
     ).toBeChecked();
-    await choose("Consensus Network Security and Cross Chain Dependencies");
+    await choose("Consensus, Network Security and Cross-Chain Dependencies");
   });
 }
 
@@ -233,7 +233,7 @@ test("Level 10 grades all fifteen approved answers on the server and reveals exp
   await expect(page.getByText("Passed", { exact: true }).first()).toBeVisible();
   await expect(
     page.getByText(
-      "A soft fork makes only previously valid blocks or transactions invalid, so old nodes still accept new blocks. A hard fork (option A) changes the rules so that non-upgraded nodes reject new blocks, which can split the chain.",
+      "A soft fork makes only previously valid blocks or transactions invalid, so old nodes still accept new blocks. A hard fork changes the rules so that non-upgraded nodes reject new blocks, which can split the chain.",
       { exact: false },
     ),
   ).toBeVisible();
@@ -252,7 +252,7 @@ test("the curriculum opens Level 10 and both hierarchy pages expose all four les
   await entry.click();
   await expect(
     page.getByRole("heading", {
-      name: "Consensus Network Security and Cross Chain Dependencies",
+      name: "Consensus, Network Security and Cross-Chain Dependencies",
       exact: true,
     }),
   ).toBeVisible();

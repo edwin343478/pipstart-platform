@@ -10,7 +10,7 @@ import { createDynamicMetadata } from "../../../../../lib/seo";
 
 export const metadata = createDynamicMetadata({
   path: "/learn/crypto/level-3/crypto-exchanges-and-markets",
-  title: "Exchanges Stablecoins and Market Orders",
+  title: "Exchanges, Stablecoins and Market Orders",
   description:
     "Five complete exchange, stablecoin and market-order lessons with examples, practice and a fifteen-question quiz.",
 });

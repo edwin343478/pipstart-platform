@@ -64,7 +64,7 @@ export const cryptoBitcoinQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["b"],
       explanation:
-        "Correct choice  B. Double-spending\n\nA digital file can be copied perfectly, so without a record-keeper the same money can be spent twice. A 51% attack is a different problem: a miner majority trying to replace recent blocks, and no blockchain is involved here.",
+        "Correct choice: Double-spending\n\nA digital file can be copied perfectly, so without a record-keeper the same money can be spent twice. A 51% attack is a different problem: a miner majority trying to replace recent blocks, and no blockchain is involved here.",
     },
     {
       id: "bitcoin-foundations-2",
@@ -95,7 +95,7 @@ export const cryptoBitcoinQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["b"],
       explanation:
-        "Correct choice  B. It is very hard to change, and harder the older the block; the most recent block can occasionally be replaced in a short reorganisation.\n\nShort reorganisations of a block or two happen from time to time, so recent blocks are less settled than older ones. Option C is tempting, but six confirmations is a common rule of thumb for large amounts, not a protocol rule.",
+        "Correct choice: It is very hard to change, and harder the older the block; the most recent block can occasionally be replaced in a short reorganisation.\n\nShort reorganisations of a block or two happen from time to time, so recent blocks are less settled than older ones. The answer “Miners can freely change a block until it has six confirmations, after which a protocol rule locks it” is tempting, but six confirmations is a common rule of thumb for large amounts, not a protocol rule.",
     },
     {
       id: "bitcoin-foundations-3",
@@ -122,7 +122,7 @@ export const cryptoBitcoinQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["d"],
       explanation:
-        "Correct choice  D. 2,160 sats (0.0000216 BTC)\n\nFee = size × fee rate = 180 × 12 = 2,160 sats, and 2,160 ÷ 100,000,000 = 0.0000216 BTC. Option B has the right number of sats but converts it to BTC wrongly, by one decimal place.",
+        "Correct choice: 2,160 sats (0.0000216 BTC)\n\nFee = size × fee rate = 180 × 12 = 2,160 sats, and 2,160 ÷ 100,000,000 = 0.0000216 BTC. The answer “2,160 sats (0.000216 BTC)” has the right number of sats but converts it to BTC wrongly, by one decimal place.",
     },
     {
       id: "bitcoin-foundations-4",
@@ -152,7 +152,7 @@ export const cryptoBitcoinQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["a"],
       explanation:
-        "Correct choice  A. In a basic payment-channel model, parties commit bitcoin on the main chain and update balances off-chain; ordinary cooperative use mainly records opening and closing on-chain.\n\nLightning channels can avoid broadcasting each payment to the base chain. Unilateral closes, dispute handling and other channel actions can involve additional on-chain transactions. The simplified opening-and-closing description is not every channel outcome.",
+        "Correct choice: In a basic payment-channel model, parties commit bitcoin on the main chain and update balances off-chain; ordinary cooperative use mainly records opening and closing on-chain.\n\nLightning channels can avoid broadcasting each payment to the base chain. Unilateral closes, dispute handling and other channel actions can involve additional on-chain transactions. The simplified opening-and-closing description is not every channel outcome.",
     },
     {
       id: "bitcoin-foundations-5",
@@ -179,7 +179,7 @@ export const cryptoBitcoinQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["b"],
       explanation:
-        "Correct choice  B. Down about 30%\n\nNew difficulty ≈ old × (14 ÷ 20) = old × 0.7, a fall of about 30% that pulls blocks back towards 10 minutes. Option A flips the fraction to 20 ÷ 14, which would wrongly make mining harder when blocks are already slow.",
+        "Correct choice: Down about 30%\n\nNew difficulty ≈ old × (14 ÷ 20) = old × 0.7, a fall of about 30% that pulls blocks back towards 10 minutes. The answer “Up about 43%” flips the fraction to 20 ÷ 14, which would wrongly make mining harder when blocks are already slow.",
     },
     {
       id: "bitcoin-foundations-6",
@@ -210,7 +210,7 @@ export const cryptoBitcoinQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["c"],
       explanation:
-        "Correct choice  C. Release a secret chain with more work to reverse their own recent payment, double-spending a seller who accepted it too early\n\nA majority attacker can try to replace recent blocks to undo their own payments or leave transactions out. They cannot forge signatures, so option A is wrong, and nodes reject any block that pays more than the rules allow.",
+        "Correct choice: Release a secret chain with more work to reverse their own recent payment, double-spending a seller who accepted it too early\n\nA majority attacker can try to replace recent blocks to undo their own payments or leave transactions out. They cannot forge signatures, so the answer “Spend coins from other people's addresses without their private keys” is wrong, and nodes reject any block that pays more than the rules allow.",
     },
     {
       id: "bitcoin-foundations-7",
@@ -241,7 +241,7 @@ export const cryptoBitcoinQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["d"],
       explanation:
-        "Correct choice  D. Treat the fixed three-percent daily promise as a serious red flag; an advert does not demonstrate actual mining revenue or the ability to fund that promise.\n\nUnderlying mining revenue varies with output, difficulty, fees, equipment costs and price. A contract may promise a payment, but that adds counterparty and evidence questions rather than making the underlying income fixed. Fake dashboards cannot establish production.",
+        "Correct choice: Treat the fixed three-percent daily promise as a serious red flag; an advert does not demonstrate actual mining revenue or the ability to fund that promise.\n\nUnderlying mining revenue varies with output, difficulty, fees, equipment costs and price. A contract may promise a payment, but that adds counterparty and evidence questions rather than making the underlying income fixed. Fake dashboards cannot establish production.",
     },
     {
       id: "bitcoin-foundations-8",
@@ -268,7 +268,7 @@ export const cryptoBitcoinQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["a"],
       explanation:
-        "Correct choice  A. 0.005 BTC\n\n0.0042 BTC is 420,000 sats; adding 80,000 gives 500,000 sats, and 500,000 ÷ 100,000,000 = 0.005 BTC. Option B treats 80,000 sats as 0.008 BTC, ten times too much.",
+        "Correct choice: 0.005 BTC\n\n0.0042 BTC is 420,000 sats; adding 80,000 gives 500,000 sats, and 500,000 ÷ 100,000,000 = 0.005 BTC. The answer “0.0122 BTC” treats 80,000 sats as 0.008 BTC, ten times too much.",
     },
     {
       id: "bitcoin-foundations-9",
@@ -299,7 +299,7 @@ export const cryptoBitcoinQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["c"],
       explanation:
-        "Correct choice  C. Decline: a halving cuts the new bitcoin created per block but does not set the price, and urgency plus promised returns plus someone else holding her money is a scam pattern.\n\nA halving is a scheduled change in issuance, not a promise about price, and four past halvings are far too few to prove a rule. Option D is also wrong: a halving does not change the coins anyone already holds.",
+        "Correct choice: Decline: a halving cuts the new bitcoin created per block but does not set the price, and urgency plus promised returns plus someone else holding her money is a scam pattern.\n\nA halving is a scheduled change in issuance, not a promise about price, and four past halvings are far too few to prove a rule. The answer “Decline, because a halving cuts the value of every coin already held by half” is also wrong: a halving does not change the coins anyone already holds.",
     },
     {
       id: "bitcoin-foundations-10",
@@ -328,7 +328,7 @@ export const cryptoBitcoinQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["d"],
       explanation:
-        "Correct choice  D. Only a receiving address, ideally a fresh one\n\nAn address is all a payer needs, and a fresh one helps privacy. Receiving bitcoin never requires a private key or seed phrase, and anyone who has either can take her coins, which rules out option B.",
+        "Correct choice: Only a receiving address, ideally a fresh one\n\nAn address is all a payer needs, and a fresh one helps privacy. Receiving bitcoin never requires a private key or seed phrase, and anyone who has either can take her coins, which rules out the answer “Her private key, because a payer needs it to send to her”.",
     },
     {
       id: "bitcoin-foundations-11",
@@ -359,7 +359,7 @@ export const cryptoBitcoinQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["a"],
       explanation:
-        "Correct choice  A. The changed payment does not match the spending details committed by that signature.\n\nSignature scope is defined by the applicable signing mode. In this supplied all-outputs example, changing the recipient or amount changes committed data. Other modes can have different scopes; do not generalise this to every byte of every possible transaction.",
+        "Correct choice: The changed payment does not match the spending details committed by that signature.\n\nSignature scope is defined by the applicable signing mode. In this supplied all-outputs example, changing the recipient or amount changes committed data. Other modes can have different scopes; do not generalise this to every byte of every possible transaction.",
     },
     {
       id: "bitcoin-foundations-12",
@@ -385,7 +385,7 @@ export const cryptoBitcoinQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["a"],
       explanation:
-        "Correct choice  A. A data fingerprint useful for checking references\n\nA. A data fingerprint useful for checking references. It helps detect changed data; validity still requires rules.\n\nB. A decryption key for the original message. A hash is not reversible encryption.\n\nC. Proof every input statement is true. False data can also be hashed.\n\nD. A customer password reset. Hashing has a different system role.",
+        "Correct choice: A data fingerprint useful for checking references\n\nA data fingerprint useful for checking references. It helps detect changed data; validity still requires rules.\n\nA decryption key for the original message. A hash is not reversible encryption.\n\nProof every input statement is true. False data can also be hashed.\n\nA customer password reset. Hashing has a different system role.",
     },
     {
       id: "bitcoin-foundations-13",
@@ -412,7 +412,7 @@ export const cryptoBitcoinQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["c"],
       explanation:
-        "Correct choice  C. 0.0149 BTC\n\nA. 0.0251 BTC. This incorrectly adds payment and fee to the input.\n\nB. 0.0001 BTC. That is the fee, not the change.\n\nC. 0.0149 BTC. Input minus recipient amount minus fee gives the change output.\n\nD. 0.0150 BTC. This omits the supplied fee.",
+        "Correct choice: 0.0149 BTC\n\n0.0251 BTC. This incorrectly adds payment and fee to the input.\n\n0.0001 BTC. That is the fee, not the change.\n\n0.0149 BTC. Input minus recipient amount minus fee gives the change output.\n\n0.0150 BTC. This omits the supplied fee.",
     },
     {
       id: "bitcoin-foundations-14",
@@ -438,7 +438,7 @@ export const cryptoBitcoinQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["d"],
       explanation:
-        "Correct choice  D. Required spending authorisation under the rules\n\nA. The recipient will deliver goods. Goods delivery is a separate obligation.\n\nB. The signer understood every consequence. A user can approve a harmful instruction.\n\nC. Every address identifies a known person. Address attribution requires separate evidence.\n\nD. Required spending authorisation under the rules. It does not establish informed intent or recipient honesty.",
+        "Correct choice: Required spending authorisation under the rules\n\nThe recipient will deliver goods. Goods delivery is a separate obligation.\n\nThe signer understood every consequence. A user can approve a harmful instruction.\n\nEvery address identifies a known person. Address attribution requires separate evidence.\n\nRequired spending authorisation under the rules. It does not establish informed intent or recipient honesty.",
     },
     {
       id: "bitcoin-foundations-15",
@@ -465,7 +465,7 @@ export const cryptoBitcoinQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["d"],
       explanation:
-        "Correct choice  D. It adds a representation and redemption mechanism\n\nA. A matching name guarantees identical rights. Names do not establish the mechanism.\n\nB. It removes every custody risk. The representation can introduce additional custody.\n\nC. It must always have a higher price. No such price rule follows.\n\nD. It adds a representation and redemption mechanism. Custody, bridge or contract dependencies can differ from native BTC.",
+        "Correct choice: It adds a representation and redemption mechanism\n\nA matching name guarantees identical rights. Names do not establish the mechanism.\n\nIt removes every custody risk. The representation can introduce additional custody.\n\nIt must always have a higher price. No such price rule follows.\n\nIt adds a representation and redemption mechanism. Custody, bridge or contract dependencies can differ from native BTC.",
     },
   ],
 };

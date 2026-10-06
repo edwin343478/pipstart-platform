@@ -17,11 +17,11 @@ import { prepareLessonPageData } from "../lib/lesson-page-server-data";
 import { calculateCompoundGrowth } from "../lib/calculator-engine";
 import { assertUniqueCurriculumIds } from "../lib/permanent-progress-catalogue";
 const titles = [
-  "Decentralised Exchanges Pools and Swaps",
+  "Decentralised Exchanges, Pools and Swaps",
   "Liquidity Provision and Impermanent Loss",
-  "Lending Borrowing Collateral and Liquidation",
-  "Staking Yield and the Source of Rewards",
-  "DeFi Dependencies Stablecoins and Governance",
+  "Lending, Borrowing, Collateral and Liquidation",
+  "Staking, Yield and the Source of Rewards",
+  "DeFi Dependencies, Stablecoins and Governance",
 ];
 describe("Milestone 16 approved Crypto Level 6", () => {
   it("publishes five complete lessons with sequential prerequisites and all published routes", () => {
@@ -87,7 +87,7 @@ describe("Milestone 16 approved Crypto Level 6", () => {
         path: "crypto",
         lesson,
         lessons: cryptoLessons,
-        contextTitle: "DeFi Liquidity Lending and Rewards",
+        contextTitle: "DeFi: Liquidity, Lending and Rewards",
         contextHref: "/learn/crypto/level-6/crypto-defi-foundations",
       });
       expect(data.registeredQuiz?.href).toBe("/learn/crypto/level-6/quiz");

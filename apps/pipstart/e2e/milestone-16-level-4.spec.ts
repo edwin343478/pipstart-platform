@@ -163,14 +163,14 @@ for (const width of [1440, 390]) {
         page.getByRole("checkbox", { name: "Show all sections at once" }),
       ).not.toBeChecked();
     }
-    await choose("Smart Contracts Applications and Outside Data");
+    await choose("Smart Contracts, Applications and Outside Data");
     await page.getByRole("tab").nth(2).click();
-    await choose("Ethereum Ether and Proof of Stake");
+    await choose("Ethereum, Ether and Proof of Stake");
     await page.getByRole("tab").last().click();
     await expect(
       page.getByRole("tabpanel").getByRole("checkbox").first(),
     ).toBeChecked();
-    await choose("Ethereum Ether and Proof of Stake");
+    await choose("Ethereum, Ether and Proof of Stake");
   });
 }
 
@@ -234,7 +234,7 @@ test("Level 4 grades all fifteen approved answers on the server and reveals expl
   await expect(page.getByText("Passed", { exact: true }).first()).toBeVisible();
   await expect(
     page.getByText(
-      "50,000 × (30 + 2) = 1,600,000 gwei, and dividing by 1,000,000,000 gives 0.0016 ETH. Option A counts only the base fee and forgets the tip.",
+      "50,000 × (30 + 2) = 1,600,000 gwei, and dividing by 1,000,000,000 gives 0.0016 ETH. The answer “0.0015 ETH” counts only the base fee and forgets the tip.",
       { exact: false },
     ),
   ).toBeVisible();
@@ -245,7 +245,7 @@ test("the curriculum opens Level 4 and both hierarchy pages expose all five less
 }) => {
   await page.goto("/learn/crypto");
   const entry = page.getByRole("link", {
-    name: "Start Level 4: Ethereum Contracts and Connected Networks",
+    name: "Start Level 4: Ethereum, Contracts and Connected Networks",
     exact: true,
   });
   await expect(entry).toBeVisible();
@@ -253,7 +253,7 @@ test("the curriculum opens Level 4 and both hierarchy pages expose all five less
   await entry.click();
   await expect(
     page.getByRole("heading", {
-      name: "Ethereum Ether and Proof of Stake",
+      name: "Ethereum, Ether and Proof of Stake",
       exact: true,
     }),
   ).toBeVisible();

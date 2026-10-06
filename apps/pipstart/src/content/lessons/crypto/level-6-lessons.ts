@@ -28,45 +28,45 @@ const metadata1: LessonMetadata = {
   riskWarningRequired: true,
   seoDescription:
     "Trace a swap and distinguish the protocol from its interface and quote.",
-  seoTitle: "Decentralised Exchanges Pools and Swaps",
+  seoTitle: "Decentralised Exchanges, Pools and Swaps",
   slug: "decentralised-exchanges-pools-and-swaps",
   sources: [
     {
-      title: "Uniswap  How Uniswap works",
+      title: "Uniswap: How Uniswap works",
       url: "https://developers.uniswap.org/docs/get-started/concepts/how-uniswap-works",
     },
     {
-      title: "Hayden Adams and Uniswap  A Short History of Uniswap",
+      title: "Hayden Adams and Uniswap: A Short History of Uniswap",
       url: "https://blog.uniswap.org/uniswap-history",
     },
     {
-      title: "Uniswap  What is price impact",
+      title: "Uniswap: What is price impact",
       url: "https://support.uniswap.org/hc/en-us/articles/40074715860365-What-is-price-impact",
     },
     {
-      title: "Ethereum  Ethereum security and scam prevention",
+      title: "Ethereum: Ethereum security and scam prevention",
       url: "https://ethereum.org/security/",
     },
     {
-      title: "MetaMask  What is a token approval",
+      title: "MetaMask: What is a token approval",
       url: "https://support.metamask.io/stay-safe/safety-in-web3/what-is-a-token-approval/",
     },
     {
-      title: "MetaMask  Disconnect wallet from a dapp",
+      title: "MetaMask: Disconnect wallet from a dapp",
       url: "https://support.metamask.io/more-web3/dapps/disconnect-wallet-from-a-dapp/",
     },
     {
       title:
-        "Uniswap docs  Uniswap docs — How Uniswap works (v2 protocol overview)",
+        "Uniswap docs: Uniswap docs — How Uniswap works (v2 protocol overview)",
       url: "https://docs.uniswap.org/contracts/v2/concepts/protocol-overview/how-uniswap-works",
     },
     {
-      title: "Uniswap docs  Uniswap docs — Concentrated liquidity",
+      title: "Uniswap docs: Uniswap docs — Concentrated liquidity",
       url: "https://docs.uniswap.org/concepts/protocol/concentrated-liquidity",
     },
   ],
   status: "published",
-  title: "Decentralised Exchanges Pools and Swaps",
+  title: "Decentralised Exchanges, Pools and Swaps",
 };
 const sections1: LessonSection[] = [
   {
@@ -222,7 +222,7 @@ const sections1: LessonSection[] = [
     ],
   },
   {
-    title: "Pool models swap calculations and routes",
+    title: "Pool models, swap calculations and routes",
     shortTitle: "Pool models swap calculations and routes",
     blocks: [
       {
@@ -327,7 +327,7 @@ const sections1: LessonSection[] = [
     ],
   },
   {
-    title: "Execution limits ordering and security",
+    title: "Execution limits, ordering and security",
     shortTitle: "Execution limits ordering and security",
     blocks: [
       {
@@ -374,7 +374,7 @@ const sections1: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -444,36 +444,36 @@ const sections1: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "Uniswap  How Uniswap works",
+            title: "Uniswap: How Uniswap works",
             url: "https://developers.uniswap.org/docs/get-started/concepts/how-uniswap-works",
           },
           {
-            title: "Hayden Adams and Uniswap  A Short History of Uniswap",
+            title: "Hayden Adams and Uniswap: A Short History of Uniswap",
             url: "https://blog.uniswap.org/uniswap-history",
           },
           {
-            title: "Uniswap  What is price impact",
+            title: "Uniswap: What is price impact",
             url: "https://support.uniswap.org/hc/en-us/articles/40074715860365-What-is-price-impact",
           },
           {
-            title: "Ethereum  Ethereum security and scam prevention",
+            title: "Ethereum: Ethereum security and scam prevention",
             url: "https://ethereum.org/security/",
           },
           {
-            title: "MetaMask  What is a token approval",
+            title: "MetaMask: What is a token approval",
             url: "https://support.metamask.io/stay-safe/safety-in-web3/what-is-a-token-approval/",
           },
           {
-            title: "MetaMask  Disconnect wallet from a dapp",
+            title: "MetaMask: Disconnect wallet from a dapp",
             url: "https://support.metamask.io/more-web3/dapps/disconnect-wallet-from-a-dapp/",
           },
           {
             title:
-              "Uniswap docs  Uniswap docs — How Uniswap works (v2 protocol overview)",
+              "Uniswap docs: Uniswap docs — How Uniswap works (v2 protocol overview)",
             url: "https://docs.uniswap.org/contracts/v2/concepts/protocol-overview/how-uniswap-works",
           },
           {
-            title: "Uniswap docs  Uniswap docs — Concentrated liquidity",
+            title: "Uniswap docs: Uniswap docs — Concentrated liquidity",
             url: "https://docs.uniswap.org/concepts/protocol/concentrated-liquidity",
           },
         ],
@@ -512,28 +512,28 @@ const metadata2: LessonMetadata = {
   slug: "liquidity-provision-and-impermanent-loss",
   sources: [
     {
-      title: "Uniswap  How Uniswap works",
+      title: "Uniswap: How Uniswap works",
       url: "https://developers.uniswap.org/docs/get-started/concepts/how-uniswap-works",
     },
     {
-      title: "Uniswap  What is Impermanent Loss",
+      title: "Uniswap: What is Impermanent Loss",
       url: "https://support.uniswap.org/hc/en-us/articles/20904453751693-What-is-Impermanent-Loss",
     },
     {
-      title: "Chainlink  Understanding Impermanent Loss in DeFi",
+      title: "Chainlink: Understanding Impermanent Loss in DeFi",
       url: "https://chain.link/article/impermanent-loss-defi",
     },
     {
       title:
-        "Uniswap docs  Uniswap docs — How Uniswap works (v2 protocol overview)",
+        "Uniswap docs: Uniswap docs — How Uniswap works (v2 protocol overview)",
       url: "https://docs.uniswap.org/contracts/v2/concepts/protocol-overview/how-uniswap-works",
     },
     {
-      title: "Uniswap docs  Uniswap docs — Concentrated liquidity",
+      title: "Uniswap docs: Uniswap docs — Concentrated liquidity",
       url: "https://docs.uniswap.org/concepts/protocol/concentrated-liquidity",
     },
     {
-      title: "Hayden Adams and Uniswap  A Short History of Uniswap",
+      title: "Hayden Adams and Uniswap: A Short History of Uniswap",
       url: "https://blog.uniswap.org/uniswap-history",
     },
   ],
@@ -675,13 +675,13 @@ const sections2: LessonSection[] = [
     ],
   },
   {
-    title: "Fees rewards and concentrated liquidity",
+    title: "Fees, rewards and concentrated liquidity",
     shortTitle: "Fees rewards and concentrated liquidity",
     blocks: [
       {
         type: "heading",
         level: 3,
-        children: "Fees incentives and impermanent loss",
+        children: "Fees, incentives and impermanent loss",
       },
       {
         type: "paragraph",
@@ -736,7 +736,7 @@ const sections2: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -808,28 +808,28 @@ const sections2: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "Uniswap  How Uniswap works",
+            title: "Uniswap: How Uniswap works",
             url: "https://developers.uniswap.org/docs/get-started/concepts/how-uniswap-works",
           },
           {
-            title: "Uniswap  What is Impermanent Loss",
+            title: "Uniswap: What is Impermanent Loss",
             url: "https://support.uniswap.org/hc/en-us/articles/20904453751693-What-is-Impermanent-Loss",
           },
           {
-            title: "Chainlink  Understanding Impermanent Loss in DeFi",
+            title: "Chainlink: Understanding Impermanent Loss in DeFi",
             url: "https://chain.link/article/impermanent-loss-defi",
           },
           {
             title:
-              "Uniswap docs  Uniswap docs — How Uniswap works (v2 protocol overview)",
+              "Uniswap docs: Uniswap docs — How Uniswap works (v2 protocol overview)",
             url: "https://docs.uniswap.org/contracts/v2/concepts/protocol-overview/how-uniswap-works",
           },
           {
-            title: "Uniswap docs  Uniswap docs — Concentrated liquidity",
+            title: "Uniswap docs: Uniswap docs — Concentrated liquidity",
             url: "https://docs.uniswap.org/concepts/protocol/concentrated-liquidity",
           },
           {
-            title: "Hayden Adams and Uniswap  A Short History of Uniswap",
+            title: "Hayden Adams and Uniswap: A Short History of Uniswap",
             url: "https://blog.uniswap.org/uniswap-history",
           },
         ],
@@ -864,45 +864,45 @@ const metadata3: LessonMetadata = {
   riskWarningRequired: true,
   seoDescription:
     "Explain a collateralised loan and calculate a simplified health factor.",
-  seoTitle: "Lending Borrowing Collateral and Liquidation",
+  seoTitle: "Lending, Borrowing, Collateral and Liquidation",
   slug: "lending-borrowing-collateral-and-liquidation",
   sources: [
     {
-      title: "Aave  Borrow Tokens",
+      title: "Aave: Borrow Tokens",
       url: "https://aave.com/help/borrowing/borrow-tokens",
     },
     {
       title:
-        "Stani Kulechov interview on Ethereum  Building ETHLend and naming Aave",
+        "Stani Kulechov interview on Ethereum: Building ETHLend and naming Aave",
       url: "https://ethereum.org/videos/stani-kulechov-building-aave/",
     },
     {
-      title: "Aave Labs  Aave Labs Contributions Report",
+      title: "Aave Labs: Aave Labs Contributions Report",
       url: "https://governance.aave.com/t/aave-labs-contributions-report/24155",
     },
     {
-      title: "Aave  Health Factor and Liquidations",
+      title: "Aave: Health Factor and Liquidations",
       url: "https://aave.com/help/borrowing/liquidations",
     },
     {
-      title: "Chainlink  What is a Blockchain Oracle",
+      title: "Chainlink: What is a Blockchain Oracle",
       url: "https://chain.link/education/blockchain-oracles",
     },
     {
-      title: "Aave  Aave — Aave documentation overview",
+      title: "Aave: Aave — Aave documentation overview",
       url: "https://aave.com/docs",
     },
     {
-      title: "ethereum.org  ethereum.org — Ethereum staking",
+      title: "ethereum.org: ethereum.org — Ethereum staking",
       url: "https://ethereum.org/en/staking/",
     },
   ],
   status: "published",
-  title: "Lending Borrowing Collateral and Liquidation",
+  title: "Lending, Borrowing, Collateral and Liquidation",
 };
 const sections3: LessonSection[] = [
   {
-    title: "Lending collateral and borrowing limits",
+    title: "Lending, collateral and borrowing limits",
     shortTitle: "Lending collateral and borrowing limits",
     blocks: [
       {
@@ -1095,13 +1095,13 @@ const sections3: LessonSection[] = [
     ],
   },
   {
-    title: "Stress scenarios liquidation and exit limits",
+    title: "Stress scenarios, liquidation and exit limits",
     shortTitle: "Stress scenarios liquidation and exit limits",
     blocks: [
       {
         type: "heading",
         level: 3,
-        children: "Stress debt collateral interest and data",
+        children: "Stress debt, collateral, interest and data",
       },
       {
         type: "paragraph",
@@ -1137,7 +1137,7 @@ const sections3: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -1209,32 +1209,32 @@ const sections3: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "Aave  Borrow Tokens",
+            title: "Aave: Borrow Tokens",
             url: "https://aave.com/help/borrowing/borrow-tokens",
           },
           {
             title:
-              "Stani Kulechov interview on Ethereum  Building ETHLend and naming Aave",
+              "Stani Kulechov interview on Ethereum: Building ETHLend and naming Aave",
             url: "https://ethereum.org/videos/stani-kulechov-building-aave/",
           },
           {
-            title: "Aave Labs  Aave Labs Contributions Report",
+            title: "Aave Labs: Aave Labs Contributions Report",
             url: "https://governance.aave.com/t/aave-labs-contributions-report/24155",
           },
           {
-            title: "Aave  Health Factor and Liquidations",
+            title: "Aave: Health Factor and Liquidations",
             url: "https://aave.com/help/borrowing/liquidations",
           },
           {
-            title: "Chainlink  What is a Blockchain Oracle",
+            title: "Chainlink: What is a Blockchain Oracle",
             url: "https://chain.link/education/blockchain-oracles",
           },
           {
-            title: "Aave  Aave — Aave documentation overview",
+            title: "Aave: Aave — Aave documentation overview",
             url: "https://aave.com/docs",
           },
           {
-            title: "ethereum.org  ethereum.org — Ethereum staking",
+            title: "ethereum.org: ethereum.org — Ethereum staking",
             url: "https://ethereum.org/en/staking/",
           },
         ],
@@ -1269,53 +1269,53 @@ const metadata4: LessonMetadata = {
   riskWarningRequired: true,
   seoDescription:
     "Identify where a quoted return comes from and which risks accompany it.",
-  seoTitle: "Staking Yield and the Source of Rewards",
+  seoTitle: "Staking, Yield and the Source of Rewards",
   slug: "staking-yield-and-the-source-of-rewards",
   sources: [
     {
-      title: "Ethereum  Proof of stake",
+      title: "Ethereum: Proof of stake",
       url: "https://ethereum.org/developers/docs/consensus-mechanisms/pos/",
     },
     {
       title:
-        "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+        "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
       url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
     },
     {
-      title: "Aave  Borrow Tokens",
+      title: "Aave: Borrow Tokens",
       url: "https://aave.com/help/borrowing/borrow-tokens",
     },
     {
-      title: "Ethereum  Pooled staking",
+      title: "Ethereum: Pooled staking",
       url: "https://ethereum.org/staking/pools/",
     },
     {
-      title: "Chainlink  Understanding Real Yield in DeFi",
+      title: "Chainlink: Understanding Real Yield in DeFi",
       url: "https://chain.link/article/real-yield-defi",
     },
     {
-      title: "Ethereum  Restaking",
+      title: "Ethereum: Restaking",
       url: "https://ethereum.org/restaking/",
     },
     {
-      title: "Aave  Aave — Aave documentation overview",
+      title: "Aave: Aave — Aave documentation overview",
       url: "https://aave.com/docs",
     },
     {
-      title: "Aave  Health Factor and Liquidations",
+      title: "Aave: Health Factor and Liquidations",
       url: "https://aave.com/help/borrowing/liquidations",
     },
     {
-      title: "ethereum.org  ethereum.org — Ethereum staking",
+      title: "ethereum.org: ethereum.org — Ethereum staking",
       url: "https://ethereum.org/en/staking/",
     },
   ],
   status: "published",
-  title: "Staking Yield and the Source of Rewards",
+  title: "Staking, Yield and the Source of Rewards",
 };
 const sections4: LessonSection[] = [
   {
-    title: "Reward sources staking and provider risks",
+    title: "Reward sources, staking and provider risks",
     shortTitle: "Reward sources staking and provider risks",
     blocks: [
       {
@@ -1516,13 +1516,13 @@ const sections4: LessonSection[] = [
     ],
   },
   {
-    title: "APR APY and the value of rewards",
+    title: "APR, APY and the value of rewards",
     shortTitle: "APR APY and the value of rewards",
     blocks: [
       {
         type: "heading",
         level: 3,
-        children: "APR APY and compounding assumptions",
+        children: "APR, APY and compounding assumptions",
       },
       {
         type: "paragraph",
@@ -1566,7 +1566,7 @@ const sections4: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Revenue emissions and the passive income claim",
+        children: "Revenue, emissions and the passive-income claim",
       },
       {
         type: "paragraph",
@@ -1600,7 +1600,7 @@ const sections4: LessonSection[] = [
     ],
   },
   {
-    title: "Receipt tokens liquid staking and restaking",
+    title: "Receipt tokens, liquid staking and restaking",
     shortTitle: "Receipt tokens liquid staking and restaking",
     blocks: [
       {
@@ -1673,7 +1673,7 @@ const sections4: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -1752,40 +1752,40 @@ const sections4: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "Ethereum  Proof of stake",
+            title: "Ethereum: Proof of stake",
             url: "https://ethereum.org/developers/docs/consensus-mechanisms/pos/",
           },
           {
             title:
-              "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+              "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
             url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
           },
           {
-            title: "Aave  Borrow Tokens",
+            title: "Aave: Borrow Tokens",
             url: "https://aave.com/help/borrowing/borrow-tokens",
           },
           {
-            title: "Ethereum  Pooled staking",
+            title: "Ethereum: Pooled staking",
             url: "https://ethereum.org/staking/pools/",
           },
           {
-            title: "Chainlink  Understanding Real Yield in DeFi",
+            title: "Chainlink: Understanding Real Yield in DeFi",
             url: "https://chain.link/article/real-yield-defi",
           },
           {
-            title: "Ethereum  Restaking",
+            title: "Ethereum: Restaking",
             url: "https://ethereum.org/restaking/",
           },
           {
-            title: "Aave  Aave — Aave documentation overview",
+            title: "Aave: Aave — Aave documentation overview",
             url: "https://aave.com/docs",
           },
           {
-            title: "Aave  Health Factor and Liquidations",
+            title: "Aave: Health Factor and Liquidations",
             url: "https://aave.com/help/borrowing/liquidations",
           },
           {
-            title: "ethereum.org  ethereum.org — Ethereum staking",
+            title: "ethereum.org: ethereum.org — Ethereum staking",
             url: "https://ethereum.org/en/staking/",
           },
         ],
@@ -1817,57 +1817,57 @@ const metadata5: LessonMetadata = {
   riskWarningRequired: true,
   seoDescription:
     "Describe a protocol's linked failure points before interpreting its return.",
-  seoTitle: "DeFi Dependencies Stablecoins and Governance",
+  seoTitle: "DeFi Dependencies, Stablecoins and Governance",
   slug: "defi-dependencies-stablecoins-and-governance",
   sources: [
     {
-      title: "Ethereum  Introduction to blockchain bridges",
+      title: "Ethereum: Introduction to blockchain bridges",
       url: "https://ethereum.org/bridges/",
     },
     {
-      title: "Circle  USDC Terms",
+      title: "Circle: USDC Terms",
       url: "https://www.circle.com/legal/usdc-terms",
     },
     {
-      title: "Aave  Health Factor and Liquidations",
+      title: "Aave: Health Factor and Liquidations",
       url: "https://aave.com/help/borrowing/liquidations",
     },
     {
-      title: "Chainlink  What is a Blockchain Oracle",
+      title: "Chainlink: What is a Blockchain Oracle",
       url: "https://chain.link/education/blockchain-oracles",
     },
     {
-      title: "Ethereum  Decentralised Autonomous Organisations",
+      title: "Ethereum: Decentralised Autonomous Organisations",
       url: "https://ethereum.org/dao/",
     },
     {
-      title: "Ethereum  Ethereum security and scam prevention",
+      title: "Ethereum: Ethereum security and scam prevention",
       url: "https://ethereum.org/security/",
     },
     {
-      title: "Circle  USDC Risk Factors",
+      title: "Circle: USDC Risk Factors",
       url: "https://www.circle.com/legal/usdc-risk-factors",
     },
     {
-      title: "DeFiLlama  DeFiLlama — Hacks database",
+      title: "DeFiLlama: DeFiLlama — Hacks database",
       url: "https://defillama.com/hacks",
     },
     {
-      title: "ethereum.org  ethereum.org — Upgrading smart contracts",
+      title: "ethereum.org: ethereum.org — Upgrading smart contracts",
       url: "https://ethereum.org/en/developers/docs/smart-contracts/upgrading/",
     },
     {
       title:
-        "ethereum.org  ethereum.org — Decentralised autonomous organisations (DAOs)",
+        "ethereum.org: ethereum.org — Decentralised autonomous organisations (DAOs)",
       url: "https://ethereum.org/en/dao/",
     },
   ],
   status: "published",
-  title: "DeFi Dependencies Stablecoins and Governance",
+  title: "DeFi Dependencies, Stablecoins and Governance",
 };
 const sections5: LessonSection[] = [
   {
-    title: "Map dependencies oracles and stablecoins",
+    title: "Map dependencies, oracles and stablecoins",
     shortTitle: "Map dependencies oracles and stablecoins",
     blocks: [
       {
@@ -1929,7 +1929,7 @@ const sections5: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Oracles depegs and a rush to exit",
+        children: "Oracles, depegs and a rush to exit",
       },
       {
         type: "paragraph",
@@ -1990,7 +1990,7 @@ const sections5: LessonSection[] = [
     ],
   },
   {
-    title: "Contract interactions bugs and flash loans",
+    title: "Contract interactions, bugs and flash loans",
     shortTitle: "Contract interactions bugs and flash loans",
     blocks: [
       {
@@ -2084,13 +2084,13 @@ const sections5: LessonSection[] = [
     ],
   },
   {
-    title: "Administrators governance and risk checklist",
+    title: "Administrators, governance and risk checklist",
     shortTitle: "Administrators governance and risk checklist",
     blocks: [
       {
         type: "heading",
         level: 3,
-        children: "Front ends administrators and governance capture",
+        children: "Front ends, administrators and governance capture",
       },
       {
         type: "heading",
@@ -2226,7 +2226,7 @@ const sections5: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "TVL incident history and stop conditions",
+        children: "TVL, incident history and stop conditions",
       },
       {
         type: "paragraph",
@@ -2339,7 +2339,7 @@ const sections5: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -2411,44 +2411,44 @@ const sections5: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "Ethereum  Introduction to blockchain bridges",
+            title: "Ethereum: Introduction to blockchain bridges",
             url: "https://ethereum.org/bridges/",
           },
           {
-            title: "Circle  USDC Terms",
+            title: "Circle: USDC Terms",
             url: "https://www.circle.com/legal/usdc-terms",
           },
           {
-            title: "Aave  Health Factor and Liquidations",
+            title: "Aave: Health Factor and Liquidations",
             url: "https://aave.com/help/borrowing/liquidations",
           },
           {
-            title: "Chainlink  What is a Blockchain Oracle",
+            title: "Chainlink: What is a Blockchain Oracle",
             url: "https://chain.link/education/blockchain-oracles",
           },
           {
-            title: "Ethereum  Decentralised Autonomous Organisations",
+            title: "Ethereum: Decentralised Autonomous Organisations",
             url: "https://ethereum.org/dao/",
           },
           {
-            title: "Ethereum  Ethereum security and scam prevention",
+            title: "Ethereum: Ethereum security and scam prevention",
             url: "https://ethereum.org/security/",
           },
           {
-            title: "Circle  USDC Risk Factors",
+            title: "Circle: USDC Risk Factors",
             url: "https://www.circle.com/legal/usdc-risk-factors",
           },
           {
-            title: "DeFiLlama  DeFiLlama — Hacks database",
+            title: "DeFiLlama: DeFiLlama — Hacks database",
             url: "https://defillama.com/hacks",
           },
           {
-            title: "ethereum.org  ethereum.org — Upgrading smart contracts",
+            title: "ethereum.org: ethereum.org — Upgrading smart contracts",
             url: "https://ethereum.org/en/developers/docs/smart-contracts/upgrading/",
           },
           {
             title:
-              "ethereum.org  ethereum.org — Decentralised autonomous organisations (DAOs)",
+              "ethereum.org: ethereum.org — Decentralised autonomous organisations (DAOs)",
             url: "https://ethereum.org/en/dao/",
           },
         ],

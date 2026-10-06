@@ -20,9 +20,9 @@ import {
   calculateDrawdown,
 } from "../lib/calculator-engine";
 const titles = [
-  "Consensus Network Security and Cross Chain Dependencies",
-  "DAOs Governance Oracles and Audit Limits",
-  "Valuation Regulation and Institutional Products",
+  "Consensus, Network Security and Cross-Chain Dependencies",
+  "DAOs, Governance, Oracles and Audit Limits",
+  "Valuation, Regulation and Institutional Products",
   "Complete the Graduation Research and Safety Review",
 ];
 describe("Milestone 16 approved Crypto Level 10", () => {

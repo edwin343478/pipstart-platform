@@ -79,7 +79,7 @@ export const cryptoWalletQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["c"],
       explanation:
-        "Correct choice  C. Still recorded on the blockchain; she can reach it again if she has a working backup of her keys\n\nA wallet holds keys, not coins; the coins are recorded on the blockchain. With a working recovery-phrase backup she can restore access on a new device. Option B is tempting, but in self-custody no company holds her keys or can restore them.",
+        "Correct choice: Still recorded on the blockchain; she can reach it again if she has a working backup of her keys\n\nA wallet holds keys, not coins; the coins are recorded on the blockchain. With a working recovery-phrase backup she can restore access on a new device. The answer “Held by the wallet app's company until she proves who she is” is tempting, but in self-custody no company holds her keys or can restore them.",
     },
     {
       id: "crypto-wallet-security-2",
@@ -107,7 +107,7 @@ export const cryptoWalletQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["d"],
       explanation:
-        "Correct choice  D. A company, such as an exchange, controls the private keys and you reach your balance through an account it runs\n\nCustody is about who controls the keys. Option B describes a cold wallet, which can be self-custody, and A describes a watch-only wallet.",
+        "Correct choice: A company, such as an exchange, controls the private keys and you reach your balance through an account it runs\n\nCustody is about who controls the keys. The answer “The private keys are kept offline on a hardware device” describes a cold wallet, which can be self-custody, and the answer “The wallet can show balances but can never send funds” describes a watch-only wallet.",
     },
     {
       id: "crypto-wallet-security-3",
@@ -136,7 +136,7 @@ export const cryptoWalletQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["d"],
       explanation:
-        "Correct choice  D. A likely scam: viewing an address in a watch-only app does not give Marco signing authority, and paying an unlock fee does not create it.\n\nA watch-only arrangement displays public information. The visible balance does not establish Marco's right or ability to spend. Assess authority rather than trusting a screen or an advance-fee request.",
+        "Correct choice: A likely scam: viewing an address in a watch-only app does not give Marco signing authority, and paying an unlock fee does not create it.\n\nA watch-only arrangement displays public information. The visible balance does not establish Marco's right or ability to spend. Assess authority rather than trusting a screen or an advance-fee request.",
     },
     {
       id: "crypto-wallet-security-4",
@@ -163,7 +163,7 @@ export const cryptoWalletQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["b"],
       explanation:
-        "Correct choice  B. 128\n\n12 × 11 = 132 bits in total, minus 4 checksum bits, leaves 128 bits of randomness. Option A forgets to remove the checksum.",
+        "Correct choice: 128\n\n12 × 11 = 132 bits in total, minus 4 checksum bits, leaves 128 bits of randomness. The answer “132” forgets to remove the checksum.",
     },
     {
       id: "crypto-wallet-security-5",
@@ -192,7 +192,7 @@ export const cryptoWalletQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["b"],
       explanation:
-        "Correct choice  B. There is no provider reset; the phrase alone normally derives a different wallet, while the intended wallet needs the exact passphrase or another valid recovery arrangement.\n\nUnder BIP 39, the passphrase participates in seed derivation. A missing passphrase is not repaired by resetting an app password. A documented backup or other valid arrangement may help; the provider cannot simply reset the derivation.",
+        "Correct choice: There is no provider reset; the phrase alone normally derives a different wallet, while the intended wallet needs the exact passphrase or another valid recovery arrangement.\n\nUnder BIP 39, the passphrase participates in seed derivation. A missing passphrase is not repaired by resetting an app password. A documented backup or other valid arrangement may help; the provider cannot simply reset the derivation.",
     },
     {
       id: "crypto-wallet-security-6",
@@ -220,7 +220,7 @@ export const cryptoWalletQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["d"],
       explanation:
-        "Correct choice  D. The two remaining keys can still sign, so the funds can be moved to a new set-up\n\nUnder the supplied two-of-three policy, the two remaining keys and complete wallet information support recovery and signing. The descriptor and required scripts or metadata must not be forgotten. One key alone does not meet the threshold.",
+        "Correct choice: The two remaining keys can still sign, so the funds can be moved to a new set-up\n\nUnder the supplied two-of-three policy, the two remaining keys and complete wallet information support recovery and signing. The descriptor and required scripts or metadata must not be forgotten. One key alone does not meet the threshold.",
     },
     {
       id: "crypto-wallet-security-7",
@@ -248,7 +248,7 @@ export const cryptoWalletQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["b"],
       explanation:
-        "Correct choice  B. Ignore it and contact the exchange only through its own app or website; real support never asks for a recovery phrase\n\nNo genuine company or support agent ever needs a seed phrase, and logos and profile pictures can be faked. Any part of the phrase helps an attacker, so option D is also dangerous.",
+        "Correct choice: Ignore it and contact the exchange only through its own app or website; real support never asks for a recovery phrase\n\nNo genuine company or support agent ever needs a seed phrase, and logos and profile pictures can be faked. Any part of the phrase helps an attacker, so the answer “Enter only the first 12 words of the phrase to be safe” is also dangerous.",
     },
     {
       id: "crypto-wallet-security-8",
@@ -275,7 +275,7 @@ export const cryptoWalletQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["d"],
       explanation:
-        "Correct choice  D. Replaces a crypto address you copy with the attacker's address, so the pasted address differs from the original\n\nA clipper is malware that swaps addresses between copy and paste. Option C describes address poisoning, which needs no malware on your device.",
+        "Correct choice: Replaces a crypto address you copy with the attacker's address, so the pasted address differs from the original\n\nA clipper is malware that swaps addresses between copy and paste. The answer “Sends you zero-value transfers from look-alike addresses” describes address poisoning, which needs no malware on your device.",
     },
     {
       id: "crypto-wallet-security-9",
@@ -304,7 +304,7 @@ export const cryptoWalletQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["c"],
       explanation:
-        "Correct choice  C. In a SIM swap, a criminal takes over your phone number, so the codes go to them\n\nA phone-number takeover can redirect text codes or account recovery. Phishing-resistant authentication and protected recovery routes address different parts of the problem. An authenticator code can also be phished, so changing the code source alone does not remove every attack.",
+        "Correct choice: In a SIM swap, a criminal takes over your phone number, so the codes go to them\n\nA phone-number takeover can redirect text codes or account recovery. Phishing-resistant authentication and protected recovery routes address different parts of the problem. An authenticator code can also be phished, so changing the code source alone does not remove every attack.",
     },
     {
       id: "crypto-wallet-security-10",
@@ -333,7 +333,7 @@ export const cryptoWalletQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["b"],
       explanation:
-        "Correct choice  B. Send on the network listed on the friend's deposit page\n\nThe sender and receiver must use the same network for the same token; a transfer on an unsupported network can be lost. Option D is the trap: many networks share address formats, so a wallet may accept an address the receiver will never watch.",
+        "Correct choice: Send on the network listed on the friend's deposit page\n\nThe sender and receiver must use the same network for the same token; a transfer on an unsupported network can be lost. The answer “Send on either, because an address that the wallet accepts must be correct” is the trap: many networks share address formats, so a wallet may accept an address the receiver will never watch.",
     },
     {
       id: "crypto-wallet-security-11",
@@ -361,7 +361,7 @@ export const cryptoWalletQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["c"],
       explanation:
-        "Correct choice  C. The exchange uses one shared address, and the tag tells it which customer to credit; leaving it out can delay the deposit or make it impossible to retrieve\n\nShared-address services rely on the tag or memo to identify the customer. If the receiving page asks for one, it is mandatory, whoever is sending.",
+        "Correct choice: The exchange uses one shared address, and the tag tells it which customer to credit; leaving it out can delay the deposit or make it impossible to retrieve\n\nShared-address services rely on the tag or memo to identify the customer. If the receiving page asks for one, it is mandatory, whoever is sending.",
     },
     {
       id: "crypto-wallet-security-12",
@@ -389,7 +389,7 @@ export const cryptoWalletQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["a"],
       explanation:
-        "Correct choice  A. A valid amount meeting the rules with the exact required memo\n\nA. A valid amount meeting the rules with the exact required memo. The test must exercise the intended supported crediting process.\n\nB. Two units without a memo. Both supplied requirements are missed.\n\nC. A different token with the same logo. Asset identity must also match.\n\nD. A screenshot saying sent. Status alone does not establish recipient credit.",
+        "Correct choice: A valid amount meeting the rules with the exact required memo\n\nA valid amount meeting the rules with the exact required memo. The test must exercise the intended supported crediting process.\n\nTwo units without a memo. Both supplied requirements are missed.\n\nA different token with the same logo. Asset identity must also match.\n\nA screenshot saying sent. Status alone does not establish recipient credit.",
     },
     {
       id: "crypto-wallet-security-13",
@@ -415,7 +415,7 @@ export const cryptoWalletQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["b"],
       explanation:
-        "Correct choice  B. An existing token allowance\n\nA. A guaranteed refund. It does not reverse transfers.\n\nB. An existing token allowance. Disconnection usually changes the interface connection, not the on-chain permission.\n\nC. No authority of any kind. That conclusion requires actual permission review.\n\nD. A new private key automatically. Disconnection does not generate independent authority.",
+        "Correct choice: An existing token allowance\n\nA guaranteed refund. It does not reverse transfers.\n\nAn existing token allowance. Disconnection usually changes the interface connection, not the on-chain permission.\n\nNo authority of any kind. That conclusion requires actual permission review.\n\nA new private key automatically. Disconnection does not generate independent authority.",
     },
     {
       id: "crypto-wallet-security-14",
@@ -441,7 +441,7 @@ export const cryptoWalletQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["c"],
       explanation:
-        "Correct choice  C. Token spender amount and applicable persistence\n\nA. Only the current token price. Price does not identify spending authority.\n\nB. Only whether gas is free. Fee absence does not prove a harmless permission.\n\nC. Token spender amount and applicable persistence. They describe the authority granted.\n\nD. Only the website colour. Visual branding does not define permissions.",
+        "Correct choice: Token spender amount and applicable persistence\n\nOnly the current token price. Price does not identify spending authority.\n\nOnly whether gas is free. Fee absence does not prove a harmless permission.\n\nToken spender amount and applicable persistence. They describe the authority granted.\n\nOnly the website colour. Visual branding does not define permissions.",
     },
     {
       id: "crypto-wallet-security-15",
@@ -467,7 +467,7 @@ export const cryptoWalletQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["d"],
       explanation:
-        "Correct choice  D. An automated sweeper may take the new funds\n\nA. Gas always repairs exposed keys. Fee funds do not change authority.\n\nB. Every network cancels theft after a deposit. No general automatic recovery exists.\n\nC. A larger deposit proves the owner's identity. Ownership proof does not stop an attacker with usable authority.\n\nD. An automated sweeper may take the new funds. Compromised authority can be monitored and used rapidly.",
+        "Correct choice: An automated sweeper may take the new funds\n\nGas always repairs exposed keys. Fee funds do not change authority.\n\nEvery network cancels theft after a deposit. No general automatic recovery exists.\n\nA larger deposit proves the owner's identity. Ownership proof does not stop an attacker with usable authority.\n\nAn automated sweeper may take the new funds. Compromised authority can be monitored and used rapidly.",
     },
   ],
 };

@@ -24,9 +24,9 @@ import {
 } from "../lib/calculator-engine";
 const titles = [
   "Choose the Loss Budget Before the Position Size",
-  "Leverage Margin and Liquidation Risk",
-  "Concentration Correlation and Shared Dependencies",
-  "DCA Rebalancing Exits and Useful Records",
+  "Leverage, Margin and Liquidation Risk",
+  "Concentration, Correlation and Shared Dependencies",
+  "DCA, Rebalancing, Exits and Useful Records",
 ];
 describe("Milestone 16 approved Crypto Level 8", () => {
   it("publishes four complete lessons with sequential prerequisites and all published routes", () => {
@@ -92,7 +92,7 @@ describe("Milestone 16 approved Crypto Level 8", () => {
         path: "crypto",
         lesson,
         lessons: cryptoLessons,
-        contextTitle: "Sizing Leverage and Portfolio Risk",
+        contextTitle: "Sizing, Leverage and Portfolio Risk",
         contextHref: "/learn/crypto/level-8/crypto-risk-and-portfolios",
       });
       expect(data.registeredQuiz?.href).toBe("/learn/crypto/level-8/quiz");

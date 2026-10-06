@@ -19,7 +19,7 @@ const titles = [
   "What a Wallet Controls and Who Holds the Keys",
   "Protect Recovery Material and Secure Accounts",
   "Check a Transfer Before You Send",
-  "Connections Signatures and Token Permissions",
+  "Connections, Signatures and Token Permissions",
   "Respond to a Suspected Compromise",
 ];
 describe("Milestone 16 approved Crypto Level 2", () => {

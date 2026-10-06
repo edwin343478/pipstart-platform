@@ -23,37 +23,37 @@ const cryptoLevels = [
       "Wallet control, recovery phrases, backups, phishing, malware and recovery planning.",
   },
   {
-    title: "Exchanges Stablecoins and Market Orders",
+    title: "Exchanges, Stablecoins and Market Orders",
     description:
       "Exchange types, orders, costs, liquidity, slippage, stablecoins and provider risk.",
   },
   {
-    title: "Ethereum Contracts and Connected Networks",
+    title: "Ethereum, Contracts and Connected Networks",
     description:
       "Ethereum, contracts, gas, tokens, layer-two networks and bridge risks.",
   },
   {
-    title: "Tokens Supply and Research",
+    title: "Tokens, Supply and Research",
     description:
       "Token supply, allocations, vesting, unlocks, incentives and evidence-based research.",
   },
   {
-    title: "DeFi Liquidity Lending and Rewards",
+    title: "DeFi: Liquidity, Lending and Rewards",
     description:
       "Liquidity pools, lending, staking, rewards, oracles and contract risks.",
   },
   {
-    title: "Charts Market Context and Evidence",
+    title: "Charts, Market Context and Evidence",
     description:
       "Charts, market cycles, derivatives data, on-chain evidence and their limitations.",
   },
   {
-    title: "Sizing Leverage and Portfolio Risk",
+    title: "Sizing, Leverage and Portfolio Risk",
     description:
       "Position sizing, concentration, leverage, custody, rebalancing and records.",
   },
   {
-    title: "Psychology Planning and Paper Practice",
+    title: "Psychology, Planning and Paper Practice",
     description:
       "Decision habits, planning, journals and realistic practice with fictional funds.",
   },

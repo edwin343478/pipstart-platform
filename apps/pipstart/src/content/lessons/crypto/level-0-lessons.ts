@@ -33,40 +33,40 @@ const metadata1: LessonMetadata = {
   slug: "crypto-start-here",
   sources: [
     {
-      title: "MIT OpenCourseWare  Blockchain and Money",
+      title: "MIT OpenCourseWare: Blockchain and Money",
       url: "https://ocw.mit.edu/courses/15-s12-blockchain-and-money-fall-2018/",
     },
     {
-      title: "NIST  Blockchain Technology Overview NISTIR 8202",
+      title: "NIST: Blockchain Technology Overview NISTIR 8202",
       url: "https://csrc.nist.gov/pubs/ir/8202/final",
     },
     {
       title:
-        "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+        "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
       url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
     },
     {
-      title: "FCA  Investing in crypto",
+      title: "FCA: Investing in crypto",
       url: "https://www.fca.org.uk/investsmart/investing-crypto",
     },
     {
-      title: "Bitcoin community  Bitcoin FAQ",
+      title: "Bitcoin community: Bitcoin FAQ",
       url: "https://bitcoin.org/en/faq",
     },
     {
-      title: "Bank of England  Bank of England — The digital pound",
+      title: "Bank of England: Bank of England — The digital pound",
       url: "https://www.bankofengland.co.uk/the-digital-pound",
     },
     {
-      title: "ESMA  ESMA — Markets in Crypto-Assets Regulation (MiCA)",
+      title: "ESMA: ESMA — Markets in Crypto-Assets Regulation (MiCA)",
       url: "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica",
     },
     {
-      title: "FCA  Qualifying retail crypto ETNs and continuing restrictions",
+      title: "FCA: Qualifying retail crypto ETNs and continuing restrictions",
       url: "https://www.fca.org.uk/news/statements/information-firms-offer-crypto-exchange-traded-notes",
     },
     {
-      title: "SEC  Crypto asset interpretation effective March 2026",
+      title: "SEC: Crypto asset interpretation effective March 2026",
       url: "https://www.sec.gov/rules-regulations/2026/03/s7-2026-09",
     },
   ],
@@ -143,7 +143,7 @@ const sections1: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Compare crypto with cash bank and mobile money",
+        children: "Compare crypto with cash, bank and mobile money",
       },
       {
         type: "paragraph",
@@ -281,7 +281,7 @@ const sections1: LessonSection[] = [
     ],
   },
   {
-    title: "Origins families and central bank digital money",
+    title: "Origins, families and central bank digital money",
     shortTitle: "Origins families and central bank digital money",
     blocks: [
       {
@@ -497,41 +497,41 @@ const sections1: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "MIT OpenCourseWare  Blockchain and Money",
+            title: "MIT OpenCourseWare: Blockchain and Money",
             url: "https://ocw.mit.edu/courses/15-s12-blockchain-and-money-fall-2018/",
           },
           {
-            title: "NIST  Blockchain Technology Overview NISTIR 8202",
+            title: "NIST: Blockchain Technology Overview NISTIR 8202",
             url: "https://csrc.nist.gov/pubs/ir/8202/final",
           },
           {
             title:
-              "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+              "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
             url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
           },
           {
-            title: "FCA  Investing in crypto",
+            title: "FCA: Investing in crypto",
             url: "https://www.fca.org.uk/investsmart/investing-crypto",
           },
           {
-            title: "Bitcoin community  Bitcoin FAQ",
+            title: "Bitcoin community: Bitcoin FAQ",
             url: "https://bitcoin.org/en/faq",
           },
           {
-            title: "Bank of England  Bank of England — The digital pound",
+            title: "Bank of England: Bank of England — The digital pound",
             url: "https://www.bankofengland.co.uk/the-digital-pound",
           },
           {
-            title: "ESMA  ESMA — Markets in Crypto-Assets Regulation (MiCA)",
+            title: "ESMA: ESMA — Markets in Crypto-Assets Regulation (MiCA)",
             url: "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica",
           },
           {
             title:
-              "FCA  Qualifying retail crypto ETNs and continuing restrictions",
+              "FCA: Qualifying retail crypto ETNs and continuing restrictions",
             url: "https://www.fca.org.uk/news/statements/information-firms-offer-crypto-exchange-traded-notes",
           },
           {
-            title: "SEC  Crypto asset interpretation effective March 2026",
+            title: "SEC: Crypto asset interpretation effective March 2026",
             url: "https://www.sec.gov/rules-regulations/2026/03/s7-2026-09",
           },
         ],
@@ -564,55 +564,55 @@ const metadata2: LessonMetadata = {
   riskWarningRequired: true,
   seoDescription:
     "Distinguish a currency, an asset, a token, a service account and a trading contract.",
-  seoTitle: "Using Owning Investing and Trading Crypto",
+  seoTitle: "Using, Owning, Investing and Trading Crypto",
   slug: "crypto-using-owning-investing-trading",
   sources: [
     {
       title:
-        "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+        "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
       url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
     },
     {
-      title: "Circle  USDC Terms",
+      title: "Circle: USDC Terms",
       url: "https://www.circle.com/legal/usdc-terms",
     },
     {
-      title: "FCA  Investing in crypto",
+      title: "FCA: Investing in crypto",
       url: "https://www.fca.org.uk/investsmart/investing-crypto",
     },
     {
       title:
-        "ESMA and the European Supervisory Authorities  Consumer warning on crypto assets and limited protection",
+        "ESMA and the European Supervisory Authorities: Consumer warning on crypto assets and limited protection",
       url: "https://www.esma.europa.eu/press-news/esma-news/eu-supervisory-authorities-warn-consumers-risks-and-limited-protection-certain",
     },
     {
-      title: "FINRA  Crypto Assets",
+      title: "FINRA: Crypto Assets",
       url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
     },
     {
-      title: "MIT OpenCourseWare  Blockchain and Money",
+      title: "MIT OpenCourseWare: Blockchain and Money",
       url: "https://ocw.mit.edu/courses/15-s12-blockchain-and-money-fall-2018/",
     },
     {
-      title: "CFTC  Understand the Risks of Virtual Currency Trading",
+      title: "CFTC: Understand the Risks of Virtual Currency Trading",
       url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
     },
     {
-      title: "ethereum.org  ethereum.org — Networks (testnets, faucets)",
+      title: "ethereum.org: ethereum.org — Networks (testnets, faucets)",
       url: "https://ethereum.org/en/developers/docs/networks/",
     },
     {
       title:
-        "Ledger Academy  Ledger Academy — Etherscan: What It Is and How to Use It",
+        "Ledger Academy: Ledger Academy — Etherscan: What It Is and How to Use It",
       url: "https://www.ledger.com/academy/topics/blockchain/etherscan-what-is-it-and-how-to-use-it",
     },
   ],
   status: "published",
-  title: "Using Owning Investing and Trading Crypto",
+  title: "Using, Owning, Investing and Trading Crypto",
 };
 const sections2: LessonSection[] = [
   {
-    title: "Using owning investing and trading",
+    title: "Using, owning, investing and trading",
     shortTitle: "Using owning investing and trading",
     blocks: [
       {
@@ -676,7 +676,7 @@ const sections2: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Compare using owning investing and trading",
+        children: "Compare using, owning, investing and trading",
       },
       {
         type: "comparisonTable",
@@ -727,7 +727,7 @@ const sections2: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Notice how a 24 7 market feels different",
+        children: "Notice how a 24/7 market feels different",
       },
       {
         type: "paragraph",
@@ -753,7 +753,7 @@ const sections2: LessonSection[] = [
     ],
   },
   {
-    title: "Coins tokens and stablecoins",
+    title: "Coins, tokens and stablecoins",
     shortTitle: "Coins tokens and stablecoins",
     blocks: [
       {
@@ -1005,41 +1005,41 @@ const sections2: LessonSection[] = [
         items: [
           {
             title:
-              "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+              "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
             url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
           },
           {
-            title: "Circle  USDC Terms",
+            title: "Circle: USDC Terms",
             url: "https://www.circle.com/legal/usdc-terms",
           },
           {
-            title: "FCA  Investing in crypto",
+            title: "FCA: Investing in crypto",
             url: "https://www.fca.org.uk/investsmart/investing-crypto",
           },
           {
             title:
-              "ESMA and the European Supervisory Authorities  Consumer warning on crypto assets and limited protection",
+              "ESMA and the European Supervisory Authorities: Consumer warning on crypto assets and limited protection",
             url: "https://www.esma.europa.eu/press-news/esma-news/eu-supervisory-authorities-warn-consumers-risks-and-limited-protection-certain",
           },
           {
-            title: "FINRA  Crypto Assets",
+            title: "FINRA: Crypto Assets",
             url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
           },
           {
-            title: "MIT OpenCourseWare  Blockchain and Money",
+            title: "MIT OpenCourseWare: Blockchain and Money",
             url: "https://ocw.mit.edu/courses/15-s12-blockchain-and-money-fall-2018/",
           },
           {
-            title: "CFTC  Understand the Risks of Virtual Currency Trading",
+            title: "CFTC: Understand the Risks of Virtual Currency Trading",
             url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
           },
           {
-            title: "ethereum.org  ethereum.org — Networks (testnets, faucets)",
+            title: "ethereum.org: ethereum.org — Networks (testnets, faucets)",
             url: "https://ethereum.org/en/developers/docs/networks/",
           },
           {
             title:
-              "Ledger Academy  Ledger Academy — Etherscan: What It Is and How to Use It",
+              "Ledger Academy: Ledger Academy — Etherscan: What It Is and How to Use It",
             url: "https://www.ledger.com/academy/topics/blockchain/etherscan-what-is-it-and-how-to-use-it",
           },
         ],
@@ -1079,43 +1079,43 @@ const metadata3: LessonMetadata = {
   slug: "crypto-loss-and-risk",
   sources: [
     {
-      title: "CFTC  Understand the Risks of Virtual Currency Trading",
+      title: "CFTC: Understand the Risks of Virtual Currency Trading",
       url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
     },
     {
-      title: "FCA  Investing in crypto",
+      title: "FCA: Investing in crypto",
       url: "https://www.fca.org.uk/investsmart/investing-crypto",
     },
     {
       title:
-        "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+        "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
       url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
     },
     {
       title:
-        "ESMA and the European Supervisory Authorities  Consumer warning on crypto assets and limited protection",
+        "ESMA and the European Supervisory Authorities: Consumer warning on crypto assets and limited protection",
       url: "https://www.esma.europa.eu/press-news/esma-news/eu-supervisory-authorities-warn-consumers-risks-and-limited-protection-certain",
     },
     {
-      title: "ethereum.org  ethereum.org — Networks (testnets, faucets)",
+      title: "ethereum.org: ethereum.org — Networks (testnets, faucets)",
       url: "https://ethereum.org/en/developers/docs/networks/",
     },
     {
       title:
-        "Ledger Academy  Ledger Academy — Etherscan: What It Is and How to Use It",
+        "Ledger Academy: Ledger Academy — Etherscan: What It Is and How to Use It",
       url: "https://www.ledger.com/academy/topics/blockchain/etherscan-what-is-it-and-how-to-use-it",
     },
     {
-      title: "Bitcoin.org  Bitcoin.org — Some things you need to know",
+      title: "Bitcoin.org: Bitcoin.org — Some things you need to know",
       url: "https://bitcoin.org/en/you-need-to-know",
     },
     {
       title:
-        "Federal Trade Commission  Federal Trade Commission — What To Know About Cryptocurrency and Scams",
+        "Federal Trade Commission: Federal Trade Commission — What To Know About Cryptocurrency and Scams",
       url: "https://consumer.ftc.gov/articles/what-know-about-cryptocurrency-and-scams",
     },
     {
-      title: "Coinbase Help  Coinbase Help — Crypto sent to the wrong address",
+      title: "Coinbase Help: Coinbase Help — Crypto sent to the wrong address",
       url: "https://help.coinbase.com/en/coinbase/trading-and-funding/sending-or-receiving-cryptocurrency/i-sent-funds-to-the-wrong-address-how-do-i-get-them-back",
     },
   ],
@@ -1229,7 +1229,7 @@ const sections3: LessonSection[] = [
     ],
   },
   {
-    title: "Access mistakes theft and permanent loss",
+    title: "Access mistakes, theft and permanent loss",
     shortTitle: "Access mistakes theft and permanent loss",
     blocks: [
       {
@@ -1392,7 +1392,7 @@ const sections3: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Build the test small check twice habit",
+        children: "Build the “test small, check twice” habit",
       },
       {
         type: "paragraph",
@@ -1488,44 +1488,44 @@ const sections3: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "CFTC  Understand the Risks of Virtual Currency Trading",
+            title: "CFTC: Understand the Risks of Virtual Currency Trading",
             url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
           },
           {
-            title: "FCA  Investing in crypto",
+            title: "FCA: Investing in crypto",
             url: "https://www.fca.org.uk/investsmart/investing-crypto",
           },
           {
             title:
-              "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+              "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
             url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
           },
           {
             title:
-              "ESMA and the European Supervisory Authorities  Consumer warning on crypto assets and limited protection",
+              "ESMA and the European Supervisory Authorities: Consumer warning on crypto assets and limited protection",
             url: "https://www.esma.europa.eu/press-news/esma-news/eu-supervisory-authorities-warn-consumers-risks-and-limited-protection-certain",
           },
           {
-            title: "ethereum.org  ethereum.org — Networks (testnets, faucets)",
+            title: "ethereum.org: ethereum.org — Networks (testnets, faucets)",
             url: "https://ethereum.org/en/developers/docs/networks/",
           },
           {
             title:
-              "Ledger Academy  Ledger Academy — Etherscan: What It Is and How to Use It",
+              "Ledger Academy: Ledger Academy — Etherscan: What It Is and How to Use It",
             url: "https://www.ledger.com/academy/topics/blockchain/etherscan-what-is-it-and-how-to-use-it",
           },
           {
-            title: "Bitcoin.org  Bitcoin.org — Some things you need to know",
+            title: "Bitcoin.org: Bitcoin.org — Some things you need to know",
             url: "https://bitcoin.org/en/you-need-to-know",
           },
           {
             title:
-              "Federal Trade Commission  Federal Trade Commission — What To Know About Cryptocurrency and Scams",
+              "Federal Trade Commission: Federal Trade Commission — What To Know About Cryptocurrency and Scams",
             url: "https://consumer.ftc.gov/articles/what-know-about-cryptocurrency-and-scams",
           },
           {
             title:
-              "Coinbase Help  Coinbase Help — Crypto sent to the wrong address",
+              "Coinbase Help: Coinbase Help — Crypto sent to the wrong address",
             url: "https://help.coinbase.com/en/coinbase/trading-and-funding/sending-or-receiving-cryptocurrency/i-sent-funds-to-the-wrong-address-how-do-i-get-them-back",
           },
         ],
@@ -1562,38 +1562,38 @@ const metadata4: LessonMetadata = {
   slug: "crypto-scams-and-safe-learning",
   sources: [
     {
-      title: "Ethereum  Ethereum security and scam prevention",
+      title: "Ethereum: Ethereum security and scam prevention",
       url: "https://ethereum.org/security/",
     },
     {
-      title: "CFTC  Beware Virtual Currency Pump and Dump Schemes",
+      title: "CFTC: Beware Virtual Currency Pump and Dump Schemes",
       url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/beware_virtual_currency_pump_dump.html",
     },
     {
-      title: "FCA  Investing in crypto",
+      title: "FCA: Investing in crypto",
       url: "https://www.fca.org.uk/investsmart/investing-crypto",
     },
     {
-      title: "MetaMask  I have been hacked or scammed",
+      title: "MetaMask: I have been hacked or scammed",
       url: "https://support.metamask.io/stay-safe/protect-yourself/ive-been-hacked-scammed-unauthorized-transactions-on-my-account",
     },
     {
       title:
-        "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+        "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
       url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
     },
     {
       title:
-        "Federal Trade Commission  Federal Trade Commission — What To Know About Cryptocurrency and Scams",
+        "Federal Trade Commission: Federal Trade Commission — What To Know About Cryptocurrency and Scams",
       url: "https://consumer.ftc.gov/articles/what-know-about-cryptocurrency-and-scams",
     },
     {
       title:
-        "CFTC  CFTC — Six Warning Signs of Online Financial Romance Frauds",
+        "CFTC: CFTC — Six Warning Signs of Online Financial Romance Frauds",
       url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/RomanceScam.html",
     },
     {
-      title: "Trezor  Trezor — Dusting attacks and airdrop scam tokens",
+      title: "Trezor: Trezor — Dusting attacks and airdrop scam tokens",
       url: "https://trezor.io/support/troubleshooting/coins-tokens/dusting-attacks-airdrop-scam-tokens",
     },
   ],
@@ -1722,13 +1722,13 @@ const sections4: LessonSection[] = [
     ],
   },
   {
-    title: "False support giveaways and recruitment",
+    title: "False support, giveaways and recruitment",
     shortTitle: "False support giveaways and recruitment",
     blocks: [
       {
         type: "heading",
         level: 3,
-        children: "Spot impersonation fake giveaways and fake support",
+        children: "Spot impersonation, fake giveaways and fake support",
       },
       {
         type: "paragraph",
@@ -1785,7 +1785,7 @@ const sections4: LessonSection[] = [
     ],
   },
   {
-    title: "Secrets signatures and airdrop bait",
+    title: "Secrets, signatures and airdrop bait",
     shortTitle: "Secrets signatures and airdrop bait",
     blocks: [
       {
@@ -1872,7 +1872,7 @@ const sections4: LessonSection[] = [
     ],
   },
   {
-    title: "Build a safe repeatable learning plan",
+    title: "Build a safe, repeatable learning plan",
     shortTitle: "Build a safe repeatable learning plan",
     blocks: [
       {
@@ -1969,38 +1969,38 @@ const sections4: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "Ethereum  Ethereum security and scam prevention",
+            title: "Ethereum: Ethereum security and scam prevention",
             url: "https://ethereum.org/security/",
           },
           {
-            title: "CFTC  Beware Virtual Currency Pump and Dump Schemes",
+            title: "CFTC: Beware Virtual Currency Pump and Dump Schemes",
             url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/beware_virtual_currency_pump_dump.html",
           },
           {
-            title: "FCA  Investing in crypto",
+            title: "FCA: Investing in crypto",
             url: "https://www.fca.org.uk/investsmart/investing-crypto",
           },
           {
-            title: "MetaMask  I have been hacked or scammed",
+            title: "MetaMask: I have been hacked or scammed",
             url: "https://support.metamask.io/stay-safe/protect-yourself/ive-been-hacked-scammed-unauthorized-transactions-on-my-account",
           },
           {
             title:
-              "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+              "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
             url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
           },
           {
             title:
-              "Federal Trade Commission  Federal Trade Commission — What To Know About Cryptocurrency and Scams",
+              "Federal Trade Commission: Federal Trade Commission — What To Know About Cryptocurrency and Scams",
             url: "https://consumer.ftc.gov/articles/what-know-about-cryptocurrency-and-scams",
           },
           {
             title:
-              "CFTC  CFTC — Six Warning Signs of Online Financial Romance Frauds",
+              "CFTC: CFTC — Six Warning Signs of Online Financial Romance Frauds",
             url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/RomanceScam.html",
           },
           {
-            title: "Trezor  Trezor — Dusting attacks and airdrop scam tokens",
+            title: "Trezor: Trezor — Dusting attacks and airdrop scam tokens",
             url: "https://trezor.io/support/troubleshooting/coins-tokens/dusting-attacks-airdrop-scam-tokens",
           },
         ],

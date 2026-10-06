@@ -69,7 +69,7 @@ export const cryptoOrientationQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["b"],
       explanation:
-        "Correct choice  B. Calculate a supplied fictional order\n\nA. Join a guaranteed-return group. A promise is not evidence and introduces scam risk.\n\nB. Calculate a supplied fictional order. A paper calculation demonstrates understanding without a deposit.\n\nC. Buy an asset to activate the course. The course does not require purchasing an asset.\n\nD. Give support your recovery phrase. That exposes signing authority and is unnecessary.",
+        "Correct choice: Calculate a supplied fictional order\n\nJoin a guaranteed-return group. A promise is not evidence and introduces scam risk.\n\nCalculate a supplied fictional order. A paper calculation demonstrates understanding without a deposit.\n\nBuy an asset to activate the course. The course does not require purchasing an asset.\n\nGive support your recovery phrase. That exposes signing authority and is unnecessary.",
     },
     {
       id: "crypto-orientation-2",
@@ -96,7 +96,7 @@ export const cryptoOrientationQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["c"],
       explanation:
-        "Correct choice  C. Network and customer custody have different dependencies\n\nA. Every network function is equally distributed. Control must be examined separately for each function.\n\nB. The exchange password is a blockchain private key. A service login and signing material have different roles.\n\nC. Network and customer custody have different dependencies. Distributed validation does not remove the customer's provider dependence.\n\nD. The customer has no counterparty risk. Custody still depends on the provider and its terms.",
+        "Correct choice: Network and customer custody have different dependencies\n\nEvery network function is equally distributed. Control must be examined separately for each function.\n\nThe exchange password is a blockchain private key. A service login and signing material have different roles.\n\nNetwork and customer custody have different dependencies. Distributed validation does not remove the customer's provider dependence.\n\nThe customer has no counterparty risk. Custody still depends on the provider and its terms.",
     },
     {
       id: "crypto-orientation-3",
@@ -122,7 +122,7 @@ export const cryptoOrientationQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["d"],
       explanation:
-        "Correct choice  D. How entries can be recorded for several participants\n\nA. Why every transfer has a bank-style refund. Blockchain transfers do not inherit a spreadsheet or bank refund process.\n\nB. Why cryptocurrency prices must rise. Ledger design does not establish future demand or price.\n\nC. Why software removes all human choices. People still develop, operate and select systems.\n\nD. How entries can be recorded for several participants. The analogy introduces records while actual verification and correction rules still differ.",
+        "Correct choice: How entries can be recorded for several participants\n\nWhy every transfer has a bank-style refund. Blockchain transfers do not inherit a spreadsheet or bank refund process.\n\nWhy cryptocurrency prices must rise. Ledger design does not establish future demand or price.\n\nWhy software removes all human choices. People still develop, operate and select systems.\n\nHow entries can be recorded for several participants. The analogy introduces records while actual verification and correction rules still differ.",
     },
     {
       id: "crypto-orientation-4",
@@ -149,7 +149,7 @@ export const cryptoOrientationQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["a"],
       explanation:
-        "Correct choice  A. Their rights and liquidity still need separate review\n\nA. Their rights and liquidity still need separate review. Matching numerical value does not make issuer obligations identical.\n\nB. Both can be redeemed at any bank. Redemption depends on the specific item and its terms.\n\nC. Both receive deposit insurance. Protection is not created by an EUR quotation.\n\nD. Both are company shares. Neither label establishes corporate ownership.",
+        "Correct choice: Their rights and liquidity still need separate review\n\nTheir rights and liquidity still need separate review. Matching numerical value does not make issuer obligations identical.\n\nBoth can be redeemed at any bank. Redemption depends on the specific item and its terms.\n\nBoth receive deposit insurance. Protection is not created by an EUR quotation.\n\nBoth are company shares. Neither label establishes corporate ownership.",
     },
     {
       id: "crypto-orientation-5",
@@ -176,7 +176,7 @@ export const cryptoOrientationQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["b"],
       explanation:
-        "Correct choice  B. EUR 1,000\n\nA. EUR 40,000. That is the supplied price of a whole BTC.\n\nB. EUR 1,000. Quantity multiplied by price gives 0.025 × 40,000.\n\nC. EUR 100. This understates the product by a factor of ten.\n\nD. 1,000 BTC. The result is quote-currency value, not additional BTC.",
+        "Correct choice: EUR 1,000\n\nEUR 40,000. That is the supplied price of a whole BTC.\n\nEUR 1,000. Quantity multiplied by price gives 0.025 × 40,000.\n\nEUR 100. This understates the product by a factor of ten.\n\n1,000 BTC. The result is quote-currency value, not additional BTC.",
     },
     {
       id: "crypto-orientation-6",
@@ -203,7 +203,7 @@ export const cryptoOrientationQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["c"],
       explanation:
-        "Correct choice  C. A perpetual position\n\nA. A self-custodied BTC output. It is controlled through spending authority on the network.\n\nB. An ordinary shop voucher. It is a limited claim under voucher terms, not the stated price derivative.\n\nC. A perpetual position. Its payoff and obligations follow contract terms.\n\nD. Cash in your hand. Cash is directly held money rather than this derivative.",
+        "Correct choice: A perpetual position\n\nA self-custodied BTC output. It is controlled through spending authority on the network.\n\nAn ordinary shop voucher. It is a limited claim under voucher terms, not the stated price derivative.\n\nA perpetual position. Its payoff and obligations follow contract terms.\n\nCash in your hand. Cash is directly held money rather than this derivative.",
     },
     {
       id: "crypto-orientation-7",
@@ -230,7 +230,7 @@ export const cryptoOrientationQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["d"],
       explanation:
-        "Correct choice  D. GBP 40 or 40 percent\n\nA. GBP 60 or 60 percent. That is the remaining value, not the loss.\n\nB. GBP 40 or 66.67 percent loss. 66.67 percent describes the gain needed from 60 to recover to 100.\n\nC. No loss until sale. Current economic value has fallen even before realisation.\n\nD. GBP 40 or 40 percent. The difference is 40 and the denominator is the original 100.",
+        "Correct choice: GBP 40 or 40 percent\n\nGBP 60 or 60 percent. That is the remaining value, not the loss.\n\nGBP 40 or 66.67 percent loss. 66.67 percent describes the gain needed from 60 to recover to 100.\n\nNo loss until sale. Current economic value has fallen even before realisation.\n\nGBP 40 or 40 percent. The difference is 40 and the denominator is the original 100.",
     },
     {
       id: "crypto-orientation-8",
@@ -257,7 +257,7 @@ export const cryptoOrientationQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["a"],
       explanation:
-        "Correct choice  A. A secure usable recovery plan\n\nA. A secure usable recovery plan. It preserves the means to restore authority under the wallet scheme.\n\nB. A market stop order. It concerns execution rather than lost signing material.\n\nC. A predicted price recovery. Price changes do not recreate authority.\n\nD. More token names at the same wallet. Additional holdings do not repair the recovery mechanism.",
+        "Correct choice: A secure usable recovery plan\n\nA secure usable recovery plan. It preserves the means to restore authority under the wallet scheme.\n\nA market stop order. It concerns execution rather than lost signing material.\n\nA predicted price recovery. Price changes do not recreate authority.\n\nMore token names at the same wallet. Additional holdings do not repair the recovery mechanism.",
     },
     {
       id: "crypto-orientation-9",
@@ -284,7 +284,7 @@ export const cryptoOrientationQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["b"],
       explanation:
-        "Correct choice  B. Pause and verify through a separate known official route\n\nA. Trust the displayed support logo. Logos and sender names can be copied.\n\nB. Pause and verify through a separate known official route. The message's own link cannot independently establish its legitimacy.\n\nC. Scan and enter words before the deadline. Urgency does not justify exposing signing authority.\n\nD. Send a small deposit to test the agent. A test payment can still be lost and proves little.",
+        "Correct choice: Pause and verify through a separate known official route\n\nTrust the displayed support logo. Logos and sender names can be copied.\n\nPause and verify through a separate known official route. The message's own link cannot independently establish its legitimacy.\n\nScan and enter words before the deadline. Urgency does not justify exposing signing authority.\n\nSend a small deposit to test the agent. A test payment can still be lost and proves little.",
     },
     {
       id: "crypto-orientation-10",
@@ -311,7 +311,7 @@ export const cryptoOrientationQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["c"],
       explanation:
-        "Correct choice  C. It may authorise a valuable action for later use\n\nA. Every message signature is harmless. Its effect depends on the message and protocol.\n\nB. Only expensive transactions can be scams. Scam risk concerns the action, not just its charge.\n\nC. It may authorise a valuable action for later use. A message can carry authority without immediate on-chain cost.\n\nD. No fee means the wallet is disconnected. Fee display does not determine connection or authority.",
+        "Correct choice: It may authorise a valuable action for later use\n\nEvery message signature is harmless. Its effect depends on the message and protocol.\n\nOnly expensive transactions can be scams. Scam risk concerns the action, not just its charge.\n\nIt may authorise a valuable action for later use. A message can carry authority without immediate on-chain cost.\n\nNo fee means the wallet is disconnected. Fee display does not determine connection or authority.",
     },
   ],
 };

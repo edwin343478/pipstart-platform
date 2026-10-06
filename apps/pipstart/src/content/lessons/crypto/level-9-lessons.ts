@@ -27,63 +27,63 @@ const metadata1: LessonMetadata = {
   riskWarningRequired: true,
   seoDescription:
     "Recognise a decision trigger and choose a deliberate response.",
-  seoTitle: "Emotions Biases and Attention in Crypto Markets",
+  seoTitle: "Emotions, Biases and Attention in Crypto Markets",
   slug: "emotions-biases-and-attention-in-crypto-markets",
   sources: [
     {
       title:
-        "Daniel Kahneman and Amos Tversky  Prospect Theory An Analysis of Decision under Risk",
+        "Daniel Kahneman and Amos Tversky: Prospect Theory An Analysis of Decision under Risk",
       url: "https://web.mit.edu/curhan/www/docs/Articles/15341_Readings/Behavioral_Decision_Theory/Kahneman_Tversky_1979_Prospect_theory.pdf",
     },
     {
-      title: "CFTC  Beware Virtual Currency Pump and Dump Schemes",
+      title: "CFTC: Beware Virtual Currency Pump and Dump Schemes",
       url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/beware_virtual_currency_pump_dump.html",
     },
     {
-      title: "FCA  Investing in crypto",
+      title: "FCA: Investing in crypto",
       url: "https://www.fca.org.uk/investsmart/investing-crypto",
     },
     {
-      title: "FINRA  Crypto Assets",
+      title: "FINRA: Crypto Assets",
       url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
     },
     {
       title:
-        "US SEC  US SEC — SEC Charges Crypto Entrepreneur Justin Sun and His Companies for Fraud and Other Securities Law Violations (22 March 2023)",
+        "US SEC: US SEC — SEC Charges Crypto Entrepreneur Justin Sun and His Companies for Fraud and Other Securities Law Violations (22 March 2023)",
       url: "https://www.sec.gov/newsroom/press-releases/2023-59",
     },
     {
       title:
-        "Investor.gov (SEC)  Investor.gov (SEC) — Social Media and Investment Fraud: Investor Alert (29 August 2022)",
+        "Investor.gov (SEC): Investor.gov (SEC) — Social Media and Investment Fraud: Investor Alert (29 August 2022)",
       url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-alerts/social-media-and-investment-fraud-investor-alert",
     },
     {
       title:
-        "UK FCA  UK FCA — FG24/1: Finalised guidance on financial promotions on social media (26 March 2024)",
+        "UK FCA: UK FCA — FG24/1: Finalised guidance on financial promotions on social media (26 March 2024)",
       url: "https://www.fca.org.uk/publications/finalised-guidance/fg24-1-finalised-guidance-financial-promotions-social-media",
     },
     {
       title:
-        "Nobel Prize  Nobel Prize — Press release: The Sveriges Riksbank Prize in Economic Sciences in Memory of Alfred Nobel 2002",
+        "Nobel Prize: Nobel Prize — Press release: The Sveriges Riksbank Prize in Economic Sciences in Memory of Alfred Nobel 2002",
       url: "https://www.nobelprize.org/prizes/economic-sciences/2002/press-release/",
     },
     {
       title:
-        "Investor.gov (SEC)  Investor.gov (SEC) — Behavioral Patterns of U.S. Investors (2014)",
+        "Investor.gov (SEC): Investor.gov (SEC) — Behavioral Patterns of U.S. Investors (2014)",
       url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-72",
     },
     {
       title:
-        "UK FCA  UK FCA — Research Note: Cryptoassets consumer research 2024",
+        "UK FCA: UK FCA — Research Note: Cryptoassets consumer research 2024",
       url: "https://www.fca.org.uk/publications/fca-research/research-note-cryptoassets-consumer-research-2024",
     },
   ],
   status: "published",
-  title: "Emotions Biases and Attention in Crypto Markets",
+  title: "Emotions, Biases and Attention in Crypto Markets",
 };
 const sections1: LessonSection[] = [
   {
-    title: "FOMO FUD and the hype cycle",
+    title: "FOMO, FUD and the hype cycle",
     shortTitle: "FOMO FUD and the hype cycle",
     blocks: [
       {
@@ -281,7 +281,7 @@ const sections1: LessonSection[] = [
     ],
   },
   {
-    title: "Promotion memes and signal groups",
+    title: "Promotion, memes and signal groups",
     shortTitle: "Promotion memes and signal groups",
     blocks: [
       {
@@ -404,7 +404,7 @@ const sections1: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Loss aversion anchoring and confirmation bias",
+        children: "Loss aversion, anchoring and confirmation bias",
       },
       {
         type: "heading",
@@ -602,7 +602,7 @@ const sections1: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Sunk costs tribalism recency and overconfidence",
+        children: "Sunk costs, tribalism, recency and overconfidence",
       },
       {
         type: "heading",
@@ -1099,7 +1099,7 @@ const sections1: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -1170,49 +1170,49 @@ const sections1: LessonSection[] = [
         items: [
           {
             title:
-              "Daniel Kahneman and Amos Tversky  Prospect Theory An Analysis of Decision under Risk",
+              "Daniel Kahneman and Amos Tversky: Prospect Theory An Analysis of Decision under Risk",
             url: "https://web.mit.edu/curhan/www/docs/Articles/15341_Readings/Behavioral_Decision_Theory/Kahneman_Tversky_1979_Prospect_theory.pdf",
           },
           {
-            title: "CFTC  Beware Virtual Currency Pump and Dump Schemes",
+            title: "CFTC: Beware Virtual Currency Pump and Dump Schemes",
             url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/beware_virtual_currency_pump_dump.html",
           },
           {
-            title: "FCA  Investing in crypto",
+            title: "FCA: Investing in crypto",
             url: "https://www.fca.org.uk/investsmart/investing-crypto",
           },
           {
-            title: "FINRA  Crypto Assets",
+            title: "FINRA: Crypto Assets",
             url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
           },
           {
             title:
-              "US SEC  US SEC — SEC Charges Crypto Entrepreneur Justin Sun and His Companies for Fraud and Other Securities Law Violations (22 March 2023)",
+              "US SEC: US SEC — SEC Charges Crypto Entrepreneur Justin Sun and His Companies for Fraud and Other Securities Law Violations (22 March 2023)",
             url: "https://www.sec.gov/newsroom/press-releases/2023-59",
           },
           {
             title:
-              "Investor.gov (SEC)  Investor.gov (SEC) — Social Media and Investment Fraud: Investor Alert (29 August 2022)",
+              "Investor.gov (SEC): Investor.gov (SEC) — Social Media and Investment Fraud: Investor Alert (29 August 2022)",
             url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-alerts/social-media-and-investment-fraud-investor-alert",
           },
           {
             title:
-              "UK FCA  UK FCA — FG24/1: Finalised guidance on financial promotions on social media (26 March 2024)",
+              "UK FCA: UK FCA — FG24/1: Finalised guidance on financial promotions on social media (26 March 2024)",
             url: "https://www.fca.org.uk/publications/finalised-guidance/fg24-1-finalised-guidance-financial-promotions-social-media",
           },
           {
             title:
-              "Nobel Prize  Nobel Prize — Press release: The Sveriges Riksbank Prize in Economic Sciences in Memory of Alfred Nobel 2002",
+              "Nobel Prize: Nobel Prize — Press release: The Sveriges Riksbank Prize in Economic Sciences in Memory of Alfred Nobel 2002",
             url: "https://www.nobelprize.org/prizes/economic-sciences/2002/press-release/",
           },
           {
             title:
-              "Investor.gov (SEC)  Investor.gov (SEC) — Behavioral Patterns of U.S. Investors (2014)",
+              "Investor.gov (SEC): Investor.gov (SEC) — Behavioral Patterns of U.S. Investors (2014)",
             url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-72",
           },
           {
             title:
-              "UK FCA  UK FCA — Research Note: Cryptoassets consumer research 2024",
+              "UK FCA: UK FCA — Research Note: Cryptoassets consumer research 2024",
             url: "https://www.fca.org.uk/publications/fca-research/research-note-cryptoassets-consumer-research-2024",
           },
         ],
@@ -1251,39 +1251,39 @@ const metadata2: LessonMetadata = {
   slug: "write-a-crypto-plan-and-define-testable-rules",
   sources: [
     {
-      title: "Coinbase  Advanced trade order types",
+      title: "Coinbase: Advanced trade order types",
       url: "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/advanced-trade/order-types",
     },
     {
-      title: "Kraken  What are Maker and Taker fees",
+      title: "Kraken: What are Maker and Taker fees",
       url: "https://support.kraken.com/in/articles/360000526126-what-are-maker-and-taker-fees-",
     },
     {
       title:
-        "Kraken  Managing margin and liquidations in multi collateral trading",
+        "Kraken: Managing margin and liquidations in multi collateral trading",
       url: "https://support.kraken.com/gb/articles/4844463246100-margining-liquidations-multi-collateral-derivatives",
     },
     {
       title:
-        "David H Bailey Jonathan Borwein Marcos Lopez de Prado and Qiji Jim Zhu  The Probability of Backtest Overfitting",
+        "David H Bailey Jonathan Borwein Marcos Lopez de Prado and Qiji Jim Zhu: The Probability of Backtest Overfitting",
       url: "https://scholarworks.wmich.edu/math_pubs/42/",
     },
     {
-      title: "MIT OpenCourseWare  Blockchain and Money",
+      title: "MIT OpenCourseWare: Blockchain and Money",
       url: "https://ocw.mit.edu/courses/15-s12-blockchain-and-money-fall-2018/",
     },
     {
       title:
-        "MIT OpenCourseWare  Blockchain and the Design of Financial Systems lecture notes",
+        "MIT OpenCourseWare: Blockchain and the Design of Financial Systems lecture notes",
       url: "https://ocw.mit.edu/courses/14-129-blockchain-and-the-design-of-financial-systems-spring-2025/pages/lecture-notes/",
     },
     {
-      title: "Glassnode  Entities metric definitions",
+      title: "Glassnode: Entities metric definitions",
       url: "https://docs.glassnode.com/basic-api/endpoints/entities",
     },
     {
       title:
-        "Financial Conduct Authority  Financial Conduct Authority — Cryptoassets",
+        "Financial Conduct Authority: Financial Conduct Authority — Cryptoassets",
       url: "https://www.fca.org.uk/consumers/cryptoassets",
     },
   ],
@@ -1292,7 +1292,7 @@ const metadata2: LessonMetadata = {
 };
 const sections2: LessonSection[] = [
   {
-    title: "Purpose horizon and permitted activities",
+    title: "Purpose, horizon and permitted activities",
     shortTitle: "Purpose horizon and permitted activities",
     blocks: [
       {
@@ -1415,7 +1415,7 @@ const sections2: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Write what you will and won t do",
+        children: "Write what you will and won't do",
       },
       {
         type: "paragraph",
@@ -1502,7 +1502,7 @@ const sections2: LessonSection[] = [
     ],
   },
   {
-    title: "Research rules execution and the right test",
+    title: "Research rules, execution and the right test",
     shortTitle: "Research rules execution and the right test",
     blocks: [
       {
@@ -1622,7 +1622,7 @@ const sections2: LessonSection[] = [
     ],
   },
   {
-    title: "Precommitment premortem and the frozen plan",
+    title: "Precommitment, premortem and the frozen plan",
     shortTitle: "Precommitment premortem and the frozen plan",
     blocks: [
       {
@@ -1724,7 +1724,7 @@ const sections2: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -1796,39 +1796,39 @@ const sections2: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "Coinbase  Advanced trade order types",
+            title: "Coinbase: Advanced trade order types",
             url: "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/advanced-trade/order-types",
           },
           {
-            title: "Kraken  What are Maker and Taker fees",
+            title: "Kraken: What are Maker and Taker fees",
             url: "https://support.kraken.com/in/articles/360000526126-what-are-maker-and-taker-fees-",
           },
           {
             title:
-              "Kraken  Managing margin and liquidations in multi collateral trading",
+              "Kraken: Managing margin and liquidations in multi collateral trading",
             url: "https://support.kraken.com/gb/articles/4844463246100-margining-liquidations-multi-collateral-derivatives",
           },
           {
             title:
-              "David H Bailey Jonathan Borwein Marcos Lopez de Prado and Qiji Jim Zhu  The Probability of Backtest Overfitting",
+              "David H Bailey Jonathan Borwein Marcos Lopez de Prado and Qiji Jim Zhu: The Probability of Backtest Overfitting",
             url: "https://scholarworks.wmich.edu/math_pubs/42/",
           },
           {
-            title: "MIT OpenCourseWare  Blockchain and Money",
+            title: "MIT OpenCourseWare: Blockchain and Money",
             url: "https://ocw.mit.edu/courses/15-s12-blockchain-and-money-fall-2018/",
           },
           {
             title:
-              "MIT OpenCourseWare  Blockchain and the Design of Financial Systems lecture notes",
+              "MIT OpenCourseWare: Blockchain and the Design of Financial Systems lecture notes",
             url: "https://ocw.mit.edu/courses/14-129-blockchain-and-the-design-of-financial-systems-spring-2025/pages/lecture-notes/",
           },
           {
-            title: "Glassnode  Entities metric definitions",
+            title: "Glassnode: Entities metric definitions",
             url: "https://docs.glassnode.com/basic-api/endpoints/entities",
           },
           {
             title:
-              "Financial Conduct Authority  Financial Conduct Authority — Cryptoassets",
+              "Financial Conduct Authority: Financial Conduct Authority — Cryptoassets",
             url: "https://www.fca.org.uk/consumers/cryptoassets",
           },
         ],
@@ -1868,33 +1868,33 @@ const metadata3: LessonMetadata = {
   sources: [
     {
       title:
-        "David H Bailey Jonathan Borwein Marcos Lopez de Prado and Qiji Jim Zhu  The Probability of Backtest Overfitting",
+        "David H Bailey Jonathan Borwein Marcos Lopez de Prado and Qiji Jim Zhu: The Probability of Backtest Overfitting",
       url: "https://scholarworks.wmich.edu/math_pubs/42/",
     },
     {
-      title: "MIT OpenCourseWare  Blockchain and Money",
+      title: "MIT OpenCourseWare: Blockchain and Money",
       url: "https://ocw.mit.edu/courses/15-s12-blockchain-and-money-fall-2018/",
     },
     {
       title:
-        "MIT OpenCourseWare  Blockchain and the Design of Financial Systems lecture notes",
+        "MIT OpenCourseWare: Blockchain and the Design of Financial Systems lecture notes",
       url: "https://ocw.mit.edu/courses/14-129-blockchain-and-the-design-of-financial-systems-spring-2025/pages/lecture-notes/",
     },
     {
-      title: "Coinbase  Advanced trade order types",
+      title: "Coinbase: Advanced trade order types",
       url: "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/advanced-trade/order-types",
     },
     {
-      title: "Glassnode  Entities metric definitions",
+      title: "Glassnode: Entities metric definitions",
       url: "https://docs.glassnode.com/basic-api/endpoints/entities",
     },
     {
-      title: "Glassnode  Exchange Data Transparency Notice",
+      title: "Glassnode: Exchange Data Transparency Notice",
       url: "https://docs.glassnode.com/further-information/exchange-data-transparency-notice",
     },
     {
       title:
-        "Financial Conduct Authority  Financial Conduct Authority — Cryptoassets",
+        "Financial Conduct Authority: Financial Conduct Authority — Cryptoassets",
       url: "https://www.fca.org.uk/consumers/cryptoassets",
     },
   ],
@@ -1903,7 +1903,7 @@ const metadata3: LessonMetadata = {
 };
 const sections3: LessonSection[] = [
   {
-    title: "Separate development holdout and past information",
+    title: "Separate development, holdout and past information",
     shortTitle: "Separate development holdout and past information",
     blocks: [
       {
@@ -1931,7 +1931,7 @@ const sections3: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Development holdout and forward observation",
+        children: "Development, holdout and forward observation",
       },
       {
         type: "paragraph",
@@ -2058,7 +2058,7 @@ const sections3: LessonSection[] = [
     ],
   },
   {
-    title: "Model feasible fills costs and testing limits",
+    title: "Model feasible fills, costs and testing limits",
     shortTitle: "Model feasible fills costs and testing limits",
     blocks: [
       {
@@ -2115,7 +2115,7 @@ const sections3: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -2186,33 +2186,33 @@ const sections3: LessonSection[] = [
         items: [
           {
             title:
-              "David H Bailey Jonathan Borwein Marcos Lopez de Prado and Qiji Jim Zhu  The Probability of Backtest Overfitting",
+              "David H Bailey Jonathan Borwein Marcos Lopez de Prado and Qiji Jim Zhu: The Probability of Backtest Overfitting",
             url: "https://scholarworks.wmich.edu/math_pubs/42/",
           },
           {
-            title: "MIT OpenCourseWare  Blockchain and Money",
+            title: "MIT OpenCourseWare: Blockchain and Money",
             url: "https://ocw.mit.edu/courses/15-s12-blockchain-and-money-fall-2018/",
           },
           {
             title:
-              "MIT OpenCourseWare  Blockchain and the Design of Financial Systems lecture notes",
+              "MIT OpenCourseWare: Blockchain and the Design of Financial Systems lecture notes",
             url: "https://ocw.mit.edu/courses/14-129-blockchain-and-the-design-of-financial-systems-spring-2025/pages/lecture-notes/",
           },
           {
-            title: "Coinbase  Advanced trade order types",
+            title: "Coinbase: Advanced trade order types",
             url: "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/advanced-trade/order-types",
           },
           {
-            title: "Glassnode  Entities metric definitions",
+            title: "Glassnode: Entities metric definitions",
             url: "https://docs.glassnode.com/basic-api/endpoints/entities",
           },
           {
-            title: "Glassnode  Exchange Data Transparency Notice",
+            title: "Glassnode: Exchange Data Transparency Notice",
             url: "https://docs.glassnode.com/further-information/exchange-data-transparency-notice",
           },
           {
             title:
-              "Financial Conduct Authority  Financial Conduct Authority — Cryptoassets",
+              "Financial Conduct Authority: Financial Conduct Authority — Cryptoassets",
             url: "https://www.fca.org.uk/consumers/cryptoassets",
           },
         ],
@@ -2248,25 +2248,25 @@ const metadata4: LessonMetadata = {
   slug: "read-results-honestly-and-build-a-practice-routine",
   sources: [
     {
-      title: "MIT OpenCourseWare  Blockchain and Money",
+      title: "MIT OpenCourseWare: Blockchain and Money",
       url: "https://ocw.mit.edu/courses/15-s12-blockchain-and-money-fall-2018/",
     },
     {
       title:
-        "MIT OpenCourseWare  Blockchain and the Design of Financial Systems lecture notes",
+        "MIT OpenCourseWare: Blockchain and the Design of Financial Systems lecture notes",
       url: "https://ocw.mit.edu/courses/14-129-blockchain-and-the-design-of-financial-systems-spring-2025/pages/lecture-notes/",
     },
     {
-      title: "CFTC  Understand the Risks of Virtual Currency Trading",
+      title: "CFTC: Understand the Risks of Virtual Currency Trading",
       url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
     },
     {
-      title: "Glassnode  Entities metric definitions",
+      title: "Glassnode: Entities metric definitions",
       url: "https://docs.glassnode.com/basic-api/endpoints/entities",
     },
     {
       title:
-        "Financial Conduct Authority  Financial Conduct Authority — Cryptoassets",
+        "Financial Conduct Authority: Financial Conduct Authority — Cryptoassets",
       url: "https://www.fca.org.uk/consumers/cryptoassets",
     },
   ],
@@ -2303,7 +2303,7 @@ const sections4: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Win rate needs gain loss and sample size",
+        children: "Win rate needs gain, loss and sample size",
       },
       {
         type: "paragraph",
@@ -2388,7 +2388,7 @@ const sections4: LessonSection[] = [
     ],
   },
   {
-    title: "Benchmarks review routine and reasons to pause",
+    title: "Benchmarks, review routine and reasons to pause",
     shortTitle: "Benchmarks review routine and reasons to pause",
     blocks: [
       {
@@ -2409,7 +2409,7 @@ const sections4: LessonSection[] = [
       {
         type: "heading",
         level: 3,
-        children: "Review process schedule and reasons to pause",
+        children: "Review process, schedule and reasons to pause",
       },
       {
         type: "heading",
@@ -2549,7 +2549,7 @@ const sections4: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -2642,25 +2642,25 @@ const sections4: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "MIT OpenCourseWare  Blockchain and Money",
+            title: "MIT OpenCourseWare: Blockchain and Money",
             url: "https://ocw.mit.edu/courses/15-s12-blockchain-and-money-fall-2018/",
           },
           {
             title:
-              "MIT OpenCourseWare  Blockchain and the Design of Financial Systems lecture notes",
+              "MIT OpenCourseWare: Blockchain and the Design of Financial Systems lecture notes",
             url: "https://ocw.mit.edu/courses/14-129-blockchain-and-the-design-of-financial-systems-spring-2025/pages/lecture-notes/",
           },
           {
-            title: "CFTC  Understand the Risks of Virtual Currency Trading",
+            title: "CFTC: Understand the Risks of Virtual Currency Trading",
             url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
           },
           {
-            title: "Glassnode  Entities metric definitions",
+            title: "Glassnode: Entities metric definitions",
             url: "https://docs.glassnode.com/basic-api/endpoints/entities",
           },
           {
             title:
-              "Financial Conduct Authority  Financial Conduct Authority — Cryptoassets",
+              "Financial Conduct Authority: Financial Conduct Authority — Cryptoassets",
             url: "https://www.fca.org.uk/consumers/cryptoassets",
           },
         ],

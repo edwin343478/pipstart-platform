@@ -234,7 +234,7 @@ test("Level 3 grades all fifteen approved answers on the server and reveals expl
   await expect(page.getByText("Passed", { exact: true }).first()).toBeVisible();
   await expect(
     page.getByText(
-      "He pays 0.3 × 2,000 + 0.7 × 2,010 = 600 + 1,407 = 2,007 USDT for 1 ETH, and (2,007 − 2,000) ÷ 2,000 × 100% = 0.35%. Option A averages the two price levels equally, ignoring that more of the order filled at 2,010.",
+      "He pays 0.3 × 2,000 + 0.7 × 2,010 = 600 + 1,407 = 2,007 USDT for 1 ETH, and (2,007 − 2,000) ÷ 2,000 × 100% = 0.35%. The answer “2,005 USDT; 0.25%” averages the two price levels equally, ignoring that more of the order filled at 2,010.",
       { exact: false },
     ),
   ).toBeVisible();
@@ -245,7 +245,7 @@ test("the curriculum opens Level 3 and both hierarchy pages expose all five less
 }) => {
   await page.goto("/learn/crypto");
   const entry = page.getByRole("link", {
-    name: "Start Level 3: Exchanges Stablecoins and Market Orders",
+    name: "Start Level 3: Exchanges, Stablecoins and Market Orders",
     exact: true,
   });
   await expect(entry).toBeVisible();

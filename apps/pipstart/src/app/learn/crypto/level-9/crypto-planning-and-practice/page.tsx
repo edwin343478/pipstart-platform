@@ -10,7 +10,7 @@ import { createDynamicMetadata } from "../../../../../lib/seo";
 
 export const metadata = createDynamicMetadata({
   path: "/learn/crypto/level-9/crypto-planning-and-practice",
-  title: "Psychology Planning and Paper Practice",
+  title: "Psychology, Planning and Paper Practice",
   description:
     "Four complete lessons covering decision habits, written plans, honest testing and paper-practice review, with practice and a fifteen-question quiz.",
 });

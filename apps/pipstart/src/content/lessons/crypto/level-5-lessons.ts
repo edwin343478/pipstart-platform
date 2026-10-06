@@ -28,58 +28,58 @@ const metadata1: LessonMetadata = {
   riskWarningRequired: true,
   seoDescription:
     "Describe an asset's claimed role and identify which rights the holder actually receives.",
-  seoTitle: "Altcoins Utility Governance and Hype",
+  seoTitle: "Altcoins, Utility, Governance and Hype",
   slug: "altcoins-utility-governance-and-hype",
   sources: [
     {
-      title: "FCA  Investing in crypto",
+      title: "FCA: Investing in crypto",
       url: "https://www.fca.org.uk/investsmart/investing-crypto",
     },
     {
-      title: "FINRA  Crypto Assets",
+      title: "FINRA: Crypto Assets",
       url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
     },
     {
-      title: "Ethereum  Decentralised Autonomous Organisations",
+      title: "Ethereum: Decentralised Autonomous Organisations",
       url: "https://ethereum.org/dao/",
     },
     {
-      title: "CFTC  Beware Virtual Currency Pump and Dump Schemes",
+      title: "CFTC: Beware Virtual Currency Pump and Dump Schemes",
       url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/beware_virtual_currency_pump_dump.html",
     },
     {
-      title: "Ethereum  Token standards",
+      title: "Ethereum: Token standards",
       url: "https://ethereum.org/developers/docs/standards/tokens/",
     },
     {
-      title: "Circle  USDC Terms",
+      title: "Circle: USDC Terms",
       url: "https://www.circle.com/legal/usdc-terms",
     },
     {
       title:
-        "ESMA and the European Supervisory Authorities  Consumer warning on crypto assets and limited protection",
+        "ESMA and the European Supervisory Authorities: Consumer warning on crypto assets and limited protection",
       url: "https://www.esma.europa.eu/press-news/esma-news/eu-supervisory-authorities-warn-consumers-risks-and-limited-protection-certain",
     },
     {
-      title: "ethereum.org  ethereum.org — ERC-20 token standard",
+      title: "ethereum.org: ethereum.org — ERC-20 token standard",
       url: "https://ethereum.org/en/developers/docs/standards/tokens/erc-20/",
     },
     {
-      title: "Uniswap  Uniswap — Introducing UNI",
+      title: "Uniswap: Uniswap — Introducing UNI",
       url: "https://blog.uniswap.org/uni",
     },
     {
       title:
-        "US SEC  US SEC — SEC Issues Investigative Report Concluding DAO Tokens, a Digital Asset, Were Securities (25 July 2017)",
+        "US SEC: US SEC — SEC Issues Investigative Report Concluding DAO Tokens, a Digital Asset, Were Securities (25 July 2017)",
       url: "https://www.sec.gov/newsroom/press-releases/2017-131",
     },
   ],
   status: "published",
-  title: "Altcoins Utility Governance and Hype",
+  title: "Altcoins, Utility, Governance and Hype",
 };
 const sections1: LessonSection[] = [
   {
-    title: "Coins tokens and their claimed roles",
+    title: "Coins, tokens and their claimed roles",
     shortTitle: "Coins tokens and their claimed roles",
     blocks: [
       {
@@ -353,7 +353,7 @@ const sections1: LessonSection[] = [
     ],
   },
   {
-    title: "Product usefulness governance and holder rights",
+    title: "Product usefulness, governance and holder rights",
     shortTitle: "Product usefulness governance and holder rights",
     blocks: [
       {
@@ -447,7 +447,7 @@ const sections1: LessonSection[] = [
     ],
   },
   {
-    title: "Promotion airdrops and launch methods",
+    title: "Promotion, airdrops and launch methods",
     shortTitle: "Promotion airdrops and launch methods",
     blocks: [
       {
@@ -600,7 +600,7 @@ const sections1: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -670,45 +670,45 @@ const sections1: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "FCA  Investing in crypto",
+            title: "FCA: Investing in crypto",
             url: "https://www.fca.org.uk/investsmart/investing-crypto",
           },
           {
-            title: "FINRA  Crypto Assets",
+            title: "FINRA: Crypto Assets",
             url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
           },
           {
-            title: "Ethereum  Decentralised Autonomous Organisations",
+            title: "Ethereum: Decentralised Autonomous Organisations",
             url: "https://ethereum.org/dao/",
           },
           {
-            title: "CFTC  Beware Virtual Currency Pump and Dump Schemes",
+            title: "CFTC: Beware Virtual Currency Pump and Dump Schemes",
             url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/beware_virtual_currency_pump_dump.html",
           },
           {
-            title: "Ethereum  Token standards",
+            title: "Ethereum: Token standards",
             url: "https://ethereum.org/developers/docs/standards/tokens/",
           },
           {
-            title: "Circle  USDC Terms",
+            title: "Circle: USDC Terms",
             url: "https://www.circle.com/legal/usdc-terms",
           },
           {
             title:
-              "ESMA and the European Supervisory Authorities  Consumer warning on crypto assets and limited protection",
+              "ESMA and the European Supervisory Authorities: Consumer warning on crypto assets and limited protection",
             url: "https://www.esma.europa.eu/press-news/esma-news/eu-supervisory-authorities-warn-consumers-risks-and-limited-protection-certain",
           },
           {
-            title: "ethereum.org  ethereum.org — ERC-20 token standard",
+            title: "ethereum.org: ethereum.org — ERC-20 token standard",
             url: "https://ethereum.org/en/developers/docs/standards/tokens/erc-20/",
           },
           {
-            title: "Uniswap  Uniswap — Introducing UNI",
+            title: "Uniswap: Uniswap — Introducing UNI",
             url: "https://blog.uniswap.org/uni",
           },
           {
             title:
-              "US SEC  US SEC — SEC Issues Investigative Report Concluding DAO Tokens, a Digital Asset, Were Securities (25 July 2017)",
+              "US SEC: US SEC — SEC Issues Investigative Report Concluding DAO Tokens, a Digital Asset, Were Securities (25 July 2017)",
             url: "https://www.sec.gov/newsroom/press-releases/2017-131",
           },
         ],
@@ -739,40 +739,40 @@ const metadata2: LessonMetadata = {
   reviewDate: "2026-10-05",
   riskWarningRequired: true,
   seoDescription: "Calculate valuation labels and explain their limits.",
-  seoTitle: "Supply Market Capitalisation and Fully Diluted Value",
+  seoTitle: "Supply, Market Capitalisation and Fully Diluted Value",
   slug: "supply-market-capitalisation-and-fully-diluted-value",
   sources: [
     {
-      title: "Bitcoin community  Bitcoin Developer Guide Block Chain",
+      title: "Bitcoin community: Bitcoin Developer Guide Block Chain",
       url: "https://developer.bitcoin.org/devguide/block_chain.html",
     },
     {
-      title: "Ethereum  Token standards",
+      title: "Ethereum: Token standards",
       url: "https://ethereum.org/developers/docs/standards/tokens/",
     },
     {
-      title: "Ethereum  Decentralised Autonomous Organisations",
+      title: "Ethereum: Decentralised Autonomous Organisations",
       url: "https://ethereum.org/dao/",
     },
     {
-      title: "MIT OpenCourseWare  Blockchain and Money",
+      title: "MIT OpenCourseWare: Blockchain and Money",
       url: "https://ocw.mit.edu/courses/15-s12-blockchain-and-money-fall-2018/",
     },
     {
-      title: "CFTC  Understand the Risks of Virtual Currency Trading",
+      title: "CFTC: Understand the Risks of Virtual Currency Trading",
       url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
     },
     {
-      title: "FINRA  Crypto Assets",
+      title: "FINRA: Crypto Assets",
       url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
     },
     {
-      title: "Uniswap  Uniswap — Introducing UNI",
+      title: "Uniswap: Uniswap — Introducing UNI",
       url: "https://blog.uniswap.org/uni",
     },
   ],
   status: "published",
-  title: "Supply Market Capitalisation and Fully Diluted Value",
+  title: "Supply, Market Capitalisation and Fully Diluted Value",
 };
 const sections2: LessonSection[] = [
   {
@@ -1126,7 +1126,7 @@ const sections2: LessonSection[] = [
     ],
   },
   {
-    title: "Unit prices data definitions and exit limits",
+    title: "Unit prices, data definitions and exit limits",
     shortTitle: "Unit prices data definitions and exit limits",
     blocks: [
       {
@@ -1162,7 +1162,7 @@ const sections2: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -1234,31 +1234,31 @@ const sections2: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "Bitcoin community  Bitcoin Developer Guide Block Chain",
+            title: "Bitcoin community: Bitcoin Developer Guide Block Chain",
             url: "https://developer.bitcoin.org/devguide/block_chain.html",
           },
           {
-            title: "Ethereum  Token standards",
+            title: "Ethereum: Token standards",
             url: "https://ethereum.org/developers/docs/standards/tokens/",
           },
           {
-            title: "Ethereum  Decentralised Autonomous Organisations",
+            title: "Ethereum: Decentralised Autonomous Organisations",
             url: "https://ethereum.org/dao/",
           },
           {
-            title: "MIT OpenCourseWare  Blockchain and Money",
+            title: "MIT OpenCourseWare: Blockchain and Money",
             url: "https://ocw.mit.edu/courses/15-s12-blockchain-and-money-fall-2018/",
           },
           {
-            title: "CFTC  Understand the Risks of Virtual Currency Trading",
+            title: "CFTC: Understand the Risks of Virtual Currency Trading",
             url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
           },
           {
-            title: "FINRA  Crypto Assets",
+            title: "FINRA: Crypto Assets",
             url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
           },
           {
-            title: "Uniswap  Uniswap — Introducing UNI",
+            title: "Uniswap: Uniswap — Introducing UNI",
             url: "https://blog.uniswap.org/uni",
           },
         ],
@@ -1289,47 +1289,47 @@ const metadata3: LessonMetadata = {
   reviewDate: "2026-10-05",
   riskWarningRequired: true,
   seoDescription: "Read who can receive, release or change the token supply.",
-  seoTitle: "Allocations Vesting Unlocks and Control",
+  seoTitle: "Allocations, Vesting, Unlocks and Control",
   slug: "allocations-vesting-unlocks-and-control",
   sources: [
     {
-      title: "Ethereum  Token standards",
+      title: "Ethereum: Token standards",
       url: "https://ethereum.org/developers/docs/standards/tokens/",
     },
     {
-      title: "Ethereum  Decentralised Autonomous Organisations",
+      title: "Ethereum: Decentralised Autonomous Organisations",
       url: "https://ethereum.org/dao/",
     },
     {
-      title: "Ethereum  Ethereum security and scam prevention",
+      title: "Ethereum: Ethereum security and scam prevention",
       url: "https://ethereum.org/security/",
     },
     {
-      title: "Uniswap  Uniswap — Introducing UNI",
+      title: "Uniswap: Uniswap — Introducing UNI",
       url: "https://blog.uniswap.org/uni",
     },
     {
       title:
-        "US Department of Justice  US Department of Justice — Eighteen Individuals and Entities Charged in International Operation Targeting Widespread Fraud and Manipulation in the Cryptocurrency Markets",
+        "US Department of Justice: US Department of Justice — Eighteen Individuals and Entities Charged in International Operation Targeting Widespread Fraud and Manipulation in the Cryptocurrency Markets",
       url: "https://www.justice.gov/usao-ma/pr/eighteen-individuals-and-entities-charged-international-operation-targeting-widespread",
     },
     {
       title:
-        "US SEC  US SEC — SEC Charges Kim Kardashian for Unlawfully Touting Crypto Security (3 October 2022)",
+        "US SEC: US SEC — SEC Charges Kim Kardashian for Unlawfully Touting Crypto Security (3 October 2022)",
       url: "https://www.sec.gov/newsroom/press-releases/2022-183",
     },
     {
       title:
-        "Federal Trade Commission  Federal Trade Commission — What To Know About Cryptocurrency and Scams",
+        "Federal Trade Commission: Federal Trade Commission — What To Know About Cryptocurrency and Scams",
       url: "https://consumer.ftc.gov/articles/what-know-about-cryptocurrency-and-scams",
     },
   ],
   status: "published",
-  title: "Allocations Vesting Unlocks and Control",
+  title: "Allocations, Vesting, Unlocks and Control",
 };
 const sections3: LessonSection[] = [
   {
-    title: "Allocations cliffs and vesting",
+    title: "Allocations, cliffs and vesting",
     shortTitle: "Allocations cliffs and vesting",
     blocks: [
       {
@@ -1437,7 +1437,7 @@ const sections3: LessonSection[] = [
     ],
   },
   {
-    title: "Unlocks incentives and potential selling",
+    title: "Unlocks, incentives and potential selling",
     shortTitle: "Unlocks incentives and potential selling",
     blocks: [
       {
@@ -1506,7 +1506,7 @@ const sections3: LessonSection[] = [
     ],
   },
   {
-    title: "Contract powers treasury and practical control",
+    title: "Contract powers, treasury and practical control",
     shortTitle: "Contract powers treasury and practical control",
     blocks: [
       {
@@ -1553,7 +1553,7 @@ const sections3: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -1625,34 +1625,34 @@ const sections3: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "Ethereum  Token standards",
+            title: "Ethereum: Token standards",
             url: "https://ethereum.org/developers/docs/standards/tokens/",
           },
           {
-            title: "Ethereum  Decentralised Autonomous Organisations",
+            title: "Ethereum: Decentralised Autonomous Organisations",
             url: "https://ethereum.org/dao/",
           },
           {
-            title: "Ethereum  Ethereum security and scam prevention",
+            title: "Ethereum: Ethereum security and scam prevention",
             url: "https://ethereum.org/security/",
           },
           {
-            title: "Uniswap  Uniswap — Introducing UNI",
+            title: "Uniswap: Uniswap — Introducing UNI",
             url: "https://blog.uniswap.org/uni",
           },
           {
             title:
-              "US Department of Justice  US Department of Justice — Eighteen Individuals and Entities Charged in International Operation Targeting Widespread Fraud and Manipulation in the Cryptocurrency Markets",
+              "US Department of Justice: US Department of Justice — Eighteen Individuals and Entities Charged in International Operation Targeting Widespread Fraud and Manipulation in the Cryptocurrency Markets",
             url: "https://www.justice.gov/usao-ma/pr/eighteen-individuals-and-entities-charged-international-operation-targeting-widespread",
           },
           {
             title:
-              "US SEC  US SEC — SEC Charges Kim Kardashian for Unlawfully Touting Crypto Security (3 October 2022)",
+              "US SEC: US SEC — SEC Charges Kim Kardashian for Unlawfully Touting Crypto Security (3 October 2022)",
             url: "https://www.sec.gov/newsroom/press-releases/2022-183",
           },
           {
             title:
-              "Federal Trade Commission  Federal Trade Commission — What To Know About Cryptocurrency and Scams",
+              "Federal Trade Commission: Federal Trade Commission — What To Know About Cryptocurrency and Scams",
             url: "https://consumer.ftc.gov/articles/what-know-about-cryptocurrency-and-scams",
           },
         ],
@@ -1688,55 +1688,55 @@ const metadata4: LessonMetadata = {
   slug: "build-a-token-dossier-and-check-liquidity",
   sources: [
     {
-      title: "CFTC  Beware Virtual Currency Pump and Dump Schemes",
+      title: "CFTC: Beware Virtual Currency Pump and Dump Schemes",
       url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/beware_virtual_currency_pump_dump.html",
     },
     {
-      title: "FCA  Investing in crypto",
+      title: "FCA: Investing in crypto",
       url: "https://www.fca.org.uk/investsmart/investing-crypto",
     },
     {
-      title: "Glassnode  Entities metric definitions",
+      title: "Glassnode: Entities metric definitions",
       url: "https://docs.glassnode.com/basic-api/endpoints/entities",
     },
     {
-      title: "Ethereum  Ethereum security and scam prevention",
+      title: "Ethereum: Ethereum security and scam prevention",
       url: "https://ethereum.org/security/",
     },
     {
       title:
-        "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+        "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
       url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
     },
     {
-      title: "Coinbase  Advanced trade order types",
+      title: "Coinbase: Advanced trade order types",
       url: "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/advanced-trade/order-types",
     },
     {
-      title: "Uniswap  How Uniswap works",
+      title: "Uniswap: How Uniswap works",
       url: "https://developers.uniswap.org/docs/get-started/concepts/how-uniswap-works",
     },
     {
-      title: "CFTC  Understand the Risks of Virtual Currency Trading",
+      title: "CFTC: Understand the Risks of Virtual Currency Trading",
       url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
     },
     {
-      title: "FINRA  Crypto Assets",
+      title: "FINRA: Crypto Assets",
       url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
     },
     {
       title:
-        "US Department of Justice  US Department of Justice — Eighteen Individuals and Entities Charged in International Operation Targeting Widespread Fraud and Manipulation in the Cryptocurrency Markets",
+        "US Department of Justice: US Department of Justice — Eighteen Individuals and Entities Charged in International Operation Targeting Widespread Fraud and Manipulation in the Cryptocurrency Markets",
       url: "https://www.justice.gov/usao-ma/pr/eighteen-individuals-and-entities-charged-international-operation-targeting-widespread",
     },
     {
       title:
-        "US SEC  US SEC — SEC Charges Kim Kardashian for Unlawfully Touting Crypto Security (3 October 2022)",
+        "US SEC: US SEC — SEC Charges Kim Kardashian for Unlawfully Touting Crypto Security (3 October 2022)",
       url: "https://www.sec.gov/newsroom/press-releases/2022-183",
     },
     {
       title:
-        "Federal Trade Commission  Federal Trade Commission — What To Know About Cryptocurrency and Scams",
+        "Federal Trade Commission: Federal Trade Commission — What To Know About Cryptocurrency and Scams",
       url: "https://consumer.ftc.gov/articles/what-know-about-cryptocurrency-and-scams",
     },
   ],
@@ -1931,7 +1931,7 @@ const sections4: LessonSection[] = [
     ],
   },
   {
-    title: "Liquidity holders and manipulation",
+    title: "Liquidity, holders and manipulation",
     shortTitle: "Liquidity holders and manipulation",
     blocks: [
       {
@@ -2104,7 +2104,7 @@ const sections4: LessonSection[] = [
     ],
   },
   {
-    title: "Audit scope conclusions and research template",
+    title: "Audit scope, conclusions and research template",
     shortTitle: "Audit scope conclusions and research template",
     blocks: [
       {
@@ -2221,7 +2221,7 @@ const sections4: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -2293,55 +2293,55 @@ const sections4: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "CFTC  Beware Virtual Currency Pump and Dump Schemes",
+            title: "CFTC: Beware Virtual Currency Pump and Dump Schemes",
             url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/beware_virtual_currency_pump_dump.html",
           },
           {
-            title: "FCA  Investing in crypto",
+            title: "FCA: Investing in crypto",
             url: "https://www.fca.org.uk/investsmart/investing-crypto",
           },
           {
-            title: "Glassnode  Entities metric definitions",
+            title: "Glassnode: Entities metric definitions",
             url: "https://docs.glassnode.com/basic-api/endpoints/entities",
           },
           {
-            title: "Ethereum  Ethereum security and scam prevention",
+            title: "Ethereum: Ethereum security and scam prevention",
             url: "https://ethereum.org/security/",
           },
           {
             title:
-              "SEC Investor gov  Crypto Asset Custody Basics for Retail Investors",
+              "SEC Investor.gov: Crypto Asset Custody Basics for Retail Investors",
             url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
           },
           {
-            title: "Coinbase  Advanced trade order types",
+            title: "Coinbase: Advanced trade order types",
             url: "https://help.coinbase.com/en-gb/coinbase/trading-and-funding/advanced-trade/order-types",
           },
           {
-            title: "Uniswap  How Uniswap works",
+            title: "Uniswap: How Uniswap works",
             url: "https://developers.uniswap.org/docs/get-started/concepts/how-uniswap-works",
           },
           {
-            title: "CFTC  Understand the Risks of Virtual Currency Trading",
+            title: "CFTC: Understand the Risks of Virtual Currency Trading",
             url: "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/understand_risks_of_virtual_currency.html",
           },
           {
-            title: "FINRA  Crypto Assets",
+            title: "FINRA: Crypto Assets",
             url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
           },
           {
             title:
-              "US Department of Justice  US Department of Justice — Eighteen Individuals and Entities Charged in International Operation Targeting Widespread Fraud and Manipulation in the Cryptocurrency Markets",
+              "US Department of Justice: US Department of Justice — Eighteen Individuals and Entities Charged in International Operation Targeting Widespread Fraud and Manipulation in the Cryptocurrency Markets",
             url: "https://www.justice.gov/usao-ma/pr/eighteen-individuals-and-entities-charged-international-operation-targeting-widespread",
           },
           {
             title:
-              "US SEC  US SEC — SEC Charges Kim Kardashian for Unlawfully Touting Crypto Security (3 October 2022)",
+              "US SEC: US SEC — SEC Charges Kim Kardashian for Unlawfully Touting Crypto Security (3 October 2022)",
             url: "https://www.sec.gov/newsroom/press-releases/2022-183",
           },
           {
             title:
-              "Federal Trade Commission  Federal Trade Commission — What To Know About Cryptocurrency and Scams",
+              "Federal Trade Commission: Federal Trade Commission — What To Know About Cryptocurrency and Scams",
             url: "https://consumer.ftc.gov/articles/what-know-about-cryptocurrency-and-scams",
           },
         ],

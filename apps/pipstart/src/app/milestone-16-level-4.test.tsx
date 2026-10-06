@@ -16,11 +16,11 @@ import { getCurriculumModule } from "../lib/curriculum";
 import { prepareLessonPageData } from "../lib/lesson-page-server-data";
 import { assertUniqueCurriculumIds } from "../lib/permanent-progress-catalogue";
 const titles = [
-  "Ethereum Ether and Proof of Stake",
-  "Smart Contracts Applications and Outside Data",
-  "Gas Transactions and Failed Attempts",
-  "Tokens Standards NFTs and Asset Identity",
-  "Layer One Layer Two and Bridges",
+  "Ethereum, Ether and Proof of Stake",
+  "Smart Contracts, Applications and Outside Data",
+  "Gas, Transactions and Failed Attempts",
+  "Tokens, Standards, NFTs and Asset Identity",
+  "Layer One, Layer Two and Bridges",
 ];
 describe("Milestone 16 approved Crypto Level 4", () => {
   it("publishes five complete lessons with sequential prerequisites and all published routes", () => {
@@ -86,7 +86,7 @@ describe("Milestone 16 approved Crypto Level 4", () => {
         path: "crypto",
         lesson,
         lessons: cryptoLessons,
-        contextTitle: "Ethereum Contracts and Connected Networks",
+        contextTitle: "Ethereum, Contracts and Connected Networks",
         contextHref: "/learn/crypto/level-4/crypto-ethereum-and-networks",
       });
       expect(data.registeredQuiz?.href).toBe("/learn/crypto/level-4/quiz");

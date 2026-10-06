@@ -19,7 +19,7 @@ import { CryptoOrientationLesson } from "./learn/crypto/level-0/crypto-orientati
 import { cryptoLessons } from "./learn/crypto/level-1/lessons";
 const expectedTitles = [
   "Start Here and Understand Cryptocurrency",
-  "Using Owning Investing and Trading Crypto",
+  "Using, Owning, Investing and Trading Crypto",
   "Understand the Different Ways Money Can Be Lost",
   "Spot Scams and Build a Safe Learning Routine",
 ];
@@ -144,7 +144,9 @@ describe("Milestone 16 approved Crypto Level 0", () => {
       quiz.questions.every(
         (q) =>
           q.explanation.includes("Correct choice") &&
-          q.explanation.includes("D."),
+          q.choices.every((choice) =>
+            q.explanation.includes(choice.label.replace(/\.$/, "")),
+          ),
       ),
     ).toBe(true);
     const context = getCryptoOrientationQuizClientContext(

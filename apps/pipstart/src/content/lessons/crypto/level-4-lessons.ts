@@ -28,64 +28,64 @@ const metadata1: LessonMetadata = {
   riskWarningRequired: true,
   seoDescription:
     "Describe Ethereum as a programmable network and Ether as its native asset.",
-  seoTitle: "Ethereum Ether and Proof of Stake",
+  seoTitle: "Ethereum, Ether and Proof of Stake",
   slug: "ethereum-ether-and-proof-of-stake",
   sources: [
     {
-      title: "Ethereum  History of Ethereum founder launch and ownership",
+      title: "Ethereum: History of Ethereum founder launch and ownership",
       url: "https://ethereum.org/ethereum-history-founder-and-ownership/",
     },
     {
-      title: "Ethereum  Ethereum Whitepaper",
+      title: "Ethereum: Ethereum Whitepaper",
       url: "https://ethereum.org/whitepaper/",
     },
     {
-      title: "Ethereum  Proof of stake",
+      title: "Ethereum: Proof of stake",
       url: "https://ethereum.org/developers/docs/consensus-mechanisms/pos/",
     },
     {
-      title: "Ethereum  The Merge",
+      title: "Ethereum: The Merge",
       url: "https://ethereum.org/roadmap/merge/",
     },
     {
-      title: "Ethereum  Gas fees",
+      title: "Ethereum: Gas fees",
       url: "https://ethereum.org/gas/",
     },
     {
-      title: "Ethereum  Pooled staking",
+      title: "Ethereum: Pooled staking",
       url: "https://ethereum.org/staking/pools/",
     },
     {
-      title: "ethereum.org  ethereum.org — The history of Ethereum",
+      title: "ethereum.org: ethereum.org — The history of Ethereum",
       url: "https://ethereum.org/en/history/",
     },
     {
-      title: "ethereum.org  ethereum.org — Ethereum whitepaper",
+      title: "ethereum.org: ethereum.org — Ethereum whitepaper",
       url: "https://ethereum.org/en/whitepaper/",
     },
     {
-      title: "ethereum.org  ethereum.org — Introduction to smart contracts",
+      title: "ethereum.org: ethereum.org — Introduction to smart contracts",
       url: "https://ethereum.org/en/smart-contracts/",
     },
     {
-      title: "Ethereum  EIP 7702 Set Code for EOAs",
+      title: "Ethereum: EIP 7702 Set Code for EOAs",
       url: "https://eips.ethereum.org/EIPS/eip-7702",
     },
     {
-      title: "Ethereum  Pectra account delegation guidelines",
+      title: "Ethereum: Pectra account delegation guidelines",
       url: "https://ethereum.org/roadmap/pectra/7702/",
     },
     {
-      title: "Ethereum  Fusaka upgrade",
+      title: "Ethereum: Fusaka upgrade",
       url: "https://ethereum.org/roadmap/fusaka/",
     },
     {
-      title: "Ethereum  Validator recovery and balance credentials",
+      title: "Ethereum: Validator recovery and balance credentials",
       url: "https://launchpad.ethereum.org/en/faq",
     },
   ],
   status: "published",
-  title: "Ethereum Ether and Proof of Stake",
+  title: "Ethereum, Ether and Proof of Stake",
 };
 const sections1: LessonSection[] = [
   {
@@ -220,7 +220,7 @@ const sections1: LessonSection[] = [
     ],
   },
   {
-    title: "Validators upgrades and supply",
+    title: "Validators, upgrades and supply",
     shortTitle: "Validators upgrades and supply",
     blocks: [
       {
@@ -373,7 +373,7 @@ const sections1: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -445,56 +445,56 @@ const sections1: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "Ethereum  History of Ethereum founder launch and ownership",
+            title: "Ethereum: History of Ethereum founder launch and ownership",
             url: "https://ethereum.org/ethereum-history-founder-and-ownership/",
           },
           {
-            title: "Ethereum  Ethereum Whitepaper",
+            title: "Ethereum: Ethereum Whitepaper",
             url: "https://ethereum.org/whitepaper/",
           },
           {
-            title: "Ethereum  Proof of stake",
+            title: "Ethereum: Proof of stake",
             url: "https://ethereum.org/developers/docs/consensus-mechanisms/pos/",
           },
           {
-            title: "Ethereum  The Merge",
+            title: "Ethereum: The Merge",
             url: "https://ethereum.org/roadmap/merge/",
           },
           {
-            title: "Ethereum  Gas fees",
+            title: "Ethereum: Gas fees",
             url: "https://ethereum.org/gas/",
           },
           {
-            title: "Ethereum  Pooled staking",
+            title: "Ethereum: Pooled staking",
             url: "https://ethereum.org/staking/pools/",
           },
           {
-            title: "ethereum.org  ethereum.org — The history of Ethereum",
+            title: "ethereum.org: ethereum.org — The history of Ethereum",
             url: "https://ethereum.org/en/history/",
           },
           {
-            title: "ethereum.org  ethereum.org — Ethereum whitepaper",
+            title: "ethereum.org: ethereum.org — Ethereum whitepaper",
             url: "https://ethereum.org/en/whitepaper/",
           },
           {
             title:
-              "ethereum.org  ethereum.org — Introduction to smart contracts",
+              "ethereum.org: ethereum.org — Introduction to smart contracts",
             url: "https://ethereum.org/en/smart-contracts/",
           },
           {
-            title: "Ethereum  EIP 7702 Set Code for EOAs",
+            title: "Ethereum: EIP 7702 Set Code for EOAs",
             url: "https://eips.ethereum.org/EIPS/eip-7702",
           },
           {
-            title: "Ethereum  Pectra account delegation guidelines",
+            title: "Ethereum: Pectra account delegation guidelines",
             url: "https://ethereum.org/roadmap/pectra/7702/",
           },
           {
-            title: "Ethereum  Fusaka upgrade",
+            title: "Ethereum: Fusaka upgrade",
             url: "https://ethereum.org/roadmap/fusaka/",
           },
           {
-            title: "Ethereum  Validator recovery and balance credentials",
+            title: "Ethereum: Validator recovery and balance credentials",
             url: "https://launchpad.ethereum.org/en/faq",
           },
         ],
@@ -529,48 +529,48 @@ const metadata2: LessonMetadata = {
   riskWarningRequired: true,
   seoDescription:
     "Explain what a smart contract executes and where its trust assumptions remain.",
-  seoTitle: "Smart Contracts Applications and Outside Data",
+  seoTitle: "Smart Contracts, Applications and Outside Data",
   slug: "smart-contracts-applications-and-outside-data",
   sources: [
     {
-      title: "Ethereum  Ethereum Whitepaper",
+      title: "Ethereum: Ethereum Whitepaper",
       url: "https://ethereum.org/whitepaper/",
     },
     {
-      title: "Ethereum  Transactions",
+      title: "Ethereum: Transactions",
       url: "https://ethereum.org/developers/docs/transactions/",
     },
     {
-      title: "NIST  Blockchain Technology Overview NISTIR 8202",
+      title: "NIST: Blockchain Technology Overview NISTIR 8202",
       url: "https://csrc.nist.gov/pubs/ir/8202/final",
     },
     {
-      title: "Chainlink  What is a Blockchain Oracle",
+      title: "Chainlink: What is a Blockchain Oracle",
       url: "https://chain.link/education/blockchain-oracles",
     },
     {
-      title: "Ethereum  Ethereum security and scam prevention",
+      title: "Ethereum: Ethereum security and scam prevention",
       url: "https://ethereum.org/security/",
     },
     {
-      title: "ethereum.org  ethereum.org — The history of Ethereum",
+      title: "ethereum.org: ethereum.org — The history of Ethereum",
       url: "https://ethereum.org/en/history/",
     },
     {
-      title: "ethereum.org  ethereum.org — Ethereum whitepaper",
+      title: "ethereum.org: ethereum.org — Ethereum whitepaper",
       url: "https://ethereum.org/en/whitepaper/",
     },
     {
-      title: "ethereum.org  ethereum.org — Introduction to smart contracts",
+      title: "ethereum.org: ethereum.org — Introduction to smart contracts",
       url: "https://ethereum.org/en/smart-contracts/",
     },
   ],
   status: "published",
-  title: "Smart Contracts Applications and Outside Data",
+  title: "Smart Contracts, Applications and Outside Data",
 };
 const sections2: LessonSection[] = [
   {
-    title: "Smart contracts interfaces and outside data",
+    title: "Smart contracts, interfaces and outside data",
     shortTitle: "Smart contracts interfaces and outside data",
     blocks: [
       {
@@ -810,7 +810,7 @@ const sections2: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -880,36 +880,36 @@ const sections2: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "Ethereum  Ethereum Whitepaper",
+            title: "Ethereum: Ethereum Whitepaper",
             url: "https://ethereum.org/whitepaper/",
           },
           {
-            title: "Ethereum  Transactions",
+            title: "Ethereum: Transactions",
             url: "https://ethereum.org/developers/docs/transactions/",
           },
           {
-            title: "NIST  Blockchain Technology Overview NISTIR 8202",
+            title: "NIST: Blockchain Technology Overview NISTIR 8202",
             url: "https://csrc.nist.gov/pubs/ir/8202/final",
           },
           {
-            title: "Chainlink  What is a Blockchain Oracle",
+            title: "Chainlink: What is a Blockchain Oracle",
             url: "https://chain.link/education/blockchain-oracles",
           },
           {
-            title: "Ethereum  Ethereum security and scam prevention",
+            title: "Ethereum: Ethereum security and scam prevention",
             url: "https://ethereum.org/security/",
           },
           {
-            title: "ethereum.org  ethereum.org — The history of Ethereum",
+            title: "ethereum.org: ethereum.org — The history of Ethereum",
             url: "https://ethereum.org/en/history/",
           },
           {
-            title: "ethereum.org  ethereum.org — Ethereum whitepaper",
+            title: "ethereum.org: ethereum.org — Ethereum whitepaper",
             url: "https://ethereum.org/en/whitepaper/",
           },
           {
             title:
-              "ethereum.org  ethereum.org — Introduction to smart contracts",
+              "ethereum.org: ethereum.org — Introduction to smart contracts",
             url: "https://ethereum.org/en/smart-contracts/",
           },
         ],
@@ -944,36 +944,36 @@ const metadata3: LessonMetadata = {
   riskWarningRequired: true,
   seoDescription:
     "Read an Ethereum-style transaction and estimate the fee with clearly stated inputs.",
-  seoTitle: "Gas Transactions and Failed Attempts",
+  seoTitle: "Gas, Transactions and Failed Attempts",
   slug: "gas-transactions-and-failed-attempts",
   sources: [
     {
-      title: "Ethereum  Transactions",
+      title: "Ethereum: Transactions",
       url: "https://ethereum.org/developers/docs/transactions/",
     },
     {
-      title: "Ethereum  Gas fees",
+      title: "Ethereum: Gas fees",
       url: "https://ethereum.org/gas/",
     },
     {
-      title: "Ethereum  Ethereum security and scam prevention",
+      title: "Ethereum: Ethereum security and scam prevention",
       url: "https://ethereum.org/security/",
     },
     {
-      title: "ethereum.org  ethereum.org — Gas and fees",
+      title: "ethereum.org: ethereum.org — Gas and fees",
       url: "https://ethereum.org/en/developers/docs/gas/",
     },
     {
-      title: "ethereum.org  ethereum.org — ERC-20 token standard",
+      title: "ethereum.org: ethereum.org — ERC-20 token standard",
       url: "https://ethereum.org/en/developers/docs/standards/tokens/erc-20/",
     },
     {
-      title: "ethereum.org  ethereum.org — ERC-721 non-fungible token standard",
+      title: "ethereum.org: ethereum.org — ERC-721 non-fungible token standard",
       url: "https://ethereum.org/en/developers/docs/standards/tokens/erc-721/",
     },
   ],
   status: "published",
-  title: "Gas Transactions and Failed Attempts",
+  title: "Gas, Transactions and Failed Attempts",
 };
 const sections3: LessonSection[] = [
   {
@@ -1171,7 +1171,7 @@ const sections3: LessonSection[] = [
     ],
   },
   {
-    title: "Failed actions receipts and retries",
+    title: "Failed actions, receipts and retries",
     shortTitle: "Failed actions receipts and retries",
     blocks: [
       {
@@ -1228,7 +1228,7 @@ const sections3: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -1300,28 +1300,28 @@ const sections3: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "Ethereum  Transactions",
+            title: "Ethereum: Transactions",
             url: "https://ethereum.org/developers/docs/transactions/",
           },
           {
-            title: "Ethereum  Gas fees",
+            title: "Ethereum: Gas fees",
             url: "https://ethereum.org/gas/",
           },
           {
-            title: "Ethereum  Ethereum security and scam prevention",
+            title: "Ethereum: Ethereum security and scam prevention",
             url: "https://ethereum.org/security/",
           },
           {
-            title: "ethereum.org  ethereum.org — Gas and fees",
+            title: "ethereum.org: ethereum.org — Gas and fees",
             url: "https://ethereum.org/en/developers/docs/gas/",
           },
           {
-            title: "ethereum.org  ethereum.org — ERC-20 token standard",
+            title: "ethereum.org: ethereum.org — ERC-20 token standard",
             url: "https://ethereum.org/en/developers/docs/standards/tokens/erc-20/",
           },
           {
             title:
-              "ethereum.org  ethereum.org — ERC-721 non-fungible token standard",
+              "ethereum.org: ethereum.org — ERC-721 non-fungible token standard",
             url: "https://ethereum.org/en/developers/docs/standards/tokens/erc-721/",
           },
         ],
@@ -1356,60 +1356,60 @@ const metadata4: LessonMetadata = {
   riskWarningRequired: true,
   seoDescription:
     "Identify what a token represents without assuming the symbol establishes its rights.",
-  seoTitle: "Tokens Standards NFTs and Asset Identity",
+  seoTitle: "Tokens, Standards, NFTs and Asset Identity",
   slug: "tokens-standards-nfts-and-asset-identity",
   sources: [
     {
-      title: "Ethereum  Token standards",
+      title: "Ethereum: Token standards",
       url: "https://ethereum.org/developers/docs/standards/tokens/",
     },
     {
-      title: "Ethereum  Introduction to blockchain bridges",
+      title: "Ethereum: Introduction to blockchain bridges",
       url: "https://ethereum.org/bridges/",
     },
     {
-      title: "Ethereum  How to bridge tokens to layer 2",
+      title: "Ethereum: How to bridge tokens to layer 2",
       url: "https://ethereum.org/guides/how-to-use-a-bridge/",
     },
     {
-      title: "Ethereum  Ethereum security and scam prevention",
+      title: "Ethereum: Ethereum security and scam prevention",
       url: "https://ethereum.org/security/",
     },
     {
-      title: "Circle  USDC Terms",
+      title: "Circle: USDC Terms",
       url: "https://www.circle.com/legal/usdc-terms",
     },
     {
-      title: "FINRA  Crypto Assets",
+      title: "FINRA: Crypto Assets",
       url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
     },
     {
-      title: "ethereum.org  ethereum.org — Gas and fees",
+      title: "ethereum.org: ethereum.org — Gas and fees",
       url: "https://ethereum.org/en/developers/docs/gas/",
     },
     {
-      title: "ethereum.org  ethereum.org — ERC-20 token standard",
+      title: "ethereum.org: ethereum.org — ERC-20 token standard",
       url: "https://ethereum.org/en/developers/docs/standards/tokens/erc-20/",
     },
     {
-      title: "ethereum.org  ethereum.org — ERC-721 non-fungible token standard",
+      title: "ethereum.org: ethereum.org — ERC-721 non-fungible token standard",
       url: "https://ethereum.org/en/developers/docs/standards/tokens/erc-721/",
     },
     {
-      title: "ethereum.org  ethereum.org — Optimistic rollups",
+      title: "ethereum.org: ethereum.org — Optimistic rollups",
       url: "https://ethereum.org/en/developers/docs/scaling/optimistic-rollups/",
     },
     {
-      title: "ethereum.org  ethereum.org — Zero-knowledge rollups",
+      title: "ethereum.org: ethereum.org — Zero-knowledge rollups",
       url: "https://ethereum.org/en/developers/docs/scaling/zk-rollups/",
     },
     {
-      title: "ethereum.org  ethereum.org — Sidechains",
+      title: "ethereum.org: ethereum.org — Sidechains",
       url: "https://ethereum.org/en/developers/docs/scaling/sidechains/",
     },
   ],
   status: "published",
-  title: "Tokens Standards NFTs and Asset Identity",
+  title: "Tokens, Standards, NFTs and Asset Identity",
 };
 const sections4: LessonSection[] = [
   {
@@ -1707,7 +1707,7 @@ const sections4: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -1779,52 +1779,52 @@ const sections4: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "Ethereum  Token standards",
+            title: "Ethereum: Token standards",
             url: "https://ethereum.org/developers/docs/standards/tokens/",
           },
           {
-            title: "Ethereum  Introduction to blockchain bridges",
+            title: "Ethereum: Introduction to blockchain bridges",
             url: "https://ethereum.org/bridges/",
           },
           {
-            title: "Ethereum  How to bridge tokens to layer 2",
+            title: "Ethereum: How to bridge tokens to layer 2",
             url: "https://ethereum.org/guides/how-to-use-a-bridge/",
           },
           {
-            title: "Ethereum  Ethereum security and scam prevention",
+            title: "Ethereum: Ethereum security and scam prevention",
             url: "https://ethereum.org/security/",
           },
           {
-            title: "Circle  USDC Terms",
+            title: "Circle: USDC Terms",
             url: "https://www.circle.com/legal/usdc-terms",
           },
           {
-            title: "FINRA  Crypto Assets",
+            title: "FINRA: Crypto Assets",
             url: "https://www.finra.org/investors/investing/investment-products/crypto-assets",
           },
           {
-            title: "ethereum.org  ethereum.org — Gas and fees",
+            title: "ethereum.org: ethereum.org — Gas and fees",
             url: "https://ethereum.org/en/developers/docs/gas/",
           },
           {
-            title: "ethereum.org  ethereum.org — ERC-20 token standard",
+            title: "ethereum.org: ethereum.org — ERC-20 token standard",
             url: "https://ethereum.org/en/developers/docs/standards/tokens/erc-20/",
           },
           {
             title:
-              "ethereum.org  ethereum.org — ERC-721 non-fungible token standard",
+              "ethereum.org: ethereum.org — ERC-721 non-fungible token standard",
             url: "https://ethereum.org/en/developers/docs/standards/tokens/erc-721/",
           },
           {
-            title: "ethereum.org  ethereum.org — Optimistic rollups",
+            title: "ethereum.org: ethereum.org — Optimistic rollups",
             url: "https://ethereum.org/en/developers/docs/scaling/optimistic-rollups/",
           },
           {
-            title: "ethereum.org  ethereum.org — Zero-knowledge rollups",
+            title: "ethereum.org: ethereum.org — Zero-knowledge rollups",
             url: "https://ethereum.org/en/developers/docs/scaling/zk-rollups/",
           },
           {
-            title: "ethereum.org  ethereum.org — Sidechains",
+            title: "ethereum.org: ethereum.org — Sidechains",
             url: "https://ethereum.org/en/developers/docs/scaling/sidechains/",
           },
         ],
@@ -1856,40 +1856,40 @@ const metadata5: LessonMetadata = {
   riskWarningRequired: true,
   seoDescription:
     "Explain scaling and transfers while recognising different security and withdrawal assumptions.",
-  seoTitle: "Layer One Layer Two and Bridges",
+  seoTitle: "Layer One, Layer Two and Bridges",
   slug: "layer-one-layer-two-and-bridges",
   sources: [
     {
-      title: "Ethereum  Layer 2",
+      title: "Ethereum: Layer 2",
       url: "https://ethereum.org/layer-2/",
     },
     {
-      title: "Ethereum  Introduction to blockchain bridges",
+      title: "Ethereum: Introduction to blockchain bridges",
       url: "https://ethereum.org/bridges/",
     },
     {
-      title: "Ethereum  How to bridge tokens to layer 2",
+      title: "Ethereum: How to bridge tokens to layer 2",
       url: "https://ethereum.org/guides/how-to-use-a-bridge/",
     },
     {
-      title: "ethereum.org  ethereum.org — Optimistic rollups",
+      title: "ethereum.org: ethereum.org — Optimistic rollups",
       url: "https://ethereum.org/en/developers/docs/scaling/optimistic-rollups/",
     },
     {
-      title: "ethereum.org  ethereum.org — Zero-knowledge rollups",
+      title: "ethereum.org: ethereum.org — Zero-knowledge rollups",
       url: "https://ethereum.org/en/developers/docs/scaling/zk-rollups/",
     },
     {
-      title: "ethereum.org  ethereum.org — Sidechains",
+      title: "ethereum.org: ethereum.org — Sidechains",
       url: "https://ethereum.org/en/developers/docs/scaling/sidechains/",
     },
   ],
   status: "published",
-  title: "Layer One Layer Two and Bridges",
+  title: "Layer One, Layer Two and Bridges",
 };
 const sections5: LessonSection[] = [
   {
-    title: "Base networks rollups and sidechains",
+    title: "Base networks, rollups and sidechains",
     shortTitle: "Base networks rollups and sidechains",
     blocks: [
       {
@@ -2030,7 +2030,7 @@ const sections5: LessonSection[] = [
     ],
   },
   {
-    title: "Sequencers proofs and maturity",
+    title: "Sequencers, proofs and maturity",
     shortTitle: "Sequencers proofs and maturity",
     blocks: [
       {
@@ -2104,7 +2104,7 @@ const sections5: LessonSection[] = [
     ],
   },
   {
-    title: "Bridges withdrawal paths and costs",
+    title: "Bridges, withdrawal paths and costs",
     shortTitle: "Bridges withdrawal paths and costs",
     blocks: [
       {
@@ -2224,7 +2224,7 @@ const sections5: LessonSection[] = [
     ],
   },
   {
-    title: "Everyday example practice and review",
+    title: "Everyday example, practice and review",
     shortTitle: "Practice and review",
     blocks: [
       {
@@ -2296,27 +2296,27 @@ const sections5: LessonSection[] = [
         type: "references",
         items: [
           {
-            title: "Ethereum  Layer 2",
+            title: "Ethereum: Layer 2",
             url: "https://ethereum.org/layer-2/",
           },
           {
-            title: "Ethereum  Introduction to blockchain bridges",
+            title: "Ethereum: Introduction to blockchain bridges",
             url: "https://ethereum.org/bridges/",
           },
           {
-            title: "Ethereum  How to bridge tokens to layer 2",
+            title: "Ethereum: How to bridge tokens to layer 2",
             url: "https://ethereum.org/guides/how-to-use-a-bridge/",
           },
           {
-            title: "ethereum.org  ethereum.org — Optimistic rollups",
+            title: "ethereum.org: ethereum.org — Optimistic rollups",
             url: "https://ethereum.org/en/developers/docs/scaling/optimistic-rollups/",
           },
           {
-            title: "ethereum.org  ethereum.org — Zero-knowledge rollups",
+            title: "ethereum.org: ethereum.org — Zero-knowledge rollups",
             url: "https://ethereum.org/en/developers/docs/scaling/zk-rollups/",
           },
           {
-            title: "ethereum.org  ethereum.org — Sidechains",
+            title: "ethereum.org: ethereum.org — Sidechains",
             url: "https://ethereum.org/en/developers/docs/scaling/sidechains/",
           },
         ],

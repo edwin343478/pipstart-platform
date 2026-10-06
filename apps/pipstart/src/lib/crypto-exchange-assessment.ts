@@ -77,7 +77,7 @@ export const cryptoExchangeQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["c"],
       explanation:
-        "Correct choice  C. 2,007 USDT; about 0.35%\n\nHe pays 0.3 × 2,000 + 0.7 × 2,010 = 600 + 1,407 = 2,007 USDT for 1 ETH, and (2,007 − 2,000) ÷ 2,000 × 100% = 0.35%. Option A averages the two price levels equally, ignoring that more of the order filled at 2,010.",
+        "Correct choice: 2,007 USDT; about 0.35%\n\nHe pays 0.3 × 2,000 + 0.7 × 2,010 = 600 + 1,407 = 2,007 USDT for 1 ETH, and (2,007 − 2,000) ÷ 2,000 × 100% = 0.35%. The answer “2,005 USDT; 0.25%” averages the two price levels equally, ignoring that more of the order filled at 2,010.",
     },
     {
       id: "crypto-exchange-markets-2",
@@ -108,7 +108,7 @@ export const cryptoExchangeQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["d"],
       explanation:
-        "Correct choice  D. Do not release crypto; use the verified platform dispute procedure to investigate the mismatch and follow its cancellation rules.\n\nA name mismatch is a payment and compliance warning, not proof that the crypto side of escrow protects the bank transfer. Verify the issue through the platform's actual process rather than accepting a screenshot or pressure from the buyer.",
+        "Correct choice: Do not release crypto; use the verified platform dispute procedure to investigate the mismatch and follow its cancellation rules.\n\nA name mismatch is a payment and compliance warning, not proof that the crypto side of escrow protects the bank transfer. Verify the issue through the platform's actual process rather than accepting a screenshot or pressure from the buyer.",
     },
     {
       id: "crypto-exchange-markets-3",
@@ -139,7 +139,7 @@ export const cryptoExchangeQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["a"],
       explanation:
-        "Correct choice  A. Open ESMA's interim MiCA register from ESMA's own website, search the exact legal name from the terms, then search her national regulator's warning list.\n\nRegisters should be reached from the regulator's own website and searched by the firm's exact legal name, and warning lists show firms operating without permission. Option B is tempting, but a link in an advert can lead to a page copied by a clone firm.",
+        "Correct choice: Open ESMA's interim MiCA register from ESMA's own website, search the exact legal name from the terms, then search her national regulator's warning list.\n\nRegisters should be reached from the regulator's own website and searched by the firm's exact legal name, and warning lists show firms operating without permission. The answer “Click the \"Licensed in the EU\" badge in the advert and check the licence page it opens” is tempting, but a link in an advert can lead to a page copied by a clone firm.",
     },
     {
       id: "crypto-exchange-markets-4",
@@ -170,7 +170,7 @@ export const cryptoExchangeQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["c"],
       explanation:
-        "Correct choice  C. It may be a compliance question linked to identity and locally implemented transfer-information rules; verify the official request and answer accurately.\n\nFATF standards inform national implementation, which varies by jurisdiction, transaction and provider. An official compliance question should be distinguished from a request for signing secrets. Recovery words are not needed to answer an ownership question.",
+        "Correct choice: It may be a compliance question linked to identity and locally implemented transfer-information rules; verify the official request and answer accurately.\n\nFATF standards inform national implementation, which varies by jurisdiction, transaction and provider. An official compliance question should be distinguished from a request for signing secrets. Recovery words are not needed to answer an ownership question.",
     },
     {
       id: "crypto-exchange-markets-5",
@@ -197,7 +197,7 @@ export const cryptoExchangeQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["b"],
       explanation:
-        "Correct choice  B. Provider B, costing €33 (1.65%) against A's €80 (4%)\n\nFor this classroom comparison, apply every listed percentage once to the same EUR 2,000 base and assume it is not already embedded elsewhere in the quote. A costs 50 + 20 + 10 = EUR 80; B costs 8 + 10 + 15 = EUR 33. Actual quotes must be reconciled without counting an included spread or fill cost twice.",
+        "Correct choice: Provider B, costing €33 (1.65%) against A's €80 (4%)\n\nFor this classroom comparison, apply every listed percentage once to the same EUR 2,000 base and assume it is not already embedded elsewhere in the quote. A costs 50 + 20 + 10 = EUR 80; B costs 8 + 10 + 15 = EUR 33. Actual quotes must be reconciled without counting an included spread or fill cost twice.",
     },
     {
       id: "crypto-exchange-markets-6",
@@ -226,7 +226,7 @@ export const cryptoExchangeQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["d"],
       explanation:
-        "Correct choice  D. That on 30 June the exchange controlled slightly more BTC than the customer BTC balances included in the check\n\nProof of reserves is a snapshot of certain assets at one moment. It does not show other debts, whether assets were borrowed for the snapshot, or anything after the date, so option A is the misreading the SEC warned against.",
+        "Correct choice: That on 30 June the exchange controlled slightly more BTC than the customer BTC balances included in the check\n\nProof of reserves is a snapshot of certain assets at one moment. It does not show other debts, whether assets were borrowed for the snapshot, or anything after the date, so the answer “That the exchange is solvent and has no other debts” is the misreading the SEC warned against.",
     },
     {
       id: "crypto-exchange-markets-7",
@@ -257,7 +257,7 @@ export const cryptoExchangeQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["a"],
       explanation:
-        "Correct choice  A. Log in through the official app or a web address he types himself, remove the address, change his password, check 2FA and logged-in devices, and contact official support.\n\nAn address he did not add suggests someone has access to his account, and the waiting period gives him time to act. Option B is risky because the email itself could be phishing, so he should reach the account only through the official app or a typed address.",
+        "Correct choice: Log in through the official app or a web address he types himself, remove the address, change his password, check 2FA and logged-in devices, and contact official support.\n\nAn address he did not add suggests someone has access to his account, and the waiting period gives him time to act. The answer “Click the link in the email straight away to cancel the new address before the 48 hours pass” is risky because the email itself could be phishing, so he should reach the account only through the official app or a typed address.",
     },
     {
       id: "crypto-exchange-markets-8",
@@ -285,7 +285,7 @@ export const cryptoExchangeQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["d"],
       explanation:
-        "Correct choice  D. Through automated rules letting UST be exchanged for Terra's other token, LUNA\n\nUST was an algorithmic stablecoin: as holders swapped UST for LUNA, new LUNA flooded the market and confidence in the swap promise collapsed. Option A describes a fiat-backed stablecoin, not UST's design.",
+        "Correct choice: Through automated rules letting UST be exchanged for Terra's other token, LUNA\n\nUST was an algorithmic stablecoin: as holders swapped UST for LUNA, new LUNA flooded the market and confidence in the swap promise collapsed. The answer “By holding one US dollar in a bank for every token issued” describes a fiat-backed stablecoin, not UST's design.",
     },
     {
       id: "crypto-exchange-markets-9",
@@ -312,7 +312,7 @@ export const cryptoExchangeQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["b"],
       explanation:
-        "Correct choice  B. 120%\n\nAfter a 20% fall the collateral is worth US$2,400, and 2,400 ÷ 2,000 × 100% = 120%. Option A subtracts 20 percentage points from the starting 150%, but the fall is 20% of the collateral's value.",
+        "Correct choice: 120%\n\nAfter a 20% fall the collateral is worth US$2,400, and 2,400 ÷ 2,000 × 100% = 120%. The answer “130%” subtracts 20 percentage points from the starting 150%, but the fall is 20% of the collateral's value.",
     },
     {
       id: "crypto-exchange-markets-10",
@@ -343,7 +343,7 @@ export const cryptoExchangeQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["a"],
       explanation:
-        'Correct choice  A. Card payments can be reversed, so exchanges often hold withdrawals after card purchases; he should read the provider\'s help pages or use in-app support and ignore the forum number.\n\nProviders wait before letting crypto leave after a reversible payment; Kraken, for example, describes 72-hour holds after card purchases. Option B is wrong because a routine hold is not a sign of failure, and forum "support" numbers are a common scam.',
+        'Correct choice: Card payments can be reversed, so exchanges often hold withdrawals after card purchases; he should read the provider\'s help pages or use in-app support and ignore the forum number.\n\nProviders wait before letting crypto leave after a reversible payment; Kraken, for example, describes 72-hour holds after card purchases. The answer “The hold shows the exchange is failing, so he should ring the forum hotline straight away” is wrong because a routine hold is not a sign of failure, and forum "support" numbers are a common scam.',
     },
     {
       id: "crypto-exchange-markets-11",
@@ -370,7 +370,7 @@ export const cryptoExchangeQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["c"],
       explanation:
-        "Correct choice  C. US$4,800, enough for 1.2 ETH\n\nHer claim is 3 × 1,600 = US$4,800, and 4,800 ÷ 4,000 = 1.2 ETH. Option A values the claim at the later price, which is exactly what a claim fixed in dollars, as in FTX's case, does not do.",
+        "Correct choice: US$4,800, enough for 1.2 ETH\n\nHer claim is 3 × 1,600 = US$4,800, and 4,800 ÷ 4,000 = 1.2 ETH. The answer “US$12,000, enough for 3 ETH” values the claim at the later price, which is exactly what a claim fixed in dollars, as in FTX's case, does not do.",
     },
     {
       id: "crypto-exchange-markets-12",
@@ -396,7 +396,7 @@ export const cryptoExchangeQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["a"],
       explanation:
-        "Correct choice  A. Yes when it immediately removes resting liquidity\n\nA. Yes when it immediately removes resting liquidity. Order behaviour determines maker or taker treatment.\n\nB. No every limit is a maker. Marketable limits can execute immediately.\n\nC. Only if no fee is charged. Fee size does not define liquidity removal.\n\nD. Only after withdrawing from the venue. Withdrawal is unrelated to this classification.",
+        "Correct choice: Yes when it immediately removes resting liquidity\n\nYes when it immediately removes resting liquidity. Order behaviour determines maker or taker treatment.\n\nNo every limit is a maker. Marketable limits can execute immediately.\n\nOnly if no fee is charged. Fee size does not define liquidity removal.\n\nOnly after withdrawing from the venue. Withdrawal is unrelated to this classification.",
     },
     {
       id: "crypto-exchange-markets-13",
@@ -423,7 +423,7 @@ export const cryptoExchangeQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["c"],
       explanation:
-        "Correct choice  C. USD 240\n\nA. USD 10. That is the shortfall from target, not current value.\n\nB. USD 260. A depeg below target does not add value.\n\nC. USD 240. Quantity multiplied by the actual quotation gives 240.\n\nD. USD 250 regardless of price. The peg target is not the executable market price.",
+        "Correct choice: USD 240\n\nUSD 10. That is the shortfall from target, not current value.\n\nUSD 260. A depeg below target does not add value.\n\nUSD 240. Quantity multiplied by the actual quotation gives 240.\n\nUSD 250 regardless of price. The peg target is not the executable market price.",
     },
     {
       id: "crypto-exchange-markets-14",
@@ -450,7 +450,7 @@ export const cryptoExchangeQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["d"],
       explanation:
-        "Correct choice  D. Sale uses market bids; issuer redemption follows eligibility and terms\n\nA. They are always identical for every holder. Issuer access can be restricted.\n\nB. Both automatically receive bank deposit insurance. Neither obtains protection merely from the token label.\n\nC. A wrapper always inherits every issuer right. Representations can add separate dependencies.\n\nD. Sale uses market bids; issuer redemption follows eligibility and terms. The routes have different counterparties and conditions.",
+        "Correct choice: Sale uses market bids; issuer redemption follows eligibility and terms\n\nThey are always identical for every holder. Issuer access can be restricted.\n\nBoth automatically receive bank deposit insurance. Neither obtains protection merely from the token label.\n\nA wrapper always inherits every issuer right. Representations can add separate dependencies.\n\nSale uses market bids; issuer redemption follows eligibility and terms. The routes have different counterparties and conditions.",
     },
     {
       id: "crypto-exchange-markets-15",
@@ -477,7 +477,7 @@ export const cryptoExchangeQuizV1: AssessmentDefinition = {
       ],
       correctChoiceIds: ["b"],
       explanation:
-        "Correct choice  B. The provider has not broadcast it yet\n\nA. The asset must have doubled in value. Withdrawal status does not establish price movement.\n\nB. The provider has not broadcast it yet. Service processing can precede network submission.\n\nC. It must already have six confirmations. There is no such evidence.\n\nD. It is definitely in every node's mempool. A request is not necessarily a broadcast transaction.",
+        "Correct choice: The provider has not broadcast it yet\n\nThe asset must have doubled in value. Withdrawal status does not establish price movement.\n\nThe provider has not broadcast it yet. Service processing can precede network submission.\n\nIt must already have six confirmations. There is no such evidence.\n\nIt is definitely in every node's mempool. A request is not necessarily a broadcast transaction.",
     },
   ],
 };

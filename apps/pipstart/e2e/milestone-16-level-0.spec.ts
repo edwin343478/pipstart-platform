@@ -157,7 +157,7 @@ for (const width of [1440, 390]) {
         page.getByRole("checkbox", { name: "Show all sections at once" }),
       ).not.toBeChecked();
     }
-    await choose("Using Owning Investing and Trading Crypto");
+    await choose("Using, Owning, Investing and Trading Crypto");
     await page.getByRole("tab").nth(2).click();
     await choose("Start Here and Understand Cryptocurrency");
     await page.getByRole("tab").last().click();

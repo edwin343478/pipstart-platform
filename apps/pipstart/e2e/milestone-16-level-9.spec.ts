@@ -164,12 +164,12 @@ for (const width of [1440, 390]) {
     }
     await choose("Write a Crypto Plan and Define Testable Rules");
     await page.getByRole("tab").nth(2).click();
-    await choose("Emotions Biases and Attention in Crypto Markets");
+    await choose("Emotions, Biases and Attention in Crypto Markets");
     await page.getByRole("tab").last().click();
     await expect(
       page.getByRole("tabpanel").getByRole("checkbox").first(),
     ).toBeChecked();
-    await choose("Emotions Biases and Attention in Crypto Markets");
+    await choose("Emotions, Biases and Attention in Crypto Markets");
   });
 }
 
@@ -233,7 +233,7 @@ test("Level 9 grades all fifteen approved answers on the server and reveals expl
   await expect(page.getByText("Passed", { exact: true }).first()).toBeVisible();
   await expect(
     page.getByText(
-      "Fear of missing out typically arrives with a fast move, other people's gains and nothing new about the asset; urgency cannot answer whether the coin passes his checks. A is tempting because the price did move, but a price change alone says nothing about whether the coin fits his plan or checklist.",
+      "Fear of missing out typically arrives with a fast move, other people's gains and nothing new about the asset; urgency cannot answer whether the coin passes his checks. The answer “The price jump is new information about the coin, so buying quickly is the disciplined choice” is tempting because the price did move, but a price change alone says nothing about whether the coin fits his plan or checklist.",
       { exact: false },
     ),
   ).toBeVisible();
@@ -244,7 +244,7 @@ test("the curriculum opens Level 9 and both hierarchy pages expose all four less
 }) => {
   await page.goto("/learn/crypto");
   const entry = page.getByRole("link", {
-    name: "Start Level 9: Psychology Planning and Paper Practice",
+    name: "Start Level 9: Psychology, Planning and Paper Practice",
     exact: true,
   });
   await expect(entry).toBeVisible();
@@ -252,7 +252,7 @@ test("the curriculum opens Level 9 and both hierarchy pages expose all four less
   await entry.click();
   await expect(
     page.getByRole("heading", {
-      name: "Emotions Biases and Attention in Crypto Markets",
+      name: "Emotions, Biases and Attention in Crypto Markets",
       exact: true,
     }),
   ).toBeVisible();

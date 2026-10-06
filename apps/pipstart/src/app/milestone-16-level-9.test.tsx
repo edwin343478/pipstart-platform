@@ -21,7 +21,7 @@ import {
   calculateRiskReward,
 } from "../lib/calculator-engine";
 const titles = [
-  "Emotions Biases and Attention in Crypto Markets",
+  "Emotions, Biases and Attention in Crypto Markets",
   "Write a Crypto Plan and Define Testable Rules",
   "Test Without Looking Ahead",
   "Read Results Honestly and Build a Practice Routine",
@@ -88,7 +88,7 @@ describe("Milestone 16 approved Crypto Level 9", () => {
         path: "crypto",
         lesson,
         lessons: cryptoLessons,
-        contextTitle: "Psychology Planning and Paper Practice",
+        contextTitle: "Psychology, Planning and Paper Practice",
         contextHref: "/learn/crypto/level-9/crypto-planning-and-practice",
       });
       expect(data.registeredQuiz?.href).toBe("/learn/crypto/level-9/quiz");

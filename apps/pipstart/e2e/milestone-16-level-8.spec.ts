@@ -162,7 +162,7 @@ for (const width of [1440, 390]) {
         page.getByRole("checkbox", { name: "Show all sections at once" }),
       ).not.toBeChecked();
     }
-    await choose("Leverage Margin and Liquidation Risk");
+    await choose("Leverage, Margin and Liquidation Risk");
     await page.getByRole("tab").nth(2).click();
     await choose("Choose the Loss Budget Before the Position Size");
     await page.getByRole("tab").last().click();
@@ -233,7 +233,7 @@ test("Level 8 grades all fifteen approved answers on the server and reveals expl
   await expect(page.getByText("Passed", { exact: true }).first()).toBeVisible();
   await expect(
     page.getByText(
-      "The emergency fund comes first, and any crypto comes later from money she could lose entirely, sized by a written loss budget. C is tempting, but DCA changes when money goes in, not whether it is money she can afford to lose.",
+      "The emergency fund comes first, and any crypto comes later from money she could lose entirely, sized by a written loss budget. The answer “Use DCA with the full R4,000 so that timing does not matter” is tempting, but DCA changes when money goes in, not whether it is money she can afford to lose.",
       { exact: false },
     ),
   ).toBeVisible();
@@ -244,7 +244,7 @@ test("the curriculum opens Level 8 and both hierarchy pages expose all four less
 }) => {
   await page.goto("/learn/crypto");
   const entry = page.getByRole("link", {
-    name: "Start Level 8: Sizing Leverage and Portfolio Risk",
+    name: "Start Level 8: Sizing, Leverage and Portfolio Risk",
     exact: true,
   });
   await expect(entry).toBeVisible();

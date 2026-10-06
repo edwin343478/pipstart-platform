@@ -10,7 +10,7 @@ import { createDynamicMetadata } from "../../../../../lib/seo";
 
 export const metadata = createDynamicMetadata({
   path: "/learn/crypto/level-7/crypto-charts-and-evidence",
-  title: "Charts Market Context and Evidence",
+  title: "Charts, Market Context and Evidence",
   description:
     "Five complete chart and evidence lessons covering price structure, market context, derivatives data, on-chain measurements and research notes, with practice and a fifteen-question quiz.",
 });

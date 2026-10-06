@@ -64,7 +64,7 @@ export const cryptoAdvancedGraduationQuizV1: AssessmentDefinition = {
       prompt:
         "A Bitcoin upgrade only tightens the rules, so blocks made under the new rules are still accepted by nodes that have not upgraded. What kind of change is it?",
       explanation:
-        "Correct choice  B. A soft fork, like SegWit in August 2017\n\nA soft fork makes only previously valid blocks or transactions invalid, so old nodes still accept new blocks. A hard fork (option A) changes the rules so that non-upgraded nodes reject new blocks, which can split the chain.",
+        "Correct choice: A soft fork, like SegWit in August 2017\n\nA soft fork makes only previously valid blocks or transactions invalid, so old nodes still accept new blocks. A hard fork changes the rules so that non-upgraded nodes reject new blocks, which can split the chain.",
       type: "single-choice",
       choices: [
         {
@@ -91,7 +91,7 @@ export const cryptoAdvancedGraduationQuizV1: AssessmentDefinition = {
       prompt:
         "Suppose more than two-thirds of Ethereum's active validator stake uses one consensus client. Why can that concentration create a serious risk?",
       explanation:
-        "Correct choice  C. A correlated client failure can impair finality or create conflicting votes; slashing depends on the violation that actually occurs.\n\nThe relevant voting weight is stake, not a simple count of operators. Correlated software errors can affect a large share of consensus at once. Slashing requires the applicable conditions; client concentration alone is not proof that every failure causes it.",
+        "Correct choice: A correlated client failure can impair finality or create conflicting votes; slashing depends on the violation that actually occurs.\n\nThe relevant voting weight is stake, not a simple count of operators. Correlated software errors can affect a large share of consensus at once. Slashing requires the applicable conditions; client concentration alone is not proof that every failure causes it.",
       type: "single-choice",
       choices: [
         {
@@ -121,7 +121,7 @@ export const cryptoAdvancedGraduationQuizV1: AssessmentDefinition = {
       prompt:
         "Which statement best describes how Bitcoin and Ethereum change their protocol rules?",
       explanation:
-        "Correct choice  D. Changes are proposed as BIPs or EIPs, debated publicly, and only take effect if node operators and others choose to run the new software.\n\nBoth use off-chain governance: proposals, discussion and voluntary upgrades. Developers cannot force adoption. Option A describes on-chain governance, which some other networks use.",
+        "Correct choice: Changes are proposed as BIPs or EIPs, debated publicly, and only take effect if node operators and others choose to run the new software.\n\nBoth use off-chain governance: proposals, discussion and voluntary upgrades. Developers cannot force adoption. The answer “Token holders vote on-chain, and the code applies the result automatically” describes on-chain governance, which some other networks use.",
       type: "single-choice",
       choices: [
         {
@@ -151,7 +151,7 @@ export const cryptoAdvancedGraduationQuizV1: AssessmentDefinition = {
       prompt:
         "A bridge releases funds on the destination chain whenever 5 of its 9 signers approve. Which design is this, and what are you mainly trusting?",
       explanation:
-        "Correct choice  B. A trusted bridge; you trust the signers' honesty and the security of their keys.\n\nThe supplied external signer quorum makes its honesty, key protection and release rules central dependencies. Alternative proof-based bridges rely on other verification assumptions as well as code, data and upgrade controls. The label trustless is not a complete safety diagnosis.",
+        "Correct choice: A trusted bridge; you trust the signers' honesty and the security of their keys.\n\nThe supplied external signer quorum makes its honesty, key protection and release rules central dependencies. Alternative proof-based bridges rely on other verification assumptions as well as code, data and upgrade controls. The label trustless is not a complete safety diagnosis.",
       type: "single-choice",
       choices: [
         {
@@ -179,7 +179,7 @@ export const cryptoAdvancedGraduationQuizV1: AssessmentDefinition = {
       id: "crypto-advanced-and-graduation-5",
       prompt: 'Why is the "oracle problem" a problem?',
       explanation:
-        "Correct choice  A. Smart contracts cannot fetch outside data on their own, so a contract is only as reliable as the data source it trusts.\n\nBlockchains are deliberately isolated, so prices and other outside facts must be brought in. If one oracle can decide the input, it can decide the outcome, which undermines the contract's decentralisation. Oracles cannot reverse transactions (option C).",
+        "Correct choice: Smart contracts cannot fetch outside data on their own, so a contract is only as reliable as the data source it trusts.\n\nBlockchains are deliberately isolated, so prices and other outside facts must be brought in. If one oracle can decide the input, it can decide the outcome, which undermines the contract's decentralisation. Oracles cannot reverse transactions.",
       type: "single-choice",
       choices: [
         {
@@ -207,7 +207,7 @@ export const cryptoAdvancedGraduationQuizV1: AssessmentDefinition = {
       prompt:
         "An oracle receives five price reports: US$20, US$21, US$19, US$20 and a manipulated US$120 (invented figures). What are the median and the simple average?",
       explanation:
-        "Correct choice  C. Median US$20; average US$40\n\nSorted reports are 19, 20, 20, 21 and 120, so the median is USD 20. Their sum is 200 and the mean is USD 40. This example shows reduced sensitivity to one extreme value; it does not establish trustworthy sources or safety against coordinated manipulation.",
+        "Correct choice: Median US$20; average US$40\n\nSorted reports are 19, 20, 20, 21 and 120, so the median is USD 20. Their sum is 200 and the mean is USD 40. This example shows reduced sensitivity to one extreme value; it does not establish trustworthy sources or safety against coordinated manipulation.",
       type: "single-choice",
       choices: [
         {
@@ -234,7 +234,7 @@ export const cryptoAdvancedGraduationQuizV1: AssessmentDefinition = {
       prompt:
         'Fatima reads an audit report dated last year that covers version 1 of a lending app. The app now runs version 2, and one high-severity finding is marked "acknowledged". What is the most accurate conclusion?',
       explanation:
-        'Correct choice  B. The audit says little about version 2, and the accepted high-severity issue needs an explanation before she relies on it.\n\nAn audit is a point-in-time review of a defined scope; later code was not checked. "Acknowledged" usually means accepted without a fix, not resolved, so option C is wrong.',
+        'Correct choice: The audit says little about version 2, and the accepted high-severity issue needs an explanation before she relies on it.\n\nAn audit is a point-in-time review of a defined scope; later code was not checked. "Acknowledged" usually means accepted without a fix, not resolved, so the answer “Acknowledged means the issue was fixed and re-checked” is wrong.',
       type: "single-choice",
       choices: [
         {
@@ -262,7 +262,7 @@ export const cryptoAdvancedGraduationQuizV1: AssessmentDefinition = {
       prompt:
         'A protocol says its core contract is "formally verified". What does that mean, and what is its limit?',
       explanation:
-        "Correct choice  D. Within the stated model and assumptions, code has been proven to satisfy a written specification; unmodeled properties and outside dependencies remain.\n\nFormal verification is powerful evidence for a defined property, model and code scope. A missing property, incorrect specification, changed implementation or outside-data failure can still matter. It does not certify all real-world outcomes.",
+        "Correct choice: Within the stated model and assumptions, code has been proven to satisfy a written specification; unmodeled properties and outside dependencies remain.\n\nFormal verification is powerful evidence for a defined property, model and code scope. A missing property, incorrect specification, changed implementation or outside-data failure can still matter. It does not certify all real-world outcomes.",
       type: "single-choice",
       choices: [
         {
@@ -290,7 +290,7 @@ export const cryptoAdvancedGraduationQuizV1: AssessmentDefinition = {
       prompt:
         "Why is valuing most crypto-assets harder than valuing a company's shares?",
       explanation:
-        "Correct choice  A. Many tokens lack an enforceable claim to an issuer's profits or dividends, making assumptions about holder benefits and demand difficult to establish.\n\nNetwork use, fees or popularity are not automatically distributable cash flow to a token holder. Some tokens have specified benefits, which must be examined on their own terms. A valuation needs an actual rights mechanism and stated assumptions.",
+        "Correct choice: Many tokens lack an enforceable claim to an issuer's profits or dividends, making assumptions about holder benefits and demand difficult to establish.\n\nNetwork use, fees or popularity are not automatically distributable cash flow to a token holder. Some tokens have specified benefits, which must be examined on their own terms. A valuation needs an actual rights mechanism and stated assumptions.",
       type: "single-choice",
       choices: [
         {
@@ -318,7 +318,7 @@ export const cryptoAdvancedGraduationQuizV1: AssessmentDefinition = {
       prompt:
         "An invented network has market capitalisation USD 12 billion and users paid USD 300 million in fees over a year. What is the network-value-to-fees ratio, and what does it not show?",
       explanation:
-        "Correct choice  D. 40; it does not show whether token holders capture any of the fees\n\n12,000,000,000 ÷ 300,000,000 = 40. The ratio compares value with fees paid, but fees may go to validators or liquidity providers rather than holders, and they may not last. Option B claims a certainty no ratio can give.",
+        "Correct choice: 40; it does not show whether token holders capture any of the fees\n\n12,000,000,000 ÷ 300,000,000 = 40. The ratio compares value with fees paid, but fees may go to validators or liquidity providers rather than holders, and they may not last. The answer “40; it proves the token is fairly valued” claims a certainty no ratio can give.",
       type: "single-choice",
       choices: [
         {
@@ -346,7 +346,7 @@ export const cryptoAdvancedGraduationQuizV1: AssessmentDefinition = {
       prompt:
         "Leila in Toronto finishes her graduation project. Her research report concludes, with evidence, that she will not buy any crypto-asset for now. Her backup plan, security checklist and other parts are complete and dated. How should she judge the outcome?",
       explanation:
-        "Correct choice  A. A responsible graduation decision; the project checks a careful, documented process, not a purchase or profit.\n\nNo deposit, trade or profit is required, and choosing not to invest is one of three equally valid decisions. Opening accounts (option D) is not needed: the exchange comparison uses public information.",
+        "Correct choice: A responsible graduation decision; the project checks a careful, documented process, not a purchase or profit.\n\nNo deposit, trade or profit is required, and choosing not to invest is one of three equally valid decisions. Opening accounts is not needed: the exchange comparison uses public information.",
       type: "single-choice",
       choices: [
         {
@@ -375,7 +375,7 @@ export const cryptoAdvancedGraduationQuizV1: AssessmentDefinition = {
       id: "crypto-advanced-and-graduation-12",
       prompt: "What can a majority-work ordering attack not automatically do?",
       explanation:
-        "Correct choice  A. Forge every user's spending signature\n\nA. Forge every user's spending signature. Reordering valid history is different from possessing every key.\n\nB. Attempt to censor transactions. Censorship can be an attack capability under relevant conditions.\n\nC. Attempt a recent-history reorganisation. That is a relevant competing-work threat.\n\nD. Reverse the attacker's own recent payment under suitable conditions. This is a known double-spend concern.",
+        "Correct choice: Forge every user's spending signature\n\nForge every user's spending signature. Reordering valid history is different from possessing every key.\n\nAttempt to censor transactions. Censorship can be an attack capability under relevant conditions.\n\nAttempt a recent-history reorganisation. That is a relevant competing-work threat.\n\nReverse the attacker's own recent payment under suitable conditions. This is a known double-spend concern.",
       type: "single-choice",
       choices: [
         {
@@ -402,7 +402,7 @@ export const cryptoAdvancedGraduationQuizV1: AssessmentDefinition = {
       id: "crypto-advanced-and-graduation-13",
       prompt: "What makes a governance review complete?",
       explanation:
-        "Correct choice  C. Following proposals votes delegation and actual execution powers\n\nA. Assuming every voter has equal power. Distribution and delegation can concentrate influence.\n\nB. Ignoring emergency authorities. Those can change the ordinary control path.\n\nC. Following proposals votes delegation and actual execution powers. The full authority path determines practical control.\n\nD. Counting forum likes only. Advisory sentiment may not execute changes.",
+        "Correct choice: Following proposals votes delegation and actual execution powers\n\nAssuming every voter has equal power. Distribution and delegation can concentrate influence.\n\nIgnoring emergency authorities. Those can change the ordinary control path.\n\nFollowing proposals votes delegation and actual execution powers. The full authority path determines practical control.\n\nCounting forum likes only. Advisory sentiment may not execute changes.",
       type: "single-choice",
       choices: [
         {
@@ -429,7 +429,7 @@ export const cryptoAdvancedGraduationQuizV1: AssessmentDefinition = {
       id: "crypto-advanced-and-graduation-14",
       prompt: "What should a reviewer do with an audit title?",
       explanation:
-        "Correct choice  A. Inspect version scope findings and assumptions\n\nA. Inspect version scope findings and assumptions. The title alone cannot define the evidence boundary.\n\nB. Treat it as proof of all future upgrades. Later code can differ from reviewed code.\n\nC. Treat it as proof of legal ownership. Code review does not establish all outside rights.\n\nD. Ignore every unresolved finding. Those findings are material to the review.",
+        "Correct choice: Inspect version scope findings and assumptions\n\nInspect version scope findings and assumptions. The title alone cannot define the evidence boundary.\n\nTreat it as proof of all future upgrades. Later code can differ from reviewed code.\n\nTreat it as proof of legal ownership. Code review does not establish all outside rights.\n\nIgnore every unresolved finding. Those findings are material to the review.",
       type: "single-choice",
       choices: [
         {
@@ -456,7 +456,7 @@ export const cryptoAdvancedGraduationQuizV1: AssessmentDefinition = {
       prompt:
         "A dossier calls a bridged lending receipt risk-free cash. What should happen?",
       explanation:
-        "Correct choice  A. Correct the description and map its dependencies\n\nA. Correct the description and map its dependencies. Bridge lending receipt and access risks contradict the label.\n\nB. Keep the label if the last price is stable. Price stability does not remove other risks.\n\nC. Delete the transfer route to hide complexity. The connected route must be reviewed.\n\nD. Assume an audit covers all redemption rights. Report scope and legal rights are separate.",
+        "Correct choice: Correct the description and map its dependencies\n\nCorrect the description and map its dependencies. Bridge lending receipt and access risks contradict the label.\n\nKeep the label if the last price is stable. Price stability does not remove other risks.\n\nDelete the transfer route to hide complexity. The connected route must be reviewed.\n\nAssume an audit covers all redemption rights. Report scope and legal rights are separate.",
       type: "single-choice",
       choices: [
         {
