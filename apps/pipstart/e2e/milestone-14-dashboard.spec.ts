@@ -22,11 +22,24 @@ const questionOrder = [
   "trading-sessions",
   "market-participants",
 ];
-const choiceOrder = Object.fromEntries(questionOrder.map((id) => [id, []]));
+const choiceOrder = Object.fromEntries(
+  questionOrder.map((id) => [id, ["yes", "no"]]),
+);
 const publicSnapshot = {
   id: quizId,
   passingPercentage: 70,
-  questions: questionOrder.map((id) => ({ choices: [], id })),
+  scope: "module",
+  learningPath: "forex",
+  courseId: "forex-kindergarten",
+  moduleId: "forex-foundations",
+  questions: questionOrder.map((id) => ({
+    id,
+    type: "single-choice",
+    choices: [
+      { id: "yes", label: "Yes" },
+      { id: "no", label: "No" },
+    ],
+  })),
   title: "Milestone 14 dashboard verification",
   version: quizVersion,
 };
@@ -78,13 +91,34 @@ async function addFailedQuizAttempt() {
   const submitted = await callAssessmentRpc(
     "pipstart_submit_assessment_attempt",
     {
-      requested_answers: { verification: ["milestone-14-dashboard"] },
+      requested_quiz_id: quizId,
+      requested_quiz_version: quizVersion,
+      requested_public_snapshot: publicSnapshot,
+      requested_answers: Object.fromEntries(
+        questionOrder.map((id, index) => [id, [index < 4 ? "yes" : "no"]]),
+      ),
       requested_attempt_id: attempt.id,
       requested_course_id: "forex-kindergarten",
       requested_max_score: questionOrder.length,
       requested_module_id: "forex-foundations",
       requested_passed: false,
-      requested_review_snapshot: { marker: "milestone-14-dashboard" },
+      requested_review_snapshot: {
+        quizId,
+        quizVersion,
+        correctCount: 4,
+        score: 4,
+        maxScore: questionOrder.length,
+        percentage: Math.round((4 * 100) / questionOrder.length),
+        passed: false,
+        questions: questionOrder.map((id, index) => ({
+          questionId: id,
+          answered: true,
+          submittedChoiceIds: [index < 4 ? "yes" : "no"],
+          correctChoiceIds: ["yes"],
+          correct: index < 4,
+          explanation: "Milestone 14 dashboard verification fixture.",
+        })),
+      },
       requested_score: 4,
       requested_submission_token: randomUUID(),
       requested_user_id: userId,

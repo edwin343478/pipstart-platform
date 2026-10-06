@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 
 import {
   gradeAssessment,
+  toPublicAssessment,
   type AssessmentDefinition,
 } from "../../lib/assessment";
 import {
@@ -14,6 +15,7 @@ import {
   getContinuableAssessment,
   getCurrentPublishedAssessment,
 } from "../../lib/assessment-registry";
+import { requireBoundAssessment } from "../../lib/assessment-attempt-binding";
 import { reconcileCourseEnrollmentForUser } from "../../lib/course-progress-server";
 import { createSupabaseAdminClient } from "../../lib/supabase/admin";
 import { createSupabaseServerClient } from "../../lib/supabase/server";
@@ -21,7 +23,7 @@ import { createSupabaseServerClient } from "../../lib/supabase/server";
 const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const ATTEMPT_SELECT =
-  "id,quiz_id,quiz_version,attempt_number,status,question_order,choice_order,draft_answers,public_snapshot,submitted_answers,score,max_score,passed,started_at,submitted_at,review_snapshot";
+  "id,quiz_id,quiz_version,passing_percentage,attempt_number,status,question_order,choice_order,draft_answers,public_snapshot,submitted_answers,score,max_score,passed,started_at,submitted_at,review_snapshot";
 const HISTORY_SELECT =
   "id,quiz_id,quiz_version,attempt_number,status,score,max_score,passed,started_at,submitted_at";
 
@@ -31,6 +33,7 @@ type AttemptRow = {
   id: string;
   max_score: number | null;
   passed: boolean | null;
+  passing_percentage: number;
   public_snapshot: unknown;
   question_order: unknown;
   quiz_id: string;
@@ -287,6 +290,25 @@ export async function startAssessmentAttemptAction(input: {
   return { authenticated: true, attempt: safeAttempt(rpcRow(data)) };
 }
 
+async function loadOwnedAssessment(
+  session: NonNullable<Awaited<ReturnType<typeof authenticatedSession>>>,
+  input: { attemptId: string; quizId: string; version: number },
+) {
+  const { data, error } = await session.supabase
+    .from("pipstart_assessment_attempts")
+    .select(ATTEMPT_SELECT)
+    .eq("id", input.attemptId)
+    .eq("user_id", session.user.id)
+    .maybeSingle();
+  if (error || !data)
+    throw new Error("Assessment attempt could not be loaded.");
+  return requireBoundAssessment(
+    data as AttemptRow,
+    input,
+    getContinuableAssessment,
+  );
+}
+
 export async function saveAssessmentDraftAction(input: {
   answers: unknown;
   attemptId: string;
@@ -294,13 +316,16 @@ export async function saveAssessmentDraftAction(input: {
   version: number;
 }) {
   requireUuid(input.attemptId, "Assessment attempt");
-  const assessment = requireAssessment(input.quizId, input.version, "continue");
-  const { answers } = gradeAndNormalize(assessment, input.answers);
   const session = await authenticatedSession();
   if (!session) throw new Error("Sign in to save quiz progress.");
+  const assessment = await loadOwnedAssessment(session, input);
+  const { answers } = gradeAndNormalize(assessment, input.answers);
 
   const admin = requireAdminClient();
   const { data, error } = await admin.rpc("pipstart_save_assessment_draft", {
+    requested_quiz_id: assessment.id,
+    requested_quiz_version: assessment.version,
+    requested_public_snapshot: toPublicAssessment(assessment),
     requested_answers: answers,
     requested_attempt_id: input.attemptId,
     requested_user_id: session.user.id,
@@ -319,15 +344,18 @@ export async function submitAssessmentAttemptAction(input: {
 }) {
   requireUuid(input.attemptId, "Assessment attempt");
   requireUuid(input.submissionToken, "Submission token");
-  const assessment = requireAssessment(input.quizId, input.version, "continue");
-  const { answers, grade } = gradeAndNormalize(assessment, input.answers);
   const session = await authenticatedSession();
   if (!session) throw new Error("Sign in to save this quiz attempt.");
+  const assessment = await loadOwnedAssessment(session, input);
+  const { answers, grade } = gradeAndNormalize(assessment, input.answers);
 
   const admin = requireAdminClient();
   const { data, error } = await admin.rpc(
     "pipstart_submit_assessment_attempt",
     {
+      requested_quiz_id: assessment.id,
+      requested_quiz_version: assessment.version,
+      requested_public_snapshot: toPublicAssessment(assessment),
       requested_answers: answers,
       requested_attempt_id: input.attemptId,
       requested_course_id: assessment.courseId,

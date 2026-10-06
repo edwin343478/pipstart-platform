@@ -107,13 +107,26 @@ const questionOrder = [
   "trading-sessions",
   "market-participants",
 ];
-const choiceOrder = Object.fromEntries(questionOrder.map((id) => [id, []]));
+const choiceOrder = Object.fromEntries(
+  questionOrder.map((id) => [id, ["yes", "no"]]),
+);
 const publicSnapshot = {
   id: quizId,
   version: quizVersion,
   title: "Milestone 13 verification snapshot",
   passingPercentage: 70,
-  questions: questionOrder.map((id) => ({ id, choices: [] })),
+  scope: "module",
+  learningPath: "forex",
+  courseId,
+  moduleId,
+  questions: questionOrder.map((id) => ({
+    id,
+    type: "single-choice",
+    choices: [
+      { id: "yes", label: "Yes" },
+      { id: "no", label: "No" },
+    ],
+  })),
 };
 
 let userId = null;
@@ -135,15 +148,38 @@ async function startAttempt() {
 }
 
 async function submitAttempt({ attemptId, passed, score, token, marker }) {
+  const answers = Object.fromEntries(
+    questionOrder.map((id, index) => [id, [index < score ? "yes" : "no"]]),
+  );
+  const review = {
+    quizId,
+    quizVersion,
+    score,
+    correctCount: score,
+    maxScore: questionOrder.length,
+    percentage: Math.round((score * 100) / questionOrder.length),
+    passed,
+    questions: questionOrder.map((id, index) => ({
+      questionId: id,
+      answered: true,
+      submittedChoiceIds: answers[id],
+      correctChoiceIds: ["yes"],
+      correct: index < score,
+      explanation: marker,
+    })),
+  };
   const result = await requireNoError(
     await admin.rpc("pipstart_submit_assessment_attempt", {
-      requested_answers: { verification: [marker] },
+      requested_quiz_id: quizId,
+      requested_quiz_version: quizVersion,
+      requested_public_snapshot: publicSnapshot,
+      requested_answers: answers,
       requested_attempt_id: attemptId,
       requested_course_id: courseId,
       requested_max_score: questionOrder.length,
       requested_module_id: moduleId,
       requested_passed: passed,
-      requested_review_snapshot: { marker },
+      requested_review_snapshot: review,
       requested_score: score,
       requested_submission_token: token,
       requested_user_id: userId,
@@ -242,7 +278,10 @@ try {
 
   await requireNoError(
     await admin.rpc("pipstart_save_assessment_draft", {
-      requested_answers: { verification: ["draft"] },
+      requested_quiz_id: quizId,
+      requested_quiz_version: quizVersion,
+      requested_public_snapshot: publicSnapshot,
+      requested_answers: { [questionOrder[0]]: ["yes"] },
       requested_attempt_id: firstStart.id,
       requested_user_id: userId,
     }),
@@ -257,7 +296,7 @@ try {
     "read saved draft",
   );
   assert(
-    restoredDraft.data.draft_answers?.verification?.[0] === "draft",
+    restoredDraft.data.draft_answers?.[questionOrder[0]]?.[0] === "yes",
     "Saved draft did not round-trip.",
   );
 
@@ -303,7 +342,10 @@ try {
   );
 
   const immutableDraft = await admin.rpc("pipstart_save_assessment_draft", {
-    requested_answers: { verification: ["too-late"] },
+    requested_quiz_id: quizId,
+    requested_quiz_version: quizVersion,
+    requested_public_snapshot: publicSnapshot,
+    requested_answers: { [questionOrder[0]]: ["no"] },
     requested_attempt_id: firstStart.id,
     requested_user_id: userId,
   });
