@@ -2,6 +2,8 @@
 
 import { headers } from "next/headers";
 
+import { getAnonymousAssessmentClientKey } from "../../lib/assessment-client-key";
+
 import {
   gradeAssessment,
   toPublicAssessment,
@@ -179,19 +181,6 @@ function gradeAndNormalize(assessment: AssessmentDefinition, input: unknown) {
   return { answers, grade };
 }
 
-async function anonymousClientKey() {
-  const requestHeaders = await headers();
-  const forwarded = requestHeaders
-    .get("x-forwarded-for")
-    ?.split(",")[0]
-    ?.trim();
-  const address =
-    forwarded || requestHeaders.get("x-real-ip")?.trim() || "unknown";
-  const userAgent =
-    requestHeaders.get("user-agent")?.slice(0, 256) ?? "unknown";
-  return `${address}:${userAgent}`;
-}
-
 export async function gradeAnonymousAssessmentAction(input: {
   answers: unknown;
   quizId: string;
@@ -201,7 +190,7 @@ export async function gradeAnonymousAssessmentAction(input: {
   const { data: allowed, error: limitError } = await admin.rpc(
     "pipstart_consume_assessment_rate_limit",
     {
-      requested_client_key: await anonymousClientKey(),
+      requested_client_key: getAnonymousAssessmentClientKey(await headers()),
       requested_limit: 20,
       requested_window_seconds: 60,
     },
@@ -209,7 +198,7 @@ export async function gradeAnonymousAssessmentAction(input: {
   if (limitError) {
     throw new Error("Quiz submission could not be checked. Try again shortly.");
   }
-  if (!allowed) {
+  if (allowed !== true) {
     throw new Error("Too many quiz submissions. Try again shortly.");
   }
 

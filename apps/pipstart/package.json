@@ -15,14 +15,14 @@
     "test:e2e:dashboard-release": "playwright test e2e/milestone-14-dashboard.spec.ts",
     "test": "vitest run --exclude=e2e/**",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit --project tsconfig.production.json",
     "verify:public-bundles": "node scripts/verify-public-bundles.mjs",
     "test:e2e:h1": "playwright test --config=playwright.h1.config.ts",
     "test:e2e:h2": "playwright test --config=playwright.h2.config.ts",
     "test:e2e:h3": "playwright test --config=playwright.h3.config.ts",
     "test:e2e:h4": "playwright test --config=playwright.h4.config.ts",
     "test:m16-h1": "vitest run --config=vitest.m16-h1.config.mts",
-    "test:e2e:m16": "node scripts/verify-m16-browser-environment.mjs && playwright test --config=playwright.m16.config.ts",
+    "test:e2e:m16": "node scripts/verify-m16-browser-environment.mjs && node scripts/verify-m16-h5-rate-limit.mjs && playwright test --config=playwright.m16.config.ts",
     "test:e2e:m16-authenticated": "node scripts/run-m16-authenticated-gate.mjs"
   },
   "dependencies": {

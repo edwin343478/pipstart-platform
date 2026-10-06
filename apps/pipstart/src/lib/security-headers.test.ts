@@ -22,17 +22,16 @@ describe("PipStart security headers", () => {
     ]);
   });
 
-  it("starts CSP in report-only mode and blocks risky browser capabilities", () => {
+  it("enforces CSP and blocks risky browser capabilities", () => {
     const headers = Object.fromEntries(
       securityHeaders.map(({ key, value }) => [key, value]),
     );
 
-    expect(headers["Content-Security-Policy-Report-Only"]).toContain(
+    expect(headers["Content-Security-Policy"]).toContain(
       "frame-ancestors 'none'",
     );
-    expect(headers["Content-Security-Policy-Report-Only"]).toContain(
-      "object-src 'none'",
-    );
+    expect(headers["Content-Security-Policy"]).toContain("object-src 'none'");
+    expect(headers["Content-Security-Policy-Report-Only"]).toBeUndefined();
     expect(headers["Permissions-Policy"]).toBe(
       "camera=(), microphone=(), geolocation=()",
     );

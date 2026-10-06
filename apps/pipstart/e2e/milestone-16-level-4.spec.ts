@@ -107,7 +107,13 @@ test("Crypto late content is available without JavaScript and unknown routes sta
     });
     await expect(answers).toHaveCount(2);
     await expect(answers.first()).not.toHaveAttribute("open", "");
-    await answers.first().locator("summary").click();
+    // Native summary keyboard activation avoids smooth-scroll click races
+    // on a long, fully rendered no-JavaScript lesson. Do not force or toggle DOM.
+    const summary = answers.first().locator("summary");
+    await summary.focus();
+    await expect(summary).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(answers.first()).toHaveAttribute("open", "");
     await expect(
       answers
         .first()

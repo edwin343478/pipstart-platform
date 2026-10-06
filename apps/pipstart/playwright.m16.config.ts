@@ -10,6 +10,7 @@ export default defineConfig({
   testMatch: [
     ...(cumulative.testMatch as string[]),
     "milestone-16-h3-published-routes.spec.ts",
+    "milestone-16-h5-runtime-security.spec.ts",
   ],
   outputDir: "test-results/m16",
   reporter: [

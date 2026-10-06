@@ -1,23 +1,16 @@
 import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
 
-const contentSecurityPolicy = [
-  "default-src 'self'",
-  "base-uri 'self'",
-  "form-action 'self'",
-  "frame-ancestors 'none'",
-  "object-src 'none'",
-  "script-src 'self' 'unsafe-inline'",
-  "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob:",
-  "font-src 'self' data:",
-  "connect-src 'self'",
-  "upgrade-insecure-requests",
-].join("; ");
+import { createContentSecurityPolicy } from "./src/lib/security-policy";
+
+const contentSecurityPolicy = createContentSecurityPolicy(
+  process.env.NODE_ENV === "development",
+  process.env.NEXT_PUBLIC_SITE_URL,
+);
 
 export const securityHeaders = [
   {
-    key: "Content-Security-Policy-Report-Only",
+    key: "Content-Security-Policy",
     value: contentSecurityPolicy,
   },
   {
@@ -33,6 +26,12 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1"],
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   poweredByHeader: false,
+  typescript: {
+    tsconfigPath:
+      process.env.NODE_ENV === "development"
+        ? "tsconfig.json"
+        : "tsconfig.production.json",
+  },
   async headers() {
     return [
       {
