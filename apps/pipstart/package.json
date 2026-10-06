@@ -21,7 +21,9 @@
     "test:e2e:h2": "playwright test --config=playwright.h2.config.ts",
     "test:e2e:h3": "playwright test --config=playwright.h3.config.ts",
     "test:e2e:h4": "playwright test --config=playwright.h4.config.ts",
-    "test:m16-h1": "vitest run --config=vitest.m16-h1.config.mts"
+    "test:m16-h1": "vitest run --config=vitest.m16-h1.config.mts",
+    "test:e2e:m16": "node scripts/verify-m16-browser-environment.mjs && playwright test --config=playwright.m16.config.ts",
+    "test:e2e:m16-authenticated": "node scripts/run-m16-authenticated-gate.mjs"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",

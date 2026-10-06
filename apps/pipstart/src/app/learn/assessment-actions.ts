@@ -224,6 +224,7 @@ export async function gradeAnonymousAssessmentAction(input: {
 export async function startAssessmentAttemptAction(input: {
   quizId: string;
   version: number;
+  resumeSubmitted?: boolean;
 }) {
   requireAssessment(input.quizId, input.version, "continue");
   const session = await authenticatedSession();
@@ -243,6 +244,37 @@ export async function startAssessmentAttemptAction(input: {
       return {
         authenticated: true,
         attempt: safeAttempt(existing as AttemptRow),
+      };
+    }
+  }
+
+  // Opening/reloading a quiz restores its latest result. Only an explicit
+  // retake creates another attempt; an existing draft always takes precedence.
+  if (session && input.resumeSubmitted === true) {
+    const { data: latest, error: latestError } = await session.supabase
+      .from("pipstart_assessment_attempts")
+      .select(ATTEMPT_SELECT)
+      .eq("user_id", session.user.id)
+      .eq("quiz_id", input.quizId)
+      .eq("quiz_version", input.version)
+      .eq("status", "submitted")
+      .order("submitted_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    if (latestError) {
+      throw new Error("Submitted assessment result could not be loaded.");
+    }
+    if (latest) {
+      const row = latest as AttemptRow;
+      const bound = requireBoundAssessment(
+        row,
+        input,
+        getContinuableAssessment,
+      );
+      return {
+        authenticated: true,
+        attempt: safeAttempt(row),
+        grade: persistedGrade(row.review_snapshot, bound),
       };
     }
   }

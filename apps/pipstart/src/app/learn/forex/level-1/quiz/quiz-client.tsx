@@ -150,78 +150,94 @@ export function ForexFoundationsQuiz({
     validIds: lessonIds,
   });
 
-  const beginAttempt = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    setResult(null);
-    setConfirmUnanswered(false);
-    setSaveFailed(false);
-    setProgressPending(false);
-    saveGeneration.current += 1;
+  const beginAttempt = useCallback(
+    async (retake = false) => {
+      setLoading(true);
+      setError(null);
+      setResult(null);
+      setConfirmUnanswered(false);
+      setSaveFailed(false);
+      setProgressPending(false);
+      saveGeneration.current += 1;
 
-    try {
-      const started = await startAssessmentAttemptAction({
-        quizId: assessment.id,
-        version: assessment.version,
-      });
-
-      if (started.authenticated) {
-        if (!started.attempt)
-          throw new Error("Quiz attempt could not be loaded.");
-        const presentation = normalizeAssessmentPresentation(
-          assessment,
-          started.attempt,
-        );
-        const remoteDraft = coerceAssessmentAnswers(
-          started.attempt.draftAnswers,
-        );
-        const restored = readDraftBackup(started.attempt.id) ?? remoteDraft;
-        setQuiz({
-          attemptId: started.attempt.id,
-          attemptNumber: started.attempt.attemptNumber,
-          authenticated: true,
-          presentation,
+      try {
+        const started = await startAssessmentAttemptAction({
+          quizId: assessment.id,
+          version: assessment.version,
+          resumeSubmitted: !retake,
         });
-        setAnswers(restored);
-        savedFingerprint.current = JSON.stringify(remoteDraft);
-        setSaveMessage("Your answers are saved as you go.");
 
-        try {
-          const loadedHistory = await loadAssessmentHistoryAction(
-            assessment.id,
-          );
-          setHistory(loadedHistory.attempts as HistoryAttempt[]);
-        } catch {
-          setHistory([]);
-        }
-      } else {
-        if (!("presentation" in started) || !started.presentation) {
-          throw new Error("Quiz could not be prepared.");
-        }
-        setQuiz({
-          attemptId: null,
-          attemptNumber: null,
-          authenticated: false,
-          presentation: normalizeAssessmentPresentation(
+        if (started.authenticated) {
+          if (!started.attempt)
+            throw new Error("Quiz attempt could not be loaded.");
+          const presentation = normalizeAssessmentPresentation(
             assessment,
-            started.presentation,
-          ),
-        });
-        setAnswers({});
-        setHistory([]);
-        savedFingerprint.current = "{}";
-        setSaveMessage(
-          "Anonymous quiz progress is not saved if you leave this page.",
-        );
+            started.attempt,
+          );
+          const remoteDraft = coerceAssessmentAnswers(
+            started.attempt.draftAnswers,
+          );
+          const submitted = started.attempt.status === "submitted";
+          const restored = submitted
+            ? coerceAssessmentAnswers(started.attempt.submittedAnswers)
+            : (readDraftBackup(started.attempt.id) ?? remoteDraft);
+          setQuiz({
+            attemptId: started.attempt.id,
+            attemptNumber: started.attempt.attemptNumber,
+            authenticated: true,
+            presentation,
+          });
+          setAnswers(restored);
+          savedFingerprint.current = JSON.stringify(remoteDraft);
+          if (submitted) {
+            if (!("grade" in started) || !started.grade) {
+              throw new Error("Submitted assessment result is unavailable.");
+            }
+            clearDraftBackup(started.attempt.id);
+            setResult(started.grade);
+            setSaveMessage("Quiz result restored from your account.");
+          } else {
+            setSaveMessage("Your answers are saved as you go.");
+          }
+
+          try {
+            const loadedHistory = await loadAssessmentHistoryAction(
+              assessment.id,
+            );
+            setHistory(loadedHistory.attempts as HistoryAttempt[]);
+          } catch {
+            setHistory([]);
+          }
+        } else {
+          if (!("presentation" in started) || !started.presentation) {
+            throw new Error("Quiz could not be prepared.");
+          }
+          setQuiz({
+            attemptId: null,
+            attemptNumber: null,
+            authenticated: false,
+            presentation: normalizeAssessmentPresentation(
+              assessment,
+              started.presentation,
+            ),
+          });
+          setAnswers({});
+          setHistory([]);
+          savedFingerprint.current = "{}";
+          setSaveMessage(
+            "Anonymous quiz progress is not saved if you leave this page.",
+          );
+        }
+      } catch (cause) {
+        setQuiz(null);
+        setError(message(cause, "Quiz could not be prepared. Try again."));
+        setSaveMessage("Quiz could not be prepared.");
+      } finally {
+        setLoading(false);
       }
-    } catch (cause) {
-      setQuiz(null);
-      setError(message(cause, "Quiz could not be prepared. Try again."));
-      setSaveMessage("Quiz could not be prepared.");
-    } finally {
-      setLoading(false);
-    }
-  }, [assessment]);
+    },
+    [assessment],
+  );
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -763,7 +779,7 @@ export function ForexFoundationsQuiz({
                     <button
                       className={styles.primaryButton}
                       type="button"
-                      onClick={() => void beginAttempt()}
+                      onClick={() => void beginAttempt(true)}
                     >
                       Try again
                     </button>

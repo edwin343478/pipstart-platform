@@ -43,3 +43,7 @@ Thumbs.db
 apps/skillcima/.dev.vars
 apps/skillcima/.dev.vars.*
 !apps/skillcima/.dev.vars.example
+
+# Generated browser verification artifacts
+playwright-report/
+test-results/

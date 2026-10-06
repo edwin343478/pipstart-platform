@@ -52,6 +52,10 @@ jobs:
       - name: Run tests
         run: pnpm test
 
+      - name: Start isolated local Supabase for production browser grading
+        timeout-minutes: 15
+        run: node apps/pipstart/scripts/configure-m16-ci-supabase.mjs
+
       - name: Build applications
         run: pnpm build
 
@@ -61,8 +65,24 @@ jobs:
       - name: Install Chromium for publication smoke checks
         run: pnpm --filter pipstart exec playwright install --with-deps chromium
 
-      - name: Verify approved publication routes and lesson interactions
-        run: pnpm --filter pipstart test:e2e:h4
+      - name: Verify Crypto levels and approved publication interactions
+        timeout-minutes: 25
+        run: pnpm --filter pipstart test:e2e:m16
+
+      - name: Preserve Crypto browser verification results
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: pipstart-m16-browser-results
+          path: |
+            apps/pipstart/playwright-report/m16
+            apps/pipstart/test-results/m16
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Stop isolated CI Supabase
+        if: always()
+        run: pnpm exec supabase stop --no-backup
 
   assessment-live:
     name: Live learner release gates
@@ -101,3 +121,7 @@ jobs:
 
       - name: Run live dashboard release gate
         run: pnpm --filter pipstart test:e2e:dashboard-release
+
+      - name: Verify authenticated Crypto persistence against production
+        timeout-minutes: 15
+        run: pnpm --filter pipstart test:e2e:m16-authenticated
