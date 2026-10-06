@@ -14,7 +14,7 @@ export function CryptoLessonPage({
       path="crypto"
       lesson={lesson}
       lessons={cryptoLessons}
-      contextTitle="Bitcoin"
+      contextTitle="Bitcoin and Shared Ledgers"
       contextHref="/learn/crypto/level-1/bitcoin"
       progressKey={CRYPTO_LEVEL_ONE_PROGRESS_KEY}
     />

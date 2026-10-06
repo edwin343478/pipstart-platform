@@ -1,4 +1,15 @@
 import "server-only";
+import { cryptoOrientationQuizV1 } from "./crypto-orientation-assessment";
+import { cryptoBitcoinQuizV1 } from "./crypto-bitcoin-assessment";
+import { cryptoWalletQuizV1 } from "./crypto-wallet-assessment";
+import { cryptoAdvancedGraduationQuizV1 } from "./crypto-advanced-and-graduation-assessment";
+import { cryptoPlanningPracticeQuizV1 } from "./crypto-planning-and-practice-assessment";
+import { cryptoRiskPortfoliosQuizV1 } from "./crypto-risk-and-portfolios-assessment";
+import { cryptoChartsEvidenceQuizV1 } from "./crypto-charts-and-evidence-assessment";
+import { cryptoDefiQuizV1 } from "./crypto-defi-foundations-assessment";
+import { cryptoTokenResearchQuizV1 } from "./crypto-token-research-assessment";
+import { cryptoEthereumQuizV1 } from "./crypto-ethereum-assessment";
+import { cryptoExchangeQuizV1 } from "./crypto-exchange-assessment";
 
 import { advancedForexFoundationsQuizV1 } from "./advanced-forex-foundations-assessment";
 import { strategyDevelopmentFoundationsQuizV1 } from "./strategy-development-foundations-assessment";
@@ -143,6 +154,17 @@ export const forexFoundationsQuizV1: AssessmentDefinition = {
 };
 
 export const assessmentRegistry: readonly AssessmentDefinition[] = [
+  cryptoOrientationQuizV1,
+  cryptoBitcoinQuizV1,
+  cryptoWalletQuizV1,
+  cryptoExchangeQuizV1,
+  cryptoEthereumQuizV1,
+  cryptoTokenResearchQuizV1,
+  cryptoDefiQuizV1,
+  cryptoChartsEvidenceQuizV1,
+  cryptoRiskPortfoliosQuizV1,
+  cryptoPlanningPracticeQuizV1,
+  cryptoAdvancedGraduationQuizV1,
   forexFoundationsQuizV1,
   brokerFoundationsQuizV1,
   chartFoundationsQuizV1,

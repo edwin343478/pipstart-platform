@@ -80,16 +80,16 @@ export function LessonPageClient({
     ? undefined
     : {
         message:
-          lesson.level === "level-0"
+          lesson.level === "level-0" && isForex
             ? "You're ready to continue to Level 1 with a safety-first foundation — still without opening or funding a live trading account."
             : "You've finished the lessons in this level. Review what you learned before continuing.",
         ctaLabel:
-          lesson.level === "level-0"
+          lesson.level === "level-0" && isForex
             ? "You've finished Level 0 — start Level 1"
             : (resolvedQuizTarget?.label ??
               `Return to ${path === "forex" ? "Forex" : "Crypto"} levels`),
         ctaHref:
-          lesson.level === "level-0"
+          lesson.level === "level-0" && isForex
             ? "/learn/forex/level-1"
             : (resolvedQuizTarget?.href ?? `/learn/${path}`),
       };
@@ -129,7 +129,7 @@ export function LessonPageClient({
           Level {level} · {contextTitle}
         </span>
       </header>
-      <div className={`${styles.layout} ${isForex ? styles.forexLayout : ""}`}>
+      <div className={`${styles.layout} ${styles.forexLayout}`}>
         <LessonSidebar
           levelTitle={contextTitle}
           levelHref={contextHref}

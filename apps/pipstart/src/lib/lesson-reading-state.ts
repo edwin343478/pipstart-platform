@@ -72,7 +72,11 @@ export function resolveReadingState(
   const activeIndex = Math.max(
     0,
     ids.indexOf(
-      requested && ids.includes(requested) ? requested : (saved.section ?? ""),
+      requested === "1"
+        ? (ids[0] ?? "")
+        : requested && ids.includes(requested)
+          ? requested
+          : (saved.section ?? ""),
     ),
   );
   return {

@@ -66,6 +66,7 @@ export type LessonBlock =
   | { type: "keyPoint"; title?: string; points: string[]; checklist?: boolean }
   | { type: "formula"; expression: string; explanation: string }
   | { type: "exercise"; prompt: string }
+  | { type: "practice"; title: string; prompts: string[]; answers: string[] }
   | {
       type: "diagram";
       desktopSrc?: `/${string}`;
@@ -298,6 +299,24 @@ function validateLessonBlock(block: LessonBlock, errors: string[]) {
         errors.push("formula expression is required");
       if (!isNonEmptyString(block.explanation))
         errors.push("formula explanation is required");
+      break;
+    case "practice":
+      if (!isNonEmptyString(block.title))
+        errors.push("practice title is required");
+      for (const field of ["prompts", "answers"] as const) {
+        if (
+          !Array.isArray(block[field]) ||
+          !block[field].length ||
+          block[field].some((value) => !isNonEmptyString(value))
+        )
+          errors.push(`practice ${field} must contain nonempty text`);
+      }
+      if (
+        Array.isArray(block.prompts) &&
+        Array.isArray(block.answers) &&
+        block.prompts.length !== block.answers.length
+      )
+        errors.push("practice questions and answers must correspond");
       break;
     case "exercise":
       if (!isNonEmptyString(block.prompt))

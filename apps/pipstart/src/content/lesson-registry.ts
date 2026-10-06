@@ -1,4 +1,15 @@
 import "server-only";
+import { cryptoLevel0Lessons } from "./lessons/crypto/level-0-lessons";
+import { cryptoLevel1Lessons } from "./lessons/crypto/level-1-lessons";
+import { cryptoLevel2Lessons } from "./lessons/crypto/level-2-lessons";
+import { cryptoLevel8Lessons } from "./lessons/crypto/level-8-lessons";
+import { cryptoLevel10Lessons } from "./lessons/crypto/level-10-lessons";
+import { cryptoLevel9Lessons } from "./lessons/crypto/level-9-lessons";
+import { cryptoLevel7Lessons } from "./lessons/crypto/level-7-lessons";
+import { cryptoLevel6Lessons } from "./lessons/crypto/level-6-lessons";
+import { cryptoLevel5Lessons } from "./lessons/crypto/level-5-lessons";
+import { cryptoLevel4Lessons } from "./lessons/crypto/level-4-lessons";
+import { cryptoLevel3Lessons } from "./lessons/crypto/level-3-lessons";
 
 import { relationshipsThatCanChangeSections } from "./lessons/forex/relationships-that-can-change-sections";
 import {
@@ -123,10 +134,7 @@ import {
   blocks as draftSecurityBlocks,
   metadata as draftSecurityMetadata,
 } from "./lessons/crypto/draft-security-basics.mdx";
-import {
-  blocks as bitcoinBlocks,
-  metadata as bitcoinMetadata,
-} from "./lessons/crypto/what-is-bitcoin.mdx";
+
 import {
   blocks as bidAskBlocks,
   metadata as bidAskMetadata,
@@ -223,6 +231,7 @@ function lessonDocument(
 }
 
 const allLessonDocuments = [
+  ...cryptoLevel0Lessons,
   level0Lesson1,
   level0Lesson2,
   level0Lesson3,
@@ -370,7 +379,16 @@ const allLessonDocuments = [
     level10Blocks2,
     reviewTheWholePortfolioSections,
   ),
-  lessonDocument(bitcoinMetadata, bitcoinBlocks),
+  ...cryptoLevel1Lessons,
+  ...cryptoLevel2Lessons,
+  ...cryptoLevel3Lessons,
+  ...cryptoLevel4Lessons,
+  ...cryptoLevel5Lessons,
+  ...cryptoLevel6Lessons,
+  ...cryptoLevel7Lessons,
+  ...cryptoLevel8Lessons,
+  ...cryptoLevel9Lessons,
+  ...cryptoLevel10Lessons,
   lessonDocument(draftSecurityMetadata, draftSecurityBlocks),
 ];
 

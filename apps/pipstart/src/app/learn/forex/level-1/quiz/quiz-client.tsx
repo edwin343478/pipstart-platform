@@ -31,6 +31,11 @@ import {
   parseLessonProgress,
   serializeLessonProgress,
 } from "../progress";
+import {
+  CRYPTO_PROGRESS_CHANGE_EVENT,
+  parseCryptoLessonProgress,
+  serializeCryptoLessonProgress,
+} from "../../../crypto/level-1/progress";
 import lessonStyles from "../page.module.css";
 import styles from "./quiz.module.css";
 
@@ -129,9 +134,18 @@ export function ForexFoundationsQuiz({
   const resultRef = useRef<HTMLElement | null>(null);
   const progress = usePermanentProgress({
     courseId: assessment.courseId,
-    eventName: FOREX_PROGRESS_CHANGE_EVENT,
-    parse: parseLessonProgress,
-    serialize: serializeLessonProgress,
+    eventName:
+      assessment.learningPath === "forex"
+        ? FOREX_PROGRESS_CHANGE_EVENT
+        : CRYPTO_PROGRESS_CHANGE_EVENT,
+    parse:
+      assessment.learningPath === "forex"
+        ? parseLessonProgress
+        : parseCryptoLessonProgress,
+    serialize:
+      assessment.learningPath === "forex"
+        ? serializeLessonProgress
+        : serializeCryptoLessonProgress,
     storageKey: context.progressKey,
     validIds: lessonIds,
   });
@@ -459,8 +473,8 @@ export function ForexFoundationsQuiz({
     <main className={lessonStyles.page}>
       <LearningHeader
         allLevelsClassName={styles.headerLink}
-        allLevelsHref="/learn/forex"
-        allLevelsLabel="All Forex levels"
+        allLevelsHref={`/learn/${assessment.learningPath}`}
+        allLevelsLabel={`All ${assessment.learningPath === "forex" ? "Forex" : "Crypto"} levels`}
         brandClassName={styles.headerBrand}
         className={styles.header}
         contextClassName={styles.headerContext}

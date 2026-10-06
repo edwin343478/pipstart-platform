@@ -8,54 +8,59 @@ import styles from "./page.module.css";
 
 const cryptoLevels = [
   {
-    title: "Orientation and Risk",
+    title: "Orientation and Safety",
     description:
-      "What cryptocurrency is, traditional money comparisons, ownership, volatility, permanent-loss risks, scams and safe learning.",
+      "Learn what crypto is, compare ownership and trading, understand loss mechanisms and practise spotting scams without funding an account.",
   },
   {
-    title: "Bitcoin",
+    title: "Bitcoin and Shared Ledgers",
     description:
-      "Bitcoin purpose, blockchain, transactions, mining, proof of work, supply, halving, keys and digital signatures.",
+      "Bitcoin, blockchain records, transactions, mining, proof of work, supply and signatures.",
   },
   {
-    title: "Wallet Security",
+    title: "Wallets and Personal Security",
     description:
-      "Custodial and non-custodial wallets, hot and cold storage, seed phrases, backups, phishing, malware and recovery planning.",
+      "Wallet control, recovery phrases, backups, phishing, malware and recovery planning.",
   },
   {
-    title: "Exchanges",
+    title: "Exchanges Stablecoins and Market Orders",
     description:
-      "Centralized and decentralized exchanges, spot markets, order books, fees, liquidity, slippage, stablecoins and counterparty risk.",
+      "Exchange types, orders, costs, liquidity, slippage, stablecoins and provider risk.",
   },
   {
-    title: "Ethereum and Smart Contracts",
+    title: "Ethereum Contracts and Connected Networks",
     description:
-      "Ethereum, Ether, smart contracts, gas, tokens, applications, layer-one and layer-two networks, bridges and bridge risk.",
+      "Ethereum, contracts, gas, tokens, layer-two networks and bridge risks.",
   },
   {
-    title: "Altcoins and Tokenomics",
+    title: "Tokens Supply and Research",
     description:
-      "Token types, supply, market capitalisation, valuation, vesting, unlocks, founder allocations and liquidity concentration.",
+      "Token supply, allocations, vesting, unlocks, incentives and evidence-based research.",
   },
   {
-    title: "Decentralized Finance",
+    title: "DeFi Liquidity Lending and Rewards",
     description:
-      "Automated market makers, liquidity pools, lending, staking, yield, impermanent loss, oracle and smart-contract risk.",
+      "Liquidity pools, lending, staking, rewards, oracles and contract risks.",
   },
   {
-    title: "Crypto Analysis",
+    title: "Charts Market Context and Evidence",
     description:
-      "Market cycles, Bitcoin dominance, funding rates, open interest, liquidations, exchange flows, on-chain metrics and their limitations.",
+      "Charts, market cycles, derivatives data, on-chain evidence and their limitations.",
   },
   {
-    title: "Portfolio and Risk",
+    title: "Sizing Leverage and Portfolio Risk",
     description:
-      "Position sizing, concentration, correlation, custody and counterparty exposure, leverage, rebalancing and exit planning.",
+      "Position sizing, concentration, leverage, custody, rebalancing and records.",
   },
   {
-    title: "Advanced Crypto",
+    title: "Psychology Planning and Paper Practice",
     description:
-      "Consensus, network security, governance, cross-chain systems, oracles, valuation, audit awareness and regulatory risk.",
+      "Decision habits, planning, journals and realistic practice with fictional funds.",
+  },
+  {
+    title: "Advanced Awareness and Graduation",
+    description:
+      "Network security, governance, research limitations and a graduation dossier.",
   },
 ];
 
@@ -69,7 +74,7 @@ export default function LearnCryptoPage() {
         <span>Curriculum</span>
         <h1>Cryptocurrency Foundation Path</h1>
         <p>
-          Ten levels, from absolute beginner to advanced cryptocurrency
+          Eleven levels, from absolute beginner to advanced cryptocurrency
           concepts. Work through them in order, or explore the full path before
           you begin.
         </p>
@@ -86,24 +91,26 @@ export default function LearnCryptoPage() {
               <span className={styles.marker} aria-hidden="true">
                 {index}
               </span>
-              {index === 1 ? (
+              {index <= 10 ? (
                 <Link
                   className={`${styles.levelCard} ${styles.availableLevel}`}
-                  href="/learn/crypto/level-1"
-                  aria-label="Start Level 1: Bitcoin"
+                  href={`/learn/crypto/level-${index}`}
+                  aria-label={`Start Level ${index}: ${level.title}`}
                 >
                   <span className={styles.levelMeta}>
-                    <span>Level {index} of 9</span>
+                    <span>Level {index} of 10</span>
                     <strong>Available</strong>
                   </span>
                   <h3>{level.title}</h3>
                   <p>{level.description}</p>
-                  <span className={styles.startLevel}>Start Level 1 →</span>
+                  <span className={styles.startLevel}>
+                    Start Level {index} →
+                  </span>
                 </Link>
               ) : (
                 <article className={styles.levelCard}>
                   <span className={styles.levelMeta}>
-                    <span>Level {index} of 9</span>
+                    <span>Level {index} of 10</span>
                     <strong>Coming soon</strong>
                   </span>
                   <h3>{level.title}</h3>

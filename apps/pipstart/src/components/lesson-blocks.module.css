@@ -605,3 +605,31 @@
     overflow-wrap: anywhere;
   }
 }
+
+/* Native answer disclosure only; existing lesson typography stays unchanged. */
+.practiceAnswers {
+  margin-top: 1rem;
+}
+.practiceAnswers summary {
+  color: var(--brand-primary);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  padding-block: 0.5rem;
+}
+.practiceAnswers summary:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 4px;
+}
+.practiceSolution {
+  margin-top: 1rem;
+}
+@media print {
+  .practiceAnswers::details-content {
+    display: block;
+    content-visibility: visible;
+  }
+  .practiceAnswers > .practiceSolution {
+    display: block !important;
+  }
+}

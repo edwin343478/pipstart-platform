@@ -845,6 +845,77 @@ const allLearningPaths: LearningPath[] = [
     title: "Learn Crypto",
     levels: [
       {
+        href: "/learn/crypto/level-0",
+        id: "level-0",
+        order: 0,
+        status: "published",
+        title: "Level 0",
+        courses: [
+          {
+            id: "crypto-orientation",
+            title: "Orientation and Safety",
+            description:
+              "Understand cryptocurrency, ownership, loss mechanisms and scam prevention before putting money at risk.",
+            href: "/learn/crypto/level-0/crypto-orientation",
+            order: 1,
+            status: "published",
+            modules: [
+              {
+                id: "crypto-orientation-and-safety",
+                title: "Crypto Orientation and Safety",
+                description:
+                  "Four beginner lessons with paper practice, worked answers and a level quiz.",
+                href: "/learn/crypto/level-0/crypto-orientation/crypto-orientation-and-safety",
+                order: 1,
+                status: "published",
+                assessmentRequirements: [
+                  {
+                    assessmentId: "crypto-orientation-quiz",
+                    completionPolicy: "any-passed-version",
+                  },
+                ],
+                lessons: [
+                  ...getPublishedLessons({
+                    learningPath: "crypto",
+                    level: "level-0",
+                    course: "crypto-orientation",
+                    module: "crypto-orientation-and-safety",
+                  }).map((lesson) => ({
+                    estimatedMinutes: lesson.estimatedMinutes,
+                    href: lesson.href,
+                    id: lesson.id,
+                    objectives: lesson.objectives,
+                    order: lesson.position,
+                    prerequisites: lesson.prerequisites,
+                    relatedLessonIds: lesson.relatedLessonIds,
+                    relatedTermSlugs: lesson.relatedTermSlugs,
+                    status: lesson.status,
+                    title: lesson.title,
+                    type: "lesson" as const,
+                  })),
+                  {
+                    estimatedMinutes: 10,
+                    href: "/learn/crypto/level-0/quiz",
+                    id: "crypto-orientation-quiz",
+                    objectives: [
+                      "Check orientation and safety understanding with ten questions.",
+                    ],
+                    order: 5,
+                    prerequisites: ["crypto-scams-and-safe-learning"],
+                    relatedLessonIds: [],
+                    relatedTermSlugs: [],
+                    status: "published",
+                    title: "Crypto Orientation and Safety quiz",
+                    type: "quiz",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+
+      {
         href: "/learn/crypto/level-1",
         id: "level-1",
         order: 1,
@@ -853,34 +924,699 @@ const allLearningPaths: LearningPath[] = [
         courses: [
           {
             description:
-              "Understand Bitcoin's purpose before exploring the technology behind it.",
+              "Explore Bitcoin's history, shared-ledger checks, signatures, mining, fees and supply through five complete beginner lessons.",
             href: "/learn/crypto/level-1/bitcoin",
             id: "bitcoin",
             order: 1,
             status: "published",
-            title: "Bitcoin",
+            title: "Bitcoin and Shared Ledgers",
             modules: [
               {
                 description:
-                  "Begin with Bitcoin's decentralized network, shared ledger and core ideas.",
+                  "Build Bitcoin foundations with everyday examples, native tables, diagrams, paper practice and a fifteen-question quiz.",
                 href: "/learn/crypto/level-1/bitcoin/bitcoin-foundations",
                 id: "bitcoin-foundations",
                 order: 1,
                 status: "published",
                 title: "Bitcoin Foundations",
-                lessons: cryptoLessons.map((lesson) => ({
-                  estimatedMinutes: lesson.estimatedMinutes,
-                  href: lesson.href,
-                  id: lesson.id,
-                  objectives: lesson.objectives,
-                  order: lesson.position,
-                  prerequisites: lesson.prerequisites,
-                  relatedLessonIds: lesson.relatedLessonIds,
-                  relatedTermSlugs: lesson.relatedTermSlugs,
-                  status: lesson.status,
-                  title: lesson.title,
-                  type: "lesson" as const,
-                })),
+                assessmentRequirements: [
+                  {
+                    assessmentId: "bitcoin-foundations-quiz",
+                    completionPolicy: "any-passed-version",
+                  },
+                ],
+                lessons: [
+                  ...cryptoLessons.map((lesson) => ({
+                    estimatedMinutes: lesson.estimatedMinutes,
+                    href: lesson.href,
+                    id: lesson.id,
+                    objectives: lesson.objectives,
+                    order: lesson.position,
+                    prerequisites: lesson.prerequisites,
+                    relatedLessonIds: lesson.relatedLessonIds,
+                    relatedTermSlugs: lesson.relatedTermSlugs,
+                    status: lesson.status,
+                    title: lesson.title,
+                    type: "lesson" as const,
+                  })),
+                  {
+                    estimatedMinutes: 15,
+                    href: "/learn/crypto/level-1/quiz",
+                    id: "bitcoin-foundations-quiz",
+                    objectives: [
+                      "Check your understanding of Bitcoin and shared ledgers with fifteen questions.",
+                    ],
+                    order: 6,
+                    prerequisites: ["bitcoin-supply-halvings-and-claims"],
+                    relatedLessonIds: [],
+                    relatedTermSlugs: [],
+                    status: "published",
+                    title: "Bitcoin and Shared Ledgers quiz",
+                    type: "quiz",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        href: "/learn/crypto/level-2",
+        id: "level-2",
+        order: 2,
+        status: "published",
+        title: "Level 2",
+        courses: [
+          {
+            id: "wallets-and-security",
+            title: "Wallets and Personal Security",
+            description:
+              "Understand wallet authority, recovery, transfer checks, permissions and incident response.",
+            href: "/learn/crypto/level-2/wallets-and-security",
+            order: 1,
+            status: "published",
+            modules: [
+              {
+                id: "wallet-and-personal-security",
+                title: "Wallets and Personal Security",
+                description:
+                  "Five complete beginner lessons with fictional examples, paper practice and a fifteen-question quiz.",
+                href: "/learn/crypto/level-2/wallets-and-security/wallet-and-personal-security",
+                order: 1,
+                status: "published",
+                assessmentRequirements: [
+                  {
+                    assessmentId: "crypto-wallet-security-quiz",
+                    completionPolicy: "any-passed-version",
+                  },
+                ],
+                lessons: [
+                  ...getPublishedLessons({
+                    learningPath: "crypto",
+                    level: "level-2",
+                    course: "wallets-and-security",
+                    module: "wallet-and-personal-security",
+                  }).map((lesson) => ({
+                    estimatedMinutes: lesson.estimatedMinutes,
+                    href: lesson.href,
+                    id: lesson.id,
+                    objectives: lesson.objectives,
+                    order: lesson.position,
+                    prerequisites: lesson.prerequisites,
+                    relatedLessonIds: lesson.relatedLessonIds,
+                    relatedTermSlugs: lesson.relatedTermSlugs,
+                    status: lesson.status,
+                    title: lesson.title,
+                    type: "lesson" as const,
+                  })),
+                  {
+                    estimatedMinutes: 15,
+                    href: "/learn/crypto/level-2/quiz",
+                    id: "crypto-wallet-security-quiz",
+                    objectives: [
+                      "Check wallet and personal-security understanding with fifteen questions.",
+                    ],
+                    order: 6,
+                    prerequisites: ["respond-to-a-crypto-compromise"],
+                    relatedLessonIds: [],
+                    relatedTermSlugs: [],
+                    status: "published",
+                    title: "Wallets and Personal Security quiz",
+                    type: "quiz",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        href: "/learn/crypto/level-3",
+        id: "level-3",
+        order: 3,
+        status: "published",
+        title: "Level 2",
+        courses: [
+          {
+            id: "crypto-exchanges-and-markets",
+            title: "Exchanges Stablecoins and Market Orders",
+            description:
+              "Compare exchange services, spot markets, execution costs, stablecoins and custody failure risks.",
+            href: "/learn/crypto/level-3/crypto-exchanges-and-markets",
+            order: 1,
+            status: "published",
+            modules: [
+              {
+                id: "exchanges-stablecoins-and-orders",
+                title: "Exchanges Stablecoins and Market Orders",
+                description:
+                  "Five complete beginner lessons with fictional examples, paper practice and a fifteen-question quiz.",
+                href: "/learn/crypto/level-3/crypto-exchanges-and-markets/exchanges-stablecoins-and-orders",
+                order: 1,
+                status: "published",
+                assessmentRequirements: [
+                  {
+                    assessmentId: "crypto-exchange-markets-quiz",
+                    completionPolicy: "any-passed-version",
+                  },
+                ],
+                lessons: [
+                  ...getPublishedLessons({
+                    learningPath: "crypto",
+                    level: "level-3",
+                    course: "crypto-exchanges-and-markets",
+                    module: "exchanges-stablecoins-and-orders",
+                  }).map((lesson) => ({
+                    estimatedMinutes: lesson.estimatedMinutes,
+                    href: lesson.href,
+                    id: lesson.id,
+                    objectives: lesson.objectives,
+                    order: lesson.position,
+                    prerequisites: lesson.prerequisites,
+                    relatedLessonIds: lesson.relatedLessonIds,
+                    relatedTermSlugs: lesson.relatedTermSlugs,
+                    status: lesson.status,
+                    title: lesson.title,
+                    type: "lesson" as const,
+                  })),
+                  {
+                    estimatedMinutes: 15,
+                    href: "/learn/crypto/level-3/quiz",
+                    id: "crypto-exchange-markets-quiz",
+                    objectives: [
+                      "Check exchanges, stablecoins and market-order understanding with fifteen questions.",
+                    ],
+                    order: 6,
+                    prerequisites: [
+                      "crypto-deposits-withdrawals-and-exchange-failure",
+                    ],
+                    relatedLessonIds: [],
+                    relatedTermSlugs: [],
+                    status: "published",
+                    title: "Exchanges Stablecoins and Market Orders quiz",
+                    type: "quiz",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        href: "/learn/crypto/level-4",
+        id: "level-4",
+        order: 4,
+        status: "published",
+        title: "Level 4",
+        courses: [
+          {
+            id: "crypto-ethereum-and-networks",
+            title: "Ethereum Contracts and Connected Networks",
+            description:
+              "Understand Ethereum, smart-contract dependencies, gas, token identity and connected-network risks.",
+            href: "/learn/crypto/level-4/crypto-ethereum-and-networks",
+            order: 1,
+            status: "published",
+            modules: [
+              {
+                id: "ethereum-contracts-and-connected-networks",
+                title: "Ethereum Contracts and Connected Networks",
+                description:
+                  "Five complete beginner lessons with fictional examples, paper practice and a fifteen-question quiz.",
+                href: "/learn/crypto/level-4/crypto-ethereum-and-networks/ethereum-contracts-and-connected-networks",
+                order: 1,
+                status: "published",
+                assessmentRequirements: [
+                  {
+                    assessmentId: "crypto-ethereum-networks-quiz",
+                    completionPolicy: "any-passed-version",
+                  },
+                ],
+                lessons: [
+                  ...getPublishedLessons({
+                    learningPath: "crypto",
+                    level: "level-4",
+                    course: "crypto-ethereum-and-networks",
+                    module: "ethereum-contracts-and-connected-networks",
+                  }).map((lesson) => ({
+                    estimatedMinutes: lesson.estimatedMinutes,
+                    href: lesson.href,
+                    id: lesson.id,
+                    objectives: lesson.objectives,
+                    order: lesson.position,
+                    prerequisites: lesson.prerequisites,
+                    relatedLessonIds: lesson.relatedLessonIds,
+                    relatedTermSlugs: lesson.relatedTermSlugs,
+                    status: lesson.status,
+                    title: lesson.title,
+                    type: "lesson" as const,
+                  })),
+                  {
+                    estimatedMinutes: 15,
+                    href: "/learn/crypto/level-4/quiz",
+                    id: "crypto-ethereum-networks-quiz",
+                    objectives: [
+                      "Check Ethereum, smart-contract, gas, token and bridge understanding with fifteen questions.",
+                    ],
+                    order: 6,
+                    prerequisites: ["layer-one-layer-two-and-bridges"],
+                    relatedLessonIds: [],
+                    relatedTermSlugs: [],
+                    status: "published",
+                    title: "Ethereum Contracts and Connected Networks quiz",
+                    type: "quiz",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        href: "/learn/crypto/level-5",
+        id: "level-5",
+        order: 5,
+        status: "published",
+        title: "Level 5",
+        courses: [
+          {
+            id: "crypto-tokens-and-research",
+            title: "Tokens Supply and Research",
+            description:
+              "Understand token rights, supply and valuation, allocations and vesting, and evidence-based liquidity research.",
+            href: "/learn/crypto/level-5/crypto-tokens-and-research",
+            order: 1,
+            status: "published",
+            modules: [
+              {
+                id: "token-supply-and-research",
+                title: "Tokens Supply and Research",
+                description:
+                  "Four complete beginner lessons with fictional examples, paper practice and a fifteen-question quiz.",
+                href: "/learn/crypto/level-5/crypto-tokens-and-research/token-supply-and-research",
+                order: 1,
+                status: "published",
+                assessmentRequirements: [
+                  {
+                    assessmentId: "crypto-token-research-quiz",
+                    completionPolicy: "any-passed-version",
+                  },
+                ],
+                lessons: [
+                  ...getPublishedLessons({
+                    learningPath: "crypto",
+                    level: "level-5",
+                    course: "crypto-tokens-and-research",
+                    module: "token-supply-and-research",
+                  }).map((lesson) => ({
+                    estimatedMinutes: lesson.estimatedMinutes,
+                    href: lesson.href,
+                    id: lesson.id,
+                    objectives: lesson.objectives,
+                    order: lesson.position,
+                    prerequisites: lesson.prerequisites,
+                    relatedLessonIds: lesson.relatedLessonIds,
+                    relatedTermSlugs: lesson.relatedTermSlugs,
+                    status: lesson.status,
+                    title: lesson.title,
+                    type: "lesson" as const,
+                  })),
+                  {
+                    estimatedMinutes: 15,
+                    href: "/learn/crypto/level-5/quiz",
+                    id: "crypto-token-research-quiz",
+                    objectives: [
+                      "Check token rights, supply, vesting and evidence-based research with fifteen questions.",
+                    ],
+                    order: 5,
+                    prerequisites: [
+                      "build-a-token-dossier-and-check-liquidity",
+                    ],
+                    relatedLessonIds: [],
+                    relatedTermSlugs: [],
+                    status: "published",
+                    title: "Tokens Supply and Research quiz",
+                    type: "quiz",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        href: "/learn/crypto/level-6",
+        id: "level-6",
+        order: 6,
+        status: "published",
+        title: "Level 6",
+        courses: [
+          {
+            id: "crypto-defi-foundations",
+            title: "DeFi Liquidity Lending and Rewards",
+            description:
+              "Understand swaps, liquidity provision, borrowing and liquidation, staking rewards and interacting DeFi risks.",
+            href: "/learn/crypto/level-6/crypto-defi-foundations",
+            order: 1,
+            status: "published",
+            modules: [
+              {
+                id: "defi-liquidity-lending-and-rewards",
+                title: "DeFi Liquidity Lending and Rewards",
+                description:
+                  "Five complete beginner lessons with fictional examples, paper practice and a fifteen-question quiz.",
+                href: "/learn/crypto/level-6/crypto-defi-foundations/defi-liquidity-lending-and-rewards",
+                order: 1,
+                status: "published",
+                assessmentRequirements: [
+                  {
+                    assessmentId: "crypto-defi-foundations-quiz",
+                    completionPolicy: "any-passed-version",
+                  },
+                ],
+                lessons: [
+                  ...getPublishedLessons({
+                    learningPath: "crypto",
+                    level: "level-6",
+                    course: "crypto-defi-foundations",
+                    module: "defi-liquidity-lending-and-rewards",
+                  }).map((lesson) => ({
+                    estimatedMinutes: lesson.estimatedMinutes,
+                    href: lesson.href,
+                    id: lesson.id,
+                    objectives: lesson.objectives,
+                    order: lesson.position,
+                    prerequisites: lesson.prerequisites,
+                    relatedLessonIds: lesson.relatedLessonIds,
+                    relatedTermSlugs: lesson.relatedTermSlugs,
+                    status: lesson.status,
+                    title: lesson.title,
+                    type: "lesson" as const,
+                  })),
+                  {
+                    estimatedMinutes: 15,
+                    href: "/learn/crypto/level-6/quiz",
+                    id: "crypto-defi-foundations-quiz",
+                    objectives: [
+                      "Check DeFi swaps, liquidity, lending, rewards and protocol dependencies with fifteen questions.",
+                    ],
+                    order: 6,
+                    prerequisites: [
+                      "defi-dependencies-stablecoins-and-governance",
+                    ],
+                    relatedLessonIds: [],
+                    relatedTermSlugs: [],
+                    status: "published",
+                    title: "DeFi Liquidity Lending and Rewards quiz",
+                    type: "quiz",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        href: "/learn/crypto/level-7",
+        id: "level-7",
+        order: 7,
+        status: "published",
+        title: "Level 7",
+        courses: [
+          {
+            id: "crypto-charts-and-evidence",
+            title: "Charts Market Context and Evidence",
+            description:
+              "Read price structure and market context, understand derivatives and on-chain measurement limits, and write an evidence-based research note.",
+            href: "/learn/crypto/level-7/crypto-charts-and-evidence",
+            order: 1,
+            status: "published",
+            modules: [
+              {
+                id: "charts-market-context-and-evidence",
+                title: "Charts Market Context and Evidence",
+                description:
+                  "Five complete beginner lessons with fictional examples, paper practice and a fifteen-question quiz.",
+                href: "/learn/crypto/level-7/crypto-charts-and-evidence/charts-market-context-and-evidence",
+                order: 1,
+                status: "published",
+                assessmentRequirements: [
+                  {
+                    assessmentId: "crypto-charts-and-evidence-quiz",
+                    completionPolicy: "any-passed-version",
+                  },
+                ],
+                lessons: [
+                  ...getPublishedLessons({
+                    learningPath: "crypto",
+                    level: "level-7",
+                    course: "crypto-charts-and-evidence",
+                    module: "charts-market-context-and-evidence",
+                  }).map((lesson) => ({
+                    estimatedMinutes: lesson.estimatedMinutes,
+                    href: lesson.href,
+                    id: lesson.id,
+                    objectives: lesson.objectives,
+                    order: lesson.position,
+                    prerequisites: lesson.prerequisites,
+                    relatedLessonIds: lesson.relatedLessonIds,
+                    relatedTermSlugs: lesson.relatedTermSlugs,
+                    status: lesson.status,
+                    title: lesson.title,
+                    type: "lesson" as const,
+                  })),
+                  {
+                    estimatedMinutes: 15,
+                    href: "/learn/crypto/level-7/quiz",
+                    id: "crypto-charts-and-evidence-quiz",
+                    objectives: [
+                      "Check charts, market context, derivatives, on-chain data and research evidence with fifteen questions.",
+                    ],
+                    order: 6,
+                    prerequisites: [
+                      "sentiment-narratives-and-an-evidence-based-research-note",
+                    ],
+                    relatedLessonIds: [],
+                    relatedTermSlugs: [],
+                    status: "published",
+                    title: "Charts Market Context and Evidence quiz",
+                    type: "quiz",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        href: "/learn/crypto/level-8",
+        id: "level-8",
+        order: 8,
+        status: "published",
+        title: "Level 8",
+        courses: [
+          {
+            id: "crypto-risk-and-portfolios",
+            title: "Sizing Leverage and Portfolio Risk",
+            description:
+              "Choose a loss budget, understand leverage and shared risks, and document purchase schedules, exits and portfolio records.",
+            href: "/learn/crypto/level-8/crypto-risk-and-portfolios",
+            order: 1,
+            status: "published",
+            modules: [
+              {
+                id: "sizing-leverage-and-portfolio-risk",
+                title: "Sizing Leverage and Portfolio Risk",
+                description:
+                  "Four complete beginner lessons with fictional examples, paper practice and a fifteen-question quiz.",
+                href: "/learn/crypto/level-8/crypto-risk-and-portfolios/sizing-leverage-and-portfolio-risk",
+                order: 1,
+                status: "published",
+                assessmentRequirements: [
+                  {
+                    assessmentId: "crypto-risk-and-portfolios-quiz",
+                    completionPolicy: "any-passed-version",
+                  },
+                ],
+                lessons: [
+                  ...getPublishedLessons({
+                    learningPath: "crypto",
+                    level: "level-8",
+                    course: "crypto-risk-and-portfolios",
+                    module: "sizing-leverage-and-portfolio-risk",
+                  }).map((lesson) => ({
+                    estimatedMinutes: lesson.estimatedMinutes,
+                    href: lesson.href,
+                    id: lesson.id,
+                    objectives: lesson.objectives,
+                    order: lesson.position,
+                    prerequisites: lesson.prerequisites,
+                    relatedLessonIds: lesson.relatedLessonIds,
+                    relatedTermSlugs: lesson.relatedTermSlugs,
+                    status: lesson.status,
+                    title: lesson.title,
+                    type: "lesson" as const,
+                  })),
+                  {
+                    estimatedMinutes: 15,
+                    href: "/learn/crypto/level-8/quiz",
+                    id: "crypto-risk-and-portfolios-quiz",
+                    objectives: [
+                      "Check sizing, leverage, concentration, purchase schedules and records with fifteen questions.",
+                    ],
+                    order: 5,
+                    prerequisites: ["dca-rebalancing-exits-and-useful-records"],
+                    relatedLessonIds: [],
+                    relatedTermSlugs: [],
+                    status: "published",
+                    title: "Sizing Leverage and Portfolio Risk quiz",
+                    type: "quiz",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        href: "/learn/crypto/level-9",
+        id: "level-9",
+        order: 9,
+        status: "published",
+        title: "Level 9",
+        courses: [
+          {
+            id: "crypto-planning-and-practice",
+            title: "Psychology Planning and Paper Practice",
+            description:
+              "Recognise biases, write observable rules, test without hindsight and review paper-practice evidence honestly.",
+            href: "/learn/crypto/level-9/crypto-planning-and-practice",
+            order: 1,
+            status: "published",
+            modules: [
+              {
+                id: "psychology-planning-and-paper-practice",
+                title: "Psychology Planning and Paper Practice",
+                description:
+                  "Four complete beginner lessons with fictional examples, paper practice and a fifteen-question quiz.",
+                href: "/learn/crypto/level-9/crypto-planning-and-practice/psychology-planning-and-paper-practice",
+                order: 1,
+                status: "published",
+                assessmentRequirements: [
+                  {
+                    assessmentId: "crypto-planning-and-practice-quiz",
+                    completionPolicy: "any-passed-version",
+                  },
+                ],
+                lessons: [
+                  ...getPublishedLessons({
+                    learningPath: "crypto",
+                    level: "level-9",
+                    course: "crypto-planning-and-practice",
+                    module: "psychology-planning-and-paper-practice",
+                  }).map((lesson) => ({
+                    estimatedMinutes: lesson.estimatedMinutes,
+                    href: lesson.href,
+                    id: lesson.id,
+                    objectives: lesson.objectives,
+                    order: lesson.position,
+                    prerequisites: lesson.prerequisites,
+                    relatedLessonIds: lesson.relatedLessonIds,
+                    relatedTermSlugs: lesson.relatedTermSlugs,
+                    status: lesson.status,
+                    title: lesson.title,
+                    type: "lesson" as const,
+                  })),
+                  {
+                    estimatedMinutes: 15,
+                    href: "/learn/crypto/level-9/quiz",
+                    id: "crypto-planning-and-practice-quiz",
+                    objectives: [
+                      "Check decision habits, planning, testing limits and paper-practice review with fifteen questions.",
+                    ],
+                    order: 5,
+                    prerequisites: [
+                      "read-results-honestly-and-build-a-practice-routine",
+                    ],
+                    relatedLessonIds: [],
+                    relatedTermSlugs: [],
+                    status: "published",
+                    title: "Psychology Planning and Paper Practice quiz",
+                    type: "quiz",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        href: "/learn/crypto/level-10",
+        id: "level-10",
+        order: 10,
+        status: "published",
+        title: "Level 10",
+        courses: [
+          {
+            id: "crypto-advanced-and-graduation",
+            title: "Advanced Awareness and Graduation",
+            description:
+              "Review network assumptions, governance and product rights, then complete a consistent seven-part graduation dossier.",
+            href: "/learn/crypto/level-10/crypto-advanced-and-graduation",
+            order: 1,
+            status: "published",
+            modules: [
+              {
+                id: "advanced-awareness-and-graduation",
+                title: "Advanced Awareness and Graduation",
+                description:
+                  "Four complete beginner lessons with fictional examples, paper practice and a fifteen-question quiz.",
+                href: "/learn/crypto/level-10/crypto-advanced-and-graduation/advanced-awareness-and-graduation",
+                order: 1,
+                status: "published",
+                assessmentRequirements: [
+                  {
+                    assessmentId: "crypto-advanced-and-graduation-quiz",
+                    completionPolicy: "any-passed-version",
+                  },
+                ],
+                lessons: [
+                  ...getPublishedLessons({
+                    learningPath: "crypto",
+                    level: "level-10",
+                    course: "crypto-advanced-and-graduation",
+                    module: "advanced-awareness-and-graduation",
+                  }).map((lesson) => ({
+                    estimatedMinutes: lesson.estimatedMinutes,
+                    href: lesson.href,
+                    id: lesson.id,
+                    objectives: lesson.objectives,
+                    order: lesson.position,
+                    prerequisites: lesson.prerequisites,
+                    relatedLessonIds: lesson.relatedLessonIds,
+                    relatedTermSlugs: lesson.relatedTermSlugs,
+                    status: lesson.status,
+                    title: lesson.title,
+                    type: "lesson" as const,
+                  })),
+                  {
+                    estimatedMinutes: 15,
+                    href: "/learn/crypto/level-10/quiz",
+                    id: "crypto-advanced-and-graduation-quiz",
+                    objectives: [
+                      "Check network security, governance, product rights and graduation evidence with fifteen questions.",
+                    ],
+                    order: 5,
+                    prerequisites: [
+                      "complete-the-crypto-graduation-research-and-safety-review",
+                    ],
+                    relatedLessonIds: [],
+                    relatedTermSlugs: [],
+                    status: "published",
+                    title: "Advanced Awareness and Graduation quiz",
+                    type: "quiz",
+                  },
+                ],
               },
             ],
           },

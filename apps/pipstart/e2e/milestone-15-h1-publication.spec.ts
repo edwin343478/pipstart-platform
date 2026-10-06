@@ -209,6 +209,8 @@ for (const viewport of [
       await page.goto(href);
       await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
       const tabs = page.getByRole("tab");
+      // The server-rendered heading can appear before the interactive lesson tabs.
+      await expect(tabs.nth(1)).toBeVisible({ timeout: 15_000 });
       expect(await tabs.count()).toBeGreaterThan(1);
       await tabs.nth(1).click();
       await expect(tabs.nth(1)).toHaveAttribute("aria-selected", "true");

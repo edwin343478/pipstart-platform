@@ -222,6 +222,33 @@ export function LessonBlocks({
                 <figcaption>{block.explanation}</figcaption>
               </figure>
             );
+          case "practice":
+            return (
+              <section className={styles.exercise} key={key}>
+                <h3>{block.title}</h3>
+                <p>
+                  Try each question on paper or explain your answer aloud before
+                  opening the worked answers. This practice is for learning; it
+                  is not scored.
+                </p>
+                {block.prompts.map((prompt, promptIndex) => (
+                  <p className={styles.paragraph} key={promptIndex}>
+                    {renderInlineText(prompt)}
+                  </p>
+                ))}
+                <details className={styles.practiceAnswers}>
+                  <summary>Compare with the worked answers</summary>
+                  <div className={styles.practiceSolution}>
+                    <h3>Worked answers</h3>
+                    {block.answers.map((answer, answerIndex) => (
+                      <p className={styles.paragraph} key={answerIndex}>
+                        {renderInlineText(answer)}
+                      </p>
+                    ))}
+                  </div>
+                </details>
+              </section>
+            );
           case "exercise":
             return (
               <section className={styles.exercise} key={key}>

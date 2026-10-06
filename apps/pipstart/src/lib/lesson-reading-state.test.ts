@@ -107,3 +107,20 @@ describe("lesson reading state", () => {
     expect((html.match(/checked=""/g) ?? []).length).toBe(1);
   });
 });
+
+it("an explicit lesson-card start wins over a saved section without discarding ticks", () => {
+  expect(
+    resolveReadingState(
+      JSON.stringify({ section: "last", showAll: true, checked: ["done"] }),
+      "?section=1&all=0",
+      ["first", "last"],
+    ),
+  ).toMatchObject({ activeIndex: 0, showAll: false, checked: ["done"] });
+  expect(
+    resolveReadingState(
+      JSON.stringify({ section: "last", showAll: true, checked: ["done"] }),
+      "",
+      ["first", "last"],
+    ),
+  ).toMatchObject({ activeIndex: 1, showAll: true, checked: ["done"] });
+});

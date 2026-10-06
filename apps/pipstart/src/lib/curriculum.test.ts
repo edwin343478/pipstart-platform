@@ -49,7 +49,35 @@ describe("published curriculum hierarchy", () => {
           "level-10",
         ],
       },
-      { courses: ["bitcoin"], id: "crypto", levels: ["level-1"] },
+      {
+        courses: [
+          "crypto-orientation",
+          "bitcoin",
+          "wallets-and-security",
+          "crypto-exchanges-and-markets",
+          "crypto-ethereum-and-networks",
+          "crypto-tokens-and-research",
+          "crypto-defi-foundations",
+          "crypto-charts-and-evidence",
+          "crypto-risk-and-portfolios",
+          "crypto-planning-and-practice",
+          "crypto-advanced-and-graduation",
+        ],
+        id: "crypto",
+        levels: [
+          "level-0",
+          "level-1",
+          "level-2",
+          "level-3",
+          "level-4",
+          "level-5",
+          "level-6",
+          "level-7",
+          "level-8",
+          "level-9",
+          "level-10",
+        ],
+      },
     ]);
   });
 

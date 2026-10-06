@@ -21,7 +21,7 @@ describe("Milestone 8 course and module pages", () => {
 
   it.each([
     ["Forex Foundations", ForexFoundationsPage, "What is Forex?"],
-    ["Bitcoin Foundations", BitcoinFoundationsPage, "What is Bitcoin?"],
+    ["Bitcoin Foundations", BitcoinFoundationsPage, "What Is Bitcoin"],
   ])("renders the %s module and its published lessons", (_, Page, lesson) => {
     const markup = renderToStaticMarkup(<Page />);
 

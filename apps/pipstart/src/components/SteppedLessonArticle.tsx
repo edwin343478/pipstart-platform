@@ -446,9 +446,11 @@ export function LessonSidebar({
   const nav = (
     <nav>
       {[...lessons, ...(quiz ? [quiz] : [])].map((lesson) => (
-        <Link
+        <a
           key={lesson.href}
-          href={lesson.href}
+          href={
+            lesson === quiz ? lesson.href : `${lesson.href}?section=1&all=0`
+          }
           aria-current={lesson.current ? "page" : undefined}
           className={lesson.current ? styles.navCurrent : styles.navItem}
         >
@@ -458,7 +460,7 @@ export function LessonSidebar({
               ✓
             </span>
           ) : null}
-        </Link>
+        </a>
       ))}
     </nav>
   );

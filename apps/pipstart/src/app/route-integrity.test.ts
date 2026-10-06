@@ -122,7 +122,8 @@ describe("PipStart internal route integrity", () => {
     expect(home).toContain('href="/learn/crypto"');
     expect(home).toContain("Explore all Crypto levels");
     expect(home).not.toContain('href="/learn/crypto/level-1"');
-    expect(cryptoPath).toContain('href="/learn/crypto/level-1"');
+    expect(cryptoPath).toContain("href={`/learn/crypto/level-${index}`}");
+    expect(cryptoPath).toContain("index <= 10");
     expect(cryptoPath).toContain("Available");
     expect(cryptoPath).toContain("Coming soon");
   });
