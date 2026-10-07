@@ -702,12 +702,17 @@ const sections2: LessonSection[] = [
       },
       {
         type: "diagram",
-        alt: "A contract result depends on code, inputs and authority. A correct execution can still apply bad data or unsuitable terms.",
+        alt: "A user-interface box points to contract code and network execution, with oracle and administrator inputs below.",
         caption:
           "A contract result depends on code, inputs and authority. A correct execution can still apply bad data or unsuitable terms.",
         width: 1187,
         height: 556,
         src: "/lessons/crypto/level-4/lesson-2-rId33.png",
+        description: [
+          "The interface prepares a request; contract code applies rules; the network executes an accepted action.",
+          "An oracle can supply outside data. An administrator may be able to change rules. Those inputs and authorities affect the result.",
+          "Correct code execution can still act on bad data or unsuitable terms.",
+        ],
       },
     ],
   },
@@ -1161,12 +1166,17 @@ const sections3: LessonSection[] = [
       },
       {
         type: "diagram",
-        alt: "Multiply work by effective price, then convert units. This is a simplified execution-fee example.",
+        alt: "Four connected fee boxes convert 21,000 gas at 20 gwei per gas into 0.00042 ETH.",
         caption:
           "Multiply work by effective price, then convert units. This is a simplified execution-fee example.",
         width: 1187,
         height: 486,
         src: "/lessons/crypto/level-4/lesson-3-rId34.png",
+        description: [
+          "21,000 gas × 20 gwei per gas = 420,000 gwei.",
+          "420,000 gwei = 0.00042 ETH. At the fictional USD 2,000 per ETH, this is USD 0.84.",
+          "This is a simplified execution-fee example, not a live quote or a full cost estimate for every network.",
+        ],
       },
     ],
   },
@@ -2192,12 +2202,17 @@ const sections5: LessonSection[] = [
       },
       {
         type: "diagram",
-        alt: "One lock-and-mint design. Other bridges use different verification or liquidity routes; backing and return access must be checked.",
+        alt: "Ethereum and another network are joined by a lock-and-mint bridge, with a return burn-and-unlock path and three vault threats.",
         caption:
           "One lock-and-mint design. Other bridges use different verification or liquidity routes; backing and return access must be checked.",
         width: 1980,
         height: 1286,
         src: "/lessons/crypto/level-4/lesson-5-rId35.png",
+        description: [
+          "Outbound: the user locks 1 ETH in a bridge contract. A message or proof authorises minting 1 bridged ETH on the other network.",
+          "Return: burn the bridged unit and satisfy the bridge’s requirements to unlock the original ETH.",
+          "The pooled locked assets are marked as a target for stolen validator keys, a signature-check bug or a bad upgrade. Other bridge designs and withdrawal paths differ.",
+        ],
       },
       {
         type: "heading",

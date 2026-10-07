@@ -1,4 +1,8 @@
 import "server-only";
+import {
+  buildCryptoGlossary,
+  getCryptoLessonTermSlugs,
+} from "../lib/crypto-learning-aids";
 import { cryptoLevel0Lessons } from "./lessons/crypto/level-0-lessons";
 import { cryptoLevel1Lessons } from "./lessons/crypto/level-1-lessons";
 import { cryptoLevel2Lessons } from "./lessons/crypto/level-2-lessons";
@@ -403,9 +407,28 @@ export function buildLessonHref(metadata: LessonRouteMetadata): `/${string}` {
   return metadata.position === 1 ? levelRoot : `${levelRoot}/${metadata.slug}`;
 }
 
+const documentsWithTerms = allLessonDocuments.map((document) =>
+  document.metadata.learningPath === "crypto"
+    ? {
+        ...document,
+        metadata: {
+          ...document.metadata,
+          relatedTermSlugs: getCryptoLessonTermSlugs(document),
+        },
+      }
+    : document,
+);
+const cryptoTermSlugs = documentsWithTerms
+  .filter(
+    (document) =>
+      document.metadata.learningPath === "crypto" &&
+      document.metadata.status === "published" &&
+      document.metadata.approved,
+  )
+  .flatMap((document) => document.metadata.relatedTermSlugs);
 export const publishedLessons: PublishedLesson[] = selectPublishableLessons(
-  allLessonDocuments,
-  { validTermSlugs: relatedTermSlugs },
+  documentsWithTerms,
+  { validTermSlugs: [...relatedTermSlugs, ...cryptoTermSlugs] },
 ).map(({ blocks, metadata, sections }) => ({
   ...metadata,
   blocks,
@@ -417,6 +440,14 @@ export const publishedLessons: PublishedLesson[] = selectPublishableLessons(
     .filter((block) => block.type === "keyPoint")
     .flatMap((block) => block.points),
 }));
+
+export const cryptoGlossaryEntries = buildCryptoGlossary(
+  publishedLessons.map((lesson) => ({
+    metadata: lesson,
+    blocks: lesson.blocks,
+    href: lesson.href,
+  })),
+);
 
 type PublishedLessonSelector = {
   course?: string;

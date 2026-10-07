@@ -561,10 +561,15 @@ const sections1: LessonSection[] = [
       },
       {
         type: "diagram",
-        alt: "Compatibility under changed rules. A hard fork can produce two surviving networks, but does not have to.",
+        alt: "A soft-fork panel keeps one chain; a hard-fork panel shows old-rule and new-rule branches.",
         caption:
           "Compatibility under changed rules. A hard fork can produce two surviving networks, but does not have to.",
         src: "/lessons/crypto/level-10/lesson-1-rId55.png",
+        description: [
+          "Soft fork: tightened rules continue one chain, and old nodes can still accept blocks produced under the new rules. The picture cites SegWit, August 2017.",
+          "Hard fork: changed rules can produce separate old-rule and new-rule networks and coins if both survive. The picture cites Ethereum/Ethereum Classic, July 2016.",
+          "The split is a possible outcome, not a guarantee that every hard fork creates two lasting networks.",
+        ],
         width: 1980,
         height: 1254,
       },

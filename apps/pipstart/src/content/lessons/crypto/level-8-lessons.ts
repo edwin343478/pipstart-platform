@@ -324,10 +324,15 @@ const sections1: LessonSection[] = [
       },
       {
         type: "diagram",
-        alt: "Loss-budget sizing depends on fills, costs and quantity rules. The adverse example exceeds the original planned boundary.",
+        alt: "A GBP 20 budget becomes GBP 19 price risk and 3.8 units; a lower exit price produces GBP 26.60 loss before costs.",
         caption:
           "Loss-budget sizing depends on fills, costs and quantity rules. The adverse example exceeds the original planned boundary.",
         src: "/lessons/crypto/level-8/lesson-1-rId46.png",
+        description: [
+          "GBP 20 budget minus GBP 1 costs leaves GBP 19 for price risk.",
+          "GBP 19 ÷ GBP 5 risk per unit = 3.8 units before venue rounding.",
+          "An exit at GBP 43 gives GBP 26.60 price loss in the supplied example, before costs. A planned budget does not control the actual fill.",
+        ],
         width: 1187,
         height: 556,
       },
@@ -1110,10 +1115,15 @@ const sections3: LessonSection[] = [
       },
       {
         type: "diagram",
-        alt: "Price exposure sits alongside custody, issuer, contract, bridge and network dependencies.",
+        alt: "Concentric exposure layers surround a holding, with a separate personal-mistakes warning.",
         caption:
           "Price exposure sits alongside custody, issuer, contract, bridge and network dependencies.",
         src: "/lessons/crypto/level-8/lesson-3-rId47.png",
+        description: [
+          "Price and correlation: does it fall with bitcoin? Stablecoin: could it lose its peg? Exchange or lender: could withdrawals freeze?",
+          "Custody: who holds the keys? Smart contract and bridge: could the code be exploited? Chain: could the network halt?",
+          "The separate user warning lists mistakes, phishing and lost backups. These exposures can overlap.",
+        ],
         width: 1980,
         height: 1318,
       },
@@ -1265,10 +1275,15 @@ const sections3: LessonSection[] = [
       },
       {
         type: "diagram",
-        alt: "The supplied shocks reduce USD 10,000 to USD 7,000 before costs. An access suspension is a separate stress not shown by market values.",
+        alt: "Paired before-and-after bars compare BTC exposure, Token A and Stable B under the supplied shocks.",
         caption:
           "The supplied shocks reduce USD 10,000 to USD 7,000 before costs. An access suspension is a separate stress not shown by market values.",
         src: "/lessons/crypto/level-8/lesson-3-rId48.png",
+        description: [
+          "BTC exposure falls from USD 4,000 to USD 2,800. Token A falls from USD 3,000 to USD 1,500. Stable B falls from USD 3,000 to USD 2,700.",
+          "The total falls from USD 10,000 to USD 7,000 before costs.",
+          "An access suspension is a separate stress: a displayed market value does not establish the ability to withdraw.",
+        ],
         width: 1451,
         height: 659,
       },
@@ -1619,10 +1634,15 @@ const sections4: LessonSection[] = [
       },
       {
         type: "diagram",
-        alt: "Five fictional JPY 10,000 purchases with fees omitted. This chart illustrates quantity changes, not a recommended purchase schedule.",
+        alt: "Five equal JPY 10,000 purchase bars are paired with unit quantities and a varying price line.",
         caption:
           "Five fictional JPY 10,000 purchases with fees omitted. This chart illustrates quantity changes, not a recommended purchase schedule.",
         src: "/lessons/crypto/level-8/lesson-4-rId49.png",
+        description: [
+          "Months 1–5 prices per unit are JPY 1,000; 800; 500; 800; 1,000.",
+          "At JPY 10,000 each month, quantities are 10; 12.5; 20; 12.5; 10 units.",
+          "Fees are omitted. Total spending is JPY 50,000 for 65 units, giving about JPY 769.23 per unit. This illustrates quantity changes, not a recommended schedule.",
+        ],
         width: 2352,
         height: 1374,
       },

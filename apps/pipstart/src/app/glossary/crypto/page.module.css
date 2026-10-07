@@ -85,7 +85,7 @@
   padding: 0 1.5rem 2rem;
 }
 
-.alphabet button {
+.alphabet a {
   display: grid;
   width: 2.25rem;
   height: 2.25rem;
@@ -105,8 +105,8 @@
     transform 150ms ease;
 }
 
-.alphabet button:hover,
-.alphabet button:focus-visible {
+.alphabet a:hover,
+.alphabet a:focus-visible {
   border-color: #0f766e;
   color: #0f766e;
   transform: translateY(-0.125rem);
@@ -213,14 +213,47 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .alphabet button,
+  .alphabet a,
   .term {
     transition: none;
   }
 
-  .alphabet button:hover,
-  .alphabet button:focus-visible,
+  .alphabet a:hover,
+  .alphabet a:focus-visible,
   .term:hover {
     transform: none;
   }
+}
+
+.alphabet a {
+  box-sizing: border-box;
+  text-decoration: none;
+}
+.alphabet a:focus-visible,
+.searchButton:focus-visible,
+.lessonLinks a:focus-visible {
+  outline: 2px solid #0f766e;
+  outline-offset: 4px;
+}
+.searchButton {
+  margin-top: 0.75rem;
+  border: 1px solid #0f766e;
+  border-radius: 0.625rem;
+  background: #0f766e;
+  color: #fff;
+  font: inherit;
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+}
+.lessonLinks {
+  padding-left: 1.25rem;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.lessonLinks a {
+  color: #0f766e;
+}
+.term {
+  scroll-margin-top: 1rem;
+  overflow-wrap: anywhere;
 }

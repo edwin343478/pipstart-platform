@@ -70,6 +70,7 @@ export type LessonBlock =
   | {
       type: "diagram";
       desktopSrc?: `/${string}`;
+      description?: string[];
       alt: string;
       caption?: string;
       height: number;
@@ -349,6 +350,19 @@ function validateLessonBlock(block: LessonBlock, errors: string[]) {
         errors.push("diagram desktop source must be a root-relative path");
       }
       validateOptionalTitle(block.caption, errors, "diagram caption");
+      if (
+        block.src.startsWith("/lessons/crypto/") &&
+        block.caption &&
+        block.alt.trim() === block.caption.trim()
+      )
+        errors.push("diagram alternative text must differ from its caption");
+      if (
+        block.description !== undefined &&
+        (!Array.isArray(block.description) ||
+          !block.description.length ||
+          block.description.some((paragraph) => !isNonEmptyString(paragraph)))
+      )
+        errors.push("diagram description must contain nonempty text");
       break;
     case "comparisonTable": {
       if (block.caption !== undefined && !isNonEmptyString(block.caption))

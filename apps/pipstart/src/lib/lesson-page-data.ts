@@ -22,6 +22,7 @@ export type LessonPageData = Pick<
   href: string;
   blocks: LessonBlock[];
   sections?: LessonSection[];
+  keyTerms?: { name: string; href: string }[];
 };
 export type LessonPageClientProps = {
   path: "forex" | "crypto";

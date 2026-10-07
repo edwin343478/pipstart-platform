@@ -1,105 +1,131 @@
-"use client";
-
-import { useMemo, useState } from "react";
-
+import Link from "next/link";
 import { PageState } from "@repo/ui";
 import { CompactFooter, CompactHeader } from "../../../components/site-chrome";
+import { cryptoGlossaryEntries } from "../../../content/lesson-registry";
 import styles from "./page.module.css";
 
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-
-const terms = [
-  {
-    name: "Bitcoin",
-    definition:
-      "The first widely adopted decentralized cryptocurrency, introduced as a peer-to-peer electronic cash system.",
-  },
-  {
-    name: "Blockchain",
-    definition:
-      "A shared record of transactions stored across a network of computers.",
-  },
-  {
-    name: "Block",
-    definition: "A group of verified transactions added to a blockchain.",
-  },
-] as const;
-
-export default function CryptoGlossaryPage() {
-  const [activeLetter, setActiveLetter] = useState("B");
-  const [query, setQuery] = useState("");
-
-  const visibleTerms = useMemo(() => {
-    const normalizedQuery = query.trim().toLowerCase();
-
-    return terms.filter((term) => {
-      if (normalizedQuery) {
-        return (
-          term.name.toLowerCase().includes(normalizedQuery) ||
-          term.definition.toLowerCase().includes(normalizedQuery)
-        );
-      }
-
-      return term.name.startsWith(activeLetter);
-    });
-  }, [activeLetter, query]);
-
-  function selectLetter(letter: string) {
-    setActiveLetter(letter);
-    setQuery("");
-  }
-
+export default async function CryptoGlossaryPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string | string[]; letter?: string | string[] }>;
+}) {
+  const params = await searchParams;
+  const query =
+    typeof params.q === "string" ? params.q.trim().slice(0, 200) : "";
+  const letter =
+    typeof params.letter === "string" && /^[A-Z]$/.test(params.letter)
+      ? params.letter
+      : "";
+  const normalized = query.toLowerCase();
+  const visibleTerms = cryptoGlossaryEntries.filter((term) =>
+    normalized
+      ? term.name.toLowerCase().includes(normalized) ||
+        term.meanings.some((meaning) =>
+          meaning.definition.toLowerCase().includes(normalized),
+        )
+      : !letter || term.name.toUpperCase().startsWith(letter),
+  );
   return (
-    <main className={styles.page}>
+    <main className={styles.page} data-crypto-glossary>
+      {/* Reveal only this resolved glossary inside a streamed loading boundary
+          when scripting is disabled, as the approved lesson pages already do. */}
+      <noscript
+        dangerouslySetInnerHTML={{
+          __html: `<style>
+        @layer base {
+          [hidden]:has([data-crypto-glossary]) {
+            display: block !important;
+          }
+          body:has([data-crypto-glossary]) [data-route-loading] {
+            display: none !important;
+          }
+        }
+      </style>`,
+        }}
+      />
       <CompactHeader className={styles.header} section="Crypto Glossary" />
-
       <section className={styles.introduction}>
         <h1>Crypto Glossary</h1>
         <p>
-          Every cryptocurrency term used across the learning path, explained
-          plainly.
+          Definitions from the approved Crypto lessons, with links to read them
+          in context.
         </p>
-        <label className={styles.search}>
-          <span className={styles.srOnly}>Search cryptocurrency terms</span>
-          <input
-            type="search"
-            placeholder="Search terms…"
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-          />
-        </label>
-      </section>
-
-      <nav className={styles.alphabet} aria-label="Filter glossary by letter">
-        {alphabet.map((letter) => (
-          <button
-            type="button"
-            className={!query && activeLetter === letter ? styles.active : ""}
-            aria-pressed={!query && activeLetter === letter}
-            key={letter}
-            onClick={() => selectLetter(letter)}
-          >
-            {letter}
+        <form
+          action="/glossary/crypto"
+          method="get"
+          className={styles.search}
+          role="search"
+        >
+          <label>
+            <span className={styles.srOnly}>Search cryptocurrency terms</span>
+            <input
+              name="q"
+              type="search"
+              placeholder="Search terms…"
+              defaultValue={query}
+            />
+          </label>
+          <button type="submit" className={styles.searchButton}>
+            Search
           </button>
+        </form>
+      </section>
+      <nav className={styles.alphabet} aria-label="Filter glossary by letter">
+        <Link
+          href="/glossary/crypto"
+          aria-current={!query && !letter ? "page" : undefined}
+          className={!query && !letter ? styles.active : ""}
+        >
+          All
+        </Link>
+        {alphabet.map((item) => (
+          <Link
+            key={item}
+            href={`/glossary/crypto?letter=${item}`}
+            aria-current={!query && letter === item ? "page" : undefined}
+            className={!query && letter === item ? styles.active : ""}
+          >
+            {item}
+          </Link>
         ))}
       </nav>
-
-      <section className={styles.results} aria-live="polite">
-        <h2>{query ? "Search results" : activeLetter}</h2>
-        {visibleTerms.length > 0 ? (
+      <section
+        className={styles.results}
+        aria-labelledby="crypto-glossary-results"
+      >
+        <h2 id="crypto-glossary-results">
+          {query ? "Search results" : letter || "All terms"} ·{" "}
+          {visibleTerms.length} terms
+        </h2>
+        {visibleTerms.length ? (
           visibleTerms.map((term) => (
-            <article className={styles.term} key={term.name}>
+            <article className={styles.term} key={term.slug} id={term.slug}>
               <h3>{term.name}</h3>
-              <p>{term.definition}</p>
+              {term.meanings.map((meaning) => (
+                <div key={meaning.definition}>
+                  <p>{meaning.definition}</p>
+                  {meaning.lessons.length ? (
+                    <ul className={styles.lessonLinks}>
+                      {meaning.lessons.map((lesson) => (
+                        <li key={lesson.href}>
+                          <Link href={lesson.href}>
+                            Read in context: {lesson.title}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </div>
+              ))}
             </article>
           ))
         ) : (
           <PageState className={styles.emptyState}>
-            No terms are available under this filter yet.
+            No terms match this filter. Try another word or choose All.
           </PageState>
         )}
       </section>
-
       <CompactFooter className={styles.footer} />
     </main>
   );

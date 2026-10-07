@@ -317,10 +317,15 @@ const sections1: LessonSection[] = [
       },
       {
         type: "diagram",
-        alt: "The supplied 100 ETH and 200,000 quote-unit model, before fees. It is distinct from the smaller classroom model in the preceding step.",
+        alt: "A falling constant-product curve marks pool points A, B and C, with a close-up of the two trades.",
         caption:
           "The supplied 100 ETH and 200,000 quote-unit model, before fees. It is distinct from the smaller classroom model in the preceding step.",
         src: "/lessons/crypto/level-6/lesson-1-rId37.png",
+        description: [
+          "The illustrative pool has x × y = 20,000,000 with x in ETH and y in quote units labelled USDC. Point A is (100, 200,000).",
+          "Point B is (101, 198,019.80); point C is (110, 181,818.18), rounded. The inset contrasts the small A-to-B move with the larger A-to-C move.",
+          "The schematic labels approximately 1% and 9% impact; the comparison measure must be identified when calculating impact. Fees are ignored. This 100-ETH model differs from the smaller classroom example.",
+        ],
         width: 2156,
         height: 1363,
       },
@@ -665,10 +670,15 @@ const sections2: LessonSection[] = [
       },
       {
         type: "diagram",
-        alt: "The pool gains against initial cash yet trails holding by about USD 171.57, or 5.72 percent of the hold-only benchmark. No fees or costs are assumed.",
+        alt: "Three bars compare USD 2,000 initial assets, USD 2,828.43 pool value and USD 3,000 holding value.",
         caption:
           "The pool gains against initial cash yet trails holding by about USD 171.57, or 5.72 percent of the hold-only benchmark. No fees or costs are assumed.",
         src: "/lessons/crypto/level-6/lesson-2-rId38.png",
+        description: [
+          "Initial assets: USD 2,000. After the illustrated price doubles, pool value: approximately USD 2,828.43. Holding the original assets: USD 3,000.",
+          "The pool gains against initial cash but trails the hold-only benchmark by about USD 171.57, or 5.72%.",
+          "The comparison assumes no fees or costs.",
+        ],
         width: 1451,
         height: 642,
       },
@@ -1085,10 +1095,15 @@ const sections3: LessonSection[] = [
       },
       {
         type: "diagram",
-        alt: "With USD 500 debt and an 80 percent liquidation threshold, USD 625 collateral is the illustrated boundary. Real protocol rules and weighted inputs can differ.",
+        alt: "A rising health-factor line crosses a horizontal boundary at 1 when collateral reaches USD 625.",
         caption:
           "With USD 500 debt and an 80 percent liquidation threshold, USD 625 collateral is the illustrated boundary. Real protocol rules and weighted inputs can differ.",
         src: "/lessons/crypto/level-6/lesson-3-rId39.png",
+        description: [
+          "Horizontal axis: eligible collateral value in USD. Vertical axis: simplified health factor = collateral × 0.80 ÷ USD 500 debt.",
+          "Examples: USD 600 gives 0.96; USD 625 gives 1; USD 1,000 gives 1.6.",
+          "The dashed boundary is 1 under the supplied rule. Real weighted inputs and liquidation rules can differ.",
+        ],
         width: 1451,
         height: 655,
       },
@@ -1434,10 +1449,15 @@ const sections4: LessonSection[] = [
       },
       {
         type: "diagram",
-        alt: "Identify who funds each reward. Newly issued reward tokens have value only under their own market and transfer conditions.",
+        alt: "Five possible yield sources feed advertised yield; reward issuance and depositor money have warning styles.",
         caption:
           "Identify who funds each reward. Newly issued reward tokens have value only under their own market and transfer conditions.",
         src: "/lessons/crypto/level-6/lesson-4-rId40.png",
+        description: [
+          "Borrower interest, trader swap fees and blockchain staking rewards are shown as possible sources.",
+          "Minted reward tokens have a separate dashed path because their value depends on buyers and transfer conditions.",
+          "Depositors’ own money is a warning path. Identify who pays each reward; an advertised percentage does not establish its sustainability.",
+        ],
         width: 1980,
         height: 1286,
       },
@@ -1919,10 +1939,14 @@ const sections5: LessonSection[] = [
       },
       {
         type: "diagram",
-        alt: "Dependencies can fail together. A diagram is an inventory of questions, rather than a safety rating.",
+        alt: "Seven stacked dependency layers sit beneath a deposit, crossed by a failure path.",
         caption:
           "Dependencies can fail together. A diagram is an inventory of questions, rather than a safety rating.",
         src: "/lessons/crypto/level-6/lesson-5-rId41.png",
+        description: [
+          "From the bottom upward: blockchain outages or reorganisations; smart-contract bugs, upgrades or admin keys; oracle manipulation; stablecoin depegging; front-end or DNS hijacking; governance and treasury attacks; and the user’s approvals, signatures and settings.",
+          "A red path illustrates failure reaching the deposit through the stack. Layers can fail together; the diagram is an inventory for questions, not a safety score.",
+        ],
         width: 1980,
         height: 1318,
       },

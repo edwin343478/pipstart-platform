@@ -1116,10 +1116,15 @@ const sections2: LessonSection[] = [
       },
       {
         type: "diagram",
-        alt: "Ten million circulating units imply USD 20 million; a 100 million maximum basis implies USD 200 million. Neither value measures cash available for exit.",
+        alt: "Two horizontal bars compare USD 20 million circulating value with USD 200 million maximum-supply FDV.",
         caption:
           "Ten million circulating units imply USD 20 million; a 100 million maximum basis implies USD 200 million. Neither value measures cash available for exit.",
         src: "/lessons/crypto/level-5/lesson-2-rId36.png",
+        description: [
+          "At fictional USD 2 per token, 10 million circulating units give USD 20 million market capitalisation.",
+          "On a 100 million maximum-supply basis, fully diluted value is USD 200 million, ten times the circulating figure.",
+          "The horizontal axis is USD millions. Neither bar measures the cash available for selling a holding.",
+        ],
         width: 1455,
         height: 601,
       },

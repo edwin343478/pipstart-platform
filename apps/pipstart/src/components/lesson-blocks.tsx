@@ -276,11 +276,35 @@ export function LessonBlocks({
                 {block.caption ? (
                   <figcaption>{block.caption}</figcaption>
                 ) : null}
+                {block.description?.length ? (
+                  <div className={styles.diagramAid}>
+                    <a
+                      href={block.src}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Open original-size diagram: ${block.alt} (new tab)`}
+                    >
+                      Open diagram at original size ↗
+                    </a>
+                    <details className={styles.diagramDescription}>
+                      <summary>Read diagram as text</summary>
+                      {block.description.map((paragraph) => (
+                        <p key={paragraph}>{renderInlineText(paragraph)}</p>
+                      ))}
+                    </details>
+                  </div>
+                ) : null}
               </figure>
             );
           case "comparisonTable":
             return (
-              <div className={styles.tableScroller} key={key}>
+              <div
+                className={styles.tableScroller}
+                key={key}
+                role="region"
+                aria-label={block.caption ?? "Lesson comparison table"}
+                tabIndex={0}
+              >
                 <table>
                   {block.caption ? <caption>{block.caption}</caption> : null}
                   <thead>

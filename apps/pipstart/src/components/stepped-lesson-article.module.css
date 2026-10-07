@@ -29,6 +29,11 @@
   font-size: 0.75rem;
 }
 
+/* Meet the small-text contrast threshold on Crypto lesson backgrounds. */
+:global([data-learning-path="crypto"]) .breadcrumb {
+  color: #606b7a;
+}
+
 .eyebrowRow {
   display: flex;
   align-items: center;

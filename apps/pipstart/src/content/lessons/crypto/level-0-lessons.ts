@@ -272,9 +272,13 @@ const sections1: LessonSection[] = [
       {
         type: "diagram",
         src: "/lessons/crypto/level-0/lesson-1-rId15.png",
+        description: [
+          "Start with the example purchase: CAD 90 of groceries. Record it, share the entries with participants, then check them under agreed rules.",
+          "The lower boxes distinguish a family spreadsheet, where people can agree an edit, from a blockchain ledger, where network acceptance rules apply.",
+        ],
         width: 1187,
         height: 556,
-        alt: "A shared record is an analogy. The rules for accepting and correcting entries differ between a spreadsheet and a blockchain.",
+        alt: "A purchase record flows to sharing and rule checks, with separate spreadsheet and blockchain boxes.",
         caption:
           "A shared record is an analogy. The rules for accepting and correcting entries differ between a spreadsheet and a blockchain.",
       },
@@ -1277,9 +1281,14 @@ const sections3: LessonSection[] = [
       {
         type: "diagram",
         src: "/lessons/crypto/level-0/lesson-3-rId16.png",
+        description: [
+          "Market: price or demand changes.",
+          "Access: keys or a provider become unavailable.",
+          "Operation: the wrong route or permission causes loss. These branches identify different mechanisms, not mutually exclusive guarantees.",
+        ],
         width: 1187,
         height: 556,
-        alt: "Name the failure mechanism. One precaution does not address every branch, and asset or contract failures can affect several branches.",
+        alt: "A loss tree branches into market, access and operational failures.",
         caption:
           "Name the failure mechanism. One precaution does not address every branch, and asset or contract failures can affect several branches.",
       },
@@ -1713,9 +1722,13 @@ const sections4: LessonSection[] = [
       {
         type: "diagram",
         src: "/lessons/crypto/level-0/lesson-4-rId17.png",
+        description: [
+          "First contact → move to a private app → build trust → investment pitch → small deposit and an allowed early withdrawal → fake profits and pressure to add more → a claimed withdrawal fee or tax, then silence.",
+          "The image flags the private-app move and the small early withdrawal. A dashed branch marks a follow-up recovery scam promising to recover lost money for a fee.",
+        ],
         width: 1980,
         height: 1061,
-        alt: "A possible relationship-fraud sequence. An early withdrawal does not establish a genuine investment.",
+        alt: "Seven connected scam stages lead from first contact to a fake withdrawal fee; a later recovery scam branches off.",
         caption:
           "A possible relationship-fraud sequence. An early withdrawal does not establish a genuine investment.",
       },

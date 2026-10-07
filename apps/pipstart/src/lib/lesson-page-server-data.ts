@@ -1,4 +1,5 @@
 import "server-only";
+import { cryptoTermName, cryptoTermSlug } from "./crypto-learning-aids";
 import type { PublishedLesson } from "../content/lesson-registry";
 import { getCurriculumModule } from "./curriculum";
 import type { LessonPageClientProps, LessonTarget } from "./lesson-page-data";
@@ -46,6 +47,23 @@ export function prepareLessonPageData(props: {
       // Sectioned lessons render their approved sections; the flat fallback is unused.
       blocks: lesson.sections?.length ? [] : lesson.blocks,
       sections: lesson.sections,
+      ...(props.path === "crypto"
+        ? {
+            keyTerms: Array.from(
+              new Map(
+                lesson.blocks
+                  .filter((block) => block.type === "definition")
+                  .map((block) => [
+                    cryptoTermSlug(block.term),
+                    {
+                      name: cryptoTermName(block.term),
+                      href: `/glossary/crypto#${cryptoTermSlug(block.term)}`,
+                    },
+                  ]),
+              ).values(),
+            ),
+          }
+        : {}),
     },
     lessons: props.lessons
       .filter((item) => item.status === "published" && item.approved)

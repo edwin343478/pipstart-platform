@@ -271,10 +271,14 @@ const sections1: LessonSection[] = [
       },
       {
         type: "diagram",
-        alt: "A conceptual map of attention and expectations. It is not a price path or a timetable.",
+        alt: "A conceptual attention curve rises to euphoria, falls into disappointment and settles into productive use.",
         caption:
           "A conceptual map of attention and expectations. It is not a price path or a timetable.",
         src: "/lessons/crypto/level-9/lesson-1-rId50.png",
+        description: [
+          "Stages: innovation trigger (“curious”); peak of inflated expectations (“this time is different”); trough of disillusionment (“anxious, then disappointed”); slope of enlightenment (“quietly interested”); plateau of productivity (“bored, and it works”).",
+          "The vertical axis is attention and expectations; the horizontal axis is conceptual time. This is an emotional map, not a price path or timetable.",
+        ],
         width: 2376,
         height: 1360,
       },
@@ -592,10 +596,15 @@ const sections1: LessonSection[] = [
       },
       {
         type: "diagram",
-        alt: "A fictional move from about US$80 to US$20 requires 300% growth to regain the old number. The market owes no such recovery.",
+        alt: "A fictional coin peaks near USD 80, falls to about USD 20 and leaves a remembered-high reference line.",
         caption:
           "A fictional move from about US$80 to US$20 requires 300% growth to regain the old number. The market owes no such recovery.",
         src: "/lessons/crypto/level-9/lesson-1-rId51.png",
+        description: [
+          "The remembered old high is USD 80. Current illustrated price is about USD 20.",
+          "Returning from 20 to 80 requires (80 ÷ 20 − 1) × 100 = 300% growth.",
+          "The thought bubble says the holder will sell when price gets back to 80. The old high is a past observation, not a price owed by the market.",
+        ],
         width: 2463,
         height: 1374,
       },
@@ -1971,9 +1980,13 @@ const sections3: LessonSection[] = [
       },
       {
         type: "diagram",
-        alt: "Classroom illustration for Test Without Looking Ahead.",
+        alt: "Four testing steps run from defining a rule to independent holdout evaluation and forward observation.",
         caption: "Classroom illustration for Test Without Looking Ahead.",
         src: "/lessons/crypto/level-9/lesson-3-rId52.png",
+        description: [
+          "Write the rule and information-availability timing → separate development data → evaluate the holdout without retuning → observe forward and record limits.",
+          "Include feasibility, full costs, failed assets and every rule variation. A reused holdout no longer provides the same independent check.",
+        ],
         width: 1187,
         height: 486,
       },
@@ -2378,10 +2391,15 @@ const sections4: LessonSection[] = [
       },
       {
         type: "diagram",
-        alt: "The complete supplied net ledger peaks at USD 1,038 and ends at USD 950. Maximum observed closed-trade drawdown is about 8.48 percent; intratrade paths are not supplied.",
+        alt: "A ten-observation net-equity line is plotted beside its running peak, reaching USD 1,038 and ending at USD 950.",
         caption:
           "The complete supplied net ledger peaks at USD 1,038 and ends at USD 950. Maximum observed closed-trade drawdown is about 8.48 percent; intratrade paths are not supplied.",
         src: "/lessons/crypto/level-9/lesson-4-rId53.png",
+        description: [
+          "The supplied sequence from observation 0 through 10 is USD 1,000; 1,019; 1,038; 997; 1,016; 975; 994; 1,013; 972; 991; 950.",
+          "The running peak reaches USD 1,038 at observation 2 and remains there. Peak-to-final drawdown is (1,038 − 950) ÷ 1,038, about 8.48%.",
+          "This is closed-trade net equity from the supplied paper sample, not a complete intratrade path or live performance claim.",
+        ],
         width: 1451,
         height: 655,
       },
@@ -2539,10 +2557,15 @@ const sections4: LessonSection[] = [
       },
       {
         type: "diagram",
-        alt: "Review whether the rule was followed separately from whether the outcome gained or lost.",
+        alt: "A plan–act–record–review loop surrounds a two-by-two rule-following and gain/loss grid.",
         caption:
           "Review whether the rule was followed separately from whether the outcome gained or lost.",
         src: "/lessons/crypto/level-9/lesson-4-rId54.png",
+        description: [
+          "Plan: purpose, limits, permitted actions, security, research and circuit breakers. Act: follow the rules, or skip and pause.",
+          "Record: reasons, evidence, feelings and the plan check in a decision journal. Review: process first, outcome second; make one dated change at a time.",
+          "The centre grid separates rule followed or broken from gain or loss. A profitable rule break and a losing rule-following decision need different process judgments.",
+        ],
         width: 1980,
         height: 1286,
       },

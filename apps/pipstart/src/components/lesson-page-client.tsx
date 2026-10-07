@@ -183,6 +183,18 @@ export function LessonPageClient({
                 message={progress.message}
                 retry={progress.retry}
               />
+              {lesson.keyTerms?.length ? (
+                <details>
+                  <summary>Key terms in this lesson</summary>
+                  <ul>
+                    {lesson.keyTerms.map((term) => (
+                      <li key={term.href}>
+                        <Link href={term.href}>{term.name}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              ) : null}
               {lesson.objectives.length ? (
                 <details>
                   <summary>Learning objectives</summary>

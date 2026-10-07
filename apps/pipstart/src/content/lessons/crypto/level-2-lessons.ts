@@ -375,9 +375,14 @@ const sections1: LessonSection[] = [
       {
         type: "diagram",
         src: "/lessons/crypto/level-2/lesson-1-rId24.png",
+        description: [
+          "Hot/company-held: an exchange account. Hot/self-custody: mobile app, desktop app and browser extension.",
+          "Cold/company-held: company cold storage. Cold/self-custody: hardware wallet and a paper wallet marked risky.",
+          "A watch-only note says no private keys. Custody and online exposure are separate choices; a hardware wallet does not make every signature safe.",
+        ],
         width: 1670,
         height: 1702,
-        alt: "Custody and online exposure are separate dimensions. Offline signing does not make every approved action safe.",
+        alt: "A two-axis wallet grid separates company-held and self-held keys from hot and cold exposure.",
         caption:
           "Custody and online exposure are separate dimensions. Offline signing does not make every approved action safe.",
       },
@@ -968,9 +973,14 @@ const sections2: LessonSection[] = [
       {
         type: "diagram",
         src: "/lessons/crypto/level-2/lesson-2-rId25.png",
+        description: [
+          "The illustrative safer column shows a metal plate in a home safe, a sealed paper card in a locked drawer, and a second copy with a trusted relative or in a safe-deposit box.",
+          "The risky column shows a phone photo, cloud drive, email, notes app, password manager on a shared computer, desk sticky note and damp-basement paper.",
+          "These are comparisons, not blanket endorsements. Protect confidentiality and physical durability, test compatibility safely, and account for every required recovery component.",
+        ],
         width: 1980,
         height: 1574,
-        alt: "Illustrative storage choices for recovery material. Confidentiality, durability, compatibility and all required components must be considered.",
+        alt: "Two columns contrast offline backup locations with online, shared or fragile storage.",
         caption:
           "Illustrative storage choices for recovery material. Confidentiality, durability, compatibility and all required components must be considered.",
       },
@@ -1688,9 +1698,14 @@ const sections3: LessonSection[] = [
       {
         type: "diagram",
         src: "/lessons/crypto/level-2/lesson-3-rId26.png",
+        description: [
+          "Usual address: 0xd9A1b3F720c85e9D41aA7c06e2B893F51D4c7e3C. Look-alike: 0xd9A109aE6f1B3d85C2e47a90bF16d38Ec5A27e3C.",
+          "The shortened transaction history displays both as 0xd9A1…7e3C. A zero-value attacker transfer places the look-alike in the history.",
+          "Compare every character against an independently verified destination. These invented strings are not receiving instructions.",
+        ],
         width: 1980,
         height: 1288,
-        alt: "Illustrative strings, not receiving instructions. Short matching prefixes and suffixes do not establish the intended recipient.",
+        alt: "Two invented Ethereum-style addresses share their first six and last four characters but differ in the middle.",
         caption:
           "Illustrative strings, not receiving instructions. Short matching prefixes and suffixes do not establish the intended recipient.",
       },
@@ -1897,9 +1912,14 @@ const sections3: LessonSection[] = [
       {
         type: "diagram",
         src: "/lessons/crypto/level-2/lesson-3-rId27.png",
+        description: [
+          "Check the exact asset and contract; the supported network on both sides; and the recipient address verified independently.",
+          "Check any memo or tag and minimum; amount, decimals and native fee asset; then a valid test followed by a fresh check of the actual action.",
+          "A matching format or a successful earlier transfer cannot replace the full checklist.",
+        ],
         width: 1187,
         height: 611,
-        alt: "Use the entire checklist. A matching address format or successful earlier test is insufficient by itself.",
+        alt: "Six transfer checks sit below a before-signing heading.",
         caption:
           "Use the entire checklist. A matching address format or successful earlier test is insufficient by itself.",
       },
@@ -2316,9 +2336,14 @@ const sections4: LessonSection[] = [
       {
         type: "diagram",
         src: "/lessons/crypto/level-2/lesson-4-rId28.png",
+        description: [
+          "Interface connection makes the account visible and permits requests. Disconnect changes that site connection.",
+          "An on-chain allowance grants a spender specified authority. Revoke changes the relevant permission, using its actual mechanism.",
+          "Neither action repairs a leaked signing secret.",
+        ],
         width: 1187,
         height: 583,
-        alt: "Connection and spending authority are separate. Revocation must match the actual permission mechanism.",
+        alt: "Two separate paths pair interface connection with disconnect, and on-chain allowance with revoke.",
         caption:
           "Connection and spending authority are separate. Revocation must match the actual permission mechanism.",
       },
@@ -2598,9 +2623,14 @@ const sections5: LessonSection[] = [
       {
         type: "diagram",
         src: "/lessons/crypto/level-2/lesson-5-rId29.png",
+        description: [
+          "Pause and diagnose first.",
+          "Leaked signing secret: fresh independent authority and a clean environment. Unwanted permission: verified scope review and cancellation. Provider account breach: official containment and recovery-chain security.",
+          "The diagram is a response map, not a recovery guarantee. Suspected sweepers make blindly adding fee funds unsafe.",
+        ],
         width: 1187,
         height: 611,
-        alt: "Diagnosis guides the response. Suspected sweepers make blindly adding fee funds unsafe; recovery is not guaranteed.",
+        alt: "An exposure-response tree branches into signing-secret leakage, unwanted permission and provider-account breach.",
         caption:
           "Diagnosis guides the response. Suspected sweepers make blindly adding fee funds unsafe; recovery is not guaranteed.",
       },

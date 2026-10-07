@@ -335,9 +335,14 @@ const sections1: LessonSection[] = [
       {
         type: "diagram",
         src: "/lessons/crypto/level-1/lesson-1-rId18.png",
+        description: [
+          "31 October 2008: white paper. 3 January 2009: genesis block. 12 January 2009: transaction to Hal Finney in block 170. 22 May 2010: 10,000 BTC for two pizzas. Late 2010: Satoshi steps away.",
+          "The halving milestones are November 2012, July 2016, May 2020 and April 2024. January 2024 marks US spot bitcoin ETP approval.",
+          "The genesis-block newspaper message reads: The Times 03/Jan/2009 Chancellor on brink of second bailout for banks. Spacing is schematic; no price path is shown.",
+        ],
         width: 1980,
         height: 1272,
-        alt: "Selected historical milestones. Dates are historical; the spacing is schematic and shows no price forecast.",
+        alt: "A 2008–2024 timeline alternates Bitcoin milestones and four subsidy halvings.",
         caption:
           "Selected historical milestones. Dates are historical; the spacing is schematic and shows no price forecast.",
       },
@@ -719,9 +724,13 @@ const sections2: LessonSection[] = [
       {
         type: "diagram",
         src: "/lessons/crypto/level-1/lesson-2-rId19.png",
+        description: [
+          "The top row links three invented-height blocks. Each displays a previous hash, a Merkle root, its own hash and transactions.",
+          "In the lower row, editing transaction B in block 101 changes its Merkle root and hash. Crossed links show the recorded previous-hash references no longer matching. Later references must be rebuilt and all validity and accumulated-work requirements still met.",
+        ],
         width: 1980,
         height: 1542,
-        alt: "Changing recorded data alters the later references. Validity checks and accumulated work are also required.",
+        alt: "Normal blocks 101–103 are compared with a chain after a transaction in block 101 changes.",
         caption:
           "Changing recorded data alters the later references. Validity checks and accumulated work are also required.",
       },
@@ -1034,9 +1043,14 @@ const sections2: LessonSection[] = [
       {
         type: "diagram",
         src: "/lessons/crypto/level-1/lesson-2-rId20.png",
+        description: [
+          "The miner icons differ in machine count. Each dot represents another hash attempt with a new nonce.",
+          "A candidate below the target is highlighted and connected to checking nodes. The picture’s phrase valid block refers only to this proof-of-work test; the nodes must also check the other consensus rules.",
+          "The difficulty dial represents adjustment every 2,016 blocks. It does not select a miner or promise a winning time.",
+        ],
         width: 1980,
         height: 1318,
-        alt: "A schematic guessing race. A valid hash is only one of the checks required for an accepted block.",
+        alt: "Miners A–E send nonce guesses toward a target; nodes check a winning candidate and a difficulty dial adjusts the target.",
         caption:
           "A schematic guessing race. A valid hash is only one of the checks required for an accepted block.",
       },
@@ -1507,9 +1521,14 @@ const sections3: LessonSection[] = [
       {
         type: "diagram",
         src: "/lessons/crypto/level-1/lesson-3-rId21.png",
+        description: [
+          "Input consumed: 0.0100 BTC.",
+          "Recipient output: 0.0030 BTC. Change output: 0.0068 BTC.",
+          "The outputs total 0.0098 BTC. Input minus outputs leaves a 0.0002 BTC fee; the fee is a difference, not an extra spendable output.",
+        ],
         width: 1187,
         height: 556,
-        alt: "The input is fully consumed. Recipient and change outputs total 0.0098 BTC, leaving 0.0002 BTC as the fee.",
+        alt: "A 0.0100 BTC input branches into recipient and change outputs, with a separate fee difference.",
         caption:
           "The input is fully consumed. Recipient and change outputs total 0.0098 BTC, leaving 0.0002 BTC as the fee.",
       },
@@ -1826,9 +1845,14 @@ const sections4: LessonSection[] = [
       {
         type: "diagram",
         src: "/lessons/crypto/level-1/lesson-4-rId22.png",
+        description: [
+          "Wallet: build and sign the payment using the private key. Broadcast: send the transaction to nodes.",
+          "Mempool: each node maintains its own waiting list; the illustration contrasts higher- and lower-fee transactions without promising queue order.",
+          "Block: a miner includes the transaction in a candidate block that the network must accept. Confirmations: inclusion counts as one confirmation, with later blocks adding depth. Provider credit has separate requirements.",
+        ],
         width: 1980,
         height: 1125,
-        alt: "Broadcast, mempool, inclusion and confirmations are separate stages. Provider credit follows its own rules.",
+        alt: "Five panels show a signed payment, node broadcast, mempool, block inclusion and stacking confirmations.",
         caption:
           "Broadcast, mempool, inclusion and confirmations are separate stages. Provider credit follows its own rules.",
       },
@@ -2591,9 +2615,14 @@ const sections5: LessonSection[] = [
       {
         type: "diagram",
         src: "/lessons/crypto/level-1/lesson-5-rId23.png",
+        description: [
+          "Block heights and subsidy per block: 0 → 50 BTC; 210,000 → 25; 420,000 → 12.5; 630,000 → 6.25; 840,000 → 3.125; 1,050,000 → 1.5625.",
+          "The first five eras began in January 2009, November 2012, July 2016, May 2020 and April 2024. The next calendar estimate shown is around 2028.",
+          "The note places zero subsidy around block 6,930,000, approximately 2140. Halving follows block height; future dates are estimates and no price information is shown.",
+        ],
         width: 2136,
         height: 1379,
-        alt: "Subsidy by block height. Future calendar dates are estimates, and total issuance also depends on integer-unit rules and claimed rewards.",
+        alt: "A descending staircase plots block subsidy from 50 BTC to 1.5625 BTC against block height.",
         caption:
           "Subsidy by block height. Future calendar dates are estimates, and total issuance also depends on integer-unit rules and claimed rewards.",
       },

@@ -1037,9 +1037,14 @@ const sections2: LessonSection[] = [
       {
         type: "diagram",
         src: "/lessons/crypto/level-3/lesson-2-rId30.png",
+        description: [
+          "Fictional available asks: GBP 100 has 2 units; GBP 101 has 3 units; GBP 103 has 5 units.",
+          "Buying 4 units consumes 2 × GBP 100 plus 2 × GBP 101 = GBP 402, averaging GBP 100.50 per unit before fees.",
+          "The illustration assumes displayed depth stays available. Real orders can cancel or move before a fill.",
+        ],
         width: 1451,
         height: 672,
-        alt: "A four-unit purchase uses two units at GBP 100 and two at GBP 101. Displayed depth is fictional and assumed unchanged.",
+        alt: "Three ask-depth bars show 2 units at GBP 100, 3 at GBP 101 and 5 at GBP 103.",
         caption:
           "A four-unit purchase uses two units at GBP 100 and two at GBP 101. Displayed depth is fictional and assumed unchanged.",
       },
@@ -1906,9 +1911,14 @@ const sections4: LessonSection[] = [
       {
         type: "diagram",
         src: "/lessons/crypto/level-3/lesson-4-rId31.png",
+        description: [
+          "In this simplified arrangement, the customer sends USD 100 to the issuer, which mints 100 tokens. Eligible redemption returns 100 tokens for burning and USD 100 payment.",
+          "The reserve box lists cash, bank deposits and short-term government bonds. Most holders trade through exchanges rather than redeeming directly.",
+          "Marked failures: reserves lose value or freeze; the reserve bank fails; the issuer halts redemption or is insolvent; or exchange panic selling pushes price below USD 1.",
+        ],
         width: 2036,
         height: 1350,
-        alt: "A simplified fiat-reserve arrangement. Direct issuer redemption is available only to eligible holders under the actual terms.",
+        alt: "Customer-to-issuer mint and burn arrows sit beside a reserve box, exchange market and four failure points.",
         caption:
           "A simplified fiat-reserve arrangement. Direct issuer redemption is available only to eligible holders under the actual terms.",
       },
@@ -1970,9 +1980,13 @@ const sections4: LessonSection[] = [
       {
         type: "diagram",
         src: "/lessons/crypto/level-3/lesson-4-rId32.png",
+        description: [
+          "Target: USD 1 per token. Market sale: the current executable bid. Issuer redemption: eligibility and actual terms.",
+          "A lower box requires separate checks of backing, access, issuer powers and token representation. None automatically provides bank deposit protection.",
+        ],
         width: 1187,
         height: 556,
-        alt: "The peg target, market sale and issuer redemption are distinct. None creates automatic bank deposit protection.",
+        alt: "Three boxes distinguish a USD 1 target, an executable market bid and conditional issuer redemption.",
         caption:
           "The peg target, market sale and issuer redemption are distinct. None creates automatic bank deposit protection.",
       },

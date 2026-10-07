@@ -253,10 +253,15 @@ const sections1: LessonSection[] = [
       },
       {
         type: "diagram",
-        alt: "The body spans open to close; wicks show the full high-low range. The candle does not reveal every intrainterval trade sequence.",
+        alt: "One rising candle has open 100, close 104, high 108 and low 97 in USD per practice unit.",
         caption:
           "The body spans open to close; wicks show the full high-low range. The candle does not reveal every intrainterval trade sequence.",
         src: "/lessons/crypto/level-7/lesson-1-rId42.png",
+        description: [
+          "The body runs from the USD 100 open to the USD 104 close.",
+          "The upper wick reaches USD 108; the lower wick reaches USD 97.",
+          "This is one fictional completed interval. The candle does not show the order of every trade within it.",
+        ],
         width: 1451,
         height: 657,
       },
@@ -636,10 +641,15 @@ const sections2: LessonSection[] = [
       },
       {
         type: "diagram",
-        alt: "Fictional indicated values. Bitcoin stays at US$2 trillion while the selected total changes, so its share falls.",
+        alt: "Two market-share pies keep Bitcoin at USD 2 trillion while the selected total rises from USD 3.5 to USD 4 trillion.",
         caption:
           "Fictional indicated values. Bitcoin stays at US$2 trillion while the selected total changes, so its share falls.",
         src: "/lessons/crypto/level-7/lesson-2-rId43.png",
+        description: [
+          "Before: Bitcoin 2.0, Ether 0.5, stablecoins 0.3 and others 0.7, all in USD trillions. Total 3.5; Bitcoin share about 57.1%.",
+          "Later: Bitcoin 2.0, Ether 0.5, stablecoins 0.6 and others 0.9. Total 4.0; Bitcoin share 50%.",
+          "The picture rounds the first Bitcoin share to 57%. The changing denominator reduces the share although the indicated Bitcoin value stays unchanged.",
+        ],
         width: 2156,
         height: 1145,
       },
@@ -1466,10 +1476,15 @@ const sections3: LessonSection[] = [
       },
       {
         type: "diagram",
-        alt: "A feedback mechanism in a fictional sell-off. Reported events and estimated liquidation levels are different forms of data.",
+        alt: "A price shock enters a four-stage liquidation loop with a separate market-maker withdrawal note.",
         caption:
           "A feedback mechanism in a fictional sell-off. Reported events and estimated liquidation levels are different forms of data.",
         src: "/lessons/crypto/level-7/lesson-3-rId44.png",
+        description: [
+          "News shock lowers price → leveraged longs reach maintenance margin → the exchange force-sells positions → extra selling meets thin order books → price falls further.",
+          "Market makers may step back, spreads may widen and prices may differ across exchanges. The loop can slow when forced sellers run out or buyers return.",
+          "This is a fictional feedback mechanism. Reported liquidation events and estimated liquidation levels are different data.",
+        ],
         width: 1980,
         height: 1254,
       },
@@ -1764,10 +1779,15 @@ const sections4: LessonSection[] = [
       },
       {
         type: "diagram",
-        alt: "Several addresses can serve one person; one service address can serve many people. Address counts cannot directly count users.",
+        alt: "Priya connects to five addresses on the left; one exchange address connects to twenty customers on the right.",
         caption:
           "Several addresses can serve one person; one service address can serve many people. Address counts cannot directly count users.",
         src: "/lessons/crypto/level-7/lesson-4-rId45.png",
+        description: [
+          "One person can use receiving addresses 1–3, a change address and a savings address.",
+          "One service address can represent many customers; the image draws twenty exchange customers.",
+          "Counting addresses can therefore overcount people in one setting and undercount them in another. It cannot directly count users.",
+        ],
         width: 1980,
         height: 1254,
       },
