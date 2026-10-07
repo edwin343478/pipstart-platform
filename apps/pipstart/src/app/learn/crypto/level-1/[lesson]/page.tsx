@@ -2,12 +2,16 @@ import { notFound } from "next/navigation";
 
 import { createDynamicMetadata } from "../../../../../lib/seo";
 import { CryptoLessonPage } from "../crypto-lesson";
-import { cryptoLessons, getCryptoLesson } from "../lessons";
+import { cryptoLessons } from "../lessons";
+import {
+  getSecondaryLesson,
+  getSecondaryLessonParams,
+} from "../../../../../lib/secondary-lesson-routing";
 
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return cryptoLessons.slice(1).map((lesson) => ({ lesson: lesson.slug }));
+  return getSecondaryLessonParams(cryptoLessons);
 }
 
 type CryptoLessonRouteProps = {
@@ -16,8 +20,8 @@ type CryptoLessonRouteProps = {
 
 export async function generateMetadata({ params }: CryptoLessonRouteProps) {
   const { lesson: lessonSlug } = await params;
-  const lesson = getCryptoLesson(lessonSlug);
-  if (!lesson || lesson.position === 1) return {};
+  const lesson = getSecondaryLesson(cryptoLessons, lessonSlug);
+  if (!lesson) return {};
 
   return createDynamicMetadata({
     path: lesson.href,
@@ -30,8 +34,8 @@ export default async function CryptoLessonRoute({
   params,
 }: CryptoLessonRouteProps) {
   const { lesson: lessonSlug } = await params;
-  const lesson = getCryptoLesson(lessonSlug);
-  if (!lesson || lesson.position === 1) notFound();
+  const lesson = getSecondaryLesson(cryptoLessons, lessonSlug);
+  if (!lesson) notFound();
 
   return <CryptoLessonPage lesson={lesson} />;
 }

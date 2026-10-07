@@ -1,0 +1,1590 @@
+{
+  "contexts": [
+    {
+      "path": "crypto",
+      "course": "crypto-orientation",
+      "module": "crypto-orientation-and-safety",
+      "context": {
+        "course": {
+          "id": "crypto-orientation",
+          "title": "Orientation and Safety",
+          "href": "/learn/crypto/level-0/crypto-orientation"
+        },
+        "module": {
+          "id": "crypto-orientation-and-safety",
+          "title": "Crypto Orientation and Safety",
+          "href": "/learn/crypto/level-0/crypto-orientation/crypto-orientation-and-safety"
+        },
+        "quiz": {
+          "id": "crypto-orientation-quiz",
+          "title": "Crypto Orientation and Safety quiz",
+          "href": "/learn/crypto/level-0/quiz"
+        },
+        "lessons": [
+          {
+            "id": "crypto-start-here",
+            "title": "Start Here and Understand Cryptocurrency",
+            "href": "/learn/crypto/level-0"
+          },
+          {
+            "id": "crypto-using-owning-investing-trading",
+            "title": "Using, Owning, Investing and Trading Crypto",
+            "href": "/learn/crypto/level-0/crypto-using-owning-investing-trading"
+          },
+          {
+            "id": "crypto-loss-and-risk",
+            "title": "Understand the Different Ways Money Can Be Lost",
+            "href": "/learn/crypto/level-0/crypto-loss-and-risk"
+          },
+          {
+            "id": "crypto-scams-and-safe-learning",
+            "title": "Spot Scams and Build a Safe Learning Routine",
+            "href": "/learn/crypto/level-0/crypto-scams-and-safe-learning"
+          }
+        ],
+        "lessonIds": [
+          "crypto-start-here",
+          "crypto-using-owning-investing-trading",
+          "crypto-loss-and-risk",
+          "crypto-scams-and-safe-learning"
+        ],
+        "levelLabel": "Level 0",
+        "progressKey": "pipstart:learn:crypto:level-0:crypto-orientation:progress"
+      }
+    },
+    {
+      "path": "crypto",
+      "course": "bitcoin",
+      "module": "bitcoin-foundations",
+      "context": {
+        "course": {
+          "id": "bitcoin",
+          "title": "Bitcoin and Shared Ledgers",
+          "href": "/learn/crypto/level-1/bitcoin"
+        },
+        "module": {
+          "id": "bitcoin-foundations",
+          "title": "Bitcoin Foundations",
+          "href": "/learn/crypto/level-1/bitcoin/bitcoin-foundations"
+        },
+        "quiz": {
+          "id": "bitcoin-foundations-quiz",
+          "title": "Bitcoin and Shared Ledgers quiz",
+          "href": "/learn/crypto/level-1/quiz"
+        },
+        "lessons": [
+          {
+            "id": "what-is-bitcoin",
+            "title": "What Is Bitcoin",
+            "href": "/learn/crypto/level-1"
+          },
+          {
+            "id": "shared-ledger-checks-and-security",
+            "title": "How a Shared Ledger Is Checked and Secured",
+            "href": "/learn/crypto/level-1/shared-ledger-checks-and-security"
+          },
+          {
+            "id": "keys-signatures-and-bitcoin-transactions",
+            "title": "Keys, Signatures and Bitcoin Transactions",
+            "href": "/learn/crypto/level-1/keys-signatures-and-bitcoin-transactions"
+          },
+          {
+            "id": "mining-fees-confirmations-and-finality",
+            "title": "Mining, Fees, Confirmations and Finality",
+            "href": "/learn/crypto/level-1/mining-fees-confirmations-and-finality"
+          },
+          {
+            "id": "bitcoin-supply-halvings-and-claims",
+            "title": "Supply, Halvings and Common Bitcoin Claims",
+            "href": "/learn/crypto/level-1/bitcoin-supply-halvings-and-claims"
+          }
+        ],
+        "lessonIds": [
+          "what-is-bitcoin",
+          "shared-ledger-checks-and-security",
+          "keys-signatures-and-bitcoin-transactions",
+          "mining-fees-confirmations-and-finality",
+          "bitcoin-supply-halvings-and-claims"
+        ],
+        "levelLabel": "Level 1",
+        "progressKey": "pipstart:learn:crypto:level-1:progress"
+      }
+    },
+    {
+      "path": "crypto",
+      "course": "wallets-and-security",
+      "module": "wallet-and-personal-security",
+      "context": {
+        "course": {
+          "id": "wallets-and-security",
+          "title": "Wallets and Personal Security",
+          "href": "/learn/crypto/level-2/wallets-and-security"
+        },
+        "module": {
+          "id": "wallet-and-personal-security",
+          "title": "Wallets and Personal Security",
+          "href": "/learn/crypto/level-2/wallets-and-security/wallet-and-personal-security"
+        },
+        "quiz": {
+          "id": "crypto-wallet-security-quiz",
+          "title": "Wallets and Personal Security quiz",
+          "href": "/learn/crypto/level-2/quiz"
+        },
+        "lessons": [
+          {
+            "id": "what-a-wallet-controls",
+            "title": "What a Wallet Controls and Who Holds the Keys",
+            "href": "/learn/crypto/level-2"
+          },
+          {
+            "id": "protect-recovery-material-and-accounts",
+            "title": "Protect Recovery Material and Secure Accounts",
+            "href": "/learn/crypto/level-2/protect-recovery-material-and-accounts"
+          },
+          {
+            "id": "check-a-crypto-transfer",
+            "title": "Check a Transfer Before You Send",
+            "href": "/learn/crypto/level-2/check-a-crypto-transfer"
+          },
+          {
+            "id": "connections-signatures-and-token-permissions",
+            "title": "Connections, Signatures and Token Permissions",
+            "href": "/learn/crypto/level-2/connections-signatures-and-token-permissions"
+          },
+          {
+            "id": "respond-to-a-crypto-compromise",
+            "title": "Respond to a Suspected Compromise",
+            "href": "/learn/crypto/level-2/respond-to-a-crypto-compromise"
+          }
+        ],
+        "lessonIds": [
+          "what-a-wallet-controls",
+          "protect-recovery-material-and-accounts",
+          "check-a-crypto-transfer",
+          "connections-signatures-and-token-permissions",
+          "respond-to-a-crypto-compromise"
+        ],
+        "levelLabel": "Level 2",
+        "progressKey": "pipstart:learn:crypto:level-2:wallets-and-security:progress"
+      }
+    },
+    {
+      "path": "crypto",
+      "course": "crypto-exchanges-and-markets",
+      "module": "exchanges-stablecoins-and-orders",
+      "context": {
+        "course": {
+          "id": "crypto-exchanges-and-markets",
+          "title": "Exchanges, Stablecoins and Market Orders",
+          "href": "/learn/crypto/level-3/crypto-exchanges-and-markets"
+        },
+        "module": {
+          "id": "exchanges-stablecoins-and-orders",
+          "title": "Exchanges, Stablecoins and Market Orders",
+          "href": "/learn/crypto/level-3/crypto-exchanges-and-markets/exchanges-stablecoins-and-orders"
+        },
+        "quiz": {
+          "id": "crypto-exchange-markets-quiz",
+          "title": "Exchanges Stablecoins and Market Orders quiz",
+          "href": "/learn/crypto/level-3/quiz"
+        },
+        "lessons": [
+          {
+            "id": "choose-a-crypto-exchange-service",
+            "title": "Choose an Exchange Service by What It Does",
+            "href": "/learn/crypto/level-3"
+          },
+          {
+            "id": "read-a-spot-market-and-order-book",
+            "title": "Read a Spot Market and an Order Book",
+            "href": "/learn/crypto/level-3/read-a-spot-market-and-order-book"
+          },
+          {
+            "id": "crypto-orders-fees-and-execution-costs",
+            "title": "Orders, Fees and the Cost of Execution",
+            "href": "/learn/crypto/level-3/crypto-orders-fees-and-execution-costs"
+          },
+          {
+            "id": "stablecoins-and-peg-promises",
+            "title": "Stablecoins and What the Peg Promises",
+            "href": "/learn/crypto/level-3/stablecoins-and-peg-promises"
+          },
+          {
+            "id": "crypto-deposits-withdrawals-and-exchange-failure",
+            "title": "Deposits, Withdrawals and Exchange Failure",
+            "href": "/learn/crypto/level-3/crypto-deposits-withdrawals-and-exchange-failure"
+          }
+        ],
+        "lessonIds": [
+          "choose-a-crypto-exchange-service",
+          "read-a-spot-market-and-order-book",
+          "crypto-orders-fees-and-execution-costs",
+          "stablecoins-and-peg-promises",
+          "crypto-deposits-withdrawals-and-exchange-failure"
+        ],
+        "levelLabel": "Level 3",
+        "progressKey": "pipstart:learn:crypto:level-3:crypto-exchanges-and-markets:progress"
+      }
+    },
+    {
+      "path": "crypto",
+      "course": "crypto-ethereum-and-networks",
+      "module": "ethereum-contracts-and-connected-networks",
+      "context": {
+        "course": {
+          "id": "crypto-ethereum-and-networks",
+          "title": "Ethereum, Contracts and Connected Networks",
+          "href": "/learn/crypto/level-4/crypto-ethereum-and-networks"
+        },
+        "module": {
+          "id": "ethereum-contracts-and-connected-networks",
+          "title": "Ethereum, Contracts and Connected Networks",
+          "href": "/learn/crypto/level-4/crypto-ethereum-and-networks/ethereum-contracts-and-connected-networks"
+        },
+        "quiz": {
+          "id": "crypto-ethereum-networks-quiz",
+          "title": "Ethereum Contracts and Connected Networks quiz",
+          "href": "/learn/crypto/level-4/quiz"
+        },
+        "lessons": [
+          {
+            "id": "ethereum-ether-and-proof-of-stake",
+            "title": "Ethereum, Ether and Proof of Stake",
+            "href": "/learn/crypto/level-4"
+          },
+          {
+            "id": "smart-contracts-applications-and-outside-data",
+            "title": "Smart Contracts, Applications and Outside Data",
+            "href": "/learn/crypto/level-4/smart-contracts-applications-and-outside-data"
+          },
+          {
+            "id": "gas-transactions-and-failed-attempts",
+            "title": "Gas, Transactions and Failed Attempts",
+            "href": "/learn/crypto/level-4/gas-transactions-and-failed-attempts"
+          },
+          {
+            "id": "tokens-standards-nfts-and-asset-identity",
+            "title": "Tokens, Standards, NFTs and Asset Identity",
+            "href": "/learn/crypto/level-4/tokens-standards-nfts-and-asset-identity"
+          },
+          {
+            "id": "layer-one-layer-two-and-bridges",
+            "title": "Layer One, Layer Two and Bridges",
+            "href": "/learn/crypto/level-4/layer-one-layer-two-and-bridges"
+          }
+        ],
+        "lessonIds": [
+          "ethereum-ether-and-proof-of-stake",
+          "smart-contracts-applications-and-outside-data",
+          "gas-transactions-and-failed-attempts",
+          "tokens-standards-nfts-and-asset-identity",
+          "layer-one-layer-two-and-bridges"
+        ],
+        "levelLabel": "Level 4",
+        "progressKey": "pipstart:learn:crypto:level-4:crypto-ethereum-and-networks:progress"
+      }
+    },
+    {
+      "path": "crypto",
+      "course": "crypto-tokens-and-research",
+      "module": "token-supply-and-research",
+      "context": {
+        "course": {
+          "id": "crypto-tokens-and-research",
+          "title": "Tokens, Supply and Research",
+          "href": "/learn/crypto/level-5/crypto-tokens-and-research"
+        },
+        "module": {
+          "id": "token-supply-and-research",
+          "title": "Tokens, Supply and Research",
+          "href": "/learn/crypto/level-5/crypto-tokens-and-research/token-supply-and-research"
+        },
+        "quiz": {
+          "id": "crypto-token-research-quiz",
+          "title": "Tokens Supply and Research quiz",
+          "href": "/learn/crypto/level-5/quiz"
+        },
+        "lessons": [
+          {
+            "id": "altcoins-utility-governance-and-hype",
+            "title": "Altcoins, Utility, Governance and Hype",
+            "href": "/learn/crypto/level-5"
+          },
+          {
+            "id": "supply-market-capitalisation-and-fully-diluted-value",
+            "title": "Supply, Market Capitalisation and Fully Diluted Value",
+            "href": "/learn/crypto/level-5/supply-market-capitalisation-and-fully-diluted-value"
+          },
+          {
+            "id": "allocations-vesting-unlocks-and-control",
+            "title": "Allocations, Vesting, Unlocks and Control",
+            "href": "/learn/crypto/level-5/allocations-vesting-unlocks-and-control"
+          },
+          {
+            "id": "build-a-token-dossier-and-check-liquidity",
+            "title": "Build a Token Dossier and Check Liquidity",
+            "href": "/learn/crypto/level-5/build-a-token-dossier-and-check-liquidity"
+          }
+        ],
+        "lessonIds": [
+          "altcoins-utility-governance-and-hype",
+          "supply-market-capitalisation-and-fully-diluted-value",
+          "allocations-vesting-unlocks-and-control",
+          "build-a-token-dossier-and-check-liquidity"
+        ],
+        "levelLabel": "Level 5",
+        "progressKey": "pipstart:learn:crypto:level-5:crypto-tokens-and-research:progress"
+      }
+    },
+    {
+      "path": "crypto",
+      "course": "crypto-defi-foundations",
+      "module": "defi-liquidity-lending-and-rewards",
+      "context": {
+        "course": {
+          "id": "crypto-defi-foundations",
+          "title": "DeFi: Liquidity, Lending and Rewards",
+          "href": "/learn/crypto/level-6/crypto-defi-foundations"
+        },
+        "module": {
+          "id": "defi-liquidity-lending-and-rewards",
+          "title": "DeFi: Liquidity, Lending and Rewards",
+          "href": "/learn/crypto/level-6/crypto-defi-foundations/defi-liquidity-lending-and-rewards"
+        },
+        "quiz": {
+          "id": "crypto-defi-foundations-quiz",
+          "title": "DeFi Liquidity Lending and Rewards quiz",
+          "href": "/learn/crypto/level-6/quiz"
+        },
+        "lessons": [
+          {
+            "id": "decentralised-exchanges-pools-and-swaps",
+            "title": "Decentralised Exchanges, Pools and Swaps",
+            "href": "/learn/crypto/level-6"
+          },
+          {
+            "id": "liquidity-provision-and-impermanent-loss",
+            "title": "Liquidity Provision and Impermanent Loss",
+            "href": "/learn/crypto/level-6/liquidity-provision-and-impermanent-loss"
+          },
+          {
+            "id": "lending-borrowing-collateral-and-liquidation",
+            "title": "Lending, Borrowing, Collateral and Liquidation",
+            "href": "/learn/crypto/level-6/lending-borrowing-collateral-and-liquidation"
+          },
+          {
+            "id": "staking-yield-and-the-source-of-rewards",
+            "title": "Staking, Yield and the Source of Rewards",
+            "href": "/learn/crypto/level-6/staking-yield-and-the-source-of-rewards"
+          },
+          {
+            "id": "defi-dependencies-stablecoins-and-governance",
+            "title": "DeFi Dependencies, Stablecoins and Governance",
+            "href": "/learn/crypto/level-6/defi-dependencies-stablecoins-and-governance"
+          }
+        ],
+        "lessonIds": [
+          "decentralised-exchanges-pools-and-swaps",
+          "liquidity-provision-and-impermanent-loss",
+          "lending-borrowing-collateral-and-liquidation",
+          "staking-yield-and-the-source-of-rewards",
+          "defi-dependencies-stablecoins-and-governance"
+        ],
+        "levelLabel": "Level 6",
+        "progressKey": "pipstart:learn:crypto:level-6:crypto-defi-foundations:progress"
+      }
+    },
+    {
+      "path": "crypto",
+      "course": "crypto-charts-and-evidence",
+      "module": "charts-market-context-and-evidence",
+      "context": {
+        "course": {
+          "id": "crypto-charts-and-evidence",
+          "title": "Charts, Market Context and Evidence",
+          "href": "/learn/crypto/level-7/crypto-charts-and-evidence"
+        },
+        "module": {
+          "id": "charts-market-context-and-evidence",
+          "title": "Charts, Market Context and Evidence",
+          "href": "/learn/crypto/level-7/crypto-charts-and-evidence/charts-market-context-and-evidence"
+        },
+        "quiz": {
+          "id": "crypto-charts-and-evidence-quiz",
+          "title": "Charts Market Context and Evidence quiz",
+          "href": "/learn/crypto/level-7/quiz"
+        },
+        "lessons": [
+          {
+            "id": "read-charts-and-describe-price-structure",
+            "title": "Read Charts and Describe Price Structure",
+            "href": "/learn/crypto/level-7"
+          },
+          {
+            "id": "cycles-dominance-and-market-context",
+            "title": "Cycles, Dominance and Market Context",
+            "href": "/learn/crypto/level-7/cycles-dominance-and-market-context"
+          },
+          {
+            "id": "derivatives-funding-open-interest-and-liquidations",
+            "title": "Derivatives, Funding, Open Interest and Liquidations",
+            "href": "/learn/crypto/level-7/derivatives-funding-open-interest-and-liquidations"
+          },
+          {
+            "id": "on-chain-data-explorers-and-measurement-limits",
+            "title": "On-Chain Data, Explorers and Measurement Limits",
+            "href": "/learn/crypto/level-7/on-chain-data-explorers-and-measurement-limits"
+          },
+          {
+            "id": "sentiment-narratives-and-an-evidence-based-research-note",
+            "title": "Sentiment, Narratives and an Evidence-Based Research Note",
+            "href": "/learn/crypto/level-7/sentiment-narratives-and-an-evidence-based-research-note"
+          }
+        ],
+        "lessonIds": [
+          "read-charts-and-describe-price-structure",
+          "cycles-dominance-and-market-context",
+          "derivatives-funding-open-interest-and-liquidations",
+          "on-chain-data-explorers-and-measurement-limits",
+          "sentiment-narratives-and-an-evidence-based-research-note"
+        ],
+        "levelLabel": "Level 7",
+        "progressKey": "pipstart:learn:crypto:level-7:crypto-charts-and-evidence:progress"
+      }
+    },
+    {
+      "path": "crypto",
+      "course": "crypto-risk-and-portfolios",
+      "module": "sizing-leverage-and-portfolio-risk",
+      "context": {
+        "course": {
+          "id": "crypto-risk-and-portfolios",
+          "title": "Sizing, Leverage and Portfolio Risk",
+          "href": "/learn/crypto/level-8/crypto-risk-and-portfolios"
+        },
+        "module": {
+          "id": "sizing-leverage-and-portfolio-risk",
+          "title": "Sizing, Leverage and Portfolio Risk",
+          "href": "/learn/crypto/level-8/crypto-risk-and-portfolios/sizing-leverage-and-portfolio-risk"
+        },
+        "quiz": {
+          "id": "crypto-risk-and-portfolios-quiz",
+          "title": "Sizing Leverage and Portfolio Risk quiz",
+          "href": "/learn/crypto/level-8/quiz"
+        },
+        "lessons": [
+          {
+            "id": "choose-the-loss-budget-before-the-position-size",
+            "title": "Choose the Loss Budget Before the Position Size",
+            "href": "/learn/crypto/level-8"
+          },
+          {
+            "id": "leverage-margin-and-liquidation-risk",
+            "title": "Leverage, Margin and Liquidation Risk",
+            "href": "/learn/crypto/level-8/leverage-margin-and-liquidation-risk"
+          },
+          {
+            "id": "concentration-correlation-and-shared-dependencies",
+            "title": "Concentration, Correlation and Shared Dependencies",
+            "href": "/learn/crypto/level-8/concentration-correlation-and-shared-dependencies"
+          },
+          {
+            "id": "dca-rebalancing-exits-and-useful-records",
+            "title": "DCA, Rebalancing, Exits and Useful Records",
+            "href": "/learn/crypto/level-8/dca-rebalancing-exits-and-useful-records"
+          }
+        ],
+        "lessonIds": [
+          "choose-the-loss-budget-before-the-position-size",
+          "leverage-margin-and-liquidation-risk",
+          "concentration-correlation-and-shared-dependencies",
+          "dca-rebalancing-exits-and-useful-records"
+        ],
+        "levelLabel": "Level 8",
+        "progressKey": "pipstart:learn:crypto:level-8:crypto-risk-and-portfolios:progress"
+      }
+    },
+    {
+      "path": "crypto",
+      "course": "crypto-planning-and-practice",
+      "module": "psychology-planning-and-paper-practice",
+      "context": {
+        "course": {
+          "id": "crypto-planning-and-practice",
+          "title": "Psychology, Planning and Paper Practice",
+          "href": "/learn/crypto/level-9/crypto-planning-and-practice"
+        },
+        "module": {
+          "id": "psychology-planning-and-paper-practice",
+          "title": "Psychology, Planning and Paper Practice",
+          "href": "/learn/crypto/level-9/crypto-planning-and-practice/psychology-planning-and-paper-practice"
+        },
+        "quiz": {
+          "id": "crypto-planning-and-practice-quiz",
+          "title": "Psychology Planning and Paper Practice quiz",
+          "href": "/learn/crypto/level-9/quiz"
+        },
+        "lessons": [
+          {
+            "id": "emotions-biases-and-attention-in-crypto-markets",
+            "title": "Emotions, Biases and Attention in Crypto Markets",
+            "href": "/learn/crypto/level-9"
+          },
+          {
+            "id": "write-a-crypto-plan-and-define-testable-rules",
+            "title": "Write a Crypto Plan and Define Testable Rules",
+            "href": "/learn/crypto/level-9/write-a-crypto-plan-and-define-testable-rules"
+          },
+          {
+            "id": "crypto-test-without-looking-ahead",
+            "title": "Test Without Looking Ahead",
+            "href": "/learn/crypto/level-9/crypto-test-without-looking-ahead"
+          },
+          {
+            "id": "read-results-honestly-and-build-a-practice-routine",
+            "title": "Read Results Honestly and Build a Practice Routine",
+            "href": "/learn/crypto/level-9/read-results-honestly-and-build-a-practice-routine"
+          }
+        ],
+        "lessonIds": [
+          "emotions-biases-and-attention-in-crypto-markets",
+          "write-a-crypto-plan-and-define-testable-rules",
+          "crypto-test-without-looking-ahead",
+          "read-results-honestly-and-build-a-practice-routine"
+        ],
+        "levelLabel": "Level 9",
+        "progressKey": "pipstart:learn:crypto:level-9:crypto-planning-and-practice:progress"
+      }
+    },
+    {
+      "path": "crypto",
+      "course": "crypto-advanced-and-graduation",
+      "module": "advanced-awareness-and-graduation",
+      "context": {
+        "course": {
+          "id": "crypto-advanced-and-graduation",
+          "title": "Advanced Awareness and Graduation",
+          "href": "/learn/crypto/level-10/crypto-advanced-and-graduation"
+        },
+        "module": {
+          "id": "advanced-awareness-and-graduation",
+          "title": "Advanced Awareness and Graduation",
+          "href": "/learn/crypto/level-10/crypto-advanced-and-graduation/advanced-awareness-and-graduation"
+        },
+        "quiz": {
+          "id": "crypto-advanced-and-graduation-quiz",
+          "title": "Advanced Awareness and Graduation quiz",
+          "href": "/learn/crypto/level-10/quiz"
+        },
+        "lessons": [
+          {
+            "id": "crypto-consensus-network-security-and-cross-chain-dependencies",
+            "title": "Consensus, Network Security and Cross-Chain Dependencies",
+            "href": "/learn/crypto/level-10"
+          },
+          {
+            "id": "daos-governance-oracles-and-audit-limits",
+            "title": "DAOs, Governance, Oracles and Audit Limits",
+            "href": "/learn/crypto/level-10/daos-governance-oracles-and-audit-limits"
+          },
+          {
+            "id": "crypto-valuation-regulation-and-institutional-products",
+            "title": "Valuation, Regulation and Institutional Products",
+            "href": "/learn/crypto/level-10/crypto-valuation-regulation-and-institutional-products"
+          },
+          {
+            "id": "complete-the-crypto-graduation-research-and-safety-review",
+            "title": "Complete the Graduation Research and Safety Review",
+            "href": "/learn/crypto/level-10/complete-the-crypto-graduation-research-and-safety-review"
+          }
+        ],
+        "lessonIds": [
+          "crypto-consensus-network-security-and-cross-chain-dependencies",
+          "daos-governance-oracles-and-audit-limits",
+          "crypto-valuation-regulation-and-institutional-products",
+          "complete-the-crypto-graduation-research-and-safety-review"
+        ],
+        "levelLabel": "Level 10",
+        "progressKey": "pipstart:learn:crypto:level-10:crypto-advanced-and-graduation:progress"
+      }
+    },
+    {
+      "path": "forex",
+      "course": "forex-kindergarten",
+      "module": "forex-foundations",
+      "context": {
+        "course": {
+          "id": "forex-kindergarten",
+          "title": "Forex Kindergarten",
+          "href": "/learn/forex/level-1/forex-kindergarten"
+        },
+        "module": {
+          "id": "forex-foundations",
+          "title": "Forex Foundations",
+          "href": "/learn/forex/level-1/forex-kindergarten/forex-foundations"
+        },
+        "quiz": {
+          "id": "forex-foundations-quiz",
+          "title": "Forex Foundations quiz",
+          "href": "/learn/forex/level-1/quiz"
+        },
+        "lessons": [
+          {
+            "id": "what-is-forex",
+            "title": "What is Forex?",
+            "href": "/learn/forex/level-1"
+          },
+          {
+            "id": "currency-pairs",
+            "title": "Currency pairs",
+            "href": "/learn/forex/level-1/currency-pairs"
+          },
+          {
+            "id": "pips-and-lots",
+            "title": "Pips and lots",
+            "href": "/learn/forex/level-1/pips-and-lots"
+          },
+          {
+            "id": "bid-ask-spread",
+            "title": "Bid, ask and spread",
+            "href": "/learn/forex/level-1/bid-ask-spread"
+          },
+          {
+            "id": "trading-sessions",
+            "title": "Trading sessions",
+            "href": "/learn/forex/level-1/trading-sessions"
+          },
+          {
+            "id": "market-participants",
+            "title": "Market participants",
+            "href": "/learn/forex/level-1/market-participants"
+          }
+        ],
+        "lessonIds": [
+          "what-is-forex",
+          "currency-pairs",
+          "pips-and-lots",
+          "bid-ask-spread",
+          "trading-sessions",
+          "market-participants"
+        ],
+        "levelLabel": "Level 1",
+        "progressKey": "pipstart:learn:forex:level-1:progress"
+      }
+    },
+    {
+      "path": "forex",
+      "course": "brokers-and-platforms",
+      "module": "broker-foundations",
+      "context": {
+        "course": {
+          "id": "brokers-and-platforms",
+          "title": "Brokers and Platforms",
+          "href": "/learn/forex/level-2/brokers-and-platforms"
+        },
+        "module": {
+          "id": "broker-foundations",
+          "title": "Broker Foundations",
+          "href": "/learn/forex/level-2/brokers-and-platforms/broker-foundations"
+        },
+        "quiz": {
+          "id": "broker-foundations-quiz",
+          "title": "Broker Foundations quiz",
+          "href": "/learn/forex/level-2/quiz"
+        },
+        "lessons": [
+          {
+            "id": "choosing-a-forex-provider",
+            "title": "Choosing a Forex provider",
+            "href": "/learn/forex/level-2"
+          },
+          {
+            "id": "platforms-and-demo-practice",
+            "title": "Platforms and demo practice",
+            "href": "/learn/forex/level-2/platforms-and-demo-practice"
+          },
+          {
+            "id": "order-types-and-exits",
+            "title": "Order types and exits",
+            "href": "/learn/forex/level-2/order-types-and-exits"
+          },
+          {
+            "id": "costs-withdrawals-and-safety",
+            "title": "Costs, withdrawals and safety",
+            "href": "/learn/forex/level-2/costs-withdrawals-and-safety"
+          }
+        ],
+        "lessonIds": [
+          "choosing-a-forex-provider",
+          "platforms-and-demo-practice",
+          "order-types-and-exits",
+          "costs-withdrawals-and-safety"
+        ],
+        "levelLabel": "Level 2",
+        "progressKey": "pipstart:learn:forex:level-2:brokers-and-platforms:progress"
+      }
+    },
+    {
+      "path": "forex",
+      "course": "charts",
+      "module": "chart-foundations",
+      "context": {
+        "course": {
+          "id": "charts",
+          "title": "Charts",
+          "href": "/learn/forex/level-3/charts"
+        },
+        "module": {
+          "id": "chart-foundations",
+          "title": "Chart Foundations",
+          "href": "/learn/forex/level-3/charts/chart-foundations"
+        },
+        "quiz": {
+          "id": "chart-foundations-quiz",
+          "title": "Chart Foundations quiz",
+          "href": "/learn/forex/level-3/quiz"
+        },
+        "lessons": [
+          {
+            "id": "read-a-chart-before-interpreting-it",
+            "title": "Read a chart before interpreting it",
+            "href": "/learn/forex/level-3"
+          },
+          {
+            "id": "trends-and-price-landmarks",
+            "title": "Trends and price landmarks",
+            "href": "/learn/forex/level-3/trends-and-price-landmarks"
+          },
+          {
+            "id": "swings-breakouts-and-false-signals",
+            "title": "Swings, breakouts and false signals",
+            "href": "/learn/forex/level-3/swings-breakouts-and-false-signals"
+          },
+          {
+            "id": "volume-and-chart-limits",
+            "title": "Volume and chart limits",
+            "href": "/learn/forex/level-3/volume-and-chart-limits"
+          }
+        ],
+        "lessonIds": [
+          "read-a-chart-before-interpreting-it",
+          "trends-and-price-landmarks",
+          "swings-breakouts-and-false-signals",
+          "volume-and-chart-limits"
+        ],
+        "levelLabel": "Level 3",
+        "progressKey": "pipstart:learn:forex:level-3:charts:progress"
+      }
+    },
+    {
+      "path": "forex",
+      "course": "technical-tools",
+      "module": "technical-tool-foundations",
+      "context": {
+        "course": {
+          "id": "technical-tools",
+          "title": "Technical Tools",
+          "href": "/learn/forex/level-4/technical-tools"
+        },
+        "module": {
+          "id": "technical-tool-foundations",
+          "title": "Technical Tool Foundations",
+          "href": "/learn/forex/level-4/technical-tools/technical-tool-foundations"
+        },
+        "quiz": {
+          "id": "technical-tool-foundations-quiz",
+          "title": "Technical Tool Foundations quiz",
+          "href": "/learn/forex/level-4/quiz"
+        },
+        "lessons": [
+          {
+            "id": "averages-and-momentum",
+            "title": "Averages and momentum",
+            "href": "/learn/forex/level-4"
+          },
+          {
+            "id": "volatility-tools",
+            "title": "Volatility tools",
+            "href": "/learn/forex/level-4/volatility-tools"
+          },
+          {
+            "id": "levels-patterns-and-limits",
+            "title": "Levels, patterns and limits",
+            "href": "/learn/forex/level-4/levels-patterns-and-limits"
+          }
+        ],
+        "lessonIds": [
+          "averages-and-momentum",
+          "volatility-tools",
+          "levels-patterns-and-limits"
+        ],
+        "levelLabel": "Level 4",
+        "progressKey": "pipstart:learn:forex:level-4:technical-tools:progress"
+      }
+    },
+    {
+      "path": "forex",
+      "course": "risk-management",
+      "module": "risk-management-foundations",
+      "context": {
+        "course": {
+          "id": "risk-management",
+          "title": "Risk Management",
+          "href": "/learn/forex/level-5/risk-management"
+        },
+        "module": {
+          "id": "risk-management-foundations",
+          "title": "Risk Management Foundations",
+          "href": "/learn/forex/level-5/risk-management/risk-management-foundations"
+        },
+        "quiz": {
+          "id": "risk-management-foundations-quiz",
+          "title": "Risk Management Foundations quiz",
+          "href": "/learn/forex/level-5/quiz"
+        },
+        "lessons": [
+          {
+            "id": "decide-the-loss-before-the-size",
+            "title": "Decide the loss before the size",
+            "href": "/learn/forex/level-5"
+          },
+          {
+            "id": "margin-leverage-and-drawdown",
+            "title": "Margin, leverage and drawdown",
+            "href": "/learn/forex/level-5/margin-leverage-and-drawdown"
+          },
+          {
+            "id": "combined-exposure-and-losing-streaks",
+            "title": "Combined exposure and losing streaks",
+            "href": "/learn/forex/level-5/combined-exposure-and-losing-streaks"
+          }
+        ],
+        "lessonIds": [
+          "decide-the-loss-before-the-size",
+          "margin-leverage-and-drawdown",
+          "combined-exposure-and-losing-streaks"
+        ],
+        "levelLabel": "Level 5",
+        "progressKey": "pipstart:learn:forex:level-5:risk-management:progress"
+      }
+    },
+    {
+      "path": "forex",
+      "course": "price-action",
+      "module": "price-action-foundations",
+      "context": {
+        "course": {
+          "id": "price-action",
+          "title": "Price Action",
+          "href": "/learn/forex/level-6/price-action"
+        },
+        "module": {
+          "id": "price-action-foundations",
+          "title": "Price Action Foundations",
+          "href": "/learn/forex/level-6/price-action/price-action-foundations"
+        },
+        "quiz": {
+          "id": "price-action-foundations-quiz",
+          "title": "Price Action Foundations quiz",
+          "href": "/learn/forex/level-6/quiz"
+        },
+        "lessons": [
+          {
+            "id": "describe-structure-without-guessing",
+            "title": "Describe structure without guessing",
+            "href": "/learn/forex/level-6"
+          },
+          {
+            "id": "build-a-testable-observation",
+            "title": "Build a testable observation",
+            "href": "/learn/forex/level-6/build-a-testable-observation"
+          },
+          {
+            "id": "stops-targets-and-a-checklist",
+            "title": "Stops, targets and a checklist",
+            "href": "/learn/forex/level-6/stops-targets-and-a-checklist"
+          }
+        ],
+        "lessonIds": [
+          "describe-structure-without-guessing",
+          "build-a-testable-observation",
+          "stops-targets-and-a-checklist"
+        ],
+        "levelLabel": "Level 6",
+        "progressKey": "pipstart:learn:forex:level-6:price-action:progress"
+      }
+    },
+    {
+      "path": "forex",
+      "course": "fundamental-analysis",
+      "module": "fundamental-analysis-foundations",
+      "context": {
+        "course": {
+          "id": "fundamental-analysis",
+          "title": "Fundamental Analysis",
+          "href": "/learn/forex/level-7/fundamental-analysis"
+        },
+        "module": {
+          "id": "fundamental-analysis-foundations",
+          "title": "Fundamental Analysis Foundations",
+          "href": "/learn/forex/level-7/fundamental-analysis/fundamental-analysis-foundations"
+        },
+        "quiz": {
+          "id": "fundamental-analysis-foundations-quiz",
+          "title": "Fundamental Analysis Foundations quiz",
+          "href": "/learn/forex/level-7/quiz"
+        },
+        "lessons": [
+          {
+            "id": "economic-news-and-currency-demand",
+            "title": "Economic news and currency demand",
+            "href": "/learn/forex/level-7"
+          },
+          {
+            "id": "policy-and-market-relationships",
+            "title": "Policy and market relationships",
+            "href": "/learn/forex/level-7/policy-and-market-relationships"
+          },
+          {
+            "id": "use-an-economic-calendar-safely",
+            "title": "Use an economic calendar safely",
+            "href": "/learn/forex/level-7/use-an-economic-calendar-safely"
+          }
+        ],
+        "lessonIds": [
+          "economic-news-and-currency-demand",
+          "policy-and-market-relationships",
+          "use-an-economic-calendar-safely"
+        ],
+        "levelLabel": "Level 7",
+        "progressKey": "pipstart:learn:forex:level-7:fundamental-analysis:progress"
+      }
+    },
+    {
+      "path": "forex",
+      "course": "psychology",
+      "module": "psychology-foundations",
+      "context": {
+        "course": {
+          "id": "psychology",
+          "title": "Psychology",
+          "href": "/learn/forex/level-8/psychology"
+        },
+        "module": {
+          "id": "psychology-foundations",
+          "title": "Psychology Foundations",
+          "href": "/learn/forex/level-8/psychology/psychology-foundations"
+        },
+        "quiz": {
+          "id": "psychology-foundations-quiz",
+          "title": "Psychology Foundations quiz",
+          "href": "/learn/forex/level-8/quiz"
+        },
+        "lessons": [
+          {
+            "id": "emotions-around-a-decision",
+            "title": "Emotions around a decision",
+            "href": "/learn/forex/level-8"
+          },
+          {
+            "id": "how-thinking-can-go-wrong",
+            "title": "How thinking can go wrong",
+            "href": "/learn/forex/level-8/how-thinking-can-go-wrong"
+          },
+          {
+            "id": "a-repeatable-practice-habit",
+            "title": "A repeatable practice habit",
+            "href": "/learn/forex/level-8/a-repeatable-practice-habit"
+          }
+        ],
+        "lessonIds": [
+          "emotions-around-a-decision",
+          "how-thinking-can-go-wrong",
+          "a-repeatable-practice-habit"
+        ],
+        "levelLabel": "Level 8",
+        "progressKey": "pipstart:learn:forex:level-8:psychology:progress"
+      }
+    },
+    {
+      "path": "forex",
+      "course": "strategy-development",
+      "module": "strategy-development-foundations",
+      "context": {
+        "course": {
+          "id": "strategy-development",
+          "title": "Strategy Development",
+          "href": "/learn/forex/level-9/strategy-development"
+        },
+        "module": {
+          "id": "strategy-development-foundations",
+          "title": "Strategy Development Foundations",
+          "href": "/learn/forex/level-9/strategy-development/strategy-development-foundations"
+        },
+        "quiz": {
+          "id": "strategy-development-foundations-quiz",
+          "title": "Strategy Development Foundations quiz",
+          "href": "/learn/forex/level-9/quiz"
+        },
+        "lessons": [
+          {
+            "id": "write-a-strategy-that-can-be-checked",
+            "title": "Write a strategy that can be checked",
+            "href": "/learn/forex/level-9"
+          },
+          {
+            "id": "test-without-looking-ahead",
+            "title": "Test without looking ahead",
+            "href": "/learn/forex/level-9/test-without-looking-ahead"
+          },
+          {
+            "id": "read-the-results-honestly",
+            "title": "Read the results honestly",
+            "href": "/learn/forex/level-9/read-the-results-honestly"
+          }
+        ],
+        "lessonIds": [
+          "write-a-strategy-that-can-be-checked",
+          "test-without-looking-ahead",
+          "read-the-results-honestly"
+        ],
+        "levelLabel": "Level 9",
+        "progressKey": "pipstart:learn:forex:level-9:strategy-development:progress"
+      }
+    },
+    {
+      "path": "forex",
+      "course": "advanced-forex",
+      "module": "advanced-forex-foundations",
+      "context": {
+        "course": {
+          "id": "advanced-forex",
+          "title": "Advanced Forex",
+          "href": "/learn/forex/level-10/advanced-forex"
+        },
+        "module": {
+          "id": "advanced-forex-foundations",
+          "title": "Advanced Forex Foundations",
+          "href": "/learn/forex/level-10/advanced-forex/advanced-forex-foundations"
+        },
+        "quiz": {
+          "id": "advanced-forex-foundations-quiz",
+          "title": "Advanced Forex Foundations quiz",
+          "href": "/learn/forex/level-10/quiz"
+        },
+        "lessons": [
+          {
+            "id": "relationships-that-can-change",
+            "title": "Relationships that can change",
+            "href": "/learn/forex/level-10"
+          },
+          {
+            "id": "liquidity-and-market-positioning",
+            "title": "Liquidity and market positioning",
+            "href": "/learn/forex/level-10/liquidity-and-market-positioning"
+          },
+          {
+            "id": "review-the-whole-portfolio",
+            "title": "Review the whole portfolio",
+            "href": "/learn/forex/level-10/review-the-whole-portfolio"
+          }
+        ],
+        "lessonIds": [
+          "relationships-that-can-change",
+          "liquidity-and-market-positioning",
+          "review-the-whole-portfolio"
+        ],
+        "levelLabel": "Level 10",
+        "progressKey": "pipstart:learn:forex:level-10:advanced-forex:progress"
+      }
+    }
+  ],
+  "keys": [
+    {
+      "id": "crypto-start-here",
+      "key": "pipstart:reading:v1:crypto-start-here:fb173a10"
+    },
+    {
+      "id": "what-is-bitcoin",
+      "key": "pipstart:reading:v1:what-is-bitcoin:672e6caa"
+    },
+    {
+      "id": "what-a-wallet-controls",
+      "key": "pipstart:reading:v1:what-a-wallet-controls:88d5a7ab"
+    },
+    {
+      "id": "choose-a-crypto-exchange-service",
+      "key": "pipstart:reading:v1:choose-a-crypto-exchange-service:9cfdd637"
+    },
+    {
+      "id": "ethereum-ether-and-proof-of-stake",
+      "key": "pipstart:reading:v1:ethereum-ether-and-proof-of-stake:243fa75d"
+    },
+    {
+      "id": "altcoins-utility-governance-and-hype",
+      "key": "pipstart:reading:v1:altcoins-utility-governance-and-hype:c42d3595"
+    },
+    {
+      "id": "decentralised-exchanges-pools-and-swaps",
+      "key": "pipstart:reading:v1:decentralised-exchanges-pools-and-swaps:469ec3b9"
+    },
+    {
+      "id": "read-charts-and-describe-price-structure",
+      "key": "pipstart:reading:v1:read-charts-and-describe-price-structure:36fe8c0e"
+    },
+    {
+      "id": "choose-the-loss-budget-before-the-position-size",
+      "key": "pipstart:reading:v1:choose-the-loss-budget-before-the-position-size:d1864063"
+    },
+    {
+      "id": "emotions-biases-and-attention-in-crypto-markets",
+      "key": "pipstart:reading:v1:emotions-biases-and-attention-in-crypto-markets:4ba394b9"
+    },
+    {
+      "id": "crypto-consensus-network-security-and-cross-chain-dependencies",
+      "key": "pipstart:reading:v1:crypto-consensus-network-security-and-cross-chain-dependencies:19d79109"
+    },
+    {
+      "id": "crypto-using-owning-investing-trading",
+      "key": "pipstart:reading:v1:crypto-using-owning-investing-trading:82c36ca3"
+    },
+    {
+      "id": "shared-ledger-checks-and-security",
+      "key": "pipstart:reading:v1:shared-ledger-checks-and-security:c62104e"
+    },
+    {
+      "id": "protect-recovery-material-and-accounts",
+      "key": "pipstart:reading:v1:protect-recovery-material-and-accounts:fb11d540"
+    },
+    {
+      "id": "read-a-spot-market-and-order-book",
+      "key": "pipstart:reading:v1:read-a-spot-market-and-order-book:7492868"
+    },
+    {
+      "id": "smart-contracts-applications-and-outside-data",
+      "key": "pipstart:reading:v1:smart-contracts-applications-and-outside-data:b67077ef"
+    },
+    {
+      "id": "supply-market-capitalisation-and-fully-diluted-value",
+      "key": "pipstart:reading:v1:supply-market-capitalisation-and-fully-diluted-value:d73140d0"
+    },
+    {
+      "id": "liquidity-provision-and-impermanent-loss",
+      "key": "pipstart:reading:v1:liquidity-provision-and-impermanent-loss:d4484c2e"
+    },
+    {
+      "id": "cycles-dominance-and-market-context",
+      "key": "pipstart:reading:v1:cycles-dominance-and-market-context:173e74c6"
+    },
+    {
+      "id": "leverage-margin-and-liquidation-risk",
+      "key": "pipstart:reading:v1:leverage-margin-and-liquidation-risk:251e9ebe"
+    },
+    {
+      "id": "write-a-crypto-plan-and-define-testable-rules",
+      "key": "pipstart:reading:v1:write-a-crypto-plan-and-define-testable-rules:75921f27"
+    },
+    {
+      "id": "daos-governance-oracles-and-audit-limits",
+      "key": "pipstart:reading:v1:daos-governance-oracles-and-audit-limits:49eee588"
+    },
+    {
+      "id": "crypto-loss-and-risk",
+      "key": "pipstart:reading:v1:crypto-loss-and-risk:c0f1ed4"
+    },
+    {
+      "id": "keys-signatures-and-bitcoin-transactions",
+      "key": "pipstart:reading:v1:keys-signatures-and-bitcoin-transactions:9ac95d84"
+    },
+    {
+      "id": "check-a-crypto-transfer",
+      "key": "pipstart:reading:v1:check-a-crypto-transfer:ba534673"
+    },
+    {
+      "id": "crypto-orders-fees-and-execution-costs",
+      "key": "pipstart:reading:v1:crypto-orders-fees-and-execution-costs:c496ecdc"
+    },
+    {
+      "id": "gas-transactions-and-failed-attempts",
+      "key": "pipstart:reading:v1:gas-transactions-and-failed-attempts:27d90acd"
+    },
+    {
+      "id": "allocations-vesting-unlocks-and-control",
+      "key": "pipstart:reading:v1:allocations-vesting-unlocks-and-control:8794b688"
+    },
+    {
+      "id": "lending-borrowing-collateral-and-liquidation",
+      "key": "pipstart:reading:v1:lending-borrowing-collateral-and-liquidation:2ef8771b"
+    },
+    {
+      "id": "derivatives-funding-open-interest-and-liquidations",
+      "key": "pipstart:reading:v1:derivatives-funding-open-interest-and-liquidations:f0df6aaa"
+    },
+    {
+      "id": "concentration-correlation-and-shared-dependencies",
+      "key": "pipstart:reading:v1:concentration-correlation-and-shared-dependencies:a51b259a"
+    },
+    {
+      "id": "crypto-test-without-looking-ahead",
+      "key": "pipstart:reading:v1:crypto-test-without-looking-ahead:d0413029"
+    },
+    {
+      "id": "crypto-valuation-regulation-and-institutional-products",
+      "key": "pipstart:reading:v1:crypto-valuation-regulation-and-institutional-products:2c66e427"
+    },
+    {
+      "id": "crypto-scams-and-safe-learning",
+      "key": "pipstart:reading:v1:crypto-scams-and-safe-learning:4be998ab"
+    },
+    {
+      "id": "mining-fees-confirmations-and-finality",
+      "key": "pipstart:reading:v1:mining-fees-confirmations-and-finality:fac6991d"
+    },
+    {
+      "id": "connections-signatures-and-token-permissions",
+      "key": "pipstart:reading:v1:connections-signatures-and-token-permissions:54429e87"
+    },
+    {
+      "id": "stablecoins-and-peg-promises",
+      "key": "pipstart:reading:v1:stablecoins-and-peg-promises:265fe0bf"
+    },
+    {
+      "id": "tokens-standards-nfts-and-asset-identity",
+      "key": "pipstart:reading:v1:tokens-standards-nfts-and-asset-identity:2316ef2a"
+    },
+    {
+      "id": "build-a-token-dossier-and-check-liquidity",
+      "key": "pipstart:reading:v1:build-a-token-dossier-and-check-liquidity:723ac853"
+    },
+    {
+      "id": "staking-yield-and-the-source-of-rewards",
+      "key": "pipstart:reading:v1:staking-yield-and-the-source-of-rewards:7a53f9b9"
+    },
+    {
+      "id": "on-chain-data-explorers-and-measurement-limits",
+      "key": "pipstart:reading:v1:on-chain-data-explorers-and-measurement-limits:4e319c72"
+    },
+    {
+      "id": "dca-rebalancing-exits-and-useful-records",
+      "key": "pipstart:reading:v1:dca-rebalancing-exits-and-useful-records:2ac63c55"
+    },
+    {
+      "id": "read-results-honestly-and-build-a-practice-routine",
+      "key": "pipstart:reading:v1:read-results-honestly-and-build-a-practice-routine:6d287e00"
+    },
+    {
+      "id": "complete-the-crypto-graduation-research-and-safety-review",
+      "key": "pipstart:reading:v1:complete-the-crypto-graduation-research-and-safety-review:9b29add4"
+    },
+    {
+      "id": "bitcoin-supply-halvings-and-claims",
+      "key": "pipstart:reading:v1:bitcoin-supply-halvings-and-claims:7e3bdd3c"
+    },
+    {
+      "id": "respond-to-a-crypto-compromise",
+      "key": "pipstart:reading:v1:respond-to-a-crypto-compromise:71a0e4b9"
+    },
+    {
+      "id": "crypto-deposits-withdrawals-and-exchange-failure",
+      "key": "pipstart:reading:v1:crypto-deposits-withdrawals-and-exchange-failure:778166b1"
+    },
+    {
+      "id": "layer-one-layer-two-and-bridges",
+      "key": "pipstart:reading:v1:layer-one-layer-two-and-bridges:c10c60f7"
+    },
+    {
+      "id": "defi-dependencies-stablecoins-and-governance",
+      "key": "pipstart:reading:v1:defi-dependencies-stablecoins-and-governance:dbd22522"
+    },
+    {
+      "id": "sentiment-narratives-and-an-evidence-based-research-note",
+      "key": "pipstart:reading:v1:sentiment-narratives-and-an-evidence-based-research-note:de688b57"
+    },
+    {
+      "id": "orientation-course-purpose",
+      "key": "pipstart:reading:v1:orientation-course-purpose:e1b5d60e"
+    },
+    {
+      "id": "what-is-forex",
+      "key": "pipstart:reading:v1:what-is-forex:5dfda36d"
+    },
+    {
+      "id": "choosing-a-forex-provider",
+      "key": "pipstart:reading:v1:choosing-a-forex-provider:256b47c0"
+    },
+    {
+      "id": "read-a-chart-before-interpreting-it",
+      "key": "pipstart:reading:v1:read-a-chart-before-interpreting-it:58a5758c"
+    },
+    {
+      "id": "averages-and-momentum",
+      "key": "pipstart:reading:v1:averages-and-momentum:546a8551"
+    },
+    {
+      "id": "decide-the-loss-before-the-size",
+      "key": "pipstart:reading:v1:decide-the-loss-before-the-size:2a36ff30"
+    },
+    {
+      "id": "describe-structure-without-guessing",
+      "key": "pipstart:reading:v1:describe-structure-without-guessing:a0e69eb9"
+    },
+    {
+      "id": "economic-news-and-currency-demand",
+      "key": "pipstart:reading:v1:economic-news-and-currency-demand:6fc5b6ba"
+    },
+    {
+      "id": "emotions-around-a-decision",
+      "key": "pipstart:reading:v1:emotions-around-a-decision:e148a139"
+    },
+    {
+      "id": "write-a-strategy-that-can-be-checked",
+      "key": "pipstart:reading:v1:write-a-strategy-that-can-be-checked:387aa683"
+    },
+    {
+      "id": "relationships-that-can-change",
+      "key": "pipstart:reading:v1:relationships-that-can-change:b6e27281"
+    },
+    {
+      "id": "trading-versus-investing",
+      "key": "pipstart:reading:v1:trading-versus-investing:5599f5c2"
+    },
+    {
+      "id": "currency-pairs",
+      "key": "pipstart:reading:v1:currency-pairs:101ebffb"
+    },
+    {
+      "id": "platforms-and-demo-practice",
+      "key": "pipstart:reading:v1:platforms-and-demo-practice:1fbe122d"
+    },
+    {
+      "id": "trends-and-price-landmarks",
+      "key": "pipstart:reading:v1:trends-and-price-landmarks:889e4c54"
+    },
+    {
+      "id": "volatility-tools",
+      "key": "pipstart:reading:v1:volatility-tools:412cd6d9"
+    },
+    {
+      "id": "margin-leverage-and-drawdown",
+      "key": "pipstart:reading:v1:margin-leverage-and-drawdown:ff9515d7"
+    },
+    {
+      "id": "build-a-testable-observation",
+      "key": "pipstart:reading:v1:build-a-testable-observation:b254defc"
+    },
+    {
+      "id": "policy-and-market-relationships",
+      "key": "pipstart:reading:v1:policy-and-market-relationships:1e6cb00e"
+    },
+    {
+      "id": "how-thinking-can-go-wrong",
+      "key": "pipstart:reading:v1:how-thinking-can-go-wrong:8eaa26b8"
+    },
+    {
+      "id": "test-without-looking-ahead",
+      "key": "pipstart:reading:v1:test-without-looking-ahead:87da33fb"
+    },
+    {
+      "id": "liquidity-and-market-positioning",
+      "key": "pipstart:reading:v1:liquidity-and-market-positioning:51f76008"
+    },
+    {
+      "id": "money-risk-and-demo",
+      "key": "pipstart:reading:v1:money-risk-and-demo:ce043334"
+    },
+    {
+      "id": "pips-and-lots",
+      "key": "pipstart:reading:v1:pips-and-lots:e374beb3"
+    },
+    {
+      "id": "order-types-and-exits",
+      "key": "pipstart:reading:v1:order-types-and-exits:1aca0fc"
+    },
+    {
+      "id": "swings-breakouts-and-false-signals",
+      "key": "pipstart:reading:v1:swings-breakouts-and-false-signals:1f33fcec"
+    },
+    {
+      "id": "levels-patterns-and-limits",
+      "key": "pipstart:reading:v1:levels-patterns-and-limits:4aa962b7"
+    },
+    {
+      "id": "combined-exposure-and-losing-streaks",
+      "key": "pipstart:reading:v1:combined-exposure-and-losing-streaks:493afa7f"
+    },
+    {
+      "id": "stops-targets-and-a-checklist",
+      "key": "pipstart:reading:v1:stops-targets-and-a-checklist:17bac19a"
+    },
+    {
+      "id": "use-an-economic-calendar-safely",
+      "key": "pipstart:reading:v1:use-an-economic-calendar-safely:d54361ea"
+    },
+    {
+      "id": "a-repeatable-practice-habit",
+      "key": "pipstart:reading:v1:a-repeatable-practice-habit:ac6dd2c8"
+    },
+    {
+      "id": "read-the-results-honestly",
+      "key": "pipstart:reading:v1:read-the-results-honestly:e3af0401"
+    },
+    {
+      "id": "review-the-whole-portfolio",
+      "key": "pipstart:reading:v1:review-the-whole-portfolio:ce4d92c"
+    },
+    {
+      "id": "spot-forex-scams-and-safety",
+      "key": "pipstart:reading:v1:spot-forex-scams-and-safety:3b2318f3"
+    },
+    {
+      "id": "bid-ask-spread",
+      "key": "pipstart:reading:v1:bid-ask-spread:c11c4b1f"
+    },
+    {
+      "id": "costs-withdrawals-and-safety",
+      "key": "pipstart:reading:v1:costs-withdrawals-and-safety:bee4aa28"
+    },
+    {
+      "id": "volume-and-chart-limits",
+      "key": "pipstart:reading:v1:volume-and-chart-limits:fa766514"
+    },
+    {
+      "id": "trading-sessions",
+      "key": "pipstart:reading:v1:trading-sessions:32e0636f"
+    },
+    {
+      "id": "market-participants",
+      "key": "pipstart:reading:v1:market-participants:47560e4b"
+    }
+  ],
+  "routes": [
+    [
+      {
+        "lesson": "shared-ledger-checks-and-security"
+      },
+      {
+        "lesson": "keys-signatures-and-bitcoin-transactions"
+      },
+      {
+        "lesson": "mining-fees-confirmations-and-finality"
+      },
+      {
+        "lesson": "bitcoin-supply-halvings-and-claims"
+      }
+    ],
+    [
+      {
+        "lesson": "protect-recovery-material-and-accounts"
+      },
+      {
+        "lesson": "check-a-crypto-transfer"
+      },
+      {
+        "lesson": "connections-signatures-and-token-permissions"
+      },
+      {
+        "lesson": "respond-to-a-crypto-compromise"
+      }
+    ],
+    [
+      {
+        "lesson": "read-a-spot-market-and-order-book"
+      },
+      {
+        "lesson": "crypto-orders-fees-and-execution-costs"
+      },
+      {
+        "lesson": "stablecoins-and-peg-promises"
+      },
+      {
+        "lesson": "crypto-deposits-withdrawals-and-exchange-failure"
+      }
+    ],
+    [
+      {
+        "lesson": "smart-contracts-applications-and-outside-data"
+      },
+      {
+        "lesson": "gas-transactions-and-failed-attempts"
+      },
+      {
+        "lesson": "tokens-standards-nfts-and-asset-identity"
+      },
+      {
+        "lesson": "layer-one-layer-two-and-bridges"
+      }
+    ],
+    [
+      {
+        "lesson": "supply-market-capitalisation-and-fully-diluted-value"
+      },
+      {
+        "lesson": "allocations-vesting-unlocks-and-control"
+      },
+      {
+        "lesson": "build-a-token-dossier-and-check-liquidity"
+      }
+    ],
+    [
+      {
+        "lesson": "liquidity-provision-and-impermanent-loss"
+      },
+      {
+        "lesson": "lending-borrowing-collateral-and-liquidation"
+      },
+      {
+        "lesson": "staking-yield-and-the-source-of-rewards"
+      },
+      {
+        "lesson": "defi-dependencies-stablecoins-and-governance"
+      }
+    ],
+    [
+      {
+        "lesson": "cycles-dominance-and-market-context"
+      },
+      {
+        "lesson": "derivatives-funding-open-interest-and-liquidations"
+      },
+      {
+        "lesson": "on-chain-data-explorers-and-measurement-limits"
+      },
+      {
+        "lesson": "sentiment-narratives-and-an-evidence-based-research-note"
+      }
+    ],
+    [
+      {
+        "lesson": "leverage-margin-and-liquidation-risk"
+      },
+      {
+        "lesson": "concentration-correlation-and-shared-dependencies"
+      },
+      {
+        "lesson": "dca-rebalancing-exits-and-useful-records"
+      }
+    ],
+    [
+      {
+        "lesson": "write-a-crypto-plan-and-define-testable-rules"
+      },
+      {
+        "lesson": "crypto-test-without-looking-ahead"
+      },
+      {
+        "lesson": "read-results-honestly-and-build-a-practice-routine"
+      }
+    ],
+    [
+      {
+        "lesson": "daos-governance-oracles-and-audit-limits"
+      },
+      {
+        "lesson": "crypto-valuation-regulation-and-institutional-products"
+      },
+      {
+        "lesson": "complete-the-crypto-graduation-research-and-safety-review"
+      }
+    ]
+  ]
+}
