@@ -175,7 +175,7 @@ describe("M16-H6 accessible learning aids", () => {
       searchParams: Promise.resolve({}),
     });
     const html = renderToStaticMarkup(page);
-    expect(html.match(/<article\b/g)).toHaveLength(120);
+    expect(html.match(/<article\b/g)).toHaveLength(136);
     expect(html).toContain('id="gas"');
     expect(html).toContain("<noscript>");
     expect(html).toContain("@layer base");
