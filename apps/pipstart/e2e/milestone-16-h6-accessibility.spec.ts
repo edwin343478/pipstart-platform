@@ -147,7 +147,7 @@ test.describe("Native glossary", () => {
     page.setDefaultNavigationTimeout(15_000);
     await test.step("Open all terms at the Gas anchor", async () => {
       expect((await page.goto("/glossary/crypto#gas"))?.status()).toBe(200);
-      await expect(page.locator("article")).toHaveCount(120);
+      await expect(page.locator("article")).toHaveCount(136);
       await expect(page.locator("#gas")).toBeInViewport();
     });
     await test.step("Submit native GET search", async () => {
@@ -158,7 +158,7 @@ test.describe("Native glossary", () => {
       // to the header. The actual form and link navigation remain under test.
       await page.getByRole("button", { name: "Search", exact: true }).focus();
       await page.keyboard.press("Enter");
-      await expect(page).toHaveURL(/\/glossary\/crypto\?q=gas$/);
+      await expect(page).toHaveURL(/\/glossary\/crypto\?q=gas(?:&category=)?$/);
       await expect(page.locator("#gas")).toBeVisible();
     });
     await test.step("Filter terms by M", async () => {
@@ -171,7 +171,7 @@ test.describe("Native glossary", () => {
       await page.getByRole("link", { name: "All", exact: true }).focus();
       await page.keyboard.press("Enter");
       await expect(page).toHaveURL(/\/glossary\/crypto$/);
-      await expect(page.locator("article")).toHaveCount(120);
+      await expect(page.locator("article")).toHaveCount(136);
       expect(
         await page.evaluate(() => document.documentElement.scrollWidth),
       ).toBeLessThanOrEqual(321);
