@@ -52,6 +52,9 @@ jobs:
       - name: Run tests
         run: pnpm test
 
+      - name: Verify patched development dependency audit
+        run: node scripts/verify-m17-dependency-audit.mjs
+
       - name: Verify M17 guarded audit records
         run: |
           node scripts/verify-m17-publication-readiness.mjs

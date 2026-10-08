@@ -6,9 +6,19 @@ packages:
 overrides:
   nanoid: 3.3.18
   source-map-js: 1.2.2
+  sharp: 0.35.5
+  "undici@7": 7.29.1
+  "vitest@4": 4.1.11
+  "js-yaml@4": 4.3.2
+  "brace-expansion@1": 1.1.21
+  "brace-expansion@5": 5.0.12
+  "braces@3": 3.0.3
 
 allowBuilds:
   esbuild: true
   sharp: true
   unrs-resolver: true
   workerd: true
+
+patchedDependencies:
+  braces@3.0.3: patches/braces-3.0.3-depth-limit.patch

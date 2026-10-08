@@ -1,3 +1,7 @@
+import {
+  glossaryDisplayTerm,
+  glossaryBrowseSelection,
+} from "../../../lib/glossary-presentation";
 import Link from "next/link";
 import { PageState } from "@repo/ui";
 import { CompactFooter, CompactHeader } from "../../../components/site-chrome";
@@ -9,7 +13,12 @@ import {
   getGlossaryPageMetadata,
   isGlossaryReviewMode,
 } from "../../../content/glossary-display";
-export const generateMetadata = getGlossaryPageMetadata;
+export function generateMetadata() {
+  return {
+    ...getGlossaryPageMetadata(),
+    robots: { index: false, follow: !isGlossaryReviewMode() },
+  };
+}
 import { searchGlossary } from "../../../lib/glossary-search";
 import styles from "../page.module.css";
 import buttonStyles from "../crypto/page.module.css";
@@ -47,7 +56,10 @@ export default async function GlossarySearchPage({
             ? "Find reviewed Forex and Crypto terms and read their lesson contexts."
             : "Find published Forex and Crypto terms and read their lesson contexts."}
         </p>
-        <GlossaryGrouping pathname="/glossary/search" selection={result} />
+        <GlossaryGrouping
+          pathname="/glossary/search"
+          selection={glossaryBrowseSelection(result)}
+        />
         <form
           action="/glossary/search"
           method="get"
@@ -103,9 +115,11 @@ export default async function GlossarySearchPage({
         {result.results.length ? (
           <GlossaryResults
             key={[result.course, result.query, result.category].join("|")}
-            terms={result.results.map(({ entry }) => byId.get(entry.id)!)}
+            terms={result.results.map(({ entry }) =>
+              glossaryDisplayTerm(byId.get(entry.id)!),
+            )}
             pathname="/glossary/search"
-            selection={result}
+            selection={glossaryBrowseSelection(result)}
             initialLimit={params.limit}
             termClassName={styles.term}
             showCourse

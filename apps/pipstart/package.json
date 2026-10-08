@@ -28,12 +28,12 @@
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
-    "@next/mdx": "16.3.6",
+    "@next/mdx": "16.3.8",
     "@repo/brand": "workspace:*",
     "@repo/ui": "workspace:*",
     "@supabase/ssr": "0.7.0",
     "@supabase/supabase-js": "2.100.0",
-    "next": "16.3.6",
+    "next": "16.3.8",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "server-only": "0.0.1"
@@ -48,7 +48,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.3.6",
+    "eslint-config-next": "16.3.8",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^4.1.10"

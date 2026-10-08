@@ -1,3 +1,7 @@
+import {
+  glossaryDisplayTerm,
+  glossaryBrowseSelection,
+} from "../../lib/glossary-presentation";
 import { PageState } from "@repo/ui";
 import { CompactFooter, CompactHeader } from "../../components/site-chrome";
 import {
@@ -55,7 +59,10 @@ export default async function GlossaryPage({
             ? "Explore the reviewed definitions, everyday examples and lesson contexts."
             : "Explore clear definitions, everyday examples and lesson contexts."}
         </p>
-        <GlossaryGrouping pathname="/glossary" selection={result} />
+        <GlossaryGrouping
+          pathname="/glossary"
+          selection={glossaryBrowseSelection(result)}
+        />
         <form
           action="/glossary"
           method="get"
@@ -134,9 +141,9 @@ export default async function GlossaryPage({
               result.letter,
               result.category,
             ].join("|")}
-            terms={visibleTerms}
+            terms={visibleTerms.map(glossaryDisplayTerm)}
             pathname="/glossary"
-            selection={result}
+            selection={glossaryBrowseSelection(result)}
             initialLimit={params.limit}
             termClassName={styles.term}
             showCourse={!result.course}

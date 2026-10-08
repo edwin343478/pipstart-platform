@@ -8,25 +8,23 @@ import { getPublishedCourseGlossary } from "./published-glossary";
 import { buildReviewedGlossaryPreview } from "../lib/glossary-reviewed-preview";
 import type { PublishedGlossaryEntry } from "../lib/glossary-publication";
 import type { GlossaryCourse, GlossaryEntry } from "../lib/glossary-search";
-const canonical = (v: unknown): string =>
-  Array.isArray(v)
-    ? "[" + v.map(canonical).join(",") + "]"
-    : v && typeof v === "object"
-      ? "{" +
-        Object.keys(v)
-          .sort()
-          .map(
-            (k) =>
-              JSON.stringify(k) +
-              ":" +
-              canonical((v as Record<string, unknown>)[k]),
-          )
-          .join(",") +
-        "}"
-      : JSON.stringify(v);
+import {
+  canonicalGlossaryJson as canonical,
+  assertGlossaryEntries,
+} from "../lib/glossary-contract";
+assertGlossaryEntries(draft.entries);
 let reviewed: readonly PublishedGlossaryEntry[] | undefined;
 export function isGlossaryReviewMode() {
-  return process.env.PIPSTART_M17_GLOSSARY_REVIEW === "1";
+  const enabled = process.env.PIPSTART_M17_GLOSSARY_REVIEW === "1";
+  if (
+    enabled &&
+    (process.env.VERCEL_ENV === "production" ||
+      process.env.CONTEXT === "production")
+  )
+    throw new Error(
+      "Local glossary review mode must not run on a production deployment.",
+    );
+  return enabled;
 }
 export function getGlossaryPageMetadata(): Metadata {
   return isGlossaryReviewMode()

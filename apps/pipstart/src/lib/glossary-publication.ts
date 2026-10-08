@@ -14,7 +14,7 @@ export type PublishedGlossaryEntry = Omit<GlossaryEntry, "meanings"> & {
     definition: string;
     example?: string;
     confusionNote?: string;
-    lessons: { title: string; href: string }[];
+    lessons: { title: string; href: string; relation?: string }[];
   }[];
   publicationBasis:
     | "approved-published-lesson"
@@ -62,7 +62,12 @@ export function integrateApprovedGlossary(
         ...m,
         lessons: selected
           .filter((l): l is GlossaryLessonContext => !!l)
-          .map((l) => ({ title: l.title, href: l.href })),
+          .map((l) => ({
+            title: l.title,
+            href: l.href,
+            relation: e.lessonLinks?.find((link) => link.href === l.href)
+              ?.relation,
+          })),
       };
     });
     if (!meanings.length || meanings.some((m) => !m)) continue;
@@ -86,4 +91,41 @@ export function integrateApprovedGlossary(
           }),
         },
   );
+}
+
+// Release callers must reject partial catalogue replacement, even when legacy
+// entries happen to keep the aggregate counts unchanged.
+export function assertApprovedGlossaryCoverage(
+  result: readonly PublishedGlossaryEntry[],
+  approved: readonly GlossaryEntry[],
+) {
+  const ids = new Set(approved.map((e) => e.id));
+  if (
+    ids.size !== approved.length ||
+    result.length !== approved.length ||
+    new Set(result.map((e) => e.id)).size !== approved.length
+  )
+    throw new Error("Approved glossary identity coverage is incomplete.");
+  for (const expected of approved) {
+    const actual = result.find((e) => e.id === expected.id);
+    if (
+      !actual ||
+      actual.publicationBasis !== "approved-glossary-catalogue" ||
+      actual.href !== expected.href ||
+      actual.name !== expected.name ||
+      actual.meanings.length !== expected.meanings.length ||
+      expected.meanings.some((m, i) => {
+        const a = actual.meanings[i];
+        const contexts = m.lessons ?? expected.lessonLinks ?? [];
+        return (
+          a.definition !== m.definition ||
+          a.example !== m.example ||
+          a.confusionNote !== m.confusionNote ||
+          contexts.length !== a.lessons.length ||
+          contexts.some((l, j) => l.href !== a.lessons[j].href)
+        );
+      })
+    )
+      throw new Error("Incomplete approved glossary entry: " + expected.id);
+  }
 }

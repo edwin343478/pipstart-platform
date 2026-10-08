@@ -68,6 +68,18 @@ function typoDistance(a: string, b: string, maximum: number) {
   }
   return prior[b.length];
 }
+function queryWordsMatch(text: string, query: string) {
+  const words = normalizeGlossaryText(text).split(" ");
+  return query
+    .split(" ")
+    .every(
+      (word) =>
+        words.includes(word) ||
+        (word.length >= 3 &&
+          word.endsWith("s") &&
+          words.includes(word.slice(0, -1))),
+    );
+}
 // No HTML interpretation, input-derived regex or client storage.
 export function searchGlossary(
   entries: readonly GlossaryEntry[],
@@ -142,12 +154,12 @@ export function searchGlossary(
       });
       continue;
     }
-    if (name.includes(normalized)) {
+    if (queryWordsMatch(name, normalized)) {
       matches.push({ entry, rank: 5, matchedBy: "name" });
       continue;
     }
     const substring = entry.aliases.find((a) =>
-      normalizeGlossaryText(a.value).includes(normalized),
+      queryWordsMatch(a.value, normalized),
     );
     if (substring) {
       matches.push({
@@ -160,7 +172,7 @@ export function searchGlossary(
     }
     if (
       entry.meanings.some((m) =>
-        normalizeGlossaryText(m.definition).includes(normalized),
+        queryWordsMatch(entry.name + " " + m.definition, normalized),
       )
     )
       matches.push({ entry, rank: 7, matchedBy: "definition" });
@@ -180,7 +192,10 @@ export function searchGlossary(
           .filter((a) => a.kind !== "component-discovery-key")
           .map((a) => a.value),
       ]
-        .map(normalizeGlossaryText)
+        .flatMap((value) => {
+          const n = normalizeGlossaryText(value);
+          return [n, ...n.split(" ")];
+        })
         .filter((n) => n.length >= 3 && n.length <= 80);
       const distance = Math.min(
         ...candidates.map((n) => typoDistance(normalized, n, maximum)),

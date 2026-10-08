@@ -1,7 +1,7 @@
 import Link from "next/link";
-import type { PublishedGlossaryEntry } from "../lib/glossary-publication";
+import type { GlossaryDisplayTerm } from "../lib/glossary-presentation";
 import styles from "../app/glossary/crypto/page.module.css";
-export function GlossaryTeaching({ term }: { term: PublishedGlossaryEntry }) {
+export function GlossaryTeaching({ term }: { term: GlossaryDisplayTerm }) {
   return (
     <>
       {term.meanings.map((meaning, index) => (
@@ -24,7 +24,10 @@ export function GlossaryTeaching({ term }: { term: PublishedGlossaryEntry }) {
               {meaning.lessons.map((lesson) => (
                 <li key={lesson.href}>
                   <Link href={lesson.href}>
-                    Read in context: {lesson.title}
+                    {lesson.relation === "related-context-not-full-definition"
+                      ? "Related lesson: "
+                      : "Read in context: "}
+                    {lesson.title}
                   </Link>
                 </li>
               ))}

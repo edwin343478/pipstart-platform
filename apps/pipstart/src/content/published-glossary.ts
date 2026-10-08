@@ -11,6 +11,7 @@ import {
 
 import {
   integrateApprovedGlossary,
+  assertApprovedGlossaryCoverage,
   type PublishedGlossaryEntry,
 } from "../lib/glossary-publication";
 export type { PublishedGlossaryEntry } from "../lib/glossary-publication";
@@ -105,6 +106,7 @@ const integrated = integrateApprovedGlossary(
   getPublicGlossaryCatalogue(),
   publishedLessons,
 );
+assertApprovedGlossaryCoverage(integrated, getPublicGlossaryCatalogue());
 if (
   integrated.length !== 378 ||
   integrated.reduce((n, e) => n + e.meanings.length, 0) !== 380

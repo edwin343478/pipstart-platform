@@ -2,7 +2,10 @@ import type { ReactNode } from "react";
 
 import { createPageMetadata } from "../../lib/seo";
 
-export const metadata = createPageMetadata("/glossary");
+export const metadata = {
+  ...createPageMetadata("/glossary"),
+  title: { absolute: "Forex and Crypto Glossary | PipStart" },
+};
 
 export default function SeoLayout({ children }: { children: ReactNode }) {
   return children;

@@ -5,22 +5,11 @@ import review from "./glossary-review-status.json";
 import release from "./glossary-release-status.json";
 import { releaseGlossaryEntries } from "../lib/glossary-release";
 import type { GlossaryEntry } from "../lib/glossary-search";
-const canonical = (v: unknown): string =>
-  Array.isArray(v)
-    ? "[" + v.map(canonical).join(",") + "]"
-    : v && typeof v === "object"
-      ? "{" +
-        Object.keys(v)
-          .sort()
-          .map(
-            (k) =>
-              JSON.stringify(k) +
-              ":" +
-              canonical((v as Record<string, unknown>)[k]),
-          )
-          .join(",") +
-        "}"
-      : JSON.stringify(v);
+import {
+  canonicalGlossaryJson as canonical,
+  assertGlossaryEntries,
+} from "../lib/glossary-contract";
+assertGlossaryEntries(draft.entries);
 export function getGlossaryReviewCatalogue(): readonly GlossaryEntry[] {
   return draft.entries as readonly GlossaryEntry[];
 }

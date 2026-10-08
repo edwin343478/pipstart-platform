@@ -1,3 +1,7 @@
+import {
+  glossaryDisplayTerm,
+  glossaryBrowseSelection,
+} from "../../../lib/glossary-presentation";
 import Link from "next/link";
 import { PageState } from "@repo/ui";
 import { CompactFooter, CompactHeader } from "../../../components/site-chrome";
@@ -25,13 +29,13 @@ export default async function CryptoGlossaryPage({
   searchParams: Promise<GlossaryRouteParams>;
 }) {
   const params = await searchParams;
-  const result = searchGlossary(getDisplayedCourseGlossary("crypto"), {
+  const entries = getDisplayedCourseGlossary("crypto");
+  const byId = new Map(entries.map((e) => [e.id, e]));
+  const result = searchGlossary(entries, {
     ...params,
     course: "crypto",
   });
-  const visibleTerms = result.results.map((r) =>
-    getDisplayedCourseGlossary("crypto").find((e) => e.id === r.entry.id)!,
-  );
+  const visibleTerms = result.results.map((r) => byId.get(r.entry.id)!);
   return (
     <main className={styles.page} data-crypto-glossary>
       <noscript
@@ -50,9 +54,12 @@ export default async function CryptoGlossaryPage({
         <p>
           {isGlossaryReviewMode()
             ? "Explore the reviewed Crypto definitions, everyday examples and lesson contexts."
-            : "Definitions from the approved Crypto lessons, with links to read them in context."}
+            : "Explore approved Crypto definitions, everyday examples and related lessons."}
         </p>
-        <GlossaryGrouping pathname="/glossary/crypto" selection={result} />
+        <GlossaryGrouping
+          pathname="/glossary/crypto"
+          selection={glossaryBrowseSelection(result)}
+        />
         <form
           action="/glossary/crypto"
           method="get"
@@ -72,10 +79,7 @@ export default async function CryptoGlossaryPage({
           <button type="submit" className={styles.searchButton}>
             Search
           </button>
-          <GlossaryCategory
-            entries={getDisplayedCourseGlossary("crypto")}
-            selected={result.category}
-          />
+          <GlossaryCategory entries={entries} selected={result.category} />
         </form>
       </section>
       <nav className={styles.alphabet} aria-label="Filter glossary by letter">
@@ -111,9 +115,9 @@ export default async function CryptoGlossaryPage({
         {visibleTerms.length ? (
           <GlossaryResults
             key={[result.query, result.letter, result.category].join("|")}
-            terms={visibleTerms}
+            terms={visibleTerms.map(glossaryDisplayTerm)}
             pathname="/glossary/crypto"
-            selection={result}
+            selection={glossaryBrowseSelection(result)}
             initialLimit={params.limit}
             termClassName={styles.term}
           />

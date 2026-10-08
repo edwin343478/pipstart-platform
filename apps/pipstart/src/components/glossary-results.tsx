@@ -1,7 +1,7 @@
 "use client";
-import { useState, useSyncExternalStore } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 import Link from "next/link";
-import type { PublishedGlossaryEntry } from "../lib/glossary-publication";
+import type { GlossaryDisplayTerm } from "../lib/glossary-presentation";
 import {
   GLOSSARY_BATCH_SIZE,
   glossaryBrowseHref,
@@ -21,7 +21,7 @@ function subscribeFragment(notify: () => void) {
     window.removeEventListener("popstate", notify);
   };
 }
-const readFragment = () => window.location.hash;
+const readLocation = () => window.location.search + window.location.hash;
 const serverFragment = () => "";
 export function GlossaryResults({
   terms,
@@ -32,7 +32,7 @@ export function GlossaryResults({
   showCourse = false,
   linkNames = false,
 }: {
-  terms: readonly PublishedGlossaryEntry[];
+  terms: readonly GlossaryDisplayTerm[];
   pathname: GlossaryPathname;
   selection: GlossaryBrowseSelection;
   initialLimit?: unknown;
@@ -41,18 +41,71 @@ export function GlossaryResults({
   linkNames?: boolean;
 }) {
   const initial = glossaryVisibleCount(initialLimit, terms.length);
-  const [requested, setRequested] = useState(initial);
-  const fragment = useSyncExternalStore(
+  const location = useSyncExternalStore(
     subscribeFragment,
-    readFragment,
+    readLocation,
     serverFragment,
   );
+  const hashIndex = location.indexOf("#");
+  const fragment = hashIndex < 0 ? "" : location.slice(hashIndex);
+  const search = hashIndex < 0 ? location : location.slice(0, hashIndex);
+  const requested = location
+    ? glossaryVisibleCount(
+        new URLSearchParams(search).get("limit"),
+        terms.length,
+      )
+    : initial;
+  useEffect(() => {
+    if (!fragment) return;
+    let id: string;
+    try {
+      id = decodeURIComponent(fragment.slice(1));
+    } catch {
+      return;
+    }
+    const target = document.getElementById(id);
+    if (!target?.hasAttribute("data-glossary-term") || target.hidden) return;
+    // Re-align after native reload restoration and late font layout have finished.
+    // Cancel pending work as soon as the reader starts navigating the page.
+    let cancelled = false;
+    let frame = 0;
+    const align = () => {
+      if (cancelled || window.location.hash !== fragment) return;
+      target.scrollIntoView({ block: "start", behavior: "instant" });
+      target.focus({ preventScroll: true });
+    };
+    const settle = () => {
+      if (cancelled) return;
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(() => {
+        frame = window.requestAnimationFrame(align);
+      });
+    };
+    const cancel = () => {
+      cancelled = true;
+      window.cancelAnimationFrame(frame);
+    };
+    const inputs = ["pointerdown", "touchstart", "wheel", "keydown"] as const;
+    for (const input of inputs)
+      window.addEventListener(input, cancel, { passive: true });
+    window.addEventListener("load", settle);
+    window.addEventListener("pageshow", settle);
+    align();
+    if (document.readyState === "complete") settle();
+    void document.fonts.ready.then(settle);
+    return () => {
+      cancel();
+      for (const input of inputs) window.removeEventListener(input, cancel);
+      window.removeEventListener("load", settle);
+      window.removeEventListener("pageshow", settle);
+    };
+  }, [fragment]);
   // On the combined search route, keep course-qualified Crypto anchors regardless of filters.
   const anchorScope = pathname === "/glossary/crypto" ? "crypto" : "";
   const anchors = terms.map((term) => glossaryTermAnchor(anchorScope, term));
   const visible = Math.min(
     terms.length,
-    glossaryFragmentCount(fragment, anchors, Math.max(initial, requested)),
+    glossaryFragmentCount(fragment, anchors, requested),
   );
   const next = Math.min(terms.length, visible + GLOSSARY_BATCH_SIZE);
   const moreHref = glossaryBrowseHref(
@@ -71,16 +124,17 @@ export function GlossaryResults({
       >
         Showing {visible} of {terms.length} matching terms
       </p>
-      <noscript>
-        <style>{`
-          /* Important declarations in base outrank Tailwind's layered hidden rule. */
-          @layer base {
-            [data-glossary-term][hidden]:target { display: block !important; }
-          }
-          /* Native fragment navigation must finish before controls are used again. */
-          html:has([data-glossary-term]) { scroll-behavior: auto; }
-        `}</style>
-      </noscript>
+      <noscript
+        dangerouslySetInnerHTML={{
+          __html: `<p>The count describes the current batch. A directly linked term may also appear below it.</p>
+          <style>
+            @layer base {
+              [data-glossary-term][hidden]:target { display: block !important; }
+            }
+            html:has([data-glossary-term]) { scroll-behavior: auto; }
+          </style>`,
+        }}
+      />
       <div id="glossary-term-list">
         {terms.map((term, index) => (
           <article
@@ -121,7 +175,14 @@ export function GlossaryResults({
                 return;
               event.preventDefault();
               const firstNew = anchors[visible];
-              setRequested(next);
+              const url = new URL(window.location.href);
+              url.searchParams.set("limit", String(next));
+              window.history.pushState(
+                null,
+                "",
+                url.pathname + url.search + url.hash,
+              );
+              window.dispatchEvent(new PopStateEvent("popstate"));
               window.requestAnimationFrame(() =>
                 document
                   .getElementById(firstNew)

@@ -286,8 +286,69 @@ test.describe("native no-JavaScript fallback", () => {
       await open(page, href);
       await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
         "content",
-        reviewMode ? /noindex/ : /^index, follow$/,
+        reviewMode || href === "/glossary/search"
+          ? /noindex/
+          : /^index, follow$/,
       );
     }
   });
 }
+
+// Audit follow-up regressions
+
+for (const [route, id] of [
+  ["/glossary", "pip"],
+  ["/glossary/crypto", "wash-trading"],
+  ["/glossary/search", "crypto-wash-trading"],
+]) {
+  test("cold deep link " + route, async ({ page }) => {
+    await page.goto(route + "#" + id);
+    const target = page.locator("#" + id);
+    await expect(target).toBeVisible();
+    await expect(target).toBeInViewport();
+    await expect(target).toBeFocused();
+    await page.reload();
+    await expect(target).toBeInViewport();
+    await expect(target).toBeFocused();
+  });
+}
+test("expanded batches survive reload and Back/Forward", async ({ page }) => {
+  await page.goto("/glossary");
+  await page.getByRole("link", { name: "View more", exact: true }).click();
+  await expect(cards(page)).toHaveCount(24);
+  await expect(cards(page).nth(12)).toBeFocused();
+  await expect(page).toHaveURL(/limit=24/);
+  await page.getByRole("link", { name: "View more", exact: true }).click();
+  await expect(cards(page)).toHaveCount(36);
+  await page.goBack();
+  await expect(cards(page)).toHaveCount(24);
+  await page.goForward();
+  await expect(cards(page)).toHaveCount(36);
+  await page.reload();
+  await expect(cards(page)).toHaveCount(36);
+});
+test("qualified lesson labels and word-aware search", async ({ page }) => {
+  await page.goto("/glossary?q=two-factor+authentication");
+  await expect(
+    page.getByRole("link", { name: /Related lesson:/ }).first(),
+  ).toBeVisible();
+  await page.goto("/glossary?q=ether");
+  await expect(page.locator("#crypto-ether")).toBeVisible();
+});
+test.describe("native count clarification", () => {
+  test.use({ javaScriptEnabled: false });
+  test("native direct targets explain the count exception", async ({
+    page,
+  }) => {
+    await open(page, "/glossary/crypto#wash-trading");
+    await expect(page.locator("#wash-trading")).toBeVisible();
+    // Text locators intentionally skip noscript. Address its rendered paragraph
+    // directly while retaining each project's configured viewport and touch mode.
+    const clarification = page.locator("noscript > p");
+    await expect(clarification).toBeVisible();
+    await expect(clarification).toHaveText(
+      "The count describes the current batch. A directly linked term may also appear below it.",
+    );
+    await noOverflow(page);
+  });
+});

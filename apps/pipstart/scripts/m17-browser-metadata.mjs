@@ -3,7 +3,7 @@ import path from "node:path";
 import { createHash } from "node:crypto";
 export const m17Projects = ["desktop", "mobile", "small-mobile"];
 export const m17ReviewMode = process.env.PIPSTART_M17_GLOSSARY_REVIEW === "1";
-export const m17TestsPerProject = 10;
+export const m17TestsPerProject = 16;
 const sources = [
   "src/app/glossary/page.tsx",
   "src/app/glossary/crypto/page.tsx",
@@ -23,6 +23,9 @@ const sources = [
   "src/lib/glossary-reviewed-preview.ts",
   "src/content/glossary-catalogue.ts",
   "src/lib/glossary-search.ts",
+  "src/lib/glossary-contract.ts",
+  "src/lib/glossary-presentation.ts",
+  "src/app/glossary/layout.tsx",
   "src/lib/glossary-publication.ts",
   "src/lib/glossary-browse.ts",
   "src/lib/glossary-route-search.ts",
