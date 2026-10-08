@@ -134,11 +134,21 @@ describe("M17 Phase 2 published-source integration", () => {
       })),
     ).toEqual(draft.preservationBaseline);
   });
-  it("keeps glossary stylesheets byte-identical to the approved baseline", () => {
-    const hash = (file: string) =>
-      createHash("sha256")
-        .update(readFileSync(resolve(import.meta.dirname, file)))
+  it("allows only the approved mobile typography rule and preserves the original styles", () => {
+    const mobileTypography = Buffer.from(
+      "\n/* Match approved course body text on mobile screens only. */\n" +
+        "@media screen and (max-width: 767px) {\n" +
+        "  .term p {\n    font-size: 16px;\n    line-height: 1.7;\n  }\n}\n",
+    );
+    const hash = (file: string) => {
+      const css = readFileSync(resolve(import.meta.dirname, file));
+      expect(
+        css.subarray(-mobileTypography.length).equals(mobileTypography),
+      ).toBe(true);
+      return createHash("sha256")
+        .update(css.subarray(0, -mobileTypography.length))
         .digest("hex");
+    };
     expect(hash("glossary/page.module.css")).toBe(
       "24dd29c7843342254e4cffe317fdd87232a07c6583f427860c5bf3af8d332db6",
     );
