@@ -1,0 +1,2410 @@
+{
+  "schemaVersion": 1,
+  "document": "PipStart-M17-Glossary-Editorial-Review",
+  "approval": {
+    "date": "2026-10-07",
+    "wordingApproved": true,
+    "publicationApproved": false,
+    "allSourcesVerified": false
+  },
+  "definitions": [
+    {
+      "id": "forex:currency-swap",
+      "reviewCode": "D01",
+      "before": "An arrangement involving exchanges of currencies at different times under agreed terms. The precise structure can vary between products.",
+      "after": "An agreement to exchange payment streams in different currencies, often including principal and interest. An FX swap instead combines a currency exchange with an agreed reverse exchange at a later date.",
+      "reason": "Separate a currency swap from an FX swap rather than treating every two date exchange as the same product.",
+      "sourceCodes": ["S02"]
+    },
+    {
+      "id": "forex:financial-risk",
+      "reviewCode": "D02",
+      "before": "Financial risk is the possibility that you may lose some or all of the money you put into an activity. Forex trading can create losses quickly because currency prices can move in either direction. Costs also matter — a trade may involve a spread, a commission, overnight financing, slippage, or other provider charges, which can reduce gains or increase losses.",
+      "after": "The possibility of financial loss. In leveraged Forex, adverse prices and costs can create rapid losses; depending on the product and protections, liability may exceed the money initially deposited.",
+      "reason": "Make the standalone definition acknowledge losses beyond the deposit where protections do not apply.",
+      "sourceCodes": ["S01"]
+    },
+    {
+      "id": "forex:trading-forex",
+      "reviewCode": "D03",
+      "before": "Trading is different: a trader expects one currency's value to change against another. If the market moves as expected, the trade may make money. If not, it may lose money.",
+      "after": "Taking a currency position to benefit from a change in one currency against another. A favourable move may produce a gain; an adverse move or trading costs may produce a loss.",
+      "reason": "Replace the opening phrase Trading is different because it depends on a preceding paragraph that a glossary reader may never see.",
+      "sourceCodes": []
+    },
+    {
+      "id": "forex:lot-or-position-size",
+      "reviewCode": "D04",
+      "before": "The amount of base currency involved in a position. A conventional standard lot is often 100,000 units, a mini lot 10,000 units, and a micro lot 1,000 units. Providers can have different minimum sizes or contract specifications; always check the product.",
+      "after": "Position size is the quantity involved in a position; a lot is a unit used to express that quantity. Conventional Forex standard, mini and micro lots often represent 100,000, 10,000 and 1,000 base currency units respectively. Check the actual contract specification.",
+      "reason": "Keep the approved label and anchor while explaining that a measurement unit and the quantity measured are related concepts.",
+      "sourceCodes": []
+    },
+    {
+      "id": "forex:inflation",
+      "reviewCode": "D05",
+      "before": "Price change across a defined basket or spending measure over a stated comparison period, commonly expressed as a percentage.",
+      "after": "A rise in the general price level across a defined basket or spending measure over a stated period. Inflation is commonly reported as a percentage rate; a falling inflation rate can still mean prices are rising.",
+      "reason": "The existing price change definition includes falling prices and needs to distinguish inflation from deflation.",
+      "sourceCodes": ["S03"]
+    },
+    {
+      "id": "crypto:automated-market-maker-amm",
+      "reviewCode": "D06",
+      "before": "A smart contract that holds two tokens and sets the price between them with a formula, so anyone can swap at any time without waiting for another person to take the other side.",
+      "after": "A trading mechanism that uses rules or formulas to quote swaps against pooled liquidity. Availability depends on the pool, contract and network; it does not guarantee every swap can execute.",
+      "reason": "Remove the promises that every AMM holds exactly two tokens and that anyone can swap at any time.",
+      "sourceCodes": ["S10"]
+    },
+    {
+      "id": "crypto:cold-wallet",
+      "reviewCode": "D07",
+      "before": "A wallet whose private keys stay offline and never touch an internet-connected computer: slower to use, but harder to attack remotely.",
+      "after": "A wallet arrangement that keeps private signing keys offline. A hardware wallet can sign inside its device while connected to an online computer, without exposing those keys to that computer.",
+      "reason": "Distinguish keeping keys offline from never connecting a hardware wallet to another device.",
+      "sourceCodes": ["S05"]
+    },
+    {
+      "id": "crypto:decentralised",
+      "reviewCode": "D08",
+      "before": "Run by many independent participants, so that no single person, company or government controls the record or can change it alone.",
+      "after": "Control or operation distributed among participants rather than concentrated in one central authority. The degree varies: examine who can validate, upgrade, pause or otherwise influence the system.",
+      "reason": "Replace an absolute promise of no controlling party with a practical description of distributed control.",
+      "sourceCodes": ["S09", "S23"]
+    },
+    {
+      "id": "crypto:decentralised-finance-defi",
+      "reviewCode": "D09",
+      "before": "Financial services, such as swapping, lending and borrowing, that run as smart contracts on a blockchain rather than through a company that holds your money.",
+      "after": "Financial applications that use blockchain smart contracts for activities such as swapping or lending. Some retain administrators, upgrade powers or dependencies on companies and outside data.",
+      "reason": "Using smart contracts does not establish the absence of people, companies or custody dependencies.",
+      "sourceCodes": ["S08", "S09"]
+    },
+    {
+      "id": "crypto:digital-signature",
+      "reviewCode": "D10",
+      "before": "A value created from a message and a private key, which anyone can check against the matching public key. It proves the holder of the private key approved that exact message, without revealing the key.",
+      "after": "Cryptographic data that can be checked against a message and public key to verify signing with the matching private key. It does not by itself prove the rightful owner understood or willingly approved the request.",
+      "reason": "A valid signature may be produced with a stolen key or obtained through deception.",
+      "sourceCodes": ["S06"]
+    },
+    {
+      "id": "crypto:flash-loan",
+      "reviewCode": "D11",
+      "before": "An uncollateralised loan that is borrowed, used and repaid inside one transaction; if it is not repaid, the transaction is cancelled as if it never happened.",
+      "after": "A loan designed to be borrowed and repaid, usually with a fee, within one transaction. If the required conditions fail, its state changes revert; an included failed attempt can still consume gas.",
+      "reason": "Explain what is undone and what may still cost money. Some protocols also support conversion into an authorised collateralised debt position.",
+      "sourceCodes": ["S12", "S13"]
+    },
+    {
+      "id": "crypto:fud",
+      "reviewCode": "D12",
+      "before": "Fear, uncertainty and doubt: information, often exaggerated or false, that spreads fear about a project or the market and pushes people to sell or stay away.",
+      "after": "Fear, uncertainty and doubt. In crypto discussions, the label is often used for negative claims or criticism. Check the evidence: a concern may be accurate, mistaken or deliberately misleading.",
+      "reason": "Do not encourage learners to dismiss valid risk warnings merely because someone calls them FUD.",
+      "sourceCodes": []
+    },
+    {
+      "id": "crypto:liquid-staking-token",
+      "reviewCode": "D13",
+      "before": "A token you receive when you stake through a pooled service, representing your staked coins plus rewards, which you can hold, sell or use elsewhere.",
+      "after": "A token representing a claim on pooled staked assets under the service rules. Rewards may appear through more tokens or a changing redemption rate; trading price, redemption timing and backing can differ.",
+      "reason": "Explain different reward designs and avoid implying immediate redemption or a fixed relationship to the underlying coin.",
+      "sourceCodes": ["S16"]
+    },
+    {
+      "id": "crypto:liquidation",
+      "reviewCode": "D14",
+      "before": "The forced closing of a leveraged position by the exchange when the trader's margin falls below the required minimum, called the maintenance margin.",
+      "after": "Forced reduction or closure when a trading position fails its margin requirements, or seizure of collateral when a lending position crosses its liquidation threshold. The trigger and process depend on the venue or protocol.",
+      "reason": "Include DeFi borrowing as well as exchange derivatives because both occur in the approved Crypto course.",
+      "sourceCodes": ["S11"]
+    },
+    {
+      "id": "crypto:lp-token",
+      "reviewCode": "D15",
+      "before": "A token that records your share of a liquidity pool and lets you withdraw that share of both tokens, plus accumulated fees, when you return it.",
+      "after": "A record of a liquidity provider position and its withdrawal rights under a pool design. Some systems use fungible tokens; others use NFTs. Withdrawable assets and fee collection depend on that design.",
+      "reason": "Do not promise two token redemption plus automatically included fees for every liquidity position.",
+      "sourceCodes": ["S10"]
+    },
+    {
+      "id": "crypto:over-collateralised-loan",
+      "reviewCode": "D16",
+      "before": "A loan where the borrower locks up collateral worth more than the amount borrowed, so the lender can recover its money by selling the collateral if needed.",
+      "after": "A loan supported by collateral worth more than the borrowed amount at the stated valuation time. This buffer can shrink; liquidation, price gaps or other failures can still leave losses.",
+      "reason": "More collateral reduces a specified risk but does not guarantee full recovery for the lender.",
+      "sourceCodes": ["S11", "S28"]
+    },
+    {
+      "id": "crypto:proof-of-reserves",
+      "reviewCode": "D17",
+      "before": "A report showing that, at a single point in time, a provider controlled at least enough of certain assets to cover the customer balances included in the check.",
+      "after": "A check or report concerning selected assets controlled by a provider at a stated time. Its scope varies and may omit liabilities or other obligations; it does not by itself establish solvency.",
+      "reason": "The existing definition assumes sufficient assets and included customer balance coverage that not every report demonstrates.",
+      "sourceCodes": ["S14"]
+    },
+    {
+      "id": "crypto:real-world-asset-rwa-token",
+      "reviewCode": "D18",
+      "before": "A token that represents a claim on an asset existing outside the blockchain, such as a bond or property, held by an issuer or custodian.",
+      "after": "A token linked to an asset or economic exposure outside the blockchain, such as a bond or property. Actual ownership, redemption and enforceable rights depend on its legal structure and documents.",
+      "reason": "A token label alone does not establish ownership or an enforceable claim on an underlying asset.",
+      "sourceCodes": ["S18"]
+    },
+    {
+      "id": "crypto:seed-phrase-recovery-phrase",
+      "reviewCode": "D19",
+      "before": "A list of words, usually 12 or 24, that encodes the secret from which a wallet creates all of its private keys. Anyone who has it can rebuild the wallet and move its funds.",
+      "after": "An ordered set of words used by a compatible wallet to derive recovery keys. A BIP 39 wallet may also require its exact passphrase; multisig recovery may require other keys. Treat recovery material as secret.",
+      "reason": "Remove the universal promise that one word list restores every key and can alone spend every wallet.",
+      "sourceCodes": ["S07"]
+    },
+    {
+      "id": "crypto:smart-contract",
+      "reviewCode": "D20",
+      "before": "A program stored on a blockchain that runs exactly as written when a transaction calls it, moving value or recording data according to its rules, with no person needed to approve each step.",
+      "after": "A blockchain program whose rules execute when called under the network conditions. It can move assets or update records, but may contain bugs or depend on administrator permissions, upgrades and external data.",
+      "reason": "Automatic execution is not a guarantee of correct design, permanent rules or freedom from human controls.",
+      "sourceCodes": ["S08", "S09"]
+    },
+    {
+      "id": "crypto:target",
+      "reviewCode": "D21",
+      "before": "The threshold a block header's hash must fall below for the block to be valid. A lower target means fewer winning hashes, so more guesses are needed.",
+      "after": "In Bitcoin proof of work, the threshold the block header hash must be less than or equal to. A lower target makes a qualifying hash less likely per attempt.",
+      "reason": "Correct the strict below wording and identify Bitcoin. This is unrelated to a Forex profit target.",
+      "sourceCodes": ["S17"]
+    },
+    {
+      "id": "crypto:the-dao",
+      "reviewCode": "D22",
+      "before": "An investment fund built from smart contracts on Ethereum in 2016, whose code was exploited in June 2016, leading to Ethereum's most famous chain split.",
+      "after": "An Ethereum smart contract investment project launched in 2016. Its June 2016 exploit prompted a disputed July hard fork; the chains continued as Ethereum and Ethereum Classic.",
+      "reason": "Replace most famous with a factual account and distinguish the exploit from the later fork.",
+      "sourceCodes": ["S21"]
+    },
+    {
+      "id": "crypto:travel-rule",
+      "reviewCode": "D23",
+      "before": "A FATF standard requiring financial firms, including crypto providers, to pass identifying information about the sender and receiver along with a transfer.",
+      "after": "A FATF standard concerning collection and secure transmission of originator and beneficiary information for relevant transfers involving regulated providers. National implementation and applicable requirements vary.",
+      "reason": "Avoid presenting a global standard as a single identical law applying to every transfer.",
+      "sourceCodes": ["S15"]
+    },
+    {
+      "id": "crypto:trading",
+      "reviewCode": "D24",
+      "before": "Buying and selling frequently to try to profit from short-term price moves. It needs more time, skill and discipline than investing, and many people who try it lose money.",
+      "after": "Buying and selling, or opening and closing market positions, to benefit from price changes. Holding periods vary. Costs, execution and losses matter even when the activity follows a written plan.",
+      "reason": "Trading need not be frequent or exclusively short term. Preserve the distinction from long term ownership without imposing one style.",
+      "sourceCodes": []
+    },
+    {
+      "id": "crypto:transaction",
+      "reviewCode": "D25",
+      "before": "A signed message that spends earlier Bitcoin outputs (its inputs) and creates new ones (its outputs), each output locked so that only its new owner can spend it later.",
+      "after": "In the Bitcoin context, a transaction spends earlier outputs and creates new outputs with specified spending conditions. These may require a signature, several signatures or other conditions. Other blockchains use different transaction models.",
+      "reason": "A new output is not necessarily controlled by one new owner, and the Bitcoin model is not universal.",
+      "sourceCodes": ["S17", "S08"]
+    },
+    {
+      "id": "crypto:crypto-wallet",
+      "reviewCode": "D26",
+      "before": "Software or a device that stores (or gives access to) the private keys for your addresses, shows balances by reading the blockchain, and lets you sign and send transactions.",
+      "after": "An application or device used to view balances and manage interactions with blockchain accounts. A signing wallet uses private keys; a watch only wallet uses public information, while a custodial service controls keys for its customers.",
+      "reason": "The existing definition does not cover the watch only and custodial cases taught elsewhere in the course.",
+      "sourceCodes": ["S04"]
+    },
+    {
+      "id": "crypto:address",
+      "reviewCode": "D27",
+      "before": "A code that a payer's wallet uses to lock bitcoin to a recipient. It identifies who can spend an output, not who the person is.",
+      "after": "In Bitcoin, a code that helps a payer wallet create the spending conditions for a payment output. It is a payment destination, not proof of the recipient identity. Other networks use different address and account models.",
+      "reason": "Make the Bitcoin context visible when a learner opens this entry directly.",
+      "sourceCodes": ["S30"]
+    },
+    {
+      "id": "crypto:algorithmic-stablecoin",
+      "reviewCode": "D28",
+      "before": "A stablecoin that tries to hold its peg mainly through automated rules for creating and destroying tokens, often linked to a second, volatile token, rather than through reserves of safe assets.",
+      "after": "A stablecoin relying on programmed mechanisms to influence supply or demand and support a reference price. Designs differ, including systems with partial collateral. The algorithm does not guarantee that the peg will hold.",
+      "reason": "Avoid classifying every algorithmic design as entirely unbacked or reliant on a second token.",
+      "sourceCodes": ["S32"]
+    },
+    {
+      "id": "crypto:notional-value",
+      "reviewCode": "D29",
+      "before": "The full market value of a derivatives position: the number of units it covers multiplied by the current mark price.",
+      "after": "A reference value describing the exposure represented by a derivatives position. For a simple linear contract, quantity times contract multiplier times the stated reference price gives notional; other contract designs use different conventions.",
+      "reason": "Do not use a universal mark price multiplication rule for every derivative.",
+      "sourceCodes": ["S31"]
+    },
+    {
+      "id": "crypto:token",
+      "reviewCode": "D30",
+      "before": "An asset created by a smart contract running on an existing blockchain. The contract keeps the list of balances and the rules for moving them.",
+      "after": "A digital asset issued using an existing blockchain. Many tokens use smart contracts to maintain balances and transfer rules, but technical designs, permissions and holder rights vary.",
+      "reason": "Avoid implying that all token systems use the same smart contract balance model.",
+      "sourceCodes": ["S19"]
+    },
+    {
+      "id": "crypto:maximum-supply",
+      "reviewCode": "D31",
+      "before": "The most tokens that can ever exist under the project's rules. Some assets have no maximum.",
+      "after": "The stated upper supply limit under an asset's current rules, where such a limit exists. Check how the limit is enforced and whether anyone has power to change those rules.",
+      "reason": "Qualify a lifetime cap as a rule to verify rather than an unchangeable promise for every project.",
+      "sourceCodes": []
+    },
+    {
+      "id": "crypto:blockchain",
+      "reviewCode": "D32",
+      "before": "A shared record of transactions stored across a network of computers.",
+      "after": "A shared record organised into linked blocks and maintained under a network's rules for checking and agreeing updates. Participants hold or verify the record in ways that depend on the network design.",
+      "reason": "The existing shared record definition omits the linked blocks that distinguish the structure.",
+      "sourceCodes": ["S17"]
+    },
+    {
+      "id": "crypto:halving",
+      "reviewCode": "D33",
+      "before": "The scheduled event, every 210,000 blocks, at which the block subsidy paid to miners is cut in half.",
+      "after": "In Bitcoin, the scheduled reduction by half of the new block subsidy every 210,000 blocks under its issuance rules. It changes new issuance, not existing wallet balances or transaction fees.",
+      "reason": "Make the Bitcoin scope explicit rather than imply all chains use this issuance schedule.",
+      "sourceCodes": ["S17"]
+    }
+  ],
+  "examples": [
+    {
+      "id": "forex:currency-swap",
+      "before": "For a simple FX-swap illustration, a business exchanges currencies now and agrees a reverse exchange for a later date.",
+      "after": "A business with USD borrowing and EUR revenue agrees to exchange payment streams under a currency swap. A simpler exchange today with a reverse exchange later illustrates an FX swap instead."
+    },
+    {
+      "id": "crypto:active-addresses",
+      "before": null,
+      "after": "A shop counts 40 loyalty cards used today. One shopper may use several cards, so 40 cards does not prove there were 40 people. Blockchain addresses have a similar measurement limit."
+    },
+    {
+      "id": "crypto:address",
+      "before": null,
+      "after": "Think of a delivery destination rather than a person's name. In a Bitcoin payment, the address helps the wallet create spending conditions; the visible code alone does not identify the recipient."
+    },
+    {
+      "id": "crypto:address-poisoning",
+      "before": null,
+      "after": "A fake contact with a name almost like your sister's appears in your phone. Choosing it from recent contacts sends the message to the wrong person. A look alike address can cause a similar mistake."
+    },
+    {
+      "id": "crypto:airdrop",
+      "before": null,
+      "after": "A cafe gives sample vouchers to visitors. A token distribution can resemble that promotion, but claiming a token may involve conditions, fees or an unsafe request. A gift label does not establish safety."
+    },
+    {
+      "id": "crypto:algorithmic-stablecoin",
+      "before": null,
+      "after": "Imagine a voucher intended to stay near one US dollar through rules that expand or reduce supply. If confidence in those rules breaks, the price can move away from the promised reference."
+    },
+    {
+      "id": "crypto:altcoin",
+      "before": null,
+      "after": "A learner first studies Bitcoin, then compares other crypto assets. The broad label altcoin does not tell the learner whether another asset has useful rights, reliable liquidity or sound security."
+    },
+    {
+      "id": "crypto:anchoring",
+      "before": null,
+      "after": "A jacket first displayed at GBP 100 seems cheap at GBP 70, even when another shop sells it for GBP 60. The first number can distort the later judgment."
+    },
+    {
+      "id": "crypto:audit-scope",
+      "before": null,
+      "after": "A mechanic checks a car's brakes but not its engine. A good brakes report says little about the engine. Similarly, a code review only addresses the stated code and review scope."
+    },
+    {
+      "id": "crypto:automated-market-maker-amm",
+      "before": null,
+      "after": "Imagine a stall whose price changes according to stock remaining rather than a seller negotiating each purchase. An AMM uses programmed pricing, but a real swap also needs usable liquidity and a working network."
+    },
+    {
+      "id": "crypto:bitcoin",
+      "before": null,
+      "after": "An Australian learner can study Bitcoin's payment record without first buying BTC. Bitcoin names the network and its native asset; the learning exercise is separate from a price prediction."
+    },
+    {
+      "id": "crypto:block",
+      "before": null,
+      "after": "A clerk groups today's receipts into a numbered packet and refers to the earlier packet. This illustrates batching and linking; Bitcoin also checks the transactions and proof of work."
+    },
+    {
+      "id": "crypto:block-reward",
+      "before": null,
+      "after": "Imagine a delivery worker receiving a scheduled base payment plus the delivery fees collected. Bitcoin's subsidy and transaction fees are separate parts of its block reward."
+    },
+    {
+      "id": "crypto:blockchain",
+      "before": null,
+      "after": "Several members of a savings club keep matching copies of an agreed record. A blockchain adds rules for checking and ordering updates rather than trusting a single notebook keeper."
+    },
+    {
+      "id": "crypto:bridge",
+      "before": null,
+      "after": "A travel desk accepts one voucher and issues a corresponding voucher for another system. If the desk fails, the second voucher may not be redeemable. Blockchain bridges introduce their own trust dependencies."
+    },
+    {
+      "id": "crypto:broker-crypto",
+      "before": null,
+      "after": "A currency kiosk quotes a single all in exchange price instead of showing every customer's offer. A crypto broker may work similarly, so compare its quote and disclosed fees."
+    },
+    {
+      "id": "crypto:centralised-exchange-cex",
+      "before": null,
+      "after": "Leaving an item in a company's storage facility gives that company control over release. An exchange balance similarly depends on the company allowing withdrawals; it is different from holding the signing keys yourself."
+    },
+    {
+      "id": "crypto:circulating-supply",
+      "before": null,
+      "after": "A bakery has made 1,000 vouchers but keeps 300 locked for staff. A public supply estimate may exclude those 300. Check the data provider's rule rather than assuming every voucher is available."
+    },
+    {
+      "id": "crypto:clipboard-hijacker",
+      "before": null,
+      "after": "You copy your cousin's delivery address, but a malicious program replaces it before you paste. Compare the full destination with a trusted source before confirming a crypto transfer."
+    },
+    {
+      "id": "crypto:cognitive-bias",
+      "before": null,
+      "after": "You remember the two occasions when a shortcut saved time but forget the five when it delayed you. Keeping a dated record helps you test the impression against the whole sample."
+    },
+    {
+      "id": "crypto:coin",
+      "before": null,
+      "after": "BTC is native to Bitcoin and ETH is native to Ethereum. A token using Ethereum is different from ETH, just as a shop voucher differs from the national currency used to pay fees."
+    },
+    {
+      "id": "crypto:cold-wallet",
+      "before": null,
+      "after": "A signing device can approve a transaction internally while a connected laptop broadcasts it. The secret stays in the device, but a misleading request or compromised backup can still cause loss."
+    },
+    {
+      "id": "crypto:concentration",
+      "before": null,
+      "after": "If every saved holiday booking is with one company, that company's failure affects the entire trip. Holding different tokens at the same provider can still leave one shared dependency."
+    },
+    {
+      "id": "crypto:confirmation-bias",
+      "before": null,
+      "after": "You want a used car to be a bargain, so you read only its good reviews. A careful token review also records evidence that could contradict your initial opinion."
+    },
+    {
+      "id": "crypto:consensus-mechanism",
+      "before": null,
+      "after": "A club agrees how members will accept new entries in its shared record. A blockchain has technical rules for agreement; those rules do not automatically prove that an asset is valuable."
+    },
+    {
+      "id": "crypto:correlation",
+      "before": null,
+      "after": "An Australian learner compares weekly changes in two assets in AUD. They moved together in one sample, but a different period or currency can give a different result."
+    },
+    {
+      "id": "crypto:cost-basis",
+      "before": null,
+      "after": "A Canadian learner records CAD 100 paid for an asset and CAD 2 in acquisition fees. The record supports later calculations, but the permitted tax treatment depends on the applicable rules."
+    },
+    {
+      "id": "crypto:counterparty-risk",
+      "before": null,
+      "after": "You pay for furniture before delivery. If the seller cannot supply it or refund you, its failure creates a loss even if the furniture's market price has not changed."
+    },
+    {
+      "id": "crypto:cross-chain-messaging",
+      "before": null,
+      "after": "A shop's ordering system sends instructions to a separate warehouse system. Blockchain messaging similarly carries data between systems and depends on how the message is checked."
+    },
+    {
+      "id": "crypto:crypto-asset",
+      "before": null,
+      "after": "A learner compares a native coin, a governance token and a token linked to a bond. Their common crypto label does not mean they grant the same ownership rights or face the same risks."
+    },
+    {
+      "id": "crypto:crypto-wallet",
+      "before": null,
+      "after": "A banking app displays money rather than physically containing it. A wallet similarly reads blockchain records; control depends on the keys and account rules, not the displayed balance alone."
+    },
+    {
+      "id": "crypto:daily-close-crypto",
+      "before": null,
+      "after": "A supermarket can remain open after you total the day's sales at midnight. Crypto trading can continue after a chart provider takes its daily closing observation."
+    },
+    {
+      "id": "crypto:decentralised",
+      "before": null,
+      "after": "A neighbourhood group may share routine decisions while one organiser keeps the power to change the rules. Examine the actual powers rather than accepting a distributed label at face value."
+    },
+    {
+      "id": "crypto:decentralised-finance-defi",
+      "before": null,
+      "after": "A self service payment machine carries out written instructions, but someone may still maintain or pause it. A DeFi application also needs a review of code, permissions and outside dependencies."
+    },
+    {
+      "id": "crypto:decision-journal",
+      "before": null,
+      "after": "Before a purchase, you record the price, reasons and alternatives. Later you add what happened without rewriting the earlier reasoning. A market journal uses the same separation."
+    },
+    {
+      "id": "crypto:difficulty",
+      "before": null,
+      "after": "Imagine a game accepting only a narrower set of ticket numbers. A winning ticket becomes less likely per attempt. This illustrates Bitcoin's changing proof of work difficulty."
+    },
+    {
+      "id": "crypto:digital-signature",
+      "before": null,
+      "after": "A valid approval made with a stolen office signing stamp would not prove the manager wanted the purchase. A valid cryptographic signature also cannot establish informed human consent by itself."
+    },
+    {
+      "id": "crypto:dollar-cost-averaging-dca",
+      "before": null,
+      "after": "In an invented practice record, a learner allocates GBP 40 each month. GBP 40 buys more units at GBP 2 than at GBP 4. Regular purchases still can lose value."
+    },
+    {
+      "id": "crypto:double-spending",
+      "before": null,
+      "after": "A copied gift voucher should not pay for two independent purchases. Bitcoin's rules aim to prevent two conflicting spends of the same output from both being accepted in the agreed chain."
+    },
+    {
+      "id": "crypto:drawdown",
+      "before": null,
+      "after": "An example holding rises to EUR 200 and later falls to EUR 150. The decline is EUR 50, or 25% of the earlier peak; this differs from its return since purchase."
+    },
+    {
+      "id": "crypto:finfluencer",
+      "before": null,
+      "after": "A video presenter praises a product while receiving a sponsorship payment. A crypto recommendation needs a check of evidence, disclosed incentives and applicable permissions."
+    },
+    {
+      "id": "crypto:flash-loan",
+      "before": null,
+      "after": "Imagine a programmed worksheet that accepts a whole sequence only if its final repayment check passes. This illustrates atomic execution, not an ordinary shop loan. An included failed transaction may still cost gas."
+    },
+    {
+      "id": "crypto:fomo",
+      "before": null,
+      "after": "Friends discuss a concert selling out, and you feel pushed to buy before checking your budget. A rising chart can create similar urgency without improving the evidence for a decision."
+    },
+    {
+      "id": "crypto:fud",
+      "before": null,
+      "after": "One message says a shop may close; another calls the warning negativity. Check the lease notice and reliable evidence. In crypto, a criticism's label does not decide whether it is true."
+    },
+    {
+      "id": "crypto:fully-diluted-valuation-fdv",
+      "before": null,
+      "after": "If an invented token costs USD 2 and the stated supply basis is one million units, FDV is USD 2 million. Record which supply measure was used; this is not cash invested."
+    },
+    {
+      "id": "crypto:funding-rate",
+      "before": null,
+      "after": "Under an invented rule, a 0.01% payment on USD 1,000 notional is USD 0.10 for that interval. Check which side pays; the sign, timing and formula can change."
+    },
+    {
+      "id": "crypto:gas",
+      "before": null,
+      "after": "A taxi meter measures distance while the tariff determines the bill. Gas measures computational work; the gas price helps determine the fee paid in ETH."
+    },
+    {
+      "id": "crypto:governance-token",
+      "before": null,
+      "after": "A club gives voting rights under its constitution. A governance token likewise has specific voting rules; holding it need not give ownership of the organisation or a share of its profits."
+    },
+    {
+      "id": "crypto:gwei",
+      "before": null,
+      "after": "Cents are a smaller way to quote an amount of dollars. Gwei is a smaller unit of ETH, useful for quoting gas prices; it is not a separate coin."
+    },
+    {
+      "id": "crypto:halving",
+      "before": null,
+      "after": "A production schedule cuts new output after a specified count, rather than on an exact calendar anniversary. Bitcoin's halving is tied to block height and does not halve existing balances."
+    },
+    {
+      "id": "crypto:hash",
+      "before": null,
+      "after": "A file checking tool produces a fingerprint for a receipt file. A changed file will normally have a different fingerprint. A hash is not encryption and does not prove that the receipt's contents are true."
+    },
+    {
+      "id": "crypto:honeypot-token",
+      "before": null,
+      "after": "A shop takes payment but secretly blocks returns under rules the owner can bypass. A token can similarly permit buying while imposing hidden barriers to selling."
+    },
+    {
+      "id": "crypto:hot-wallet",
+      "before": null,
+      "after": "Keeping a spending wallet on a phone is convenient, like keeping everyday cash within reach. An online signing environment also increases exposure to malware and deceptive requests."
+    },
+    {
+      "id": "crypto:investing",
+      "before": null,
+      "after": "A learner researches an asset intended for a longer holding period. Waiting longer does not guarantee recovery after a fall, and an asset can lose most or all of its value."
+    },
+    {
+      "id": "crypto:issuance",
+      "before": null,
+      "after": "A bakery prints new vouchers under its published schedule. Bitcoin creates new units through the block subsidy; transaction fees transfer existing units instead."
+    },
+    {
+      "id": "crypto:kyc-and-aml",
+      "before": null,
+      "after": "Checking an identity document is one customer check. Detecting unusual activity, keeping records and reporting concerns belong to a wider compliance process; KYC and AML are related, not identical."
+    },
+    {
+      "id": "crypto:layer-1",
+      "before": null,
+      "after": "Think of a base record system with its own agreement rules. Bitcoin and Ethereum are separate base networks; the same looking asset label does not make their transfers interchangeable."
+    },
+    {
+      "id": "crypto:layer-2",
+      "before": null,
+      "after": "A branch system processes work and settles specified evidence to its base system. Check what security it actually inherits, where its data is available and who can change its rules."
+    },
+    {
+      "id": "crypto:legal-wrapper",
+      "before": null,
+      "after": "A community association registers a legal entity to sign contracts. A DAO may also use an entity, but the name alone does not establish members' rights or limited liability everywhere."
+    },
+    {
+      "id": "crypto:liquid-staking-token",
+      "before": null,
+      "after": "A receipt records a claim on pooled assets. Selling the receipt today is different from waiting to redeem the assets; the receipt's market price may differ from its underlying claim."
+    },
+    {
+      "id": "crypto:liquidation",
+      "before": null,
+      "after": "In an invented borrowing example, collateral worth USD 150 supports USD 100 debt. A price fall may cross the protocol's threshold and permit collateral seizure before the collateral reaches zero."
+    },
+    {
+      "id": "crypto:loss-aversion",
+      "before": null,
+      "after": "Losing EUR 20 may feel more upsetting than finding EUR 20 feels pleasant. That feeling can tempt someone to delay a necessary review of a losing position."
+    },
+    {
+      "id": "crypto:loss-budget",
+      "before": null,
+      "after": "A learner writes a cash boundary after setting aside rent, bills and emergency money. A planned boundary is a control to review, not a promise that any position will stop at it."
+    },
+    {
+      "id": "crypto:lp-token",
+      "before": null,
+      "after": "A receipt can identify a share in a joint pool. The pool's rules decide what the receipt can redeem and how fees are collected; a percentage share does not freeze the original asset mix."
+    },
+    {
+      "id": "crypto:malware",
+      "before": null,
+      "after": "A fake update installs a program that watches passwords or changes payment details. Obtain software through verified channels and inspect requests before approving them."
+    },
+    {
+      "id": "crypto:market-capitalisation",
+      "before": null,
+      "after": "An invented price of USD 3 times two million circulating units gives USD 6 million. It does not show that USD 6 million was deposited or can be withdrawn at that price."
+    },
+    {
+      "id": "crypto:maximalism",
+      "before": null,
+      "after": "A phone fan insists one brand should replace all others. A similar attachment to one crypto network can discourage fair comparison of evidence and tradeoffs."
+    },
+    {
+      "id": "crypto:maximum-supply",
+      "before": null,
+      "after": "A ticket printer has a stated lifetime printing limit. Check whether the token's rules actually enforce a cap and who could change those rules."
+    },
+    {
+      "id": "crypto:memecoin",
+      "before": null,
+      "after": "A themed souvenir becomes popular because an online community enjoys the joke. Popularity can change quickly and does not itself establish cash flows or useful rights."
+    },
+    {
+      "id": "crypto:memo-or-destination-tag",
+      "before": null,
+      "after": "A shared apartment building has one street address but separate flat numbers. A receiving service may need a tag or memo to credit the correct customer."
+    },
+    {
+      "id": "crypto:mempool",
+      "before": null,
+      "after": "Different shops have different queues of pending requests. Nodes likewise can have different pending transaction sets; there is not necessarily one identical global mempool."
+    },
+    {
+      "id": "crypto:mining",
+      "before": null,
+      "after": "A Bitcoin miner searches for a qualifying header hash, while nodes still check all the block rules. Finding a hash does not make an otherwise invalid transaction acceptable."
+    },
+    {
+      "id": "crypto:multisig-wallet",
+      "before": null,
+      "after": "A savings club requires two approvals out of three authorised signers. A two of three wallet similarly needs the required distinct keys; two copies of one key do not provide two signers."
+    },
+    {
+      "id": "crypto:network-in-a-transfer",
+      "before": null,
+      "after": "A parcel needs the correct destination and delivery service. A crypto transfer must use a network and asset the recipient supports, as well as the correct address and any required tag."
+    },
+    {
+      "id": "crypto:nft-non-fungible-token",
+      "before": null,
+      "after": "Owning a numbered collectible receipt does not automatically transfer the artist's copyright. An NFT identifies a token; separate documents decide any associated intellectual property rights."
+    },
+    {
+      "id": "crypto:nonce",
+      "before": null,
+      "after": "A miner changes a header number to try a different hash. In Ethereum, an account transaction nonce has a different role: sequence and replay control. Keep the Bitcoin context visible."
+    },
+    {
+      "id": "crypto:notional-value",
+      "before": null,
+      "after": "For an invented linear position covering 0.2 BTC at USD 50,000 each, the reference notional is USD 10,000. Contract specifications and the chosen price basis must be stated; notional is different from margin."
+    },
+    {
+      "id": "crypto:off-chain-governance",
+      "before": null,
+      "after": "Neighbours discuss a rule and choose whether to adopt it. A blockchain community can similarly coordinate through discussion and software choices rather than a binding token vote."
+    },
+    {
+      "id": "crypto:on-ramp-and-off-ramp",
+      "before": null,
+      "after": "A Canadian learner uses CAD to acquire crypto through an on ramp, and later converts crypto to CAD through an off ramp. Each step can have fees, limits and verification requirements."
+    },
+    {
+      "id": "crypto:open-interest-oi",
+      "before": null,
+      "after": "If 100 contracts remain open, they represent 100 matched long and short pairs, not 200 contracts. A data service may display a money equivalent instead, so read the units."
+    },
+    {
+      "id": "crypto:over-collateralised-loan",
+      "before": null,
+      "after": "A lender takes security worth more than a loan when it starts. If that security falls quickly or cannot be sold, the extra starting value may not prevent a loss."
+    },
+    {
+      "id": "crypto:passphrase-bip-39",
+      "before": null,
+      "after": "The same BIP 39 recovery words with different passphrases derive different wallets. A device PIN is a separate feature; a forgotten passphrase cannot be replaced by remembering the PIN."
+    },
+    {
+      "id": "crypto:peer-to-peer",
+      "before": null,
+      "after": "Two neighbours exchange information directly while still following agreed rules. A peer network can avoid one central organiser without removing every trust or security assumption."
+    },
+    {
+      "id": "crypto:permit-signature",
+      "before": null,
+      "after": "A signed permission slip authorises a specified party to act later. A token permit can grant spending allowance even before you send an on chain transaction yourself; inspect the spender and amount."
+    },
+    {
+      "id": "crypto:personal-circuit-breaker",
+      "before": null,
+      "after": "You decide in advance to pause whenever a last chance message appears. The pause creates time to check facts and budget instead of responding to pressure."
+    },
+    {
+      "id": "crypto:phishing",
+      "before": null,
+      "after": "An email imitates your delivery company and asks for a password on a copied site. A fake crypto support message may instead ask for recovery words or a harmful signature."
+    },
+    {
+      "id": "crypto:ponzi-scheme",
+      "before": null,
+      "after": "A club pays earlier members using money from new arrivals while pretending it earned investment profit. An attractive payout does not establish that a genuine income source exists."
+    },
+    {
+      "id": "crypto:pre-commitment",
+      "before": null,
+      "after": "Before shopping, you write a spending limit and a waiting rule for expensive items. A learning plan can use the same idea to reduce decisions made under excitement or fear."
+    },
+    {
+      "id": "crypto:proof-of-reserves",
+      "before": null,
+      "after": "A photo shows cash in a shop's till, but not its unpaid supplier bills. A reserves snapshot also cannot by itself reveal all liabilities or prove continuing solvency."
+    },
+    {
+      "id": "crypto:pseudonymity",
+      "before": null,
+      "after": "An online username is not a legal name, but a public profile may connect the two. An address can similarly become linked to a person through other information."
+    },
+    {
+      "id": "crypto:pump-and-dump",
+      "before": null,
+      "after": "A promoter praises a collectible while secretly selling a large stock into the new demand. Later buyers may be left with an item few people want at the promoted price."
+    },
+    {
+      "id": "crypto:real-world-asset-rwa-token",
+      "before": null,
+      "after": "A token mentions a property, but the buyer still needs to know who owns it and what redemption rights exist. A digital label is different from an enforceable deed or claim."
+    },
+    {
+      "id": "crypto:rebalancing",
+      "before": null,
+      "after": "In a hypothetical record, EUR 60 of one holding and EUR 40 of another become EUR 80 and EUR 40. The mix is now about 67% and 33%; restoring a chosen mix may incur costs or tax consequences."
+    },
+    {
+      "id": "crypto:recovery-plan",
+      "before": null,
+      "after": "An offline checklist says where authorised recovery instructions are held and who should act. It helps organisation without placing all the secrets into one easily stolen document."
+    },
+    {
+      "id": "crypto:rehypothecation",
+      "before": null,
+      "after": "A storage provider accepts an item, then pledges it to someone else under its terms. Customer asset reuse creates dependencies beyond simple safekeeping."
+    },
+    {
+      "id": "crypto:relationship-investment-scam-pig-butchering",
+      "before": null,
+      "after": "A new online friend builds trust, then recommends a platform that displays invented profits and blocks withdrawals. Independent verification is needed even when the conversation feels personal."
+    },
+    {
+      "id": "crypto:rug-pull",
+      "before": null,
+      "after": "Organisers sell entry passes to a project, then take the funds or remove essential support. In crypto, a sudden removal of liquidity or malicious control can leave holders unable to exit."
+    },
+    {
+      "id": "crypto:seed-phrase-recovery-phrase",
+      "before": null,
+      "after": "A recovery backup is closer to a master access secret than a customer account number. Its words, order and any additional recovery requirements matter; never give it to someone claiming to be support."
+    },
+    {
+      "id": "crypto:sim-swap",
+      "before": null,
+      "after": "A criminal persuades a mobile provider to redirect your number to another SIM. They may then receive text verification codes; SMS access is not the same as secure control of your recovery material."
+    },
+    {
+      "id": "crypto:slashing",
+      "before": null,
+      "after": "A referee penalises a participant for a specific rule violation. In Ethereum staking, conflicting signed votes can trigger slashing; ordinary downtime penalties are a different mechanism."
+    },
+    {
+      "id": "crypto:smart-contract",
+      "before": null,
+      "after": "A programmed vending rule checks an input before updating records. The rule can still contain a mistake or administrator powers, so automatic operation is different from guaranteed safety."
+    },
+    {
+      "id": "crypto:spread",
+      "before": null,
+      "after": "An invented best bid is USD 99 and best ask is USD 101. The spread is USD 2; fees and the available quantity can add further execution costs."
+    },
+    {
+      "id": "crypto:stablecoin",
+      "before": null,
+      "after": "A token aims to stay near one US dollar. If it trades at USD 0.94, the reference remains one dollar but the market price has moved away from it."
+    },
+    {
+      "id": "crypto:sunk-cost-fallacy",
+      "before": null,
+      "after": "A prepaid cinema ticket tempts you to stay even when you feel unwell. The past payment cannot decide whether staying is the best choice now."
+    },
+    {
+      "id": "crypto:supply-cap",
+      "before": null,
+      "after": "A Bitcoin learner separates the supply rule from market demand. A finite supply does not make any particular future price certain."
+    },
+    {
+      "id": "crypto:target",
+      "before": null,
+      "after": "A simplified number game accepts results of 10 or less. Reducing the threshold to 5 makes a qualifying result less likely. Bitcoin uses a much larger numerical threshold."
+    },
+    {
+      "id": "crypto:the-dao",
+      "before": null,
+      "after": "A jointly funded project had a software flaw; participants disagreed on how to respond. The DAO episode shows that code risk and governance decisions can affect each other."
+    },
+    {
+      "id": "crypto:token",
+      "before": null,
+      "after": "A voucher uses an existing shop system rather than being the shop's national currency. Many blockchain tokens similarly use an existing network, but their rights and technical designs differ."
+    },
+    {
+      "id": "crypto:total-supply",
+      "before": null,
+      "after": "A project has created 1,000 units and verifiably burned 100. Under that stated measure, total supply is 900, including units still locked or not publicly circulating."
+    },
+    {
+      "id": "crypto:total-value-locked-tvl",
+      "before": null,
+      "after": "A pool holds ten units priced at USD 5, giving USD 50 under that valuation rule. If the price doubles, measured TVL can rise without any new units being deposited."
+    },
+    {
+      "id": "crypto:trading",
+      "before": null,
+      "after": "A learner records an intended entry, exit and costs in a practice trade. The holding period alone does not determine whether the plan is sensible or whether it will make money."
+    },
+    {
+      "id": "crypto:transaction",
+      "before": null,
+      "after": "In a Bitcoin example, one input supports a payment output and a change output. The difference between total inputs and outputs pays the fee; the wallet chooses the spending conditions."
+    },
+    {
+      "id": "crypto:travel-rule",
+      "before": null,
+      "after": "A provider may ask who is sending and receiving a transfer. Which information is required depends on its applicable rules; a transfer between personal wallets is not automatically treated like every provider transfer."
+    },
+    {
+      "id": "crypto:trusted-third-party",
+      "before": null,
+      "after": "Two buyers trust an escrow company to release payment when conditions are met. Its service can help coordination while also creating a dependency on that company."
+    },
+    {
+      "id": "crypto:utxo-unspent-transaction-output",
+      "before": null,
+      "after": "A Bitcoin wallet has spendable outputs of 0.003 and 0.002 BTC. Together they total 0.005 BTC before considering the fee and conditions of a new transaction."
+    },
+    {
+      "id": "crypto:value-capture",
+      "before": null,
+      "after": "A busy shopping centre can earn income without paying visitors. A busy blockchain also need not reward every token holder; inspect the actual fee, burn or distribution rules."
+    },
+    {
+      "id": "crypto:wallet-drainer",
+      "before": null,
+      "after": "A fake sale page asks you to sign a request that grants an attacker spending power. Connecting a wallet and approving a signature are distinct steps; inspect each request."
+    },
+    {
+      "id": "crypto:wash-trading",
+      "before": null,
+      "after": "A seller repeatedly trades an item between accounts it controls to make demand look strong. Reported activity can rise without independent buyers or genuine ownership changes."
+    },
+    {
+      "id": "crypto:watch-only-wallet",
+      "before": null,
+      "after": "A shared budget dashboard displays balances but cannot authorise payments. A watch only wallet similarly observes public information without holding the signing keys."
+    },
+    {
+      "id": "crypto:withdrawal-allow-list",
+      "before": null,
+      "after": "A payment account permits transfers only to saved destinations. A waiting period may help review a new destination, but the control does not guarantee the destination or account is safe."
+    },
+    {
+      "id": "crypto:yield",
+      "before": null,
+      "after": "A displayed 8% annualised token reward may change tomorrow. Even if units increase, their price can fall, so token rewards and a return measured in your home currency are different."
+    }
+  ],
+  "notes": [
+    {
+      "id": "forex:forex-or-fx",
+      "before": "Forex and FX are proposed aliases for this source-labelled entry.",
+      "after": "A label for the currency market does not identify the specific retail product, its costs or its legal protections."
+    },
+    {
+      "id": "forex:position-size",
+      "before": "Review this proposed wording alongside the existing glossary definition; do not silently replace it or merge it with lot labels.",
+      "after": "Position size, lot units, margin and the amount you could lose are different measurements."
+    },
+    {
+      "id": "crypto:block",
+      "before": null,
+      "after": "This definition describes a Bitcoin block. Other blockchains can use different block contents and consensus rules."
+    },
+    {
+      "id": "crypto:block-reward",
+      "before": null,
+      "after": "The subsidy creates new units; fees transfer existing units. Neither is a guaranteed return for a person buying BTC."
+    },
+    {
+      "id": "crypto:broker-crypto",
+      "before": null,
+      "after": "Check the actual contract, counterparty and costs. Services can combine broker and exchange functions."
+    },
+    {
+      "id": "crypto:correlation",
+      "before": null,
+      "after": "The minus one to plus one description refers to a defined correlation coefficient, commonly Pearson correlation. Name the data and period."
+    },
+    {
+      "id": "crypto:cost-basis",
+      "before": null,
+      "after": "Tax calculations can use jurisdiction specific valuation, fee and disposal rules. Retain dates, quantities and records."
+    },
+    {
+      "id": "crypto:finfluencer",
+      "before": null,
+      "after": "A follower count or an apparent licence does not establish accuracy, independence or permission for every advertised activity."
+    },
+    {
+      "id": "crypto:fully-diluted-valuation-fdv",
+      "before": null,
+      "after": "Data providers can use different supply bases. Preserve the stated method when comparing values."
+    },
+    {
+      "id": "crypto:funding-rate",
+      "before": null,
+      "after": "Payment direction, time interval and formula are venue specific. A funding payment is different from an ordinary trading fee."
+    },
+    {
+      "id": "crypto:governance-token",
+      "before": null,
+      "after": "Voting rights can require delegation or other conditions. They do not automatically grant company ownership or distributions."
+    },
+    {
+      "id": "crypto:layer-2",
+      "before": null,
+      "after": "Security can depend on proofs, data availability, sequencers and upgrade controls. A sidechain is not automatically a layer 2."
+    },
+    {
+      "id": "crypto:legal-wrapper",
+      "before": null,
+      "after": "Legal personality and member liability depend on the jurisdiction and documents. A wrapper does not remove every legal obligation."
+    },
+    {
+      "id": "crypto:maximum-supply",
+      "before": null,
+      "after": "A stated maximum is different from currently circulating units or total units already created."
+    },
+    {
+      "id": "crypto:network-in-a-transfer",
+      "before": null,
+      "after": "Confirm the exact network, supported asset, destination and required tag. Matching token names or address formats alone is insufficient."
+    },
+    {
+      "id": "crypto:nft-non-fungible-token",
+      "before": null,
+      "after": "Token ownership does not automatically transfer copyright, ownership of an associated physical item or continuing access to a file."
+    },
+    {
+      "id": "crypto:nonce",
+      "before": null,
+      "after": "Here the definition describes the Bitcoin mining nonce. An account transaction nonce on Ethereum is a different use of the term."
+    },
+    {
+      "id": "crypto:open-interest-oi",
+      "before": null,
+      "after": "Read the reporting units: a service may publish contracts, asset units or a converted notional amount."
+    },
+    {
+      "id": "crypto:permit-signature",
+      "before": null,
+      "after": "A signature can have spending consequences even without an immediate transaction from your wallet. Read the spender, allowance and expiry."
+    },
+    {
+      "id": "crypto:proof-of-reserves",
+      "before": null,
+      "after": "A snapshot is different from a financial statement audit and is not a guarantee of future withdrawal access."
+    },
+    {
+      "id": "crypto:rehypothecation",
+      "before": null,
+      "after": "Asset reuse, lending and pledging are related activities but their permitted scope and legal treatment depend on the agreement."
+    },
+    {
+      "id": "crypto:slashing",
+      "before": null,
+      "after": "The two retained source contexts overlap. Network specific rules decide the penalty and validator exit; ordinary downtime is not necessarily slashable."
+    },
+    {
+      "id": "crypto:supply-cap",
+      "before": null,
+      "after": "The Bitcoin supply statement refers to its current consensus rules. A cap does not guarantee value, liquidity or future demand."
+    },
+    {
+      "id": "crypto:total-value-locked-tvl",
+      "before": null,
+      "after": "Prices, eligible assets and counting rules affect this figure. Nested positions can create double counting across services."
+    },
+    {
+      "id": "crypto:utxo-unspent-transaction-output",
+      "before": null,
+      "after": "Spendable outputs are subject to their conditions and transaction fees. A visible balance need not all be immediately spendable."
+    },
+    {
+      "id": "crypto:value-capture",
+      "before": null,
+      "after": "Burns do not directly distribute cash. Usage or fee growth need not produce gains for a token holder."
+    },
+    {
+      "id": "crypto:wallet-drainer",
+      "before": null,
+      "after": "Connection alone does not necessarily authorise spending, but a separate signature or approval can create dangerous permissions."
+    },
+    {
+      "id": "crypto:wash-trading",
+      "before": null,
+      "after": "The two retained source definitions describe the same broad concept. Suspicious activity needs evidence; high volume alone is not proof of manipulation."
+    },
+    {
+      "id": "crypto:yield",
+      "before": null,
+      "after": "Check whether the rate is APR or APY, the reward asset, costs and reward source. Asset price losses can outweigh additional units."
+    }
+  ],
+  "categories": [
+    {
+      "id": "forex:currency-exchange",
+      "before": "Safety and security",
+      "after": "Foundations and market basics"
+    },
+    {
+      "id": "forex:foreign-exchange",
+      "before": "Safety and security",
+      "after": "Foundations and market basics"
+    },
+    {
+      "id": "forex:investing",
+      "before": "Safety and security",
+      "after": "Foundations and market basics"
+    },
+    {
+      "id": "forex:speculation",
+      "before": "Safety and security",
+      "after": "Foundations and market basics"
+    },
+    {
+      "id": "forex:trading",
+      "before": "Safety and security",
+      "after": "Foundations and market basics"
+    },
+    {
+      "id": "forex:trading-forex",
+      "before": "Safety and security",
+      "after": "Foundations and market basics"
+    },
+    {
+      "id": "forex:uncertainty",
+      "before": "Safety and security",
+      "after": "Risk, exposure and portfolios"
+    },
+    {
+      "id": "forex:agent",
+      "before": "Foundations and market basics",
+      "after": "Providers, accounts and compliance"
+    },
+    {
+      "id": "forex:dealer",
+      "before": "Foundations and market basics",
+      "after": "Providers, accounts and compliance"
+    },
+    {
+      "id": "forex:central-bank",
+      "before": "Foundations and market basics",
+      "after": "Economics, policy and market context"
+    },
+    {
+      "id": "crypto:target",
+      "before": "Risk, exposure and portfolios",
+      "after": "Networks and consensus"
+    },
+    {
+      "id": "crypto:funding-rate",
+      "before": "Providers, accounts and compliance",
+      "after": "Orders, execution and transactions"
+    },
+    {
+      "id": "crypto:legal-wrapper",
+      "before": "Foundations and market basics",
+      "after": "Providers, accounts and compliance"
+    }
+  ],
+  "aliases": [
+    {
+      "id": "forex:basis-point",
+      "values": [
+        {
+          "value": "bp",
+          "kind": "abbreviation"
+        },
+        {
+          "value": "bps",
+          "kind": "abbreviation"
+        }
+      ]
+    },
+    {
+      "id": "forex:percentage-point",
+      "values": [
+        {
+          "value": "percentage points",
+          "kind": "alternate-label"
+        }
+      ]
+    },
+    {
+      "id": "forex:contract-for-difference",
+      "values": [
+        {
+          "value": "CFDs",
+          "kind": "abbreviation"
+        }
+      ]
+    },
+    {
+      "id": "forex:spread",
+      "values": [
+        {
+          "value": "bid ask spread",
+          "kind": "alternate-label"
+        }
+      ]
+    },
+    {
+      "id": "forex:lot-or-position-size",
+      "values": [
+        {
+          "value": "lot",
+          "kind": "component-discovery-key"
+        }
+      ]
+    },
+    {
+      "id": "crypto:bitcoin",
+      "values": [
+        {
+          "value": "BTC",
+          "kind": "ticker"
+        }
+      ]
+    },
+    {
+      "id": "crypto:withdrawal-allow-list",
+      "values": [
+        {
+          "value": "withdrawal whitelist",
+          "kind": "alternate-label"
+        }
+      ]
+    },
+    {
+      "id": "crypto:spread",
+      "values": [
+        {
+          "value": "bid ask spread",
+          "kind": "alternate-label"
+        }
+      ]
+    },
+    {
+      "id": "crypto:liquid-staking-token",
+      "values": [
+        {
+          "value": "LST",
+          "kind": "abbreviation"
+        }
+      ]
+    },
+    {
+      "id": "crypto:fully-diluted-valuation-fdv",
+      "values": [
+        {
+          "value": "fully diluted value",
+          "kind": "alternate-label"
+        }
+      ]
+    }
+  ],
+  "lessonLinks": [
+    {
+      "id": "crypto:coin",
+      "links": [
+        {
+          "lessonId": "ethereum-ether-and-proof-of-stake",
+          "href": "/learn/crypto/level-4",
+          "relation": "related-context-not-full-definition"
+        }
+      ]
+    },
+    {
+      "id": "crypto:liquidation",
+      "links": [
+        {
+          "lessonId": "leverage-margin-and-liquidation-risk",
+          "href": "/learn/crypto/level-8/leverage-margin-and-liquidation-risk",
+          "relation": "related-context-not-full-definition"
+        }
+      ]
+    },
+    {
+      "id": "crypto:loss-budget",
+      "links": [
+        {
+          "lessonId": "crypto-loss-and-risk",
+          "href": "/learn/crypto/level-0/crypto-loss-and-risk",
+          "relation": "related-context-not-full-definition"
+        }
+      ]
+    },
+    {
+      "id": "crypto:spread",
+      "links": [
+        {
+          "lessonId": "crypto-orders-fees-and-execution-costs",
+          "href": "/learn/crypto/level-3/crypto-orders-fees-and-execution-costs",
+          "relation": "related-context-not-full-definition"
+        }
+      ]
+    },
+    {
+      "id": "crypto:circulating-supply",
+      "links": [
+        {
+          "lessonId": "allocations-vesting-unlocks-and-control",
+          "href": "/learn/crypto/level-5/allocations-vesting-unlocks-and-control",
+          "relation": "related-context-not-full-definition"
+        }
+      ]
+    },
+    {
+      "id": "crypto:decision-journal",
+      "links": [
+        {
+          "lessonId": "crypto-test-without-looking-ahead",
+          "href": "/learn/crypto/level-9/crypto-test-without-looking-ahead",
+          "relation": "related-context-not-full-definition"
+        },
+        {
+          "lessonId": "read-results-honestly-and-build-a-practice-routine",
+          "href": "/learn/crypto/level-9/read-results-honestly-and-build-a-practice-routine",
+          "relation": "related-context-not-full-definition"
+        },
+        {
+          "lessonId": "complete-the-crypto-graduation-research-and-safety-review",
+          "href": "/learn/crypto/level-10/complete-the-crypto-graduation-research-and-safety-review",
+          "relation": "related-context-not-full-definition"
+        }
+      ]
+    },
+    {
+      "id": "crypto:recovery-plan",
+      "links": [
+        {
+          "lessonId": "respond-to-a-crypto-compromise",
+          "href": "/learn/crypto/level-2/respond-to-a-crypto-compromise",
+          "relation": "related-context-not-full-definition"
+        }
+      ]
+    },
+    {
+      "id": "crypto:fud",
+      "links": [
+        {
+          "lessonId": "sentiment-narratives-and-an-evidence-based-research-note",
+          "href": "/learn/crypto/level-7/sentiment-narratives-and-an-evidence-based-research-note",
+          "relation": "related-context-not-full-definition"
+        }
+      ]
+    }
+  ],
+  "relatedLinks": [
+    {
+      "id": "forex:margin",
+      "related": {
+        "id": "forex:leverage",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "forex:leverage",
+      "related": {
+        "id": "forex:margin",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "forex:position-sizing",
+      "related": {
+        "id": "forex:planned-risk",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "forex:planned-risk",
+      "related": {
+        "id": "forex:position-sizing",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "forex:spread",
+      "related": {
+        "id": "forex:slippage",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "forex:slippage",
+      "related": {
+        "id": "forex:spread",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "forex:profit-factor",
+      "related": {
+        "id": "forex:win-rate",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "forex:win-rate",
+      "related": {
+        "id": "forex:profit-factor",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "forex:percentage-point",
+      "related": {
+        "id": "forex:basis-point",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "forex:basis-point",
+      "related": {
+        "id": "forex:percentage-point",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "forex:inflation",
+      "related": {
+        "id": "forex:real-yield",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "forex:real-yield",
+      "related": {
+        "id": "forex:inflation",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "forex:forex-or-fx",
+      "related": {
+        "id": "forex:currency-exchange",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "forex:currency-exchange",
+      "related": {
+        "id": "forex:forex-or-fx",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "forex:relative-strength-index",
+      "related": {
+        "id": "forex:overbought",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "forex:overbought",
+      "related": {
+        "id": "forex:relative-strength-index",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "forex:relative-strength-index",
+      "related": {
+        "id": "forex:oversold",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "forex:oversold",
+      "related": {
+        "id": "forex:relative-strength-index",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "crypto:cold-wallet",
+      "related": {
+        "id": "crypto:hot-wallet",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "crypto:hot-wallet",
+      "related": {
+        "id": "crypto:cold-wallet",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "crypto:seed-phrase-recovery-phrase",
+      "related": {
+        "id": "crypto:passphrase-bip-39",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "crypto:passphrase-bip-39",
+      "related": {
+        "id": "crypto:seed-phrase-recovery-phrase",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "crypto:market-capitalisation",
+      "related": {
+        "id": "crypto:fully-diluted-valuation-fdv",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "crypto:fully-diluted-valuation-fdv",
+      "related": {
+        "id": "crypto:market-capitalisation",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "crypto:maximum-supply",
+      "related": {
+        "id": "crypto:circulating-supply",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "crypto:circulating-supply",
+      "related": {
+        "id": "crypto:maximum-supply",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "crypto:liquidation",
+      "related": {
+        "id": "crypto:over-collateralised-loan",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "crypto:over-collateralised-loan",
+      "related": {
+        "id": "crypto:liquidation",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "crypto:proof-of-reserves",
+      "related": {
+        "id": "crypto:counterparty-risk",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "crypto:counterparty-risk",
+      "related": {
+        "id": "crypto:proof-of-reserves",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "crypto:gas",
+      "related": {
+        "id": "crypto:gwei",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "crypto:gwei",
+      "related": {
+        "id": "crypto:gas",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "crypto:automated-market-maker-amm",
+      "related": {
+        "id": "crypto:lp-token",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "crypto:lp-token",
+      "related": {
+        "id": "crypto:automated-market-maker-amm",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "crypto:wallet-drainer",
+      "related": {
+        "id": "crypto:permit-signature",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "crypto:permit-signature",
+      "related": {
+        "id": "crypto:wallet-drainer",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "crypto:target",
+      "related": {
+        "id": "crypto:difficulty",
+        "kind": "related-concepts-not-synonyms"
+      }
+    },
+    {
+      "id": "crypto:difficulty",
+      "related": {
+        "id": "crypto:target",
+        "kind": "related-concepts-not-synonyms"
+      }
+    }
+  ],
+  "newEntries": [
+    {
+      "reviewCode": "N01",
+      "entry": {
+        "id": "crypto:ether",
+        "course": "crypto",
+        "slug": "ether",
+        "name": "Ether",
+        "href": "/glossary/crypto#ether",
+        "status": "draft",
+        "approved": false,
+        "sourceReview": "pending",
+        "category": "Foundations and market basics",
+        "aliases": [
+          {
+            "value": "ETH",
+            "kind": "ticker"
+          }
+        ],
+        "relatedEntries": [],
+        "meanings": [
+          {
+            "definition": "The native asset of Ethereum, abbreviated ETH. It is used for transaction fees and staking under Ethereum rules. Ethereum is the network; ether is its native asset.",
+            "example": "A learner sees a fee quoted in ETH and checks its GBP equivalent separately. The network name and the fee asset are related but different.",
+            "confusionNote": "ETH is different from a token merely issued on Ethereum."
+          }
+        ],
+        "lessonLinks": [
+          {
+            "lessonId": "ethereum-ether-and-proof-of-stake",
+            "href": "/learn/crypto/level-4",
+            "relation": "direct-teaching-context"
+          }
+        ],
+        "provenance": {
+          "source": "owner-approved-glossary-editorial-review",
+          "referenceCodes": ["S22"],
+          "verificationStatus": "selective-reference-support-not-full-source-approval"
+        }
+      }
+    },
+    {
+      "reviewCode": "N02",
+      "entry": {
+        "id": "crypto:private-key",
+        "course": "crypto",
+        "slug": "private-key",
+        "name": "Private key",
+        "href": "/glossary/crypto#private-key",
+        "status": "draft",
+        "approved": false,
+        "sourceReview": "pending",
+        "category": "Wallets, custody and transfers",
+        "aliases": [
+          {
+            "value": "secret signing key",
+            "kind": "alternate-label"
+          }
+        ],
+        "relatedEntries": [],
+        "meanings": [
+          {
+            "definition": "Secret cryptographic data used to create signatures for the associated account or spending condition. Someone who obtains the necessary signing keys may gain control of the assets.",
+            "example": "An office signing credential can approve requests without being sent to the recipient. A crypto key similarly signs without needing to be revealed.",
+            "confusionNote": "A private key is not a receiving address, account password or public key."
+          }
+        ],
+        "lessonLinks": [
+          {
+            "lessonId": "keys-signatures-and-bitcoin-transactions",
+            "href": "/learn/crypto/level-1/keys-signatures-and-bitcoin-transactions",
+            "relation": "direct-teaching-context"
+          }
+        ],
+        "provenance": {
+          "source": "owner-approved-glossary-editorial-review",
+          "referenceCodes": ["S06"],
+          "verificationStatus": "selective-reference-support-not-full-source-approval"
+        }
+      }
+    },
+    {
+      "reviewCode": "N03",
+      "entry": {
+        "id": "crypto:public-key",
+        "course": "crypto",
+        "slug": "public-key",
+        "name": "Public key",
+        "href": "/glossary/crypto#public-key",
+        "status": "draft",
+        "approved": false,
+        "sourceReview": "pending",
+        "category": "Wallets, custody and transfers",
+        "aliases": [],
+        "relatedEntries": [],
+        "meanings": [
+          {
+            "definition": "Cryptographic data associated with a private key and used to verify its signatures. An address may be derived from keys or other spending information, depending on the network.",
+            "example": "A public verification tool can check a signed message without revealing the secret that signed it.",
+            "confusionNote": "A public key and a receiving address are not interchangeable in every system."
+          }
+        ],
+        "lessonLinks": [
+          {
+            "lessonId": "keys-signatures-and-bitcoin-transactions",
+            "href": "/learn/crypto/level-1/keys-signatures-and-bitcoin-transactions",
+            "relation": "direct-teaching-context"
+          }
+        ],
+        "provenance": {
+          "source": "owner-approved-glossary-editorial-review",
+          "referenceCodes": ["S06", "S08"],
+          "verificationStatus": "selective-reference-support-not-full-source-approval"
+        }
+      }
+    },
+    {
+      "reviewCode": "N04",
+      "entry": {
+        "id": "crypto:proof-of-work",
+        "course": "crypto",
+        "slug": "proof-of-work",
+        "name": "Proof of work",
+        "href": "/glossary/crypto#proof-of-work",
+        "status": "draft",
+        "approved": false,
+        "sourceReview": "pending",
+        "category": "Networks and consensus",
+        "aliases": [
+          {
+            "value": "PoW",
+            "kind": "abbreviation"
+          }
+        ],
+        "relatedEntries": [],
+        "meanings": [
+          {
+            "definition": "A mechanism requiring demonstrable computational work. In Bitcoin, miners search for a qualifying block header hash and nodes verify the block against the protocol rules.",
+            "example": "A qualifying number is costly to find through repeated attempts but simple to check against the threshold.",
+            "confusionNote": "A qualifying hash alone cannot make invalid transactions valid."
+          }
+        ],
+        "lessonLinks": [
+          {
+            "lessonId": "shared-ledger-checks-and-security",
+            "href": "/learn/crypto/level-1/shared-ledger-checks-and-security",
+            "relation": "direct-teaching-context"
+          }
+        ],
+        "provenance": {
+          "source": "owner-approved-glossary-editorial-review",
+          "referenceCodes": ["S17"],
+          "verificationStatus": "selective-reference-support-not-full-source-approval"
+        }
+      }
+    },
+    {
+      "reviewCode": "N05",
+      "entry": {
+        "id": "crypto:proof-of-stake",
+        "course": "crypto",
+        "slug": "proof-of-stake",
+        "name": "Proof of stake",
+        "href": "/glossary/crypto#proof-of-stake",
+        "status": "draft",
+        "approved": false,
+        "sourceReview": "pending",
+        "category": "Networks and consensus",
+        "aliases": [
+          {
+            "value": "PoS",
+            "kind": "abbreviation"
+          }
+        ],
+        "relatedEntries": [],
+        "meanings": [
+          {
+            "definition": "A consensus approach in which validators commit stake and follow rules for proposing and voting on blocks. Rewards and penalties encourage correct participation; details differ between networks.",
+            "example": "A participant commits security before taking a checking role. This illustrates incentives, not a promise that every network has the same design.",
+            "confusionNote": "Holding a token is not automatically the same as operating a validator."
+          }
+        ],
+        "lessonLinks": [
+          {
+            "lessonId": "ethereum-ether-and-proof-of-stake",
+            "href": "/learn/crypto/level-4",
+            "relation": "direct-teaching-context"
+          }
+        ],
+        "provenance": {
+          "source": "owner-approved-glossary-editorial-review",
+          "referenceCodes": ["S23"],
+          "verificationStatus": "selective-reference-support-not-full-source-approval"
+        }
+      }
+    },
+    {
+      "reviewCode": "N06",
+      "entry": {
+        "id": "crypto:validator",
+        "course": "crypto",
+        "slug": "validator",
+        "name": "Validator",
+        "href": "/glossary/crypto#validator",
+        "status": "draft",
+        "approved": false,
+        "sourceReview": "pending",
+        "category": "Networks and consensus",
+        "aliases": [],
+        "relatedEntries": [],
+        "meanings": [
+          {
+            "definition": "A protocol participant that performs specified validation, proposal or voting duties. In Ethereum proof of stake, validators use stake and signing keys under the consensus rules.",
+            "example": "A shared record needs designated checking duties and evidence of who performed them.",
+            "confusionNote": "Validator concentration and key handling matter as well as the number of participants."
+          }
+        ],
+        "lessonLinks": [
+          {
+            "lessonId": "ethereum-ether-and-proof-of-stake",
+            "href": "/learn/crypto/level-4",
+            "relation": "direct-teaching-context"
+          }
+        ],
+        "provenance": {
+          "source": "owner-approved-glossary-editorial-review",
+          "referenceCodes": ["S23"],
+          "verificationStatus": "selective-reference-support-not-full-source-approval"
+        }
+      }
+    },
+    {
+      "reviewCode": "N07",
+      "entry": {
+        "id": "crypto:oracle",
+        "course": "crypto",
+        "slug": "oracle",
+        "name": "Oracle",
+        "href": "/glossary/crypto#oracle",
+        "status": "draft",
+        "approved": false,
+        "sourceReview": "pending",
+        "category": "DeFi and smart contracts",
+        "aliases": [],
+        "relatedEntries": [],
+        "meanings": [
+          {
+            "definition": "A mechanism supplying information to blockchain applications, often bringing outside data such as prices on chain. Its sources, update rules and trust assumptions affect applications that rely on it.",
+            "example": "A heating controller needs a thermometer reading. A contract using an external price likewise depends on the quality and freshness of the supplied reading.",
+            "confusionNote": "An oracle does not guarantee the truth of the information it supplies."
+          }
+        ],
+        "lessonLinks": [
+          {
+            "lessonId": "smart-contracts-applications-and-outside-data",
+            "href": "/learn/crypto/level-4/smart-contracts-applications-and-outside-data",
+            "relation": "direct-teaching-context"
+          }
+        ],
+        "provenance": {
+          "source": "owner-approved-glossary-editorial-review",
+          "referenceCodes": ["S24"],
+          "verificationStatus": "selective-reference-support-not-full-source-approval"
+        }
+      }
+    },
+    {
+      "reviewCode": "N08",
+      "entry": {
+        "id": "crypto:decentralised-exchange",
+        "course": "crypto",
+        "slug": "decentralised-exchange",
+        "name": "Decentralised exchange",
+        "href": "/glossary/crypto#decentralised-exchange",
+        "status": "draft",
+        "approved": false,
+        "sourceReview": "pending",
+        "category": "DeFi and smart contracts",
+        "aliases": [
+          {
+            "value": "DEX",
+            "kind": "abbreviation"
+          },
+          {
+            "value": "decentralized exchange",
+            "kind": "spelling-variant"
+          }
+        ],
+        "relatedEntries": [],
+        "meanings": [
+          {
+            "definition": "A trading application using blockchain contracts to coordinate swaps or orders. Custody, permissions and execution designs vary; AMMs are one design rather than the definition of every DEX.",
+            "example": "A learner compares a pool based swap with an order matching system. Both may use contracts while providing different execution arrangements.",
+            "confusionNote": "A DEX label does not establish complete decentralisation or freedom from risk."
+          }
+        ],
+        "lessonLinks": [
+          {
+            "lessonId": "decentralised-exchanges-pools-and-swaps",
+            "href": "/learn/crypto/level-6",
+            "relation": "direct-teaching-context"
+          }
+        ],
+        "provenance": {
+          "source": "owner-approved-glossary-editorial-review",
+          "referenceCodes": ["S10"],
+          "verificationStatus": "selective-reference-support-not-full-source-approval"
+        }
+      }
+    },
+    {
+      "reviewCode": "N09",
+      "entry": {
+        "id": "crypto:token-approval",
+        "course": "crypto",
+        "slug": "token-approval",
+        "name": "Token approval",
+        "href": "/glossary/crypto#token-approval",
+        "status": "draft",
+        "approved": false,
+        "sourceReview": "pending",
+        "category": "Safety and security",
+        "aliases": [
+          {
+            "value": "allowance",
+            "kind": "alternate-label"
+          }
+        ],
+        "relatedEntries": [],
+        "meanings": [
+          {
+            "definition": "Permission allowing a specified spender to transfer a defined token amount from an account, under the token rules. An allowance may be created by an on chain approval or a supported permit signature.",
+            "example": "A written collection authorisation names the person and quantity they may collect. Review a token permission with the same attention to scope.",
+            "confusionNote": "Connecting a wallet is different from granting spending allowance."
+          }
+        ],
+        "lessonLinks": [
+          {
+            "lessonId": "connections-signatures-and-token-permissions",
+            "href": "/learn/crypto/level-2/connections-signatures-and-token-permissions",
+            "relation": "direct-teaching-context"
+          }
+        ],
+        "provenance": {
+          "source": "owner-approved-glossary-editorial-review",
+          "referenceCodes": ["S19"],
+          "verificationStatus": "selective-reference-support-not-full-source-approval"
+        }
+      }
+    },
+    {
+      "reviewCode": "N10",
+      "entry": {
+        "id": "crypto:slippage",
+        "course": "crypto",
+        "slug": "slippage",
+        "name": "Slippage",
+        "href": "/glossary/crypto#slippage",
+        "status": "draft",
+        "approved": false,
+        "sourceReview": "pending",
+        "category": "Orders, execution and transactions",
+        "aliases": [],
+        "relatedEntries": [],
+        "meanings": [
+          {
+            "definition": "The difference between an expected or quoted execution outcome and the outcome actually obtained. It may be favourable or adverse; compare compatible price and quantity references.",
+            "example": "An invented quote estimates 100 tokens received, but execution produces 98. The difference must be checked against the quote and its stated terms.",
+            "confusionNote": "Slippage tolerance is an execution limit, not a guaranteed final outcome."
+          }
+        ],
+        "lessonLinks": [
+          {
+            "lessonId": "crypto-orders-fees-and-execution-costs",
+            "href": "/learn/crypto/level-3/crypto-orders-fees-and-execution-costs",
+            "relation": "direct-teaching-context"
+          }
+        ],
+        "provenance": {
+          "source": "owner-approved-glossary-editorial-review",
+          "referenceCodes": ["S26"],
+          "verificationStatus": "selective-reference-support-not-full-source-approval"
+        }
+      }
+    },
+    {
+      "reviewCode": "N11",
+      "entry": {
+        "id": "crypto:price-impact",
+        "course": "crypto",
+        "slug": "price-impact",
+        "name": "Price impact",
+        "href": "/glossary/crypto#price-impact",
+        "status": "draft",
+        "approved": false,
+        "sourceReview": "pending",
+        "category": "Orders, execution and transactions",
+        "aliases": [],
+        "relatedEntries": [],
+        "meanings": [
+          {
+            "definition": "The change in available price associated with the size of your own trade relative to available liquidity. A larger trade in a shallow pool can have a larger effect.",
+            "example": "Buying all the cheap items at a stall leaves only higher priced stock for the rest of the order.",
+            "confusionNote": "Separate the effect of your own size from market movement between quote and execution."
+          }
+        ],
+        "lessonLinks": [
+          {
+            "lessonId": "decentralised-exchanges-pools-and-swaps",
+            "href": "/learn/crypto/level-6",
+            "relation": "direct-teaching-context"
+          }
+        ],
+        "provenance": {
+          "source": "owner-approved-glossary-editorial-review",
+          "referenceCodes": ["S25"],
+          "verificationStatus": "selective-reference-support-not-full-source-approval"
+        }
+      }
+    },
+    {
+      "reviewCode": "N12",
+      "entry": {
+        "id": "crypto:vesting",
+        "course": "crypto",
+        "slug": "vesting",
+        "name": "Vesting",
+        "href": "/glossary/crypto#vesting",
+        "status": "draft",
+        "approved": false,
+        "sourceReview": "pending",
+        "category": "Tokens, supply and valuation",
+        "aliases": [],
+        "relatedEntries": [],
+        "meanings": [
+          {
+            "definition": "A schedule under which an allocation becomes available according to time or other conditions. Read who can claim it, the start, any initial waiting period and the release rules.",
+            "example": "An invented staff allocation releases 10 units each month rather than all 120 at once.",
+            "confusionNote": "A release schedule is not a guarantee that recipients will retain the tokens."
+          }
+        ],
+        "lessonLinks": [
+          {
+            "lessonId": "allocations-vesting-unlocks-and-control",
+            "href": "/learn/crypto/level-5/allocations-vesting-unlocks-and-control",
+            "relation": "direct-teaching-context"
+          }
+        ],
+        "provenance": {
+          "source": "owner-approved-glossary-editorial-review",
+          "referenceCodes": ["S27"],
+          "verificationStatus": "selective-reference-support-not-full-source-approval"
+        }
+      }
+    },
+    {
+      "reviewCode": "N13",
+      "entry": {
+        "id": "crypto:token-unlock",
+        "course": "crypto",
+        "slug": "token-unlock",
+        "name": "Token unlock",
+        "href": "/glossary/crypto#token-unlock",
+        "status": "draft",
+        "approved": false,
+        "sourceReview": "pending",
+        "category": "Tokens, supply and valuation",
+        "aliases": [
+          {
+            "value": "unlock",
+            "kind": "alternate-label"
+          }
+        ],
+        "relatedEntries": [],
+        "meanings": [
+          {
+            "definition": "An event or schedule that removes restrictions on allocated tokens, making specified units available under the project terms. Availability is different from an actual sale.",
+            "example": "A locked allocation becomes transferable on its written date. The holder may keep it, move it or sell it.",
+            "confusionNote": "Check the units, recipients and practical transfer restrictions rather than treating every unlock as an immediate sale."
+          }
+        ],
+        "lessonLinks": [
+          {
+            "lessonId": "allocations-vesting-unlocks-and-control",
+            "href": "/learn/crypto/level-5/allocations-vesting-unlocks-and-control",
+            "relation": "direct-teaching-context"
+          }
+        ],
+        "provenance": {
+          "source": "owner-approved-glossary-editorial-review",
+          "referenceCodes": ["S27"],
+          "verificationStatus": "selective-reference-support-not-full-source-approval"
+        }
+      }
+    },
+    {
+      "reviewCode": "N14",
+      "entry": {
+        "id": "crypto:loan-to-value",
+        "course": "crypto",
+        "slug": "loan-to-value",
+        "name": "Loan to value",
+        "href": "/glossary/crypto#loan-to-value",
+        "status": "draft",
+        "approved": false,
+        "sourceReview": "pending",
+        "category": "Risk, exposure and portfolios",
+        "aliases": [
+          {
+            "value": "LTV",
+            "kind": "abbreviation"
+          }
+        ],
+        "relatedEntries": [],
+        "meanings": [
+          {
+            "definition": "The debt value divided by the collateral value, usually expressed as a percentage at a stated valuation time. Protocols set borrowing limits separately from liquidation thresholds.",
+            "example": "USD 100 debt against USD 200 collateral gives 50% LTV in an invented example. If collateral falls to USD 125 with debt unchanged, LTV becomes 80%.",
+            "confusionNote": "LTV is not the same as the liquidation threshold or health factor."
+          }
+        ],
+        "lessonLinks": [
+          {
+            "lessonId": "lending-borrowing-collateral-and-liquidation",
+            "href": "/learn/crypto/level-6/lending-borrowing-collateral-and-liquidation",
+            "relation": "direct-teaching-context"
+          }
+        ],
+        "provenance": {
+          "source": "owner-approved-glossary-editorial-review",
+          "referenceCodes": ["S28", "S11"],
+          "verificationStatus": "selective-reference-support-not-full-source-approval"
+        }
+      }
+    },
+    {
+      "reviewCode": "N15",
+      "entry": {
+        "id": "crypto:annual-percentage-rate",
+        "course": "crypto",
+        "slug": "annual-percentage-rate",
+        "name": "Annual percentage rate",
+        "href": "/glossary/crypto#annual-percentage-rate",
+        "status": "draft",
+        "approved": false,
+        "sourceReview": "pending",
+        "category": "DeFi and smart contracts",
+        "aliases": [
+          {
+            "value": "APR",
+            "kind": "abbreviation"
+          }
+        ],
+        "relatedEntries": [],
+        "meanings": [
+          {
+            "definition": "In a crypto reward display, an annualised rate commonly shown without assumed reinvestment of rewards. Check fees, units and the calculation period; legal borrowing APR can follow different conventions.",
+            "example": "A simplified 10% annual rate on 100 units gives ten units over a full year if the rate and balance stay constant and no fees apply.",
+            "confusionNote": "A displayed rate does not guarantee the reward or protect the asset price."
+          }
+        ],
+        "lessonLinks": [
+          {
+            "lessonId": "staking-yield-and-the-source-of-rewards",
+            "href": "/learn/crypto/level-6/staking-yield-and-the-source-of-rewards",
+            "relation": "direct-teaching-context"
+          }
+        ],
+        "provenance": {
+          "source": "owner-approved-glossary-editorial-review",
+          "referenceCodes": ["S29"],
+          "verificationStatus": "selective-reference-support-not-full-source-approval"
+        }
+      }
+    },
+    {
+      "reviewCode": "N16",
+      "entry": {
+        "id": "crypto:annual-percentage-yield",
+        "course": "crypto",
+        "slug": "annual-percentage-yield",
+        "name": "Annual percentage yield",
+        "href": "/glossary/crypto#annual-percentage-yield",
+        "status": "draft",
+        "approved": false,
+        "sourceReview": "pending",
+        "category": "DeFi and smart contracts",
+        "aliases": [
+          {
+            "value": "APY",
+            "kind": "abbreviation"
+          }
+        ],
+        "relatedEntries": [],
+        "meanings": [
+          {
+            "definition": "An annualised yield including a stated compounding assumption. Compare the reward rate, reinvestment frequency and costs before comparing products.",
+            "example": "At an invented 10% nominal rate compounded twice a year, 100 becomes 110.25 if both half year rewards are reinvested and no costs apply.",
+            "confusionNote": "APY assumptions may not match actual rewards or feasible reinvestment."
+          }
+        ],
+        "lessonLinks": [
+          {
+            "lessonId": "staking-yield-and-the-source-of-rewards",
+            "href": "/learn/crypto/level-6/staking-yield-and-the-source-of-rewards",
+            "relation": "direct-teaching-context"
+          }
+        ],
+        "provenance": {
+          "source": "owner-approved-glossary-editorial-review",
+          "referenceCodes": ["S29"],
+          "verificationStatus": "selective-reference-support-not-full-source-approval"
+        }
+      }
+    }
+  ],
+  "sources": [
+    {
+      "code": "S01",
+      "title": "CFTC Eight Things You Should Know Before Trading Forex",
+      "url": "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/CustomerAdvisory_MustKnowForex.html",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S02",
+      "title": "BIS Covered interest parity and the cross currency basis",
+      "url": "https://www.bis.org/publications/qr-201609/covered-interest-parity-lost-understanding-cross-currency-basis",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S03",
+      "title": "ECB What is inflation",
+      "url": "https://www.ecb.europa.eu/ecb-and-you/explainers/tell-me-more/html/what_is_inflation.en.html",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S04",
+      "title": "Ethereum Wallets",
+      "url": "https://ethereum.org/wallets/",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S05",
+      "title": "Trezor What is a hardware wallet",
+      "url": "https://trezor.io/learn/basics/what-is-a-hardware-wallet",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S06",
+      "title": "Trezor Public and private keys explained",
+      "url": "https://trezor.io/learn/basics/public-and-private-keys-explained",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S07",
+      "title": "Bitcoin BIP 39 Mnemonic code for generating deterministic keys",
+      "url": "https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S08",
+      "title": "Ethereum Introduction to smart contracts",
+      "url": "https://ethereum.org/developers/docs/smart-contracts/",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S09",
+      "title": "Ethereum Upgrading smart contracts",
+      "url": "https://ethereum.org/developers/docs/smart-contracts/upgrading/",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S10",
+      "title": "Uniswap How Uniswap works",
+      "url": "https://developers.uniswap.org/docs/get-started/concepts/how-uniswap-works",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S11",
+      "title": "Aave Health factor and liquidations",
+      "url": "https://aave.com/help/borrowing/liquidations",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S12",
+      "title": "Aave Flash loans",
+      "url": "https://aave.com/docs/aave-v3/guides/flash-loans",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S13",
+      "title": "Ethereum EIP 140 REVERT instruction",
+      "url": "https://eips.ethereum.org/EIPS/eip-140",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S14",
+      "title": "SEC Investor Bulletin Alternatives to financial statement audits",
+      "url": "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/investors",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S15",
+      "title": "FATF Virtual assets",
+      "url": "https://www.fatf-gafi.org/en/topics/virtual-assets.html",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S16",
+      "title": "Ethereum Liquid and pooled staking",
+      "url": "https://ethereum.org/staking/pools/",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S17",
+      "title": "Bitcoin Developer Reference Block headers",
+      "url": "https://developer.bitcoin.org/reference/block_chain.html",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S18",
+      "title": "SEC Staff statement on tokenized securities January 2026",
+      "url": "https://www.sec.gov/newsroom/speeches-statements/corp-fin-statement-tokenized-securities-012826-statement-tokenized-securities",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S19",
+      "title": "OpenZeppelin ERC20 and permit documentation",
+      "url": "https://docs.openzeppelin.com/contracts/5.x/api/token/erc20",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S20",
+      "title": "Ethereum Scaling",
+      "url": "https://ethereum.org/developers/docs/scaling/",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S21",
+      "title": "Ethereum Fork history and the DAO fork",
+      "url": "https://ethereum.org/ethereum-forks/",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S22",
+      "title": "Ethereum What is Ether",
+      "url": "https://ethereum.org/what-is-ether/",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S23",
+      "title": "Ethereum Proof of stake",
+      "url": "https://ethereum.org/developers/docs/consensus-mechanisms/pos/",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S24",
+      "title": "Ethereum Oracles",
+      "url": "https://ethereum.org/developers/docs/oracles/",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S25",
+      "title": "Uniswap Price impact",
+      "url": "https://support.uniswap.org/hc/en-us/articles/8671539602317-What-is-price-impact",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S26",
+      "title": "Uniswap What is slippage",
+      "url": "https://blog.uniswap.org/what-is-slippage-crypto",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S27",
+      "title": "OpenZeppelin VestingWallet documentation",
+      "url": "https://docs.openzeppelin.com/contracts/5.x/api/finance",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S28",
+      "title": "Aave Borrow tokens",
+      "url": "https://aave.com/help/borrowing/borrow-tokens",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S29",
+      "title": "Coinbase APY and APR",
+      "url": "https://www.coinbase.com/learn/crypto-basics/apy-vs-apr-what-is-the-difference",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S30",
+      "title": "Bitcoin Developer Guide Transactions",
+      "url": "https://developer.bitcoin.org/devguide/transactions.html",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S31",
+      "title": "Coinbase Futures leverage and contract notional",
+      "url": "https://help.coinbase.com/en/coinbase/derivatives/us-derivatives-leverage-margin",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    },
+    {
+      "code": "S32",
+      "title": "New York Fed Staff Report 1073 Runs and Flights to Safety Are Stablecoins the New Money Market Funds",
+      "url": "https://www.newyorkfed.org/medialibrary/media/research/staff_reports/sr1073.pdf",
+      "accessDate": "2026-10-07",
+      "scope": "selected-editorial-corrections-and-additions"
+    }
+  ],
+  "counts": {
+    "existingEntries": 362,
+    "totalEntries": 378,
+    "forexEntries": 242,
+    "cryptoEntries": 136,
+    "definitionCorrections": 33,
+    "exampleChanges": 121,
+    "noteChanges": 29,
+    "categoryChanges": 13,
+    "addedAliasesOnExistingEntries": 11,
+    "addedRelatedEdges": 38,
+    "addedLessonLinksOnExistingEntries": 10,
+    "newEntries": 16,
+    "lessonCoverage": 89
+  }
+}

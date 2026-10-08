@@ -1,0 +1,222 @@
+{
+  "schemaVersion": 1,
+  "approved": true,
+  "applied": true,
+  "approval": {
+    "date": "2026-10-08",
+    "scope": "18-exact-wording-corrections-and-evidence-ledger-reconciliation",
+    "publicationApproved": false
+  },
+  "beforeCatalogueDigest": "28ac2bf9466594a0425421d23cf11bcfc0df3f9d3a74b396308e0f160956b8f0",
+  "afterCatalogueDigest": "33b1db532803bddbbdc9ff066b78fda6e422d10a4f3c7b2c0494b02f5c2822a8",
+  "reviewDigest": "c883d1666444660b7106a23e9f4e1df071a4b250dae6d5014c95c72c388820bf",
+  "priorLedgerDigest": "625ec0616084dfa076670e19952ade74fa758656b669b08691d6f1106e744b85",
+  "afterLedgerDigest": "cf59b673b4d42cdb41be10a484f4439d3fa953e3c794004e34c57a8e043c4574",
+  "correctionCount": 18,
+  "corrections": [
+    {
+      "entryId": "forex:overnight-financing",
+      "meaningIndex": 0,
+      "field": "example",
+      "before": "Two otherwise similar demo positions held for different periods can have different holding adjustments.",
+      "after": "Two otherwise similar illustrative positions held for different periods may have different holding adjustments under the provider’s terms.",
+      "reason": "Some demo accounts omit live financing. The existing example should not imply that every demo reproduces it.",
+      "sourceIds": ["W-FEES", "V84"],
+      "approved": true,
+      "applied": true
+    },
+    {
+      "entryId": "crypto:airdrop",
+      "meaningIndex": 0,
+      "field": "definition",
+      "before": "A free distribution of tokens to many wallet addresses, often to reward early users or spread ownership.",
+      "after": "A distribution of tokens to eligible wallet addresses, often intended to reward users or spread ownership. A token may be offered without a purchase price, but receiving or claiming it can involve conditions, fees or unsafe requests.",
+      "reason": "The absolute free label contradicts the existing example and can hide claim costs.",
+      "sourceIds": ["W-AIRDROP", "W-DRAINER"],
+      "approved": true,
+      "applied": true
+    },
+    {
+      "entryId": "crypto:centralised-exchange-cex",
+      "meaningIndex": 0,
+      "field": "definition",
+      "before": "A company that holds customers' money and crypto and runs a marketplace where their buy and sell orders are matched. It is custodial: the company, not you, controls the keys to the crypto it holds for you.",
+      "after": "A crypto trading service managed by a central operator. Many hold customer funds and match buy and sell orders. When the service holds the signing keys, the customer relies on its custody and withdrawal arrangements; check the actual service model.",
+      "reason": "Separate central management, matching and custody instead of presenting one combined business model as every service.",
+      "sourceIds": ["V58", "V69", "W-NETWORK"],
+      "approved": true,
+      "applied": true
+    },
+    {
+      "entryId": "crypto:clipboard-hijacker",
+      "meaningIndex": 0,
+      "field": "definition",
+      "before": "Malware that watches what you copy and replaces any crypto address with the attacker's own, so a pasted address no longer matches the one you copied.",
+      "after": "Malware that monitors copied information and may replace a recognised crypto address with an attacker-controlled address before you paste it.",
+      "reason": "Observed malware targets address patterns. Any address is too absolute.",
+      "sourceIds": ["W-CLIP"],
+      "approved": true,
+      "applied": true
+    },
+    {
+      "entryId": "crypto:double-spending",
+      "meaningIndex": 0,
+      "field": "definition",
+      "before": "Spending the same digital money more than once, by sending copies of it to different people. A digital cash system needs a rule for preventing conflicting spends from both becoming accepted payments under its operating assumptions.",
+      "after": "An attempt to use the same digital funds in conflicting payments. In Bitcoin, two transactions may try to spend the same earlier output; the agreed chain must not accept both as valid spends of that output.",
+      "reason": "Copying digital money is misleading in the transaction-output model. The conflict is reuse of the same spendable funds.",
+      "sourceIds": ["W-BTC"],
+      "approved": true,
+      "applied": true
+    },
+    {
+      "entryId": "crypto:finfluencer",
+      "meaningIndex": 0,
+      "field": "definition",
+      "before": "A social-media personality who talks about money, investing or crypto. Some are independent and careful, some are paid by the projects they mention, and many have no licence to give financial advice.",
+      "after": "A social-media personality who discusses money, investing or crypto. They may be independent or receive payments from businesses they mention. Check their evidence, incentives and any permissions required for the activity in your jurisdiction.",
+      "reason": "Remove the unquantified many have no licence claim and avoid one global licensing rule.",
+      "sourceIds": ["W-FINFLUENCE"],
+      "approved": true,
+      "applied": true
+    },
+    {
+      "entryId": "crypto:hash",
+      "meaningIndex": 0,
+      "field": "definition",
+      "before": "A short, fixed-length code produced from any amount of data by a hash function. For the same specified function, identical data gives the same hash. A changed input will ordinarily produce a different output, although collisions are mathematically possible.",
+      "after": "A fixed-length fingerprint produced from data by a specified cryptographic hash function, within that function’s supported input limits. Identical inputs give the same output. Changed inputs ordinarily give different outputs, although collisions are mathematically possible.",
+      "reason": "Any amount of data overlooks algorithm input limits; retain the collision qualification.",
+      "sourceIds": ["W-HASH"],
+      "approved": true,
+      "applied": true
+    },
+    {
+      "entryId": "crypto:investing",
+      "meaningIndex": 0,
+      "field": "definition",
+      "before": "Putting money into an asset you plan to hold for a long time, accepting that its value may fall, in the hope it is worth more later.",
+      "after": "Putting money into an asset or activity with the aim of receiving income or growth over time, while accepting that its value or returns may disappoint. The planned holding period depends on the goal and asset; holding longer does not remove risk.",
+      "reason": "Align the meaning with Forex: investing can seek income and does not require one long holding period.",
+      "sourceIds": ["V73"],
+      "approved": true,
+      "applied": true
+    },
+    {
+      "entryId": "crypto:kyc-and-aml",
+      "meaningIndex": 0,
+      "field": "definition",
+      "before": "KYC is the process of verifying a customer's identity. AML is the wider set of rules that require financial firms to prevent, detect and report money laundering and terrorist financing.",
+      "after": "KYC, or know your customer, refers to customer checks that commonly include identifying and verifying the customer. AML, or anti-money laundering, is the wider framework for preventing, detecting and reporting money laundering. Covered services can also have duties concerning terrorist financing. The required checks and duties depend on applicable rules.",
+      "reason": "Do not turn FATF standards into identical duties for all firms worldwide; distinguish customer checks and wider controls.",
+      "sourceIds": ["V56"],
+      "approved": true,
+      "applied": true
+    },
+    {
+      "entryId": "crypto:maximalism",
+      "meaningIndex": 0,
+      "field": "definition",
+      "before": "In crypto, the belief that one network or coin will, or should, replace all others. Bitcoin maximalism is the best-known form, but every large coin has its own devoted community.",
+      "after": "An informal belief that one crypto network or asset should dominate, or has meaningful long-term value while alternatives do not. Bitcoin maximalism is one example; people who use the label can hold different views.",
+      "reason": "Remove the unsupported ranking and every large coin community assertion.",
+      "sourceIds": ["W-MAX"],
+      "approved": true,
+      "applied": true
+    },
+    {
+      "entryId": "crypto:ponzi-scheme",
+      "meaningIndex": 0,
+      "field": "definition",
+      "before": "A fraud that pays \"returns\" to existing investors from new investors' deposits rather than from any real profit, so it must collapse once new money dries up.",
+      "after": "A fraud that uses money from new investors to pay purported returns to earlier investors, rather than the genuine earnings it claims. It becomes unsustainable when new money cannot meet payments or investors seek withdrawals.",
+      "reason": "A single inevitable collapse trigger is too narrow; redemption pressure also matters.",
+      "sourceIds": ["W-PONZI"],
+      "approved": true,
+      "applied": true
+    },
+    {
+      "entryId": "crypto:relationship-investment-scam-pig-butchering",
+      "meaningIndex": 0,
+      "field": "definition",
+      "before": "A fraud in which a scammer builds a friendship or romance over weeks, then persuades the victim to \"invest\" in crypto on a fake platform, encouraging ever larger deposits before taking everything. The slang name comes from the idea of fattening a pig before slaughter.",
+      "after": "A fraud in which a scammer builds trust through a friendship, romance or other relationship, then steers the victim toward a fake investment platform. Invented profits and pressure for larger deposits hide the theft. The term pig butchering is sometimes used for this type of scam.",
+      "reason": "Timing varies; remove the unsupported precise duration and the unnecessary unverified etymology.",
+      "sourceIds": ["W-RELATION"],
+      "approved": true,
+      "applied": true
+    },
+    {
+      "entryId": "crypto:supply-cap",
+      "meaningIndex": 0,
+      "field": "definition",
+      "before": "The maximum number of units that can ever exist. For Bitcoin, the protocol rules mean no more than 21 million BTC will ever exist.",
+      "after": "A stated upper supply limit under an asset’s current rules. Bitcoin’s current issuance rules limit newly created BTC to about 21 million units. A cap is different from circulating supply and does not guarantee demand or value.",
+      "reason": "Keep the current-rules qualification in the definition itself rather than only in its note.",
+      "sourceIds": ["W-SUPPLY", "W-BTC"],
+      "approved": true,
+      "applied": true
+    },
+    {
+      "entryId": "crypto:total-value-locked-tvl",
+      "meaningIndex": 0,
+      "field": "definition",
+      "before": "The combined market value of the crypto deposited in a DeFi protocol's smart contracts at a given moment.",
+      "after": "A measure of the market value of assets counted as committed to a DeFi protocol under a stated data provider’s method at a particular time. Eligible assets, valuation and treatment of nested positions can differ between methods.",
+      "reason": "The broad definition obscures the methodology limitation already explained in its note.",
+      "sourceIds": ["W-TVL"],
+      "approved": true,
+      "applied": true
+    },
+    {
+      "entryId": "crypto:slashing",
+      "meaningIndex": 1,
+      "field": "definition",
+      "before": "A penalty that destroys part of a validator's staked deposit and removes it from the network, for actions that break the protocol's rules.",
+      "after": "In Ethereum proof of stake, a penalty for specified conflicting block proposals or votes that destroys some staked ETH and forces the validator to exit. Other networks have their own offences, penalties and exit rules.",
+      "reason": "The second retained meaning describes Ethereum’s exit process but currently presents it as all networks.",
+      "sourceIds": ["W-SLASH"],
+      "approved": true,
+      "applied": true
+    },
+    {
+      "entryId": "crypto:value-capture",
+      "meaningIndex": 0,
+      "field": "definition",
+      "before": "The share of a network's fees or other income that reaches token holders, for example through burns, buybacks or staking rewards.",
+      "after": "The mechanisms through which network activity may benefit a token or its holders, such as fee distributions, buybacks or burns. A burn reduces units instead of paying cash directly, and greater network usage does not guarantee a higher token price.",
+      "reason": "Burning tokens is not income reaching holders. Retain the existing warning in the definition too.",
+      "sourceIds": ["V35", "V45"],
+      "approved": true,
+      "applied": true
+    },
+    {
+      "entryId": "crypto:network-in-a-transfer",
+      "meaningIndex": 0,
+      "field": "definition",
+      "before": "The blockchain that carries a particular transfer. Sender and receiver must use the same one for the same token, even when the token's name and logo look identical elsewhere.",
+      "after": "The blockchain carrying a transfer. For an ordinary transfer on one blockchain, confirm that the destination supports the exact network and asset. Bridged or other cross-network routes introduce additional steps and risks; matching names or logos is insufficient.",
+      "reason": "Scope the same-network rule to ordinary transfers; do not contradict the bridge lessons.",
+      "sourceIds": ["W-NETWORK", "V43"],
+      "approved": true,
+      "applied": true
+    },
+    {
+      "entryId": "crypto:yield",
+      "meaningIndex": 0,
+      "field": "definition",
+      "before": "The return you earn on crypto you deposit, lend or stake, usually shown as a yearly percentage. It is a variable estimate, not a promise.",
+      "after": "Income or rewards associated with depositing, lending or staking an asset, often quoted as an annualised rate. The rate, fees, reward asset and calculation method matter. Additional token units do not guarantee a positive return in your home currency.",
+      "reason": "Separate reward income, a quoted rate and total investment return; not all rates are variable estimates.",
+      "sourceIds": ["V54", "V37", "V47"],
+      "approved": true,
+      "applied": true
+    }
+  ],
+  "reviewedMeaningCount": 380,
+  "previousPendingResolved": 118,
+  "unresolvedWordingCorrections": 0,
+  "scopeLimitationsRemain": true,
+  "publicationApproved": false,
+  "releaseReady": false
+}

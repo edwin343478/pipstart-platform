@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "catalogueDigest": "28ac2bf9466594a0425421d23cf11bcfc0df3f9d3a74b396308e0f160956b8f0",
+  "approved": true,
+  "applied": true,
+  "corrections": [
+    {
+      "entryId": "crypto:active-addresses",
+      "meaningIndex": 0,
+      "field": "definition",
+      "before": "The number of unique addresses that sent or received coins on a blockchain during a set period, such as a day. Each address is counted once per period.",
+      "after": "A count of unique blockchain addresses meeting a data provider's activity rule during a stated period. That rule may include transfers or other ledger activity. Repeated activity by one address is counted once under the metric; an address count is not a count of people.",
+      "reason": "A transfer-only definition excludes activity counted by some established provider metrics.",
+      "sourceIds": ["V60"],
+      "status": "approved-applied",
+      "approved": true
+    },
+    {
+      "entryId": "crypto:rehypothecation",
+      "meaningIndex": 0,
+      "field": "definition",
+      "before": "When a custodian uses customer assets for its own purposes, such as lending them out or pledging them as collateral.",
+      "after": "Using collateral received from a customer as collateral for the recipient's own borrowing or other obligations. The agreement and applicable rules determine whether this is allowed. Lending or reusing customer assets is a broader category.",
+      "reason": "General customer-asset reuse is broader than repledging collateral.",
+      "sourceIds": ["V61"],
+      "status": "approved-applied",
+      "approved": true
+    },
+    {
+      "entryId": "crypto:broker-crypto",
+      "meaningIndex": 0,
+      "field": "definition",
+      "before": "A firm or app that quotes you a price and fills your order itself, instead of showing you other customers' orders. Its quoted price usually includes a markup over the market price.",
+      "after": "A service that arranges or executes crypto purchases or sales for customers. Some quote their own dealing prices; others route orders. Check who acts as the counterparty and how spreads and fees are charged.",
+      "reason": "The current wording treats one dealer-style service model as the definition of all brokers. The source supports the role distinction, not the legal status of every crypto service.",
+      "sourceIds": ["V69", "V01"],
+      "status": "approved-applied",
+      "approved": true
+    },
+    {
+      "entryId": "crypto:audit-scope",
+      "meaningIndex": 0,
+      "field": "definition",
+      "before": "The exact contracts, code version and features an auditor agreed to review. Anything outside it, including later upgrades, was not checked.",
+      "after": "The contracts, code version and features an auditor agreed to review. That report does not establish that anything outside its scope was checked. Later upgrades need review evidence covering the relevant version.",
+      "reason": "An upgrade could have a separate audit or fix review; absence from one scope does not prove no review occurred.",
+      "sourceIds": ["V68"],
+      "status": "approved-applied",
+      "approved": true
+    },
+    {
+      "entryId": "crypto:watch-only-wallet",
+      "meaningIndex": 0,
+      "field": "definition",
+      "before": "A wallet that tracks addresses using public information only; it can show balances and incoming payments but cannot sign or send transactions.",
+      "after": "A wallet that tracks addresses using public information without holding their signing keys. It can display activity and, in some implementations, prepare transactions or broadcast transactions signed elsewhere. It cannot independently authorise spending from those addresses.",
+      "reason": "Signing and broadcasting are different operations; Bitcoin Core documents watch-only preparation and broadcasting.",
+      "sourceIds": ["V67"],
+      "status": "approved-applied",
+      "approved": true
+    }
+  ],
+  "originalCatalogueDigest": "b20babb88a30b455c5aee20aeda84645be57c9f9226307848202088a3b1c3736",
+  "approval": {
+    "date": "2026-10-07",
+    "scope": "five-definition-corrections-only",
+    "publicationApproved": false,
+    "allSourcesVerified": false
+  }
+}

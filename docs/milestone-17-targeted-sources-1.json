@@ -1,0 +1,541 @@
+{
+  "schemaVersion": 1,
+  "reviewDate": "2026-10-07",
+  "batch": "forex-quotes-size-and-execution",
+  "scope": "18-existing-meanings-only",
+  "publicationApproved": false,
+  "catalogueDigest": "28ac2bf9466594a0425421d23cf11bcfc0df3f9d3a74b396308e0f160956b8f0",
+  "checks": [
+    {
+      "entryId": "forex:ask-or-offer",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "The price at which a dealer is willing to sell the base currency to you. If you buy the base currency, the ask is usually the relevant quoted price.",
+        "example": "At an invented EUR/USD ask of 1.1002, buying 100 EUR costs 110.02 USD before separate charges.",
+        "confusionNote": "The lower displayed side is not automatically the price available for a purchase."
+      },
+      "meaningDigest": "0617e188af71d1447b6afc7a3fea23be090ad36e68306933869be7620ec1601b",
+      "sourceIds": ["V75", "V02"],
+      "definitionReview": "Customer buys base at ask; dealer sells.",
+      "exampleReview": "100 × 1.1002 = 110.02 USD before charges.",
+      "confusionNoteReview": "Lower bid is not the customer purchase quote.",
+      "result": "supported-with-stated-scope",
+      "proofs": [
+        {
+          "expression": {
+            "op": "multiply",
+            "args": [100, 1.1002]
+          },
+          "expected": 110.02,
+          "units": "USD"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:bid",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "The price at which a dealer is willing to buy the base currency from you. If you sell the base currency, the bid is usually the relevant quoted price.",
+        "example": "At an invented EUR/USD bid of 1.1000, a customer selling 100 EUR receives 110 USD before separate charges.",
+        "confusionNote": "Read the quote from the customer’s transaction direction."
+      },
+      "meaningDigest": "d7ea00c5bc41f60aefe16e477b3dee2e12c48da167f1814b8b8714470f126693",
+      "sourceIds": ["V75", "V02"],
+      "definitionReview": "Customer sells base at bid; dealer buys.",
+      "exampleReview": "100 × 1.1000 = 110 USD before charges.",
+      "confusionNoteReview": "Transaction direction remains from the customer perspective.",
+      "result": "supported-with-stated-scope",
+      "proofs": [
+        {
+          "expression": {
+            "op": "multiply",
+            "args": [100, 1.1]
+          },
+          "expected": 110,
+          "units": "USD"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:long-position",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "A position that buys the base currency and sells the quote currency of a pair. Its price exposure benefits from a rise in the pair, before costs.",
+        "example": "The price-direction idea resembles buying something first and hoping to sell it for more later.",
+        "confusionNote": "The analogy does not replace the contract terms, executable prices or costs."
+      },
+      "meaningDigest": "b6a81784c9aa62e043e2d034cb0e83976a6f952d1a49ca148fb645ae13e36725",
+      "sourceIds": ["V05", "V02"],
+      "definitionReview": "Base purchase against quote gives positive pair-price exposure.",
+      "exampleReview": "Buying then selling higher illustrates direction only.",
+      "confusionNoteReview": "Costs, execution and product terms remain outside the simple analogy.",
+      "result": "supported-with-stated-scope",
+      "proofs": []
+    },
+    {
+      "entryId": "forex:short-position",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "A position that sells the base currency and buys the quote currency of a pair. Its price exposure benefits from a fall in the pair, before costs.",
+        "example": "It reverses the direction of the long-position idea: a later lower buy-back price would be favourable before costs.",
+        "confusionNote": "Do not confuse selling a pair with selling both currencies."
+      },
+      "meaningDigest": "f0191bf2ef59605d9d5eff59aec6428ac7cb7b5d89e252ee4afa27f76d529044",
+      "sourceIds": ["V05", "V02"],
+      "definitionReview": "Base sale against quote reverses price exposure.",
+      "exampleReview": "A lower repurchase price is favourable before costs.",
+      "confusionNoteReview": "Selling the pair is not selling both constituent currencies.",
+      "result": "supported-with-stated-scope",
+      "proofs": []
+    },
+    {
+      "entryId": "forex:spread",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "The ask minus the bid at a stated moment. It is often quoted in pips. The spread is not a separate bill in every pricing model, but it is an inherent difference between the two quoted sides.",
+        "example": "An invented 1.1000/1.1002 EUR/USD quote has a 0.0002 spread: two pips under the stated convention.",
+        "confusionNote": "The spread is a difference between sides, not necessarily a separately billed fee."
+      },
+      "meaningDigest": "1ed12cb2264d0f2d0994d29d1e766cfe25ea29f2312ae012ee6cd36ba71fad46",
+      "sourceIds": ["V80", "V77"],
+      "definitionReview": "Ask minus bid is a same-time quote difference.",
+      "exampleReview": "(1.1002 − 1.1000)/0.0001 = 2 pips.",
+      "confusionNoteReview": "Quote-side cost is distinguished from a separate invoice.",
+      "result": "supported-with-stated-scope",
+      "proofs": [
+        {
+          "expression": {
+            "op": "divide",
+            "args": [
+              {
+                "op": "subtract",
+                "args": [1.1002, 1.1]
+              },
+              0.0001
+            ]
+          },
+          "expected": 2,
+          "units": "pips"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:lot-or-position-size",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "Position size is the quantity involved in a position; a lot is a unit used to express that quantity. Conventional Forex standard, mini and micro lots often represent 100,000, 10,000 and 1,000 base currency units respectively. Check the actual contract specification.",
+        "example": "Choosing one packet or ten packets illustrates why quantity changes the amount involved.",
+        "confusionNote": "Keep the lot convention, currency units, margin and loss scenario distinct."
+      },
+      "meaningDigest": "259e73571653f0417582ba8b6113f2c2e09aa6dde80fb8e26b79613e5cf17e3b",
+      "sourceIds": ["V76", "V79"],
+      "definitionReview": "Lot labels express conventional quantities, with actual specification caveat.",
+      "exampleReview": "Packet counts illustrate quantity; no deposit amount is implied.",
+      "confusionNoteReview": "Quantity, margin and planned loss are separate.",
+      "result": "supported-with-stated-scope",
+      "proofs": []
+    },
+    {
+      "entryId": "forex:standard-lot",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "A conventional Forex position-size label often representing 100,000 units of the base currency. Actual contract specifications must be checked.",
+        "example": "Think of a labelled bulk package: the label describes quantity, not the deposit required to hold it.",
+        "confusionNote": "A standard lot is not the same as 100,000 units of required margin."
+      },
+      "meaningDigest": "22a755e7fa3af02569b00f7a53469688b0f06ef31078f00536f6effe765d6d27",
+      "sourceIds": ["V76", "V79"],
+      "definitionReview": "The conventional standard label is 100000 base units.",
+      "exampleReview": "Bulk-package analogy expresses amount only.",
+      "confusionNoteReview": "Required margin is not the lot’s face amount.",
+      "result": "supported-with-stated-scope",
+      "proofs": []
+    },
+    {
+      "entryId": "forex:mini-lot",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "A conventional Forex size label often representing 10,000 units of the base currency.",
+        "example": "Under the stated convention, one mini lot contains one tenth of the units in a standard lot.",
+        "confusionNote": "Check the actual instrument and provider specifications."
+      },
+      "meaningDigest": "f2ea87f145538fb6499da3ce5d9bcfd7810f5e5c1f548a3ba444382527901c01",
+      "sourceIds": ["V76", "V79"],
+      "definitionReview": "The conventional mini label is 10000 base units.",
+      "exampleReview": "10000/100000 = 0.1 of a standard lot.",
+      "confusionNoteReview": "Instrument specifications govern the actual contract.",
+      "result": "supported-with-stated-scope",
+      "proofs": [
+        {
+          "expression": {
+            "op": "divide",
+            "args": [10000, 100000]
+          },
+          "expected": 0.1,
+          "units": "standard-lot fraction"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:micro-lot",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "A conventional Forex size label often representing 1,000 units of the base currency.",
+        "example": "Under that convention, ten micro lots contain the same units as one mini lot.",
+        "confusionNote": "Small size does not remove market, leverage or provider risks."
+      },
+      "meaningDigest": "8a805684dc8de334a7a82625e047312d44f26f0840ad88211ba556d5fc0cf551",
+      "sourceIds": ["V76", "V02"],
+      "definitionReview": "The conventional micro label is 1000 base units.",
+      "exampleReview": "10 × 1000 = 10000 units under the same convention.",
+      "confusionNoteReview": "A smaller quantity does not abolish leverage or provider risks.",
+      "result": "supported-with-stated-scope",
+      "proofs": [
+        {
+          "expression": {
+            "op": "multiply",
+            "args": [10, 1000]
+          },
+          "expected": 10000,
+          "units": "base units"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:pip",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "A conventional unit for a small exchange-rate move. For many pairs such as EUR/USD, one pip is 0.0001. For many pairs quoted in Japanese yen, one pip is 0.01. Check the instrument's quote convention rather than assuming every pair uses the same decimal place.",
+        "example": "An invented EUR/USD move from 1.1000 to 1.1001 is one pip under the stated convention.",
+        "confusionNote": "A pip measures a price distance, not a fixed amount of money."
+      },
+      "meaningDigest": "53d25ebb07b22826ae14d90c2c7c6ff933c016ffba165e94554b6c2d5db2a861",
+      "sourceIds": ["V76", "V77"],
+      "definitionReview": "Named conventional distance is 0.0001 for EUR/USD and 0.01 for yen quotes.",
+      "exampleReview": "(1.1001 − 1.1000)/0.0001 = 1 pip.",
+      "confusionNoteReview": "A distance is not a fixed cash return; other instruments must be checked.",
+      "result": "supported-with-stated-scope",
+      "proofs": [
+        {
+          "expression": {
+            "op": "divide",
+            "args": [
+              {
+                "op": "subtract",
+                "args": [1.1001, 1.1]
+              },
+              0.0001
+            ]
+          },
+          "expected": 1,
+          "units": "pip"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:pipette",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "A fractional pip. Where the extra quoted digit represents a tenth of a pip, ten pipettes make one pip.",
+        "example": "An invented EUR/USD move from 1.10000 to 1.10001 is one pipette under that quote convention.",
+        "confusionNote": "Check the instrument convention; a final displayed digit is not always one whole pip."
+      },
+      "meaningDigest": "e206503363bdfdecd1cceae275e424f51eab36c1206c48f27c186771110b3d56",
+      "sourceIds": ["V77"],
+      "definitionReview": "A fractional tenth-pip quote is distinct from a full pip.",
+      "exampleReview": "(1.10001 − 1.10000)/0.00001 = 1 pipette; 10 pipettes = 1 pip.",
+      "confusionNoteReview": "The final displayed digit must be interpreted under its instrument convention.",
+      "result": "supported-with-stated-scope",
+      "proofs": [
+        {
+          "expression": {
+            "op": "divide",
+            "args": [
+              {
+                "op": "subtract",
+                "args": [1.10001, 1.1]
+              },
+              1e-5
+            ]
+          },
+          "expected": 1,
+          "units": "pipette"
+        },
+        {
+          "expression": {
+            "op": "divide",
+            "args": [0.0001, 1e-5]
+          },
+          "expected": 10,
+          "units": "pipettes per pip"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:pip-value",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "The money amount associated with a one-pip move for a stated position size. It must be expressed in a named currency.",
+        "example": "For 1,000 EUR units in EUR/USD with a 0.0001 pip size, one pip corresponds to 0.10 USD before any account-currency conversion.",
+        "confusionNote": "Pip distance and cash value are different measurements."
+      },
+      "meaningDigest": "45c26662fe54aa6413898c1916f3ac7f7eb28614bee27824a6ce3c2c5d1d8130",
+      "sourceIds": ["V77", "V02"],
+      "definitionReview": "Quote-currency value follows position units times conventional price distance.",
+      "exampleReview": "1000 EUR × 0.0001 USD/EUR = 0.10 USD; conversion excluded.",
+      "confusionNoteReview": "Unit cancellation is a direct arithmetic derivation, not a claim of a universal account-currency value.",
+      "result": "supported-with-stated-scope",
+      "proofs": [
+        {
+          "expression": {
+            "op": "multiply",
+            "args": [1000, 0.0001]
+          },
+          "expected": 0.1,
+          "units": "USD"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:margin",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "Funds required to support a leveraged position. Margin is separate from the full position value and is not a limit on possible losses.",
+        "example": "In an invented demo contract, 100 units of account money support a position worth 2,000. Those are two different amounts.",
+        "confusionNote": "Do not treat required margin as the most you can lose."
+      },
+      "meaningDigest": "8d3f748b0f520fc169c3e0c71585c2e301bda24fa522177a6bc89bc77439a699",
+      "sourceIds": ["V01", "V76"],
+      "definitionReview": "Required support deposit differs from full leveraged exposure and maximum loss.",
+      "exampleReview": "100 supporting 2000 is an invented 20:1 exposure/deposit ratio.",
+      "confusionNoteReview": "CFTC loss warning is scoped to US OTC Forex; protections elsewhere vary.",
+      "result": "supported-with-stated-scope",
+      "proofs": [
+        {
+          "expression": {
+            "op": "divide",
+            "args": [2000, 100]
+          },
+          "expected": 20,
+          "units": "exposure/deposit ratio; not equity-based effective leverage"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:stop-limit-order",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "An instruction that activates a limit order after a separate trigger, combining an activation condition with an acceptable-price boundary.",
+        "example": "An alert tells a shopper to start looking, but the shopper still refuses to pay above a written limit.",
+        "confusionNote": "Price control can leave the order unfilled while existing exposure continues."
+      },
+      "meaningDigest": "62b2d9863be313d3cc552c0521bc9ea48965d1bb3a8d406329543d5cb7d14832",
+      "sourceIds": ["V05", "V78"],
+      "definitionReview": "A trigger activates a separate acceptable-price instruction.",
+      "exampleReview": "Shopping alert versus purchase limit preserves the two conditions.",
+      "confusionNoteReview": "Non-fill can leave an existing position exposed; product policies still govern.",
+      "result": "supported-with-stated-scope",
+      "proofs": []
+    },
+    {
+      "entryId": "forex:stop-loss-order",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "An exit instruction intended to reduce exposure after adverse movement. Its trigger and execution behaviour depend on the chosen order and product.",
+        "example": "A demo learner writes an adverse-movement exit condition before entering a position.",
+        "confusionNote": "An ordinary stop-loss is not a guarantee that losses cannot exceed a planned amount."
+      },
+      "meaningDigest": "75eddc9bffa318532ad49e0dbe3d1abb550f66997ac6634d9214a4b3086c46fb",
+      "sourceIds": ["V05", "V78"],
+      "definitionReview": "Adverse-movement exit purpose is separate from actual trigger/fill behavior.",
+      "exampleReview": "Writing an exit in advance illustrates planning, not completed execution.",
+      "confusionNoteReview": "Ordinary stop trigger prices do not guarantee a cash-loss ceiling.",
+      "result": "supported-with-stated-scope",
+      "proofs": []
+    },
+    {
+      "entryId": "forex:take-profit-order",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "An exit instruction intended to act after favourable movement. It may use a limit or another documented implementation.",
+        "example": "A seller sets an intended sale level in advance instead of deciding only after the price changes.",
+        "confusionNote": "The name states its purpose, not a universal trigger or fill rule."
+      },
+      "meaningDigest": "65dafdd696ce9417bf0b50db0c96b347ae361535b75aded8dfe869b3c8a15242",
+      "sourceIds": ["V05", "V06"],
+      "definitionReview": "Favourable-exit purpose may use documented platform or limit mechanics.",
+      "exampleReview": "A prewritten sale level illustrates intention.",
+      "confusionNoteReview": "MT5 behavior is one implementation; the glossary correctly avoids a universal trigger/fill claim.",
+      "result": "supported-with-stated-scope",
+      "proofs": []
+    },
+    {
+      "entryId": "forex:tick-volume",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "A count of received ticks or updates under a feed’s definition, rather than necessarily the currency quantity transacted.",
+        "example": "Counting ten changes on a shop’s price board does not tell you how many items were sold.",
+        "confusionNote": "Updates can have different causes; tick count is not automatically traded volume."
+      },
+      "meaningDigest": "82d8bcd7d3f73b9b84fa7c8decf702413b84dadc9dd7c7b331ba855d822d55ab",
+      "sourceIds": ["V75"],
+      "definitionReview": "Received tick counts differ from quantities executed.",
+      "exampleReview": "Price-board changes do not count items sold.",
+      "confusionNoteReview": "Updates and trades are different records; feed definitions matter.",
+      "result": "supported-with-stated-scope",
+      "proofs": []
+    },
+    {
+      "entryId": "forex:traded-volume",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "The amount actually transacted in a stated instrument, venue and period, reported in defined units.",
+        "example": "Counting the litres sold at one shop describes that shop’s sales, not every shop’s sales.",
+        "confusionNote": "A venue’s record is not automatically the entire global spot-Forex market."
+      },
+      "meaningDigest": "106d4fc5455cd1042f7bc5cd167118db1c45230a68a44e5519d1eebc172a3dc5",
+      "sourceIds": ["V75", "V80"],
+      "definitionReview": "Executed quantities belong to the stated venue, units and period.",
+      "exampleReview": "One shop’s litres sold illustrate local rather than global coverage.",
+      "confusionNoteReview": "MT5 explains OTC trade-volume availability limits; venue evidence is not the entire FX market.",
+      "result": "supported-with-stated-scope",
+      "proofs": []
+    }
+  ],
+  "sources": [
+    {
+      "id": "V01",
+      "publisher": "CFTC",
+      "title": "CFTC - Eight things to know before trading Forex",
+      "url": "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/CustomerAdvisory_MustKnowForex.html",
+      "checkedOn": "2026-10-07",
+      "retrieval": "page-excerpt",
+      "retrievalRef": "turn156view0",
+      "supportedScope": "Retail OTC dealer counterparty, leverage and fee risks.",
+      "limitation": "Supports the named core concept within the stated scope; not blanket verification of the entry, analogy, all networks or all jurisdictions."
+    },
+    {
+      "id": "V02",
+      "publisher": "CME",
+      "title": "CME - FX quote conventions",
+      "url": "https://www.cmegroup.com/education/courses/introduction-to-fx/understanding-fx-quote-conventions.html",
+      "checkedOn": "2026-10-07",
+      "retrieval": "page-excerpt",
+      "retrievalRef": "turn156view1",
+      "supportedScope": "Base and quote orientation in currency quotations.",
+      "limitation": "Supports the named core concept within the stated scope; not blanket verification of the entry, analogy, all networks or all jurisdictions."
+    },
+    {
+      "id": "V05",
+      "publisher": "MetaQuotes",
+      "title": "MetaQuotes - General trading concepts",
+      "url": "https://www.metatrader5.com/en/terminal/help/trading/general_concept",
+      "checkedOn": "2026-10-07",
+      "retrieval": "page-excerpt",
+      "retrievalRef": "turn158view1",
+      "supportedScope": "MT5 netting and hedging account position treatment.",
+      "limitation": "Supports the named core concept within the stated scope; not blanket verification of the entry, analogy, all networks or all jurisdictions."
+    },
+    {
+      "id": "V06",
+      "publisher": "SEC Investor.gov",
+      "title": "SEC Investor.gov - Types of orders",
+      "url": "https://www.investor.gov/introduction-investing/investing-basics/how-stock-markets-work/types-orders",
+      "checkedOn": "2026-10-07",
+      "retrieval": "page-excerpt",
+      "retrievalRef": "turn158view3",
+      "supportedScope": "Market, limit and stop execution differences; securities source.",
+      "limitation": "Supports the named core concept within the stated scope; not blanket verification of the entry, analogy, all networks or all jurisdictions."
+    },
+    {
+      "id": "V75",
+      "publisher": "MetaQuotes",
+      "title": "MT5 - Price Data",
+      "url": "https://www.metatrader5.com/en/terminal/help/trading_advanced/price_data",
+      "checkedOn": "2026-10-07",
+      "retrieval": "page-excerpt",
+      "retrievalRef": "turn180view0",
+      "supportedScope": "Bid/ask transaction sides and tick versus executed volume.",
+      "limitation": "MT5 feed conventions, not a global consolidated OTC volume record."
+    },
+    {
+      "id": "V76",
+      "publisher": "IG",
+      "title": "IG Academy - Trading forex",
+      "url": "https://bts.ig.com/uk/ig-academy/introducing-the-financial-markets/trading-forex",
+      "checkedOn": "2026-10-07",
+      "retrieval": "page-excerpt",
+      "retrievalRef": "turn184view1",
+      "supportedScope": "Conventional 100000/10000/1000 lot quantities, FX pip conventions and margin/exposure distinction.",
+      "limitation": "Educational retail conventions; actual contracts and jurisdiction protections differ."
+    },
+    {
+      "id": "V77",
+      "publisher": "OANDA",
+      "title": "OANDA - What is a pip",
+      "url": "https://www.oanda.com/us-en/skills-and-insights/education/introduction-trading/basics/what-is-a-pip/",
+      "checkedOn": "2026-10-07",
+      "retrieval": "page-excerpt",
+      "retrievalRef": "turn187view1",
+      "supportedScope": "EUR/USD fourth-decimal pip, yen second-decimal pip and tenth-pip fractional quote.",
+      "limitation": "Only these quoted conventions are used. The page’s basis-point wording and illustrative execution assumptions are not adopted as universal rules."
+    },
+    {
+      "id": "V78",
+      "publisher": "SEC Investor.gov",
+      "title": "Investor Bulletin - Stop, Stop-Limit and Trailing Stop Orders",
+      "url": "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-15",
+      "checkedOn": "2026-10-07",
+      "retrieval": "page-excerpt",
+      "retrievalRef": "turn186view1",
+      "supportedScope": "Stop activation, stop-limit non-fill risk and non-guaranteed stop execution.",
+      "limitation": "US securities bulletin; supports general mechanism, not a promise about every retail Forex implementation."
+    },
+    {
+      "id": "V79",
+      "publisher": "IG",
+      "title": "IG UK - Forex CFD product details",
+      "url": "https://www.ig.com/uk/help-and-support/articles/681874-forex-cfd-product-details",
+      "checkedOn": "2026-10-07",
+      "retrieval": "page-excerpt",
+      "retrievalRef": "turn186view2",
+      "supportedScope": "100000 and 10000 units of first-named currency in documented contracts.",
+      "limitation": "Used for contract-size orientation only; dated spreads and provider margin levels are not generalized."
+    },
+    {
+      "id": "V80",
+      "publisher": "MetaQuotes",
+      "title": "MT5 - Market Watch",
+      "url": "https://www.metatrader5.com/en/terminal/help/trading/market_watch",
+      "checkedOn": "2026-10-07",
+      "retrieval": "page-excerpt",
+      "retrievalRef": "turn187view0",
+      "supportedScope": "Spread as bid/ask difference and deal-volume reporting.",
+      "limitation": "Displayed fields and availability depend on the symbol and provider."
+    }
+  ],
+  "recheckedExistingSources": [
+    {
+      "id": "V01",
+      "retrievalRef": "turn182view3",
+      "scope": "Margin minimum and loss beyond deposit; US OTC warning."
+    },
+    {
+      "id": "V02",
+      "retrievalRef": "turn185view3",
+      "scope": "Base/quote exchange direction."
+    },
+    {
+      "id": "V05",
+      "retrievalRef": "turn185view4",
+      "scope": "MT5 direction and stop/exit implementations."
+    },
+    {
+      "id": "V06",
+      "retrievalRef": "turn182view2",
+      "scope": "Generic limit-price mechanics; US securities context."
+    }
+  ],
+  "limitations": "Provider documentation supports only named conventions. Analogies are editorial illustrations, not source quotations. Numerical results use invented inputs. Untouched meanings and whole-catalogue release checks remain pending. No source is treated as universally authoritative for every product/jurisdiction.",
+  "correctionsRequired": []
+}

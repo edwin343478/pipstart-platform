@@ -1,0 +1,350 @@
+{
+  "schemaVersion": 1,
+  "reviewDate": "2026-10-07",
+  "batch": "forex-contracts-practice-classification-and-costs",
+  "scope": "12-existing-meanings-only",
+  "publicationApproved": false,
+  "catalogueDigest": "28ac2bf9466594a0425421d23cf11bcfc0df3f9d3a74b396308e0f160956b8f0",
+  "checks": [
+    {
+      "entryId": "forex:commission",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "A separately stated charge for arranging or executing a transaction. Its amount and when it applies depend on the provider’s terms.",
+        "example": "A service lists a 1-unit transaction fee separately from the quoted conversion prices.",
+        "confusionNote": "Commission-free does not necessarily mean cost-free."
+      },
+      "meaningDigest": "40b7fc2c164d1d27212a657675714ddc0281a0db6eae2461e991559c9ed732a9",
+      "sourceIds": ["V89", "V01"],
+      "definitionReview": "A distinct transaction charge is supported; provider terms determine application.",
+      "exampleReview": "The one-unit fee is an invented illustration of a separate charge, not a quoted tariff.",
+      "confusionNoteReview": "Other costs can exist even without commission; no promise about a particular commission-free account.",
+      "result": "supported-with-stated-scope",
+      "proofs": []
+    },
+    {
+      "entryId": "forex:currency-swap",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "An agreement to exchange payment streams in different currencies, often including principal and interest. An FX swap instead combines a currency exchange with an agreed reverse exchange at a later date.",
+        "example": "A business with USD borrowing and EUR revenue agrees to exchange payment streams under a currency swap. A simpler exchange today with a reverse exchange later illustrates an FX swap instead.",
+        "confusionNote": "FX swaps, longer-term currency swaps and retail overnight swap charges should not be treated as identical terms."
+      },
+      "meaningDigest": "e683f3ae1b4da7ba46cca76ef8fba6a23b68fe61fd3d24c4b157fbb8bbe2ccef",
+      "sourceIds": ["V81", "V82", "V87"],
+      "definitionReview": "Currency payment streams and a two-leg FX exchange are correctly distinguished.",
+      "exampleReview": "The USD debt / EUR revenue scenario illustrates a mismatch and an agreement, not a complete hedge design.",
+      "confusionNoteReview": "Neither institutional instrument is identical to the daily funding charge in a retail CFD.",
+      "result": "supported-with-stated-scope",
+      "proofs": []
+    },
+    {
+      "entryId": "forex:demo-account",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "A practice account that uses simulated money to rehearse platform controls and market decisions without placing those practice funds at risk.",
+        "example": "A learner practises entering and cancelling an order before using any real money.",
+        "confusionNote": "Demo fills, costs and emotional pressure may differ from live conditions."
+      },
+      "meaningDigest": "28480458d210d836b73c5149e60c96e90158accefe9336f7649ad46d9c7196b5",
+      "sourceIds": ["V83", "V84", "V90"],
+      "definitionReview": "Virtual funds permit platform practice without risking those simulated funds.",
+      "exampleReview": "Entering/cancelling an order is an editorial practice illustration consistent with a simulated account.",
+      "confusionNoteReview": "Execution, charges and emotional experience may differ; differences are provider-specific, not universal.",
+      "result": "supported-with-stated-scope",
+      "proofs": []
+    },
+    {
+      "entryId": "forex:exotic-pair",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "A market label often used for a pair involving a less widely traded currency. Providers and teaching sources may classify pairs differently.",
+        "example": "A provider may label USD/TRY an exotic pair.",
+        "confusionNote": "The label alone does not tell you the actual spread, liquidity or product risk."
+      },
+      "meaningDigest": "05bba8844d774b7aad7be012810c9b35fed465f0f011f723d5fb05bd0eb424e8",
+      "sourceIds": ["V87", "V86"],
+      "definitionReview": "A market label is appropriate, with variation explicitly retained.",
+      "exampleReview": "USD/TRY is directly documented in the provider’s Exotic section.",
+      "confusionNoteReview": "A name does not determine current costs or safety; real terms must be checked.",
+      "result": "supported-with-stated-scope",
+      "proofs": []
+    },
+    {
+      "entryId": "forex:forward-contract",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "An agreement made now to exchange specified currency amounts on an agreed future date under stated terms.",
+        "example": "A business agrees today on the conversion terms for a supplier payment due later.",
+        "confusionNote": "Settlement and counterparty obligations remain important even when the agreed rate is known."
+      },
+      "meaningDigest": "a9339f8af6f394ddb859b6a8693aed203e510604694dcb0cd98dd0c913c49d24",
+      "sourceIds": ["V81", "V82", "V88"],
+      "definitionReview": "Future exchange terms are agreed beforehand; actual settlement follows the contract.",
+      "exampleReview": "Fixing terms for a later supplier payment illustrates trade hedging; no amount or rate is claimed.",
+      "confusionNoteReview": "An agreed rate does not remove settlement or counterparty obligations.",
+      "result": "supported-with-stated-scope",
+      "proofs": []
+    },
+    {
+      "entryId": "forex:hedging",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "Taking an action intended to reduce exposure to a specified risk, sometimes by taking an offsetting position. It can have costs and leave other risks.",
+        "example": "An importer worries that a future foreign-currency invoice will cost more in home currency and considers a way to fix its conversion terms.",
+        "confusionNote": "A hedge is not a promise of profit or protection from every possible loss."
+      },
+      "meaningDigest": "e4cac7048c15812671309c59addfaad747d29f5a36a5807d71983c249785d62b",
+      "sourceIds": ["V82", "V88"],
+      "definitionReview": "The intended reduction of a specified exposure is supported, without claiming all risks disappear.",
+      "exampleReview": "The importer’s future invoice is an editorial trade-exposure scenario; choosing a hedge is not a recommendation.",
+      "confusionNoteReview": "Offsetting price risk can leave basis, counterparty or funding risks and costs; profit is not guaranteed.",
+      "result": "supported-with-stated-scope",
+      "proofs": []
+    },
+    {
+      "entryId": "forex:live-account",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "An account where transactions involve real funds rather than simulated practice money. Its actual product terms, costs and risks apply.",
+        "example": "An incorrect order in a practice account changes a simulated balance; the same mistake in a live account can affect real money.",
+        "confusionNote": "Passing a demo exercise is not proof that live trading is suitable or profitable."
+      },
+      "meaningDigest": "1ef92b1776ba5eae95bac438c05dffae19797badbc8aceb121336e02e900d493",
+      "sourceIds": ["V83", "V84", "V01"],
+      "definitionReview": "Transactions involve real funds under the actual product agreement.",
+      "exampleReview": "A mistaken order can affect real money; the practice/live comparison is a logical illustration, not measured loss data.",
+      "confusionNoteReview": "Demo success cannot establish suitability or profit in different live conditions.",
+      "result": "supported-with-stated-scope",
+      "proofs": []
+    },
+    {
+      "entryId": "forex:major-pair",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "A common market label for heavily traded pairs containing the US dollar and another widely traded currency. Lists can vary by source.",
+        "example": "EUR/USD is commonly labelled a major pair.",
+        "confusionNote": "A category name is not a promise of low cost or a safe trade."
+      },
+      "meaningDigest": "af6a14b72a0a49a6b47a9efd36ea30a7cfeb7bfd6aabbd0eb4291f22d502a437",
+      "sourceIds": ["V85", "V86"],
+      "definitionReview": "A common USD-containing, heavily traded convention is supported; alternative provider lists exist.",
+      "exampleReview": "EUR/USD appears in the primary provider’s major-pair discussion.",
+      "confusionNoteReview": "The category does not promise a safe position or a fixed spread.",
+      "result": "supported-with-stated-scope",
+      "proofs": []
+    },
+    {
+      "entryId": "forex:minor-pair",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "A common label for pairs of widely traded currencies that do not include the US dollar. Some sources call them crosses.",
+        "example": "EUR/GBP is often placed in this group.",
+        "confusionNote": "Not every use of the word cross refers to exactly the same category list."
+      },
+      "meaningDigest": "c218c022e6720f55d876988a2e71b1246ebc626f784e5820f0f3dff8d4d265b6",
+      "sourceIds": ["V85", "V86"],
+      "definitionReview": "Non-USD widely traded crosses are one common convention; the source expressly says classifications vary.",
+      "exampleReview": "EUR/GBP has EUR and GBP and no USD; applying the stated non-USD convention is an inference, not a universal classification.",
+      "confusionNoteReview": "Different cross/minor category lists are retained as a limitation.",
+      "result": "supported-with-stated-scope",
+      "proofs": []
+    },
+    {
+      "entryId": "forex:spot-exchange",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "An exchange arranged for settlement under the market’s spot convention, rather than a separately agreed future delivery date. The exact timing depends on the transaction.",
+        "example": "Someone arranges currency for a near-term supplier payment instead of fixing a rate for a payment several months away.",
+        "confusionNote": "Spot does not always mean instant delivery; retail price contracts may have different terms."
+      },
+      "meaningDigest": "ef77ec8f93fd3ba6700d5d013fb34bf4c8a5e5cac20fbcca482f29df177c64d5",
+      "sourceIds": ["V81", "V82", "V87"],
+      "definitionReview": "Spot follows the relevant settlement convention rather than a separately fixed future delivery date.",
+      "exampleReview": "Near-term supplier conversion contrasts with a longer-dated forward; the example does not assert instant settlement.",
+      "confusionNoteReview": "Bank FX settlement terminology does not convert a rolling retail CFD into delivered currency.",
+      "result": "supported-with-stated-scope",
+      "proofs": []
+    },
+    {
+      "entryId": "forex:trading",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "Buying and selling an asset or entering and closing a market position. In this course, the focus is currency-price decisions that can produce gains or losses.",
+        "example": "Buying produce to resell helps illustrate a trading purpose; the resale price and costs are not certain.",
+        "confusionNote": "This everyday analogy does not describe how a Forex contract is legally arranged."
+      },
+      "meaningDigest": "10433b7eac4faca986216942c81510731ba7c9c90f019a91445dc0e304971d56",
+      "sourceIds": ["V05", "V01"],
+      "definitionReview": "Buying/selling and opening/closing positions describe the activity; gain, loss and costs remain possible.",
+      "exampleReview": "Buying produce for resale is an editorial direction/purpose analogy, not a legal description of FX.",
+      "confusionNoteReview": "Platform mechanics and contracts differ from selling physical produce.",
+      "result": "supported-with-stated-scope",
+      "proofs": []
+    },
+    {
+      "entryId": "forex:trading-forex",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "Taking a currency position to benefit from a change in one currency against another. A favourable move may produce a gain; an adverse move or trading costs may produce a loss.",
+        "example": "A demo exercise compares a currency purchase with a later sale at a different quote.",
+        "confusionNote": "A hoped-for move and a guaranteed result are not the same thing."
+      },
+      "meaningDigest": "c631a049a926d305408b1ec67e1e7822d56d1017b053f2396f64f823e7b29f5d",
+      "sourceIds": ["V05", "V01", "V85"],
+      "definitionReview": "Relative-currency exposure and uncertain gains or losses are supported.",
+      "exampleReview": "The demo buy/sell exercise is an instructional illustration, not evidence of live achievable profit.",
+      "confusionNoteReview": "Intent to benefit from a move is distinct from a guaranteed outcome.",
+      "result": "supported-with-stated-scope",
+      "proofs": []
+    }
+  ],
+  "sources": [
+    {
+      "id": "V81",
+      "publisher": "BIS / Basel Committee",
+      "title": "Foreign exchange risks",
+      "url": "https://www.bis.org/committees/bcbs/basel-consolidated-guidelines/module/rma/20",
+      "checkedOn": "2026-10-07",
+      "retrieval": "page-excerpt",
+      "retrievalRef": "turn191view4",
+      "supportedScope": "Glossary items 8 and 13–15 distinguish currency swaps, forwards, spot settlement and FX swaps; settlement-risk scope excludes one-payment CFDs.",
+      "limitation": "Bank supervision guidance supplies terminology, not personal product advice or rules for every retail account."
+    },
+    {
+      "id": "V82",
+      "publisher": "BIS",
+      "title": "FX swaps and forwards: missing global debt?",
+      "url": "https://www.bis.org/publications/qr-201709/fx-swaps-and-forwards-missing-global-debt",
+      "checkedOn": "2026-10-07",
+      "retrieval": "page-excerpt",
+      "retrievalRef": "turn192view0",
+      "supportedScope": "Explains principal/interest swap distinctions and trade/bond hedging, including continuing funding and liquidity obligations.",
+      "limitation": "2017 conceptual discussion; historic totals and maturity descriptions are not adopted as current or universal facts."
+    },
+    {
+      "id": "V83",
+      "publisher": "MetaQuotes",
+      "title": "Open an Account — MetaTrader 5 Help",
+      "url": "https://www.metatrader5.com/en/terminal/help/startworking/acc_open",
+      "checkedOn": "2026-10-07",
+      "retrieval": "page-excerpt",
+      "retrievalRef": "turn191view2",
+      "supportedScope": "Demo trading uses virtual money; real accounts transact with real funds under broker agreements.",
+      "limitation": "MT5 account workflow, not certification of broker conduct, suitability or realistic demo fills."
+    },
+    {
+      "id": "V84",
+      "publisher": "IG UK",
+      "title": "How does a demo account differ from a live account?",
+      "url": "https://www.ig.com/uk/help-and-support/articles/687034-how-does-a-demo-account-differ-from-a-live-account",
+      "checkedOn": "2026-10-07",
+      "retrieval": "page-excerpt",
+      "retrievalRef": "turn191view3",
+      "supportedScope": "Provider describes demo/live differences in slippage, charges, rejection and closure, and requires review of live terms.",
+      "limitation": "These are this provider’s described features; other simulations can differ."
+    },
+    {
+      "id": "V85",
+      "publisher": "OANDA US",
+      "title": "Trade Currency Pairs",
+      "url": "https://www.oanda.com/us-en/trading/instruments/",
+      "checkedOn": "2026-10-07",
+      "retrieval": "page-excerpt",
+      "retrievalRef": "turn191view5",
+      "supportedScope": "USD-containing major-pair convention and cross pairs excluding USD.",
+      "limitation": "Only naming and direction conventions are used; 2016 volumes, marketing claims and implied opportunities are excluded."
+    },
+    {
+      "id": "V86",
+      "publisher": "IG UK",
+      "title": "Live Forex Rates and Charts — classification FAQ",
+      "url": "https://www.ig.com/uk/forex/markets-forex",
+      "checkedOn": "2026-10-07",
+      "retrieval": "page-excerpt",
+      "retrievalRef": "turn193view0",
+      "supportedScope": "FAQ explicitly states minor-pair classifications vary and some providers use non-USD crosses.",
+      "limitation": "Provider taxonomy is illustrative; neither its category lists nor prices are universal."
+    },
+    {
+      "id": "V87",
+      "publisher": "IG International",
+      "title": "Forex MetaTrader product details",
+      "url": "https://www.ig.com/en/help-and-support/articles/691454-what-are-ig-s-forex-metatrader-product-details",
+      "checkedOn": "2026-10-07",
+      "retrieval": "page-excerpt",
+      "retrievalRef": "turn191view6",
+      "supportedScope": "USD/TRY is listed in an Exotic section; notes distinguish cash-settled FX CFDs from delivered currency and discuss funding charges.",
+      "limitation": "Used only for a documented label and product distinction; historic 2020 spreads, margin rates and schedules are not adopted."
+    },
+    {
+      "id": "V88",
+      "publisher": "CME Group",
+      "title": "From Field to Forex: Hedging Your Harvest from Exchange Rate Volatility",
+      "url": "https://www.cmegroup.com/articles/2025/hedging-foreign-exchange-rate-risk-with-cme-fx-futures-cad-vs-usd.html",
+      "checkedOn": "2026-10-07",
+      "retrieval": "page-excerpt",
+      "retrievalRef": "turn191view7",
+      "supportedScope": "Agricultural FX hedge illustrates offsetting price exposure; discussion acknowledges basis and forward counterparty risk.",
+      "limitation": "The source’s simplified prices, numerical scenarios and broad legal generalisations are not adopted; only the stated risk mechanism is used."
+    },
+    {
+      "id": "V89",
+      "publisher": "OANDA US",
+      "title": "Core spreads + commission pricing model",
+      "url": "https://help.oanda.com/us/en/faqs/spreads-commission.htm",
+      "checkedOn": "2026-10-07",
+      "retrieval": "page-excerpt",
+      "retrievalRef": "turn191view8",
+      "supportedScope": "Commission is charged separately from spread, with terms determining how it applies.",
+      "limitation": "This pricing model is an example, not a recommended provider or a current universal fee schedule."
+    },
+    {
+      "id": "V90",
+      "publisher": "IG International",
+      "title": "MT4 demo account — differences from live",
+      "url": "https://bts.ig.com/en/trading-platforms/metatrader-4/mt4-demo-account",
+      "checkedOn": "2026-10-07",
+      "retrieval": "page-excerpt",
+      "retrievalRef": "turn193view1",
+      "supportedScope": "Demo/live execution and charge differences; real-money decisions can feel different from simulated decisions.",
+      "limitation": "Provider educational observation about possible psychology differences, not a quantified causal study or universal outcome."
+    },
+    {
+      "id": "V01",
+      "publisher": "CFTC",
+      "title": "CFTC - Eight things to know before trading Forex",
+      "url": "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/CustomerAdvisory_MustKnowForex.html",
+      "checkedOn": "2026-10-07",
+      "retrieval": "page-excerpt",
+      "retrievalRef": "turn156view0",
+      "supportedScope": "Retail OTC dealer counterparty, leverage and fee risks.",
+      "limitation": "Supports the named core concept within the stated scope; not blanket verification of the entry, analogy, all networks or all jurisdictions."
+    },
+    {
+      "id": "V05",
+      "publisher": "MetaQuotes",
+      "title": "MetaQuotes - General trading concepts",
+      "url": "https://www.metatrader5.com/en/terminal/help/trading/general_concept",
+      "checkedOn": "2026-10-07",
+      "retrieval": "page-excerpt",
+      "retrievalRef": "turn158view1",
+      "supportedScope": "MT5 netting and hedging account position treatment.",
+      "limitation": "Supports the named core concept within the stated scope; not blanket verification of the entry, analogy, all networks or all jurisdictions."
+    }
+  ],
+  "recheckedExistingSources": [
+    {
+      "id": "V01",
+      "retrievalRef": "turn192view1",
+      "scope": "US OTC costs, loss risk and contract terms."
+    },
+    {
+      "id": "V05",
+      "retrievalRef": "turn192view2",
+      "scope": "MT5 deals and position-opening/closing mechanics."
+    }
+  ],
+  "limitations": "Provider classifications and account mechanics are scoped examples. Everyday analogies and stated inferences are editorial illustrations, not source quotations or empirical tests. No current fees, trading schedules, market-volume rankings or global legal rules are adopted. Publication approval remains separate.",
+  "correctionsRequired": []
+}

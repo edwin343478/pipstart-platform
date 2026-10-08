@@ -1,0 +1,809 @@
+{
+  "schemaVersion": 1,
+  "checkedOn": "2026-10-07",
+  "catalogueDigest": "28ac2bf9466594a0425421d23cf11bcfc0df3f9d3a74b396308e0f160956b8f0",
+  "scope": "Verify only the 20 arithmetic-labelled meanings, their stated numbers, units and calculation limitations. No content edits, publication approval or universal external certification.",
+  "method": "Direct arithmetic recalculation plus review of definition, example and confusion-note conventions. Zero denominators are explicitly undefined in this verification convention.",
+  "primaryReferences": [
+    {
+      "id": "A-S01",
+      "title": "BLS - Calculating percent changes",
+      "url": "https://www.bls.gov/cpi/factsheets/calculating-percent-changes.htm",
+      "checkedOn": "2026-10-07",
+      "scope": "Reference-base and percentage-change denominator; not endorsement of glossary trading metrics."
+    },
+    {
+      "id": "A-S02",
+      "title": "NIST - Weighted sum",
+      "url": "https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/weigsum.htm",
+      "checkedOn": "2026-10-07",
+      "scope": "Sum of value-weight products. Dividing by total quantity is the explicit normalization used here."
+    }
+  ],
+  "checks": [
+    {
+      "entryId": "forex:break-even",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "A result of zero gain or loss after the costs included in the stated calculation.",
+        "example": "If a made-up price result is 1 unit and the only separate charge is 1 unit, the net result is zero.",
+        "confusionNote": "Returning to an entry price does not necessarily mean breaking even after costs."
+      },
+      "meaningDigest": "d6af660e3c8f43fbcf3b96d1efed5b32de95fbf77c4de1ce92c3415fbe677560",
+      "lessonIds": ["bid-ask-spread"],
+      "result": "passed",
+      "formula": "Net = price result minus separately charged costs",
+      "proofs": [
+        {
+          "label": "stated example",
+          "expression": {
+            "op": "subtract",
+            "args": [1, 1]
+          },
+          "expected": 0,
+          "tolerance": 1e-10
+        }
+      ],
+      "reviewNotes": "Zero net, not merely return to entry price; costs must be included once.",
+      "units": "stated teaching units"
+    },
+    {
+      "entryId": "forex:cross-rate",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "An exchange rate between two currencies derived using compatible quotes involving a third currency.",
+        "example": "At invented rates of 1 EUR = 1.20 USD and 1 USD = 100 JPY, the derived rate is 1 EUR = 120 JPY.",
+        "confusionNote": "A derived teaching rate is not necessarily an executable offer after spreads and costs."
+      },
+      "meaningDigest": "39e571dcc1fc77129ec801795a470a8403e0413ef458f2d0c03accd8bd895fe4",
+      "lessonIds": ["currency-pairs"],
+      "result": "passed",
+      "formula": "Compatible rate products cancel the intermediary currency",
+      "proofs": [
+        {
+          "label": "EUR/USD times USD/JPY",
+          "expression": {
+            "op": "multiply",
+            "args": [1.2, 100]
+          },
+          "expected": 120,
+          "tolerance": 1e-10
+        }
+      ],
+      "reviewNotes": "EUR/USD * USD/JPY = EUR/JPY. This is a derived teaching reference, not an executable bid/ask.",
+      "units": "JPY per EUR"
+    },
+    {
+      "entryId": "forex:gross-profit-and-loss",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "A stated price-movement result before separately specified charges. The calculation must disclose prices, size, currency and which costs are already included.",
+        "example": "An invented trade shows a 5-unit price result before a separately charged 1-unit commission.",
+        "confusionNote": "Executable entry and exit prices already reflect their quoted sides; do not subtract the spread again without checking the convention."
+      },
+      "meaningDigest": "209fa82473eac8a304425a698173cea55f49ade1f57ec7d21c68e37d37d8a302",
+      "lessonIds": ["pips-and-lots"],
+      "result": "passed",
+      "formula": "Gross result excludes only separately specified charges",
+      "proofs": [
+        {
+          "label": "price result retained",
+          "expression": 5,
+          "expected": 5,
+          "tolerance": 1e-10
+        },
+        {
+          "label": "separate commission deducted once",
+          "expression": {
+            "op": "subtract",
+            "args": [5, 1]
+          },
+          "expected": 4,
+          "tolerance": 1e-10
+        }
+      ],
+      "reviewNotes": "The example supplies a 5-unit gross reference rather than enough prices to reconstruct a trade. Verify its gross/net classification; do not infer unseen prices or subtract spread twice.",
+      "units": "stated teaching units"
+    },
+    {
+      "entryId": "forex:inverse-quote",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "The same currency relationship written in the opposite order, calculated by taking the reciprocal of a compatible rate.",
+        "example": "If an invented rate is 1 EUR = 1.25 USD, its reciprocal is 1 USD = 0.80 EUR.",
+        "confusionNote": "Real two-sided quotes require attention to the bid and ask when reversing direction."
+      },
+      "meaningDigest": "8949418fff09300808b78f0ed32def109372bc534417db2d376f6dec889fd6af",
+      "lessonIds": ["currency-pairs"],
+      "result": "passed",
+      "formula": "Inverse compatible reference = 1 / original reference",
+      "proofs": [
+        {
+          "label": "reciprocal example",
+          "expression": {
+            "op": "divide",
+            "args": [1, 1.25]
+          },
+          "expected": 0.8,
+          "tolerance": 1e-10
+        },
+        {
+          "label": "zero rate is undefined",
+          "expression": {
+            "op": "divide",
+            "args": [1, 0]
+          },
+          "expected": "undefined",
+          "tolerance": 1e-10
+        }
+      ],
+      "reviewNotes": "Reciprocal reference is not bid/ask inversion; a two-sided inverse bid uses the original ask.",
+      "units": "EUR per USD"
+    },
+    {
+      "entryId": "forex:net-profit-and-loss",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "The result after including the relevant costs and signed adjustments under a clearly stated calculation method.",
+        "example": "An invented 5-unit price result less a separate 1-unit charge gives a 4-unit net result, with all other adjustments assumed zero.",
+        "confusionNote": "Keep the cost convention consistent so a spread or fee is not counted twice."
+      },
+      "meaningDigest": "81de18af85616bb9828b6b1b434e5af88b0425ec53a7869f66f0fa86b16f6611",
+      "lessonIds": ["bid-ask-spread"],
+      "result": "passed",
+      "formula": "Net = stated price result minus separately charged cost plus signed adjustments",
+      "proofs": [
+        {
+          "label": "net example",
+          "expression": {
+            "op": "subtract",
+            "args": [5, 1]
+          },
+          "expected": 4,
+          "tolerance": 1e-10
+        }
+      ],
+      "reviewNotes": "All other adjustments are zero in the example; quoted execution sides already reflect their price difference.",
+      "units": "stated teaching units"
+    },
+    {
+      "entryId": "forex:midpoint-price",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "The arithmetic midpoint of a stated bid and ask: their sum divided by two. It is a reference, not automatically an available execution price.",
+        "example": "An invented bid of 1.1000 and ask of 1.1004 have a midpoint of 1.1002.",
+        "confusionNote": "A midpoint chart does not establish the price available for a buy or sell."
+      },
+      "meaningDigest": "dac9f90ccde3ef4ebbd023b71b488a0d33a1a84ac686b57e176e83d271bdeb69",
+      "lessonIds": ["read-a-chart-before-interpreting-it"],
+      "result": "passed",
+      "formula": "Midpoint = (bid + ask) / 2",
+      "proofs": [
+        {
+          "label": "midpoint example",
+          "expression": {
+            "op": "divide",
+            "args": [
+              {
+                "op": "add",
+                "args": [1.1, 1.1004]
+              },
+              2
+            ]
+          },
+          "expected": 1.1002,
+          "tolerance": 1e-10
+        }
+      ],
+      "reviewNotes": "A reference midpoint is not a promised execution price.",
+      "units": "quote currency per base currency"
+    },
+    {
+      "entryId": "forex:basis-point",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "One hundredth of a percentage point: 0.01 percentage point.",
+        "example": "An invented rate rises from 4.00% to 4.25%: 0.25 percentage point, or 25 basis points.",
+        "confusionNote": "One hundred basis points equal one percentage point, not necessarily a 1% change relative to the old rate."
+      },
+      "meaningDigest": "e587f1a04c0eac42544656ed112f14b32e5f77cbaeb24dff3e8498904eb562fc",
+      "lessonIds": ["policy-and-market-relationships"],
+      "result": "passed",
+      "formula": "1 basis point = 0.01 percentage point",
+      "proofs": [
+        {
+          "label": "4.00% to 4.25%",
+          "expression": {
+            "op": "multiply",
+            "args": [
+              {
+                "op": "subtract",
+                "args": [4.25, 4]
+              },
+              100
+            ]
+          },
+          "expected": 25,
+          "tolerance": 1e-10
+        },
+        {
+          "label": "100 basis points",
+          "expression": {
+            "op": "divide",
+            "args": [100, 100]
+          },
+          "expected": 1,
+          "tolerance": 1e-10
+        }
+      ],
+      "reviewNotes": "Input rates are percentage numbers. Basis points describe an absolute rate difference, not relative percent growth.",
+      "units": "basis points; second proof is percentage points"
+    },
+    {
+      "entryId": "forex:drawdown",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "A decline from a previous high to a later value in a consistently defined account series, such as balance or equity.",
+        "example": "An invented account series falls from a 100-unit peak to 80: a 20-unit decline, or 20% of that peak.",
+        "confusionNote": "Balance-only and equity drawdown can differ; neither is automatically the sum of every losing trade."
+      },
+      "meaningDigest": "3931dce1f4f41eb122883f0f5120e91640a3a491223cec1e105cddabbded3c35",
+      "lessonIds": ["margin-leverage-and-drawdown"],
+      "result": "passed",
+      "formula": "Percentage drawdown = (peak - later value) / peak * 100",
+      "proofs": [
+        {
+          "label": "cash decline",
+          "expression": {
+            "op": "subtract",
+            "args": [100, 80]
+          },
+          "expected": 20,
+          "tolerance": 1e-10
+        },
+        {
+          "label": "percentage decline",
+          "expression": {
+            "op": "multiply",
+            "args": [
+              {
+                "op": "divide",
+                "args": [
+                  {
+                    "op": "subtract",
+                    "args": [100, 80]
+                  },
+                  100
+                ]
+              },
+              100
+            ]
+          },
+          "expected": 20,
+          "tolerance": 1e-10
+        }
+      ],
+      "reviewNotes": "Peak and current value use the same account series; balance and equity conventions can differ.",
+      "units": "first proof cash units; second percent"
+    },
+    {
+      "entryId": "forex:percentage-point",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "The arithmetic difference between two percentage rates, expressed directly in percentage units.",
+        "example": "An invented rate rising from 4% to 5% increases by one percentage point, but by 25% relative to the starting rate.",
+        "confusionNote": "A one-percentage-point increase is not the same as a 1% proportional increase."
+      },
+      "meaningDigest": "1bb20b3ddf0cd1f7206e28b9128e6fc4f24eec8c6f70afa0ebbda4c015571394",
+      "lessonIds": ["policy-and-market-relationships"],
+      "result": "passed",
+      "formula": "Point difference = new percent number minus old percent number",
+      "proofs": [
+        {
+          "label": "absolute points",
+          "expression": {
+            "op": "subtract",
+            "args": [5, 4]
+          },
+          "expected": 1,
+          "tolerance": 1e-10
+        },
+        {
+          "label": "relative percent growth",
+          "expression": {
+            "op": "multiply",
+            "args": [
+              {
+                "op": "divide",
+                "args": [
+                  {
+                    "op": "subtract",
+                    "args": [5, 4]
+                  },
+                  4
+                ]
+              },
+              100
+            ]
+          },
+          "expected": 25,
+          "tolerance": 1e-10
+        }
+      ],
+      "reviewNotes": "One percentage point and 25% proportional growth both describe the example, with different denominators.",
+      "units": "first percentage points; second percent"
+    },
+    {
+      "entryId": "forex:recovery-percentage",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "The percentage gain needed from a reduced value to return to a stated earlier value.",
+        "example": "After an invented account falls from 100 to 80, recovering 20 from the remaining 80 requires a 25% gain.",
+        "confusionNote": "The required gain is arithmetic, not a promise of recovery or a reason to increase risk."
+      },
+      "meaningDigest": "eefd79711732ba3ef4a7ef686ab4c916a39f7ae57d4c14a4018a48c376dc96e3",
+      "lessonIds": ["margin-leverage-and-drawdown"],
+      "result": "passed",
+      "formula": "Recovery percent = (earlier target - reduced value) / reduced value * 100",
+      "proofs": [
+        {
+          "label": "recovery example",
+          "expression": {
+            "op": "multiply",
+            "args": [
+              {
+                "op": "divide",
+                "args": [
+                  {
+                    "op": "subtract",
+                    "args": [100, 80]
+                  },
+                  80
+                ]
+              },
+              100
+            ]
+          },
+          "expected": 25,
+          "tolerance": 1e-10
+        },
+        {
+          "label": "zero reduced value",
+          "expression": {
+            "op": "divide",
+            "args": [
+              {
+                "op": "subtract",
+                "args": [100, 0]
+              },
+              0
+            ]
+          },
+          "expected": "undefined",
+          "tolerance": 1e-10
+        }
+      ],
+      "reviewNotes": "Recovery uses the reduced value as denominator. It is not a forecast or permission to increase risk.",
+      "units": "percent"
+    },
+    {
+      "entryId": "forex:average-loss",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "In this course, the positive magnitude of total negative results divided by the number of losing cases, under a consistent convention.",
+        "example": "Invented net losses of −2 and −4 have an average loss magnitude of 3.",
+        "confusionNote": "State the sign convention; subtracting a signed negative loss can incorrectly turn it into a gain."
+      },
+      "meaningDigest": "f9987edfc3c4dadec650acb945b4ea26536051b7831e52e08a1008e2b3830481",
+      "lessonIds": ["read-the-results-honestly"],
+      "result": "passed",
+      "formula": "Average magnitude = sum of absolute negative results / losing count",
+      "proofs": [
+        {
+          "label": "two losing cases",
+          "expression": {
+            "op": "divide",
+            "args": [
+              {
+                "op": "add",
+                "args": [
+                  {
+                    "op": "abs",
+                    "args": [-2]
+                  },
+                  {
+                    "op": "abs",
+                    "args": [-4]
+                  }
+                ]
+              },
+              2
+            ]
+          },
+          "expected": 3,
+          "tolerance": 1e-10
+        },
+        {
+          "label": "no losing cases",
+          "expression": {
+            "op": "divide",
+            "args": [0, 0]
+          },
+          "expected": "undefined",
+          "tolerance": 1e-10
+        }
+      ],
+      "reviewNotes": "Use positive magnitudes consistently; no losing cases does not create an observed zero-sized loss.",
+      "units": "stated teaching units"
+    },
+    {
+      "entryId": "forex:average-win",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "Total positive results divided by the number of winning cases, with consistent units and cost treatment.",
+        "example": "Invented net wins of 4 and 2 have an average win of 3.",
+        "confusionNote": "If there are no winners, the category average is undefined rather than an observed zero-sized win."
+      },
+      "meaningDigest": "85d6f81050d093a78ebde274210c3991b445187cb4b2fbbb795ce44c95d956a9",
+      "lessonIds": ["read-the-results-honestly"],
+      "result": "passed",
+      "formula": "Average win = positive-result total / winning count",
+      "proofs": [
+        {
+          "label": "two winning cases",
+          "expression": {
+            "op": "divide",
+            "args": [
+              {
+                "op": "add",
+                "args": [4, 2]
+              },
+              2
+            ]
+          },
+          "expected": 3,
+          "tolerance": 1e-10
+        },
+        {
+          "label": "no winning cases",
+          "expression": {
+            "op": "divide",
+            "args": [0, 0]
+          },
+          "expected": "undefined",
+          "tolerance": 1e-10
+        }
+      ],
+      "reviewNotes": "Only winners enter the category mean; zero and negative cases do not enter its denominator.",
+      "units": "stated teaching units"
+    },
+    {
+      "entryId": "forex:maximum-drawdown",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "The largest recorded peak-to-subsequent-trough decline in a stated account series and observation window.",
+        "example": "In an invented series 100, 120, 90, 110, the largest decline is 120 to 90: 30 units, or 25% of the peak.",
+        "confusionNote": "Frequency, balance versus equity, costs and cash-flow treatment can change the measured result."
+      },
+      "meaningDigest": "237575aecfd10678817a5192347b7f996ace89ddc37aa0ff9b80bb9e0f2a5669",
+      "lessonIds": ["read-the-results-honestly"],
+      "result": "passed",
+      "formula": "Largest peak-to-later-trough decline; percentage uses each preceding peak",
+      "proofs": [
+        {
+          "label": "chronological cash drawdown",
+          "expression": {
+            "op": "maximumDrawdownCash",
+            "args": [[100, 120, 90, 110]]
+          },
+          "expected": 30,
+          "tolerance": 1e-10
+        },
+        {
+          "label": "chronological percent drawdown",
+          "expression": {
+            "op": "maximumDrawdownPercent",
+            "args": [[100, 120, 90, 110]]
+          },
+          "expected": 25,
+          "tolerance": 1e-10
+        },
+        {
+          "label": "later high cannot cause earlier drawdown",
+          "expression": {
+            "op": "maximumDrawdownCash",
+            "args": [[100, 90, 120]]
+          },
+          "expected": 10,
+          "tolerance": 1e-10
+        }
+      ],
+      "reviewNotes": "Do not subtract the overall minimum from a later overall maximum. Account series, cash flows and sampling must be specified.",
+      "units": "cash, percent, cash respectively"
+    },
+    {
+      "entryId": "forex:profit-factor",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "Total positive results divided by the magnitude of total negative results in a stated ledger and cost convention.",
+        "example": "Invented gains total 6 and losses have magnitude 3, giving profit factor 2.",
+        "confusionNote": "A zero loss denominator needs an explicit convention; it does not prove a loss-free future."
+      },
+      "meaningDigest": "d00801b14a4c97ffcd778b0398edd4cfc2856d8bfd26d649555bf240db2d5714",
+      "lessonIds": ["read-the-results-honestly"],
+      "result": "passed",
+      "formula": "Sum of positive results / absolute sum of negative results",
+      "proofs": [
+        {
+          "label": "ratio example",
+          "expression": {
+            "op": "divide",
+            "args": [6, 3]
+          },
+          "expected": 2,
+          "tolerance": 1e-10
+        },
+        {
+          "label": "zero loss denominator",
+          "expression": {
+            "op": "divide",
+            "args": [6, 0]
+          },
+          "expected": "undefined",
+          "tolerance": 1e-10
+        }
+      ],
+      "reviewNotes": "The verifier records undefined rather than treating an infinite display as evidence of a loss-free future.",
+      "units": "dimensionless"
+    },
+    {
+      "entryId": "forex:r-multiple",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "A case’s stated result divided by its defined initial planned-risk reference, with numerator and denominator conventions disclosed.",
+        "example": "An invented net gain of 6 against an initial 3-unit planned-risk reference is +2R under those definitions.",
+        "confusionNote": "A missing or zero reference makes the ratio unsuitable; do not redefine initial risk after the outcome."
+      },
+      "meaningDigest": "20eeef8c57e59a34dbffd36d400b40a67724ba9a49e22e8b7dde02ea00a39208",
+      "lessonIds": ["read-the-results-honestly"],
+      "result": "passed",
+      "formula": "Case result / original stated planned-risk reference",
+      "proofs": [
+        {
+          "label": "R example",
+          "expression": {
+            "op": "divide",
+            "args": [6, 3]
+          },
+          "expected": 2,
+          "tolerance": 1e-10
+        },
+        {
+          "label": "zero initial reference",
+          "expression": {
+            "op": "divide",
+            "args": [6, 0]
+          },
+          "expected": "undefined",
+          "tolerance": 1e-10
+        }
+      ],
+      "reviewNotes": "Initial risk stays fixed after the outcome; gain is +2R under the stated convention.",
+      "units": "R"
+    },
+    {
+      "entryId": "forex:sample-expectancy",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "The average result in a stated sample of completed cases under a consistent unit and cost convention.",
+        "example": "Invented results +4, +2, −3 and 0 total +3 across four cases, giving a sample mean of +0.75.",
+        "confusionNote": "This describes that sample, not the next trade or a guaranteed future average."
+      },
+      "meaningDigest": "87049388465119514133c18c006885d84e2efd8fec1975b8da5c75b597250408",
+      "lessonIds": ["read-the-results-honestly"],
+      "result": "passed",
+      "formula": "Sum of completed results / completed case count",
+      "proofs": [
+        {
+          "label": "sample example",
+          "expression": {
+            "op": "mean",
+            "args": [[4, 2, -3, 0]]
+          },
+          "expected": 0.75,
+          "tolerance": 1e-10
+        },
+        {
+          "label": "empty sample",
+          "expression": {
+            "op": "mean",
+            "args": [[]]
+          },
+          "expected": "undefined",
+          "tolerance": 1e-10
+        }
+      ],
+      "reviewNotes": "Include the completed zero case; this sample mean is not a guaranteed future average.",
+      "units": "stated teaching units"
+    },
+    {
+      "entryId": "forex:weighted-average-fill",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "The sum of each executed price multiplied by its filled quantity, divided by total filled quantity in compatible units.",
+        "example": "Invented fills of 100 units at 1.10 and 200 at 1.12 give (110 + 224)/300, about 1.11333 per unit.",
+        "confusionNote": "Use actual compatible fills and quantity weights; a simple unweighted average gives a different figure."
+      },
+      "meaningDigest": "a558552b2a20e9690698dc9002a5ee9aee6471265a4d137fc83e6a51e560acba",
+      "lessonIds": ["liquidity-and-market-positioning"],
+      "result": "passed",
+      "formula": "Sum of price * filled quantity / total filled quantity",
+      "proofs": [
+        {
+          "label": "unrounded quantity-weighted mean",
+          "expression": {
+            "op": "weightedMean",
+            "args": [
+              [
+                [100, 1.1],
+                [200, 1.12]
+              ]
+            ]
+          },
+          "expected": 1.1133333333333333,
+          "tolerance": 1e-10
+        },
+        {
+          "label": "display rounded to five places",
+          "expression": {
+            "op": "round",
+            "args": [
+              {
+                "op": "weightedMean",
+                "args": [
+                  [
+                    [100, 1.1],
+                    [200, 1.12]
+                  ]
+                ]
+              },
+              5
+            ]
+          },
+          "expected": 1.11333,
+          "tolerance": 1e-10
+        },
+        {
+          "label": "zero quantity",
+          "expression": {
+            "op": "weightedMean",
+            "args": [[[0, 1.1]]]
+          },
+          "expected": "undefined",
+          "tolerance": 1e-10
+        }
+      ],
+      "reviewNotes": "Use compatible quantities and actual prices. The mean is 1.113333... and the example rounding to about 1.11333 is correct.",
+      "units": "quote currency per base unit"
+    },
+    {
+      "entryId": "forex:win-rate",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "The fraction of completed cases with positive results under the stated result and cost convention, using the defined denominator.",
+        "example": "In an invented ledger with two wins, one loss and one zero, wins are 2 of 4 completed cases: 50%.",
+        "confusionNote": "Zeros and unresolved cases need distinct treatment; sample win rate is not an established future win probability."
+      },
+      "meaningDigest": "934bc596be89f4b9b9e500a9ca84dbb4be9f3148c68bb87fcb072890455a3bd1",
+      "lessonIds": ["read-the-results-honestly"],
+      "result": "passed",
+      "formula": "Positive completed case count / all completed cases * 100",
+      "proofs": [
+        {
+          "label": "two wins among four completed cases",
+          "expression": {
+            "op": "multiply",
+            "args": [
+              {
+                "op": "divide",
+                "args": [2, 4]
+              },
+              100
+            ]
+          },
+          "expected": 50,
+          "tolerance": 1e-10
+        },
+        {
+          "label": "no completed cases",
+          "expression": {
+            "op": "divide",
+            "args": [0, 0]
+          },
+          "expected": "undefined",
+          "tolerance": 1e-10
+        }
+      ],
+      "reviewNotes": "The completed zero stays in the denominator; unresolved cases and future probabilities are different issues.",
+      "units": "percent"
+    },
+    {
+      "entryId": "forex:yield-differential",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "The difference between named yield or rate measures, expressed under compatible period, instrument and currency conventions.",
+        "example": "Two invented comparable annual rates of 5% and 2% differ by three percentage points.",
+        "confusionNote": "A rate gap is not the total investment return after currency changes, funding costs and product terms."
+      },
+      "meaningDigest": "1aebe67eb867ab2369533e9e153d532a96dba502e318225ce799d854c35c1cf9",
+      "lessonIds": ["relationships-that-can-change"],
+      "result": "passed",
+      "formula": "Difference between comparable named rate measures",
+      "proofs": [
+        {
+          "label": "comparable annual rates",
+          "expression": {
+            "op": "subtract",
+            "args": [5, 2]
+          },
+          "expected": 3,
+          "tolerance": 1e-10
+        }
+      ],
+      "reviewNotes": "Input rates are percentage numbers. A three-point rate gap is not total return after FX, costs or product terms.",
+      "units": "percentage points"
+    },
+    {
+      "entryId": "crypto:drawdown",
+      "meaningIndex": 0,
+      "meaning": {
+        "definition": "The fall from a previous peak to a later low, written as a percentage of the peak.",
+        "lessons": [
+          {
+            "title": "Cycles, Dominance and Market Context",
+            "href": "/learn/crypto/level-7/cycles-dominance-and-market-context"
+          }
+        ],
+        "example": "An example holding rises to EUR 200 and later falls to EUR 150. The decline is EUR 50, or 25% of the earlier peak; this differs from its return since purchase."
+      },
+      "meaningDigest": "2b08fe8e06a42a39ea929c841ca05ff556f3f5c50bc66fbc236fe56ac3135eba",
+      "lessonIds": ["cycles-dominance-and-market-context"],
+      "result": "passed",
+      "formula": "Percentage decline = (previous peak - later low) / previous peak * 100",
+      "proofs": [
+        {
+          "label": "EUR decline",
+          "expression": {
+            "op": "subtract",
+            "args": [200, 150]
+          },
+          "expected": 50,
+          "tolerance": 1e-10
+        },
+        {
+          "label": "percentage decline",
+          "expression": {
+            "op": "multiply",
+            "args": [
+              {
+                "op": "divide",
+                "args": [
+                  {
+                    "op": "subtract",
+                    "args": [200, 150]
+                  },
+                  200
+                ]
+              },
+              100
+            ]
+          },
+          "expected": 25,
+          "tolerance": 1e-10
+        }
+      ],
+      "reviewNotes": "Drawdown from the earlier peak differs from return since the purchase date.",
+      "units": "first EUR; second percent"
+    }
+  ]
+}

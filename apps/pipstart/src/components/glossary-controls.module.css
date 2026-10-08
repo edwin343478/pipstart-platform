@@ -1,0 +1,95 @@
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 0.75rem auto 0;
+  max-width: 100%;
+}
+.controls label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: 0;
+  max-width: 100%;
+  font: inherit;
+}
+.controls select {
+  max-width: 100%;
+  min-width: 0;
+  border: 1px solid #d9e0e5;
+  border-radius: 0.625rem;
+  background: #fff;
+  color: #0b1220;
+  font: inherit;
+  padding: 0.65rem 0.75rem;
+}
+.controls select:focus-visible,
+.crossSearch:focus-visible {
+  outline: 2px solid #0f766e;
+  outline-offset: 4px;
+}
+.crossSearch {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #0f766e;
+  overflow-wrap: anywhere;
+}
+
+.grouping {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1.25rem auto;
+  max-width: 100%;
+}
+.grouping span {
+  flex-basis: 100%;
+}
+.grouping a,
+.more a {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 2.75rem;
+  border: 1px solid #0f766e;
+  border-radius: 0.625rem;
+  padding: 0.65rem 1rem;
+  color: #0f766e;
+  background: #fff;
+  font: inherit;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.grouping a[aria-current="page"],
+.more a {
+  background: #0f766e;
+  color: #fff;
+}
+.grouping a:focus-visible,
+.more a:focus-visible,
+.pagedTerm:focus-visible {
+  outline: 2px solid #0f766e;
+  outline-offset: 4px;
+}
+.more {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+.resultCount {
+  line-height: 1.6;
+}
+.pagedTerm[hidden] {
+  display: none;
+}
+.pagedTerm:target {
+  display: block;
+}

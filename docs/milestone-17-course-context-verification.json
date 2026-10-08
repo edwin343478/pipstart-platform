@@ -1,0 +1,1304 @@
+{
+  "schemaVersion": 1,
+  "reviewDate": "2026-10-07",
+  "scope": "definition-to-approved-lesson-context-only",
+  "publicationApproved": false,
+  "fullMeaningReview": "pending",
+  "catalogueDigest": "28ac2bf9466594a0425421d23cf11bcfc0df3f9d3a74b396308e0f160956b8f0",
+  "evidenceDigest": "ffff92ea0d8312507d978b9244db07f68b1e1ed14232973002250f16d52a511c",
+  "limitations": "Checks establish consistency with approved course teaching, not independent external correctness or complete verification of examples and confusion notes. Source hashes bind the exported teaching blocks to the reviewed local baseline. No publication authorization.",
+  "checks": [
+    {
+      "entryId": "forex:breakout",
+      "meaningIndex": 0,
+      "definition": "A move beyond a previously specified boundary under a stated observation rule, which may use a touch, breach or completed close.",
+      "meaningDigest": "f2d88ccafa33745ffc0d3eea9414527db7208f2c624b3ef7df94af12c39e1d84",
+      "lessonIds": ["swings-breakouts-and-false-signals"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Boundary and qualifying event are specified before observing the break.",
+      "evidence": [
+        {
+          "lessonKey": "forex:swings-breakouts-and-false-signals",
+          "lessonId": "swings-breakouts-and-false-signals",
+          "href": "/learn/forex/level-3/swings-breakouts-and-false-signals",
+          "blockPointer": "/14/children",
+          "excerpt": "A boundary can be a previous high, previous low, horizontal zone or projected guide. Define it using information already visible. Then choose the event that counts as a breakout: a relevant high beyond it, a completed close beyond it, two closes, or a specified buffer. These are different rules and will classify some observations differently.",
+          "excerptDigest": "e9e37cc9cfc955d9cc7608b4196b1db4df4f0a258c95214757744f170939eda9"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:confirmation-delay",
+      "meaningIndex": 0,
+      "definition": "The wait for the observations required to confirm a classification or condition under a stated rule.",
+      "meaningDigest": "2e0d9154116c519030a9d7f79a05dacdc73cd4b3159e1d3430ecc3e901e7615c",
+      "lessonIds": ["swings-breakouts-and-false-signals"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Confirmation requires later completed observations; pivot date and knowledge date differ.",
+      "evidence": [
+        {
+          "lessonKey": "forex:swings-breakouts-and-false-signals",
+          "lessonId": "swings-breakouts-and-false-signals",
+          "href": "/learn/forex/level-3/swings-breakouts-and-false-signals",
+          "blockPointer": "/6/children",
+          "excerpt": "The middle point cannot be confirmed until the following bar is complete. An annotation drawn back onto the middle bar can visually hide that delay. When keeping a journal, record both the turning-point time and the confirmation time. Using a confirmed marker as if it were known at the original peak introduces future information.",
+          "excerptDigest": "eb2b32915b8089360b0c7cdd907b05d4a1f3739805c5d1563e021bb4a1e589fc"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:false-breakout",
+      "meaningIndex": 0,
+      "definition": "A previously defined break followed by a return that meets a specified failure rule within a stated period.",
+      "meaningDigest": "5828766388c19c0e5a4a7449bd422e73d4564dfe4314048ff42bda69a0d48a6e",
+      "lessonIds": ["swings-breakouts-and-false-signals"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Return and time allowed define failure; later evidence must not be used early.",
+      "evidence": [
+        {
+          "lessonKey": "forex:swings-breakouts-and-false-signals",
+          "lessonId": "swings-breakouts-and-false-signals",
+          "href": "/learn/forex/level-3/swings-breakouts-and-false-signals",
+          "blockPointer": "/19/children",
+          "excerpt": "A false breakout usually describes a move beyond a watched boundary that later returns under a specified rule. It needs a definition of the original break, the return and the time allowed. The label is assigned with later evidence; it is not information that was automatically available when price first crossed.",
+          "excerptDigest": "e84e6377e8afcc08a0f9a89cae3a1de45c5273c0fc4ec3f42560f0caefa5c899"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:retest",
+      "meaningIndex": 0,
+      "definition": "A later return toward a watched boundary after a break, under a stated proximity and timing rule.",
+      "meaningDigest": "bdd4945905f1309151753bc6932d04f19f7d72e01cfc412b2daa06a056909ac9",
+      "lessonIds": ["swings-breakouts-and-false-signals"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Later return is consistent. Proximity/timing parameters must be written for an exercise; the lesson supplies no universal distance or time.",
+      "evidence": [
+        {
+          "lessonKey": "forex:swings-breakouts-and-false-signals",
+          "lessonId": "swings-breakouts-and-false-signals",
+          "href": "/learn/forex/level-3/swings-breakouts-and-false-signals",
+          "blockPointer": "/24/children",
+          "excerpt": "A retest describes a later return toward a watched boundary after a break. Some moves return; others do not. A return can pause, cross back or continue through. Saying “the old resistance becomes support” is a hypothesis to observe, not an instruction the market must obey.",
+          "excerptDigest": "16e7ef83a96632ef7242df3a0f1ac5e4281d43bb46f4e82e1da426e67587f8f7"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:swing-high",
+      "meaningIndex": 0,
+      "definition": "A local high selected using an explicit comparison or turning-point rule. Its confirmation time depends on that rule.",
+      "meaningDigest": "4ce3700a8ddd7e3215a626e6c45819b780a454973b39cc50014c8d9307bd53fc",
+      "lessonIds": ["trends-and-price-landmarks"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Local turn selection and confirmation dependence are explicit.",
+      "evidence": [
+        {
+          "lessonKey": "forex:trends-and-price-landmarks",
+          "lessonId": "trends-and-price-landmarks",
+          "href": "/learn/forex/level-3/trends-and-price-landmarks",
+          "blockPointer": "/10/children",
+          "excerpt": "A swing is a selected local turning point. You need a consistent way to select it: for example, a high above the adjacent bars and confirmed only after the next bar, or a minimum price movement between turns. Different rules select different points. The next lesson develops the timing problem in detail.",
+          "excerptDigest": "fd85452ee804646a099c66d69e90a0b7a95e3cf3230e22b892797a091f401b15"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:swing-low",
+      "meaningIndex": 0,
+      "definition": "A local low selected using an explicit comparison or turning-point rule. Its confirmation time depends on that rule.",
+      "meaningDigest": "58a6d4eea7894b34e28a408480c51e8bfa477f19b1cb6bf4abd5799d74374070",
+      "lessonIds": ["trends-and-price-landmarks"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "The same local-turn selection discussion applies to lows; the glossary does not mandate one pivot algorithm.",
+      "evidence": [
+        {
+          "lessonKey": "forex:trends-and-price-landmarks",
+          "lessonId": "trends-and-price-landmarks",
+          "href": "/learn/forex/level-3/trends-and-price-landmarks",
+          "blockPointer": "/10/children",
+          "excerpt": "A swing is a selected local turning point. You need a consistent way to select it: for example, a high above the adjacent bars and confirmed only after the next bar, or a minimum price movement between turns. Different rules select different points. The next lesson develops the timing problem in detail.",
+          "excerptDigest": "fd85452ee804646a099c66d69e90a0b7a95e3cf3230e22b892797a091f401b15"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:trend",
+      "meaningIndex": 0,
+      "definition": "A description of the arrangement of price movements over a chosen period and under a stated observation rule.",
+      "meaningDigest": "50ccbff18d88bbb4842032f78269231ed4573b639deb4a965ee017692e4fe92e",
+      "lessonIds": ["trends-and-price-landmarks"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Trend organises earlier movements and is not a forecast.",
+      "evidence": [
+        {
+          "lessonKey": "forex:trends-and-price-landmarks",
+          "lessonId": "trends-and-price-landmarks",
+          "href": "/learn/forex/level-3/trends-and-price-landmarks",
+          "blockPointer": "/0/children",
+          "excerpt": "A price landmark is an area you choose to watch because of earlier observations. It might be a previous high, a previous low, an area of repeated pauses or a round number. A trend describes the arrangement of price movements over a chosen period. Both help organise a chart; neither forces the next price to behave in a particular way.",
+          "excerptDigest": "629c960dda79bccf3330067a111c5e17ed3647ce9f440abd8302d1593fa00015"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:actual-value",
+      "meaningIndex": 0,
+      "definition": "The figure reported for a named economic series and period in the source version being considered.",
+      "meaningDigest": "7e3b7ee89ea265edbb3e6e51742d729c49cd828d1cdcd808a8b5022fba4fec9b",
+      "lessonIds": ["use-an-economic-calendar-safely"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Actual is the published figure for the named series/period; vintage and retrieval time remain separate.",
+      "evidence": [
+        {
+          "lessonKey": "forex:use-an-economic-calendar-safely",
+          "lessonId": "use-an-economic-calendar-safely",
+          "href": "/learn/forex/level-7/use-an-economic-calendar-safely",
+          "blockPointer": "/8/rows/7/1",
+          "excerpt": "Initially published value after release, with retrieval time",
+          "excerptDigest": "6f0b0a0f0f4cdcb4342f7165e8057d40feb74ed823809e9e05cd6bdb82ffbf90"
+        },
+        {
+          "lessonKey": "forex:use-an-economic-calendar-safely",
+          "lessonId": "use-an-economic-calendar-safely",
+          "href": "/learn/forex/level-7/use-an-economic-calendar-safely",
+          "blockPointer": "/7/children",
+          "excerpt": "Identify the exact series, release frequency, unit and period. “Inflation” may refer to a monthly rate, annual rate, headline index or core measure. An employment event may contain multiple surveys and revisions. A title alone is not enough to compare the numbers.",
+          "excerptDigest": "8c1cd10c1757b7383a3795d26db399a68a9c8e2834141561c7b3717eb4146e93"
+        },
+        {
+          "lessonKey": "forex:use-an-economic-calendar-safely",
+          "lessonId": "use-an-economic-calendar-safely",
+          "href": "/learn/forex/level-7/use-an-economic-calendar-safely",
+          "blockPointer": "/43/children",
+          "excerpt": "Save the pre-release schedule, forecast, prior, plan and quote snapshot before seeing the actual. After publication, add the original release link, initial actual, revisions, quotes and any platform outcomes. Keep the original entries intact. A later edited calendar may contain revised data and cannot prove what was known at the earlier moment.",
+          "excerptDigest": "2b13c4f5cf3d2831299cd47fefa93f3e85a22b2f550ec774ceded4cc0783a039"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:combined-exposure",
+      "meaningIndex": 0,
+      "definition": "The account’s positions considered together, including their quantities, currency directions and scenario assumptions.",
+      "meaningDigest": "08fa66fbe88042a7e242e5c0779ec9d06a8be5153f781b93031159d8052058dc",
+      "lessonIds": ["combined-exposure-and-losing-streaks"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Shared USD direction and planned quantities are considered together; summed planned loss is not a worst-case bound.",
+      "evidence": [
+        {
+          "lessonKey": "forex:combined-exposure-and-losing-streaks",
+          "lessonId": "combined-exposure-and-losing-streaks",
+          "href": "/learn/forex/level-5/combined-exposure-and-losing-streaks",
+          "blockPointer": "/8/children/0",
+          "excerpt": "A South Korean learner’s simulated long EUR/USD and long GBP/USD positions each plan to lose US$10. A broad dollar-strengthening event could hurt both, though their exact moves need not match. The learner records US$20 of combined planned loss before costs and a second scenario with worse fills.",
+          "excerptDigest": "ae49f6a62dabb1f4751ea72d3f290805c7c5b778d5d16a540b9a72521cb867cd"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:confirmation",
+      "meaningIndex": 0,
+      "definition": "Additional observed evidence meeting a stated criterion for an interpretation or action. It does not eliminate uncertainty.",
+      "meaningDigest": "3bf6cdcf0510f8d6e372662df81f7eaa0f5a0c619ebf87f757560eab1918b69d",
+      "lessonIds": ["build-a-testable-observation"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Additional evidence qualifies an interpretation without proving it.",
+      "evidence": [
+        {
+          "lessonKey": "forex:build-a-testable-observation",
+          "lessonId": "build-a-testable-observation",
+          "href": "/learn/forex/level-6/build-a-testable-observation",
+          "blockPointer": "/11/children",
+          "excerpt": "Confirmation is additional evidence that fits an interpretation; it is not proof that the interpretation is true. An entry trigger is the exact condition that starts considering a demo action. You may decide that one completed close is enough, require another condition or record observations only. Each choice changes when the condition becomes available and which cases qualify.",
+          "excerptDigest": "5e916e8970eea29090260236e43869c97abc3eae5106d855f487b0fb799207ca"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:consensus-forecast",
+      "meaningIndex": 0,
+      "definition": "A provider’s summary of collected estimates, such as a survey median or average, for a specified release.",
+      "meaningDigest": "6d2e7ae9e24588d2b710b6ef6e704a9dac3a48f3b7045a7e2147aec0e69ae7fa",
+      "lessonIds": ["economic-news-and-currency-demand"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Forecast may be provider median/average; it is not every participant’s expectation.",
+      "evidence": [
+        {
+          "lessonKey": "forex:economic-news-and-currency-demand",
+          "lessonId": "economic-news-and-currency-demand",
+          "href": "/learn/forex/level-7",
+          "blockPointer": "/33/children",
+          "excerpt": "A calendar’s forecast may be a survey median, average or another provider estimate. It is not every participant’s belief or a direct measurement of all expectations priced into markets. Save its source and timestamp before the release. If you only copy a forecast after publication, you may accidentally use a revised number or an estimate that was never available beforehand.",
+          "excerptDigest": "b340f00ce4a80e7747d609c619e45d9d3ec63670164b274a0367edec82aef17f"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:consolidation",
+      "meaningIndex": 0,
+      "definition": "Movement contained within chosen approximate boundaries without sustained progression under a stated trend rule and observation period.",
+      "meaningDigest": "9c41edfc6fc2bc0991593c2b3ada192dabe2976c3d05abc619ddf363e823281f",
+      "lessonIds": ["describe-structure-without-guessing"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Boundaries, observation count and creation time constrain the range description.",
+      "evidence": [
+        {
+          "lessonKey": "forex:describe-structure-without-guessing",
+          "lessonId": "describe-structure-without-guessing",
+          "href": "/learn/forex/level-6",
+          "blockPointer": "/19/children",
+          "excerpt": "Consolidation describes movement repeatedly contained within chosen approximate boundaries without sustained progression under your trend rule. Mark how you chose the upper and lower areas and how many completed observations are required. A range drawn after the breakout can be very different from a range you could have drawn before it. Record the boundary’s creation time.",
+          "excerptDigest": "380308b713ef20b4bc7344a19ed805b36e4d3858ab7c0655a51f817bfcdf563b"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:daily-loss-limit",
+      "meaningIndex": 0,
+      "definition": "A prewritten daily control or pause rule defined against a stated account measure, including how open results and costs are treated.",
+      "meaningDigest": "ee2eb2b7c05a6fc16c0217236138a6555cf70aa7512967bb003d79e2f8dfec7d",
+      "lessonIds": ["combined-exposure-and-losing-streaks"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Policy specifies clock, realised/open measure and trigger action; it cannot cap market losses.",
+      "evidence": [
+        {
+          "lessonKey": "forex:combined-exposure-and-losing-streaks",
+          "lessonId": "combined-exposure-and-losing-streaks",
+          "href": "/learn/forex/level-5/combined-exposure-and-losing-streaks",
+          "blockPointer": "/25/children",
+          "excerpt": "A loss-limit policy controls your own actions. It can require no new orders after a defined loss amount, an agreed number of errors, a weekly threshold or a process failure. It cannot instruct the market to stop losing at that amount. Define the day’s timezone, when the week starts, whether the measure is gross realised losses or net P&L, how open exposure is counted and what happens to positions and pending orders at the trigger.",
+          "excerptDigest": "2ca343dc250acf4a087e97f869b4eac6f5231129d791ef8e3a9bcd93ccdb2b09"
+        },
+        {
+          "lessonKey": "forex:combined-exposure-and-losing-streaks",
+          "lessonId": "combined-exposure-and-losing-streaks",
+          "href": "/learn/forex/level-5/combined-exposure-and-losing-streaks",
+          "blockPointer": "/27/children/1",
+          "excerpt": "This gate sums gross closed losses and full planned losses on still-open ideas; it is a decision rule, not a mark-to-market account-value equation. Do not count an open loss twice under a different net-equity convention. If a weekly gate is already reached, a fresh day does not erase it.",
+          "excerptDigest": "12fa0ddab09ec1a98bf67ea7051fd0fd274b3a61f88c8eb720fc250926ef93d1"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:data-surprise",
+      "meaningIndex": 0,
+      "definition": "The difference between a reported value and a specified forecast saved beforehand, using the same measure, period and units.",
+      "meaningDigest": "5a1c54ea6c62c58a6b04aea978f6c89bf120173af71508cbdf75c73faf1a5857",
+      "lessonIds": ["use-an-economic-calendar-safely"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Actual minus saved forecast requires matching series, period and units; the sign is not a trade signal.",
+      "evidence": [
+        {
+          "lessonKey": "forex:use-an-economic-calendar-safely",
+          "lessonId": "use-an-economic-calendar-safely",
+          "href": "/learn/forex/level-7/use-an-economic-calendar-safely",
+          "blockPointer": "/24/children",
+          "excerpt": "Subtract the saved forecast from the actual using the same series, unit and period. A positive difference means actual is numerically above that particular forecast; it does not mean the news is good, the currency must rise or a position should be opened. The economic meaning depends on the variable and the wider context.",
+          "excerptDigest": "789ab46180931048cbaa9b8bab8a0f458be0c3878223468946c86e8642daa633"
+        },
+        {
+          "lessonKey": "forex:use-an-economic-calendar-safely",
+          "lessonId": "use-an-economic-calendar-safely",
+          "href": "/learn/forex/level-7/use-an-economic-calendar-safely",
+          "blockPointer": "/25/children/0",
+          "excerpt": "For an invented payroll estimate, actual 190 thousand minus forecast 150 thousand is +40 thousand. If the forecast was 220 thousand, the same actual gives −30 thousand. For an unemployment rate, a larger actual may indicate a different kind of economic change. A positive arithmetic surprise is not a universal positive economic signal.",
+          "excerptDigest": "46bf9303b0008b8e19bfa71a65bfaa473ef77386050219db419cefebaf3aa2e8"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:effective-leverage",
+      "meaningIndex": 0,
+      "definition": "A stated measure comparing current exposure with current equity. In the course’s simple illustration, it is gross account-currency notional divided by equity.",
+      "meaningDigest": "d79fe22dec1726ff85285a5a2c7ab155116f9a0c65ff81bde48ba211de4608ac",
+      "lessonIds": ["margin-leverage-and-drawdown"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Account-currency gross exposure and current equity form the illustrative ratio; it is not a risk budget.",
+      "evidence": [
+        {
+          "lessonKey": "forex:margin-leverage-and-drawdown",
+          "lessonId": "margin-leverage-and-drawdown",
+          "href": "/learn/forex/level-5/margin-leverage-and-drawdown",
+          "blockPointer": "/14/children",
+          "excerpt": "When equity falls while the position remains open, effective leverage can rise without adding a ticket. If equity fell to A$800 and exposure remained approximately A$2,000, the ratio would be 2.5:1. Exchange-rate conversion can also change the numerator. This is why a leverage allowance is not a risk budget and a displayed maximum is not a target to use.",
+          "excerptDigest": "4f4efacda78d005ce390ff269655004f2614872c7df87a915bb6d0c416dbaefe"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:fixed-fraction-risk",
+      "meaningIndex": 0,
+      "definition": "A sizing convention that recalculates a selected fraction of a stated current account reference for each planned loss scenario.",
+      "meaningDigest": "501ca5db4fc2f927d77b09b67422802f7712c3d36d61adf01b6aeb2f3eea3b4c",
+      "lessonIds": ["combined-exposure-and-losing-streaks"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Fraction is recomputed on current equity; minimum size and costs can defeat the ideal cash sizing.",
+      "evidence": [
+        {
+          "lessonKey": "forex:combined-exposure-and-losing-streaks",
+          "lessonId": "combined-exposure-and-losing-streaks",
+          "href": "/learn/forex/level-5/combined-exposure-and-losing-streaks",
+          "blockPointer": "/29/children",
+          "excerpt": "A fixed-cash method uses the same planned cash loss each time; as equity falls, that cash amount becomes a larger percentage of what remains. A fixed-fraction method recalculates a chosen fraction of current equity for each idea. Under ideal exact fills, its cash size shrinks after losses. Minimum volume, steps, charges and conversion can prevent the neat percentage from being achievable.",
+          "excerptDigest": "b87b07b6ed8638c47da1dd7d2c3ffe69dc3067defc35a2d7bdd9d28e9591a039"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:higher-high",
+      "meaningIndex": 0,
+      "definition": "A selected high above a previous comparable selected high under the same observation rule.",
+      "meaningDigest": "7c5a005817b40be5fd1338b2effd3d0217f0e0cbd0c6b4168d8f6a67ae3df4a1",
+      "lessonIds": ["describe-structure-without-guessing"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Comparable selected highs are required; the confirmed swing table illustrates higher values.",
+      "evidence": [
+        {
+          "lessonKey": "forex:describe-structure-without-guessing",
+          "lessonId": "describe-structure-without-guessing",
+          "href": "/learn/forex/level-6",
+          "blockPointer": "/15/children",
+          "excerpt": "An uptrend description commonly uses selected higher highs and higher lows. A downtrend uses lower highs and lower lows. Both comparisons need at least two comparable highs and two comparable lows under a fixed selection rule. A rising last close alone does not establish all of that structure, and a single large candle cannot supply a complete sequence of confirmed swings.",
+          "excerptDigest": "0786edc4a661b67c43ff307a5aef807abaf0a4de4e84df34c8653d2a54c44fd7"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:higher-low",
+      "meaningIndex": 0,
+      "definition": "A selected low above a previous comparable selected low under the same observation rule.",
+      "meaningDigest": "b426ff3cf149926a71e931cc4d4fabc8c303b622e50248c477a5ce161ab54071",
+      "lessonIds": ["describe-structure-without-guessing"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Comparable selected lows are required; the confirmed swing table illustrates higher values.",
+      "evidence": [
+        {
+          "lessonKey": "forex:describe-structure-without-guessing",
+          "lessonId": "describe-structure-without-guessing",
+          "href": "/learn/forex/level-6",
+          "blockPointer": "/15/children",
+          "excerpt": "An uptrend description commonly uses selected higher highs and higher lows. A downtrend uses lower highs and lower lows. Both comparisons need at least two comparable highs and two comparable lows under a fixed selection rule. A rising last close alone does not establish all of that structure, and a single large candle cannot supply a complete sequence of confirmed swings.",
+          "excerptDigest": "0786edc4a661b67c43ff307a5aef807abaf0a4de4e84df34c8653d2a54c44fd7"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:impact-label",
+      "meaningIndex": 0,
+      "definition": "A calendar provider’s classification of an event’s expected importance under its own editorial or analytical method.",
+      "meaningDigest": "b4b3924d98ece560e3b17a4fede6e5f4648b879c2f0c759978f7f30b59c71e9c",
+      "lessonIds": ["use-an-economic-calendar-safely"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Provider labels classify anticipated importance; they are not probabilities or safety ratings.",
+      "evidence": [
+        {
+          "lessonKey": "forex:use-an-economic-calendar-safely",
+          "lessonId": "use-an-economic-calendar-safely",
+          "href": "/learn/forex/level-7/use-an-economic-calendar-safely",
+          "blockPointer": "/16/children",
+          "excerpt": "Calendar colours, stars or labels such as high impact are usually provider classifications. They are not probabilities of a move, guaranteed move sizes or a safety rating for an account. A supposedly minor release can matter in a particular context, while a highly anticipated event can produce a limited or complicated response.",
+          "excerptDigest": "5e4216a5618041abe7afa2c87d742f643dbe9399cd91696ee72678575d86daf8"
+        },
+        {
+          "lessonKey": "forex:use-an-economic-calendar-safely",
+          "lessonId": "use-an-economic-calendar-safely",
+          "href": "/learn/forex/level-7/use-an-economic-calendar-safely",
+          "blockPointer": "/18/children",
+          "excerpt": "Read the provider’s definition when available. Use the label to prompt a closer look at timing, related events and account exposure. Do not size an order by the number of stars or assume an event has become harmless because a provider labels it low impact. Liquidity and product conditions remain separate questions.",
+          "excerptDigest": "cb23ad3bdf559e72dc91c7693104c1ff59a9330759c1d5ef0ec1b0b4df262534"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:information-cutoff",
+      "meaningIndex": 0,
+      "definition": "The time up to which information is allowed when making or replaying a particular decision.",
+      "meaningDigest": "68f2884943096be69bf3058fd682e2124fef79d832f5131be8636f7acb296d59",
+      "lessonIds": ["build-a-testable-observation"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Only available inputs at the cutoff can enter a reproducible observation.",
+      "evidence": [
+        {
+          "lessonKey": "forex:build-a-testable-observation",
+          "lessonId": "build-a-testable-observation",
+          "href": "/learn/forex/level-6/build-a-testable-observation",
+          "blockPointer": "/0/children",
+          "excerpt": "A testable observation is a condition someone else can check using the same information you had at the same time. “It looks ready to rise” is not enough. Name the pair and product, price series, timeframe, cutoff, reference area, trigger, expiry and what result will be recorded. You can test an observation without placing an order.",
+          "excerptDigest": "ba465f9879adc61d71e9f51b452a93ef5725bc11e019c3c917867fec4d19e6ce"
+        },
+        {
+          "lessonKey": "forex:build-a-testable-observation",
+          "lessonId": "build-a-testable-observation",
+          "href": "/learn/forex/level-6/build-a-testable-observation",
+          "blockPointer": "/19/children",
+          "excerpt": "A larger timeframe can describe background while a smaller one gives detail. Choose the combination before examining results, such as the last completed daily structure with completed hourly observations. Avoid using the final high, low or close of the current daily candle while assessing an hour earlier in that day. Those final values did not yet exist.",
+          "excerptDigest": "ed6e2f284348a6a903bef091ccb764b447e7b6cd2ca3eff4246959af9e1a80dd"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:invalidation",
+      "meaningIndex": 0,
+      "definition": "A price or condition that would contradict the particular idea being tested, as defined before later information is available.",
+      "meaningDigest": "370221172a90edfe356c794e58402d8c7c8a5c7d04365cd04c7fcc727b250e8c",
+      "lessonIds": ["decide-the-loss-before-the-size"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Invalidation is stated before later prices; moving it to increase size does not strengthen the idea.",
+      "evidence": [
+        {
+          "lessonKey": "forex:decide-the-loss-before-the-size",
+          "lessonId": "decide-the-loss-before-the-size",
+          "href": "/learn/forex/level-5",
+          "blockPointer": "/11/children",
+          "excerpt": "An invalidation point is a price or condition that contradicts the particular idea you are testing. The chart lessons taught you to define rules before seeing later prices. Use the same habit here: describe the intended entry, the condition that would make the idea wrong and how an exit order would operate. A stop placed solely to obtain a bigger lot count does not make the idea stronger.",
+          "excerptDigest": "e4d5971cd3d8cba044aab93b893ef9cc2f0fc95beb7067c7abeb5cbadd61f22d"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:losing-streak",
+      "meaningIndex": 0,
+      "definition": "A sequence of consecutive losses under a consistent definition of a counted outcome.",
+      "meaningDigest": "12d2e270caa2fd15fc0bd71c4c0a73eeff6a069e8d7b7152d18bafd58a3d386a",
+      "lessonIds": ["combined-exposure-and-losing-streaks"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Consecutive losses must use consistent counted outcomes; a streak alone cannot diagnose its cause.",
+      "evidence": [
+        {
+          "lessonKey": "forex:combined-exposure-and-losing-streaks",
+          "lessonId": "combined-exposure-and-losing-streaks",
+          "href": "/learn/forex/level-5/combined-exposure-and-losing-streaks",
+          "blockPointer": "/35/children",
+          "excerpt": "Journal the sequence, costs, rule adherence and market conditions. A streak may reflect ordinary variation, a changed environment, a flawed rule or implementation errors; the sequence alone cannot choose among them. A pause lets you investigate. It is more useful than taking an extra position just to force the day’s outcome back to zero.",
+          "excerptDigest": "a7c6e8ad3222539a50b44a8f88f0b5a2dbd54d0ecb59ccb6e89f7d459857a590"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:lower-high",
+      "meaningIndex": 0,
+      "definition": "A selected high below a previous comparable selected high under the same observation rule.",
+      "meaningDigest": "71413bfb3f15f28e0159daefc6a50d307256a55458a437a18150645d56c0eac1",
+      "lessonIds": ["describe-structure-without-guessing"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Lower selected highs belong to a consistent swing comparison, not any lower last price.",
+      "evidence": [
+        {
+          "lessonKey": "forex:describe-structure-without-guessing",
+          "lessonId": "describe-structure-without-guessing",
+          "href": "/learn/forex/level-6",
+          "blockPointer": "/15/children",
+          "excerpt": "An uptrend description commonly uses selected higher highs and higher lows. A downtrend uses lower highs and lower lows. Both comparisons need at least two comparable highs and two comparable lows under a fixed selection rule. A rising last close alone does not establish all of that structure, and a single large candle cannot supply a complete sequence of confirmed swings.",
+          "excerptDigest": "0786edc4a661b67c43ff307a5aef807abaf0a4de4e84df34c8653d2a54c44fd7"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:lower-low",
+      "meaningIndex": 0,
+      "definition": "A selected low below a previous comparable selected low under the same observation rule.",
+      "meaningDigest": "46068c6c13e8589abe25758e444376913d91411f3592aed584f08d3956a86b10",
+      "lessonIds": ["describe-structure-without-guessing"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Lower selected lows belong to a consistent swing comparison, not the middle-bar local-low test alone.",
+      "evidence": [
+        {
+          "lessonKey": "forex:describe-structure-without-guessing",
+          "lessonId": "describe-structure-without-guessing",
+          "href": "/learn/forex/level-6",
+          "blockPointer": "/15/children",
+          "excerpt": "An uptrend description commonly uses selected higher highs and higher lows. A downtrend uses lower highs and lower lows. Both comparisons need at least two comparable highs and two comparable lows under a fixed selection rule. A rising last close alone does not establish all of that structure, and a single large candle cannot supply a complete sequence of confirmed swings.",
+          "excerptDigest": "0786edc4a661b67c43ff307a5aef807abaf0a4de4e84df34c8653d2a54c44fd7"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:market-structure",
+      "meaningIndex": 0,
+      "definition": "In this course, the arrangement of selected highs and lows on a stated price series and timeframe, under an explicit selection rule.",
+      "meaningDigest": "a1cba2c8b2cb129fcb0ac97880ce8f774d2a284bc56ac8424b7e03b4f55e9eb8",
+      "lessonIds": ["describe-structure-without-guessing"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "The course explicitly limits market structure here to selected highs and lows on a stated series/timeframe.",
+      "evidence": [
+        {
+          "lessonKey": "forex:describe-structure-without-guessing",
+          "lessonId": "describe-structure-without-guessing",
+          "href": "/learn/forex/level-6",
+          "blockPointer": "/4/children",
+          "excerpt": "Terms such as market structure, swing, break of structure and change of character may have different meanings in different courses. Here, market structure describes the arrangement of selected highs and lows on a specified price series and timeframe. If you use another label, write its rule alongside it. Two people using the same word may still be identifying different events.",
+          "excerptDigest": "50e77ada9a9b7c0d0a444a45020b044e21e4fee7a7e00ddddffd0c8f90dc1925"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:multiple-timeframe-analysis",
+      "meaningIndex": 0,
+      "definition": "Comparing observations aggregated over different intervals while keeping each series, completion time and rule explicit.",
+      "meaningDigest": "4b5cad93114667fd282f49d82c0b97c0df2871d49a480e4c71968b17465a3931",
+      "lessonIds": ["build-a-testable-observation"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Each interval has its own completion time; final daily data cannot inform an earlier hourly decision.",
+      "evidence": [
+        {
+          "lessonKey": "forex:build-a-testable-observation",
+          "lessonId": "build-a-testable-observation",
+          "href": "/learn/forex/level-6/build-a-testable-observation",
+          "blockPointer": "/19/children",
+          "excerpt": "A larger timeframe can describe background while a smaller one gives detail. Choose the combination before examining results, such as the last completed daily structure with completed hourly observations. Avoid using the final high, low or close of the current daily candle while assessing an hour earlier in that day. Those final values did not yet exist.",
+          "excerptDigest": "ed6e2f284348a6a903bef091ccb764b447e7b6cd2ca3eff4246959af9e1a80dd"
+        },
+        {
+          "lessonKey": "forex:build-a-testable-observation",
+          "lessonId": "build-a-testable-observation",
+          "href": "/learn/forex/level-6/build-a-testable-observation",
+          "blockPointer": "/22/children",
+          "excerpt": "A daily rise and an hourly fall can both describe their selected windows. Define whether that conflict makes you skip, merely annotate or use a different observation. If you inspect many timeframes until one agrees, the successful-looking example is being selected after the result. More views do not erase uncertainty.",
+          "excerptDigest": "68e3ce06329ac81abf7c190020d5c9b33e2ee7f366539b482c190cfd87f873fb"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:no-trade-decision",
+      "meaningIndex": 0,
+      "definition": "A recorded decision not to open a position because a rule, account condition or unresolved issue prevents the action.",
+      "meaningDigest": "055c18fab0fce49c4269f2695522cc51e22adee055fe5e60c44b7dac53ffec8b",
+      "lessonIds": ["stops-targets-and-a-checklist"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Chart eligibility and action permission differ; a reached account gate can block a qualifying chart event.",
+      "evidence": [
+        {
+          "lessonKey": "forex:stops-targets-and-a-checklist",
+          "lessonId": "stops-targets-and-a-checklist",
+          "href": "/learn/forex/level-6/stops-targets-and-a-checklist",
+          "blockPointer": "/46/children/0",
+          "excerpt": "A French learner records a valid EUR/USD close above a marked zone. The price-action condition is true. However, the weekly demo gate has already been reached, so a new demo action is blocked. The learner logs the chart candidate and the no-trade decision separately.",
+          "excerptDigest": "ec0903991b1a5b62d9f0084bec9a39a838c62a90494a1c0a001e7f53e1212c88"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:observation-rule",
+      "meaningIndex": 0,
+      "definition": "A written condition that another learner can check from the same data available at the same time.",
+      "meaningDigest": "c7f0a9b6f66d81d29f0c8a4152a763d4f1e1219b1957f5e457927f43ec008025",
+      "lessonIds": ["build-a-testable-observation"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "A written observation is reproducible from the same available data, without placing a trade.",
+      "evidence": [
+        {
+          "lessonKey": "forex:build-a-testable-observation",
+          "lessonId": "build-a-testable-observation",
+          "href": "/learn/forex/level-6/build-a-testable-observation",
+          "blockPointer": "/0/children",
+          "excerpt": "A testable observation is a condition someone else can check using the same information you had at the same time. “It looks ready to rise” is not enough. Name the pair and product, price series, timeframe, cutoff, reference area, trigger, expiry and what result will be recorded. You can test an observation without placing an order.",
+          "excerptDigest": "ba465f9879adc61d71e9f51b452a93ef5725bc11e019c3c917867fec4d19e6ce"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:publication-time",
+      "meaningIndex": 0,
+      "definition": "The time a source publishes information, distinguished from its scheduled time and the period measured by the data.",
+      "meaningDigest": "7ebdfc334af71374095c35d97a26f7caf9c90f8df8aa9db669b73480a6699aea",
+      "lessonIds": ["use-an-economic-calendar-safely"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "The record separates scheduled time, measured period and initially published/retrieved actual. It does not supply a universal release clock.",
+      "evidence": [
+        {
+          "lessonKey": "forex:use-an-economic-calendar-safely",
+          "lessonId": "use-an-economic-calendar-safely",
+          "href": "/learn/forex/level-7/use-an-economic-calendar-safely",
+          "blockPointer": "/8/rows/2/1",
+          "excerpt": "Date, source timezone and date-specific UTC offset",
+          "excerptDigest": "2d2edf449e34faa7c73f68d8471d5a43dfba2a7eea3ff7498d988cad315ecc8c"
+        },
+        {
+          "lessonKey": "forex:use-an-economic-calendar-safely",
+          "lessonId": "use-an-economic-calendar-safely",
+          "href": "/learn/forex/level-7/use-an-economic-calendar-safely",
+          "blockPointer": "/8/rows/3/1",
+          "excerpt": "Month, quarter or other period covered",
+          "excerptDigest": "9570329475b6117684a86068da867817307a4625dfdaa9ac69272850c1694715"
+        },
+        {
+          "lessonKey": "forex:use-an-economic-calendar-safely",
+          "lessonId": "use-an-economic-calendar-safely",
+          "href": "/learn/forex/level-7/use-an-economic-calendar-safely",
+          "blockPointer": "/8/rows/7/1",
+          "excerpt": "Initially published value after release, with retrieval time",
+          "excerptDigest": "6f0b0a0f0f4cdcb4342f7165e8057d40feb74ed823809e9e05cd6bdb82ffbf90"
+        },
+        {
+          "lessonKey": "forex:use-an-economic-calendar-safely",
+          "lessonId": "use-an-economic-calendar-safely",
+          "href": "/learn/forex/level-7/use-an-economic-calendar-safely",
+          "blockPointer": "/43/children",
+          "excerpt": "Save the pre-release schedule, forecast, prior, plan and quote snapshot before seeing the actual. After publication, add the original release link, initial actual, revisions, quotes and any platform outcomes. Keep the original entries intact. A later edited calendar may contain revised data and cannot prove what was known at the earlier moment.",
+          "excerptDigest": "2b13c4f5cf3d2831299cd47fefa93f3e85a22b2f550ec774ceded4cc0783a039"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:pullback",
+      "meaningIndex": 0,
+      "definition": "Movement against an earlier directional sequence, described under a stated timeframe and observation rule.",
+      "meaningDigest": "bf4216851bd3cc2bb2036b712b0c083a76189941c7a1badfee06673cbc9dd06e",
+      "lessonIds": ["describe-structure-without-guessing"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Counterdirectional movement is a sequence description, not a guaranteed continuation.",
+      "evidence": [
+        {
+          "lessonKey": "forex:describe-structure-without-guessing",
+          "lessonId": "describe-structure-without-guessing",
+          "href": "/learn/forex/level-6",
+          "blockPointer": "/24/children",
+          "excerpt": "A pullback is movement against an earlier directional sequence. Continuation means subsequent movement resumes that earlier direction under your definition. Reversal means a change in the selected structure or direction under a stated rule. These are descriptions of a sequence as it unfolds; a pause is not already a continuation and one countertrend candle is not automatically a reversal.",
+          "excerptDigest": "b10503f9e48b18607b0b5aa6f008bc700d62fe42433d32771860fd77de90bbdd"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:reversal",
+      "meaningIndex": 0,
+      "definition": "A change in selected direction or structure that meets a stated classification rule.",
+      "meaningDigest": "2399de68905658a511fd30322d389aa6d126257468bff8e7c92d12e82ddf9446",
+      "lessonIds": ["describe-structure-without-guessing"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Reversal requires a stated structure/direction rule; one countertrend candle is insufficient.",
+      "evidence": [
+        {
+          "lessonKey": "forex:describe-structure-without-guessing",
+          "lessonId": "describe-structure-without-guessing",
+          "href": "/learn/forex/level-6",
+          "blockPointer": "/24/children",
+          "excerpt": "A pullback is movement against an earlier directional sequence. Continuation means subsequent movement resumes that earlier direction under your definition. Reversal means a change in the selected structure or direction under a stated rule. These are descriptions of a sequence as it unfolds; a pause is not already a continuation and one countertrend candle is not automatically a reversal.",
+          "excerptDigest": "b10503f9e48b18607b0b5aa6f008bc700d62fe42433d32771860fd77de90bbdd"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:risk-appetite",
+      "meaningIndex": 0,
+      "definition": "A description of willingness to accept risk based on stated observations or interpretations, not one universal market switch.",
+      "meaningDigest": "f6a9053b00f79474d876ac153bd01d3679f5e6c45e0a42379069ed5eb5aba784",
+      "lessonIds": ["policy-and-market-relationships"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Risk-on/off are broad interpretations of willingness, with multiple potentially conflicting measures.",
+      "evidence": [
+        {
+          "lessonKey": "forex:policy-and-market-relationships",
+          "lessonId": "policy-and-market-relationships",
+          "href": "/learn/forex/level-7/policy-and-market-relationships",
+          "blockPointer": "/35/children",
+          "excerpt": "Risk-on and risk-off describe broad interpretations of willingness to take risk or preference for protection. They are not official market switches with one universal measurement. Shares, bond prices, volatility, credit conditions and currencies can offer different evidence. Relationships may vary across events and time periods.",
+          "excerptDigest": "d311a80ee8478e4e735688ce82320a16bdf1036428fbdfbbe6468ef63357ef08"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:risk-of-ruin",
+      "meaningIndex": 0,
+      "definition": "The possibility of reaching a stated condition where an activity cannot continue under its financial or practical constraints. Any numerical estimate needs a model.",
+      "meaningDigest": "3b515e408d9a28659a85da276deb23bfaf1b520d917883c31c9e3187836c29f6",
+      "lessonIds": ["combined-exposure-and-losing-streaks"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Ruin has a stated threshold and constraints; numerical probability needs a model, not a win rate alone.",
+      "evidence": [
+        {
+          "lessonKey": "forex:combined-exposure-and-losing-streaks",
+          "lessonId": "combined-exposure-and-losing-streaks",
+          "href": "/learn/forex/level-5/combined-exposure-and-losing-streaks",
+          "blockPointer": "/40/children",
+          "excerpt": "Ruin means reaching a condition where the activity cannot continue under the stated constraints. It might mean zero or negative equity, inability to meet minimum size or margin, a personal hard-stop drawdown or losing money that should never have been committed. State the threshold. Different definitions can produce different probabilities, so a percentage labelled “risk of ruin” is incomplete without its model.",
+          "excerptDigest": "7734e125907d806764e54083cc125fec61e33709ea493e38de7893793e440e98"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:structure-break",
+      "meaningIndex": 0,
+      "definition": "A move through a selected structure reference under a stated price, timeframe and confirmation rule.",
+      "meaningDigest": "1e863ed4dd590139da4bfc91295b49ebb6be76a53880da6281516a77c334887a",
+      "lessonIds": ["describe-structure-without-guessing"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "A specified close through a prior structure reference supplies one possible condition. The label has no universal algorithm.",
+      "evidence": [
+        {
+          "lessonKey": "forex:describe-structure-without-guessing",
+          "lessonId": "describe-structure-without-guessing",
+          "href": "/learn/forex/level-6",
+          "blockPointer": "/26/children",
+          "excerpt": "In the AUD/USD swing example, Low 3 is 0.6600. A learner may define a continuation candidate as a later completed close above 0.6750 while the chosen low remains intact. Another condition, such as a completed daily bid close below 0.6600, may invalidate that specific candidate. A subsequent lower high and lower low might satisfy a fuller reversal description. These are separate conditions, not one guaranteed chain of events.",
+          "excerptDigest": "4e291067afde8ffc1f2e8ff3441acf1d9460c12719fb01de6fc235ec68485dbc"
+        },
+        {
+          "lessonKey": "forex:describe-structure-without-guessing",
+          "lessonId": "describe-structure-without-guessing",
+          "href": "/learn/forex/level-6",
+          "blockPointer": "/4/children",
+          "excerpt": "Terms such as market structure, swing, break of structure and change of character may have different meanings in different courses. Here, market structure describes the arrangement of selected highs and lows on a specified price series and timeframe. If you use another label, write its rule alongside it. Two people using the same word may still be identifying different events.",
+          "excerptDigest": "50e77ada9a9b7c0d0a444a45020b044e21e4fee7a7e00ddddffd0c8f90dc1925"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:target",
+      "meaningIndex": 0,
+      "definition": "A proposed favourable exit reference or objective under a stated plan.",
+      "meaningDigest": "03671a9a0ec117bcbab9366f730ae60796380c1762af66ae95adc820b2d18e5e",
+      "lessonIds": ["stops-targets-and-a-checklist"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Target is a proposed favourable exit, not money already earned or an assured fill.",
+      "evidence": [
+        {
+          "lessonKey": "forex:stops-targets-and-a-checklist",
+          "lessonId": "stops-targets-and-a-checklist",
+          "href": "/learn/forex/level-6/stops-targets-and-a-checklist",
+          "blockPointer": "/19/children",
+          "excerpt": "A target is a proposed favourable exit condition. You might link it to a prior reaction area, a range boundary or a predeclared multiple of risk. Each method has assumptions. A farther target makes the displayed ratio larger but may be reached less often or take longer; a closer target can shrink the ratio and make costs more important. Neither is money already earned.",
+          "excerptDigest": "0031c0ad102f7813114512e2f279f806962335ab7f95384f860714ce891b3974"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:time-exit",
+      "meaningIndex": 0,
+      "definition": "An exit condition based on a specified elapsed duration, clock time or number of periods rather than only a price level.",
+      "meaningDigest": "d99adfce3f1e67231d6cec56e1e0015f2b62891c0f2f2e9d58cb03e05293a074",
+      "lessonIds": ["stops-targets-and-a-checklist"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Time/end-of-session exits are distinct rules with financing and gap implications.",
+      "evidence": [
+        {
+          "lessonKey": "forex:stops-targets-and-a-checklist",
+          "lessonId": "stops-targets-and-a-checklist",
+          "href": "/learn/forex/level-6/stops-targets-and-a-checklist",
+          "blockPointer": "/38/children",
+          "excerpt": "Define what happens if the idea neither hits its stop nor reaches its target within the observation window. A time exit, end-of-session close or overnight hold produces different financing and gap exposure. State whether partial closes or stop changes are allowed, and under which available-data conditions. Unwritten decisions made after a loss or a large gain are difficult to reproduce.",
+          "excerptDigest": "bbb92063ce6c005669cb87261a1cab9b65fae89de17d75749d4194da770ef4a6"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:chasing-a-move",
+      "meaningIndex": 0,
+      "definition": "Changing or adding an action because a price move has already happened and you feel pressure not to miss out, rather than following the written entry rules.",
+      "meaningDigest": "00814d12765b86a0445943f2a0b1f81b754fbada244c6aabab3f836e4f4fd1b8",
+      "lessonIds": ["emotions-around-a-decision"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Missing a move does not require a late action; the rule still governs eligibility.",
+      "evidence": [
+        {
+          "lessonKey": "forex:emotions-around-a-decision",
+          "lessonId": "emotions-around-a-decision",
+          "href": "/learn/forex/level-8",
+          "blockPointer": "/23/children/0",
+          "excerpt": "A commuter in Australia misses a bus. Running into traffic would introduce a new risk rather than complete the original safe journey. Missing a chart move similarly does not create a duty to chase it. Another observation session can occur without recovering the missed move.",
+          "excerptDigest": "25a1fdffe5739a2d058f950fdcca32167f30c6e17967d71c69984ba83f361ca1"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:evaluation-sample",
+      "meaningIndex": 0,
+      "definition": "Observations reserved to assess a specified method rather than choose its rules, with boundaries and permitted use stated in advance.",
+      "meaningDigest": "e01f1c0da51785d8050916c58b16ba2bbb73e11a5a3b834a22cf91add40bc717",
+      "lessonIds": ["test-without-looking-ahead"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Reserved dates assess a frozen version; tuning with those dates converts them into development evidence.",
+      "evidence": [
+        {
+          "lessonKey": "forex:test-without-looking-ahead",
+          "lessonId": "test-without-looking-ahead",
+          "href": "/learn/forex/level-9/test-without-looking-ahead",
+          "blockPointer": "/9/children",
+          "excerpt": "In the USD/JPY teaching example, a US-based student uses January–June to develop a rule and keeps July–September unseen. Freeze the rule, costs, measurements and exclusions before opening the later period. A later sample is reserved information; it is not necessarily statistically independent of the earlier market conditions.",
+          "excerptDigest": "22618c07beaf9418254289cd9a43dd26f8b17a2a8c2fb3b44c2fd9c637dcfd9d"
+        },
+        {
+          "lessonKey": "forex:test-without-looking-ahead",
+          "lessonId": "test-without-looking-ahead",
+          "href": "/learn/forex/level-9/test-without-looking-ahead",
+          "blockPointer": "/12/children",
+          "excerpt": "Repeatedly retesting a changed rule on the same “unseen” dates does not keep them unseen. If July caused a revision, July influenced development. Date a new version and reserve genuinely later or unviewed observations. Keep the old evaluation result even when it is disappointing.",
+          "excerptDigest": "dd37805230a8fb387413d470924e3c5ddf261ebeaae855b11caff75128c1bb59"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:execution-review",
+      "meaningIndex": 0,
+      "definition": "A documented comparison between stated transaction references and the instructions, statuses, quantities, prices and costs actually recorded.",
+      "meaningDigest": "58a474b767bf29c6a099f4ce6801ed88d20b603c04eda7ffea7873d23b3ba4dc",
+      "lessonIds": ["review-the-whole-portfolio"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Review retains actual instructions, statuses, quantities, timestamps and costs against references.",
+      "evidence": [
+        {
+          "lessonKey": "forex:review-the-whole-portfolio",
+          "lessonId": "review-the-whole-portfolio",
+          "href": "/learn/forex/level-10/review-the-whole-portfolio",
+          "blockPointer": "/26/children",
+          "excerpt": "An execution review compares a specified reference with the actual outcome. Record the quote time and side, submitted order, accepted status, filled quantity, entry/exit timestamps, fees, financing and conversion. Preserve favourable and adverse differences. An entry screenshot without the actual fill is not a complete execution record.",
+          "excerptDigest": "006905feed8e4fb98fffa160d27bb38d100f28287d3849b9d104187ef6cf9212"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:forward-testing",
+      "meaningIndex": 0,
+      "definition": "Recording a dated, frozen rule on observations that become available after it is specified. This can be observation-only or use demo rehearsal.",
+      "meaningDigest": "e7e91ef0b43eb63c5ad037c17ceffd54e998bab520969ca5b13f7d4cdc4ac755",
+      "lessonIds": ["test-without-looking-ahead"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Incoming observations follow the dated frozen rule; observation-only, demo and live results are distinct.",
+      "evidence": [
+        {
+          "lessonKey": "forex:test-without-looking-ahead",
+          "lessonId": "test-without-looking-ahead",
+          "href": "/learn/forex/level-9/test-without-looking-ahead",
+          "blockPointer": "/1/children",
+          "excerpt": "Forward testing records a frozen rule on observations that arrive after the rule is dated. A demo platform can add order-status and fill records, but demo fills and emotions can differ from live conditions. Live trading is not required for this beginner exercise. Keep historical simulation, forward observation and demo rehearsal clearly labelled.",
+          "excerptDigest": "cf2d7c5f739a949baec0ca17e2b16044b9d59cd6df5c802770b4b97ec4bc2973"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:intrabar-uncertainty",
+      "meaningIndex": 0,
+      "definition": "Uncertainty about the sequence or executable events within a bar when only a summary such as OHLC is available.",
+      "meaningDigest": "f1e5535bfee470936257d8655c10a97ff5c12657ecd43f5b6d006c4c78b45786",
+      "lessonIds": ["test-without-looking-ahead"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "OHLC does not reveal stop/target order; ambiguity policy must be predeclared and cases retained.",
+      "evidence": [
+        {
+          "lessonKey": "forex:test-without-looking-ahead",
+          "lessonId": "test-without-looking-ahead",
+          "href": "/learn/forex/level-9/test-without-looking-ahead",
+          "blockPointer": "/31/children",
+          "excerpt": "An OHLC bar contains open, high, low and close, not the order of every movement inside it. Suppose a simulated EUR/USD long has stop 1.0980 and target 1.1040. A later bar has high 1.1050 and low 1.0970. Both levels were visited in the price series, but those four values alone cannot establish which came first after entry.",
+          "excerptDigest": "d2cfb8877f40fece8731ce994e5412cf422533939fc660d137f26055b836d02d"
+        },
+        {
+          "lessonKey": "forex:test-without-looking-ahead",
+          "lessonId": "test-without-looking-ahead",
+          "href": "/learn/forex/level-9/test-without-looking-ahead",
+          "blockPointer": "/34/children",
+          "excerpt": "Choose the policy before inspecting which choice makes performance look better. A green closing candle does not prove target-first. Dropping every ambiguous case can improve the remaining sample artificially, so report how many cases were affected and how the policy changes the ledger.",
+          "excerptDigest": "f46f1271c49500cbac710f7931c2fe6be25247134d8c853957454316c8ea2d44"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:look-ahead-bias",
+      "meaningIndex": 0,
+      "definition": "Using information in a historical decision that was not available at that decision’s stated time.",
+      "meaningDigest": "357c14f01eeb4201de3df118e31d006053f004b96c901907f265707d810d691b",
+      "lessonIds": ["test-without-looking-ahead"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Final closes, later-confirmed pivots and revised releases cannot enter an earlier historical decision.",
+      "evidence": [
+        {
+          "lessonKey": "forex:test-without-looking-ahead",
+          "lessonId": "test-without-looking-ahead",
+          "href": "/learn/forex/level-9/test-without-looking-ahead",
+          "blockPointer": "/13/children",
+          "excerpt": "At each simulated decision, ask when every input became available. A daily-close condition cannot justify entry at the same day’s morning price. A swing requiring later bars cannot be treated as confirmed earlier. Revised economic data cannot replace the initially published figure in a rule that depended on what was known at release.",
+          "excerptDigest": "554c5f435d09e7b3abe33e9a838b394ddd80243396fa9d95b0e64d5b1d6d166a"
+        },
+        {
+          "lessonKey": "forex:test-without-looking-ahead",
+          "lessonId": "test-without-looking-ahead",
+          "href": "/learn/forex/level-9/test-without-looking-ahead",
+          "blockPointer": "/17/children",
+          "excerpt": "Do not let whole-sample calculations leak into earlier decisions. A threshold chosen from all later volatility, a future maximum used to scale earlier values or selecting the best pair after viewing the evaluation period uses information the earlier rule did not possess. Document how each reference is formed from permitted inputs.",
+          "excerptDigest": "144fea9e78a6155a9ec1d5fb9cc81da2dafacb4b979553600e6b2d5d84a76f42"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:market-regime",
+      "meaningIndex": 0,
+      "definition": "A classification of market conditions over a stated period using explicit measures and rules.",
+      "meaningDigest": "bfa57973cccadaec44b19fda62068c2e0d990b8da7aef3ba80a3c4769e83e46f",
+      "lessonIds": ["relationships-that-can-change"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Regime labels require a window, measurement and rule; characteristics may overlap.",
+      "evidence": [
+        {
+          "lessonKey": "forex:relationships-that-can-change",
+          "lessonId": "relationships-that-can-change",
+          "href": "/learn/forex/level-10",
+          "blockPointer": "/42/children",
+          "excerpt": "A market regime is a description of conditions over a period, such as relatively quiet movement, a sustained directional trend, a range or unusually large price changes. Different characteristics can overlap: a trend can also be volatile. Labels are useful for organising evidence only when the measurement, observation window and classification rule are clear.",
+          "excerptDigest": "aa248e3be40c438610c86696afc38905237338303a7c758b89da3c07ae363dc1"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:overtrading",
+      "meaningIndex": 0,
+      "definition": "Taking actions beyond what a stated method, risk policy or practical schedule supports. There is no universal number of trades that defines it.",
+      "meaningDigest": "41cd75fc55bdec7d049e9024487c7f5c9fd202a9cfb9759189a23887de16f1d4",
+      "lessonIds": ["emotions-around-a-decision"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Activity exceeding a stated method/schedule defines excess; there is no universal trade count.",
+      "evidence": [
+        {
+          "lessonKey": "forex:emotions-around-a-decision",
+          "lessonId": "emotions-around-a-decision",
+          "href": "/learn/forex/level-8",
+          "blockPointer": "/12/children",
+          "excerpt": "Overtrading means taking actions that exceed what the stated method, risk policy or practical schedule supports. There is no universal number of trades that separates careful practice from overtrading. One unplanned trade can be too many; several planned observation entries can belong to a structured exercise. Count what the rule permits and what actually happened.",
+          "excerptDigest": "6f43cb97e50bc7e3b2554863cb7527085b0f159acc25a36fc7e151d7398ff51b"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:pause-procedure",
+      "meaningIndex": 0,
+      "definition": "A prewritten sequence naming when to pause, what to stop or record, and how a review or resumption decision is made.",
+      "meaningDigest": "2190b7f452203896535ce646f09b7309e142b81ebee04232bd890781c606d37a",
+      "lessonIds": ["emotions-around-a-decision"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Pause procedure names trigger, action and review/resumption conditions.",
+      "evidence": [
+        {
+          "lessonKey": "forex:emotions-around-a-decision",
+          "lessonId": "emotions-around-a-decision",
+          "href": "/learn/forex/level-8",
+          "blockPointer": "/36/children",
+          "excerpt": "A pause procedure names the trigger, action and conditions for review or resumption. “Calm down” is too vague to check. A teaching example might say: when I notice an urge to change an entry or size outside the plan, I stop new demo submissions, save the quote and rule comparison, and review the written gates before deciding whether the session ends.",
+          "excerptDigest": "327b4ad3ff91ab7fd0d84413472bf3756267d9e35f5185bc10d7813e33820350"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:prewritten-gate",
+      "meaningIndex": 0,
+      "definition": "A condition written before a decision that permits, blocks or pauses a specified action.",
+      "meaningDigest": "96b30f9b4618adf8a9a049f322b97677d02346b3320ca4d1ce642016a82cecd0",
+      "lessonIds": ["a-repeatable-practice-habit"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Chart, order, account and session conditions permit or block action before submission; gates are not a universal safe threshold.",
+      "evidence": [
+        {
+          "lessonKey": "forex:a-repeatable-practice-habit",
+          "lessonId": "a-repeatable-practice-habit",
+          "href": "/learn/forex/level-8/a-repeatable-practice-habit",
+          "blockPointer": "/21/children",
+          "excerpt": "Observation-only practice can finish without an execution worksheet. If the chosen exercise includes demo order rehearsal, add the chart, order and account gates before submission. Check the entry/exit sides, contract, size increment, conversion, planned stop distance, costs, adverse-fill scenario, common currency exposure and available margin. A completed chart condition is one gate, not the whole permission.",
+          "excerptDigest": "be56dcbd78f90fa4f7aedc64092bdee2203f846fbc3a4f3027ae36519ee70d34"
+        },
+        {
+          "lessonKey": "forex:a-repeatable-practice-habit",
+          "lessonId": "a-repeatable-practice-habit",
+          "href": "/learn/forex/level-8/a-repeatable-practice-habit",
+          "blockPointer": "/34/children",
+          "excerpt": "A session stop can be time-based, process-based, data-based or account-based. Name the trigger and action beforehand. Examples include the study timer ending, a repeated rule breach, missing required input or a stated daily/weekly demo loss gate. The thresholds are personal teaching-policy choices; none is a universal safe trading limit.",
+          "excerptDigest": "d666f6168bd4a5c4fc45ce1a5bc0d03587e88bd8aea4b2a8932852f05e24b853"
+        },
+        {
+          "lessonKey": "forex:a-repeatable-practice-habit",
+          "lessonId": "a-repeatable-practice-habit",
+          "href": "/learn/forex/level-8/a-repeatable-practice-habit",
+          "blockPointer": "/36/children",
+          "excerpt": "The gate’s definition matters: realised losses, current equity loss, gross adverse scenarios and combined exposure are different measures. Include costs and existing/pending exposure as the policy specifies. Avoid subtracting an unrealised gain from a loss merely to create room unless that treatment was explicitly defined and justified. Actual execution can exceed planned amounts.",
+          "excerptDigest": "a2d5bf62492ccdf88da8579754e64332e9d66c9eb1c91a54dcd042328e1f3853"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:process-goal",
+      "meaningIndex": 0,
+      "definition": "A goal about a controllable action or habit rather than a result dependent partly on external conditions.",
+      "meaningDigest": "0e3d32ea188f332c989aed0982afd73f3c1fa2172efb85b68b5f6beaa45dcc4a",
+      "lessonIds": ["a-repeatable-practice-habit"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Process goals concern controllable records/actions rather than promised returns.",
+      "evidence": [
+        {
+          "lessonKey": "forex:a-repeatable-practice-habit",
+          "lessonId": "a-repeatable-practice-habit",
+          "href": "/learn/forex/level-8/a-repeatable-practice-habit",
+          "blockPointer": "/4/children",
+          "excerpt": "A process goal names an action under your control: identify the price side, save the rule version, calculate a stated scenario or explain one uncertainty. An outcome goal depends partly on conditions you cannot control, such as the next price move, a platform fill or this week’s simulated profit. Do not judge learning only by the second kind of goal.",
+          "excerptDigest": "130910070d4172ff5b4188dec6412e75c0872d0cc0a9c9a65ae0a39f39994019"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:process-quality",
+      "meaningIndex": 0,
+      "definition": "How well decisions and records follow justified, prewritten requirements using the information available at the time.",
+      "meaningDigest": "557dc892e1792a387a80f500b7ecfb20b842fddcb40ca8c143f05bc2e5a29d79",
+      "lessonIds": ["review-the-whole-portfolio"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Process adherence and monetary outcomes are kept separate; one win or loss does not certify quality.",
+      "evidence": [
+        {
+          "lessonKey": "forex:review-the-whole-portfolio",
+          "lessonId": "review-the-whole-portfolio",
+          "href": "/learn/forex/level-10/review-the-whole-portfolio",
+          "blockPointer": "/3/children",
+          "excerpt": "A good review asks what was planned, what actually happened, what evidence supports each calculation and what remains uncertain. Keep process quality and monetary outcomes separate. A rule followed carefully can lose; an unauthorised risk increase can win. Neither one outcome settles the quality of the learning.",
+          "excerptDigest": "91ca82e12a741aa1bcd58eec50eb539c2c5a51d9e02731a73d614b99a05fecdd"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:revenge-trading",
+      "meaningIndex": 0,
+      "definition": "A rushed recovery-seeking action after a loss rather than a fresh decision meeting the prewritten rules.",
+      "meaningDigest": "50d23a43239771aae43185e1cc02a2537c0d28f91778bad65f5076b4e09cb682",
+      "lessonIds": ["emotions-around-a-decision"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Recovery-seeking urgency is distinct from a fresh qualifying decision.",
+      "evidence": [
+        {
+          "lessonKey": "forex:emotions-around-a-decision",
+          "lessonId": "emotions-around-a-decision",
+          "href": "/learn/forex/level-8",
+          "blockPointer": "/17/children",
+          "excerpt": "Revenge trading is a rushed attempt to recover a loss through a new action rather than a fresh, qualifying decision. Common signs include “I need it back today,” doubling size after each loss, entering another pair without analysis or extending the session until the balance returns to a preferred number. The previous loss does not create a market obligation to repay you.",
+          "excerptDigest": "f1ee2910b5ff946401d673fc3f0b24722d726355912821771104ce7d79865725"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:robustness",
+      "meaningIndex": 0,
+      "definition": "How dependent a conclusion is on particular reasonable assumptions or narrow parameter choices, assessed through a stated sensitivity-review plan.",
+      "meaningDigest": "5bb05de32d9d1aab87907849c8dbfd776e411fd412b4b72015f5c3efdd1298ca",
+      "lessonIds": ["test-without-looking-ahead"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Predeclared sensitivity tests expose assumption dependence; selecting only winning variations is not robustness.",
+      "evidence": [
+        {
+          "lessonKey": "forex:test-without-looking-ahead",
+          "lessonId": "test-without-looking-ahead",
+          "href": "/learn/forex/level-9/test-without-looking-ahead",
+          "blockPointer": "/54/children",
+          "excerpt": "Robustness asks whether the conclusion depends on one convenient assumption or narrow choice. You can predeclare tests with somewhat wider spreads, additional fees, delayed entries or nearby parameter settings, then report all results. The goal is to expose sensitivity, not select whichever variation wins and erase the rest.",
+          "excerptDigest": "0cbedc5b38dfb70da57cc0e0cf278c6a74fe1abc76fed90d57c553c8ee17f37c"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:rule-version",
+      "meaningIndex": 0,
+      "definition": "An identified, dated specification of a method, including the exact conditions and assumptions used for its decisions.",
+      "meaningDigest": "b2b15c750033c8fd0c777ffb6bdf1f635a070591ff82bcffe5228ad5eff4e37a",
+      "lessonIds": ["write-a-strategy-that-can-be-checked"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Dated changes and information already viewed are kept in a version log; older evidence must not be relabelled.",
+      "evidence": [
+        {
+          "lessonKey": "forex:write-a-strategy-that-can-be-checked",
+          "lessonId": "write-a-strategy-that-can-be-checked",
+          "href": "/learn/forex/level-9",
+          "blockPointer": "/50/children",
+          "excerpt": "Keep a version log with the change, reason, date and information already viewed. A factual correction and a new trading rule are different. If you change a filter after seeing July, that July sample has influenced development of the new version. Do not report it as untouched evidence for that version.",
+          "excerptDigest": "0fde9b178033523035ca229d8dd03e682101b9f8ee917b4f4d686083b99cac81"
+        },
+        {
+          "lessonKey": "forex:write-a-strategy-that-can-be-checked",
+          "lessonId": "write-a-strategy-that-can-be-checked",
+          "href": "/learn/forex/level-9",
+          "blockPointer": "/0/children",
+          "excerpt": "A trading strategy is a set of rules describing what to observe, when an action is eligible, how exposure is limited and how the action ends. “Buy when it looks good” is an opinion, not a specification someone else can apply. A useful strategy document tells another learner how to classify a new date using the same available information.",
+          "excerptDigest": "81a94b2143d21c7800d3292f5cc662b386acaa40447a67eaa8f27c06e6ad3261"
+        }
+      ]
+    },
+    {
+      "entryId": "forex:stress-scenario",
+      "meaningIndex": 0,
+      "definition": "A deliberately stated adverse set of assumptions used to examine potential effects, rather than a prediction or guaranteed worst case.",
+      "meaningDigest": "f47874acbc7d4bbc3e58e3578a507869e8f7795faa7fdaa9f54e38d40f94050f",
+      "lessonIds": ["relationships-that-can-change"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Joint adverse assumptions are what-if scenarios, not probabilities or guaranteed worst cases.",
+      "evidence": [
+        {
+          "lessonKey": "forex:relationships-that-can-change",
+          "lessonId": "relationships-that-can-change",
+          "href": "/learn/forex/level-10",
+          "blockPointer": "/48/children",
+          "excerpt": "Changing volatility, spread and execution conditions matter alongside changing co-movement. A plan that assumes independent stop fills at exact prices may underestimate losses when several positions face gaps or poor execution together. A scenario is a stated “what if,” not a predicted probability or guaranteed worst case.",
+          "excerptDigest": "d44c55227c2c44f41515e71d4287491f6736e269d5475374e846317ba5f7b20a"
+        },
+        {
+          "lessonKey": "forex:relationships-that-can-change",
+          "lessonId": "relationships-that-can-change",
+          "href": "/learn/forex/level-10",
+          "blockPointer": "/49/children/0",
+          "excerpt": "A worker in Canada budgets three journeys separately. A snowstorm delays every route and raises all replacement fares. Adding the ordinary fares was correct for the ordinary case; it did not capture the shared disruption. A portfolio worksheet needs both ordinary assumptions and a jointly adverse case.",
+          "excerptDigest": "05dc493d5109b711dc39f229c9213f1f6d48ef54a1fe945825f6dc6a15b81927"
+        }
+      ]
+    },
+    {
+      "entryId": "crypto:daily-close-crypto",
+      "meaningIndex": 0,
+      "definition": "The last price recorded before a chosen cut-off time, often 00:00 UTC. It is a charting convention, not a moment when the market actually stops.",
+      "meaningDigest": "d642d35d83b7e3ef32c48c7e15e1fad8c800d4c24009d107261b682afb156d43",
+      "lessonIds": ["read-charts-and-describe-price-structure"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Crypto daily boundaries are provider/timezone conventions; final closes are unavailable before completion.",
+      "evidence": [
+        {
+          "lessonKey": "crypto:read-charts-and-describe-price-structure",
+          "lessonId": "read-charts-and-describe-price-structure",
+          "href": "/learn/crypto/level-7",
+          "blockPointer": "/11/children",
+          "excerpt": "On a Forex chart, the daily candle follows a provider's trading day. Crypto has no session, so the \"daily close\" is a convention. Many crypto charts use midnight in Coordinated Universal Time (UTC), but some let you switch to local time. A trader in Tokyo on Japan time and a trader in London on UTC can see differently shaped daily candles from identical trades.",
+          "excerptDigest": "2dad9b17329fd3ef608879077fb9885de50a972d81ea0853d02738ccc44adb3c"
+        }
+      ]
+    },
+    {
+      "entryId": "crypto:loss-budget",
+      "meaningIndex": 0,
+      "definition": "The total amount of money, written as a cash figure in your home currency, that you have decided in advance you could lose on crypto without touching essential money or your emergency fund.",
+      "meaningDigest": "5d96d7808b2cf043855f90e55db5a403bd9e3369f31ce4c5213b17159811ba08",
+      "lessonIds": [
+        "choose-the-loss-budget-before-the-position-size",
+        "crypto-loss-and-risk"
+      ],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Written total and per-idea limits protect essential funds; stops and fills can exceed a planned amount.",
+      "evidence": [
+        {
+          "lessonKey": "crypto:choose-the-loss-budget-before-the-position-size",
+          "lessonId": "choose-the-loss-budget-before-the-position-size",
+          "href": "/learn/crypto/level-8",
+          "blockPointer": "/13/children",
+          "excerpt": "Hannah in Toronto has her emergency fund in place and C$5,000 of spare savings (invented amounts). She writes: \"Total crypto loss budget this year: C$1,000. Most I will risk on any single idea: C$50.\" These are her own limits, not recommendations.",
+          "excerptDigest": "6f8d25039f888b0042acbc8e374f10d1a2111010b0b49c03c826365dc11efdda"
+        }
+      ]
+    },
+    {
+      "entryId": "crypto:personal-circuit-breaker",
+      "meaningIndex": 0,
+      "definition": "A rule you write in advance that pauses your decisions when a named trigger appears, such as a price spike, a \"last chance\" message or a loss.",
+      "meaningDigest": "d64431113691341b1fd2780207884530e82577a69c4546081830952cf24e187d",
+      "lessonIds": ["emotions-biases-and-attention-in-crypto-markets"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Personal trigger/action and cooling-off examples align; a wait does not cure a failed checklist.",
+      "evidence": [
+        {
+          "lessonKey": "crypto:emotions-biases-and-attention-in-crypto-markets",
+          "lessonId": "emotions-biases-and-attention-in-crypto-markets",
+          "href": "/learn/crypto/level-9",
+          "blockPointer": "/157/children",
+          "excerpt": "The speed bump has a limit: the FCA's wait applies when you are new to a firm. After that, only you can slow yourself down. Some stock exchanges pause trading after a very sharp fall, a pause called a circuit breaker. You can write a personal version.",
+          "excerptDigest": "16525f22237e4e3b5112b57a373b6956564f7d0439ffdc59a33bf82e60dfd36d"
+        },
+        {
+          "lessonKey": "crypto:emotions-biases-and-attention-in-crypto-markets",
+          "lessonId": "emotions-biases-and-attention-in-crypto-markets",
+          "href": "/learn/crypto/level-9",
+          "blockPointer": "/159/children",
+          "excerpt": "A cooling-off rule is the simplest one: \"I wait 24 hours before buying anything I first heard about today, and I write one sentence on why I want it.\" The number is your choice, not a universal safe interval. Waiting does not make a failed checklist pass; it gives your calm self a turn to speak.",
+          "excerptDigest": "355948e54b742f86ad169a8ab9f5f662aca71669656ba067bd5b5103f202e5b0"
+        },
+        {
+          "lessonKey": "crypto:emotions-biases-and-attention-in-crypto-markets",
+          "lessonId": "emotions-biases-and-attention-in-crypto-markets",
+          "href": "/learn/crypto/level-9",
+          "blockPointer": "/162/children",
+          "excerpt": "Sophie in Lyon writes three rules on a card: 24 hours of cooling off, two 10-minute checking windows and no crypto app after 10 p.m. When an influencer posts \"last chance before listing\" about an invented token, she waits. Next morning her the token research lesson in Level 5 checklist finds an unverified contract and an anonymous team. The rule did not decide for her; it made room for the checklist.",
+          "excerptDigest": "2be10dbda3b273f0df7ab5adf2138b81d7fb1575acf59eb50a40ce94464a26b7"
+        }
+      ]
+    },
+    {
+      "entryId": "crypto:pre-commitment",
+      "meaningIndex": 0,
+      "definition": "Making a decision in advance, usually in writing, so that your future self in a heated moment has a clear rule to follow instead of deciding from scratch.",
+      "meaningDigest": "0c0100f61a4118896898afa8d7212474b9ec08e50c4bdb7b95311ae3aa7ece56",
+      "lessonIds": ["write-a-crypto-plan-and-define-testable-rules"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Advance written decisions support calmer future choices; the lesson directly defines pre-commitment.",
+      "evidence": [
+        {
+          "lessonKey": "crypto:write-a-crypto-plan-and-define-testable-rules",
+          "lessonId": "write-a-crypto-plan-and-define-testable-rules",
+          "href": "/learn/crypto/level-9/write-a-crypto-plan-and-define-testable-rules",
+          "blockPointer": "/6/children",
+          "excerpt": "Making a decision in advance, usually in writing, so that your future self in a heated moment has a clear rule to follow instead of deciding from scratch.",
+          "excerptDigest": "c6adbad5c47e6ec30708caf50c3e74ec1182d76e918a922b109224172190c6c6"
+        },
+        {
+          "lessonKey": "crypto:write-a-crypto-plan-and-define-testable-rules",
+          "lessonId": "write-a-crypto-plan-and-define-testable-rules",
+          "href": "/learn/crypto/level-9/write-a-crypto-plan-and-define-testable-rules",
+          "blockPointer": "/5/children",
+          "excerpt": "A couple in Guadalajara planning a wedding agree a budget before visiting any venue. In a beautiful hall with a smiling salesperson, saying no is much harder. The calm decision at the kitchen table protects them from the excited one.",
+          "excerptDigest": "596da7a1cf668a8a98f436cc2389ef957cb764f252344dc5d2d526547e7b24d3"
+        }
+      ]
+    },
+    {
+      "entryId": "crypto:recovery-plan",
+      "meaningIndex": 0,
+      "definition": "A written, offline summary of what crypto you hold, where the backups are, and the steps needed to recover access, designed so that it does not by itself reveal any secret.",
+      "meaningDigest": "abd08333c6088758d0920df75e0555ceb28033ca4e8fb734b7eecb5f705b54fa",
+      "lessonIds": [
+        "protect-recovery-material-and-accounts",
+        "respond-to-a-crypto-compromise"
+      ],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Offline map lists components and instructions without exposing actual secrets; wallet-specific recovery dependencies remain essential.",
+      "evidence": [
+        {
+          "lessonKey": "crypto:protect-recovery-material-and-accounts",
+          "lessonId": "protect-recovery-material-and-accounts",
+          "href": "/learn/crypto/level-2/protect-recovery-material-and-accounts",
+          "blockPointer": "/105/children",
+          "excerpt": "A recovery plan is a short offline document that lets you or a trusted person rebuild access calmly. It is a map, not a treasure chest.",
+          "excerptDigest": "bf8a677f8d5abab436c7a994927513ebcd1f34f151a294e836c0720976604026"
+        },
+        {
+          "lessonKey": "crypto:protect-recovery-material-and-accounts",
+          "lessonId": "protect-recovery-material-and-accounts",
+          "href": "/learn/crypto/level-2/protect-recovery-material-and-accounts",
+          "blockPointer": "/106/children",
+          "excerpt": "A written, offline summary of what crypto you hold, where the backups are, and the steps needed to recover access, designed so that it does not by itself reveal any secret.",
+          "excerptDigest": "79f563d9955a9510f68b8da374d57d31f78572179f2f8b1aa6956c3341283472"
+        },
+        {
+          "lessonKey": "crypto:protect-recovery-material-and-accounts",
+          "lessonId": "protect-recovery-material-and-accounts",
+          "href": "/learn/crypto/level-2/protect-recovery-material-and-accounts",
+          "blockPointer": "/109/children",
+          "excerpt": "It should not expose secrets in an ordinary will, shared course file or broadly accessible family message. Legal arrangements and local inheritance requirements may also matter. A plan that has never been checked may depend on forgotten passwords or obsolete software.",
+          "excerptDigest": "b8863659df9984858552e6ec10d603d80fb874cca429e072ca548e4152e5ad3f"
+        }
+      ]
+    },
+    {
+      "entryId": "crypto:value-capture",
+      "meaningIndex": 0,
+      "definition": "The share of a network's fees or other income that reaches token holders, for example through burns, buybacks or staking rewards.",
+      "meaningDigest": "77da61dadc2a24e2aa2feca517dc7c3bd208a688c599126c8da9b4e2f12182ba",
+      "lessonIds": ["crypto-valuation-regulation-and-institutional-products"],
+      "result": "definition-context-aligned",
+      "reviewNotes": "Fee destinations, burns and holder rights differ. This is course vocabulary, not a claim that burning guarantees holder income or a higher price.",
+      "evidence": [
+        {
+          "lessonKey": "crypto:crypto-valuation-regulation-and-institutional-products",
+          "lessonId": "crypto-valuation-regulation-and-institutional-products",
+          "href": "/learn/crypto/level-10/crypto-valuation-regulation-and-institutional-products",
+          "blockPointer": "/15/children",
+          "excerpt": "Blockchains collect fees too. Users pay them to get transactions included, and in DeFi, traders pay swap fees. Fee revenue shows that people value the service enough to pay. The harder question is value capture: does any of that money reach token holders? On Ethereum, part of each fee is burned (the gas and token lessons in Level 4), reducing supply, while validators receive tips and rewards (the lending and staking lessons in Level 6). In many DeFi apps, fees go to liquidity providers, not to governance-token holders.",
+          "excerptDigest": "b60e7abf0476db6218937de287fb1d11b2d8123cdfec286ab6f6e743f635a1e5"
+        }
+      ]
+    }
+  ]
+}

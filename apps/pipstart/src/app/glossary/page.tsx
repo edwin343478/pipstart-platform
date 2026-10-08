@@ -1,102 +1,152 @@
-"use client";
-
-import { useMemo, useState } from "react";
-
 import { PageState } from "@repo/ui";
 import { CompactFooter, CompactHeader } from "../../components/site-chrome";
+import {
+  getDisplayedCourseGlossary,
+  getGlossaryPageMetadata,
+  isGlossaryReviewMode,
+} from "../../content/glossary-display";
+export const generateMetadata = getGlossaryPageMetadata;
+import { searchGlossary } from "../../lib/glossary-search";
+import type { GlossaryRouteParams } from "../../lib/glossary-route-search";
 import styles from "./page.module.css";
 
+import { GlossaryResults } from "../../components/glossary-results";
+import { GlossaryGrouping } from "../../components/glossary-grouping";
+import { GlossaryCategory } from "../../components/glossary-category";
+import buttonStyles from "./crypto/page.module.css";
+
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-
-const terms = [
-  {
-    name: "Pip",
-    definition:
-      "The standard unit used to measure price movement in a currency pair.",
-  },
-  {
-    name: "Pipette",
-    definition:
-      "A fractional pip, used by brokers that quote prices to one extra decimal place.",
-  },
-  {
-    name: "Position size",
-    definition: "The number of units of currency controlled in a single trade.",
-  },
-] as const;
-
-export default function GlossaryPage() {
-  const [activeLetter, setActiveLetter] = useState("P");
-  const [query, setQuery] = useState("");
-
-  const visibleTerms = useMemo(() => {
-    const normalizedQuery = query.trim().toLowerCase();
-
-    return terms.filter((term) => {
-      if (normalizedQuery) {
-        return (
-          term.name.toLowerCase().includes(normalizedQuery) ||
-          term.definition.toLowerCase().includes(normalizedQuery)
-        );
-      }
-
-      return term.name.startsWith(activeLetter);
-    });
-  }, [activeLetter, query]);
-
-  function selectLetter(letter: string) {
-    setActiveLetter(letter);
-    setQuery("");
-  }
-
+export default async function GlossaryPage({
+  searchParams,
+}: {
+  searchParams: Promise<GlossaryRouteParams>;
+}) {
+  const params = await searchParams;
+  const entries = [
+    ...getDisplayedCourseGlossary("forex"),
+    ...getDisplayedCourseGlossary("crypto"),
+  ];
+  const result = searchGlossary(entries, params);
+  const byId = new Map(entries.map((term) => [term.id, term]));
+  const visibleTerms = result.results.map(({ entry }) => byId.get(entry.id)!);
+  const scopeLabel =
+    result.course === "forex"
+      ? "Forex"
+      : result.course === "crypto"
+        ? "Crypto"
+        : "Forex and Crypto";
   return (
-    <main className={styles.page}>
+    <main className={styles.page} data-forex-glossary>
+      <noscript
+        dangerouslySetInnerHTML={{
+          __html: `<style>
+        @layer base {
+          [hidden]:has([data-forex-glossary]) { display: block !important; }
+          body:has([data-forex-glossary]) [data-route-loading] { display: none !important; }
+        }
+      </style>`,
+        }}
+      />
       <CompactHeader className={styles.header} section="Glossary" />
-
       <section className={styles.introduction}>
-        <h1>Forex Glossary</h1>
-        <p>Every term used across the learning path, explained plainly.</p>
-        <label className={styles.search}>
-          <span className={styles.srOnly}>Search glossary terms</span>
-          <input
-            type="search"
-            placeholder="Search terms…"
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
+        <h1>{scopeLabel} Glossary</h1>
+        <p>
+          {isGlossaryReviewMode()
+            ? "Explore the reviewed definitions, everyday examples and lesson contexts."
+            : "Explore clear definitions, everyday examples and lesson contexts."}
+        </p>
+        <GlossaryGrouping pathname="/glossary" selection={result} />
+        <form
+          action="/glossary"
+          method="get"
+          className={styles.search}
+          role="search"
+        >
+          {result.course ? (
+            <input type="hidden" name="course" value={result.course} />
+          ) : null}
+          <label>
+            <span className={styles.srOnly}>
+              Search glossary terms, then press Enter
+            </span>
+            <input
+              name="q"
+              type="search"
+              placeholder="Search terms…"
+              defaultValue={result.query}
+              maxLength={200}
+            />
+          </label>
+          <GlossaryCategory
+            entries={entries.filter(
+              (term) => !result.course || term.course === result.course,
+            )}
+            selected={result.category}
           />
-        </label>
-      </section>
-
-      <nav className={styles.alphabet} aria-label="Filter glossary by letter">
-        {alphabet.map((letter) => (
-          <button
-            type="button"
-            className={!query && activeLetter === letter ? styles.active : ""}
-            aria-pressed={!query && activeLetter === letter}
-            key={letter}
-            onClick={() => selectLetter(letter)}
-          >
-            {letter}
+          <button type="submit" className={buttonStyles.searchButton}>
+            Search
           </button>
-        ))}
-      </nav>
-
-      <section className={styles.results} aria-live="polite">
-        <h2>{query ? "Search results" : activeLetter}</h2>
-        {visibleTerms.length > 0 ? (
-          visibleTerms.map((term) => (
-            <article className={styles.term} key={term.name}>
-              <h3>{term.name}</h3>
-              <p>{term.definition}</p>
-            </article>
-          ))
+        </form>
+      </section>
+      <form action="/glossary" method="get">
+        {result.course ? (
+          <input type="hidden" name="course" value={result.course} />
+        ) : null}
+        {result.category ? (
+          <input type="hidden" name="category" value={result.category} />
+        ) : null}
+        <nav className={styles.alphabet} aria-label="Filter glossary by letter">
+          {["", ...alphabet].map((letter) => (
+            <button
+              type="submit"
+              name="letter"
+              value={letter}
+              className={
+                !result.query && result.letter === letter ? styles.active : ""
+              }
+              aria-pressed={!result.query && result.letter === letter}
+              key={letter || "all"}
+            >
+              {letter || "All"}
+            </button>
+          ))}
+        </nav>
+      </form>
+      <section
+        className={styles.results}
+        aria-labelledby="forex-glossary-results"
+      >
+        <h2 id="forex-glossary-results">
+          {result.query ? "Search results" : result.letter || "All letters"} ·{" "}
+          {result.total} terms available · {scopeLabel}
+          {result.category ? " · " + result.category : ""}
+        </h2>
+        {result.usedTypoTolerance ? (
+          <p role="status">
+            No direct match. Showing closely matching term names.
+          </p>
+        ) : null}
+        {visibleTerms.length ? (
+          <GlossaryResults
+            key={[
+              result.course,
+              result.query,
+              result.letter,
+              result.category,
+            ].join("|")}
+            terms={visibleTerms}
+            pathname="/glossary"
+            selection={result}
+            initialLimit={params.limit}
+            termClassName={styles.term}
+            showCourse={!result.course}
+          />
         ) : (
           <PageState className={styles.emptyState}>
-            No terms are available under this filter yet.
+            No terms match this filter. Try another word or choose All.
           </PageState>
         )}
       </section>
-
       <CompactFooter className={styles.footer} />
     </main>
   );

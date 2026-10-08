@@ -52,6 +52,18 @@ jobs:
       - name: Run tests
         run: pnpm test
 
+      - name: Verify M17 guarded audit records
+        run: |
+          node scripts/verify-m17-publication-readiness.mjs
+          node scripts/verify-m17-reviewed-integration.mjs
+          node scripts/verify-m17-release.mjs
+          node scripts/verify-m17-targeted-sources-2.mjs
+          node scripts/verify-m17-glossary-editorial.mjs
+          node scripts/verify-m17-glossary-arithmetic.mjs
+          node scripts/verify-m17-course-context.mjs
+          node scripts/verify-m17-targeted-sources-1.mjs
+          node scripts/verify-m17-browser-results.mjs --self-test
+
       - name: Start isolated local Supabase for production browser grading
         timeout-minutes: 15
         run: node apps/pipstart/scripts/configure-m16-ci-supabase.mjs
@@ -64,6 +76,35 @@ jobs:
 
       - name: Install Chromium for publication smoke checks
         run: pnpm --filter pipstart exec playwright install --with-deps chromium
+
+      - name: Verify approved public M17 glossary on desktop and mobile
+        timeout-minutes: 20
+        run: |
+          pnpm --filter pipstart exec node scripts/verify-m17-browser-environment.mjs
+          pnpm --filter pipstart exec playwright test --config=playwright.m17.config.ts
+          node scripts/verify-m17-browser-results.mjs
+
+      - name: Verify reviewed M17 catalogue on desktop and mobile
+        timeout-minutes: 20
+        env:
+          PIPSTART_M17_GLOSSARY_REVIEW: "1"
+        run: |
+          pnpm --filter pipstart exec node scripts/verify-m17-browser-environment.mjs
+          pnpm --filter pipstart exec playwright test --config=playwright.m17.config.ts
+          node scripts/verify-m17-browser-results.mjs
+
+      - name: Preserve M17 glossary browser results
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: pipstart-m17-browser-results
+          path: |
+            apps/pipstart/playwright-report/m17
+            apps/pipstart/test-results/m17
+            apps/pipstart/playwright-report/m17-review
+            apps/pipstart/test-results/m17-review
+          if-no-files-found: ignore
+          retention-days: 7
 
       - name: Verify Crypto levels and approved publication interactions
         timeout-minutes: 25
