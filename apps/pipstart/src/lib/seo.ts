@@ -116,9 +116,9 @@ export const seoEntries = [
   },
   {
     path: "/brokers",
-    title: "Compare Forex Brokers",
+    title: "Forex Broker Directory",
     description:
-      "Educational broker comparisons with transparent affiliate disclosures and risk information.",
+      "Explore broker listings with clear verification status, affiliate disclosures and risk information. A listing is not a recommendation.",
   },
   {
     path: "/tools",

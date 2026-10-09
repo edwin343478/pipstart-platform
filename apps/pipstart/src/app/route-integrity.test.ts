@@ -27,8 +27,16 @@ function routePattern(pagePath: string): RegExp {
 }
 
 describe("PipStart internal route integrity", () => {
-  it("resolves every hard-coded internal link to a page", () => {
-    const pagePatterns = findFiles(appRoot, /^page\.tsx$/).map(routePattern);
+  it("resolves every hard-coded internal link to a page or GET route", () => {
+    const pagePatterns = findFiles(appRoot, /^(?:page\.tsx|route\.ts)$/)
+      .filter(
+        (file) =>
+          file.endsWith("page.tsx") ||
+          /export\s+(?:async\s+)?function\s+GET\b|export\s+const\s+GET\b/.test(
+            fs.readFileSync(file, "utf8"),
+          ),
+      )
+      .map(routePattern);
     const sourceFiles = findFiles(appRoot, /\.tsx$/);
     const unresolvedLinks = new Set<string>();
 
@@ -49,6 +57,17 @@ describe("PipStart internal route integrity", () => {
     }
 
     expect([...unresolvedLinks]).toEqual([]);
+  });
+
+  it("recognizes the registered provider GET route without accepting extra segments", () => {
+    const handler = path.join(appRoot, "go/[id]/route.ts");
+    expect(fs.readFileSync(handler, "utf8")).toMatch(
+      /export\s+async\s+function\s+GET\b/,
+    );
+    const pattern = routePattern(handler);
+    expect(pattern.test("/go/deriv")).toBe(true);
+    expect(pattern.test("/go/deriv/extra")).toBe(false);
+    expect(pattern.test("/go/")).toBe(false);
   });
 
   it("does not expose unavailable account or unpublished Crypto lesson routes", () => {

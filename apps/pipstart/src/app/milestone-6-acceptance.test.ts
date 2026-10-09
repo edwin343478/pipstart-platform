@@ -1,5 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
+import { renderToStaticMarkup } from "react-dom/server";
+import { createElement } from "react";
+import BrokersPage from "./brokers/page";
 
 import { describe, expect, it } from "vitest";
 
@@ -35,13 +38,13 @@ describe("Milestone 6 release acceptance", () => {
   });
 
   it("discloses and safely marks every broker affiliate link", () => {
-    const brokers = read("brokers/page.tsx");
+    const brokers = renderToStaticMarkup(createElement(BrokersPage));
     const disclosure = read("../components/affiliate-disclosure.tsx");
-    const affiliateLinks = brokers.match(/href=\{derivAffiliateUrl\}/g) ?? [];
+    const affiliateLinks = brokers.match(/href="\/go\/[a-z0-9-]+"/g) ?? [];
     const sponsoredLinks =
       brokers.match(/rel="sponsored noopener noreferrer"/g) ?? [];
 
-    expect(brokers).toContain("<AffiliateDisclosure");
+    expect(brokers).toContain('aria-label="Affiliate disclosure"');
     expect(disclosure).toContain("Affiliate disclosure:");
     expect(affiliateLinks.length).toBeGreaterThan(0);
     expect(sponsoredLinks).toHaveLength(affiliateLinks.length);
