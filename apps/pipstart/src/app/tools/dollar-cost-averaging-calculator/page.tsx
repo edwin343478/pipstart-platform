@@ -2,6 +2,11 @@
 
 import { FormEvent, useState } from "react";
 
+import {
+  formatCalculatorNumber,
+  parseCalculatorNumber,
+} from "../../../lib/calculator-format";
+
 import { CalculatorHeader } from "../../../components/calculator-header";
 import { Alert, Button } from "@repo/ui";
 
@@ -19,6 +24,7 @@ import {
 } from "../calculator-validation";
 import CalculatorError from "../components/calculator-error";
 import RelatedLesson from "../components/related-lesson";
+import CalculatorLearning from "../components/calculator-learning";
 import styles from "../position-size-calculator/page.module.css";
 
 const frequencies = [
@@ -42,6 +48,7 @@ const defaults = initialDates();
 
 export default function DollarCostAveragingCalculatorPage() {
   const [accountCurrency, setAccountCurrency] = useState("USD");
+  const [currencyNeedsInputs, setCurrencyNeedsInputs] = useState(false);
   const [assetSymbol, setAssetSymbol] = useState("BTC");
   const [investmentPerPurchase, setInvestmentPerPurchase] = useState("100");
   const [purchaseFrequency, setPurchaseFrequency] =
@@ -67,9 +74,9 @@ export default function DollarCostAveragingCalculatorPage() {
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const values = [
-      Number(investmentPerPurchase),
-      Number(startingPrice),
-      Number(endingPrice),
+      parseCalculatorNumber(investmentPerPurchase),
+      parseCalculatorNumber(startingPrice),
+      parseCalculatorNumber(endingPrice),
     ];
 
     const validationError = validateNumericFields([
@@ -132,6 +139,7 @@ export default function DollarCostAveragingCalculatorPage() {
 
     setError(null);
     setResult(nextResult);
+    setCurrencyNeedsInputs(false);
   }
 
   return (
@@ -156,7 +164,18 @@ export default function DollarCostAveragingCalculatorPage() {
               <span>Account currency</span>
               <select
                 value={accountCurrency}
-                onChange={(event) => setAccountCurrency(event.target.value)}
+                onChange={(event) => {
+                  if (event.target.value === accountCurrency) return;
+                  setAccountCurrency(event.target.value);
+                  setInvestmentPerPurchase("");
+                  setStartingPrice("");
+                  setEndingPrice("");
+                  setCurrencyNeedsInputs(true);
+                  setError({
+                    field: "investment",
+                    message: `Currency changed to ${event.target.value}. Enter fresh monetary amounts in ${event.target.value}, then calculate again. Amounts are not converted automatically.`,
+                  });
+                }}
               >
                 {cryptoAccountCurrencies.map((currency) => (
                   <option key={currency}>{currency}</option>
@@ -261,9 +280,16 @@ export default function DollarCostAveragingCalculatorPage() {
         </form>
 
         <section className={styles.result} aria-live="polite">
+          {currencyNeedsInputs && (
+            <div>
+              Previous result. Currency changed — enter fresh amounts and
+              calculate again.
+            </div>
+          )}
           <h2>Illustrated ending value</h2>
           <p>
-            {result.accountCurrency} {result.endingValue.toFixed(2)}
+            {result.accountCurrency}{" "}
+            {formatCalculatorNumber(result.endingValue, 2)}
           </p>
           <div>
             {result.purchaseCount} purchases generated from actual calendar
@@ -277,22 +303,22 @@ export default function DollarCostAveragingCalculatorPage() {
             <div>
               <dt>Total invested</dt>
               <dd>
-                {result.accountCurrency} {result.totalContributed.toFixed(2)}
+                {result.accountCurrency}{" "}
+                {formatCalculatorNumber(result.totalContributed, 2)}
               </dd>
             </div>
             <div>
               <dt>Units accumulated</dt>
               <dd>
-                {result.units.toLocaleString("en-US", {
-                  maximumFractionDigits: 8,
-                })}{" "}
+                {formatCalculatorNumber(result.units, 0, 8, true)}{" "}
                 {result.assetSymbol}
               </dd>
             </div>
             <div>
               <dt>Average cost</dt>
               <dd>
-                {result.accountCurrency} {result.averageCost.toFixed(2)}
+                {result.accountCurrency}{" "}
+                {formatCalculatorNumber(result.averageCost, 2)}
               </dd>
             </div>
           </dl>
@@ -328,6 +354,11 @@ export default function DollarCostAveragingCalculatorPage() {
           Each contribution is divided by an evenly changing illustrative price;
           fees, spreads and slippage are excluded.
         </aside>
+
+        <CalculatorLearning
+          route="dollar-cost-averaging-calculator"
+          className={styles.assumption}
+        />
 
         <RelatedLesson
           description="Review cryptocurrency basics before exploring recurring purchase illustrations."

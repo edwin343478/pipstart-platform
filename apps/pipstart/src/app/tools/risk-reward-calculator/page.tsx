@@ -2,6 +2,11 @@
 
 import { FormEvent, useState } from "react";
 
+import {
+  formatCalculatorNumber,
+  parseCalculatorNumber,
+} from "../../../lib/calculator-format";
+
 import { CalculatorHeader } from "../../../components/calculator-header";
 import { Alert, Button } from "@repo/ui";
 
@@ -18,6 +23,7 @@ import {
 } from "../calculator-validation";
 import CalculatorError from "../components/calculator-error";
 import RelatedLesson from "../components/related-lesson";
+import CalculatorLearning from "../components/calculator-learning";
 import styles from "./page.module.css";
 
 export default function RiskRewardCalculatorPage() {
@@ -33,24 +39,19 @@ export default function RiskRewardCalculatorPage() {
   function changeDirection(nextDirection: TradeDirection) {
     setDirection(nextDirection);
     setError(null);
-
-    if (nextDirection === "short") {
-      setStopLossPrice("1.1050");
-      setTargetPrice("1.0900");
-      setResult(calculateRiskReward("short", 1.1, 1.105, 1.09));
-      return;
-    }
-
-    setStopLossPrice("1.0950");
-    setTargetPrice("1.1100");
-    setResult(calculateRiskReward("long", 1.1, 1.095, 1.11));
   }
+
+  const resultMatchesInputs =
+    direction === result.direction &&
+    parseCalculatorNumber(entryPrice) === result.entryPrice &&
+    parseCalculatorNumber(stopLossPrice) === result.stopLossPrice &&
+    parseCalculatorNumber(targetPrice) === result.targetPrice;
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const entry = Number(entryPrice);
-    const stop = Number(stopLossPrice);
-    const target = Number(targetPrice);
+    const entry = parseCalculatorNumber(entryPrice);
+    const stop = parseCalculatorNumber(stopLossPrice);
+    const target = parseCalculatorNumber(targetPrice);
 
     const validationError = validateNumericFields([
       { field: "entry", label: "entry price", minimum: 0.000001, value: entry },
@@ -171,22 +172,26 @@ export default function RiskRewardCalculatorPage() {
 
         <section className={styles.result} aria-live="polite">
           <h2>Risk-to-reward ratio</h2>
-          <p>1 : {result.ratio.toFixed(2)}</p>
+          <p>1 : {formatCalculatorNumber(result.ratio, 2)}</p>
           <div>
-            Potential reward is {result.ratio.toFixed(2)} times the planned risk
+            {!resultMatchesInputs
+              ? "Previous result. Calculate again after changing inputs. "
+              : ""}
+            Potential reward is {formatCalculatorNumber(result.ratio, 2)} times
+            the planned risk
           </div>
           <dl className={styles.breakdown}>
             <div>
               <dt>Risk distance</dt>
-              <dd>{result.riskDistance.toFixed(4)}</dd>
+              <dd>{formatCalculatorNumber(result.riskDistance, 4, 8)}</dd>
             </div>
             <div>
               <dt>Reward distance</dt>
-              <dd>{result.rewardDistance.toFixed(4)}</dd>
+              <dd>{formatCalculatorNumber(result.rewardDistance, 4, 8)}</dd>
             </div>
             <div>
               <dt>Break-even win rate</dt>
-              <dd>{result.breakEvenWinRate.toFixed(2)}%</dd>
+              <dd>{formatCalculatorNumber(result.breakEvenWinRate, 2)}%</dd>
             </div>
             <div>
               <dt>Direction</dt>
@@ -199,6 +204,11 @@ export default function RiskRewardCalculatorPage() {
           The calculation compares price distance only. It does not include
           spread, fees, slippage, financing costs or position size.
         </aside>
+
+        <CalculatorLearning
+          route="risk-reward-calculator"
+          className={styles.assumption}
+        />
 
         <RelatedLesson
           description="Build the Forex foundation needed to understand entries, stops and targets."

@@ -2,6 +2,11 @@
 
 import { FormEvent, useState } from "react";
 
+import {
+  formatCalculatorNumber,
+  parseCalculatorNumber,
+} from "../../../lib/calculator-format";
+
 import { CalculatorHeader } from "../../../components/calculator-header";
 import { Alert, Button } from "@repo/ui";
 
@@ -25,10 +30,11 @@ import {
 } from "../calculator-validation";
 import CalculatorError from "../components/calculator-error";
 import RelatedLesson from "../components/related-lesson";
+import CalculatorLearning from "../components/calculator-learning";
 import styles from "../position-size-calculator/page.module.css";
 
 function signed(value: number, decimals: number): string {
-  return `${value >= 0 ? "+" : ""}${value.toFixed(decimals)}`;
+  return `${value >= 0 ? "+" : ""}${formatCalculatorNumber(value, decimals, decimals === 4 ? 8 : 4)}`;
 }
 
 export default function ProfitLossCalculatorPage() {
@@ -45,14 +51,22 @@ export default function ProfitLossCalculatorPage() {
   );
   const selectedInstrument =
     instruments.find((item) => item.label === instrument) ?? instruments[0];
+  const resultMatchesInputs =
+    accountCurrency === result.accountCurrency &&
+    instrument === result.instrument &&
+    direction === result.direction &&
+    parseCalculatorNumber(lots) === result.lots &&
+    parseCalculatorNumber(entryPrice) === result.entryPrice &&
+    parseCalculatorNumber(exitPrice) === result.exitPrice &&
+    parseCalculatorNumber(conversionRate) === result.conversionRate;
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const values = [
-      Number(lots),
-      Number(entryPrice),
-      Number(exitPrice),
-      Number(conversionRate),
+      parseCalculatorNumber(lots),
+      parseCalculatorNumber(entryPrice),
+      parseCalculatorNumber(exitPrice),
+      parseCalculatorNumber(conversionRate),
     ];
 
     const validationError = validateNumericFields([
@@ -83,13 +97,6 @@ export default function ProfitLossCalculatorPage() {
     ]);
     if (validationError) {
       setError(validationError);
-      return;
-    }
-    if (values[1] === values[2]) {
-      setError({
-        field: "exit",
-        message: "Entry price and exit price must be different.",
-      });
       return;
     }
 
@@ -219,14 +226,22 @@ export default function ProfitLossCalculatorPage() {
 
         <section className={styles.result} aria-live="polite">
           <h2>Estimated gross result</h2>
+          {!resultMatchesInputs ? (
+            <div>Previous result. Inputs have changed — calculate again.</div>
+          ) : null}
           <p>
-            {result.accountCurrency} {Math.abs(result.profitLoss).toFixed(2)}{" "}
-            {result.profitLoss >= 0 ? "profit" : "loss"}
+            {result.accountCurrency}{" "}
+            {formatCalculatorNumber(Math.abs(result.profitLoss), 2)}{" "}
+            {result.profitLoss === 0
+              ? "break-even"
+              : result.profitLoss > 0
+                ? "profit"
+                : "loss"}
           </p>
           <div>
             {result.direction === "long" ? "Long" : "Short"} {result.instrument}
             {" · "}
-            {result.lots.toFixed(2)} standard lot
+            {formatCalculatorNumber(result.lots, 2, 4)} standard lot
             {result.lots === 1 ? "" : "s"}
           </div>
           <dl className={styles.breakdown}>
@@ -254,6 +269,11 @@ export default function ProfitLossCalculatorPage() {
           quote-to-account conversion. Confirm contract specifications with your
           broker.
         </aside>
+
+        <CalculatorLearning
+          route="profit-loss-calculator"
+          className={styles.assumption}
+        />
 
         <RelatedLesson
           description="Review how Forex prices and pip movements connect to a trade result."

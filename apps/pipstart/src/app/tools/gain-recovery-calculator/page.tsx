@@ -2,6 +2,11 @@
 
 import { FormEvent, useState } from "react";
 
+import {
+  formatCalculatorNumber,
+  parseCalculatorNumber,
+} from "../../../lib/calculator-format";
+
 import { CalculatorHeader } from "../../../components/calculator-header";
 import { Alert, Button } from "@repo/ui";
 
@@ -18,10 +23,12 @@ import {
 } from "../calculator-validation";
 import CalculatorError from "../components/calculator-error";
 import RelatedLesson from "../components/related-lesson";
+import CalculatorLearning from "../components/calculator-learning";
 import styles from "../position-size-calculator/page.module.css";
 
 export default function GainRecoveryCalculatorPage() {
   const [accountCurrency, setAccountCurrency] = useState("USD");
+  const [currencyNeedsInputs, setCurrencyNeedsInputs] = useState(false);
   const [currentBalance, setCurrentBalance] = useState("8000");
   const [recoveryTarget, setRecoveryTarget] = useState("10000");
   const [gainPerPeriod, setGainPerPeriod] = useState("5");
@@ -33,9 +40,9 @@ export default function GainRecoveryCalculatorPage() {
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const values = [
-      Number(currentBalance),
-      Number(recoveryTarget),
-      Number(gainPerPeriod),
+      parseCalculatorNumber(currentBalance),
+      parseCalculatorNumber(recoveryTarget),
+      parseCalculatorNumber(gainPerPeriod),
     ];
 
     const validationError = validateNumericFields([
@@ -76,7 +83,10 @@ export default function GainRecoveryCalculatorPage() {
       calculateGainRecovery(values[0], values[1], values[2], accountCurrency),
     );
     setError(calculation.error);
-    if (calculation.result) setResult(calculation.result);
+    if (calculation.result) {
+      setResult(calculation.result);
+      setCurrencyNeedsInputs(false);
+    }
   }
 
   return (
@@ -101,7 +111,17 @@ export default function GainRecoveryCalculatorPage() {
               <span>Account currency</span>
               <select
                 value={accountCurrency}
-                onChange={(event) => setAccountCurrency(event.target.value)}
+                onChange={(event) => {
+                  if (event.target.value === accountCurrency) return;
+                  setAccountCurrency(event.target.value);
+                  setCurrentBalance("");
+                  setRecoveryTarget("");
+                  setCurrencyNeedsInputs(true);
+                  setError({
+                    field: "current",
+                    message: `Currency changed to ${event.target.value}. Enter fresh monetary amounts in ${event.target.value}, then calculate again. Amounts are not converted automatically.`,
+                  });
+                }}
               >
                 {accountCurrencies.map((currency) => (
                   <option key={currency}>{currency}</option>
@@ -154,34 +174,44 @@ export default function GainRecoveryCalculatorPage() {
         </form>
 
         <section className={styles.result} aria-live="polite">
+          {currencyNeedsInputs && (
+            <div>
+              Previous result. Currency changed — enter fresh amounts and
+              calculate again.
+            </div>
+          )}
           <h2>Estimated recovery time</h2>
           <p>
             {result.periods} period{result.periods === 1 ? "" : "s"}
           </p>
           <div>
-            At {result.gainPerPeriod.toFixed(2)}% compounded growth per period
+            At {formatCalculatorNumber(result.gainPerPeriod, 2)}% compounded
+            growth per period
           </div>
           <dl className={styles.breakdown}>
             <div>
               <dt>Current balance</dt>
               <dd>
-                {result.accountCurrency} {result.currentBalance.toFixed(2)}
+                {result.accountCurrency}{" "}
+                {formatCalculatorNumber(result.currentBalance, 2)}
               </dd>
             </div>
             <div>
               <dt>Recovery target</dt>
               <dd>
-                {result.accountCurrency} {result.recoveryTarget.toFixed(2)}
+                {result.accountCurrency}{" "}
+                {formatCalculatorNumber(result.recoveryTarget, 2)}
               </dd>
             </div>
             <div>
               <dt>Total gain needed</dt>
-              <dd>{result.totalGainNeeded.toFixed(2)}%</dd>
+              <dd>{formatCalculatorNumber(result.totalGainNeeded, 2)}%</dd>
             </div>
             <div>
               <dt>Projected balance</dt>
               <dd>
-                {result.accountCurrency} {result.projectedBalance.toFixed(2)}
+                {result.accountCurrency}{" "}
+                {formatCalculatorNumber(result.projectedBalance, 2)}
               </dd>
             </div>
           </dl>
@@ -191,6 +221,11 @@ export default function GainRecoveryCalculatorPage() {
           Periods required = log(target ÷ current balance) ÷ log(1 + gain per
           period). The result rounds up to the next complete period.
         </aside>
+
+        <CalculatorLearning
+          route="gain-recovery-calculator"
+          className={styles.assumption}
+        />
 
         <RelatedLesson
           description="Continue with the Forex learning path before exploring compounded recovery."

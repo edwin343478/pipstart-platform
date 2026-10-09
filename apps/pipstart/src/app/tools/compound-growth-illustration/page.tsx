@@ -2,6 +2,11 @@
 
 import { FormEvent, useState } from "react";
 
+import {
+  formatCalculatorNumber,
+  parseCalculatorNumber,
+} from "../../../lib/calculator-format";
+
 import { CalculatorHeader } from "../../../components/calculator-header";
 import { Alert, Button } from "@repo/ui";
 
@@ -19,10 +24,12 @@ import {
 } from "../calculator-validation";
 import CalculatorError from "../components/calculator-error";
 import RelatedLesson from "../components/related-lesson";
+import CalculatorLearning from "../components/calculator-learning";
 import styles from "../position-size-calculator/page.module.css";
 
 export default function CompoundGrowthIllustrationPage() {
   const [accountCurrency, setAccountCurrency] = useState("USD");
+  const [currencyNeedsInputs, setCurrencyNeedsInputs] = useState(false);
   const [startingAmount, setStartingAmount] = useState("1000");
   const [contributionPerPeriod, setContributionPerPeriod] = useState("100");
   const [periods, setPeriods] = useState("24");
@@ -37,10 +44,10 @@ export default function CompoundGrowthIllustrationPage() {
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const values = [
-      Number(startingAmount),
-      Number(contributionPerPeriod),
-      Number(periods),
-      Number(growthPerPeriod),
+      parseCalculatorNumber(startingAmount),
+      parseCalculatorNumber(contributionPerPeriod),
+      parseCalculatorNumber(periods),
+      parseCalculatorNumber(growthPerPeriod),
     ];
 
     const validationError = validateNumericFields([
@@ -102,7 +109,10 @@ export default function CompoundGrowthIllustrationPage() {
       ),
     );
     setError(calculation.error);
-    if (calculation.result) setResult(calculation.result);
+    if (calculation.result) {
+      setResult(calculation.result);
+      setCurrencyNeedsInputs(false);
+    }
   }
 
   return (
@@ -127,7 +137,17 @@ export default function CompoundGrowthIllustrationPage() {
               <span>Account currency</span>
               <select
                 value={accountCurrency}
-                onChange={(event) => setAccountCurrency(event.target.value)}
+                onChange={(event) => {
+                  if (event.target.value === accountCurrency) return;
+                  setAccountCurrency(event.target.value);
+                  setStartingAmount("");
+                  setContributionPerPeriod("");
+                  setCurrencyNeedsInputs(true);
+                  setError({
+                    field: "startingAmount",
+                    message: `Currency changed to ${event.target.value}. Enter fresh monetary amounts in ${event.target.value}, then calculate again. Amounts are not converted automatically.`,
+                  });
+                }}
               >
                 {accountCurrencies.map((currency) => (
                   <option key={currency}>{currency}</option>
@@ -207,37 +227,49 @@ export default function CompoundGrowthIllustrationPage() {
         </form>
 
         <section className={styles.result} aria-live="polite">
+          {currencyNeedsInputs && (
+            <div>
+              Previous result. Currency changed — enter fresh amounts and
+              calculate again.
+            </div>
+          )}
           <h2>Illustrated ending balance</h2>
           <p>
-            {result.accountCurrency} {result.endingBalance.toFixed(2)}
+            {result.accountCurrency}{" "}
+            {formatCalculatorNumber(result.endingBalance, 2)}
           </p>
           <div>
             After {result.periods} period{result.periods === 1 ? "" : "s"} at a
-            constant {result.growthPerPeriod.toFixed(2)}% per period
+            constant {formatCalculatorNumber(result.growthPerPeriod, 2)}% per
+            period
           </div>
           <dl className={styles.breakdown}>
             <div>
               <dt>Starting amount</dt>
               <dd>
-                {result.accountCurrency} {result.startingAmount.toFixed(2)}
+                {result.accountCurrency}{" "}
+                {formatCalculatorNumber(result.startingAmount, 2)}
               </dd>
             </div>
             <div>
               <dt>Added contributions</dt>
               <dd>
-                {result.accountCurrency} {result.addedContributions.toFixed(2)}
+                {result.accountCurrency}{" "}
+                {formatCalculatorNumber(result.addedContributions, 2)}
               </dd>
             </div>
             <div>
               <dt>Total contributed</dt>
               <dd>
-                {result.accountCurrency} {result.totalContributed.toFixed(2)}
+                {result.accountCurrency}{" "}
+                {formatCalculatorNumber(result.totalContributed, 2)}
               </dd>
             </div>
             <div>
               <dt>Illustrated growth</dt>
               <dd>
-                {result.accountCurrency} {result.illustratedGrowth.toFixed(2)}
+                {result.accountCurrency}{" "}
+                {formatCalculatorNumber(result.illustratedGrowth, 2)}
               </dd>
             </div>
           </dl>
@@ -247,6 +279,11 @@ export default function CompoundGrowthIllustrationPage() {
           Growth is applied once per period at the same selected rate.
           Contributions are added at the selected point in each period.
         </aside>
+
+        <CalculatorLearning
+          route="compound-growth-illustration"
+          className={styles.assumption}
+        />
 
         <RelatedLesson
           description="Build a foundation before interpreting hypothetical long-term growth."

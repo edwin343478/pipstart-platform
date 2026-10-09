@@ -2,6 +2,11 @@
 
 import { FormEvent, useState } from "react";
 
+import {
+  formatCalculatorNumber,
+  parseCalculatorNumber,
+} from "../../../lib/calculator-format";
+
 import { CalculatorHeader } from "../../../components/calculator-header";
 import { Alert, Button } from "@repo/ui";
 
@@ -24,6 +29,7 @@ import {
 } from "../calculator-validation";
 import CalculatorError from "../components/calculator-error";
 import RelatedLesson from "../components/related-lesson";
+import CalculatorLearning from "../components/calculator-learning";
 import styles from "../position-size-calculator/page.module.css";
 
 export default function MarginCalculatorPage() {
@@ -39,14 +45,21 @@ export default function MarginCalculatorPage() {
   );
   const selectedInstrument =
     instruments.find((item) => item.label === instrument) ?? instruments[0];
+  const resultMatchesInputs =
+    accountCurrency === result.accountCurrency &&
+    instrument === result.instrument &&
+    parseCalculatorNumber(lots) === result.lots &&
+    parseCalculatorNumber(marketPrice) === result.marketPrice &&
+    parseCalculatorNumber(leverage) === result.leverage &&
+    parseCalculatorNumber(conversionRate) === result.conversionRate;
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const values = [
-      Number(lots),
-      Number(marketPrice),
-      Number(leverage),
-      Number(conversionRate),
+      parseCalculatorNumber(lots),
+      parseCalculatorNumber(marketPrice),
+      parseCalculatorNumber(leverage),
+      parseCalculatorNumber(conversionRate),
     ];
 
     const validationError = validateNumericFields([
@@ -186,11 +199,15 @@ export default function MarginCalculatorPage() {
 
         <section className={styles.result} aria-live="polite">
           <h2>Estimated required margin</h2>
+          {!resultMatchesInputs ? (
+            <div>Previous result. Inputs have changed — calculate again.</div>
+          ) : null}
           <p>
-            {result.accountCurrency} {result.requiredMargin.toFixed(2)}
+            {result.accountCurrency}{" "}
+            {formatCalculatorNumber(result.requiredMargin, 2)}
           </p>
           <div>
-            For {result.lots.toFixed(2)} standard lot
+            For {formatCalculatorNumber(result.lots, 2, 4)} standard lot
             {result.lots === 1 ? "" : "s"} of {result.instrument} at 1:
             {result.leverage}
           </div>
@@ -202,12 +219,13 @@ export default function MarginCalculatorPage() {
             <div>
               <dt>Notional value</dt>
               <dd>
-                {result.accountCurrency} {result.notionalValue.toFixed(2)}
+                {result.accountCurrency}{" "}
+                {formatCalculatorNumber(result.notionalValue, 2)}
               </dd>
             </div>
             <div>
               <dt>Margin rate</dt>
-              <dd>{result.marginRate.toFixed(2)}%</dd>
+              <dd>{formatCalculatorNumber(result.marginRate, 2)}%</dd>
             </div>
             <div>
               <dt>Leverage</dt>
@@ -220,6 +238,11 @@ export default function MarginCalculatorPage() {
           Required margin = position size × market price × quote-to-account
           conversion rate ÷ leverage.
         </aside>
+
+        <CalculatorLearning
+          route="margin-calculator"
+          className={styles.assumption}
+        />
 
         <RelatedLesson
           description="Start with the Forex foundations before using leverage and margin."

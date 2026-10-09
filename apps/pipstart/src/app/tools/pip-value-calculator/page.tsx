@@ -2,6 +2,11 @@
 
 import { FormEvent, useState } from "react";
 
+import {
+  formatCalculatorNumber,
+  parseCalculatorNumber,
+} from "../../../lib/calculator-format";
+
 import { CalculatorHeader } from "../../../components/calculator-header";
 import { Alert, Button } from "@repo/ui";
 
@@ -24,6 +29,7 @@ import {
 } from "../calculator-validation";
 import CalculatorError from "../components/calculator-error";
 import RelatedLesson from "../components/related-lesson";
+import CalculatorLearning from "../components/calculator-learning";
 import styles from "../position-size-calculator/page.module.css";
 
 export default function PipValueCalculatorPage() {
@@ -37,10 +43,18 @@ export default function PipValueCalculatorPage() {
   );
   const selectedInstrument =
     instruments.find((item) => item.label === instrument) ?? instruments[0];
+  const resultMatchesInputs =
+    accountCurrency === result.accountCurrency &&
+    instrument === result.instrument &&
+    parseCalculatorNumber(lots) === result.lots &&
+    parseCalculatorNumber(conversionRate) === result.conversionRate;
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const values = [Number(lots), Number(conversionRate)];
+    const values = [
+      parseCalculatorNumber(lots),
+      parseCalculatorNumber(conversionRate),
+    ];
 
     const validationError = validateNumericFields([
       {
@@ -140,11 +154,15 @@ export default function PipValueCalculatorPage() {
 
         <section className={styles.result} aria-live="polite">
           <h2>Value per pip</h2>
+          {!resultMatchesInputs ? (
+            <div>Previous result. Inputs have changed — calculate again.</div>
+          ) : null}
           <p>
-            {result.accountCurrency} {result.valuePerPip.toFixed(2)}
+            {result.accountCurrency}{" "}
+            {formatCalculatorNumber(result.valuePerPip, 2)}
           </p>
           <div>
-            For {result.lots.toFixed(2)} standard lot
+            For {formatCalculatorNumber(result.lots, 2, 4)} standard lot
             {result.lots === 1 ? "" : "s"} of {result.instrument}
           </div>
           <dl className={styles.breakdown}>
@@ -159,7 +177,8 @@ export default function PipValueCalculatorPage() {
             <div>
               <dt>Value per 10 pips</dt>
               <dd>
-                {result.accountCurrency} {(result.valuePerPip * 10).toFixed(2)}
+                {result.accountCurrency}{" "}
+                {formatCalculatorNumber(result.valuePerPip * 10, 2)}
               </dd>
             </div>
             <div>
@@ -174,6 +193,11 @@ export default function PipValueCalculatorPage() {
           size. Metal specifications can vary, so confirm contract details with
           your broker.
         </aside>
+
+        <CalculatorLearning
+          route="pip-value-calculator"
+          className={styles.assumption}
+        />
 
         <RelatedLesson
           description="Review the Forex foundations behind currency pairs and pip movements."

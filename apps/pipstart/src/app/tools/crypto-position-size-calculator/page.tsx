@@ -2,6 +2,11 @@
 
 import { FormEvent, useState } from "react";
 
+import {
+  formatCalculatorNumber,
+  parseCalculatorNumber,
+} from "../../../lib/calculator-format";
+
 import { CalculatorHeader } from "../../../components/calculator-header";
 import { Alert, Button } from "@repo/ui";
 
@@ -20,10 +25,12 @@ import {
 } from "../calculator-validation";
 import CalculatorError from "../components/calculator-error";
 import RelatedLesson from "../components/related-lesson";
+import CalculatorLearning from "../components/calculator-learning";
 import styles from "./page.module.css";
 
 export default function CryptoPositionSizeCalculatorPage() {
   const [accountCurrency, setAccountCurrency] = useState("USD");
+  const [currencyNeedsInputs, setCurrencyNeedsInputs] = useState(false);
   const [tradingMode, setTradingMode] = useState<CryptoTradingMode>("spot");
   const [direction, setDirection] = useState<TradeDirection>("long");
   const [balance, setBalance] = useState("1000");
@@ -52,12 +59,12 @@ export default function CryptoPositionSizeCalculatorPage() {
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const values = [
-      Number(balance),
-      Number(riskPercent),
-      Number(entryPrice),
-      Number(stopLossPrice),
-      Number(minimumOrderQuantity),
-      Number(quantityStep),
+      parseCalculatorNumber(balance),
+      parseCalculatorNumber(riskPercent),
+      parseCalculatorNumber(entryPrice),
+      parseCalculatorNumber(stopLossPrice),
+      parseCalculatorNumber(minimumOrderQuantity),
+      parseCalculatorNumber(quantityStep),
     ];
 
     const validationError = validateNumericFields([
@@ -152,14 +159,15 @@ export default function CryptoPositionSizeCalculatorPage() {
     const nextResult = calculation.result;
     if (!nextResult.meetsMinimumOrder) {
       setError({
-        field: "minimum",
-        message: `The calculated quantity is below the ${minimumOrderQuantity} ${asset} minimum order.`,
+        field: "balance",
+        message: `The calculated quantity is below the ${minimumOrderQuantity} ${asset} minimum order. With these prices, risk percentage, quantity step and trading mode, the calculated minimum account balance is ${accountCurrency} ${formatCalculatorNumber(nextResult.minimumRequiredBalance, 2)}. This is a calculation threshold, not a recommendation to add funds or increase risk.`,
       });
       return;
     }
 
     setError(null);
     setResult(nextResult);
+    setCurrencyNeedsInputs(false);
   }
 
   return (
@@ -183,9 +191,19 @@ export default function CryptoPositionSizeCalculatorPage() {
             <label>
               <span>Account currency</span>
               <select
-                {...inputErrorProps(error, "direction")}
                 value={accountCurrency}
-                onChange={(event) => setAccountCurrency(event.target.value)}
+                onChange={(event) => {
+                  if (event.target.value === accountCurrency) return;
+                  setAccountCurrency(event.target.value);
+                  setBalance("");
+                  setEntryPrice("");
+                  setStopLossPrice("");
+                  setCurrencyNeedsInputs(true);
+                  setError({
+                    field: "balance",
+                    message: `Currency changed to ${event.target.value}. Enter fresh monetary amounts in ${event.target.value}, then calculate again. Amounts are not converted automatically.`,
+                  });
+                }}
               >
                 {cryptoAccountCurrencies.map((currency) => (
                   <option key={currency}>{currency}</option>
@@ -209,6 +227,7 @@ export default function CryptoPositionSizeCalculatorPage() {
             <label>
               <span>Trade direction</span>
               <select
+                {...inputErrorProps(error, "direction")}
                 value={direction}
                 disabled={tradingMode === "spot"}
                 onChange={(event) =>
@@ -326,28 +345,39 @@ export default function CryptoPositionSizeCalculatorPage() {
         </form>
 
         <section className={styles.result} aria-live="polite">
+          {currencyNeedsInputs && (
+            <div>
+              Previous result. Currency changed — enter fresh amounts and
+              calculate again.
+            </div>
+          )}
           <h2>Maximum position size</h2>
           <p>
-            {result.positionQuantity.toFixed(6)} {result.asset}
+            {formatCalculatorNumber(result.positionQuantity, 6, 8)}{" "}
+            {result.asset}
           </p>
           <div>
-            {result.cappedByBalance
-              ? "Position capped by the available cash balance."
-              : "Risk-sized position is within the available cash balance."}
+            {result.tradingMode === "leveraged"
+              ? "Risk-sized only; check venue margin and liquidation rules."
+              : result.cappedByBalance
+                ? "Position capped by the available cash balance."
+                : "Risk-sized position is within the available cash balance."}
+            {" Risk limit: "}
+            {result.accountCurrency}{" "}
+            {formatCalculatorNumber(result.riskAmount, 2)}.
           </div>
           <dl className={styles.breakdown}>
             <div>
-              <dt>Amount at risk</dt>
+              <dt>Modeled stop-loss risk</dt>
               <dd>
-                {result.accountCurrency} {result.riskAmount.toFixed(2)}
+                {result.accountCurrency}{" "}
+                {formatCalculatorNumber(result.modeledRiskAmount, 2)}
               </dd>
             </div>
             <div>
               <dt>Risk-sized quantity</dt>
               <dd>
-                {result.riskSizedQuantity.toLocaleString("en-US", {
-                  maximumFractionDigits: 8,
-                })}{" "}
+                {formatCalculatorNumber(result.riskSizedQuantity, 0, 8, true)}{" "}
                 {result.asset}
               </dd>
             </div>
@@ -356,15 +386,14 @@ export default function CryptoPositionSizeCalculatorPage() {
               <dd>
                 {result.affordableMaximum === null
                   ? "Venue dependent"
-                  : `${result.affordableMaximum.toLocaleString("en-US", {
-                      maximumFractionDigits: 8,
-                    })} ${result.asset}`}
+                  : `${formatCalculatorNumber(result.affordableMaximum, 0, 8, true)} ${result.asset}`}
               </dd>
             </div>
             <div>
               <dt>Position value</dt>
               <dd>
-                {result.accountCurrency} {result.positionValue.toFixed(2)}
+                {result.accountCurrency}{" "}
+                {formatCalculatorNumber(result.positionValue, 2)}
               </dd>
             </div>
           </dl>
@@ -376,6 +405,11 @@ export default function CryptoPositionSizeCalculatorPage() {
           exchange&apos;s quantity step. Leveraged results are risk-sized only;
           venue margin and liquidation rules are not modelled.
         </aside>
+
+        <CalculatorLearning
+          route="crypto-position-size-calculator"
+          className={styles.assumption}
+        />
 
         <RelatedLesson
           description="Learn the cryptocurrency foundations behind assets, prices and market risk."

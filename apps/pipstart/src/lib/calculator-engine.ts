@@ -1,4 +1,10 @@
 import { instruments } from "../app/tools/position-size-calculator/instruments";
+import {
+  ceilCalculatorRatioToStep,
+  compareCalculatorGrowth,
+  floorCalculatorRatioToStep,
+  subtractCalculatorNumbers,
+} from "./calculator-precision";
 
 export type TradeDirection = "long" | "short";
 export type DrawdownUnit = "amount" | "percent";
@@ -36,13 +42,20 @@ export function calculateRiskReward(
   stopLossPrice: number,
   targetPrice: number,
 ) {
-  const riskDistance = Math.abs(entryPrice - stopLossPrice);
-  const rewardDistance = Math.abs(targetPrice - entryPrice);
+  const riskDistance = Math.abs(
+    subtractCalculatorNumbers(entryPrice, stopLossPrice),
+  );
+  const rewardDistance = Math.abs(
+    subtractCalculatorNumbers(targetPrice, entryPrice),
+  );
   const ratio = rewardDistance / riskDistance;
 
   return assertFiniteCalculatorResult({
     breakEvenWinRate: 100 / (1 + ratio),
     direction,
+    entryPrice,
+    stopLossPrice,
+    targetPrice,
     ratio,
     rewardDistance,
     riskDistance,
@@ -62,21 +75,46 @@ export function calculatePositionSize(
   const riskPerLot =
     stopLoss * instrument.pipSize * instrument.contractSize * conversionRate;
   const unroundedLots = riskLimit / riskPerLot;
-  const lots =
-    Math.floor((unroundedLots + Number.EPSILON) / instrument.volumeStep) *
-    instrument.volumeStep;
+  const lots = floorCalculatorRatioToStep(
+    [balance, riskPercent],
+    [
+      100,
+      stopLoss,
+      instrument.pipSize,
+      instrument.contractSize,
+      conversionRate,
+    ],
+    instrument.volumeStep,
+  );
   const positionSize = lots * instrument.contractSize;
   const riskAmount = lots * riskPerLot;
 
   return assertFiniteCalculatorResult({
     accountCurrency,
     balance,
+    conversionRate,
+    instrument: instrument.label,
     lots,
     meetsMinimumVolume: lots >= instrument.minimumVolume,
     minimumVolume: instrument.minimumVolume,
+    minimumRiskAmount: instrument.minimumVolume * riskPerLot,
+    minimumRequiredBalance: ceilCalculatorRatioToStep(
+      [
+        100,
+        stopLoss,
+        instrument.pipSize,
+        instrument.contractSize,
+        conversionRate,
+        instrument.minimumVolume,
+      ],
+      [riskPercent],
+      0.01,
+    ),
     positionSize,
     riskAmount,
     riskLimit,
+    riskPercent,
+    stopLoss,
     unroundedLots,
     volumeStep: instrument.volumeStep,
   });
@@ -92,6 +130,7 @@ export function calculatePipValue(
 
   return assertFiniteCalculatorResult({
     accountCurrency,
+    conversionRate,
     instrument: instrument.label,
     lots,
     pipSize: instrument.pipSize,
@@ -111,13 +150,16 @@ export function calculateProfitLoss(
   accountCurrency: string,
 ) {
   const instrument = getInstrument(instrumentLabel);
-  const rawMovement = exitPrice - entryPrice;
+  const rawMovement = subtractCalculatorNumbers(exitPrice, entryPrice);
   const priceMovement = direction === "long" ? rawMovement : -rawMovement;
   const positionSize = lots * instrument.contractSize;
 
   return assertFiniteCalculatorResult({
     accountCurrency,
+    conversionRate,
     direction,
+    entryPrice,
+    exitPrice,
     instrument: instrument.label,
     lots,
     pipMovement: priceMovement / instrument.pipSize,
@@ -141,9 +183,11 @@ export function calculateMargin(
 
   return assertFiniteCalculatorResult({
     accountCurrency,
+    conversionRate,
     instrument: instrument.label,
     leverage,
     lots,
+    marketPrice,
     marginRate: 100 / leverage,
     notionalValue,
     positionSize,
@@ -178,16 +222,43 @@ export function calculateGainRecovery(
   accountCurrency: string,
 ) {
   const rate = gainPerPeriod / 100;
-  const periods = Math.ceil(
-    Math.log(recoveryTarget / currentBalance) / Math.log(1 + rate),
-  );
+  const ratio = recoveryTarget / currentBalance;
+  const logarithm = Number.isFinite(ratio)
+    ? Math.log(ratio)
+    : Math.log(recoveryTarget) - Math.log(currentBalance);
+  let periods = Math.max(0, Math.ceil(logarithm / Math.log1p(rate)));
+  // Verify the logarithmic estimate against decimal growth bounds.
+  while (
+    periods > 0 &&
+    compareCalculatorGrowth(
+      currentBalance,
+      recoveryTarget,
+      gainPerPeriod,
+      periods - 1,
+    ) >= 0
+  ) {
+    periods -= 1;
+  }
+  while (
+    compareCalculatorGrowth(
+      currentBalance,
+      recoveryTarget,
+      gainPerPeriod,
+      periods,
+    ) < 0
+  ) {
+    periods += 1;
+  }
 
   return assertFiniteCalculatorResult({
     accountCurrency,
     currentBalance,
     gainPerPeriod,
     periods,
-    projectedBalance: currentBalance * (1 + rate) ** periods,
+    projectedBalance: Math.max(
+      recoveryTarget,
+      currentBalance * (1 + rate) ** periods,
+    ),
     recoveryTarget,
     totalGainNeeded: (recoveryTarget / currentBalance - 1) * 100,
   });
@@ -206,17 +277,41 @@ export function calculateCryptoPositionSize(
   quantityStep: number,
 ) {
   const riskAmount = balance * (riskPercent / 100);
-  const riskPerCoin = Math.abs(entryPrice - stopLossPrice);
+  const riskPerCoin = Math.abs(
+    subtractCalculatorNumbers(entryPrice, stopLossPrice),
+  );
   const riskSizedQuantity = riskAmount / riskPerCoin;
+  const minimumExecutableQuantity = ceilCalculatorRatioToStep(
+    [minimumOrderQuantity],
+    [1],
+    quantityStep,
+  );
+  const minimumRiskBalance = ceilCalculatorRatioToStep(
+    [100, minimumExecutableQuantity, riskPerCoin],
+    [riskPercent],
+    0.01,
+  );
+  const minimumRequiredBalance =
+    tradingMode === "spot"
+      ? Math.max(
+          minimumRiskBalance,
+          ceilCalculatorRatioToStep(
+            [minimumExecutableQuantity, entryPrice],
+            [1],
+            0.01,
+          ),
+        )
+      : minimumRiskBalance;
   const affordableMaximum =
     tradingMode === "spot" ? balance / entryPrice : null;
-  const unroundedQuantity =
-    affordableMaximum === null
-      ? riskSizedQuantity
-      : Math.min(riskSizedQuantity, affordableMaximum);
-  const positionQuantity =
-    Math.floor((unroundedQuantity + Number.EPSILON) / quantityStep) *
-    quantityStep;
+  const positionQuantity = floorCalculatorRatioToStep(
+    [balance, riskPercent],
+    [100, riskPerCoin],
+    quantityStep,
+    tradingMode === "spot"
+      ? { numeratorFactors: [balance], denominatorFactors: [entryPrice] }
+      : undefined,
+  );
 
   return assertFiniteCalculatorResult({
     accountCurrency,
@@ -228,6 +323,9 @@ export function calculateCryptoPositionSize(
     direction,
     meetsMinimumOrder: positionQuantity >= minimumOrderQuantity,
     minimumOrderQuantity,
+    minimumExecutableQuantity,
+    minimumRequiredBalance,
+    modeledRiskAmount: positionQuantity * riskPerCoin,
     positionQuantity,
     positionValue: positionQuantity * entryPrice,
     quantityStep,

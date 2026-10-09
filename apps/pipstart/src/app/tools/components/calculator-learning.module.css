@@ -1,0 +1,56 @@
+/* Only new teaching cards; existing calculator styles remain unchanged. */
+.learning h2 {
+  margin: 0 0 0.55rem;
+  color: #0b1220;
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.learning h3 {
+  margin: 1rem 0 0.45rem;
+  color: #0b1220;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.learning p,
+.learning ul,
+.learning ol,
+.learning dl {
+  margin: 0.45rem 0 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+
+.learning ul,
+.learning ol {
+  padding-left: 1.4rem;
+}
+
+.learning ul {
+  list-style: disc;
+}
+
+.learning ol {
+  list-style: decimal;
+}
+
+.learning li {
+  margin-bottom: 0.45rem;
+}
+
+.learning dt,
+.learning strong {
+  color: #0b1220;
+  font-weight: 600;
+}
+
+.learning dd {
+  margin: 0.2rem 0 0.8rem;
+}
+
+.learning p:last-child {
+  margin-bottom: 0;
+}

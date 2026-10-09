@@ -2,6 +2,11 @@
 
 import { FormEvent, useState } from "react";
 
+import {
+  formatCalculatorNumber,
+  parseCalculatorNumber,
+} from "../../../lib/calculator-format";
+
 import { CalculatorHeader } from "../../../components/calculator-header";
 import { Alert, Button } from "@repo/ui";
 
@@ -19,10 +24,12 @@ import {
 } from "../calculator-validation";
 import CalculatorError from "../components/calculator-error";
 import RelatedLesson from "../components/related-lesson";
+import CalculatorLearning from "../components/calculator-learning";
 import styles from "../position-size-calculator/page.module.css";
 
 export default function DrawdownCalculatorPage() {
   const [accountCurrency, setAccountCurrency] = useState("USD");
+  const [currencyNeedsInputs, setCurrencyNeedsInputs] = useState(false);
   const [startingBalance, setStartingBalance] = useState("10000");
   const [drawdown, setDrawdown] = useState("20");
   const [drawdownUnit, setDrawdownUnit] = useState<DrawdownUnit>("percent");
@@ -38,8 +45,8 @@ export default function DrawdownCalculatorPage() {
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const balanceValue = Number(startingBalance);
-    const drawdownValue = Number(drawdown);
+    const balanceValue = parseCalculatorNumber(startingBalance);
+    const drawdownValue = parseCalculatorNumber(drawdown);
 
     const validationError = validateNumericFields([
       {
@@ -51,7 +58,7 @@ export default function DrawdownCalculatorPage() {
       {
         field: "drawdown",
         label: "drawdown",
-        minimum: 0.01,
+        minimum: 0,
         value: drawdownValue,
       },
     ]);
@@ -68,7 +75,10 @@ export default function DrawdownCalculatorPage() {
     if (amountLost >= balanceValue) {
       setError({
         field: "drawdown",
-        message: "The drawdown must be smaller than the starting balance.",
+        message:
+          amountLost === balanceValue
+            ? "A total loss leaves no balance to grow. Percentage recovery is not defined."
+            : "The drawdown cannot exceed the starting balance.",
       });
       return;
     }
@@ -82,7 +92,10 @@ export default function DrawdownCalculatorPage() {
       ),
     );
     setError(calculation.error);
-    if (calculation.result) setResult(calculation.result);
+    if (calculation.result) {
+      setResult(calculation.result);
+      setCurrencyNeedsInputs(false);
+    }
   }
 
   return (
@@ -104,7 +117,17 @@ export default function DrawdownCalculatorPage() {
               <span>Account currency</span>
               <select
                 value={accountCurrency}
-                onChange={(event) => setAccountCurrency(event.target.value)}
+                onChange={(event) => {
+                  if (event.target.value === accountCurrency) return;
+                  setAccountCurrency(event.target.value);
+                  setStartingBalance("");
+                  if (drawdownUnit === "amount") setDrawdown("");
+                  setCurrencyNeedsInputs(true);
+                  setError({
+                    field: "balance",
+                    message: `Currency changed to ${event.target.value}. Enter fresh monetary amounts in ${event.target.value}, then calculate again. Amounts are not converted automatically.`,
+                  });
+                }}
               >
                 {accountCurrencies.map((currency) => (
                   <option key={currency}>{currency}</option>
@@ -128,7 +151,7 @@ export default function DrawdownCalculatorPage() {
               <input
                 {...inputErrorProps(error, "drawdown")}
                 type="number"
-                min="0.01"
+                min="0"
                 max={drawdownUnit === "percent" ? "99.99" : undefined}
                 step="0.01"
                 inputMode="decimal"
@@ -155,32 +178,45 @@ export default function DrawdownCalculatorPage() {
         </form>
 
         <section className={styles.result} aria-live="polite">
+          {currencyNeedsInputs && (
+            <div>
+              Previous result. Currency changed — enter fresh amounts and
+              calculate again.
+            </div>
+          )}
           <h2>Gain required to recover</h2>
-          <p>{result.recoveryPercent.toFixed(2)}%</p>
-          <div>After a {result.drawdownPercent.toFixed(2)}% drawdown</div>
+          <p>{formatCalculatorNumber(result.recoveryPercent, 2)}%</p>
+          <div>
+            After a {formatCalculatorNumber(result.drawdownPercent, 2)}%
+            drawdown
+          </div>
           <dl className={styles.breakdown}>
             <div>
               <dt>Starting balance</dt>
               <dd>
-                {result.accountCurrency} {result.startingBalance.toFixed(2)}
+                {result.accountCurrency}{" "}
+                {formatCalculatorNumber(result.startingBalance, 2)}
               </dd>
             </div>
             <div>
               <dt>Amount lost</dt>
               <dd>
-                {result.accountCurrency} {result.amountLost.toFixed(2)}
+                {result.accountCurrency}{" "}
+                {formatCalculatorNumber(result.amountLost, 2)}
               </dd>
             </div>
             <div>
               <dt>Balance remaining</dt>
               <dd>
-                {result.accountCurrency} {result.remainingBalance.toFixed(2)}
+                {result.accountCurrency}{" "}
+                {formatCalculatorNumber(result.remainingBalance, 2)}
               </dd>
             </div>
             <div>
               <dt>Amount to recover</dt>
               <dd>
-                {result.accountCurrency} {result.amountLost.toFixed(2)}
+                {result.accountCurrency}{" "}
+                {formatCalculatorNumber(result.amountLost, 2)}
               </dd>
             </div>
           </dl>
@@ -190,6 +226,11 @@ export default function DrawdownCalculatorPage() {
           Recovery gain = amount lost ÷ remaining balance × 100. A percentage
           loss always requires a larger percentage gain to recover.
         </aside>
+
+        <CalculatorLearning
+          route="drawdown-calculator"
+          className={styles.assumption}
+        />
 
         <RelatedLesson
           description="Continue with the Forex learning path before applying recovery calculations."

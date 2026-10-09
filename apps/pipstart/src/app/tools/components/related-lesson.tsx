@@ -1,3 +1,4 @@
+import { useId } from "react";
 import Link from "next/link";
 
 import styles from "./related-lesson.module.css";
@@ -13,11 +14,12 @@ export default function RelatedLesson({
   href,
   title,
 }: RelatedLessonProps) {
+  const headingId = useId();
   return (
-    <aside className={styles.related} aria-labelledby="related-lesson-title">
+    <aside className={styles.related} aria-labelledby={headingId}>
       <div>
         <span>Related lesson</span>
-        <h2 id="related-lesson-title">{title}</h2>
+        <h2 id={headingId}>{title}</h2>
         <p>{description}</p>
       </div>
       <Link href={href}>Open lesson →</Link>
