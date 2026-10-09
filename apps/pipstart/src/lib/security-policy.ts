@@ -1,6 +1,7 @@
 export function createContentSecurityPolicy(
   development: boolean,
   siteUrl?: string,
+  economicCalendar = false,
 ): string {
   let upgrade = false;
   try {
@@ -13,11 +14,13 @@ export function createContentSecurityPolicy(
     "base-uri 'self'",
     "form-action 'self'",
     "frame-ancestors 'none'",
-    "frame-src 'none'",
+    economicCalendar
+      ? "frame-src https://www.tradingview-widget.com"
+      : "frame-src 'none'",
     "object-src 'none'",
     // Inline hydration/JSON-LD preserve the approved static Next.js delivery.
     // Nonce-based inline-script protection would require a separate rendering change.
-    `script-src 'self' 'unsafe-inline'${development ? " 'unsafe-eval'" : ""}`,
+    `script-src 'self' 'unsafe-inline'${development ? " 'unsafe-eval'" : ""}${economicCalendar ? " https://s3.tradingview.com/external-embedding/embed-widget-events.js" : ""}`,
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob:",
     "font-src 'self' data:",

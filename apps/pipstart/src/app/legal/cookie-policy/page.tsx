@@ -17,7 +17,7 @@ export default function CookiePolicyPage() {
         <h1 className={`${styles.title} ${styles.legalTitle}`}>
           Cookie Policy
         </h1>
-        <p className={styles.updated}>Last updated: 16 September 2026</p>
+        <p className={styles.updated}>Last updated: 9 October 2026</p>
 
         <section className={styles.legalSection}>
           <h2>Current website</h2>
@@ -39,8 +39,21 @@ export default function CookiePolicyPage() {
         <section className={styles.legalSection}>
           <h2>Analytics and optional technologies</h2>
           <p>
-            No analytics or advertising cookies are active yet. When added, they
-            will be optional and disclosed here before activation.
+            PipStart has not added its own analytics or advertising cookies. The
+            economic calendar is a third-party TradingView embed, loaded when
+            its calendar area comes into view. TradingView may use cookies or
+            browser storage under its own policies; browser settings can block
+            these and may prevent the widget working. Static explanations and
+            official-source links remain available. See our{" "}
+            <a href="/legal/privacy-policy">privacy policy</a> and the{" "}
+            <a
+              href="https://www.tradingview.com/privacy-policy/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              TradingView privacy policy
+            </a>
+            .
           </p>
         </section>
 

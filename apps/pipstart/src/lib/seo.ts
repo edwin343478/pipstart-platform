@@ -104,6 +104,12 @@ export const seoEntries = [
       "Educational Forex and cryptocurrency market commentary designed to build understanding, not call trades.",
   },
   {
+    path: "/economic-calendar",
+    title: "Economic Calendar",
+    description:
+      "Explore economic announcements with a TradingView calendar, beginner-friendly event explanations and official release sources. Educational, not trading signals.",
+  },
+  {
     path: "/glossary",
     title: "Forex Glossary",
     description: "Plain-language explanations of essential Forex terminology.",

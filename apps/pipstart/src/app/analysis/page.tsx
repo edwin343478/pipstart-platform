@@ -58,6 +58,11 @@ export default async function AnalysisPage({
       <section className={styles.introduction}>
         <h1>{analysisPageCopy.heading}</h1>
         <p>{analysisPageCopy.subheading}</p>
+        <p>
+          <a href="/economic-calendar">
+            Explore the economic calendar and key event explanations →
+          </a>
+        </p>
         <nav className={styles.tabs} aria-label="Analysis category">
           <Link
             href="/analysis?type=fundamental"

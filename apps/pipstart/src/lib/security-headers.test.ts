@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import nextConfig, { securityHeaders } from "../../next.config";
+import nextConfig, {
+  economicCalendarSecurityHeaders,
+  securityHeaders,
+} from "../../next.config";
 
 describe("PipStart security headers", () => {
   it("disables framework disclosure", () => {
@@ -18,6 +21,10 @@ describe("PipStart security headers", () => {
       {
         source: "/(.*)",
         headers: [...securityHeaders],
+      },
+      {
+        source: "/economic-calendar/:path*",
+        headers: economicCalendarSecurityHeaders,
       },
     ]);
   });

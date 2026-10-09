@@ -22,6 +22,20 @@ export const securityHeaders = [
   { key: "X-Frame-Options", value: "DENY" },
 ] as const;
 
+// Later route-specific CSP overrides the global value only on this route.
+export const economicCalendarSecurityHeaders = securityHeaders.map((header) =>
+  header.key === "Content-Security-Policy"
+    ? {
+        key: header.key,
+        value: createContentSecurityPolicy(
+          process.env.NODE_ENV === "development",
+          process.env.NEXT_PUBLIC_SITE_URL,
+          true,
+        ),
+      }
+    : header,
+);
+
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1"],
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
@@ -37,6 +51,10 @@ const nextConfig: NextConfig = {
       {
         source: "/(.*)",
         headers: [...securityHeaders],
+      },
+      {
+        source: "/economic-calendar/:path*",
+        headers: economicCalendarSecurityHeaders,
       },
     ];
   },

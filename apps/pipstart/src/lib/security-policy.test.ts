@@ -2,6 +2,23 @@ import { describe, expect, it } from "vitest";
 import { createContentSecurityPolicy } from "./security-policy";
 
 describe("enforced static-delivery CSP", () => {
+  it("limits calendar exceptions to the approved script and frame host", () => {
+    const csp = createContentSecurityPolicy(
+      false,
+      "https://pipstart.example",
+      true,
+    );
+    expect(csp).toContain("frame-src https://www.tradingview-widget.com");
+    expect(csp).toContain(
+      "https://s3.tradingview.com/external-embedding/embed-widget-events.js",
+    );
+    expect(csp).toContain("connect-src 'self'");
+    expect(csp).toContain("frame-ancestors 'none'");
+    expect(csp).toContain("object-src 'none'");
+    expect(csp).not.toContain("unsafe-eval");
+    expect(csp).not.toContain("*.tradingview");
+    expect(createContentSecurityPolicy(false)).not.toContain("tradingview");
+  });
   it("blocks production eval, frames, objects and foreign connections", () => {
     const csp = createContentSecurityPolicy(false, "https://pipstart.example");
     expect(csp).not.toContain("unsafe-eval");

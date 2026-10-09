@@ -17,7 +17,7 @@ export default function PrivacyPolicyPage() {
         <h1 className={`${styles.title} ${styles.legalTitle}`}>
           Privacy Policy
         </h1>
-        <p className={styles.updated}>Last updated: 16 September 2026</p>
+        <p className={styles.updated}>Last updated: 9 October 2026</p>
 
         <section className={styles.legalSection}>
           <h2>Current production data handling</h2>
@@ -56,6 +56,33 @@ export default function PrivacyPolicyPage() {
             data. Signed-in learners can edit their profile, change optional
             email preferences, end sessions, change their password, or delete
             their account from Account settings.
+          </p>
+        </section>
+
+        <section className={styles.legalSection}>
+          <h2>Third-party economic calendar</h2>
+          <p>
+            The economic calendar embeds TradingView content when its calendar
+            area comes into view. Loading it connects your browser directly to
+            TradingView and its infrastructure. TradingView receives your IP
+            address, the page address and browser request information, and may
+            use its own cookies or storage under its policies. PipStart does not
+            send your learner account details or learning progress to the
+            widget, and does not copy its event feed into a PipStart database.
+          </p>
+          <p>
+            You can use our static event explanations and official-source links
+            without relying on the widget. Browser blocking tools may prevent
+            the calendar loading. Opening an external link connects you to that
+            website, which applies its own policies. See the{" "}
+            <a
+              href="https://www.tradingview.com/privacy-policy/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              TradingView privacy policy
+            </a>
+            .
           </p>
         </section>
 
