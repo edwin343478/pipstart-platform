@@ -84,3 +84,32 @@ justify broadly loosening the parent connection/image policy.
   need passing tests; do not pre-mark acceptance as passed.
 - The original M20 build list remains partially met under the approved reduced
   scope. Close the milestone only with those limitations explicitly accepted.
+
+## Phase 20.3 — approved page design and menu integration
+
+Owner-approved desktop and mobile mock-ups (10 October 2026) are implemented:
+
+- Page follows the Analysis design system: compact header (hidden on phones),
+  introduction, time-zone and delayed-data chips, and a right-aligned "Open full
+  calendar ↗" button (full width above the widget on phones).
+- Two-column layout from 1101px: "Upcoming events" widget panel (640px frame,
+  520px on phones) beside "Key events explained". The explanations column takes
+  its height from the widget column and scrolls inside it; from 768px to 1100px
+  and on phones the panels stack.
+- The ten original explainers keep all their text. Each card now shows a
+  category tag, typical calendar wording ("Often listed as"), "Why it matters",
+  the everyday example in a disclosure, and the lesson, glossary and source
+  links. These remain general teaching cards, not a feed of today's events:
+  the cross-origin embed does not expose which events are scheduled.
+- Three notice cards: delayed-data notice, "If the calendar doesn't load" with
+  the five official sources (`#official-sources`), and "Reading it safely".
+- Menu: "Calendar" sits directly after "Analysis" in the desktop menu and the
+  mobile menu. It is a plain anchor so the calendar's CSP arrives with a fresh
+  document. The visible breadcrumb was removed to match the approved design;
+  the mobile tab bar now shows on the calendar with Analysis highlighted.
+- From 901px to 1100px the home header uses slightly tighter spacing so the
+  nine menu items stay on one row (the eight-item menu already wrapped at 901px).
+- Tests: M20 Playwright suite updated (exit via header or tab bar, design,
+  panel alignment, phone stacking and tab bar, axe, menu order and document
+  navigation, one-row menu at 901–1440px) and two timing races fixed by waiting
+  for hydration and for the calendar host's observer.

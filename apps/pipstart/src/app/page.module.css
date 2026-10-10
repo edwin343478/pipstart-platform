@@ -471,6 +471,23 @@
   }
 }
 
+/* M20: nine menu items (Calendar added) stay on one row on small laptops. */
+@media (min-width: 901px) {
+  .navigation a {
+    white-space: nowrap;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1100px) {
+  .header {
+    padding: 0 32px;
+  }
+
+  .navigation {
+    gap: 14px;
+  }
+}
+
 @media (max-width: 900px) {
   .header {
     position: relative;

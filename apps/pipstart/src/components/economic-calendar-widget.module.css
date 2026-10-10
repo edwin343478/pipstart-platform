@@ -1,36 +1,87 @@
+/* Fixed outer height reserves space before JavaScript and the provider load. */
 .frameArea {
   box-sizing: border-box;
   position: relative;
   height: 640px;
-  border: 1px solid #d9e0e5;
-  border-radius: 0.75rem;
   background: #fff;
 }
 .host {
   width: 100%;
   height: 100%;
 }
+/* The provider frame fills the reserved height above its attribution line. */
+.host :global(.tradingview-widget-container) {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+.host :global(.tradingview-widget-container > *) {
+  min-height: 0;
+}
+.host :global(.tradingview-widget-container__widget) {
+  flex: 1 1 auto;
+}
+.host :global(.tradingview-widget-container__widget:empty) {
+  display: none;
+}
+.host :global(.tradingview-widget-container iframe) {
+  flex: 1 1 auto;
+}
+/* Provider attribution stays visible; only its spacing follows the panel. */
+.host :global(.tradingview-widget-copyright) {
+  flex: none;
+  box-sizing: border-box;
+  border-top: 1px solid #eef1f3;
+  padding: 0 1.25rem;
+  color: #667085;
+  font-family: var(--font-pipstart-body), Arial, sans-serif;
+  font-size: 0.6875rem;
+  line-height: 32px;
+  text-align: left;
+}
 .status {
   position: absolute;
   inset: 1rem;
   display: grid;
   align-content: center;
+  justify-items: center;
+  gap: 0.25rem;
+  color: #667085;
+  font-size: 0.8125rem;
+  line-height: 1.6;
   text-align: center;
-  color: #475467;
   pointer-events: none;
+}
+.status p {
+  margin: 0;
+  max-width: 26rem;
+}
+.status a {
+  color: #0f766e;
+  font-weight: 700;
+  text-decoration: none;
+}
+.status a:hover,
+.status a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.frameArea[data-calendar-state="unavailable"] .status {
+  pointer-events: auto;
 }
 .frameArea[data-calendar-state="embedded"] .status {
   display: none;
 }
-.guidance {
-  margin: 0.75rem 0;
-  color: #475467;
-  font-size: 0.875rem;
-  line-height: 1.6;
-  overflow-wrap: anywhere;
-}
 @media (max-width: 767px) {
   .frameArea {
     height: 520px;
+  }
+  .host {
+    overflow: auto;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  .host :global(.tradingview-widget-copyright) {
+    padding: 0 0.9rem;
   }
 }

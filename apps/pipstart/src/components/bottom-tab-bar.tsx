@@ -15,6 +15,7 @@ const tabs = [
 const hubRoutes = new Set([
   "/",
   "/analysis",
+  "/economic-calendar",
   "/start-here",
   "/brokers",
   "/glossary",
@@ -49,7 +50,10 @@ export function BottomTabBar() {
             ? pathname === "/"
             : tab.href === "/start-here"
               ? pathname === "/start-here" || pathname.startsWith("/learn")
-              : pathname.startsWith(tab.href);
+              : tab.href === "/analysis"
+                ? pathname.startsWith("/analysis") ||
+                  pathname === "/economic-calendar"
+                : pathname.startsWith(tab.href);
         return (
           <Link
             key={tab.href}

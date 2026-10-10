@@ -1,8 +1,13 @@
 // Original PipStart teaching copy, not provider descriptions or a data feed.
 // All example numbers are invented, not current releases or forecasts.
+// `listedAs` gives typical calendar wording to help learners match an event;
+// provider labels vary by country and can change.
 export const calendarExplainers = [
   {
     id: "interest-rates",
+    category: "Central bank",
+    icon: "bank",
+    listedAs: "Interest Rate Decision",
     title: "Interest-rate decisions",
     measures:
       "A central bank announces its policy rate and explains its outlook. This influences borrowing costs, although your bank’s loan rate is different.",
@@ -15,6 +20,9 @@ export const calendarExplainers = [
   },
   {
     id: "cpi",
+    category: "Inflation",
+    icon: "price",
+    listedAs: "CPI YoY, CPI MoM",
     title: "Consumer Price Index (CPI)",
     measures:
       "CPI tracks price changes for a basket of consumer goods and services. Monthly and yearly inflation rates answer different questions.",
@@ -27,6 +35,9 @@ export const calendarExplainers = [
   },
   {
     id: "core-inflation",
+    category: "Inflation",
+    icon: "price",
+    listedAs: "Core CPI YoY, Core CPI MoM",
     title: "Core inflation",
     measures:
       "US core CPI excludes food and energy to examine other price trends. This does not mean food and fuel are unimportant to households.",
@@ -39,6 +50,9 @@ export const calendarExplainers = [
   },
   {
     id: "us-jobs",
+    category: "Employment data",
+    icon: "jobs",
+    listedAs: "Non Farm Payrolls",
     title: "US jobs report: nonfarm payrolls",
     measures:
       "Payrolls estimate the monthly change in covered employer jobs, not unique people. The broader report also covers unemployment and wages.",
@@ -51,6 +65,9 @@ export const calendarExplainers = [
   },
   {
     id: "unemployment",
+    category: "Employment data",
+    icon: "jobs",
+    listedAs: "Unemployment Rate",
     title: "Unemployment rate",
     measures:
       "The US rate is the unemployed share of the labour force, measured through a household survey rather than the employer payroll survey.",
@@ -63,6 +80,9 @@ export const calendarExplainers = [
   },
   {
     id: "wages",
+    category: "Employment data",
+    icon: "jobs",
+    listedAs: "Average Hourly Earnings",
     title: "Average hourly earnings",
     measures:
       "This tracks average hourly pay for covered US payroll employees. Changes in the mix of workers can affect the average.",
@@ -75,6 +95,9 @@ export const calendarExplainers = [
   },
   {
     id: "gdp",
+    category: "Growth",
+    icon: "growth",
+    listedAs: "GDP Growth Rate",
     title: "Gross Domestic Product (GDP)",
     measures:
       "GDP measures final goods and services produced within an economy. Real GDP adjusts for price changes. Check whether a rate is quarterly, yearly or annualised.",
@@ -87,6 +110,9 @@ export const calendarExplainers = [
   },
   {
     id: "pmi",
+    category: "Business survey",
+    icon: "survey",
+    listedAs: "ISM Manufacturing PMI, ISM Services PMI",
     title: "Purchasing Managers’ Index (PMI)",
     measures:
       "Business surveys track conditions such as orders and activity. For headline ISM manufacturing and services PMIs, above 50 generally signals sector expansion and below 50 contraction, not a percentage growth rate.",
@@ -99,6 +125,9 @@ export const calendarExplainers = [
   },
   {
     id: "retail-sales",
+    category: "Consumer spending",
+    icon: "spending",
+    listedAs: "Retail Sales MoM",
     title: "Retail sales",
     measures:
       "US retail and food-services sales estimate spending at covered businesses. Headline dollar figures are not adjusted for price changes.",
@@ -111,6 +140,9 @@ export const calendarExplainers = [
   },
   {
     id: "cbk",
+    category: "Central bank",
+    icon: "bank",
+    listedAs: "CBK Interest Rate Decision",
     title: "Central Bank of Kenya meetings",
     measures:
       "The Monetary Policy Committee reviews Kenya’s monetary-policy stance and announces Central Bank Rate decisions. Read the official explanation and outlook too.",

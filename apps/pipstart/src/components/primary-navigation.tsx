@@ -7,6 +7,8 @@ import { useEffect, useRef, useState } from "react";
 import { useLearnerNavigationAction } from "./learner-navigation-context";
 
 type NavigationItem = {
+  /** Needs a full page load, e.g. a route with its own security policy. */
+  documentNavigation?: boolean;
   emphasized?: boolean;
   href: `/${string}`;
   label: string;
@@ -16,6 +18,8 @@ const navigationItems: readonly NavigationItem[] = [
   { href: "/learn/forex", label: "Learn Forex" },
   { href: "/learn/crypto", label: "Learn Crypto" },
   { href: "/analysis", label: "Analysis", emphasized: true },
+  // The calendar's CSP is set per document, so it must not be a client-side transition.
+  { href: "/economic-calendar", label: "Calendar", documentNavigation: true },
   { href: "/glossary", label: "Glossary" },
   { href: "/tools", label: "Tools" },
   { href: "/brokers", label: "Brokers" },
@@ -99,22 +103,33 @@ export function PrimaryNavigation({
         className={navigationClassName}
         aria-label="Primary navigation"
       >
-        {navigationItems.map((item) => (
-          <Link
-            className={item.emphasized ? analysisLinkClassName : undefined}
-            href={item.href}
-            key={item.href}
-            aria-current={pathname === item.href ? "page" : undefined}
-            onClick={() => setOpen(false)}
-          >
-            {item.label}
-            {item.emphasized ? (
-              <svg aria-hidden="true" viewBox="0 0 20 20">
-                <path d="m5 8 5 5 5-5" />
-              </svg>
-            ) : null}
-          </Link>
-        ))}
+        {navigationItems.map((item) =>
+          item.documentNavigation ? (
+            <a
+              href={item.href}
+              key={item.href}
+              aria-current={pathname === item.href ? "page" : undefined}
+              onClick={() => setOpen(false)}
+            >
+              {item.label}
+            </a>
+          ) : (
+            <Link
+              className={item.emphasized ? analysisLinkClassName : undefined}
+              href={item.href}
+              key={item.href}
+              aria-current={pathname === item.href ? "page" : undefined}
+              onClick={() => setOpen(false)}
+            >
+              {item.label}
+              {item.emphasized ? (
+                <svg aria-hidden="true" viewBox="0 0 20 20">
+                  <path d="m5 8 5 5 5-5" />
+                </svg>
+              ) : null}
+            </Link>
+          ),
+        )}
         <Link
           className={signInClassName}
           href={accountAction.href}

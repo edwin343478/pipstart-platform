@@ -22,16 +22,27 @@ export const calendarWidgetSettings = {
 export const officialCalendarSources = [
   {
     name: "US labour and inflation releases — BLS",
+    shortName: "US BLS",
     href: "https://www.bls.gov/schedule/",
   },
-  { name: "US GDP releases — BEA", href: "https://www.bea.gov/news/schedule" },
+  {
+    name: "US GDP releases — BEA",
+    shortName: "US BEA",
+    href: "https://www.bea.gov/news/schedule",
+  },
   {
     name: "Federal Reserve meetings",
+    shortName: "Federal Reserve",
     href: "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
   },
   {
     name: "Central Bank of Kenya monetary policy",
+    shortName: "Central Bank of Kenya",
     href: "https://www.centralbank.go.ke/monetary-policy/",
   },
-  { name: "Bank of Tanzania", href: "https://www.bot.go.tz/" },
+  {
+    name: "Bank of Tanzania",
+    shortName: "Bank of Tanzania",
+    href: "https://www.bot.go.tz/",
+  },
 ] as const;

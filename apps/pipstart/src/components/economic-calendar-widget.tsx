@@ -15,7 +15,6 @@ type CalendarState = "idle" | "loading" | "embedded" | "unavailable";
 export function EconomicCalendarWidget() {
   const hostRef = useRef<HTMLDivElement>(null);
   const [state, setState] = useState<CalendarState>("idle");
-  const [timezone, setTimezone] = useState("your browser’s timezone");
   useEffect(() => {
     const host = hostRef.current;
     if (!host) return;
@@ -27,11 +26,6 @@ export function EconomicCalendarWidget() {
       if (started || disposed) return;
       started = true;
       setState("loading");
-      try {
-        setTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone);
-      } catch {
-        /* Keep generic browser-timezone guidance. */
-      }
       const container = document.createElement("div");
       container.className = "tradingview-widget-container";
       const widget = document.createElement("div");
@@ -101,11 +95,6 @@ export function EconomicCalendarWidget() {
   }, []);
   return (
     <>
-      <p className={styles.guidance}>
-        Times follow your browser’s timezone: <strong>{timezone}</strong>. Check
-        the event’s displayed time and timezone before relying on it. Official
-        sources may use a different timezone.
-      </p>
       <div className={styles.frameArea} data-calendar-state={state}>
         <div
           ref={hostRef}
@@ -117,7 +106,22 @@ export function EconomicCalendarWidget() {
             ? "The calendar loads when it comes into view."
             : null}
           {state === "loading" ? "Loading the calendar…" : null}
-          {state === "unavailable" ? <p>{calendarFallbackText}</p> : null}
+          {state === "unavailable" ? (
+            <>
+              <p>{calendarFallbackText}</p>
+              <p>
+                <a
+                  href={fullCalendarUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Open the full calendar ↗
+                </a>
+                {" · "}
+                <a href="#official-sources">Official release schedules</a>
+              </p>
+            </>
+          ) : null}
         </div>
       </div>
       <noscript data-calendar-fallback>
@@ -129,11 +133,6 @@ export function EconomicCalendarWidget() {
           or <a href="#official-sources">check official release schedules</a>.
         </p>
       </noscript>
-      <p className={styles.guidance}>
-        If the calendar is blank or incomplete, use the links above or the
-        official sources below. A visible calendar frame does not confirm data
-        freshness. Small-screen event names may be shortened.
-      </p>
     </>
   );
 }
