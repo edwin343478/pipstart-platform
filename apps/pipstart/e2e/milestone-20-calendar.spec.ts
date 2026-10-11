@@ -155,6 +155,107 @@ test("mobile calendar and explanations scroll independently in both directions",
   }
 });
 
+test("frame loss exposes a document reload without automatic retry", async ({
+  page,
+}) => {
+  await mockWidget(page);
+  let loads = 0;
+  page.on("request", (request) => {
+    if (request.url() === calendarScriptUrl) loads++;
+  });
+  for (const selector of ["iframe", ".tradingview-widget-container"]) {
+    await page.goto("/economic-calendar");
+    const host = page.getByTestId("calendar-host");
+    const state = page.locator("[data-calendar-state]");
+    await host.scrollIntoViewIfNeeded();
+    await expect(state).toHaveAttribute("data-calendar-state", "embedded");
+    const before = loads;
+    await host.locator(selector).evaluate((element) => element.remove());
+    await expect(state).toHaveAttribute("data-calendar-state", "unavailable");
+    await expect(page.locator("#key-events article")).toHaveCount(10);
+    const reload = page.getByRole("link", {
+      name: "Reload calendar",
+      exact: true,
+    });
+    await expect(reload).toBeVisible();
+    expect(loads).toBe(before);
+    const documentRequest = page.waitForRequest(
+      (request) =>
+        request.isNavigationRequest() &&
+        request.frame() === page.mainFrame() &&
+        new URL(request.url()).pathname === "/economic-calendar",
+    );
+    await reload.click();
+    await documentRequest;
+    await host.scrollIntoViewIfNeeded();
+    await expect(state).toHaveAttribute("data-calendar-state", "embedded");
+    await expect(host.locator("iframe")).toHaveCount(1);
+    expect(loads).toBe(before + 1);
+  }
+});
+
+test("late frame recovers after timeout without claiming fresh data", async ({
+  page,
+}) => {
+  await page.clock.install();
+  await mockWidget(page);
+  await page.route(calendarScriptUrl, (route) =>
+    route.fulfill({
+      contentType: "application/javascript",
+      body:
+        "const parent = document.currentScript.parentElement;" +
+        "window.addEventListener('m20-late-frame', () => {" +
+        "const frame = document.createElement('iframe'); parent.prepend(frame);" +
+        "}, {once:true}); window.m20LateFrameReady = true;",
+    }),
+  );
+  await page.goto("/economic-calendar");
+  await page.getByTestId("calendar-host").scrollIntoViewIfNeeded();
+  await page.waitForFunction(() =>
+    Boolean(
+      (window as Window & { m20LateFrameReady?: boolean }).m20LateFrameReady,
+    ),
+  );
+  await page.clock.fastForward(9000);
+  const state = page.locator("[data-calendar-state]");
+  await expect(state).toHaveAttribute("data-calendar-state", "unavailable");
+  await expect(
+    page.getByRole("link", { name: "Reload calendar", exact: true }),
+  ).toBeVisible();
+  await page.evaluate(() => window.dispatchEvent(new Event("m20-late-frame")));
+  await expect(state).toHaveAttribute("data-calendar-state", "embedded");
+  await expect(
+    page.getByRole("link", { name: "Reload calendar", exact: true }),
+  ).toHaveCount(0);
+  await expect(
+    page.getByText("Delayed-data notice", { exact: true }),
+  ).toBeVisible();
+});
+
+test("related glossary links resolve to public term anchors", async ({
+  page,
+}) => {
+  await mockWidget(page);
+  await page.goto("/economic-calendar");
+  const links = page.locator("#key-events a[href^='/glossary#']");
+  await expect(links).toHaveCount(10);
+  await expect(page.locator("#key-events a[href='/glossary']")).toHaveCount(0);
+  const destinations = [
+    ...new Set(
+      await links.evaluateAll((elements) =>
+        elements.map((element) => element.getAttribute("href")!),
+      ),
+    ),
+  ];
+  expect(destinations).toHaveLength(5);
+  for (const destination of destinations) {
+    await page.goto(destination);
+    await expect(
+      page.locator(new URL(destination, page.url()).hash),
+    ).toBeVisible();
+  }
+});
+
 async function mockWidget(page: Page) {
   await page.route(calendarScriptUrl, (route) =>
     route.fulfill({
@@ -211,7 +312,9 @@ test("page, attribution, fixed height, metadata and teaching links", async ({
     expect.arrayContaining(["ke", "tz"]),
   );
   await expect(page.locator("#key-events article")).toHaveCount(10);
-  await expect(page.locator("#key-events a[href='/glossary']")).toHaveCount(10);
+  await expect(page.locator("#key-events a[href^='/glossary#']")).toHaveCount(
+    10,
+  );
   await expect(
     page.locator(
       "#key-events a[href='/learn/forex/level-7/use-an-economic-calendar-safely']",

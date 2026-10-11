@@ -80,6 +80,24 @@ jobs:
       - name: Install Chromium for publication smoke checks
         run: pnpm --filter pipstart exec playwright install --with-deps chromium
 
+      - name: Verify M20 economic calendar integration
+        timeout-minutes: 20
+        run: |
+          node scripts/verify-m20-browser-results.mjs --self-test
+          pnpm --filter pipstart exec playwright test --config=playwright.m20.config.ts
+          node scripts/verify-m20-browser-results.mjs
+
+      - name: Preserve M20 calendar browser evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: pipstart-m20-browser-results
+          path: |
+            apps/pipstart/playwright-report/m20
+            apps/pipstart/test-results/m20
+          if-no-files-found: warn
+          retention-days: 14
+
       - name: Verify approved public M17 glossary on desktop and mobile
         timeout-minutes: 20
         run: |

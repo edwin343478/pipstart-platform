@@ -20,6 +20,7 @@ export function EconomicCalendarWidget() {
     if (!host) return;
     let disposed = false;
     let started = false;
+    let hadFrame = false;
     let timer: ReturnType<typeof setTimeout> | undefined;
     let observer: MutationObserver | undefined;
     const start = () => {
@@ -48,16 +49,22 @@ export function EconomicCalendarWidget() {
       host.append(container);
       const findFrame = () => {
         const iframe = container.querySelector("iframe");
-        if (!iframe || disposed) return false;
+        if (disposed) return false;
+        if (!iframe || !host.contains(container)) {
+          if (hadFrame) setState("unavailable");
+          return false;
+        }
+        hadFrame = true;
         if (!iframe.title) iframe.title = "Economic calendar by TradingView";
         clearTimeout(timer);
         // Frame presence does not prove that cross-origin data loaded.
         setState("embedded");
-        observer?.disconnect();
         return true;
       };
       observer = new MutationObserver(findFrame);
-      observer.observe(container, { childList: true, subtree: true });
+      // Watch our host as well: the provider container itself can disappear.
+      // Keep observing after insertion; presence is not data-readiness proof.
+      observer.observe(host, { childList: true, subtree: true });
       timer = setTimeout(() => {
         if (!disposed && !findFrame()) setState("unavailable");
       }, calendarLoadTimeoutMs);
@@ -119,6 +126,10 @@ export function EconomicCalendarWidget() {
                 </a>
                 {" · "}
                 <a href="#official-sources">Official release schedules</a>
+                {" · "}
+                {/* A fresh document also discards provider-global listeners.
+                    Do not repeatedly reinject the loader into this document. */}
+                <a href="/economic-calendar">Reload calendar</a>
               </p>
             </>
           ) : null}

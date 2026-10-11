@@ -180,7 +180,9 @@ export default function EconomicCalendarPage() {
                       <Link href={calendarLessonUrl}>
                         Lesson: Use an economic calendar safely →
                       </Link>
-                      <Link href="/glossary">Glossary</Link>
+                      <Link href={event.glossary.href}>
+                        Related term: {event.glossary.label}
+                      </Link>
                       <a
                         href={event.href}
                         target="_blank"

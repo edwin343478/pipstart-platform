@@ -5,6 +5,7 @@
 export const calendarExplainers = [
   {
     id: "interest-rates",
+    glossary: { href: "/glossary#interest-rate", label: "Interest rate" },
     category: "Central bank",
     icon: "bank",
     listedAs: "Interest Rate Decision",
@@ -20,6 +21,7 @@ export const calendarExplainers = [
   },
   {
     id: "cpi",
+    glossary: { href: "/glossary#inflation", label: "Inflation" },
     category: "Inflation",
     icon: "price",
     listedAs: "CPI YoY, CPI MoM",
@@ -35,6 +37,7 @@ export const calendarExplainers = [
   },
   {
     id: "core-inflation",
+    glossary: { href: "/glossary#inflation", label: "Inflation" },
     category: "Inflation",
     icon: "price",
     listedAs: "Core CPI YoY, Core CPI MoM",
@@ -50,6 +53,10 @@ export const calendarExplainers = [
   },
   {
     id: "us-jobs",
+    glossary: {
+      href: "/glossary#economic-calendar",
+      label: "Economic calendar",
+    },
     category: "Employment data",
     icon: "jobs",
     listedAs: "Non Farm Payrolls",
@@ -65,6 +72,10 @@ export const calendarExplainers = [
   },
   {
     id: "unemployment",
+    glossary: {
+      href: "/glossary#economic-calendar",
+      label: "Economic calendar",
+    },
     category: "Employment data",
     icon: "jobs",
     listedAs: "Unemployment Rate",
@@ -80,6 +91,10 @@ export const calendarExplainers = [
   },
   {
     id: "wages",
+    glossary: {
+      href: "/glossary#economic-calendar",
+      label: "Economic calendar",
+    },
     category: "Employment data",
     icon: "jobs",
     listedAs: "Average Hourly Earnings",
@@ -95,6 +110,10 @@ export const calendarExplainers = [
   },
   {
     id: "gdp",
+    glossary: {
+      href: "/glossary#gross-domestic-product",
+      label: "Gross domestic product",
+    },
     category: "Growth",
     icon: "growth",
     listedAs: "GDP Growth Rate",
@@ -110,6 +129,10 @@ export const calendarExplainers = [
   },
   {
     id: "pmi",
+    glossary: {
+      href: "/glossary#economic-calendar",
+      label: "Economic calendar",
+    },
     category: "Business survey",
     icon: "survey",
     listedAs: "ISM Manufacturing PMI, ISM Services PMI",
@@ -125,6 +148,10 @@ export const calendarExplainers = [
   },
   {
     id: "retail-sales",
+    glossary: {
+      href: "/glossary#economic-calendar",
+      label: "Economic calendar",
+    },
     category: "Consumer spending",
     icon: "spending",
     listedAs: "Retail Sales MoM",
@@ -140,6 +167,7 @@ export const calendarExplainers = [
   },
   {
     id: "cbk",
+    glossary: { href: "/glossary#central-bank", label: "Central bank" },
     category: "Central bank",
     icon: "bank",
     listedAs: "CBK Interest Rate Decision",
