@@ -1,11 +1,12 @@
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import {
-  handleDeliverySweep,
   sweepAlertTypes,
   type SweepStore,
   type SweepAlert,
   type SweepClaim,
 } from "@/lib/email-monitor/delivery-sweep";
+
+import { handleWatchedDeliverySweep } from "@/lib/email-monitor/watchdog";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -98,7 +99,7 @@ export async function POST(request: Request) {
       if (error || !data || data.id !== id) throw new Error("finish");
     },
   };
-  return handleDeliverySweep(
+  return handleWatchedDeliverySweep(
     request,
     {
       secret: process.env.PIPSTART_EMAIL_MONITOR_SWEEP_SECRET?.trim() ?? "",
@@ -106,5 +107,6 @@ export async function POST(request: Request) {
       alertTo: process.env.PIPSTART_OPERATIONAL_ALERT_TO?.trim() ?? "",
     },
     store,
+    process.env.PIPSTART_EMAIL_MONITOR_HEARTBEAT_URL?.trim() ?? "",
   );
 }
