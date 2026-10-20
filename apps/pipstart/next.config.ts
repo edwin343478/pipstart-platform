@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
 
-import { createContentSecurityPolicy } from "./src/lib/security-policy";
+import { createContentSecurityPolicy, unsubscribePrivacyHeaders } from "./src/lib/security-policy";
 
 const contentSecurityPolicy = createContentSecurityPolicy(
   process.env.NODE_ENV === "development",
@@ -36,6 +36,11 @@ export const economicCalendarSecurityHeaders = securityHeaders.map((header) =>
     : header,
 );
 
+export const unsubscribeSecurityHeaders = [
+  ...securityHeaders.filter(header => !unsubscribePrivacyHeaders.some(privacy => privacy.key === header.key)),
+  ...unsubscribePrivacyHeaders,
+];
+
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1"],
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
@@ -55,6 +60,10 @@ const nextConfig: NextConfig = {
       {
         source: "/economic-calendar/:path*",
         headers: economicCalendarSecurityHeaders,
+      },
+      {
+        source: "/unsubscribe",
+        headers: unsubscribeSecurityHeaders,
       },
     ];
   },
