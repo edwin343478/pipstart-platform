@@ -456,7 +456,7 @@ export default async function DashboardPage() {
                 <span>
                   Learning emails{" "}
                   {data.emailPreferences.educationalEmails ? "on" : "off"}
-                  {" · "}Product emails{" "}
+                  {" · "}Partner offers{" "}
                   {data.emailPreferences.marketingEmails ? "on" : "off"}
                 </span>
               </Link>

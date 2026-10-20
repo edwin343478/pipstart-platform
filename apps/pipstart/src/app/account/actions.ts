@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+import { EMAIL_PREFERENCE_MODEL, readEmailPreferenceForm } from "@/lib/email-preferences";
 import { requireUser } from "@/lib/auth/session";
 import { verifyUserPassword } from "@/lib/auth/verify-password";
 import {
@@ -35,6 +36,7 @@ export async function registerAction(
   const password = validatePassword(formData.get("password"));
   const displayName = validateDisplayName(formData.get("displayName"));
   const confirmation = formData.get("passwordConfirmation");
+  const emailPreferences = readEmailPreferenceForm(formData, true);
   const fieldErrors: Record<string, string> = {};
   if (!email.ok) fieldErrors.email = email.message;
   if (!password.ok) fieldErrors.password = password.message;
@@ -45,17 +47,23 @@ export async function registerAction(
   if (formData.get("terms") !== "accepted") {
     fieldErrors.terms = "You must accept the Terms and Privacy Policy.";
   }
+  if (!emailPreferences.ok) fieldErrors.emailPreferences = emailPreferences.message;
   if (Object.keys(fieldErrors).length > 0)
     return { fieldErrors, status: "error" };
 
   const supabase = await createSupabaseServerClient();
-  if (!supabase || !email.ok || !password.ok || !displayName.ok)
+  if (!supabase || !email.ok || !password.ok || !displayName.ok || !emailPreferences.ok)
     return unavailable;
   const { error } = await supabase.auth.signUp({
     email: email.value,
     password: password.value,
     options: {
-      data: { display_name: displayName.value },
+      data: {
+        display_name: displayName.value,
+        pipstart_email_preferences_version: EMAIL_PREFERENCE_MODEL,
+        pipstart_learning_emails: emailPreferences.value.educationalEmails,
+        pipstart_partner_emails: emailPreferences.value.marketingEmails,
+      },
     },
   });
   if (error) {
@@ -186,13 +194,16 @@ export async function updateEmailPreferencesAction(
   formData: FormData,
 ): Promise<AccountActionState> {
   const user = await requireUser("/account/email-preferences");
+  const preferences = readEmailPreferenceForm(formData);
+  if (!preferences.ok) return { message: preferences.message, status: "error" };
   const supabase = await createSupabaseServerClient();
   if (!supabase) return unavailable;
   const { error } = await supabase
     .from("pipstart_email_preferences")
     .update({
-      educational_emails: formData.get("educationalEmails") === "on",
-      marketing_emails: formData.get("marketingEmails") === "on",
+      educational_emails: preferences.value.educationalEmails,
+      marketing_emails: preferences.value.marketingEmails,
+      learning_frequency: preferences.value.learningFrequency,
     })
     .eq("user_id", user.id)
     .select("user_id")
@@ -203,6 +214,7 @@ export async function updateEmailPreferencesAction(
       status: "error",
     };
   revalidatePath("/account/email-preferences");
+  revalidatePath("/dashboard");
   return { message: "Email preferences updated.", status: "success" };
 }
 

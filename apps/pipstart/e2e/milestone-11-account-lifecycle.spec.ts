@@ -24,6 +24,8 @@ test.describe("Milestone 11 real Supabase account lifecycle", () => {
     await page.getByLabel("Email address").fill(email);
     await page.getByLabel("Password (8+ characters)").fill(password);
     await page.getByLabel("Confirm password").fill(password);
+    await expect(page.getByLabel(/Learning emails/)).toBeChecked();
+    await expect(page.getByLabel(/Partner offers from PipStart/)).toBeChecked();
     await page.getByLabel(/I accept the Terms/).check();
     await page.getByRole("button", { name: "Create account" }).click();
     await expect(page).toHaveURL(/\/welcome$/);
@@ -126,9 +128,17 @@ test.describe("Milestone 11 real Supabase account lifecycle", () => {
     await expect(page.getByText("Profile updated.")).toBeVisible();
 
     await page.goto("/account/email-preferences");
-    await page.getByLabel(/Product news/).check();
+    await expect(page.getByLabel(/Learning emails/, { exact: false })).toBeChecked();
+    await expect(page.getByLabel(/Partner offers from PipStart/)).toBeChecked();
+    await page.getByLabel(/Learning emails/, { exact: false }).uncheck();
+    await page.getByLabel(/Partner offers from PipStart/).uncheck();
+    await page.getByLabel("Weekly summary only").check();
     await page.getByRole("button", { name: "Save preferences" }).click();
     await expect(page.getByText("Email preferences updated.")).toBeVisible();
+    await page.reload();
+    await expect(page.getByLabel(/Learning emails/, { exact: false })).not.toBeChecked();
+    await expect(page.getByLabel(/Partner offers from PipStart/)).not.toBeChecked();
+    await expect(page.getByLabel("Weekly summary only")).toBeChecked();
 
     await page.goto("/account/security");
     await page.getByLabel("Current password").fill(password);

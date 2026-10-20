@@ -17,6 +17,8 @@ import {
 } from "@/app/account/actions";
 import { PASSWORD_MIN_LENGTH } from "@/lib/auth/validation";
 
+import { EmailPreferenceFields } from "./email-preference-fields";
+import type { LearningEmailFrequency } from "../lib/email-preferences";
 import styles from "./account-forms.module.css";
 
 const initialAccountActionState: AccountActionState = { status: "idle" };
@@ -110,6 +112,8 @@ export function RegisterForm() {
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [educationalEmails, setEducationalEmails] = useState(true);
+  const [marketingEmails, setMarketingEmails] = useState(true);
   return (
     <form action={action} className={styles.form} noValidate>
       <Status state={state} />
@@ -156,6 +160,14 @@ export function RegisterForm() {
         state={state}
         value={passwordConfirmation}
       />
+      <p className={styles.hint}>
+        Learning and partner emails are ON by default. Untick either option if
+        you do not want them. You can change these choices in Email preferences.
+        Optional emails will include an unsubscribe option.
+      </p>
+      <EmailPreferenceFields educational={educationalEmails} marketing={marketingEmails}
+        onEducationalChange={setEducationalEmails} onMarketingChange={setMarketingEmails} />
+      <FieldError name="emailPreferences" state={state} />
       <label className={styles.checkbox}>
         <input
           checked={termsAccepted}
@@ -304,9 +316,11 @@ export function ProfileForm({
 export function EmailPreferencesForm({
   educational,
   marketing,
+  frequency = "all",
 }: {
   educational: boolean;
   marketing: boolean;
+  frequency?: LearningEmailFrequency;
 }) {
   const [state, action] = useActionState(
     updateEmailPreferencesAction,
@@ -315,33 +329,18 @@ export function EmailPreferencesForm({
   return (
     <form action={action} className={styles.form}>
       <Status state={state} />
-      <label className={styles.preference}>
-        <input
-          defaultChecked={educational}
-          name="educationalEmails"
-          type="checkbox"
-        />
-        <span>
-          <strong>Learning emails</strong>
-          <small>Course guidance and educational updates.</small>
-        </span>
-      </label>
-      <label className={styles.preference}>
-        <input
-          defaultChecked={marketing}
-          name="marketingEmails"
-          type="checkbox"
-        />
-        <span>
-          <strong>Product news</strong>
-          <small>Optional PipStart announcements and offers.</small>
-        </span>
-      </label>
+      <EmailPreferenceFields educational={educational} marketing={marketing}
+        frequency={frequency} showFrequency />
+      <p className={styles.hint}>
+        Turn either category off to stop those optional emails. Partner offers
+        are sent by PipStart; this setting does not give partners your email
+        address. Optional emails will include an unsubscribe option.
+      </p>
       <div className={styles.serviceNotice}>
         <strong>Service and security emails</strong>
         <span>
-          Required messages such as verification, password resets and security
-          notices cannot be disabled.
+          Password-reset and essential account-security notices remain enabled
+          separately from optional learning and partner emails.
         </span>
       </div>
       <SubmitButton>Save preferences</SubmitButton>

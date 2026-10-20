@@ -68,6 +68,7 @@ export async function loadDashboardData() {
   if (
     profileResult.error ||
     preferenceResult.error ||
+    !preferenceResult.data ||
     enrollmentResult.error ||
     lessonResult.error ||
     completionResult.error ||
@@ -138,8 +139,8 @@ export async function loadDashboardData() {
         ? user.user_metadata.display_name
         : "Learner"),
     emailPreferences: {
-      educationalEmails: preferenceResult.data?.educational_emails ?? true,
-      marketingEmails: preferenceResult.data?.marketing_emails ?? false,
+      educationalEmails: preferenceResult.data.educational_emails,
+      marketingEmails: preferenceResult.data.marketing_emails,
     },
     enrollments,
     progress,
