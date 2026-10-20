@@ -31,7 +31,7 @@ export function isDispatchState(value: unknown): value is DispatchState {
     typeof state.email === "string" && state.email.length <= 254 && /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(state.email) &&
     typeof state.learning === "boolean" && typeof state.partner === "boolean" && ["all", "weekly"].includes(state.frequency as string);
 }
-function validJob(value: unknown): value is OptionalEmailJob {
+export function isOptionalEmailJob(value: unknown): value is OptionalEmailJob {
   if (!value || typeof value !== "object") return false;
   const job = value as Record<string, unknown>;
   return Object.keys(job).sort().join() === "html,jobId,kind,subject,text,userId" &&
@@ -42,7 +42,7 @@ function validJob(value: unknown): value is OptionalEmailJob {
     typeof job.html === "string" && !!job.html.trim() && job.html.length <= 200_000 &&
     typeof job.text === "string" && !!job.text.trim() && job.text.length <= 100_000;
 }
-function suppression(state: DispatchState, kind: OptionalEmailKind): Extract<DispatchResult, { status: "suppressed" }> | null {
+export function optionalEmailSuppression(state: DispatchState, kind: OptionalEmailKind): Extract<DispatchResult, { status: "suppressed" }> | null {
   if (state.status === "inactive") return { status: "suppressed", reason: "account_inactive" };
   if (!(kind === "partner_offer" ? state.partner : state.learning)) return { status: "suppressed", reason: "opted_out" };
   if (kind !== "partner_offer" && state.frequency !== (kind === "learning_weekly" ? "weekly" : "all")) return { status: "suppressed", reason: "frequency_changed" };
@@ -56,14 +56,14 @@ export async function dispatchOptionalEmail(
   input: OptionalEmailJob,
   dependencies: { store: DispatchStateStore | null; issuer: TokenIssuer | null; transport: OptionalEmailTransport | null },
 ): Promise<DispatchResult> {
-  if (!validJob(input)) return { status: "unavailable", reason: "invalid_job" };
+  if (!isOptionalEmailJob(input)) return { status: "unavailable", reason: "invalid_job" };
   const job = Object.freeze({ ...input });
   const { store, issuer, transport } = dependencies;
   if (!store || !issuer || !transport) return { status: "unavailable", reason: "dependencies" };
   let first: DispatchState;
   try { first = await store.load(job.userId); if (!isDispatchState(first)) throw new Error(); }
   catch { return { status: "unavailable", reason: "eligibility" }; }
-  const initialSuppression = suppression(first, job.kind);
+  const initialSuppression = optionalEmailSuppression(first, job.kind);
   if (initialSuppression) return initialSuppression;
   let envelope: Awaited<ReturnType<typeof prepareOptionalEmail>>;
   try { envelope = await prepareOptionalEmail({ userId: job.userId, category: job.kind === "partner_offer" ? "partner" : "learning", html: job.html, text: job.text }, issuer); }
@@ -71,7 +71,7 @@ export async function dispatchOptionalEmail(
   let latest: DispatchState;
   try { latest = await store.load(job.userId); if (!isDispatchState(latest)) throw new Error(); }
   catch { return { status: "unavailable", reason: "eligibility" }; }
-  const finalSuppression = suppression(latest, job.kind);
+  const finalSuppression = optionalEmailSuppression(latest, job.kind);
   if (finalSuppression) return finalSuppression;
   if (latest.status !== "active") return { status: "suppressed", reason: "account_inactive" };
   // No awaited work between this final check and invoking the transport. An
