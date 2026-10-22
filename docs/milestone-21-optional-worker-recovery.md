@@ -1,0 +1,20 @@
+# M21 worker recovery review (read-only)
+
+Use `apps/pipstart/scripts/review-m21-optional-worker.sql` with the existing operator Supabase CLI login, not a browser or customer credential. The companion external `Inspect-M21-Worker.ps1` pins the repository/project, validates this exact query's fingerprint, and prints only the bounded report. No new RPC, table, grant, schema migration, key or schedule is introduced. The report does not call acquire, finish, claim, begin or transport. It does not change a run or job.
+
+The single SELECT uses one statement snapshot. It shows idle/review-required state, a SHA-256 fingerprint of the run token (not the unlock token), start time and at most five selected job UUIDs. Each job shows queue status/reason, preparation attempts, presence of a durable prepared marker/cadence reservation, API/signed evidence booleans and distinct provider event types. No recipient, user UUID, subject, body, unsubscribe bearer link, raw prepared payload, provider ID, API key or raw run token is returned. Job/run identifiers and timestamps are operational metadata and must still be access-controlled. Do not post them publicly.
+
+## Recovery decision sequence
+
+1. Keep optional producers, worker callers and scheduling disabled. Preserve run/job/provider evidence and obtain a fresh report. An idle report is not approval to activate sending.
+2. For an active run, identify its executor using private execution logs and the run fingerprint. Stop or fence that exact executor and prove it cannot resume an in-flight call. Age, lease expiry, missing process logs, a deployment or a quiet provider dashboard alone do not prove this. If proof is unavailable, leave admission blocked.
+3. Review every job, including missing rows and provider evidence. `possible_handoff` means do not resend. Accepted/API/signed evidence is evidence of a handoff, not permission for another send. An empty evidence set does not prove no send happened: acknowledgements/callbacks may be lost or delayed. Contradictory events remain separate facts.
+4. `cadence_deferred` identifies a pending job with the cadence-limit reason and no prepared marker. Preserve its existing `available_at` and budget. `no_handoff_marker` is descriptive only, not a guarantee that a live executor cannot still act. Neither classification permits automatic unlock or replay. Missing jobs can reflect deletion; do not reconstruct them or erase surviving cadence reservations.
+5. Only after executor-stop proof and review of all selected jobs may a separately authorized, compare-and-set recovery be designed for that exact run. Re-read state immediately before a change; reject any token/job/evidence drift. This patch intentionally supplies no unlock/reset command or recovery mutation RPC. Existing normal-completion `finish` is not an operator recovery shortcut.
+6. Keep SENDING/manual/uncertain jobs quarantined. Never change them back to pending, create a replacement job/dedupe key, retry a provider POST, refund a reservation, delete evidence, clear the singleton or reset migration history to force progress. Provider idempotency keys alone do not make indefinite retries safe.
+
+`automaticUnlockAllowed` and `resendAllowed` are always false, for idle, active and unavailable reports alike. A lost finish acknowledgement may leave an idle slot; investigate without re-running messages. Reports become stale as activity continues. No background polling, alerts or recovery action is configured by this patch.
+
+## Verification and limits
+
+Generated isolated tests exercise idle, pending, cadence-deferred, durable sending/accepted, missing and delayed-evidence cases; verify deterministic ordering, no raw token/content leakage, no row mutation and read-only execution. No real provider emails, application migration or hosted fixtures are needed. This report is an operational review prerequisite, not completed automated recovery or final campaign readiness. Retention, content/abuse review, full release regression and authorized activation remain outstanding.
