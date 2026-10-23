@@ -1,7 +1,11 @@
 // Bearer-token pages must not inherit the site's script/referrer allowances.
 // Share these values between next.config's later exact-route rule and Response.
 export const unsubscribePrivacyHeaders = [
-  { key: "Content-Security-Policy", value: "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'" },
+  {
+    key: "Content-Security-Policy",
+    value:
+      "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'",
+  },
   { key: "Referrer-Policy", value: "no-referrer" },
   { key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" },
 ] as const;

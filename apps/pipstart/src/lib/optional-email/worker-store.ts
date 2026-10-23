@@ -13,13 +13,22 @@ export function createOptionalWorkerStore(): OptionalWorkerStore | null {
   return {
     async acquire() {
       const data = await rpc("pipstart_acquire_optional_worker", {});
-      if (!isWorkerAdmission(data)) throw new Error("Optional worker unavailable");
+      if (!isWorkerAdmission(data))
+        throw new Error("Optional worker unavailable");
       return data;
     },
     async finish(token) {
-      if (!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(token)) throw new Error("Optional worker unavailable");
-      const data = await rpc("pipstart_finish_optional_worker", { p_token: token });
-      if (typeof data !== "boolean") throw new Error("Optional worker unavailable");
+      if (
+        !/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(
+          token,
+        )
+      )
+        throw new Error("Optional worker unavailable");
+      const data = await rpc("pipstart_finish_optional_worker", {
+        p_token: token,
+      });
+      if (typeof data !== "boolean")
+        throw new Error("Optional worker unavailable");
       return data;
     },
   };

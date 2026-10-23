@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
 
-import { createContentSecurityPolicy, unsubscribePrivacyHeaders } from "./src/lib/security-policy";
+import {
+  createContentSecurityPolicy,
+  unsubscribePrivacyHeaders,
+} from "./src/lib/security-policy";
 
 const contentSecurityPolicy = createContentSecurityPolicy(
   process.env.NODE_ENV === "development",
@@ -37,7 +40,10 @@ export const economicCalendarSecurityHeaders = securityHeaders.map((header) =>
 );
 
 export const unsubscribeSecurityHeaders = [
-  ...securityHeaders.filter(header => !unsubscribePrivacyHeaders.some(privacy => privacy.key === header.key)),
+  ...securityHeaders.filter(
+    (header) =>
+      !unsubscribePrivacyHeaders.some((privacy) => privacy.key === header.key),
+  ),
   ...unsubscribePrivacyHeaders,
 ];
 

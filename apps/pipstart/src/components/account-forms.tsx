@@ -165,8 +165,12 @@ export function RegisterForm() {
         you do not want them. You can change these choices in Email preferences.
         Optional emails will include an unsubscribe option.
       </p>
-      <EmailPreferenceFields educational={educationalEmails} marketing={marketingEmails}
-        onEducationalChange={setEducationalEmails} onMarketingChange={setMarketingEmails} />
+      <EmailPreferenceFields
+        educational={educationalEmails}
+        marketing={marketingEmails}
+        onEducationalChange={setEducationalEmails}
+        onMarketingChange={setMarketingEmails}
+      />
       <FieldError name="emailPreferences" state={state} />
       <label className={styles.checkbox}>
         <input
@@ -329,8 +333,12 @@ export function EmailPreferencesForm({
   return (
     <form action={action} className={styles.form}>
       <Status state={state} />
-      <EmailPreferenceFields educational={educational} marketing={marketing}
-        frequency={frequency} showFrequency />
+      <EmailPreferenceFields
+        educational={educational}
+        marketing={marketing}
+        frequency={frequency}
+        showFrequency
+      />
       <p className={styles.hint}>
         Turn either category off to stop those optional emails. Partner offers
         are sent by PipStart; this setting does not give partners your email

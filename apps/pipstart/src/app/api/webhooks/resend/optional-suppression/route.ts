@@ -3,5 +3,9 @@ import { createAddressSuppressionStore } from "@/lib/optional-email/address-supp
 export const runtime = "nodejs";
 export const maxDuration = 30;
 export async function POST(request: Request) {
-  return handleAddressSuppressionWebhook(request, process.env.PIPSTART_OPTIONAL_SUPPRESSION_WEBHOOK_SECRET?.trim() ?? "", createAddressSuppressionStore());
+  return handleAddressSuppressionWebhook(
+    request,
+    process.env.PIPSTART_OPTIONAL_SUPPRESSION_WEBHOOK_SECRET?.trim() ?? "",
+    createAddressSuppressionStore(),
+  );
 }

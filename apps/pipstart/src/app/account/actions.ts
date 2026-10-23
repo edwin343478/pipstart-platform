@@ -3,7 +3,10 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-import { EMAIL_PREFERENCE_MODEL, readEmailPreferenceForm } from "@/lib/email-preferences";
+import {
+  EMAIL_PREFERENCE_MODEL,
+  readEmailPreferenceForm,
+} from "@/lib/email-preferences";
 import { requireUser } from "@/lib/auth/session";
 import { verifyUserPassword } from "@/lib/auth/verify-password";
 import {
@@ -47,12 +50,19 @@ export async function registerAction(
   if (formData.get("terms") !== "accepted") {
     fieldErrors.terms = "You must accept the Terms and Privacy Policy.";
   }
-  if (!emailPreferences.ok) fieldErrors.emailPreferences = emailPreferences.message;
+  if (!emailPreferences.ok)
+    fieldErrors.emailPreferences = emailPreferences.message;
   if (Object.keys(fieldErrors).length > 0)
     return { fieldErrors, status: "error" };
 
   const supabase = await createSupabaseServerClient();
-  if (!supabase || !email.ok || !password.ok || !displayName.ok || !emailPreferences.ok)
+  if (
+    !supabase ||
+    !email.ok ||
+    !password.ok ||
+    !displayName.ok ||
+    !emailPreferences.ok
+  )
     return unavailable;
   const { error } = await supabase.auth.signUp({
     email: email.value,

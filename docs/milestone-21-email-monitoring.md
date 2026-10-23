@@ -29,13 +29,14 @@ Recorded events: sent, delivered, delivery_delayed, failed, bounced, complained,
 3. In Resend create a dedicated **sending-only**, domain-restricted API key for `account.pipstart.net` for operational alerts. Do not replace the SMTP API key or share either secret in chat.
 4. Add these Vercel **Production** environment variables:
 
-   | Name | Value/type |
-   | --- | --- |
-   | `PIPSTART_RESEND_WEBHOOK_SECRET` | New endpoint signing secret; Secret |
-   | `PIPSTART_ALERT_RESEND_API_KEY` | Dedicated sending key; Secret |
-   | `PIPSTART_OPERATIONAL_ALERT_TO` | `pipstartalert2026@gmail.com`; Config |
+   | Name                             | Value/type                            |
+   | -------------------------------- | ------------------------------------- |
+   | `PIPSTART_RESEND_WEBHOOK_SECRET` | New endpoint signing secret; Secret   |
+   | `PIPSTART_ALERT_RESEND_API_KEY`  | Dedicated sending key; Secret         |
+   | `PIPSTART_OPERATIONAL_ALERT_TO`  | `pipstartalert2026@gmail.com`; Config |
 
    Existing Supabase URL and server-only secret remain necessary. Never prefix server secrets with `NEXT_PUBLIC_`. Do not attach real provider credentials/webhooks to preview deployments.
+
 5. Deploy the reviewed patch. The handler uses the Node runtime and a 30-second maximum. No paid Vercel cron is required for this event-driven step. Do not exempt the webhook from its signature check or place it behind an interactive login/challenge. Check Vercel deployment protection/firewall if Resend cannot reach it.
 6. Enable the endpoint and perform the acceptance drills below. Do not call this live until they pass.
 
