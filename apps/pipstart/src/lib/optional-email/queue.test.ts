@@ -1,5 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
-import { isQueueClaim, processOptionalEmailJob } from "./queue";
+import {
+  isQueueBeginResult,
+  isQueueClaim,
+  processOptionalEmailJob,
+} from "./queue";
 const id = "00000000-0000-4000-8000-000000000001",
   token = "00000000-0000-4000-8000-000000000002";
 const job = {
@@ -21,7 +25,7 @@ function setup() {
   return {
     queue: {
       claim: vi.fn().mockResolvedValue({ status: "claimed", token, job }),
-      begin: vi.fn().mockResolvedValue(true),
+      begin: vi.fn().mockResolvedValue({ version: 2, status: "started" }),
       finish: vi.fn().mockResolvedValue(true),
       release: vi.fn().mockResolvedValue(true),
     },
@@ -116,7 +120,7 @@ describe("dormant durable optional queue consumer", () => {
       const d = setup();
       d.queue.begin.mockImplementation(async () => {
         d.store.load.mockResolvedValue(current);
-        return true;
+        return { version: 2, status: "started" };
       });
       expect((await processOptionalEmailJob(id, d, true)).status).toBe(
         "suppressed",
@@ -132,7 +136,7 @@ describe("dormant durable optional queue consumer", () => {
         ...active,
         email: "changed@example.test",
       });
-      return true;
+      return { version: 2, status: "started" };
     });
     expect(await processOptionalEmailJob(id, d, true)).toEqual({
       status: "manual",
@@ -148,13 +152,47 @@ describe("dormant durable optional queue consumer", () => {
   });
   it("cannot dispatch after losing its preparation lease", async () => {
     const d = setup();
-    d.queue.begin.mockResolvedValue(false);
+    d.queue.begin.mockResolvedValue({ version: 2, status: "lease_lost" });
     expect(await processOptionalEmailJob(id, d, true)).toEqual({
       status: "lease_lost",
     });
     expect(d.transport.deliver).not.toHaveBeenCalled();
     expect(d.queue.finish).not.toHaveBeenCalled();
     expect(d.queue.release).not.toHaveBeenCalled();
+  });
+  it("returns a proven cadence deferral without sending, checkpointing or retrying", async () => {
+    const d = setup();
+    d.queue.begin.mockResolvedValue({ version: 2, status: "cadence_deferred" });
+    expect(await processOptionalEmailJob(id, d, true)).toEqual({
+      status: "cadence_deferred",
+    });
+    expect(d.transport.deliver).not.toHaveBeenCalled();
+    expect(d.queue.finish).not.toHaveBeenCalled();
+    expect(d.queue.release).not.toHaveBeenCalled();
+    expect(d.queue.begin).toHaveBeenCalledOnce();
+  });
+  it.each([
+    true,
+    false,
+    null,
+    {},
+    { version: 1, status: "cadence_deferred" },
+    { version: 2, status: "cadence_deferred", extra: true },
+    { version: 2, status: "unknown" },
+  ])("does not trust ambiguous begin responses: %j", async (response) => {
+    expect(isQueueBeginResult(response)).toBe(false);
+    const d = setup();
+    d.queue.begin.mockResolvedValue(response);
+    expect((await processOptionalEmailJob(id, d, true)).status).toBe("manual");
+    expect(d.queue.release).not.toHaveBeenCalled();
+    expect(d.transport.deliver).not.toHaveBeenCalled();
+    expect(d.queue.finish).toHaveBeenCalledWith(
+      id,
+      token,
+      "manual",
+      "handoff_uncertain",
+      null,
+    );
   });
   it("never sends after a lost send-marker acknowledgement", async () => {
     const d = setup();
@@ -174,7 +212,7 @@ describe("dormant durable optional queue consumer", () => {
     const d = setup();
     d.queue.begin.mockImplementation(async () => {
       d.store.load.mockRejectedValue(new Error("private"));
-      return true;
+      return { version: 2, status: "started" };
     });
     expect((await processOptionalEmailJob(id, d, true)).status).toBe("manual");
     expect(d.transport.deliver).not.toHaveBeenCalled();

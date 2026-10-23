@@ -15,13 +15,28 @@ export type PreparedOptionalMessage = Parameters<
 export type QueueClaim =
   | { status: "claimed"; token: string; job: OptionalEmailJob }
   | { status: "missing" | "terminal" | "manual" | "busy" | "not_due" };
+export type QueueBeginResult = {
+  version: 2;
+  status: "started" | "cadence_deferred" | "lease_lost";
+};
+export function isQueueBeginResult(value: unknown): value is QueueBeginResult {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const result = value as Record<string, unknown>;
+  return (
+    Object.keys(result).sort().join() === "status,version" &&
+    result.version === 2 &&
+    ["started", "cadence_deferred", "lease_lost"].includes(
+      result.status as string,
+    )
+  );
+}
 export interface OptionalEmailQueue {
   claim(jobId: string): Promise<QueueClaim>;
   begin(
     jobId: string,
     token: string,
     message: PreparedOptionalMessage,
-  ): Promise<boolean>;
+  ): Promise<QueueBeginResult>;
   finish(
     jobId: string,
     token: string,
@@ -51,6 +66,7 @@ export type QueueResult = {
     | "accepted"
     | "suppressed"
     | "retry_later"
+    | "cadence_deferred"
     | "lease_lost"
     | "checkpoint_pending";
 };
@@ -98,7 +114,7 @@ export async function processOptionalEmailJob(
   if (claim.job.jobId !== jobId) return { status: "unavailable" };
   const { token, job } = claim;
   let stage: "preparing" | "starting" | "sending" | "provider" = "preparing";
-  let rejected = false;
+  let rejected: "cadence_deferred" | "lease_lost" | null = null;
   let override: { outcome: "suppressed" | "manual"; reason: string } | null =
     null;
   async function finish(
@@ -125,8 +141,11 @@ export async function processOptionalEmailJob(
         });
         // Set BEFORE awaiting: a lost DB acknowledgement may still mean commit.
         stage = "starting";
-        if (!(await queue.begin(jobId, token, prepared))) {
-          rejected = true;
+        const admission = await queue.begin(jobId, token, prepared);
+        if (!isQueueBeginResult(admission))
+          throw new Error("Invalid begin acknowledgement");
+        if (admission.status !== "started") {
+          rejected = admission.status;
           throw new Error("Lease unavailable");
         }
         stage = "sending";
@@ -153,7 +172,7 @@ export async function processOptionalEmailJob(
       },
     },
   });
-  if (rejected) return { status: "lease_lost" };
+  if (rejected) return { status: rejected };
   // Callback writes occur during dispatch; read through a function to avoid
   // TypeScript assuming closure-mutated values remain at their initial state.
   const checkpoint = () => ({ stage, override });

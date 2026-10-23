@@ -86,6 +86,46 @@ describe("service-only optional queue adapter", () => {
     mocks.rpc.mockResolvedValue({ data: {} });
     await expect(createOptionalEmailQueue()!.claim(id)).rejects.toThrow();
   });
+  it.each(["started", "cadence_deferred", "lease_lost"])(
+    "maps only versioned begin status %s",
+    async (status) => {
+      const data = { version: 2, status };
+      mocks.rpc.mockResolvedValue({ data });
+      const message = {
+        jobId: id,
+        to: "generated@example.test",
+        subject: "Generated",
+        html: "Generated",
+        text: "Generated",
+        headers: {
+          "List-Unsubscribe":
+            "<https://pipstart.net/unsubscribe?token=" + "a".repeat(64) + ">",
+          "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" as const,
+        },
+      };
+      expect(await createOptionalEmailQueue()!.begin(id, id, message)).toEqual(
+        data,
+      );
+      expect(mocks.rpc).toHaveBeenCalledExactlyOnceWith(
+        "pipstart_begin_optional_email_v2",
+        { p_job_id: id, p_token: id, p_message: message },
+      );
+    },
+  );
+  it.each([
+    true,
+    false,
+    null,
+    {},
+    { version: 1, status: "started" },
+    { version: 2, status: "cadence_deferred", extra: true },
+  ])("rejects legacy or malformed begin response %j", async (data) => {
+    mocks.rpc.mockResolvedValue({ data });
+    await expect(
+      createOptionalEmailQueue()!.begin(id, id, {} as never),
+    ).rejects.toThrow(/^Optional queue unavailable$/);
+    expect(mocks.rpc).toHaveBeenCalledOnce();
+  });
   it.each([true, false])("requires boolean checkpoints: %s", async (data) => {
     mocks.rpc.mockResolvedValue({ data });
     const q = createOptionalEmailQueue()!;

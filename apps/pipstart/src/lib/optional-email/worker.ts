@@ -68,7 +68,8 @@ export async function runOptionalEmailWorker(
       const result = await processOptionalEmailJob(id, dependencies, true);
       processed++;
       // Every uncertain/unexpected outcome stops this run and retains admission.
-      // lease_lost includes cadence deferrals; conservatively review, never loop.
+      // Only versioned, transaction-proven pre-handoff deferrals are safe.
+      // Lease loss, malformed/lost acknowledgements and manual outcomes retain admission.
       if (
         ![
           "accepted",
@@ -77,6 +78,7 @@ export async function runOptionalEmailWorker(
           "terminal",
           "not_due",
           "retry_later",
+          "cadence_deferred",
         ].includes(result.status)
       )
         return { status: "review_required", processed };

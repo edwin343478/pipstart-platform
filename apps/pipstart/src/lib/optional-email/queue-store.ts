@@ -1,7 +1,11 @@
 import "server-only";
 import { createSupabaseAdminClient } from "../supabase/admin";
 import { isOptionalEmailJob, type OptionalEmailJob } from "./dispatch";
-import { isQueueClaim, type OptionalEmailQueue } from "./queue";
+import {
+  isQueueBeginResult,
+  isQueueClaim,
+  type OptionalEmailQueue,
+} from "./queue";
 export type EnqueueResult =
   | { status: "queued" | "duplicate"; jobId: string }
   | { status: "conflict" }
@@ -79,12 +83,16 @@ export function createOptionalEmailQueue():
       if (!isQueueClaim(data)) throw new Error("Optional queue unavailable");
       return data;
     },
-    begin: (jobId, token, message) =>
-      booleanRpc("pipstart_begin_optional_email", {
+    async begin(jobId, token, message) {
+      const data = await rpc("pipstart_begin_optional_email_v2", {
         p_job_id: jobId,
         p_token: token,
         p_message: message,
-      }),
+      });
+      if (!isQueueBeginResult(data))
+        throw new Error("Optional queue unavailable");
+      return data;
+    },
     finish: (jobId, token, outcome, reason, providerId) =>
       booleanRpc("pipstart_finish_optional_email", {
         p_job_id: jobId,

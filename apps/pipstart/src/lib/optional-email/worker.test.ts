@@ -87,15 +87,53 @@ describe("dormant bounded worker", () => {
     expect(mocks.process).toHaveBeenCalledTimes(1);
     expect(store.finish).not.toHaveBeenCalled();
   });
-  it.each(["suppressed", "missing", "terminal", "not_due", "retry_later"])(
-    "finishes known non-uncertain %s outcomes",
-    async (status) => {
-      mocks.process.mockResolvedValue({ status });
-      expect((await runOptionalEmailWorker(store, deps, true)).status).toBe(
-        "completed",
-      );
-    },
-  );
+  it.each([
+    "suppressed",
+    "missing",
+    "terminal",
+    "not_due",
+    "retry_later",
+    "cadence_deferred",
+  ])("finishes known non-uncertain %s outcomes", async (status) => {
+    mocks.process.mockResolvedValue({ status });
+    expect((await runOptionalEmailWorker(store, deps, true)).status).toBe(
+      "completed",
+    );
+  });
+  it("continues to a different job after safe deferral, without retrying the deferred job", async () => {
+    vi.mocked(store.acquire).mockResolvedValue({
+      status: "acquired",
+      token: id(90),
+      jobIds: [id(1), id(2)],
+    });
+    mocks.process
+      .mockResolvedValueOnce({ status: "cadence_deferred" })
+      .mockResolvedValueOnce({ status: "accepted" });
+    expect(await runOptionalEmailWorker(store, deps, true)).toEqual({
+      status: "completed",
+      processed: 2,
+    });
+    expect(mocks.process.mock.calls.map((call) => call[0])).toEqual([
+      id(1),
+      id(2),
+    ]);
+    expect(store.finish).toHaveBeenCalledExactlyOnceWith(id(90));
+  });
+  it("does not finish admission if a safe deferral is followed by an uncertain job", async () => {
+    vi.mocked(store.acquire).mockResolvedValue({
+      status: "acquired",
+      token: id(90),
+      jobIds: [id(1), id(2)],
+    });
+    mocks.process
+      .mockResolvedValueOnce({ status: "cadence_deferred" })
+      .mockResolvedValueOnce({ status: "manual" });
+    expect(await runOptionalEmailWorker(store, deps, true)).toEqual({
+      status: "review_required",
+      processed: 2,
+    });
+    expect(store.finish).not.toHaveBeenCalled();
+  });
   it("never unlocks in a finally after an exception", async () => {
     mocks.process.mockRejectedValue(new Error("private detail"));
     expect(await runOptionalEmailWorker(store, deps, true)).toEqual({

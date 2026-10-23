@@ -69,7 +69,7 @@ beforeEach(() => {
       text: "Generated",
     },
   }));
-  queue.begin.mockResolvedValue(true);
+  queue.begin.mockResolvedValue({ version: 2, status: "started" });
   queue.finish.mockResolvedValue(true);
   queue.release.mockResolvedValue(true);
   store.load.mockResolvedValue(state);
@@ -165,13 +165,24 @@ describe("real worker/queue/dispatch/transport composition with fake stores and 
       null,
     );
   });
-  it("retains admission after cadence/lease denial with zero sends", async () => {
-    queue.begin.mockResolvedValue(false);
+  it("retains admission after lease denial with zero sends", async () => {
+    queue.begin.mockResolvedValue({ version: 2, status: "lease_lost" });
     expect((await runConfiguredOptionalEmailBatch(apiKey, true)).status).toBe(
       "review_required",
     );
     expect(send).not.toHaveBeenCalled();
     expect(admission.finish).not.toHaveBeenCalled();
+  });
+  it("finishes a proven cadence deferral without any provider call", async () => {
+    queue.begin.mockResolvedValue({ version: 2, status: "cadence_deferred" });
+    expect((await runConfiguredOptionalEmailBatch(apiKey, true)).status).toBe(
+      "completed",
+    );
+    expect(send).not.toHaveBeenCalled();
+    expect(receipts.acknowledge).not.toHaveBeenCalled();
+    expect(queue.finish).not.toHaveBeenCalled();
+    expect(queue.release).not.toHaveBeenCalled();
+    expect(admission.finish).toHaveBeenCalledOnce();
   });
   it.each(["provider", "receipt", "checkpoint"])(
     "never retries/unlocks after uncertain %s outcome",

@@ -197,7 +197,7 @@ describe("dormant immediate optional Resend transport", () => {
           .mockResolvedValue({ status: "claimed", token: provider, job }),
         begin: vi.fn().mockImplementation(async () => {
           calls.push("begin");
-          return true;
+          return { version: 2, status: "started" } as const;
         }),
         finish: vi.fn().mockResolvedValue(true),
         release: vi.fn(),
@@ -239,7 +239,7 @@ describe("dormant immediate optional Resend transport", () => {
       claim: vi
         .fn()
         .mockResolvedValue({ status: "claimed", token: provider, job }),
-      begin: vi.fn().mockResolvedValue(true),
+      begin: vi.fn().mockResolvedValue({ version: 2, status: "started" }),
       finish: vi.fn().mockResolvedValue(true),
       release: vi.fn(),
     };
