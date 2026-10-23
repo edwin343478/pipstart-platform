@@ -19,7 +19,33 @@ function validResult(value: unknown): value is WorkerResult {
   if (result.status === "review_required") return true;
   return ["disabled", "unavailable", "busy", "empty"].includes(result.status as string) && result.processed === 0;
 }
-// Machine-only trigger. Never read a body, trust cookies, or accept job/content inputs.
+// Next's Node adapter can expose an empty POST as a non-null stream.
+// Prove EOF/zero bytes after auth; never parse/buffer payloads or wait indefinitely.
+async function hasEmptyBody(request: Request): Promise<boolean> {
+  if (request.signal.aborted || request.bodyUsed || request.body?.locked) return false;
+  if (request.body === null) return true;
+  const reader = request.body.getReader();
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => reject(new Error("Empty body verification timed out")), 1000);
+  });
+  try {
+    // Bound empty-chunk work as well as bytes/time. No non-empty chunk is accepted.
+    for (let count = 0; count < 4; count++) {
+      const { done, value } = await Promise.race([reader.read(), timeout]);
+      if (done) return !request.signal.aborted;
+      if (!(value instanceof Uint8Array) || value.byteLength !== 0) return false;
+    }
+    return false;
+  } catch { return false; }
+  finally {
+    if (timer !== undefined) clearTimeout(timer);
+    // Do not await an untrusted/never-resolving cancellation callback.
+    void reader.cancel().catch(() => {});
+    reader.releaseLock();
+  }
+}
+// Machine-only trigger. Verify zero body bytes, never trust cookies or payloads.
 // All authorization/configuration checks precede the lazy runtime callback.
 export async function handleOptionalEmailBatch(request: Request, configuration: OptionalBatchConfiguration, run: BatchRun): Promise<Response> {
   if (request.method !== "POST") return new Response(null, { status: 405, headers: { Allow: "POST", "Cache-Control": "no-store" } });
@@ -31,9 +57,10 @@ export async function handleOptionalEmailBatch(request: Request, configuration: 
       !timingSafeEqual(Buffer.from(authorization, "ascii"), Buffer.from(expected, "ascii"))) return response("unauthorized", 401);
   const url = new URL(request.url);
   const length = request.headers.get("content-length");
-  if (url.search || url.hash || request.headers.has("origin") || request.body !== null ||
+  if (url.search || url.hash || request.headers.has("origin") ||
       (length !== null && length !== "0") || request.headers.has("transfer-encoding") || request.headers.has("content-type"))
     return response("invalid_request", 400);
+  if (!await hasEmptyBody(request)) return response("invalid_request", 400);
   if (configuration.enabled !== "true") return response("disabled", 503);
   const apiKey = configuration.apiKey ?? "";
   if (apiKey.trim() !== apiKey || !/^re_[A-Za-z0-9_-]{10,}$/.test(apiKey)) return response("not_configured", 503);
