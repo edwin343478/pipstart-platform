@@ -1,5 +1,6 @@
 import "server-only";
 import { createHash } from "node:crypto";
+import { fetchEmailResponse, providerResponseLimits } from "../email-response";
 import { normalizeOptionalAddress } from "./address-suppression";
 import type {
   DurableOptionalTransport,
@@ -66,26 +67,11 @@ async function acknowledgement(response: Response): Promise<string> {
     )
   )
     throw new Error();
-  const reader = response.body?.getReader();
-  if (!reader) throw new Error();
-  const chunks: Uint8Array[] = [];
-  let size = 0;
-  try {
-    while (true) {
-      const { value, done } = await reader.read();
-      if (done) break;
-      size += value.byteLength;
-      if (size > 16384) {
-        await reader.cancel();
-        throw new Error();
-      }
-      chunks.push(value);
-    }
-  } finally {
-    reader.releaseLock();
-  }
+  // Already fully buffered within the provider header/body budget.
   const data = JSON.parse(
-    new TextDecoder("utf8", { fatal: true }).decode(Buffer.concat(chunks)),
+    new TextDecoder("utf8", { fatal: true }).decode(
+      await response.arrayBuffer(),
+    ),
   );
   if (!data || typeof data.id !== "string" || !uuid.test(data.id))
     throw new Error();
@@ -115,29 +101,33 @@ export function createOptionalResendTransport(
         const preparedHash = optionalPreparedHash(message),
           jobId = message.jobId;
         // Immediate handoff; never schedule, redirect, retry, batch or add recipients.
-        const response = await send("https://api.resend.com/emails", {
-          method: "POST",
-          redirect: "error",
-          cache: "no-store",
-          signal: AbortSignal.timeout(8000),
-          headers: {
-            Authorization: `Bearer ${key}`,
-            "Content-Type": "application/json",
-            "Idempotency-Key": idempotencyKey,
+        const response = await fetchEmailResponse(
+          send,
+          "https://api.resend.com/emails",
+          {
+            method: "POST",
+            redirect: "error",
+            cache: "no-store",
+            headers: {
+              Authorization: `Bearer ${key}`,
+              "Content-Type": "application/json",
+              "Idempotency-Key": idempotencyKey,
+            },
+            body: JSON.stringify({
+              from: optionalSender,
+              to: [message.to],
+              subject: message.subject,
+              html: message.html,
+              text: message.text,
+              headers: { ...message.headers },
+              tags: [
+                { name: "pipstart_job_id", value: message.jobId },
+                { name: "pipstart_payload_hash", value: preparedHash },
+              ],
+            }),
           },
-          body: JSON.stringify({
-            from: optionalSender,
-            to: [message.to],
-            subject: message.subject,
-            html: message.html,
-            text: message.text,
-            headers: { ...message.headers },
-            tags: [
-              { name: "pipstart_job_id", value: message.jobId },
-              { name: "pipstart_payload_hash", value: preparedHash },
-            ],
-          }),
-        });
+          providerResponseLimits,
+        );
         const providerId = await acknowledgement(response);
         // Loss of this acknowledgement remains uncertain; the signed callback can supply evidence.
         await receipts.acknowledge(jobId, providerId, preparedHash);

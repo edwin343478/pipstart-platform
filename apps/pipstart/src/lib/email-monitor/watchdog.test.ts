@@ -185,10 +185,33 @@ describe("M21 independent sweep watchdog", () => {
     expect(init?.signal).toBeInstanceOf(AbortSignal);
   });
   it("uses a three-second heartbeat timeout", async () => {
-    const timeout = vi.spyOn(AbortSignal, "timeout");
-    const { store, send, ping, request } = setup();
-    await handleWatchedDeliverySweep(request(), config, store, url, send, ping);
-    expect(timeout).toHaveBeenCalledWith(3000);
+    vi.useFakeTimers();
+    try {
+      vi.spyOn(console, "error").mockImplementation(() => {});
+      const { store, send, ping, request } = setup();
+      ping.mockImplementation(() => new Promise<Response>(() => {}));
+      let settled = false;
+      const result = handleWatchedDeliverySweep(
+        request(),
+        config,
+        store,
+        url,
+        send,
+        ping,
+      ).then((reply) => {
+        settled = true;
+        return reply;
+      });
+      await vi.advanceTimersByTimeAsync(2999);
+      expect(settled).toBe(false);
+      await vi.advanceTimersByTimeAsync(1);
+      expect((await result).status).toBe(200);
+      expect(ping.mock.calls[0][1]?.signal?.aborted).toBe(true);
+      expect(ping).toHaveBeenCalledOnce();
+      expect(vi.getTimerCount()).toBe(0);
+    } finally {
+      vi.useRealTimers();
+    }
   });
   it("leaves an unconfigured watchdog disabled without affecting sweeps", async () => {
     const log = vi.spyOn(console, "error").mockImplementation(() => {});

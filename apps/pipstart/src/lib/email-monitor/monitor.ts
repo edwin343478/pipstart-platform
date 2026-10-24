@@ -1,4 +1,5 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
+import { fetchEmailResponse, providerResponseLimits } from "../email-response";
 import {
   readBoundedRequestBody,
   RequestBodyReadError,
@@ -176,21 +177,25 @@ export async function handleMonitoringWebhook(
       return reply(503, "alert_pending_operator_review");
     // Fixed content per message/type keeps retries identical under the idempotency key.
     // No recipient, subject, payload, recovery link, token, or provider error is copied.
-    const response = await send("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${config.apiKey}`,
-        "Content-Type": "application/json",
-        "Idempotency-Key": `pipstart-monitor:${evidence.messageId}:${evidence.type}`,
+    const response = await fetchEmailResponse(
+      send,
+      "https://api.resend.com/emails",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${config.apiKey}`,
+          "Content-Type": "application/json",
+          "Idempotency-Key": `pipstart-monitor:${evidence.messageId}:${evidence.type}`,
+        },
+        body: JSON.stringify({
+          from: `PipStart Operations <${alertSender}>`,
+          to: [config.alertTo],
+          subject: `[PipStart] Account email ${evidence.type.slice(6)}`,
+          text: `An account-email delivery event needs review.\n\nEvent: ${evidence.type}\nResend email ID: ${evidence.messageId}\n\nOpen Resend > Emails > Sending and inspect this ID. Check Supabase Auth logs if needed. Do not automatically resend security emails or remove suppression without investigation.\n\nThis alert is provider-accepted, not proof of inbox delivery.`,
+        }),
       },
-      body: JSON.stringify({
-        from: `PipStart Operations <${alertSender}>`,
-        to: [config.alertTo],
-        subject: `[PipStart] Account email ${evidence.type.slice(6)}`,
-        text: `An account-email delivery event needs review.\n\nEvent: ${evidence.type}\nResend email ID: ${evidence.messageId}\n\nOpen Resend > Emails > Sending and inspect this ID. Check Supabase Auth logs if needed. Do not automatically resend security emails or remove suppression without investigation.\n\nThis alert is provider-accepted, not proof of inbox delivery.`,
-      }),
-      signal: AbortSignal.timeout(8000),
-    });
+      providerResponseLimits,
+    );
     if (!response.ok) throw new Error("send");
     const result = object(await response.json());
     if (

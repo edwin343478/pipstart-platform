@@ -1,3 +1,4 @@
+import { fetchEmailResponse, watchdogResponseLimits } from "../email-response";
 import {
   handleDeliverySweep,
   type SweepConfig,
@@ -16,37 +17,15 @@ export function isWatchdogUrl(value: string): boolean {
 }
 
 async function pingAccepted(reply: Response): Promise<boolean> {
-  if (reply.status !== 200) {
-    await reply.body?.cancel();
-    return false;
-  }
+  if (reply.status !== 200) return false;
   // HTTP 200 alone is insufficient: Healthchecks can return "OK (not found)"
   // or "OK (rate limited)" for a ping that was not recorded.
-  const reader = reply.body?.getReader();
-  if (!reader) return false;
-  const chunks: Uint8Array[] = [];
-  let size = 0;
-  try {
-    while (true) {
-      const part = await reader.read();
-      if (part.done) break;
-      size += part.value.byteLength;
-      if (size > 64) {
-        await reader.cancel();
-        return false;
-      }
-      chunks.push(part.value);
-    }
-  } finally {
-    reader.releaseLock();
-  }
-  const bytes = new Uint8Array(size);
-  let offset = 0;
-  for (const chunk of chunks) {
-    bytes.set(chunk, offset);
-    offset += chunk.byteLength;
-  }
-  return new TextDecoder().decode(bytes).trim() === "OK";
+  // This reply is already fully buffered within the 64-byte/3-second budget.
+  return (
+    new TextDecoder("utf8", { fatal: true })
+      .decode(await reply.arrayBuffer())
+      .trim() === "OK"
+  );
 }
 
 export async function handleWatchedDeliverySweep(
@@ -67,15 +46,19 @@ export async function handleWatchedDeliverySweep(
     return result;
   }
   try {
-    const reply = await ping(watchdogUrl, {
-      method: "POST",
-      body: "",
-      redirect: "error",
-      credentials: "omit",
-      cache: "no-store",
-      referrerPolicy: "no-referrer",
-      signal: AbortSignal.timeout(3000),
-    });
+    const reply = await fetchEmailResponse(
+      ping,
+      watchdogUrl,
+      {
+        method: "POST",
+        body: "",
+        redirect: "error",
+        credentials: "omit",
+        cache: "no-store",
+        referrerPolicy: "no-referrer",
+      },
+      watchdogResponseLimits,
+    );
     if (!(await pingAccepted(reply))) throw new Error("watchdog");
   } catch {
     console.error("PIPSTART_SWEEP_WATCHDOG_PING_FAILED");

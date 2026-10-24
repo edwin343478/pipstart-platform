@@ -1,4 +1,5 @@
 import { timingSafeEqual } from "node:crypto";
+import { fetchEmailResponse, providerResponseLimits } from "../email-response";
 import { alertSender } from "./monitor";
 
 export const sweepAlertTypes = [
@@ -135,16 +136,22 @@ export async function handleDeliverySweep(
           continue;
         }
         if (!claim.token) throw new Error("lease");
-        const result = await send("https://api.resend.com/emails", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${config.apiKey}`,
-            "Content-Type": "application/json",
-            "Idempotency-Key": `pipstart-monitor:${alert.messageId}:${alert.type}`,
+        const result = await fetchEmailResponse(
+          send,
+          "https://api.resend.com/emails",
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${config.apiKey}`,
+              "Content-Type": "application/json",
+              "Idempotency-Key": `pipstart-monitor:${alert.messageId}:${alert.type}`,
+            },
+            body: JSON.stringify(
+              operationalAlertPayload(alert, config.alertTo),
+            ),
           },
-          body: JSON.stringify(operationalAlertPayload(alert, config.alertTo)),
-          signal: AbortSignal.timeout(8000),
-        });
+          providerResponseLimits,
+        );
         if (!result.ok) throw new Error("send");
         const data: unknown = await result.json();
         if (
