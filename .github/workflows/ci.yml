@@ -17,6 +17,46 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  m21-sql:
+    name: M21 isolated SQL and concurrency acceptance
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    services:
+      postgres:
+        image: postgres:17.6
+        env:
+          POSTGRES_PASSWORD: m21-disposable-ci-only
+        options: >-
+          --name pipstart-m21-sql-ci
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 2s
+          --health-timeout 5s
+          --health-retries 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24.18.1
+      - name: Check runner safety guards (no database writes)
+        run: node --test scripts/verify-m21-sql.test.mjs
+      - name: Initialize roles in disposable CI service only
+        timeout-minutes: 1
+        run: >-
+          docker exec pipstart-m21-sql-ci psql -X -U postgres -d postgres
+          --set=ON_ERROR_STOP=1
+          -c "create role anon nologin; create role authenticated nologin; create role service_role nologin bypassrls;"
+      - name: Rebuild M21 and exercise SQL transactions and concurrency
+        timeout-minutes: 3
+        run: node scripts/verify-m21-sql.mjs --run --ci
+      - name: Preserve sanitized SQL acceptance report
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: pipstart-m21-sql-acceptance
+          path: ${{ runner.temp }}/pipstart_m21_ci_*.json
+          if-no-files-found: warn
+          retention-days: 14
+
   quality:
     name: Format, lint, typecheck, test and build
     runs-on: ubuntu-latest
