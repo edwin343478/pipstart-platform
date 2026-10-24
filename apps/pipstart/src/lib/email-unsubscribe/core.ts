@@ -1,5 +1,9 @@
 import { createHash, randomBytes } from "node:crypto";
 import { unsubscribePrivacyHeaders } from "../security-policy";
+import {
+  readBoundedRequestBody,
+  RequestBodyReadError,
+} from "../http/request-body";
 
 export type UnsubscribeScope = "learning" | "partner" | "all";
 export type ApplyResult = "unsubscribed" | "already_unsubscribed" | "invalid";
@@ -65,26 +69,10 @@ async function formBody(request: Request): Promise<FormData | URLSearchParams> {
   const length = request.headers.get("content-length");
   if (length !== null && (!/^\d+$/.test(length) || Number(length) > 2048))
     throw new BodyTooLarge();
-  const reader = request.body?.getReader();
-  const parts: Uint8Array[] = [];
-  let bytes = 0;
-  if (reader) {
-    try {
-      while (true) {
-        const next = await reader.read();
-        if (next.done) break;
-        bytes += next.value.byteLength;
-        if (bytes > 2048) {
-          await reader.cancel();
-          throw new BodyTooLarge();
-        }
-        parts.push(next.value);
-      }
-    } finally {
-      reader.releaseLock();
-    }
-  }
-  const body = Buffer.concat(parts);
+  const body = await readBoundedRequestBody(request, {
+    maxBytes: 2048,
+    maxChunks: 128,
+  });
   const type = request.headers.get("content-type") ?? "";
   if (type.toLowerCase().startsWith("multipart/form-data;")) {
     return new Response(new Uint8Array(body), {
@@ -133,7 +121,14 @@ export async function handleUnsubscribe(
       )
         return invalid();
     } catch (error) {
-      return error instanceof BodyTooLarge
+      if (error instanceof RequestBodyReadError && error.kind === "timeout")
+        return page(
+          408,
+          "Request timed out",
+          "Your request did not finish. Please try the unsubscribe control again. Your preferences have not been reported as changed.",
+        );
+      return error instanceof BodyTooLarge ||
+        (error instanceof RequestBodyReadError && error.kind === "too_large")
         ? page(
             413,
             "Request too large",

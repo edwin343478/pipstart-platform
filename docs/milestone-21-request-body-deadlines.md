@@ -1,0 +1,11 @@
+# M21 bounded request-body reads
+
+The unsubscribe POST and account-monitoring, optional-suppression and optional-delivery webhooks share a bounded raw-byte reader. Byte limits remain 2,048 for unsubscribe and 65,536 for webhooks. Reads have a whole-body 2,000 ms deadline and chunk budgets of 128 and 1,024 respectively. The clock does not restart when another chunk arrives. Empty chunks also count, preventing an unlimited microtask loop from starving the timer.
+
+Failure or abort triggers best-effort cancellation without awaiting the cancellation promise. The reader lock, abort listener and timer are cleaned up. Invalid UTF-8 continues to fail before signature verification or storage. The shared reader performs no decoding, JSON parsing or body normalization; each existing handler decodes once with its existing fatal UTF-8 decoder before signature verification. Existing byte-limit responses remain 413, invalid/aborted/chunk-limit failures return 400, and a body deadline returns 408. Responses retain existing privacy/no-store headers and do not claim a preference change or successful event ingestion.
+
+The existing unsubscribe content-length precheck, multipart and URL-encoded form handling, GET/HEAD confirmation semantics, cookie-free one-click POST, signature verification, event validation and database operations are unchanged. No login, CAPTCHA, redirect or new rate limiter is added. Valid webhook body signatures must still match the original decoded body, including whitespace and split multibyte UTF-8 sequences.
+
+This patch concerns incoming request streams only. It does not change provider response-body readers, watchdog health policy, database fetch timeouts, worker scheduling, stop controls, default-off settings, dependencies, migrations or existing deployment duration limits. No hosted fixtures, sends or database changes are required for this patch.
+
+Deterministic generated-stream tests cover deadline/abort cleanup, exact byte/chunk boundaries, slow-drip absolute deadlines, empty-chunk floods, cancellation that hangs/rejects, invalid UTF-8 and all four handler boundaries. Existing unsubscribe and signed-webhook suites remain regression gates. Unit tests use fake stores and transports, not provider credentials or hosted data.

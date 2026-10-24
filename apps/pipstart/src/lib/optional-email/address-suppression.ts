@@ -1,5 +1,9 @@
 import "server-only";
 import { verifySignature } from "../email-monitor/monitor";
+import {
+  readBoundedRequestBody,
+  RequestBodyReadError,
+} from "../http/request-body";
 
 export type AddressReason = "hard_bounce" | "complaint" | "provider_suppressed";
 export interface AddressEvidence {
@@ -98,26 +102,8 @@ function reply(code: number, status: string) {
   );
 }
 async function readBody(request: Request) {
-  const reader = request.body?.getReader();
-  if (!reader) return "";
-  const chunks: Uint8Array[] = [];
-  let size = 0;
-  try {
-    while (true) {
-      const { value, done } = await reader.read();
-      if (done) break;
-      size += value.byteLength;
-      if (size > 65536) {
-        await reader.cancel();
-        throw new Error("size");
-      }
-      chunks.push(value);
-    }
-  } finally {
-    reader.releaseLock();
-  }
   return new TextDecoder("utf-8", { fatal: true }).decode(
-    Buffer.concat(chunks),
+    await readBoundedRequestBody(request, { maxBytes: 65536 }),
   );
 }
 export async function handleAddressSuppressionWebhook(
@@ -138,7 +124,11 @@ export async function handleAddressSuppressionWebhook(
     body = await readBody(request);
   } catch (error) {
     return reply(
-      error instanceof Error && error.message === "size" ? 413 : 400,
+      error instanceof RequestBodyReadError && error.kind === "too_large"
+        ? 413
+        : error instanceof RequestBodyReadError && error.kind === "timeout"
+          ? 408
+          : 400,
       "invalid_body",
     );
   }

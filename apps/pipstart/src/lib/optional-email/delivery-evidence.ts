@@ -1,5 +1,9 @@
 import "server-only";
 import {
+  readBoundedRequestBody,
+  RequestBodyReadError,
+} from "../http/request-body";
+import {
   verifySignature,
   eventTypes,
   type EventType,
@@ -99,29 +103,14 @@ export async function handleOptionalDeliveryWebhook(
     return reply(415, "json_required");
   let body: string;
   try {
-    const reader = request.body?.getReader();
-    const chunks: Uint8Array[] = [];
-    let size = 0;
-    if (reader) {
-      try {
-        while (true) {
-          const { value, done } = await reader.read();
-          if (done) break;
-          size += value.byteLength;
-          if (size > 65536) {
-            await reader.cancel();
-            return reply(413, "body_too_large");
-          }
-          chunks.push(value);
-        }
-      } finally {
-        reader.releaseLock();
-      }
-    }
     body = new TextDecoder("utf8", { fatal: true }).decode(
-      Buffer.concat(chunks),
+      await readBoundedRequestBody(request, { maxBytes: 65536 }),
     );
-  } catch {
+  } catch (error) {
+    if (error instanceof RequestBodyReadError && error.kind === "too_large")
+      return reply(413, "body_too_large");
+    if (error instanceof RequestBodyReadError && error.kind === "timeout")
+      return reply(408, "invalid_body");
     return reply(400, "invalid_body");
   }
   if (!verifySignature(body, request.headers, secret))
