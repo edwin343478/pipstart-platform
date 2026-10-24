@@ -1,5 +1,11 @@
 import { timingSafeEqual } from "node:crypto";
 import { fetchEmailResponse, providerResponseLimits } from "../email-response";
+import {
+  reportMonitorFailure,
+  providerStatusClass,
+  type MonitorFailureStage,
+  type ProviderStatusClass,
+} from "./diagnostics";
 import { alertSender } from "./monitor";
 
 export const sweepAlertTypes = [
@@ -91,9 +97,12 @@ export async function handleDeliverySweep(
   if (
     !/^[a-f0-9]{64}$/.test(config.secret) ||
     !config.apiKey ||
+    // Deliberate approved-recipient fence, not arbitrary recipient configuration.
     config.alertTo !== "pipstartalert2026@gmail.com"
-  )
+  ) {
+    reportMonitorFailure("sweep", "configuration");
     return response(503, "not_configured");
+  }
   const expected = Buffer.from(`Bearer ${config.secret}`);
   const actual = Buffer.from(request.headers.get("authorization") ?? "");
   if (actual.length !== expected.length || !timingSafeEqual(actual, expected))
@@ -110,9 +119,13 @@ export async function handleDeliverySweep(
   };
   const started = now();
   let runId: string | null = null;
+  let stage: MonitorFailureStage = "start";
+  let providerStatus: ProviderStatusClass = "not_attempted";
   try {
     runId = await store.start();
+    stage = "queue";
     summary.queued = await store.queue();
+    stage = "due";
     const due = await store.due();
     if (due.length > 5) throw new Error("batch");
     for (const alert of due) {
@@ -122,12 +135,15 @@ export async function handleDeliverySweep(
         summary.deferred++;
         continue;
       }
+      stage = "due";
+      providerStatus = "not_attempted";
       if (
         !/^[A-Za-z0-9_-]{1,200}$/.test(alert.messageId) ||
         !sweepAlertTypes.includes(alert.type)
       )
         throw new Error("alert");
       try {
+        stage = "claim";
         const claim = await store.claim(alert);
         if (claim.state !== "leased") {
           summary.skipped++;
@@ -136,6 +152,8 @@ export async function handleDeliverySweep(
           continue;
         }
         if (!claim.token) throw new Error("lease");
+        stage = "send";
+        providerStatus = "unavailable";
         const result = await fetchEmailResponse(
           send,
           "https://api.resend.com/emails",
@@ -152,6 +170,7 @@ export async function handleDeliverySweep(
           },
           providerResponseLimits,
         );
+        providerStatus = providerStatusClass(result.status);
         if (!result.ok) throw new Error("send");
         const data: unknown = await result.json();
         if (
@@ -162,15 +181,19 @@ export async function handleDeliverySweep(
           !/^[A-Za-z0-9_-]{1,200}$/.test(data.id)
         )
           throw new Error("send");
+        stage = "accept";
         await store.accept(alert, claim.token, data.id);
         summary.accepted++;
       } catch {
         summary.failed++;
         console.error("PIPSTART_EMAIL_SWEEP_ALERT_RETRY_REQUIRED");
+        reportMonitorFailure("sweep", stage, providerStatus);
       }
     }
     // Assess after draining: manual rows are deliberately absent from due(), so
     // an empty due batch alone must never imply operational health.
+    stage = "health";
+    providerStatus = "not_attempted";
     const health = await store.health();
     if (
       !health ||
@@ -193,6 +216,7 @@ export async function handleDeliverySweep(
       summary.stale_runs > 0;
     if (attention) console.error("PIPSTART_EMAIL_SWEEP_HEALTH_REVIEW_REQUIRED");
     const partial = summary.failed > 0 || summary.deferred > 0 || attention;
+    stage = "finish";
     await store.finish(runId, summary, partial ? "partial" : "completed");
     return response(
       partial ? 503 : 200,
@@ -201,6 +225,7 @@ export async function handleDeliverySweep(
     );
   } catch {
     console.error("PIPSTART_EMAIL_SWEEP_UNAVAILABLE");
+    reportMonitorFailure("sweep", stage, providerStatus);
     if (runId) {
       try {
         await store.finish(
@@ -209,7 +234,7 @@ export async function handleDeliverySweep(
           "partial",
         );
       } catch {
-        /* DB outage: no sensitive error logging. */
+        reportMonitorFailure("sweep", "recovery_finish");
       }
     }
     return response(503, "sweep_unavailable");

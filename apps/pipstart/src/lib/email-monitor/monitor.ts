@@ -1,6 +1,12 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { fetchEmailResponse, providerResponseLimits } from "../email-response";
 import {
+  reportMonitorFailure,
+  providerStatusClass,
+  type MonitorFailureStage,
+  type ProviderStatusClass,
+} from "./diagnostics";
+import {
   readBoundedRequestBody,
   RequestBodyReadError,
 } from "../http/request-body";
@@ -137,9 +143,12 @@ export async function handleMonitoringWebhook(
   if (
     !config.secret ||
     !config.apiKey ||
+    // Deliberate approved-recipient fence, not arbitrary recipient configuration.
     config.alertTo !== "pipstartalert2026@gmail.com"
-  )
+  ) {
+    reportMonitorFailure("webhook", "configuration");
     return reply(503, "not_configured");
+  }
   if (
     !/^application\/json(?:;|$)/i.test(
       request.headers.get("content-type") ?? "",
@@ -165,18 +174,24 @@ export async function handleMonitoringWebhook(
   try {
     evidence = parseEvidence(body, request.headers.get("svix-id")!);
   } catch {
+    reportMonitorFailure("webhook", "payload");
     return reply(400, "invalid_payload");
   }
   if (!evidence) return reply(200, "ignored");
+  let stage: MonitorFailureStage = "record";
+  let providerStatus: ProviderStatusClass = "not_attempted";
   try {
     await store.record(evidence);
     if (!failures.has(evidence.type)) return reply(200, "recorded");
+    stage = "claim";
     const claim = await store.claim(evidence);
     if (claim.state === "accepted") return reply(200, "already_alerted");
     if (claim.state !== "leased" || !claim.token)
       return reply(503, "alert_pending_operator_review");
     // Fixed content per message/type keeps retries identical under the idempotency key.
     // No recipient, subject, payload, recovery link, token, or provider error is copied.
+    stage = "send";
+    providerStatus = "unavailable";
     const response = await fetchEmailResponse(
       send,
       "https://api.resend.com/emails",
@@ -196,6 +211,7 @@ export async function handleMonitoringWebhook(
       },
       providerResponseLimits,
     );
+    providerStatus = providerStatusClass(response.status);
     if (!response.ok) throw new Error("send");
     const result = object(await response.json());
     if (
@@ -204,11 +220,13 @@ export async function handleMonitoringWebhook(
       !/^[A-Za-z0-9_-]{1,200}$/.test(result.id)
     )
       throw new Error("send");
+    stage = "accept";
     await store.accept(evidence, claim.token, result.id);
     return reply(200, "alert_accepted");
   } catch {
     // Redacted structured error only. Resend retries non-2xx; DB lease handles crashes.
     console.error("PIPSTART_EMAIL_MONITOR_RETRY_REQUIRED");
+    reportMonitorFailure("webhook", stage, providerStatus);
     return reply(503, "retry_required");
   }
 }

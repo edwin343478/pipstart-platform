@@ -1,5 +1,6 @@
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { monitorDatabaseFetch } from "@/lib/email-monitor/database-fetch";
+import { reportMonitorFailure } from "@/lib/email-monitor/diagnostics";
 import {
   handleMonitoringWebhook,
   type Evidence,
@@ -12,11 +13,13 @@ export const maxDuration = 30;
 
 export async function POST(request: Request) {
   const client = createSupabaseAdminClient({ fetch: monitorDatabaseFetch });
-  if (!client)
+  if (!client) {
+    reportMonitorFailure("webhook", "configuration");
     return Response.json(
       { status: "not_configured" },
       { status: 503, headers: { "Cache-Control": "no-store" } },
     );
+  }
   const args = (event: Evidence) => ({
     p_event_id: event.eventId,
     p_message_id: event.messageId,

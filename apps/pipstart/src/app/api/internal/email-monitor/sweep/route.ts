@@ -1,5 +1,6 @@
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { monitorDatabaseFetch } from "@/lib/email-monitor/database-fetch";
+import { reportMonitorFailure } from "@/lib/email-monitor/diagnostics";
 import {
   sweepAlertTypes,
   type SweepStore,
@@ -14,11 +15,13 @@ export const maxDuration = 60;
 
 export async function POST(request: Request) {
   const client = createSupabaseAdminClient({ fetch: monitorDatabaseFetch });
-  if (!client)
+  if (!client) {
+    reportMonitorFailure("sweep", "configuration");
     return Response.json(
       { status: "not_configured" },
       { status: 503, headers: { "Cache-Control": "no-store" } },
     );
+  }
   const args = (alert: SweepAlert) => ({
     p_message_id: alert.messageId,
     p_event_type: alert.type,
