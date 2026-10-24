@@ -25,10 +25,12 @@ export const migrationNames = [
   "20261023090000_pipstart_optional_content_minimization.sql",
   "20261023120000_pipstart_optional_test_window.sql",
   "20261023160000_pipstart_optional_begin_outcomes.sql",
+  "20261024120000_pipstart_email_monitor_health.sql",
 ];
 const suites = [
   "test-m21-optional-begin-outcomes.sql",
   "test-m21-optional-test-window.sql",
+  "test-m21-monitor-health.sql",
 ];
 export function generatedDatabase(value) {
   if (!/^pipstart_m21_ci_[a-f0-9]{32}$/.test(value))
@@ -229,11 +231,11 @@ export async function verify(argv = process.argv.slice(2)) {
     sql(
       database,
       inputs
-        .slice(0, 19)
+        .slice(0, 1 + migrationNames.length)
         .map((file) => fs.readFileSync(path.join(root, file), "utf8"))
         .join("\n"),
     );
-    report.migrationCount = 19;
+    report.migrationCount = 1 + migrationNames.length;
     const baseline = snapshot();
     for (const suite of suites) {
       sql(
@@ -377,8 +379,8 @@ export async function verify(argv = process.argv.slice(2)) {
       process.removeListener("SIGINT", interrupted);
       process.removeListener("SIGTERM", interrupted);
       report.passed =
-        report.migrationCount === 19 &&
-        report.suites.length === 2 &&
+        report.migrationCount === 1 + migrationNames.length &&
+        report.suites.length === suites.length &&
         report.rollback &&
         report.blockingObserved &&
         report.concurrency &&

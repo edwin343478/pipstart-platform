@@ -52,12 +52,12 @@ test("execution is explicit, local fixed target, no hosted/custom endpoint", () 
   );
 });
 test("pinned M21 migration slice is complete and ordered", () => {
-  assert.equal(migrationNames.length, 18);
-  assert.equal(new Set(migrationNames).size, 18);
+  assert.equal(migrationNames.length, 19);
+  assert.equal(new Set(migrationNames).size, 19);
   assert.deepEqual([...migrationNames].sort(), migrationNames);
   const actual = fs
     .readdirSync(new URL("../supabase/migrations/", import.meta.url))
-    .filter((name) => /^202610(?:19|20|21|22|23)\d{6}_.*\.sql$/.test(name))
+    .filter((name) => /^202610(?:19|20|21|22|23|24)\d{6}_.*\.sql$/.test(name))
     .sort();
   assert.deepEqual(
     actual,

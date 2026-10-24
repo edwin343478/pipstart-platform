@@ -90,6 +90,12 @@ export async function POST(request: Request) {
       });
       if (error || data !== true) throw new Error("accept");
     },
+    async health() {
+      const { data, error } = await client.rpc("pipstart_email_monitor_health");
+      if (error || !data || typeof data !== "object" || Array.isArray(data))
+        throw new Error("health");
+      return data;
+    },
     async finish(id, summary, status) {
       const { data, error } = await client
         .from("pipstart_email_monitor_sweeps")

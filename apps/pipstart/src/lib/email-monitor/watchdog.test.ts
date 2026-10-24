@@ -15,6 +15,11 @@ function setup() {
     due: vi.fn().mockResolvedValue([]),
     claim: vi.fn().mockResolvedValue({ state: "leased", token: "token" }),
     accept: vi.fn().mockResolvedValue(undefined),
+    health: vi.fn().mockResolvedValue({
+      manual_alerts: 0,
+      overdue_alerts: 0,
+      stale_runs: 0,
+    }),
     finish: vi.fn().mockResolvedValue(undefined),
   };
   const send = vi
@@ -57,6 +62,51 @@ describe("M21 independent sweep watchdog", () => {
   it("accepts only the canonical UUID success URL", () => {
     expect(isWatchdogUrl(url)).toBe(true);
   });
+  it.each(["manual_alerts", "overdue_alerts", "stale_runs"] as const)(
+    "withholds the success heartbeat when %s needs review",
+    async (key) => {
+      const { store, send, ping, request } = setup();
+      vi.spyOn(console, "error").mockImplementation(() => {});
+      vi.mocked(store.health).mockResolvedValue({
+        manual_alerts: 0,
+        overdue_alerts: 0,
+        stale_runs: 0,
+        [key]: 1,
+      });
+      expect(
+        (
+          await handleWatchedDeliverySweep(
+            request(),
+            config,
+            store,
+            url,
+            send,
+            ping,
+          )
+        ).status,
+      ).toBe(503);
+      expect(send).not.toHaveBeenCalled();
+      expect(ping).not.toHaveBeenCalled();
+    },
+  );
+  it("withholds heartbeat when health evidence is unavailable", async () => {
+    const { store, send, ping, request } = setup();
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.mocked(store.health).mockRejectedValue(Error("private"));
+    expect(
+      (
+        await handleWatchedDeliverySweep(
+          request(),
+          config,
+          store,
+          url,
+          send,
+          ping,
+        )
+      ).status,
+    ).toBe(503);
+    expect(ping).not.toHaveBeenCalled();
+  });
   it.each([
     "http://hc-ping.com/00000000-0000-4000-8000-000000000001",
     url + "/start",
@@ -89,6 +139,9 @@ describe("M21 independent sweep watchdog", () => {
           skipped: 0,
           failed: 0,
           deferred: 0,
+          manual_alerts: 0,
+          overdue_alerts: 0,
+          stale_runs: 0,
         },
         "completed",
       );
@@ -111,6 +164,9 @@ describe("M21 independent sweep watchdog", () => {
         skipped: 0,
         failed: 0,
         deferred: 0,
+        manual_alerts: 0,
+        overdue_alerts: 0,
+        stale_runs: 0,
       },
     });
     expect(send).not.toHaveBeenCalled();

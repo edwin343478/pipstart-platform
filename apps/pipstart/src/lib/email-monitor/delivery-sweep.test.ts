@@ -30,6 +30,11 @@ function setup() {
     due: vi.fn().mockResolvedValue([missing]),
     claim: vi.fn().mockResolvedValue({ state: "leased", token: "lease-token" }),
     accept: vi.fn().mockResolvedValue(undefined),
+    health: vi.fn().mockResolvedValue({
+      manual_alerts: 0,
+      overdue_alerts: 0,
+      stale_runs: 0,
+    }),
     finish: vi.fn().mockResolvedValue(undefined),
   };
   const send = vi
@@ -118,7 +123,16 @@ describe("M21 delivery sweep", () => {
     );
     expect(store.finish).toHaveBeenCalledWith(
       "run-id",
-      { queued: 1, accepted: 1, skipped: 0, failed: 0, deferred: 0 },
+      {
+        queued: 1,
+        accepted: 1,
+        skipped: 0,
+        failed: 0,
+        deferred: 0,
+        manual_alerts: 0,
+        overdue_alerts: 0,
+        stale_runs: 0,
+      },
       "completed",
     );
   });
@@ -129,7 +143,7 @@ describe("M21 delivery sweep", () => {
       vi.mocked(store.claim).mockResolvedValue({ state, token: null });
       expect(
         (await handleDeliverySweep(request(), config, store, send)).status,
-      ).toBe(200);
+      ).toBe(state === "manual" ? 503 : 200);
       expect(send).not.toHaveBeenCalled();
     },
   );
@@ -170,7 +184,7 @@ describe("M21 delivery sweep", () => {
       );
     },
   );
-  it.each(["start", "queue", "due", "finish"] as const)(
+  it.each(["start", "queue", "due", "health", "finish"] as const)(
     "fails safely on %s database errors",
     async (method) => {
       const { store, send } = setup();
@@ -210,6 +224,58 @@ describe("M21 delivery sweep", () => {
   it("uses a stable payload without timestamps", () => {
     expect(operationalAlertPayload(missing, config.alertTo)).toEqual(
       operationalAlertPayload(missing, config.alertTo),
+    );
+  });
+  it.each(["manual_alerts", "overdue_alerts", "stale_runs"] as const)(
+    "marks an empty due batch partial for %s without sending or unlocking",
+    async (key) => {
+      const { store, send } = setup();
+      vi.spyOn(console, "error").mockImplementation(() => {});
+      vi.mocked(store.due).mockResolvedValue([]);
+      vi.mocked(store.health).mockResolvedValue({
+        manual_alerts: 0,
+        overdue_alerts: 0,
+        stale_runs: 0,
+        [key]: 2,
+      });
+      const result = await handleDeliverySweep(request(), config, store, send);
+      expect(result.status).toBe(503);
+      expect((await result.json()).summary[key]).toBe(2);
+      expect(store.finish).toHaveBeenCalledWith(
+        "run-id",
+        expect.objectContaining({ [key]: 2 }),
+        "partial",
+      );
+      expect(send).not.toHaveBeenCalled();
+      expect(store.claim).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalledWith(
+        "PIPSTART_EMAIL_SWEEP_HEALTH_REVIEW_REQUIRED",
+      );
+    },
+  );
+  it.each([
+    null,
+    {},
+    { manual_alerts: -1, overdue_alerts: 0, stale_runs: 0 },
+    { manual_alerts: 0, overdue_alerts: 0, stale_runs: 0, private: "discard" },
+    { manual_alerts: 0, overdue_alerts: "0", stale_runs: 0 },
+  ])("fails closed on malformed health evidence %#", async (value) => {
+    const { store, send } = setup();
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.mocked(store.due).mockResolvedValue([]);
+    vi.mocked(store.health).mockResolvedValue(value as never);
+    expect(
+      (await handleDeliverySweep(request(), config, store, send)).status,
+    ).toBe(503);
+    expect(send).not.toHaveBeenCalled();
+    expect(store.finish).toHaveBeenCalledWith(
+      "run-id",
+      expect.objectContaining({
+        manual_alerts: null,
+        overdue_alerts: null,
+        stale_runs: null,
+      }),
+      "partial",
     );
   });
   it.each([

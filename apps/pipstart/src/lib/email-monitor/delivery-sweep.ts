@@ -22,6 +22,14 @@ export interface SweepSummary {
   skipped: number;
   failed: number;
   deferred: number;
+  manual_alerts: number | null;
+  overdue_alerts: number | null;
+  stale_runs: number | null;
+}
+export interface SweepHealth {
+  manual_alerts: number;
+  overdue_alerts: number;
+  stale_runs: number;
 }
 export interface SweepStore {
   start(): Promise<string>;
@@ -29,6 +37,7 @@ export interface SweepStore {
   due(): Promise<SweepAlert[]>;
   claim(alert: SweepAlert): Promise<SweepClaim>;
   accept(alert: SweepAlert, token: string, providerId: string): Promise<void>;
+  health(): Promise<SweepHealth>;
   finish(
     id: string,
     summary: SweepSummary,
@@ -94,6 +103,9 @@ export async function handleDeliverySweep(
     skipped: 0,
     failed: 0,
     deferred: 0,
+    manual_alerts: null,
+    overdue_alerts: null,
+    stale_runs: null,
   };
   const started = now();
   let runId: string | null = null;
@@ -118,6 +130,8 @@ export async function handleDeliverySweep(
         const claim = await store.claim(alert);
         if (claim.state !== "leased") {
           summary.skipped++;
+          if (claim.state === "manual")
+            summary.manual_alerts = (summary.manual_alerts ?? 0) + 1;
           continue;
         }
         if (!claim.token) throw new Error("lease");
@@ -148,7 +162,30 @@ export async function handleDeliverySweep(
         console.error("PIPSTART_EMAIL_SWEEP_ALERT_RETRY_REQUIRED");
       }
     }
-    const partial = summary.failed > 0 || summary.deferred > 0;
+    // Assess after draining: manual rows are deliberately absent from due(), so
+    // an empty due batch alone must never imply operational health.
+    const health = await store.health();
+    if (
+      !health ||
+      Object.keys(health).sort().join(",") !==
+        "manual_alerts,overdue_alerts,stale_runs" ||
+      Object.values(health).some(
+        (value) => !Number.isSafeInteger(value) || value < 0,
+      )
+    )
+      throw new Error("health");
+    summary.manual_alerts = Math.max(
+      summary.manual_alerts ?? 0,
+      health.manual_alerts,
+    );
+    summary.overdue_alerts = health.overdue_alerts;
+    summary.stale_runs = health.stale_runs;
+    const attention =
+      summary.manual_alerts > 0 ||
+      summary.overdue_alerts > 0 ||
+      summary.stale_runs > 0;
+    if (attention) console.error("PIPSTART_EMAIL_SWEEP_HEALTH_REVIEW_REQUIRED");
+    const partial = summary.failed > 0 || summary.deferred > 0 || attention;
     await store.finish(runId, summary, partial ? "partial" : "completed");
     return response(
       partial ? 503 : 200,

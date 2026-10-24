@@ -1,8 +1,8 @@
 # M21 reproducible SQL acceptance
 
-This gate reconstructs the learner-account dependency and all 18 M21 migrations
-through `20261023160000` in a randomly named **disposable database**. It runs the
-committed begin-v2 and stop-control SQL suites against the final schema, verifies
+This gate reconstructs the learner-account dependency and all 19 M21 migrations
+through `20261024120000` in a randomly named **disposable database**. It runs the
+committed begin-v2, stop-control and monitor-health SQL suites against the final schema, verifies
 their fixture rows roll back, then exercises a real two-connection cadence-deferral
 race. It does not run every historical migration-stage suite, replace full
 Supabase integration/browser checks, or prove hosted delivery.
@@ -37,7 +37,9 @@ stubs model the SQL dependency, not the complete Supabase Auth service.
 
 ## Required evidence
 
-- All 19 migrations (one dependency plus 18 M21) execute with `ON_ERROR_STOP`.
+- All 20 migrations (one dependency plus 19 M21) execute with `ON_ERROR_STOP`.
+- Monitor-health SQL checks idle, age boundaries, manual/overdue alerts, stale
+  runs, nullable historical counts, service-only access and no mutation.
 - The committed v2 suite checks permissions, safe cadence deferral/refund, future
   availability, stale tokens, malformed envelopes, closed windows, replay and
   unresolved SENDING retaining worker admission.

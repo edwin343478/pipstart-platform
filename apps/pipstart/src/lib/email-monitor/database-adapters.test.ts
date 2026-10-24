@@ -65,6 +65,12 @@ describe("real monitoring route adapters and Supabase SDK with fake transport on
         return Response.json(0);
       if (url.includes("pipstart_list_due_email_alerts"))
         return Response.json([]);
+      if (url.includes("pipstart_email_monitor_health"))
+        return Response.json({
+          manual_alerts: 0,
+          overdue_alerts: 0,
+          stale_runs: 0,
+        });
       if (url.includes("pipstart_email_monitor_sweeps"))
         return Response.json({ id: "generated-run" });
       throw Error("Unexpected transport");
@@ -73,7 +79,7 @@ describe("real monitoring route adapters and Supabase SDK with fake transport on
     const result = await sweep(sweepRequest());
     expect(result.status).toBe(200);
     expect((await result.json()).status).toBe("sweep_completed");
-    expect(send).toHaveBeenCalledTimes(4);
+    expect(send).toHaveBeenCalledTimes(5);
     for (const [, init] of send.mock.calls)
       expect(init?.signal).toBeInstanceOf(AbortSignal);
   });
@@ -90,6 +96,68 @@ describe("real monitoring route adapters and Supabase SDK with fake transport on
     expect(await result.json()).toEqual({ status: "recorded" });
     expect(send).toHaveBeenCalledOnce();
     expect(send.mock.calls[0][1]?.signal).toBeInstanceOf(AbortSignal);
+  });
+  it.each(["manual_alerts", "overdue_alerts", "stale_runs"] as const)(
+    "persists %s from the actual health RPC and withholds heartbeat",
+    async (key) => {
+      vi.stubEnv(
+        "PIPSTART_EMAIL_MONITOR_HEARTBEAT_URL",
+        "https://hc-ping.com/00000000-0000-4000-8000-000000000001",
+      );
+      const send = vi.fn<typeof fetch>().mockImplementation(async (input) => {
+        const url = String(input);
+        expect(url).toContain("https://generated.supabase.test/rest/v1/");
+        if (url.includes("pipstart_queue_missing_email_deliveries"))
+          return Response.json(0);
+        if (url.includes("pipstart_list_due_email_alerts"))
+          return Response.json([]);
+        if (url.includes("pipstart_email_monitor_health"))
+          return Response.json({
+            manual_alerts: 0,
+            overdue_alerts: 0,
+            stale_runs: 0,
+            [key]: 1,
+          });
+        return Response.json({ id: "generated-run" });
+      });
+      vi.stubGlobal("fetch", send);
+      const result = await sweep(sweepRequest());
+      expect(result.status).toBe(503);
+      expect((await result.json()).summary[key]).toBe(1);
+      const update = send.mock.calls.find(
+        ([, init]) => init?.method === "PATCH",
+      );
+      expect(update).toBeDefined();
+      expect(JSON.parse(update![1]!.body as string)).toMatchObject({
+        status: "partial",
+        [key]: 1,
+      });
+      expect(send).toHaveBeenCalledTimes(5);
+    },
+  );
+  it("fails closed when the deployed database lacks the health RPC", async () => {
+    const send = vi.fn<typeof fetch>().mockImplementation(async (input) => {
+      const url = String(input);
+      if (url.includes("pipstart_queue_missing_email_deliveries"))
+        return Response.json(0);
+      if (url.includes("pipstart_list_due_email_alerts"))
+        return Response.json([]);
+      if (url.includes("pipstart_email_monitor_health"))
+        return Response.json(
+          { message: "missing function", code: "PGRST202" },
+          { status: 404 },
+        );
+      return Response.json({ id: "generated-run" });
+    });
+    vi.stubGlobal("fetch", send);
+    expect((await sweep(sweepRequest())).status).toBe(503);
+    const update = send.mock.calls.find(([, init]) => init?.method === "PATCH");
+    expect(JSON.parse(update![1]!.body as string)).toMatchObject({
+      status: "partial",
+      manual_alerts: null,
+      overdue_alerts: null,
+      stale_runs: null,
+    });
   });
   it.each(["sweep", "webhook"] as const)(
     "returns 503 when %s DB headers never arrive, without provider/heartbeat traffic",
