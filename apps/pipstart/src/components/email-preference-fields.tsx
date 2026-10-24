@@ -1,4 +1,4 @@
-import type { ChangeEvent } from "react";
+import { useId, type ChangeEvent } from "react";
 import {
   EMAIL_PREFERENCE_MODEL,
   type LearningEmailFrequency,
@@ -20,6 +20,12 @@ export function EmailPreferenceFields({
   onEducationalChange?: (value: boolean) => void;
   onMarketingChange?: (value: boolean) => void;
 }) {
+  const id = useId();
+  const learningLabel = `${id}-learning-label`;
+  const learningHint = `${id}-learning-hint`;
+  const partnerLabel = `${id}-partner-label`;
+  const partnerHint = `${id}-partner-hint`;
+  const frequencyHint = `${id}-frequency-hint`;
   return (
     <>
       <input
@@ -31,6 +37,8 @@ export function EmailPreferenceFields({
         <input
           name="educationalEmails"
           type="checkbox"
+          aria-labelledby={learningLabel}
+          aria-describedby={learningHint}
           {...(onEducationalChange
             ? {
                 checked: educational,
@@ -40,8 +48,8 @@ export function EmailPreferenceFields({
             : { defaultChecked: educational })}
         />
         <span>
-          <strong>Learning emails</strong>
-          <small>
+          <strong id={learningLabel}>Learning emails</strong>
+          <small id={learningHint}>
             Course guidance, learning reminders and progress updates from
             PipStart.
           </small>
@@ -51,6 +59,8 @@ export function EmailPreferenceFields({
         <input
           name="marketingEmails"
           type="checkbox"
+          aria-labelledby={partnerLabel}
+          aria-describedby={partnerHint}
           {...(onMarketingChange
             ? {
                 checked: marketing,
@@ -60,8 +70,8 @@ export function EmailPreferenceFields({
             : { defaultChecked: marketing })}
         />
         <span>
-          <strong>Partner offers from PipStart</strong>
-          <small>
+          <strong id={partnerLabel}>Partner offers from PipStart</strong>
+          <small id={partnerHint}>
             Occasional partner offers sent by PipStart, not directly by
             partners.
           </small>
@@ -69,9 +79,10 @@ export function EmailPreferenceFields({
       </label>
       {showFrequency ? (
         <div
-          className={styles.field}
-          role="group"
+          className={styles.frequency}
+          role="radiogroup"
           aria-label="Learning email frequency"
+          aria-describedby={frequencyHint}
         >
           <span>Learning email frequency</span>
           <label className={styles.checkbox}>
@@ -79,6 +90,7 @@ export function EmailPreferenceFields({
               type="radio"
               name="learningFrequency"
               value="all"
+              aria-describedby={frequencyHint}
               defaultChecked={frequency === "all"}
             />
             Learning reminders and summaries
@@ -88,11 +100,12 @@ export function EmailPreferenceFields({
               type="radio"
               name="learningFrequency"
               value="weekly"
+              aria-describedby={frequencyHint}
               defaultChecked={frequency === "weekly"}
             />
             Weekly summary only
           </label>
-          <small>
+          <small id={frequencyHint}>
             This choice does not turn learning emails back on if you have
             switched them off.
           </small>

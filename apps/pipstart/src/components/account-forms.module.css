@@ -8,7 +8,8 @@
   padding: 1.5rem;
 }
 
-.field {
+.field,
+.frequency {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
@@ -144,10 +145,17 @@
 
 .checkbox input,
 .preference input {
+  flex-shrink: 0;
   width: 1rem;
   height: 1rem;
   margin: 0.15rem 0 0;
   accent-color: var(--brand-accent);
+}
+
+.preference input:focus-visible,
+.frequency input:focus-visible {
+  outline: 2px solid var(--brand-accent);
+  outline-offset: 3px;
 }
 
 .preference {
@@ -198,6 +206,7 @@
     padding: 16px;
   }
   .field,
+  .frequency,
   .checkbox,
   .preference {
     font-size: 12px;
