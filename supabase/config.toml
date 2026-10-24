@@ -258,6 +258,17 @@ otp_expiry = 3600
 # subject = "Your password has been changed"
 # content_path = "./templates/password_changed_notification.html"
 
+# Approved PipStart password-reset and password-changed designs.
+# Auth template paths are relative to the project root; notice paths to supabase/.
+[auth.email.template.recovery]
+subject = "Reset your PipStart password"
+content_path = "./supabase/templates/recovery.html"
+
+[auth.email.notification.password_changed]
+enabled = true
+subject = "Your PipStart password was changed"
+content_path = "./templates/password_changed_notification.html"
+
 [auth.sms]
 # Allow/disallow new user signups via SMS to your project.
 enable_signup = false
