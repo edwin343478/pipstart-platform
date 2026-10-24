@@ -18,24 +18,28 @@ export default function ContactPage() {
         <p className={styles.eyebrow}>Contact</p>
         <h1 className={styles.title}>How to contact PipStart</h1>
         <p className={styles.lead}>
-          PipStart&apos;s official support channel is being prepared and will be
-          published as account features roll out.
+          Contact PipStart for learner support, privacy questions or help with
+          your email preferences.
         </p>
 
         <div className={styles.cardStack}>
           <section className={styles.card}>
             <h2>General support</h2>
             <p>
-              An official support email address will be added once the domain
-              email service and security records are configured.
+              Email{" "}
+              <a href="mailto:support@pipstart.net">support@pipstart.net</a>. We
+              receive and reply to support messages through this mailbox.
             </p>
           </section>
 
           <section className={styles.card}>
             <h2>Privacy questions</h2>
             <p>
-              Privacy enquiries and data-rights requests will receive a
-              dedicated contact method before account creation is enabled.
+              Send privacy enquiries and data-rights requests to{" "}
+              <a href="mailto:support@pipstart.net">support@pipstart.net</a>.
+              Describe your request without including passwords, reset links or
+              other sensitive credentials. We may need to verify account
+              ownership before handling an account-specific request.
             </p>
             <Link href="/legal/privacy-policy">Read the Privacy Policy</Link>
           </section>
