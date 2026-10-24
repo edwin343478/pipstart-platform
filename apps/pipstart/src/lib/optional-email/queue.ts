@@ -48,7 +48,7 @@ export interface OptionalEmailQueue {
 }
 export interface DurableOptionalTransport {
   // Must perform immediate, non-queued handoff with this immutable payload/key.
-  // This patch supplies no real provider adapter and NEVER retries a handoff.
+  // batch-runtime supplies the Resend adapter; this consumer NEVER retries a handoff.
   deliver(
     message: PreparedOptionalMessage,
     idempotencyKey: string,

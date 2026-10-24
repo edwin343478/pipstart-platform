@@ -37,7 +37,8 @@ export type WorkerResult = {
   processed: number;
 };
 
-// No env lookup, route, timer, retries or producer. Composition stays unwired.
+// Pure orchestration: batch-runtime composes this behind the default-off endpoint.
+// No env lookup, timer, producer or automatic uncertain-send retry lives here.
 export async function runOptionalEmailWorker(
   store: OptionalWorkerStore | null,
   dependencies: Parameters<typeof processOptionalEmailJob>[1],

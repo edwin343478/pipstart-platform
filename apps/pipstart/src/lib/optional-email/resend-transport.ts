@@ -77,7 +77,8 @@ async function acknowledgement(response: Response): Promise<string> {
     throw new Error();
   return data.id;
 }
-// Dormant factory. No environment lookup, caller, worker, route or scheduler enables it.
+// Opt-in factory composed by batch-runtime behind the default-off worker endpoint.
+// No environment lookup or scheduler lives here; enablement is not campaign approval.
 export function createOptionalResendTransport(
   configuration: {
     enabled?: boolean;

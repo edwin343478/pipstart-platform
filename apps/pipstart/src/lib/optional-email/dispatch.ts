@@ -108,7 +108,8 @@ export function optionalEmailSuppression(
   return null;
 }
 
-// No worker, public send route, timer, campaign activation or provider adapter.
+// Eligibility orchestration used by the durable queue and default-off worker.
+// This function creates no timer, public send route or campaign activation.
 // Every future queue attempt must enter here with userId/kind, not a saved
 // recipient, preference snapshot or pre-authorized envelope.
 export async function dispatchOptionalEmail(

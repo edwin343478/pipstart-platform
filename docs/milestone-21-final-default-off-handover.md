@@ -1,5 +1,15 @@
 # M21 final default-off release handover
 
+## Current audit closeout entry point
+
+The 24 October 2026 [audit reconciliation](milestone-21-audit-reconciliation.md)
+records the subsequent eight remediation patches and approved C01-C05 closeout,
+both reports' finding dispositions, current runtime contracts, exact release
+evidence and explicit limits/activation gates. Use that dated record for current
+audit status; the 23 October evidence below is preserved, not freshly rerun or
+retroactively upgraded. C05 preparation is not application, publication or final CI.
+Default-off foundation acceptance is not full engagement or campaign readiness.
+
 Evidence date: 23 October 2026 (Africa/Nairobi).
 Runtime acceptance baseline: `b4a60e53f9521e8f54d9f062f173a46efcfa74e6`.
 
