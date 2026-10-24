@@ -1,4 +1,5 @@
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import { monitorDatabaseFetch } from "@/lib/email-monitor/database-fetch";
 import {
   sweepAlertTypes,
   type SweepStore,
@@ -12,7 +13,7 @@ export const runtime = "nodejs";
 export const maxDuration = 60;
 
 export async function POST(request: Request) {
-  const client = createSupabaseAdminClient();
+  const client = createSupabaseAdminClient({ fetch: monitorDatabaseFetch });
   if (!client)
     return Response.json(
       { status: "not_configured" },
