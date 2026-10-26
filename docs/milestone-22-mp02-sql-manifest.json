@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "files": [
+    {
+      "path": "supabase/migrations/20260915143000_pipstart_learner_accounts.sql",
+      "sha256": "cbedccd6d72b7d02808db7f4630e567eadc94078da3f0c11eb8621cc95863a33"
+    },
+    {
+      "path": "supabase/migrations/20261026120000_pipstart_m22_staff_core.sql",
+      "sha256": "173fbdbc7fd690a129b72b0b484a2a1404f7015b793a377b143946fd206af3e8"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-staff-core.sql",
+      "sha256": "ab7851edda9097110d3a1998080601262d31732fb4bc418a16c202c71d5b019e"
+    }
+  ]
+}

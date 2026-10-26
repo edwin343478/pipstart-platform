@@ -1,0 +1,1168 @@
+{
+  "version": 1,
+  "baseline": "a83669a90fc73e3de8fbcf33dfe0de45ab86d0e7",
+  "scope": "Relevant tracked source-file fingerprints, not semantic lesson counts or import parity.",
+  "fileCount": 232,
+  "entries": [
+    {
+      "path": "apps/pipstart/src/app/learn/assessment-actions.ts",
+      "sha256": "8376208f0799cabc10171e77f2a486a7f1ff1c045093f3be5011f8630287b0dd",
+      "bytes": 14101
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/bookmark-actions.ts",
+      "sha256": "3f24e153460909a503d38f11ff40f4274240d9b29f6a11675954c68069d0d096",
+      "bytes": 2425
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/layout.tsx",
+      "sha256": "17eb8d2cfd7344ca4c529dd48431c6b98a658e92d85058b4a8425825a376f360",
+      "bytes": 452
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-0/[segment]/page.tsx",
+      "sha256": "cd4fdb28762851a00ade4ec24ea25f162ce9623ad84fc41747c152e65d6d8377",
+      "bytes": 1662
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-0/crypto-orientation-lesson.tsx",
+      "sha256": "549dea3bb7a5dd35f0447ed75804ed94201d099ef56ec5db0716a0b0d2fccaa5",
+      "bytes": 787
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-0/crypto-orientation/crypto-orientation-and-safety/page.tsx",
+      "sha256": "c4cb8197e7eb501682ddf0cf3f54b81793d32ee3e7e49fa3b368859f5c41830c",
+      "bytes": 653
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-0/page.tsx",
+      "sha256": "caec8beb24b31696a9a49fed792b40ac62687f2ad73214eb189ac4160a57a08b",
+      "bytes": 505
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-0/quiz/page.tsx",
+      "sha256": "bca97d6476c353b1c35c74851a6b5bd29e5f8ce11dd984504d3a4e2ef127ca98",
+      "bytes": 1140
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-1/[lesson]/page.tsx",
+      "sha256": "8da7d81c31c5c678ae5475bc975a91136b61b47d74d430cabb52b192cd5c70e6",
+      "bytes": 1151
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-1/bitcoin/bitcoin-foundations/page.tsx",
+      "sha256": "22258241c10074482fb91307e8ea655e0e81f2eeaad10e8f844a7981543fa7d3",
+      "bytes": 979
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-1/bitcoin/page.tsx",
+      "sha256": "8f4cc0043ebcae0adbc7729e5844fb07d71cca8f758df81c105b12600f198a03",
+      "bytes": 783
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-1/crypto-lesson.tsx",
+      "sha256": "41e61eb978d4bab5fcb731eaecb4dc9b19583d5de49d7593fceb40b78fcf6e83",
+      "bytes": 572
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-1/layout.tsx",
+      "sha256": "829c3fa16d9d3197fd5622c33829384444a2a18b2a4a1293be9681854a56e5c3",
+      "bytes": 414
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-1/lessons.ts",
+      "sha256": "dd2d19e47a358e79039beea6e14697092a3809fa9d0120e1af866bb9a391a9e7",
+      "bytes": 424
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-1/page.tsx",
+      "sha256": "9950cc996592f77c0e4149874cb1574487e0fbd9eb15e6b940f76af97c1cd9ac",
+      "bytes": 133
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-1/progress.ts",
+      "sha256": "fe0b0ba0bc658f40da8caac3a491dc7479c19d52f3b6e15377cc9248cb0b835f",
+      "bytes": 484
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-1/quiz/page.tsx",
+      "sha256": "33747c3197347ad7c015fe80b9f9691574de378c73d88da1cf0a1d76c1ff9422",
+      "bytes": 1141
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-10/[lesson]/page.tsx",
+      "sha256": "8da7d81c31c5c678ae5475bc975a91136b61b47d74d430cabb52b192cd5c70e6",
+      "bytes": 1151
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-10/crypto-advanced-and-graduation/advanced-awareness-and-graduation/page.tsx",
+      "sha256": "1a7e4c8cefe5987a989aee6e56ca858a66c99ea4c1c21842c3b555d4cb660dfa",
+      "bytes": 1332
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-10/crypto-advanced-and-graduation/page.tsx",
+      "sha256": "2dde871b279a67c7cc6ec297bec20c314474551325032b529c551259c480ece7",
+      "bytes": 1105
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-10/crypto-lesson.tsx",
+      "sha256": "0c06610992910b1f1d142246a189516dc39f3e6747ec13db0619909a701cf720",
+      "bytes": 603
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-10/layout.tsx",
+      "sha256": "829c3fa16d9d3197fd5622c33829384444a2a18b2a4a1293be9681854a56e5c3",
+      "bytes": 414
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-10/lessons.ts",
+      "sha256": "9fe01bb818088cb8cfcb035f9704916cb0056e927ca59ca69a287e8ebb659b86",
+      "bytes": 420
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-10/page.tsx",
+      "sha256": "02474506d75c024fbc07d2c0a3eed1f7eba568e0e67341feb3cdd5ac56eeb124",
+      "bytes": 135
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-10/progress.ts",
+      "sha256": "cc93b74a659b3e21de2ca1de0018b958dba0c97a7dc89926b982ee8ed46a238f",
+      "bytes": 232
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-10/quiz/page.tsx",
+      "sha256": "7f641c6946f192d9433061c98f75ad7644e636b3d2787e0ac919e41fe8c69f60",
+      "bytes": 1208
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-2/[lesson]/page.tsx",
+      "sha256": "8da7d81c31c5c678ae5475bc975a91136b61b47d74d430cabb52b192cd5c70e6",
+      "bytes": 1151
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-2/crypto-lesson.tsx",
+      "sha256": "59f53e56f76cf57d1e5a6eb24776cf2a34320a32f8729613861b0085d4297c31",
+      "bytes": 588
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-2/layout.tsx",
+      "sha256": "829c3fa16d9d3197fd5622c33829384444a2a18b2a4a1293be9681854a56e5c3",
+      "bytes": 414
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-2/lessons.ts",
+      "sha256": "98dc3170f8541257c86b07df0858f5aa77d9bff10be5aafb102e7cc4185a66e3",
+      "bytes": 405
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-2/page.tsx",
+      "sha256": "d6c19e4a2b9a0176d1364b2bc45133976bb09e3a187aba35df0cd8998f43da3e",
+      "bytes": 133
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-2/progress.ts",
+      "sha256": "66a3841a7c487d92c40c739a05e22b9351a446783c7122a8683883941b8ed29f",
+      "bytes": 221
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-2/quiz/page.tsx",
+      "sha256": "8645c2d93a374ca6282c1c5b9281d98dd280f4a5c6886fe8a48b0ecd55c31a3b",
+      "bytes": 1158
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-2/wallets-and-security/page.tsx",
+      "sha256": "2b4db5cbb6f89fc7cf3c317ada654884782f4cc21e8999d7e2050b232090e787",
+      "bytes": 1001
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-2/wallets-and-security/wallet-and-personal-security/page.tsx",
+      "sha256": "cba183885319bdeb0c53a025a8a4fc906a0430605c0f7267cf861b81409d4903",
+      "bytes": 1218
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-3/[lesson]/page.tsx",
+      "sha256": "8da7d81c31c5c678ae5475bc975a91136b61b47d74d430cabb52b192cd5c70e6",
+      "bytes": 1151
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-3/crypto-exchanges-and-markets/exchanges-stablecoins-and-orders/page.tsx",
+      "sha256": "461c57ca089097dfd537c53408ce9b5f37cce41bd44e7ee3cd05ff45de760384",
+      "bytes": 1264
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-3/crypto-exchanges-and-markets/page.tsx",
+      "sha256": "5b46251f2475e192ef6ba2ed501d756e47ee158ca13adee58a5f4ae845d58f6a",
+      "bytes": 1039
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-3/crypto-lesson.tsx",
+      "sha256": "6a8515c59892245648787bf67bbdbcc44c14e9982dfac2de1211d426f0bdcdd0",
+      "bytes": 610
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-3/layout.tsx",
+      "sha256": "829c3fa16d9d3197fd5622c33829384444a2a18b2a4a1293be9681854a56e5c3",
+      "bytes": 414
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-3/lessons.ts",
+      "sha256": "93fd603bd133142ee54ae7947535e9b098ed928efe7eb85c22ff1127646c13b5",
+      "bytes": 417
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-3/page.tsx",
+      "sha256": "02474506d75c024fbc07d2c0a3eed1f7eba568e0e67341feb3cdd5ac56eeb124",
+      "bytes": 135
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-3/progress.ts",
+      "sha256": "f740e82a6f09956c931654534712292890f665d0bf4ee854cadd6653348ed27c",
+      "bytes": 231
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-3/quiz/page.tsx",
+      "sha256": "8f2b0c829241e74c8f3667c5392f9bf26af033b84a5f8239b13f3d73d756a4ae",
+      "bytes": 1180
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-4/[lesson]/page.tsx",
+      "sha256": "8da7d81c31c5c678ae5475bc975a91136b61b47d74d430cabb52b192cd5c70e6",
+      "bytes": 1151
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-4/crypto-ethereum-and-networks/ethereum-contracts-and-connected-networks/page.tsx",
+      "sha256": "8d40b8b57aede15a9b38cd722fef56279e542181db06f0d5a29917befd111f43",
+      "bytes": 1303
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-4/crypto-ethereum-and-networks/page.tsx",
+      "sha256": "105c64967207c397e065dec93ebcdceef46e400864416c193fafdaad1501f240",
+      "bytes": 1060
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-4/crypto-lesson.tsx",
+      "sha256": "4ca2cef15e7a0c3f4afa991fe0bc81b3421637bfd501eef90ee15c60db7b5736",
+      "bytes": 610
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-4/layout.tsx",
+      "sha256": "829c3fa16d9d3197fd5622c33829384444a2a18b2a4a1293be9681854a56e5c3",
+      "bytes": 414
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-4/lessons.ts",
+      "sha256": "1f9292f0fbd7e287b492ed0133e82949850be4239104b9f780638ae5193b09cb",
+      "bytes": 417
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-4/page.tsx",
+      "sha256": "02474506d75c024fbc07d2c0a3eed1f7eba568e0e67341feb3cdd5ac56eeb124",
+      "bytes": 135
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-4/progress.ts",
+      "sha256": "d8f111d4df371925cd4f7956103cae5f982d802e38218da1754d25ae285cfea2",
+      "bytes": 230
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-4/quiz/page.tsx",
+      "sha256": "6c8dfc945779325e39726566c153d73ccf4bb25594ca678a3f0586dc25d894d8",
+      "bytes": 1179
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-5/[lesson]/page.tsx",
+      "sha256": "8da7d81c31c5c678ae5475bc975a91136b61b47d74d430cabb52b192cd5c70e6",
+      "bytes": 1151
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-5/crypto-lesson.tsx",
+      "sha256": "d883dfcc84936d60d40538365e7c62af7b85a88a3656f2bcbdcb19810b52edd6",
+      "bytes": 593
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-5/crypto-tokens-and-research/page.tsx",
+      "sha256": "4f5b92658fc4b39260e8c669577663aecc9f97e78d8e50b9241dce1494e40c1b",
+      "bytes": 1034
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-5/crypto-tokens-and-research/token-supply-and-research/page.tsx",
+      "sha256": "5406f33801365313f2259b67ef31f924ffbb464b1ea9cadc808cdda8c5fe0436",
+      "bytes": 1245
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-5/layout.tsx",
+      "sha256": "829c3fa16d9d3197fd5622c33829384444a2a18b2a4a1293be9681854a56e5c3",
+      "bytes": 414
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-5/lessons.ts",
+      "sha256": "d0dd19cff7bf63524a1e30f2564b9ed99e68f2eb683d273974e52d02f2a8fabe",
+      "bytes": 415
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-5/page.tsx",
+      "sha256": "02474506d75c024fbc07d2c0a3eed1f7eba568e0e67341feb3cdd5ac56eeb124",
+      "bytes": 135
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-5/progress.ts",
+      "sha256": "636795f9b0062277e13d1c4064f612594d1d282f6de2f80eb1f70442f2838314",
+      "bytes": 228
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-5/quiz/page.tsx",
+      "sha256": "d7c0e8f90cad320fe649c7967197b5656deeb11f03f80d0f27b5b746bdb39c24",
+      "bytes": 1184
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-6/[lesson]/page.tsx",
+      "sha256": "8da7d81c31c5c678ae5475bc975a91136b61b47d74d430cabb52b192cd5c70e6",
+      "bytes": 1151
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-6/crypto-defi-foundations/defi-liquidity-lending-and-rewards/page.tsx",
+      "sha256": "7ab6e9a2285ca1a8e6fbe117f77b43e5a57466dc29d69973b8060968dd4f2f21",
+      "bytes": 1288
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-6/crypto-defi-foundations/page.tsx",
+      "sha256": "c9a3a47ec199e995aeab2e600466e394c719327cb7a2d3db9014e5ebe994f344",
+      "bytes": 1059
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-6/crypto-lesson.tsx",
+      "sha256": "7f770744933f44feed4d5505475fcea473408daf6bb831795d319f5796da0eca",
+      "bytes": 596
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-6/layout.tsx",
+      "sha256": "829c3fa16d9d3197fd5622c33829384444a2a18b2a4a1293be9681854a56e5c3",
+      "bytes": 414
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-6/lessons.ts",
+      "sha256": "be7930fc7cb37f7cbe2a20397cd90bdfa304cb85e9ccad7e74504ddd1e25bacf",
+      "bytes": 408
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-6/page.tsx",
+      "sha256": "02474506d75c024fbc07d2c0a3eed1f7eba568e0e67341feb3cdd5ac56eeb124",
+      "bytes": 135
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-6/progress.ts",
+      "sha256": "cadb53fcada796f9788a0b8d0cf5f01108f5e2a489e1bcd395b19d4c15702fe0",
+      "bytes": 224
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-6/quiz/page.tsx",
+      "sha256": "03f0e61c18982ec0a669e25908f448e53e5cea38405216884c1be6556db9d6a4",
+      "bytes": 1183
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-7/[lesson]/page.tsx",
+      "sha256": "8da7d81c31c5c678ae5475bc975a91136b61b47d74d430cabb52b192cd5c70e6",
+      "bytes": 1151
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-7/crypto-charts-and-evidence/charts-market-context-and-evidence/page.tsx",
+      "sha256": "eba6bf01ecb3e9428236af649b8e61eab84cc0bae89c7e98953066844fcc7ecc",
+      "bytes": 1338
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-7/crypto-charts-and-evidence/page.tsx",
+      "sha256": "b086a2edb6a4a447b239d45fd3de19bb827a3559aa5b0701ab55c06f327a33b9",
+      "bytes": 1109
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-7/crypto-lesson.tsx",
+      "sha256": "f3fd245052eed8e0e101378d56e14f49f103c46c6cba1519ab02ab15a1fc2f5e",
+      "bytes": 603
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-7/layout.tsx",
+      "sha256": "829c3fa16d9d3197fd5622c33829384444a2a18b2a4a1293be9681854a56e5c3",
+      "bytes": 414
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-7/lessons.ts",
+      "sha256": "deac7c64ef5fa7b765215617f2775a34d52ebfbd352672d6d1d564768c8d9962",
+      "bytes": 415
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-7/page.tsx",
+      "sha256": "02474506d75c024fbc07d2c0a3eed1f7eba568e0e67341feb3cdd5ac56eeb124",
+      "bytes": 135
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-7/progress.ts",
+      "sha256": "51233481d3db4d49b9a2264cc832bf12eff73ee3849f4fe353d273c7cbd5de66",
+      "bytes": 229
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-7/quiz/page.tsx",
+      "sha256": "8cf6c26dc9fc213da006310bcb5937d3465cebd0498f3d6012b9628bdac66195",
+      "bytes": 1208
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-8/[lesson]/page.tsx",
+      "sha256": "8da7d81c31c5c678ae5475bc975a91136b61b47d74d430cabb52b192cd5c70e6",
+      "bytes": 1151
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-8/crypto-lesson.tsx",
+      "sha256": "8641e30da5f9072c4217ce9a4d1ba5a28d977235b94210f6837fb08c20700554",
+      "bytes": 603
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-8/crypto-risk-and-portfolios/page.tsx",
+      "sha256": "02b1bf0fa3d3cb81123d252d10bd4f3697e62f4befb5a228c28a680d64bb3efc",
+      "bytes": 1077
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-8/crypto-risk-and-portfolios/sizing-leverage-and-portfolio-risk/page.tsx",
+      "sha256": "a8841b8dcdc75b340034510b1185c9ec72d430850076d81b9f7766254abe37d2",
+      "bytes": 1306
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-8/layout.tsx",
+      "sha256": "829c3fa16d9d3197fd5622c33829384444a2a18b2a4a1293be9681854a56e5c3",
+      "bytes": 414
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-8/lessons.ts",
+      "sha256": "c4220934ee023c4ad6c300d5cef8ae94f85b3b4f7de37425695c90c3cb5a858d",
+      "bytes": 415
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-8/page.tsx",
+      "sha256": "02474506d75c024fbc07d2c0a3eed1f7eba568e0e67341feb3cdd5ac56eeb124",
+      "bytes": 135
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-8/progress.ts",
+      "sha256": "a0c74e77795cb4702e831ca06b3da62d628ee8786ff9150022d0a5f313e21501",
+      "bytes": 229
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-8/quiz/page.tsx",
+      "sha256": "8aab6e51abec505c348f5ca6c811db711e47d2d7ffe774ac9fd64279dbafc6ce",
+      "bytes": 1195
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-9/[lesson]/page.tsx",
+      "sha256": "8da7d81c31c5c678ae5475bc975a91136b61b47d74d430cabb52b192cd5c70e6",
+      "bytes": 1151
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-9/crypto-lesson.tsx",
+      "sha256": "9aeeeefb243b16676496f8ce3ae34b34029010e61bc78f33f3d65c362f23ab78",
+      "bytes": 607
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-9/crypto-planning-and-practice/page.tsx",
+      "sha256": "cf6ec99bf32dfeede01fb4f5e601b66caeb56a8d684423b4ff976200a4f52abb",
+      "bytes": 1081
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-9/crypto-planning-and-practice/psychology-planning-and-paper-practice/page.tsx",
+      "sha256": "d407c11a1a51e3e35d565ef1391d740e72b531743f8830a4ba2b573710eaf981",
+      "bytes": 1318
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-9/layout.tsx",
+      "sha256": "829c3fa16d9d3197fd5622c33829384444a2a18b2a4a1293be9681854a56e5c3",
+      "bytes": 414
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-9/lessons.ts",
+      "sha256": "c43de07eeebc3d9af65ed99fc08be7bcff029303d66df6e70492a0d1e02f74d3",
+      "bytes": 417
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-9/page.tsx",
+      "sha256": "02474506d75c024fbc07d2c0a3eed1f7eba568e0e67341feb3cdd5ac56eeb124",
+      "bytes": 135
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-9/progress.ts",
+      "sha256": "4ab3a41c200f7902a106c169a06a9e8c982b31909514db5bf25036054b7ee3e0",
+      "bytes": 230
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/level-9/quiz/page.tsx",
+      "sha256": "50cc215119035f87df0f98fb0781a889f971e8fabb9635d621c835836d792d15",
+      "bytes": 1194
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/crypto/page.tsx",
+      "sha256": "336cab1ff7eb234910ac04c25f07a0e6f16b6a05e3801c07dfec70ff1ad8a563",
+      "bytes": 4638
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/forex/[level]/[segment]/[module]/page.tsx",
+      "sha256": "a927d1f4434fbc6694d50b085245bd5bfda19197a8759eda7f759e1c3c5f73df",
+      "bytes": 1570
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/forex/[level]/[segment]/page.tsx",
+      "sha256": "5929d55ecd18dbd58d82c58e1ebd022387a65c68f6d6e39349fa2b8c3eb0d09e",
+      "bytes": 3183
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/forex/[level]/page.tsx",
+      "sha256": "ed0957ff5180a73cbd86b62536575d3bcaa9bdc8cb085d9043d70efb110d8405",
+      "bytes": 1371
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/forex/forex-index-client.tsx",
+      "sha256": "9d991e8c2d8298d805b0be2181f9682b3eb92f3f7ad3fb741ccad5e78dea2ca8",
+      "bytes": 8911
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/forex/layout.tsx",
+      "sha256": "9549f3316d5bcb9495693bd13da79134f449eb007115dfe4c5230098088c6ddb",
+      "bytes": 451
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/forex/level-1/[lesson]/page.tsx",
+      "sha256": "d6d783c4cffdd3ed263fea3316c6fc1d8951a70912978cc1ead465dfa8049808",
+      "bytes": 1156
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/forex/level-1/forex-kindergarten/forex-foundations/page.tsx",
+      "sha256": "e195c7f6af5c1f775b3de138655b65b1da5f7bd756de23d3df13b8a3d17c188b",
+      "bytes": 990
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/forex/level-1/forex-kindergarten/page.tsx",
+      "sha256": "771ca02aa91f02cd0ceeab35098a5363e9e45ae80e588e9c74bdc20bdc93db42",
+      "bytes": 810
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/forex/level-1/forex-lesson.tsx",
+      "sha256": "83d44844bf8fbe76a08ab615249aff66045fb68a54cf8ab0c56dfe6d7304b602",
+      "bytes": 1513
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/forex/level-1/layout.tsx",
+      "sha256": "b2c7242639992e8be5773cb17158e22df98b3e90cbed7196970365dcabeea148",
+      "bytes": 412
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/forex/level-1/lessons.ts",
+      "sha256": "6ffee9e25f6e02297b634abe634031809b1dc3207664e3a3c85e9e46f80a1128",
+      "bytes": 580
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/forex/level-1/page.tsx",
+      "sha256": "429ba8f78a9b31ed2a2837bcad01441b85449e341cd71fdf37f511e09ae7854c",
+      "bytes": 192
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/forex/level-1/progress.ts",
+      "sha256": "4a4161db48d38d8a33d9fbb88944e89ef90c5af53b203f4d1164c22cf7bed8b2",
+      "bytes": 1110
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/forex/level-1/quiz/page.tsx",
+      "sha256": "550bdfdbcad54bbe9652eb6297371554de1332cf3e3cf9dc31f6ec871b1d86e4",
+      "bytes": 1054
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/forex/level-1/quiz/quiz-client.tsx",
+      "sha256": "71e8dcb29377179598d2db16388450c3509d351ec34600f2c0adcbf3a1ad8357",
+      "bytes": 28650
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/forex/page.tsx",
+      "sha256": "47834cf2b43baf0bce920bf1de0b0d5397213fa17ab4bff7f3025edc0d928a91",
+      "bytes": 460
+    },
+    {
+      "path": "apps/pipstart/src/app/learn/progress-actions.ts",
+      "sha256": "fd79e8f57941b8360924a4810e843f84c4735096f50edf32a913958aaae8066a",
+      "bytes": 5468
+    },
+    {
+      "path": "apps/pipstart/src/content/README.md",
+      "sha256": "695bdaffe85a3fdd91b6656a0286e779061ee37d6a505e10ec21d4fac2ef6208",
+      "bytes": 1300
+    },
+    {
+      "path": "apps/pipstart/src/content/calendar-explainers.ts",
+      "sha256": "6071aa83b92406f77011d3047680a1fc110a5f09f1882b2d3b8b19904a3c6543",
+      "bytes": 9188
+    },
+    {
+      "path": "apps/pipstart/src/content/glossary-catalogue.draft.json",
+      "sha256": "aa4de35f8aeb1ff435c7be14348b9a8526e360b65090c180d027a0b8f17a9347",
+      "bytes": 742355
+    },
+    {
+      "path": "apps/pipstart/src/content/glossary-catalogue.ts",
+      "sha256": "e9ed6b16555f112dfbb8273d898662bb0f73fe69dac8901ba1efb5e19a8b50a3",
+      "bytes": 954
+    },
+    {
+      "path": "apps/pipstart/src/content/glossary-display.ts",
+      "sha256": "6e1f4f03d9b4d98dcf2a6d2f114373c19399d461bd94e72611c125a26d5362eb",
+      "bytes": 2084
+    },
+    {
+      "path": "apps/pipstart/src/content/glossary-release-status.json",
+      "sha256": "31a13ae88923a4045cc0ae51f78c3fd87b1410b162d4e151f1dbfe83f4baad0b",
+      "bytes": 293
+    },
+    {
+      "path": "apps/pipstart/src/content/glossary-review-status.json",
+      "sha256": "424b8b7f457a401c48909ab45abb20b8949a39b9c99216e69853a2ad4724289e",
+      "bytes": 355
+    },
+    {
+      "path": "apps/pipstart/src/content/lesson-content.ts",
+      "sha256": "83e305327cf37a46a0f0548d98975e0a898bc01daddd6292fba69243e65ecf1a",
+      "bytes": 20182
+    },
+    {
+      "path": "apps/pipstart/src/content/lesson-registry.ts",
+      "sha256": "dede3088a30bc30f25976c018fec38484aa499db8f425d52ce2b9037a967e067",
+      "bytes": 16137
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/crypto/draft-security-basics.mdx",
+      "sha256": "3ee22d56b2f01266a0a5b1b03f5cca0be6660aa70f3e299ae776effb8b69f45d",
+      "bytes": 1184
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/crypto/level-0-lessons.ts",
+      "sha256": "3daf8079a7dac0fbb9e07a3605cd7d9d482cf7615ace4c2094e34da5040b11fb",
+      "bytes": 103711
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/crypto/level-1-lessons.ts",
+      "sha256": "2fd1afc50453c924337ced061954c3d524a99f1d82395533570d0e862e20e330",
+      "bytes": 141476
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/crypto/level-10-lessons.ts",
+      "sha256": "6873a69d4ee6aa43a0e99ef80d3c72e1b2c2411fca778597089174a945dc57bb",
+      "bytes": 159962
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/crypto/level-2-lessons.ts",
+      "sha256": "f4226917cccec166f3101b56e9cbe7bd22b11f315153a2271262378cddd56cb3",
+      "bytes": 149940
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/crypto/level-3-lessons.ts",
+      "sha256": "3024e35a2950343efbc435ae0c055a8831a4a1d6f51c47c3b6c3b4156108441e",
+      "bytes": 149878
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/crypto/level-4-lessons.ts",
+      "sha256": "947bb2f92f3ff08e5805c885ac72c7f79c27ddc985d194fb8db66615f9126a92",
+      "bytes": 112379
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/crypto/level-5-lessons.ts",
+      "sha256": "f1a3df42f8e443efcf7bd7356c7cff7f85518bdf62bd06b0c23e668623a17482",
+      "bytes": 117297
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/crypto/level-6-lessons.ts",
+      "sha256": "756228a47382bd802685c72d54de7f01ca86ccf95db4597d11b1f9b007cd958f",
+      "bytes": 123945
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/crypto/level-7-lessons.ts",
+      "sha256": "ad327c3964907e0866b27778e4c723ce17e0fbe63b53345af75208e8981b545f",
+      "bytes": 129543
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/crypto/level-8-lessons.ts",
+      "sha256": "7bf577185f50dc883cb13ed70bfe2714dbc1694800a083344210d4bdf3169fc0",
+      "bytes": 111423
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/crypto/level-9-lessons.ts",
+      "sha256": "9fe67545a6e73cd4eb350921a8c231a06ed0cedfdcaa35a8aa923f9e37d08157",
+      "bytes": 134686
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/crypto/what-is-bitcoin.mdx",
+      "sha256": "218d9bdc8bf6e9f0e81afaf535f248214cc6f2b7f8111331d7e14cc650b62812",
+      "bytes": 1456
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/a-repeatable-practice-habit-sections.ts",
+      "sha256": "dd0c7f74e9ffe113908b66f38e455ed59fcbe566d7467353fac0dc580d253f21",
+      "bytes": 31551
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/a-repeatable-practice-habit.mdx",
+      "sha256": "53a78e74f14d617c0087499e6ddc77e85397b58ddafcb6207a3f603443ac9e18",
+      "bytes": 2542
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/averages-and-momentum-sections.ts",
+      "sha256": "bf63da21f32e37554695b8c342c9cb29c75060e41427fb4c407caeafee10f403",
+      "bytes": 21660
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/averages-and-momentum.mdx",
+      "sha256": "57646c5a8d2cb8af7dcace1cbefb8b791eaefae5a214d62dc8e9d4e1b13f0de1",
+      "bytes": 2193
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/bid-ask-spread-sections.ts",
+      "sha256": "076b22abe9d830e9d8a18d7e22de13a9f9c13868c841d87e566304a5c73b092c",
+      "bytes": 16582
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/bid-ask-spread.mdx",
+      "sha256": "dc6475ecc89c7512628d3f61fb53cd722b87beed64ef1005ff997190403ee5ac",
+      "bytes": 1846
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/build-a-testable-observation-sections.ts",
+      "sha256": "fda5f4cc2eb7df69183a6503323a05e65c1fe24a9a93a9a743209c36ccbb7dcd",
+      "bytes": 29591
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/build-a-testable-observation.mdx",
+      "sha256": "1860079fc2a5b3daecbb597716f8550c1de4d068dd3ade73fca7e92acf6efa2d",
+      "bytes": 2380
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/choosing-a-forex-provider-sections.ts",
+      "sha256": "da721429be9f69d9d7cbc9b88ef737adca4a85e1fba465a84270cf2a411be44e",
+      "bytes": 20166
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/choosing-a-forex-provider.mdx",
+      "sha256": "8d827477cf9dabfd5e6a8683a4be33f35bca85ebfcefa8888f9c31430e020d33",
+      "bytes": 2176
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/combined-exposure-and-losing-streaks-sections.ts",
+      "sha256": "6e6d929645cfac4c398c7e26efecb05025d54836c774cfa12bdee9b0f01125d1",
+      "bytes": 32427
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/combined-exposure-and-losing-streaks.mdx",
+      "sha256": "2132aed24b9babf4cd1c81a9497f2f2d64e009d19347f778e8f49e106c1726fe",
+      "bytes": 2242
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/costs-withdrawals-and-safety-sections.ts",
+      "sha256": "a2567b8a80c83028991dcd27da686ec3bd50aa97c9b84c06aa45f953e86b939f",
+      "bytes": 22765
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/costs-withdrawals-and-safety.mdx",
+      "sha256": "f7ecd569c81a478b4c5ca9a7a9f1fd8edfdb582189a3bf01a4b79aabd409fa3a",
+      "bytes": 2291
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/currency-pairs-sections.ts",
+      "sha256": "28f472b00a788611ec791adadb0c5a1f7b6480baaf399d62720e40893d611a96",
+      "bytes": 17305
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/currency-pairs.mdx",
+      "sha256": "ebf6bb549569452de973f83167de24da8b67c3d86a99f21c42bc97e20a13618c",
+      "bytes": 2097
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/decide-the-loss-before-the-size-sections.ts",
+      "sha256": "1597f70678a6196d9dc76f3f2f18804556bb605c8e9f230a01381ae54121724a",
+      "bytes": 25418
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/decide-the-loss-before-the-size.mdx",
+      "sha256": "9863a50f8479f96cd72a9df14a5342ca0516ec412e4c72cc95bb5dd50561903f",
+      "bytes": 2222
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/describe-structure-without-guessing-sections.ts",
+      "sha256": "69fda6c58a25112d8adcdc24c6ebe4efd5fc905d46c9bc0bec550076bbc730a9",
+      "bytes": 25483
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/describe-structure-without-guessing.mdx",
+      "sha256": "d057bea5cd47718845266269792a26c2948367eec9f7b29c1de2eb8c7c5cd385",
+      "bytes": 2262
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/economic-news-and-currency-demand-sections.ts",
+      "sha256": "a53d6e0ce5d8ba8fc2f9ab3d0fe21c4f320d5ba1f3f835a7f5fb7cbe64628e6e",
+      "bytes": 29081
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/economic-news-and-currency-demand.mdx",
+      "sha256": "df9981b6bca8a3fde90ac3d48329187950ff7aca0c7c64394f32d3527fd9e679",
+      "bytes": 2845
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/emotions-around-a-decision-sections.ts",
+      "sha256": "cf2ff23b22864fc94579d03e539501d2635fc0aea53d506793ef9224c90a885b",
+      "bytes": 28734
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/emotions-around-a-decision.mdx",
+      "sha256": "3955cc8c0547e116ada9ec693f082d14655e40bee77084aa4644708375bef07c",
+      "bytes": 2631
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/how-thinking-can-go-wrong-sections.ts",
+      "sha256": "bbf3f7e1d869b9febb1015bdea757a1a2a63d740da0281d0367522b245680cbb",
+      "bytes": 29828
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/how-thinking-can-go-wrong.mdx",
+      "sha256": "eed6fe913f424bbe5242ba89f157ad281e913e4a39d479f2daf464d47361576b",
+      "bytes": 2716
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/level-0-sections.ts",
+      "sha256": "b2efbe1edc6438452cf40f70d16f42cd87b1f85ec1087a546bb23c6a0f71e0e5",
+      "bytes": 45084
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/levels-patterns-and-limits-sections.ts",
+      "sha256": "a8235a16700373f7a99b969155b274fc6e9e942e80277cc07e7396bd85bba62c",
+      "bytes": 25764
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/levels-patterns-and-limits.mdx",
+      "sha256": "36beda849c19f27a249eac3059ec43263ff8526e634f9214a23cc97c55840843",
+      "bytes": 2223
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/liquidity-and-market-positioning-sections.ts",
+      "sha256": "135f90b71057a8bd2de4d1de4ada531f5852d66d872b3323b62daa61f71f1cc7",
+      "bytes": 35029
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/liquidity-and-market-positioning.mdx",
+      "sha256": "0f67b95b9a5809de2f1005a226d81037d26032517098c17f6cfaeec784fed5a8",
+      "bytes": 2849
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/margin-leverage-and-drawdown-sections.ts",
+      "sha256": "d085496b4d8c974fc3996cce5ffc1b611b7c0720b47f807a4f5e9238fd231fd3",
+      "bytes": 25588
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/margin-leverage-and-drawdown.mdx",
+      "sha256": "813ef642c4f438b89c88320ddd2516a59282830271babcfc6ae31d446ebd75ed",
+      "bytes": 2214
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/market-participants-sections.ts",
+      "sha256": "fa332b686856028d81ad9fea0b3f3f9db203cdc1eb35b7f46935508e2a6720f2",
+      "bytes": 18660
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/market-participants.mdx",
+      "sha256": "8434ab6de6ba5a7af5c3c2e3707fc784c57249eefbdb6ba1a12d7e14293df556",
+      "bytes": 2190
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/money-risk-and-demo.mdx",
+      "sha256": "b2884235fc68ac61ccd28980b6ac233ecc5c36a640727d5cf648b58a50901b5b",
+      "bytes": 11275
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/order-types-and-exits-sections.ts",
+      "sha256": "9118ad8c2b274f5f54b4a126ee8184e1817a8e09c289e56f9ba4d2c368c25cc2",
+      "bytes": 22993
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/order-types-and-exits.mdx",
+      "sha256": "9fdf9aa74290a59864dcf44da4057765608573df141d9d59a225de2df0ccdc40",
+      "bytes": 2174
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/orientation-course-purpose.mdx",
+      "sha256": "9ce65dda2779a1bc40e285e4ad6ce110b4866f07e2198f09e501817b474c8ed5",
+      "bytes": 9188
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/pips-and-lots-sections.ts",
+      "sha256": "df237dd03d01e95eb3dd0364509557c62c55994837274c7333a770cfb0d64103",
+      "bytes": 17102
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/pips-and-lots.mdx",
+      "sha256": "3fd29f50916c909768c35c25a4fc4ee62d93f9ade9bda5b467fa39517ea70474",
+      "bytes": 2099
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/platforms-and-demo-practice-sections.ts",
+      "sha256": "2158274d91c453e1c31dceffd5017cdeabd8195dbcd0c17ac0a7b9219dc1f5ba",
+      "bytes": 22633
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/platforms-and-demo-practice.mdx",
+      "sha256": "e89af39ccc51cef8904a4e9cf281401038084fc01a4c6e0237a90ca5832f460a",
+      "bytes": 2084
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/policy-and-market-relationships-sections.ts",
+      "sha256": "5edd7f1848cc5df1bec5046d0602c649add60b534819b4be2cf51793d13d2431",
+      "bytes": 30783
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/policy-and-market-relationships.mdx",
+      "sha256": "8b7425ab6948962002c30af2adb3f7aea473667d3fd85da93220787993220668",
+      "bytes": 2943
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/read-a-chart-before-interpreting-it-sections.ts",
+      "sha256": "747d31ab9c09e3d634a5961706f3a14ee8c25146ee412090a802ef8af0e4fc32",
+      "bytes": 18747
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/read-a-chart-before-interpreting-it.mdx",
+      "sha256": "5897c691cfeb9fbe93d656aa981362382ee16c9f1153aedc9589c128e15f4b1a",
+      "bytes": 2048
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/read-the-results-honestly-sections.ts",
+      "sha256": "654087c1ca28b2ee9f66c0f2386cdfea210be6aba8a9e2a93cac4f757c4f0785",
+      "bytes": 33788
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/read-the-results-honestly.mdx",
+      "sha256": "14f22de99e51fc5f0856ffbe6d7a3161270a6916f5435e9368e34ad0c67273ca",
+      "bytes": 2534
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/relationships-that-can-change-sections.ts",
+      "sha256": "ca602c20638158baee27c8b4d15576b0f46b83214673034feb91ed26d929c5fc",
+      "bytes": 33986
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/relationships-that-can-change.mdx",
+      "sha256": "d6a45e349b211665a9f52cf81fdc11b5175822922a14a4ab71950f3fde3c9c12",
+      "bytes": 2778
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/review-the-whole-portfolio-sections.ts",
+      "sha256": "4c5a2b5622ac5817a7ffd3893b351e2ef446610580ca703a9c829dbad112307c",
+      "bytes": 43473
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/review-the-whole-portfolio.mdx",
+      "sha256": "70f6a228d674319bb89266db7dd6a4d7bab06b0d9a07181c37f93ead949e8eef",
+      "bytes": 2808
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/spot-forex-scams-and-safety.mdx",
+      "sha256": "c89c456ca418e460e67fe5d473c44cd573adab913ca0c1f5e233156c88725511",
+      "bytes": 12990
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/stops-targets-and-a-checklist-sections.ts",
+      "sha256": "f305731ec6becbd0265b7d9d1453c26f6a23f944c260acfca255cb79187a1692",
+      "bytes": 29345
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/stops-targets-and-a-checklist.mdx",
+      "sha256": "56a8ed63a01127507fc8152f5dfb113e47559dd707c7631baf87c37810e4e44b",
+      "bytes": 2428
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/swings-breakouts-and-false-signals-sections.ts",
+      "sha256": "da070aae77964b59a9a4885abffc141df7949b94526316aaeb52e31ce80b4e54",
+      "bytes": 21436
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/swings-breakouts-and-false-signals.mdx",
+      "sha256": "f4a9aaf5e6fbd2c6ce367fc13d788dc65c8df63e9154609f4cef43845b9d1bdc",
+      "bytes": 2243
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/test-without-looking-ahead-sections.ts",
+      "sha256": "a926e819bb76b4642ebb0c2416a0f4b60b6eddad8e9121bd99f995802169d435",
+      "bytes": 34193
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/test-without-looking-ahead.mdx",
+      "sha256": "1d5ad2bdadc69afbc7840983983c7dc2aab26c43fb66dbbab952e65f95e04f1c",
+      "bytes": 2688
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/trading-sessions-sections.ts",
+      "sha256": "3de335b7da6ace1b514a729a97771701f3816495065df8366263edce328b9bfa",
+      "bytes": 18449
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/trading-sessions.mdx",
+      "sha256": "a282d240125551bd771668c7ac9d708e69c5e9a90994db3d9e5cb5c9a2cc158e",
+      "bytes": 2649
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/trading-versus-investing.mdx",
+      "sha256": "6d85ae224787f1d9b8db1b794359bc4cbcc9e92daaf2ce4038c21fc1c72eca1a",
+      "bytes": 10341
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/trends-and-price-landmarks-sections.ts",
+      "sha256": "e2dd0f6ecd231da17d486347e06a9644a8e270f531e98c53801408f770150ad1",
+      "bytes": 19451
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/trends-and-price-landmarks.mdx",
+      "sha256": "e6b521a6e194334dc9080958226117bf8a344bc7c265d6a0805cae68e3fa6572",
+      "bytes": 1993
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/use-an-economic-calendar-safely-sections.ts",
+      "sha256": "59df02713663c5fc9276c47544101ee2bd9b3783e80d495abc1aba120f72c662",
+      "bytes": 28540
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/use-an-economic-calendar-safely.mdx",
+      "sha256": "0913388be54663165768e8a52df8d55043ccf07f9cb618e3d5e9ae7e56ba6802",
+      "bytes": 2615
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/volatility-tools-sections.ts",
+      "sha256": "f0810a5e40da161e457672978b4367ed870998bb9fa8050fe052e3a5801343b6",
+      "bytes": 20144
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/volatility-tools.mdx",
+      "sha256": "dd681f2252794061a977f12ec6167b5190d66a210b26d757feae3ab225e59900",
+      "bytes": 2112
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/volume-and-chart-limits-sections.ts",
+      "sha256": "17cb18eb0050e215699b6e627a74b741738eb8c079266d3265f94ff34f6cacb7",
+      "bytes": 21943
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/volume-and-chart-limits.mdx",
+      "sha256": "4dde48a8083be44582db48f66c86ffcccd6c47e2ab014f0a8c8e705df3e48c49",
+      "bytes": 2246
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/what-is-forex-sections.ts",
+      "sha256": "d92d8545d85a9b2616f594de7d8126ff46149e0cd261dc8c3a1c01efc0424c6f",
+      "bytes": 22456
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/what-is-forex.mdx",
+      "sha256": "94d350be3939e65d3df69b5c109bf426779d3c42284ff4338ed23b1088aba68e",
+      "bytes": 2708
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/write-a-strategy-that-can-be-checked-sections.ts",
+      "sha256": "53738a2522ae360e7723a342d2a39f8ba8e69c2b083b04acc8db0b64e76fbf88",
+      "bytes": 31754
+    },
+    {
+      "path": "apps/pipstart/src/content/lessons/forex/write-a-strategy-that-can-be-checked.mdx",
+      "sha256": "d07818509ce71b0b357ca9ba7422c141aad9d1bd6a51a7ac649dcaca5949aaae",
+      "bytes": 2541
+    },
+    {
+      "path": "apps/pipstart/src/content/provider-links.ts",
+      "sha256": "0cebcfe79ec523da42f5f304a8dab53183af7ad697d3c9bfcfe3eb5bf92f28a6",
+      "bytes": 563
+    },
+    {
+      "path": "apps/pipstart/src/content/providers.ts",
+      "sha256": "b097881d38636bdb1dfd98e1bdef7a3110bd6336edc6cdb6c4536ad14d1c5910",
+      "bytes": 2915
+    },
+    {
+      "path": "apps/pipstart/src/content/published-glossary.ts",
+      "sha256": "7b5917b65c7debb3d4535858e8392e69e1c8d9688ba190ceafed8b4dc9d506e8",
+      "bytes": 3999
+    },
+    {
+      "path": "apps/pipstart/src/lib/assessment-attempt-binding.ts",
+      "sha256": "eea60ff444d19e4c81806798bb2acf9e3b4bcbf680099ba9a0aa258c1ab24cfb",
+      "bytes": 1693
+    },
+    {
+      "path": "apps/pipstart/src/lib/assessment-attempt.ts",
+      "sha256": "0705b3f0d953b6f508108532b0fb22eea368b89da55e7b6bf2e6bd6528b80089",
+      "bytes": 3492
+    },
+    {
+      "path": "apps/pipstart/src/lib/assessment-client-key.ts",
+      "sha256": "88aa53252011dfe2c002e568eb51dd7077079a1cdc6fb140d463120e5d77937c",
+      "bytes": 2488
+    },
+    {
+      "path": "apps/pipstart/src/lib/assessment-registry.ts",
+      "sha256": "6d965f822a6222948d9c9c445d4046481ee9fe4cc7b2146743d607d69d58cb43",
+      "bytes": 16039
+    },
+    {
+      "path": "apps/pipstart/src/lib/assessment-ux.ts",
+      "sha256": "ae3880412ef38986808f36e24aa9b94a61821b96b1a8c13416aad6f8743f582e",
+      "bytes": 4397
+    },
+    {
+      "path": "apps/pipstart/src/lib/assessment.ts",
+      "sha256": "e2c0564178e9cbc9657493fc7876aa2aff7e543084fc10b879bed8037df279c6",
+      "bytes": 3602
+    },
+    {
+      "path": "apps/pipstart/src/lib/course-progress-server.ts",
+      "sha256": "7e92e3c8d2786782b3a4a5d4c9a31ebb22c5b23f0df1840a2ff68e38d25b5f70",
+      "bytes": 1848
+    },
+    {
+      "path": "apps/pipstart/src/lib/learning-progress-storage.ts",
+      "sha256": "5762f89660f9da8355f4c0c155320f44d22284835a0e484d81984225969070f8",
+      "bytes": 574
+    },
+    {
+      "path": "apps/pipstart/src/lib/learning-quiz-context.ts",
+      "sha256": "6daa341393c98899e71ac3e36a2d2f814fedb1e608002de85482319cfebd5b10",
+      "bytes": 1977
+    },
+    {
+      "path": "apps/pipstart/src/lib/local-progress.ts",
+      "sha256": "84668f245e77fd0d2706dc62bc24e6a7fc0ddd2f8d6cc30fe61c3422206ce59c",
+      "bytes": 1420
+    },
+    {
+      "path": "apps/pipstart/src/lib/permanent-progress-catalogue.ts",
+      "sha256": "79ad24dea65ba87163f6bafea7cd2b7467d2c3b1011d6e6a69ca7379a9827136",
+      "bytes": 1279
+    },
+    {
+      "path": "apps/pipstart/src/lib/permanent-progress.ts",
+      "sha256": "d9c4b25be3524fba4b87bb1e1c479d0b9abcd8b83c3f32aec6f2b52ee1515c08",
+      "bytes": 5741
+    },
+    {
+      "path": "apps/pipstart/src/lib/progress-save-transition.ts",
+      "sha256": "65e8c5e238e81ea908a5f0c25b4d2fa1be673f797d5af3cff80ad01016f45276",
+      "bytes": 1534
+    },
+    {
+      "path": "apps/pipstart/src/lib/provider-directory.ts",
+      "sha256": "d415a5e2a3cf3a6cc81e357843000960a12fca1d927177ee1e49ff49570f8bc2",
+      "bytes": 8881
+    },
+    {
+      "path": "apps/pipstart/src/lib/public-content.ts",
+      "sha256": "7de7077601cdc5575e1cc730115b894bb94e310a0696620a75212bfec71ef102",
+      "bytes": 296
+    },
+    {
+      "path": "apps/pipstart/src/lib/use-permanent-progress.ts",
+      "sha256": "54fe07a9972ac0169fa2fb77f8d82871a6437c3425b389f0c94339f68ebeaf3f",
+      "bytes": 6283
+    }
+  ]
+}

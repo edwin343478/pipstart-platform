@@ -1,0 +1,173 @@
+{
+  "version": 1,
+  "baseline": "a83669a90fc73e3de8fbcf33dfe0de45ab86d0e7",
+  "status": "foundation-contracts-applied-sample-checks-passed-release-acceptance-pending",
+  "mainPatchCount": 12,
+  "screenCount": 27,
+  "decisions": ["D01", "D02", "D03", "D04", "D05", "D06", "D07", "D08", "D09"],
+  "features": [
+    {
+      "id": "course-editor",
+      "patches": ["MP04", "MP05", "MP06", "MP08"],
+      "proof": "Create new course/module in existing hierarchy; edit/reorder/archive/restore; resolve new learner URL without per-item code; preserve old IDs.",
+      "status": "future-gate"
+    },
+    {
+      "id": "lesson-editor",
+      "patches": ["MP04", "MP05", "MP06"],
+      "proof": "Supported structured blocks, source/asset references and learner preview survive save/reload; invalid HTML/blocks fail.",
+      "status": "future-gate"
+    },
+    {
+      "id": "quiz-editor",
+      "patches": ["MP07"],
+      "proof": "New quiz publish N+1 preserves N attempts; sandbox does not write progress; initial public payload excludes keys.",
+      "status": "future-gate"
+    },
+    {
+      "id": "draft-review",
+      "patches": ["MP02", "MP04", "MP06", "MP07"],
+      "proof": "Assigned author submits; distinct reviewer approves exact hash; edits/revocation/conflicts cannot reuse approval.",
+      "status": "future-gate"
+    },
+    {
+      "id": "publishing",
+      "patches": ["MP08"],
+      "proof": "Atomic snapshot/dependencies/cache work; warmed and new anonymous routes reflect intended revision; failure stays visible.",
+      "status": "future-gate"
+    },
+    {
+      "id": "scheduling",
+      "patches": ["MP08"],
+      "proof": "Supported tick/cost rehearsal, UTC/IANA/DST input, overlap/cancel/revoke races, restricted identity and observed visibility.",
+      "status": "future-gate"
+    },
+    {
+      "id": "revision-history",
+      "patches": ["MP04", "MP06", "MP07", "MP08", "MP09"],
+      "proof": "Immutable history, useful diffs, optimistic conflicts and restore-as-draft preserve public pointer/history.",
+      "status": "future-gate"
+    },
+    {
+      "id": "user-management",
+      "patches": ["MP03"],
+      "proof": "Minimized paginated people DTO; delegated account action with fresh verification and remote intent/outcome reconciliation.",
+      "status": "future-gate"
+    },
+    {
+      "id": "role-management",
+      "patches": ["MP02", "MP03"],
+      "proof": "DB actor/current grants/AAL; direct calls and forged identities fail; concurrent last-owner and self-promotion denied.",
+      "status": "future-gate"
+    },
+    {
+      "id": "partner-management",
+      "patches": ["MP09"],
+      "proof": "Reviewed facts/source/date/availability appear via real directory integration; no fabricated review or commission ranking.",
+      "status": "future-gate"
+    },
+    {
+      "id": "affiliate-link-management",
+      "patches": ["MP09"],
+      "proof": "Fixed disclosure/host policy, preserved attribution, expiry/revoke and DB outage fail closed in actual go route.",
+      "status": "future-gate"
+    },
+    {
+      "id": "content-review-reminders",
+      "patches": ["MP10"],
+      "proof": "Assigned due/overdue/ack/reassignment worklist; acknowledgment does not fabricate fresh factual review; no new email.",
+      "status": "future-gate"
+    },
+    {
+      "id": "audit-logs",
+      "patches": ["MP02", "MP03", "MP06", "MP07", "MP08", "MP09", "MP10"],
+      "proof": "Force audit insert failure and prove DB action rolls back; external unknown outcome stays unknown; minimized bounded viewer.",
+      "status": "future-gate"
+    },
+    {
+      "id": "broken-link-reports",
+      "patches": ["MP05", "MP06", "MP09", "MP10"],
+      "proof": "Complete internal asset/dependency checks; safe manual external probes; missing/blocked/timeout/not-checked distinguished.",
+      "status": "future-gate"
+    }
+  ],
+  "acceptance": [
+    {
+      "id": "AT01",
+      "requirement": "Authors cannot change roles",
+      "patches": ["MP02", "MP03", "MP11"],
+      "proof": "Real Auth/PostgREST direct calls and forged metadata denied with unchanged grants and redacted denial evidence.",
+      "status": "future-gate"
+    },
+    {
+      "id": "AT02",
+      "requirement": "Moderators cannot change disclosures",
+      "patches": ["MP02", "MP09", "MP11"],
+      "proof": "UI/action/RPC direct attempts denied; required disclosure policy remains unchanged.",
+      "status": "future-gate"
+    },
+    {
+      "id": "AT03",
+      "requirement": "Affiliate managers cannot access infrastructure secrets",
+      "patches": ["MP02", "MP03", "MP09", "MP11"],
+      "proof": "No secret-view capability; inspect real DTO/RSC/HTML/errors/bundles/logs and direct calls, including owner-only paths.",
+      "status": "future-gate"
+    },
+    {
+      "id": "AT04",
+      "requirement": "Important actions are logged",
+      "patches": [
+        "MP02",
+        "MP03",
+        "MP06",
+        "MP07",
+        "MP08",
+        "MP09",
+        "MP10",
+        "MP11"
+      ],
+      "proof": "Success/audit atomicity plus denial/unknown semantics, protected append/view and bounded evidence without credentials.",
+      "status": "future-gate"
+    },
+    {
+      "id": "AT05",
+      "requirement": "Deleted content recoverable during retention",
+      "patches": ["MP04", "MP08", "MP11"],
+      "proof": "Restore generated lesson/quiz with assets/holds/history during minimum 90 days; no silent republish or progress deletion.",
+      "status": "future-gate"
+    }
+  ],
+  "releaseGates": [
+    {
+      "id": "MP01-visual-render",
+      "status": "passed-sample-components",
+      "proof": "81 static renders of actual React components/CSS and built fonts at 1440/390/320 passed overflow, heading, sample, first-focus and axe checks. Overview CSS text enlargement passed; desktop/phone overview compared with sheets. Not authenticated routes, browser-chrome zoom or functional-modal acceptance. External visual-results/result.json retains results."
+    },
+    {
+      "id": "MP03-live-admin-learner",
+      "status": "deferred-until-test-accounts",
+      "proof": "Owner will create test administrator when account setup is available. Before live staff features: approved local Auth admin access and learner rejection; no absent-credential skip counted as pass."
+    },
+    {
+      "id": "MP01-owner-acceptance",
+      "status": "pending",
+      "proof": "Owner accepts actual dashboard preview and limitations after applying it."
+    },
+    {
+      "id": "MP01-exact-release-ci",
+      "status": "pending",
+      "proof": "Separate commit/push authorization; exact published SHA quality/build/browser CI."
+    },
+    {
+      "id": "MP08-hosted-scheduler-capacity",
+      "status": "pending",
+      "proof": "Verify actual project capacity, plan/cost and one-minute/five-minute objective before activation; amend explicitly if unsupported."
+    }
+  ],
+  "sqlManifest": {
+    "version": 1,
+    "executable": false,
+    "migrations": [],
+    "reason": "MP01 has no SQL changes. MP02 must add a reviewed ordered fingerprinted plan and separately approved executor."
+  }
+}

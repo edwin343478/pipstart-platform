@@ -1,0 +1,59 @@
+name: M22 staff SQL acceptance
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: m22-staff-sql-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  m22-staff-sql:
+    name: M22 isolated staff SQL and last-owner race
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    services:
+      postgres:
+        image: postgres:17.6
+        env:
+          POSTGRES_PASSWORD: m22-disposable-ci-only
+        options: >-
+          --name pipstart-m22-staff-sql-ci
+          --label pipstart.m22.isolated=staff-sql-ci-v1
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 2s
+          --health-timeout 5s
+          --health-retries 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24.18.1
+      - name: Validate execution boundaries without database access
+        run: node --test scripts/verify-m22-ci.test.mjs
+      - name: Verify input checksums without database access
+        run: node apps/pipstart/scripts/verify-m22-staff-core.mjs --preflight
+      - name: Initialize roles in this fresh disposable CI service only
+        timeout-minutes: 1
+        run: >-
+          docker exec pipstart-m22-staff-sql-ci psql -X -U postgres -d postgres
+          --set=ON_ERROR_STOP=1
+          -c "create role anon nologin; create role authenticated nologin; create role service_role nologin bypassrls;"
+      - name: Run isolated staff transactions and observed last-owner race
+        timeout-minutes: 4
+        run: node apps/pipstart/scripts/verify-m22-staff-core.mjs --run-isolated --ci
+      - name: Preserve sanitized exact-run evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: pipstart-m22-staff-sql-acceptance
+          path: ${{ runner.temp }}/pipstart-m22-mp02-*.json
+          if-no-files-found: warn
+          retention-days: 14
