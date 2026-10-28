@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "files": [
+    {
+      "path": "supabase/migrations/20260915143000_pipstart_learner_accounts.sql",
+      "sha256": "cbedccd6d72b7d02808db7f4630e567eadc94078da3f0c11eb8621cc95863a33"
+    },
+    {
+      "path": "supabase/migrations/20261026120000_pipstart_m22_staff_core.sql",
+      "sha256": "173fbdbc7fd690a129b72b0b484a2a1404f7015b793a377b143946fd206af3e8"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-staff-core.sql",
+      "sha256": "ab7851edda9097110d3a1998080601262d31732fb4bc418a16c202c71d5b019e"
+    },
+    {
+      "path": "supabase/migrations/20261026220000_pipstart_m22_staff_proofs_people.sql",
+      "sha256": "fe9f91514a40f95719e892ed0b955d425b14a046e4585238d3a0be316e7ac0f5"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-staff-proofs.sql",
+      "sha256": "9df414cd1d470eb4833197ab28769657d3622d51cc8bdc78872b8fa09fb6449f"
+    },
+    {
+      "path": "supabase/migrations/20261027150000_pipstart_m22_staff_governance_read.sql",
+      "sha256": "d5f38ab84c74884556da85e1a367c69d91406cd833140d6f93c7ce3765f3be7d"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-staff-governance.sql",
+      "sha256": "cf65808c41b29a73af1e98c0d8c42aa9c232ed4a14daaccbe459a66d4600f916"
+    },
+    {
+      "path": "supabase/migrations/20261027180000_pipstart_m22_account_deletion_safety.sql",
+      "sha256": "29515459b4a2aa1693a6716791b880e9f468b93e207534e59aebceb33bc18bf9"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-account-deletion-safety.sql",
+      "sha256": "499721b52d1316d87aa25f03decd2d2a3456bb240cc58519e41a96eb8e2aaec4"
+    },
+    {
+      "path": "supabase/migrations/20261027200000_pipstart_m22_account_operation_journal.sql",
+      "sha256": "fd47ba3c6d96f72514cda761c4cd855572b6fc25b0212d9c41b704534e7fba09"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-account-operation-journal.sql",
+      "sha256": "264bc72045b6f423572c14ec65a12e8c8093e846f2cf66968de13196b8d647a9"
+    },
+    {
+      "path": "supabase/migrations/20261027210000_pipstart_m22_account_provider_bridge.sql",
+      "sha256": "1758d9961cc3c9a647ce02ac2052ccc0d11757b4ae073b8ba7835544630cb1f5"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-account-provider-bridge.sql",
+      "sha256": "ca155be8fa98ebf4576575680dbc0b239f664959a0e4964460975722aabef759"
+    },
+    {
+      "path": "supabase/migrations/20261027220000_pipstart_m22_staff_retirement.sql",
+      "sha256": "9e19224ea4e4346525c67ad86f42d46f4e13a8e1c7d0c26f61ae2f84ac7289e1"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-staff-retirement.sql",
+      "sha256": "78d04e26daf0e37dc68b5600832ccb4e560fc410e699dc9a3a597bec0f226690"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+# MP03 consolidated acceptance and release review
+
+This is the current handover entry point for the MP03 source on the MP01/MP02 baseline. Earlier per-bundle documents describe their staged state; their old "next" lists are historical, not the current completion register.
+
+## Decision and scope
+
+Keep staff UI, staff database control and the account-provider adapter default closed. This packet prepares publication of staff source that remains disabled by default and continuous SQL verification. The separately authorized six hosted MP03 migrations and read-only schema acceptance have completed, with the exact source-set hash reported by the owner and matched to the prepared packet. This is not authorization for Owner bootstrap, role grants, provider operations, legacy-preview cutover or activation. Full MP03/live operational readiness is not declared.
+
+The reconciled implementation covers staff entry and TOTP; live AAL2 and capability checks; bounded people, roles, delegations, assignments and audit views; single-use fresh-action receipts; own-account deletion eligibility and staff-history protection; the durable private account-operation journal; dormant Owner-proof/provider suspension, resumption and inspection adapter; offline recovery and audit-linked retirement finalization.
+
+## Publication order: learner account deletion
+
+The MP03 update to account/actions.ts calls pipstart_account_deletion_eligibility() for ordinary account deletion, independently of the staff UI flag. The hosted MP03 deletion-safety migration must be accepted before publishing that source. Missing/error/malformed eligibility deliberately refuses deletion; default-off staff UI does not remove this customer-path dependency. Do not add a legacy-role or missing-schema bypass. The owner-reported hosted schema acceptance passed for source set `fce2652ed0efb0c4900138388303c4c5beb8edc717c7a811ced4fcb9c0e8e226`, including the deletion eligibility RPC fingerprint and grants. Local real Auth/controller acceptance covers learner eligibility and staff-history protection. Hosted acceptance is schema-only: it did not delete a live learner or exercise real hosted staff identities. The required hosted schema prerequisite is now met; publication still requires separate approval and exact-commit CI.
+
+## Accepted staged evidence
+
+| Boundary                             | Accepted local evidence          | Practical limit                                                                                                                                                                                                  |
+| ------------------------------------ | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Governance controllers and browser   | 019a7443301eb193c8fd45cd6e0b9084 | Real local Auth/PostgREST/browser and nine axe states; recorded Owner visual approval. CSS 200% zoom is not native browser zoom or a physical screen-reader test.                                                |
+| Audit controller and browser         | c78992b27cd6880b6783a9e0bc57c44f | 23 required gates, minimized audit, signed-in authorization and browser states; Owner approved visuals in the conversation.                                                                                      |
+| Own-account deletion safety          | 910408083b18df43c72a0d7dcf137c7e | Disposable SQL/Auth/controller accounts; staff and former-staff deletion blocked. No live account erased.                                                                                                        |
+| Provider bridge                      | 795f28b4fb39489255948e07368e528e | 18 gates, exactly one generated-account suspension and resumption; response-loss and read-only reconciliation. Production transport remains disconnected.                                                        |
+| Recovery and retirement SQL          | 9ff600ab085833a43b875e8f8504582b | Marked disposable DB, SQL Auth stubs, transaction rollback and immutable-append failure. Includes proof/journal/provider/retirement stages; new consolidated CI additionally stages governance/deletion.         |
+| Offline recovery and retirement Auth | 15e5ea54841ecec6db4148f92313dba5 | 17 gates, three generated accounts, five factors, exactly two factor deletions and one soft retirement. Cleanup confirmed; final staff state paused. No real-person ownership or physical backup custody proven. |
+
+The accompanying minimized evidence index records report hashes and source matches. All recorded source inputs match the current reconciled files. These reports remain staged local evidence and do not prove a later published commit or production configuration. Subsequent consolidated SQL and owner-reported hosted schema evidence are recorded separately below.
+
+Two rehearsal defects were corrected and failed runs preserved externally: a PostgreSQL-incompatible temporary foreign-key fixture and the installed SDK's nested deletion acknowledgment. Neither correction changed application migration behavior. Actual SDK contract tests cover the acknowledgment checks. No failed run is counted as accepted.
+
+## Consolidated CI gate
+
+The MP02-only workflow is extended to a portable MP03 runner with an explicit ordered manifest of 15 SQL inputs. It retains MP02 staged/rollback/head and observed last-Owner contention, then tests proof freshness/replay, governance reads, deletion safety, journal atomic append and observed two-session single dispatch, provider proof/ban gate and retirement safeguards. New negative guard tests reject scope changes, changed fingerprints, traversal and symlink escape, and exercise the actual no-Docker preflight.
+
+Only a fresh, labelled CI PostgreSQL service is selectable in CI mode. Existing application DBs are not reset. Local execution creates and drops only its exact marked disposable database. Auth schemas here are stubs; this gate does not replace the real Auth/browser evidence. Publication requires this gate and the complete existing quality workflow to pass on the exact published revision.
+
+## Open completion and activation register
+
+1. Consolidated local SQL acceptance passed in run `a93b53d37df05f2e9213ee8bd88e3b4b`: 15 exact inputs, 16 staged/head/concurrency gates and cleanup. Exact-commit CI remains pending until separately approved publication.
+2. Hosted MP03 migrations and read-only schema acceptance were separately authorized and owner-reported as passed on 28 October 2026. Source-set fingerprints match; acceptance checks 27 functions, eight trigger links, RLS, API permissions, protected staff Auth references and initial empty/default-closed state. Local CRLF wrapper rehearsal `b7edd21f71581662a30b8f387c88b054` passed rollback, migration, read-only acceptance, replay refusal and cleanup. The six exact migration-history rows are verified in the owner-supplied CLI listing. This is not independent remote inspection or real hosted Auth/provider acceptance.
+3. No real staff account or Owner grant/bootstrap is authorized. Bootstrap/enablement needs an exact reviewed identity and recovery custody plan, followed by real signed-in Owner/Administrator/learner/revocation checks.
+4. Native browser 200% zoom and physical screen-reader/device acceptance remain unverified. Existing desktop/mobile visual approvals and automated axe evidence remain valid for their unchanged UI.
+5. Learner-only delegated provider account administration is not connected. The current own-account deletion eligibility read and staff role management do not implement that feature. Implement and accept it, or obtain an explicit scope amendment, before claiming the original full MP03 account-operation feature complete.
+6. Staff provider suspension/resumption/inspection exists as a private default-off adapter; no public production transport or account-operation UI is connected. Offline recovery and retirement are trusted operator procedures. Live account-operation rollout needs its own reviewed transport/authorization/identity-vetting and acceptance; a service key alone is not staff authorization.
+7. The legacy sample preview remains a separate preview authority. Its legacy profile flag grants no new staff RPC capability. Compatible preview retirement/navigation cutover remains pending before final live staff rollout; this packet does not change legacy access or repurpose sample data.
+8. Retirement preserves pseudonymized, audit-linked identity/profile/preferences and protected references. It is not complete erasure or legal compliance certification. Separate privacy cases require a retention/erasure decision.
+
+## Quality and release sequence
+
+Preparation uses an external baseline snapshot plus 75 reconciled MP03 files and this packet. The exact frozen dependency candidate uses Next 16.4.1 and Vitest 4.1.12. It passed all 2,373 unit tests, TypeScript, changed-source lint, formatting, 14 CI guard tests and a default-off webpack build. Public-bundle verification found no draft/catalogue-body sentinels in 193 browser chunks. Earlier broad checks against stale shared dependencies were inconclusive and are preserved; full lint and all release gates still require exact-commit CI. No result is inferred from an absent test. The main checkout still has its previous dependency installation; refresh it with pnpm install --frozen-lockfile before future local UI/build checks. Future preparation should reuse this exact candidate runtime only while package/lockfile fingerprints still match.
+
+The owner applied the release source packet, completed consolidated isolated SQL acceptance, and reported successful authorized hosted schema acceptance and history reconciliation. A subsequent two-document handover update records those results without changing executable source or SQL. After its owner-run application, obtain publication approval for the exact 81-file MP03 inventory. Then require complete quality and MP03 SQL CI on the exact published commit; the preparation results are not a substitute for those checks. Staff UI/provider settings and hosted staff control remain default-closed. Live bootstrap/activation and the unfinished capabilities in the register above remain separate gates.
+
+Next within MP03: owner application of this publication handover, separate commit/push approval, exact-commit CI and the open completion register above. Next main package after full MP03 acceptance is MP04 revision storage and adapters; nine main packages follow MP03.
+
+## Publication review — 28 October 2026
+
+The reviewed inventory contains 75 reconciled MP03 implementation files and six release/CI files. All match their accepted source fingerprints before the two documentation-only status updates. The index was empty during review; unrelated M15 bundles are excluded. Source inspection confirms exact-true environment gates for staff UI/provider access, and hosted schema acceptance reports disabled control version zero. Current production environment values have not been independently inspected.
+
+No commit, push, account/role grant, provider operation or activation was performed by this review. Passing publication/CI does not close the remaining MP03 feature and live-rollout gaps listed above.

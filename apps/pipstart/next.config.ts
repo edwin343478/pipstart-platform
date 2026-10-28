@@ -9,6 +9,8 @@ import {
 const contentSecurityPolicy = createContentSecurityPolicy(
   process.env.NODE_ENV === "development",
   process.env.NEXT_PUBLIC_SITE_URL,
+  false,
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
 );
 
 export const securityHeaders = [
@@ -34,6 +36,7 @@ export const economicCalendarSecurityHeaders = securityHeaders.map((header) =>
           process.env.NODE_ENV === "development",
           process.env.NEXT_PUBLIC_SITE_URL,
           true,
+          process.env.NEXT_PUBLIC_SUPABASE_URL,
         ),
       }
     : header,

@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   m22-staff-sql:
-    name: M22 isolated staff SQL and last-owner race
+    name: M22 isolated MP02 and MP03 SQL and concurrency
     runs-on: ubuntu-latest
     timeout-minutes: 6
     services:
@@ -37,23 +37,23 @@ jobs:
         with:
           node-version: 24.18.1
       - name: Validate execution boundaries without database access
-        run: node --test scripts/verify-m22-ci.test.mjs
+        run: node --test scripts/verify-m22-ci.test.mjs scripts/verify-m22-mp03-ci.test.mjs
       - name: Verify input checksums without database access
-        run: node apps/pipstart/scripts/verify-m22-staff-core.mjs --preflight
+        run: node apps/pipstart/scripts/verify-m22-mp03.mjs --preflight
       - name: Initialize roles in this fresh disposable CI service only
         timeout-minutes: 1
         run: >-
           docker exec pipstart-m22-staff-sql-ci psql -X -U postgres -d postgres
           --set=ON_ERROR_STOP=1
           -c "create role anon nologin; create role authenticated nologin; create role service_role nologin bypassrls;"
-      - name: Run isolated staff transactions and observed last-owner race
+      - name: Run staff governance, recovery, retirement and concurrency SQL
         timeout-minutes: 4
-        run: node apps/pipstart/scripts/verify-m22-staff-core.mjs --run-isolated --ci
+        run: node apps/pipstart/scripts/verify-m22-mp03.mjs --run-isolated --ci
       - name: Preserve sanitized exact-run evidence
         if: always()
         uses: actions/upload-artifact@v6
         with:
           name: pipstart-m22-staff-sql-acceptance
-          path: ${{ runner.temp }}/pipstart-m22-mp02-*.json
+          path: ${{ runner.temp }}/pipstart-m22-mp03-ci-*.json
           if-no-files-found: warn
           retention-days: 14

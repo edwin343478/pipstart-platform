@@ -7,6 +7,7 @@ import {
   EMAIL_PREFERENCE_MODEL,
   readEmailPreferenceForm,
 } from "@/lib/email-preferences";
+import { deleteEligibleAccount } from "@/lib/auth/account-deletion-safety";
 import { requireUser } from "@/lib/auth/session";
 import { verifyUserPassword } from "@/lib/auth/verify-password";
 import {
@@ -309,10 +310,20 @@ export async function deleteAccountAction(
       fieldErrors: { password: "Password is incorrect." },
       status: "error",
     };
-  const { error } = await admin.auth.admin.deleteUser(user.id);
-  if (error)
+  const deletion = await deleteEligibleAccount(supabase, user.id, () =>
+    admin.auth.admin.deleteUser(user.id),
+  );
+  if (deletion.kind === "staff_retirement_required")
     return {
-      message: "Your account could not be deleted. Please try again.",
+      message:
+        "This account has staff history. Contact support@pipstart.net for a reviewed staff-retirement and account-deletion request.",
+      status: "error",
+    };
+  if (deletion.kind === "unavailable") return unavailable;
+  if (deletion.kind !== "deleted")
+    return {
+      message:
+        "We could not confirm account deletion. Do not repeat the request. Contact support@pipstart.net to check the outcome.",
       status: "error",
     };
   await supabase.auth.signOut({ scope: "global" });

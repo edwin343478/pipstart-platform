@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "files": [
+    {
+      "path": "supabase/migrations/20261027200000_pipstart_m22_account_operation_journal.sql",
+      "sha256": "fd47ba3c6d96f72514cda761c4cd855572b6fc25b0212d9c41b704534e7fba09"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-account-operation-journal.sql",
+      "sha256": "264bc72045b6f423572c14ec65a12e8c8093e846f2cf66968de13196b8d647a9"
+    }
+  ]
+}

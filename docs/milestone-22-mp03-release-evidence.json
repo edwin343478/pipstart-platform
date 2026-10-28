@@ -1,0 +1,218 @@
+{
+  "baseline": "97e4a725d58a1b6dd439e80bde3abc1fc65fd27e",
+  "status": "DEFAULT_OFF_PUBLICATION_REVIEW; LOCAL_SQL_AND_OWNER_REPORTED_HOSTED_SCHEMA_ACCEPTED",
+  "evidence": [
+    {
+      "boundary": "governance-browser",
+      "runId": "019a7443301eb193c8fd45cd6e0b9084",
+      "reportSha256": "eefe445c13e192a089d5156ef1baf52de99f9ad347ce2736580140d0002a596f",
+      "passed": true,
+      "cleanup": true,
+      "gateCount": 19,
+      "matchedInputs": [
+        "supabase/migrations/20261027150000_pipstart_m22_staff_governance_read.sql",
+        "apps/pipstart/src/lib/auth/staff-governance.ts",
+        "apps/pipstart/src/lib/auth/staff-governance-flow.ts",
+        "apps/pipstart/src/lib/auth/staff-audit.ts",
+        "apps/pipstart/src/lib/auth/staff-access.ts",
+        "apps/pipstart/src/lib/auth/staff-role-flow.ts",
+        "supabase/migrations/20260915143000_pipstart_learner_accounts.sql",
+        "supabase/migrations/20261026120000_pipstart_m22_staff_core.sql",
+        "supabase/migrations/20261026220000_pipstart_m22_staff_proofs_people.sql",
+        "apps/pipstart/src/lib/auth/staff-entry.ts",
+        "apps/pipstart/src/lib/auth/staff-mfa-flow.ts",
+        "apps/pipstart/src/lib/auth/staff-people.ts"
+      ],
+      "changedInputs": []
+    },
+    {
+      "boundary": "audit-browser",
+      "runId": "c78992b27cd6880b6783a9e0bc57c44f",
+      "reportSha256": "e822b9ff097f98bd0399fef1f1d8d0accaf220257f14e7ac0648fd28a95923d0",
+      "passed": true,
+      "cleanup": true,
+      "gateCount": 23,
+      "matchedInputs": [
+        "apps/pipstart/src/lib/auth/staff-audit.ts",
+        "apps/pipstart/src/lib/auth/staff-access.ts",
+        "apps/pipstart/src/lib/auth/staff-role-flow.ts",
+        "supabase/migrations/20260915143000_pipstart_learner_accounts.sql",
+        "supabase/migrations/20261026120000_pipstart_m22_staff_core.sql",
+        "supabase/migrations/20261026220000_pipstart_m22_staff_proofs_people.sql",
+        "apps/pipstart/src/lib/auth/staff-entry.ts",
+        "apps/pipstart/src/lib/auth/staff-mfa-flow.ts",
+        "apps/pipstart/src/lib/auth/staff-people.ts"
+      ],
+      "changedInputs": []
+    },
+    {
+      "boundary": "deletion-auth",
+      "runId": "910408083b18df43c72a0d7dcf137c7e",
+      "reportSha256": "4476cd19a553ff507c7ec317e65d4ede642d6e9756a71ecf9cca215b0553c1f2",
+      "passed": true,
+      "cleanup": true,
+      "gateCount": 14,
+      "matchedInputs": [
+        "supabase/migrations/20260915143000_pipstart_learner_accounts.sql",
+        "supabase/migrations/20261026120000_pipstart_m22_staff_core.sql",
+        "supabase/migrations/20261026220000_pipstart_m22_staff_proofs_people.sql",
+        "supabase/migrations/20261027180000_pipstart_m22_account_deletion_safety.sql",
+        "apps/pipstart/scripts/test-m22-account-deletion-safety.sql",
+        "apps/pipstart/src/lib/auth/staff-entry.ts",
+        "apps/pipstart/src/lib/auth/account-deletion-safety.ts",
+        "apps/pipstart/src/app/account/actions.ts",
+        "apps/pipstart/package.json",
+        "pnpm-lock.yaml"
+      ],
+      "changedInputs": []
+    },
+    {
+      "boundary": "provider-auth",
+      "runId": "795f28b4fb39489255948e07368e528e",
+      "reportSha256": "337263cb44f1e536cd76f938441e3cad4472c512ba8e9745b6a4f4b3dc7e59bb",
+      "passed": true,
+      "cleanup": true,
+      "gateCount": 18,
+      "matchedInputs": [
+        "apps/pipstart/scripts/test-m22-account-provider-bridge.sql",
+        "apps/pipstart/src/lib/auth/staff-account-proof.test.ts",
+        "apps/pipstart/src/lib/auth/staff-account-proof.ts",
+        "apps/pipstart/src/lib/auth/staff-account-provider.test.ts",
+        "apps/pipstart/src/lib/auth/staff-account-provider.ts",
+        "docs/milestone-22-mp03-account-provider-bridge.md",
+        "docs/milestone-22-mp03-account-provider-sql-manifest.json",
+        "supabase/migrations/20261027210000_pipstart_m22_account_provider_bridge.sql",
+        "supabase/migrations/20260915143000_pipstart_learner_accounts.sql",
+        "supabase/migrations/20261026120000_pipstart_m22_staff_core.sql",
+        "supabase/migrations/20261026220000_pipstart_m22_staff_proofs_people.sql",
+        "supabase/migrations/20261027200000_pipstart_m22_account_operation_journal.sql",
+        "apps/pipstart/scripts/test-m22-account-operation-journal.sql",
+        "docs/milestone-22-mp03-account-operation-sql-manifest.json",
+        "apps/pipstart/src/lib/auth/staff-entry.ts",
+        "apps/pipstart/src/lib/auth/staff-mfa-flow.ts",
+        "apps/pipstart/scripts/verify-m22-staff-core.mjs",
+        "apps/pipstart/scripts/m22-local-plan-guard.mjs",
+        "apps/pipstart/scripts/test-m22-staff-proofs.sql",
+        "apps/pipstart/package.json",
+        "pnpm-lock.yaml",
+        "docs/milestone-22-mp02-sql-manifest.json",
+        "apps/pipstart/scripts/test-m22-staff-core.sql",
+        "docs/milestone-22-mp03-sql-manifest.json"
+      ],
+      "changedInputs": []
+    },
+    {
+      "boundary": "offline-recovery-auth",
+      "runId": "15e5ea54841ecec6db4148f92313dba5",
+      "reportSha256": "da62ff31cb890ff56cb61c1f7e8d694d42cb459ec8e401a62577b11be8f39d21",
+      "passed": true,
+      "cleanup": true,
+      "gateCount": 17,
+      "matchedInputs": [
+        "apps/pipstart/scripts/test-m22-account-provider-bridge.sql",
+        "apps/pipstart/src/lib/auth/staff-account-proof.test.ts",
+        "apps/pipstart/src/lib/auth/staff-account-proof.ts",
+        "apps/pipstart/src/lib/auth/staff-account-provider.test.ts",
+        "apps/pipstart/src/lib/auth/staff-account-provider.ts",
+        "docs/milestone-22-mp03-account-provider-bridge.md",
+        "docs/milestone-22-mp03-account-provider-sql-manifest.json",
+        "supabase/migrations/20261027210000_pipstart_m22_account_provider_bridge.sql",
+        "supabase/migrations/20260915143000_pipstart_learner_accounts.sql",
+        "supabase/migrations/20261026120000_pipstart_m22_staff_core.sql",
+        "supabase/migrations/20261026220000_pipstart_m22_staff_proofs_people.sql",
+        "supabase/migrations/20261027200000_pipstart_m22_account_operation_journal.sql",
+        "apps/pipstart/scripts/test-m22-account-operation-journal.sql",
+        "docs/milestone-22-mp03-account-operation-sql-manifest.json",
+        "apps/pipstart/src/lib/auth/staff-entry.ts",
+        "apps/pipstart/src/lib/auth/staff-mfa-flow.ts",
+        "apps/pipstart/scripts/verify-m22-staff-core.mjs",
+        "apps/pipstart/scripts/m22-local-plan-guard.mjs",
+        "apps/pipstart/scripts/test-m22-staff-proofs.sql",
+        "apps/pipstart/package.json",
+        "pnpm-lock.yaml",
+        "docs/milestone-22-mp02-sql-manifest.json",
+        "apps/pipstart/scripts/test-m22-staff-core.sql",
+        "docs/milestone-22-mp03-sql-manifest.json",
+        "supabase/migrations/20261027220000_pipstart_m22_staff_retirement.sql",
+        "apps/pipstart/scripts/test-m22-staff-retirement.sql"
+      ],
+      "changedInputs": []
+    },
+    {
+      "boundary": "retirement-sql",
+      "runId": "9ff600ab085833a43b875e8f8504582b",
+      "reportSha256": "ce79cdfb93f5aa3f51b5d4b962c84b000280281bf916f1897d392d66741cf6eb",
+      "passed": true,
+      "cleanup": true,
+      "gateCount": 0,
+      "matchedInputs": [
+        "supabase/migrations/20260915143000_pipstart_learner_accounts.sql",
+        "supabase/migrations/20261026120000_pipstart_m22_staff_core.sql",
+        "apps/pipstart/scripts/test-m22-staff-core.sql"
+      ],
+      "changedInputs": []
+    }
+  ],
+  "hostedAccepted": true,
+  "publicationApproved": false,
+  "activated": false,
+  "nativeBrowserZoomVerified": false,
+  "physicalScreenReaderVerified": false,
+  "hostedDeletionSchemaRequiredBeforePublication": true,
+  "preparation": {
+    "unitTests": 2373,
+    "ciGuardTests": 14,
+    "next": "16.4.1",
+    "vitest": "4.1.12",
+    "staffUiEnabled": false,
+    "providerEnabled": false,
+    "fullCiPending": true
+  },
+  "hostedAcceptanceKind": "Owner-reported schema/provenance acceptance only; no live hosted user/provider behavior test",
+  "historyReconciled": true,
+  "consolidatedSql": {
+    "runId": "a93b53d37df05f2e9213ee8bd88e3b4b",
+    "reportSha256": "7dca47bc9dc607acf86f039eb3d4a191f739f716c347c4eda5c933bb9d6171bc",
+    "runnerSha256": "b664be9f48889f8d0c03beabf93417609fceb2f5e687249709f7c7e7443f32b4",
+    "sqlInputs": 15,
+    "passedGates": 16,
+    "cleanup": true,
+    "authModel": "SQL stubs; real local Auth/browser evidence remains separate"
+  },
+  "hostedWrapperRehearsal": {
+    "runId": "b7edd21f71581662a30b8f387c88b054",
+    "reportSha256": "f478ad16abed89501964319c62d9faad87b1b7d6db2ba5864fc0c3e35225155f",
+    "hostedBundleSha256": "6216ce25caff31ee3fe751cb031b9cee946557225702f25ee3baf6ed590e9295",
+    "passedGates": 5,
+    "cleanup": true,
+    "clipboardMode": "CRLF"
+  },
+  "hostedSchema": {
+    "status": "MP03_HOSTED_ACCEPTANCE_PASSED_DEFAULT_CLOSED",
+    "sourceSetSha256": "fce2652ed0efb0c4900138388303c4c5beb8edc717c7a811ced4fcb9c0e8e226",
+    "evidence": "Owner-reported SQL Editor result, 2026-10-28; matched exact prepared source set",
+    "functions": 27,
+    "triggers": 8,
+    "staffDefaultClosed": true,
+    "liveUserBehaviorVerified": false
+  },
+  "migrationHistory": {
+    "status": "MP03_EXACT_SIX_HISTORY_ROWS_VERIFIED",
+    "versions": [
+      "20261026220000",
+      "20261027150000",
+      "20261027180000",
+      "20261027200000",
+      "20261027210000",
+      "20261027220000"
+    ],
+    "evidenceSha256": "03b27ec8bb113f1144b5681960188896e28dcb02c137737a6edc0bbf121f21b4",
+    "evidence": "Owner-provided completed CLI repair and read-only listing; six exact MP03 Local/Remote rows verified. Output parser corrected for CLI backticks; repair was not repeated."
+  },
+  "publicationScope": {
+    "files": 81,
+    "applicationBehaviorChangedDuringHandover": false,
+    "exactCommitCiRequired": true,
+    "fullMp03Complete": false
+  }
+}

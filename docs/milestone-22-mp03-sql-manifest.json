@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "files": [
+    {
+      "path": "supabase/migrations/20261026220000_pipstart_m22_staff_proofs_people.sql",
+      "sha256": "fe9f91514a40f95719e892ed0b955d425b14a046e4585238d3a0be316e7ac0f5"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-staff-proofs.sql",
+      "sha256": "9df414cd1d470eb4833197ab28769657d3622d51cc8bdc78872b8fa09fb6449f"
+    }
+  ]
+}

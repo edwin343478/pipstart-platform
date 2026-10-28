@@ -1,0 +1,222 @@
+.root {
+  background: var(--bg);
+}
+.body {
+  display: grid;
+  grid-template-columns: 15.5rem minmax(0, 1fr);
+  min-height: calc(100vh - 64px);
+}
+.side {
+  padding: 1.5rem;
+  background: white;
+  border-right: 1px solid var(--border);
+}
+.side p {
+  margin-top: 1rem;
+}
+.main {
+  width: 100%;
+  min-width: 0;
+  padding: 2rem;
+}
+.main h1 {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  margin-bottom: 0.75rem;
+}
+.panel {
+  max-width: 48rem;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+.panel p {
+  margin-bottom: 1rem;
+  line-height: 1.65;
+}
+.form {
+  display: grid;
+  gap: 1rem;
+}
+.form label {
+  display: grid;
+  gap: 0.4rem;
+  font-weight: 600;
+}
+.input {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.7rem;
+  background: white;
+}
+.button {
+  border: 0;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  min-height: 44px;
+  color: white !important;
+  background: var(--accent);
+  cursor: pointer;
+  font-weight: 700 !important;
+}
+.button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+.link {
+  text-decoration: underline !important;
+  text-underline-offset: 3px;
+}
+.dot {
+  color: var(--accent);
+}
+.qr {
+  display: block;
+  width: 180px;
+  height: 180px;
+  max-width: 100%;
+  margin-bottom: 1rem;
+}
+.notice {
+  margin: 1rem 0 !important;
+  overflow-wrap: anywhere;
+}
+.skip {
+  position: absolute;
+  top: 0;
+  left: 1rem;
+  transform: translateY(-120%);
+  z-index: 100;
+  padding: 0.75rem;
+  background: white;
+}
+.skip:focus {
+  transform: translateY(0);
+}
+.roles {
+  padding-left: 1.25rem;
+}
+@media (max-width: 767px) {
+  .body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .side {
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+    padding: 1rem;
+  }
+  .main {
+    padding: 1rem;
+  }
+  .panel {
+    padding: 1rem;
+  }
+}
+
+.side nav {
+  display: grid;
+  gap: 1rem;
+}
+.peopleToolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.75rem;
+  padding: 1.25rem;
+}
+.peopleToolbar label {
+  display: grid;
+  gap: 0.4rem;
+  min-width: 0;
+  flex: 1 1 16rem;
+  font-weight: 600;
+}
+.peopleToolbar input {
+  width: 100%;
+}
+.tableHelp,
+.resultsTitle {
+  padding: 0 1.25rem 1rem;
+}
+.resultsTitle {
+  font-size: 1rem;
+}
+.roleTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.rolePanel {
+  max-width: 48rem;
+  margin-top: 1.5rem;
+}
+.rolePanel h2 {
+  font-size: 1.2rem;
+  margin: 1.25rem;
+}
+.rolePanel p {
+  line-height: 1.65;
+  margin-bottom: 1rem;
+}
+.identifier,
+.summary dd {
+  overflow-wrap: anywhere;
+}
+.fields {
+  border: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+.fields legend {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+.secondary {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  min-height: 44px;
+  padding: 0.75rem 1rem;
+  background: white;
+  color: var(--ink);
+  cursor: pointer;
+  font-weight: 600;
+}
+.rolePanel .secondary {
+  margin: 1rem 0 0 0.5rem;
+}
+.secondary:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.summary {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  gap: 0.6rem 1rem;
+  margin: 1rem 0;
+}
+.summary dt {
+  font-weight: 700;
+}
+.summary dd {
+  margin: 0;
+}
+@media (max-width: 767px) {
+  .peopleToolbar {
+    padding: 1rem;
+  }
+  .peopleToolbar > button {
+    flex: 1 1 auto;
+  }
+  .summary {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .summary dd {
+    margin-bottom: 0.6rem;
+  }
+}

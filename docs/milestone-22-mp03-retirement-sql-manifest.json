@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "files": [
+    {
+      "path": "supabase/migrations/20261027220000_pipstart_m22_staff_retirement.sql",
+      "sha256": "9e19224ea4e4346525c67ad86f42d46f4e13a8e1c7d0c26f61ae2f84ac7289e1"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-staff-retirement.sql",
+      "sha256": "78d04e26daf0e37dc68b5600832ccb4e560fc410e699dc9a3a597bec0f226690"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "files": [
+    {
+      "path": "supabase/migrations/20261027180000_pipstart_m22_account_deletion_safety.sql",
+      "sha256": "29515459b4a2aa1693a6716791b880e9f468b93e207534e59aebceb33bc18bf9"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-account-deletion-safety.sql",
+      "sha256": "499721b52d1316d87aa25f03decd2d2a3456bb240cc58519e41a96eb8e2aaec4"
+    }
+  ]
+}

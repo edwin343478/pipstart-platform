@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "files": [
+    {
+      "path": "supabase/migrations/20261027150000_pipstart_m22_staff_governance_read.sql",
+      "sha256": "d5f38ab84c74884556da85e1a367c69d91406cd833140d6f93c7ce3765f3be7d"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-staff-governance.sql",
+      "sha256": "cf65808c41b29a73af1e98c0d8c42aa9c232ed4a14daaccbe459a66d4600f916"
+    }
+  ]
+}

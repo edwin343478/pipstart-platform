@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "files": [
+    {
+      "path": "supabase/migrations/20261027210000_pipstart_m22_account_provider_bridge.sql",
+      "sha256": "1758d9961cc3c9a647ce02ac2052ccc0d11757b4ae073b8ba7835544630cb1f5"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-account-provider-bridge.sql",
+      "sha256": "ca155be8fa98ebf4576575680dbc0b239f664959a0e4964460975722aabef759"
+    }
+  ]
+}
