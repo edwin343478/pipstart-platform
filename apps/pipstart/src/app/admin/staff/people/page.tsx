@@ -5,6 +5,7 @@ import { StaffPeople } from "@/components/staff/staff-people";
 import { readStaffGate, staffUiEnabled } from "@/lib/auth/staff-gate";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { parseStaffPeople } from "@/lib/auth/staff-people";
+import { learnerProviderConfigured } from "@/lib/supabase/learner-provider";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
@@ -40,6 +41,7 @@ export default async function StaffPeoplePage() {
       audit={gate.access.capabilities.includes("audit.read")}
     >
       <StaffPeople
+        accountEnabled={learnerProviderConfigured()}
         access={gate.access}
         initialPage={page.kind === "ready" ? page : null}
       />

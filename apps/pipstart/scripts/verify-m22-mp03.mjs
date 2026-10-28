@@ -107,6 +107,8 @@ export const MP03_SQL_INPUTS = Object.freeze([
   "apps/pipstart/scripts/test-m22-staff-retirement.sql",
   "supabase/migrations/20261028120000_pipstart_m22_learner_account_intents.sql",
   "apps/pipstart/scripts/test-m22-learner-account-intents.sql",
+  "supabase/migrations/20261028150000_pipstart_m22_learner_provider_bridge.sql",
+  "apps/pipstart/scripts/test-m22-learner-provider-bridge.sql",
 ]);
 export function checkedMp03Manifest(repositoryRoot, manifest) {
   if (
@@ -208,6 +210,11 @@ export async function verifyStaffCore(
           "264bc72045b6f423572c14ec65a12e8c8093e846f2cf66968de13196b8d647a9",
       },
     ],
+    learnerProviderStaged: false,
+    learnerProviderHead: false,
+    learnerProviderRaceBlocked: false,
+    learnerProviderSinglePermit: false,
+    learnerProviderFinalClosed: false,
     learnerStaged: false,
     learnerHead: false,
     learnerRaceBlocked: false,
@@ -812,6 +819,103 @@ export async function verifyStaffCore(
       ) === "t";
     if (!result.learnerFinalClosed)
       throw Error("Learner fixture final control not paused");
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "supabase/migrations/20261028150000_pipstart_m22_learner_provider_bridge.sql",
+        ),
+        "utf8",
+      ),
+    );
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "apps/pipstart/scripts/test-m22-learner-provider-bridge.sql",
+        ),
+        "utf8",
+      ),
+    );
+    result.learnerProviderStaged = true;
+    result.learnerProviderHead =
+      sql(
+        database,
+        "select not enabled and (select count(*)=0 from pipstart_staff_private.learner_deliveries) and (select count(*)=0 from pipstart_staff_private.learner_provider_permits) and (select count(*)=0 from pipstart_staff_private.learner_provider_events) from pipstart_staff_private.control;",
+      ) === "t";
+    if (!result.learnerProviderHead)
+      throw Error("Learner provider rollback/head failed");
+    sql(database, "update pipstart_staff_private.control set enabled=true;");
+    const userGrant = JSON.parse(
+      sql(
+        database,
+        `begin;${learnerContext}select public.pipstart_staff_learner_claim('${learnerRequest}','dispatch','${learnerToken}');commit;`,
+      )
+        .split(/\r?\n/)
+        .at(-1),
+    );
+    if (
+      userGrant.request_id !== learnerRequest ||
+      userGrant.status !== "execution_permitted" ||
+      typeof userGrant.dispatch_id !== "string" ||
+      !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(
+        userGrant.dispatch_id,
+      ) ||
+      typeof userGrant.permit !== "string" ||
+      !/^[0-9a-f]{64}$/.test(userGrant.permit)
+    )
+      throw Error("Invalid fixture execution permit");
+    const providerTake = `select public.pipstart_staff_learner_provider_take('${learnerRequest}','${userGrant.dispatch_id}','${userGrant.permit}');`;
+    const providerFirst = childSql(
+      `set application_name='m22-provider-a-${runId}';begin;select 1 from pipstart_staff_private.control where singleton for update;select 'M22_PROVIDER_LOCKED';select pg_sleep(5);set local role service_role;${providerTake}commit;`,
+    );
+    await waitFor(
+      () => providerFirst.output().includes("M22_PROVIDER_LOCKED"),
+      8000,
+    );
+    const providerSecond = childSql(
+      `set application_name='m22-provider-b-${runId}';begin;set local role service_role;${providerTake}commit;`,
+    );
+    await waitFor(
+      () =>
+        sql(
+          database,
+          `select exists(select 1 from pg_stat_activity where datname=current_database() and application_name='m22-provider-b-${runId}' and wait_event_type='Lock');`,
+        ) === "t",
+      3500,
+    );
+    result.learnerProviderRaceBlocked = true;
+    const [providerWinner, providerRefused] = await Promise.all([
+      providerFirst.done,
+      providerSecond.done,
+    ]);
+    result.learnerProviderSinglePermit =
+      providerWinner.code === 0 &&
+      providerWinner.output.includes("dispatch_authorized") &&
+      providerRefused.code !== 0 &&
+      providerRefused.errors.includes("42501") &&
+      sql(
+        database,
+        "select count(*)=1 from pipstart_staff_private.learner_provider_events where event='dispatched';",
+      ) === "t";
+    if (!result.learnerProviderSinglePermit)
+      throw Error(
+        "Learner provider observed contention/single executable permit failed",
+      );
+    sql(
+      database,
+      `begin;set local role service_role;select public.pipstart_staff_learner_provider_result('${learnerRequest}','${userGrant.dispatch_id}','${userGrant.permit}','unknown');commit;
+    update pipstart_staff_private.control set enabled=false;select pipstart_staff_private.learner_delivery_review('${learnerRequest}','${userGrant.dispatch_id}','observed_other');`,
+    );
+    result.learnerProviderFinalClosed =
+      sql(
+        database,
+        "select not enabled and not exists(select 1 from pipstart_staff_private.learner_deliveries where state in ('prepared','dispatched','unknown')) from pipstart_staff_private.control;",
+      ) === "t";
+    if (!result.learnerProviderFinalClosed)
+      throw Error("Learner provider final paused head failed");
     cleanup();
     result.passed =
       result.staged &&
@@ -835,7 +939,12 @@ export async function verifyStaffCore(
       result.learnerHead &&
       result.learnerRaceBlocked &&
       result.learnerSingleIntent &&
-      result.learnerFinalClosed;
+      result.learnerFinalClosed &&
+      result.learnerProviderStaged &&
+      result.learnerProviderHead &&
+      result.learnerProviderRaceBlocked &&
+      result.learnerProviderSinglePermit &&
+      result.learnerProviderFinalClosed;
     console.log(
       "MP03 CONSOLIDATED SQL ACCEPTANCE PASSED: behavioral/rollback/head gates and observed two-session single-dispatch contention. SQL Auth stubs only; no provider execution or live recovery acceptance.",
     );

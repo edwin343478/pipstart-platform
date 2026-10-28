@@ -1,6 +1,6 @@
 {
-  "baseline": "97e4a725d58a1b6dd439e80bde3abc1fc65fd27e",
-  "status": "LEARNER_INTENT_LOCAL_SQL_AND_OWNER_REPORTED_HOSTED_SCHEMA_ACCEPTED; PUBLICATION_REVIEW",
+  "baseline": "c5b7a4677dae6b03ba61cfd549b64dda96b4b56a",
+  "status": "LEARNER_PROVIDER_LOCAL_REAL_AUTH_AND_OWNER_REPORTED_HOSTED_ACCEPTED; HISTORY_VERIFIED; PUBLICATION_PENDING",
   "evidence": [
     {
       "boundary": "governance-browser",
@@ -160,57 +160,70 @@
   "physicalScreenReaderVerified": false,
   "hostedDeletionSchemaRequiredBeforePublication": true,
   "preparation": {
-    "unitTests": 2373,
+    "implementationFocusedTests": 66,
     "ciGuardTests": 14,
+    "visualFocusedChecks": 22,
+    "types": true,
+    "lint": true,
+    "format": true,
+    "defaultOffBuild": true,
+    "publicBundleChecks": true,
     "next": "16.4.1",
     "vitest": "4.1.12",
-    "staffUiEnabled": false,
-    "providerEnabled": false,
+    "evidenceScope": "Source preparation plus separately recorded accepted SQL/real-service/presentation runs; exact published-commit complete CI remains required",
     "fullCiPending": true
   },
   "hostedAcceptanceKind": "Owner-reported schema/provenance acceptance only; no live hosted user/provider behavior test",
   "historyReconciled": true,
   "consolidatedSql": {
-    "runId": "a93b53d37df05f2e9213ee8bd88e3b4b",
-    "reportSha256": "7dca47bc9dc607acf86f039eb3d4a191f739f716c347c4eda5c933bb9d6171bc",
-    "runnerSha256": "b664be9f48889f8d0c03beabf93417609fceb2f5e687249709f7c7e7443f32b4",
-    "sqlInputs": 15,
-    "passedGates": 16,
+    "runId": "4e19fdad873775de5c29d7c9ba662693",
+    "reportSha256": "78bf87c693c8566fb6df337e207e6b3fb4a020f22c099e6faf8673b1edac1f2b",
+    "passedGates": 26,
+    "sqlInputs": 19,
     "cleanup": true,
-    "authModel": "SQL stubs; real local Auth/browser evidence remains separate"
+    "authModel": "SQL stubs"
   },
   "hostedWrapperRehearsal": {
-    "runId": "b7edd21f71581662a30b8f387c88b054",
-    "reportSha256": "f478ad16abed89501964319c62d9faad87b1b7d6db2ba5864fc0c3e35225155f",
-    "hostedBundleSha256": "6216ce25caff31ee3fe751cb031b9cee946557225702f25ee3baf6ed590e9295",
-    "passedGates": 5,
+    "runId": "068e5acf70c03d2782260fbf092a6ebd",
+    "reportSha256": "4b9ab384c7393f6aeb27857a17c42832da7bf6f2bc3ef589baa4cb4c63a462c1",
+    "hostedBundleSha256": "de6a5b28eeab06abc5cb3519a96d3bea676f67defdfe6f1e7629b99afc117bb9",
+    "passedGates": 8,
     "cleanup": true,
     "clipboardMode": "CRLF"
   },
   "hostedSchema": {
-    "status": "MP03_HOSTED_ACCEPTANCE_PASSED_DEFAULT_CLOSED",
-    "sourceSetSha256": "fce2652ed0efb0c4900138388303c4c5beb8edc717c7a811ced4fcb9c0e8e226",
-    "evidence": "Owner-reported SQL Editor result, 2026-10-28; matched exact prepared source set",
-    "functions": 27,
-    "triggers": 8,
-    "staffDefaultClosed": true,
-    "liveUserBehaviorVerified": false
+    "status": "MP03_LEARNER_PROVIDER_HOSTED_ACCEPTANCE_PASSED_DEFAULT_CLOSED",
+    "sourceSha256": "8a6bbeebd3a3a2273e104a2009806740b54e6ea714cad051744a4db5cc00872d",
+    "evidence": "Owner-reported final SQL Editor status/SHA row",
+    "functions": 44,
+    "triggers": 18,
+    "privateTables": 15,
+    "newTypedColumns": 24,
+    "defaultClosed": true,
+    "independentlyInspectedRemote": false,
+    "realHostedIdentityProviderTest": false
   },
   "migrationHistory": {
-    "status": "MP03_EXACT_SIX_HISTORY_ROWS_VERIFIED",
+    "status": "MP03_ALL_EIGHT_REQUIRED_HISTORY_ROWS_VERIFIED",
     "versions": [
       "20261026220000",
       "20261027150000",
       "20261027180000",
       "20261027200000",
       "20261027210000",
-      "20261027220000"
+      "20261027220000",
+      "20261028120000",
+      "20261028150000"
     ],
-    "evidenceSha256": "03b27ec8bb113f1144b5681960188896e28dcb02c137737a6edc0bbf121f21b4",
-    "evidence": "Owner-provided completed CLI repair and read-only listing; six exact MP03 Local/Remote rows verified. Output parser corrected for CLI backticks; repair was not repeated."
+    "listingSha256": "b7a88085560622763bb68f48a7aa4eac40249f3c8da975b72ce6ec93661db4d1",
+    "providerHistoryReceiptSha256": "46a2bc83d8fbd5a2f3198b32fde69a6b43c1caba6a4d34bdc8887c3fc4d46dc9",
+    "method": "supported CLI exact-version repair applied, then read-only list"
   },
   "publicationScope": {
-    "files": 81,
+    "files": 22,
+    "additions": 13,
+    "updates": 9,
+    "documentationHandoverFiles": 3,
     "applicationBehaviorChangedDuringHandover": false,
     "exactCommitCiRequired": true,
     "fullMp03Complete": false
@@ -230,12 +243,14 @@
     "source": "Connected GitHub statuses/runs/jobs and supplied main CI logs reviewed 2026-10-28"
   },
   "nextSourcePatch": {
-    "scope": "learner-only durable intents; no provider transport/UI or activation",
-    "sqlInputs": 17,
+    "scope": "default-off connected learner provider transport/UI and approved visual spacing",
+    "sqlInputs": 19,
     "isolatedSqlAccepted": true,
+    "realLocalAccepted": true,
     "hostedAccepted": true,
+    "historyReconciled": true,
     "published": false,
-    "historyReconciled": true
+    "activationVerified": false
   },
   "learnerIntentAcceptance": {
     "sourceSha256": "410b6fe0f5c5f37f0e185c9403f36232a037123fe5ebb76518872e6e8eb782ca",
@@ -276,10 +291,167 @@
     },
     "publication": {
       "files": 10,
+      "approved": true,
+      "exactCommitCiPending": false,
+      "activated": false,
+      "fullMp03Complete": false,
+      "commit": "c5b7a4677dae6b03ba61cfd549b64dda96b4b56a",
+      "mainCiRun": "40665553756",
+      "sqlCiRun": "40665553780",
+      "deployment": "Owner-reported Ready / Production"
+    }
+  },
+  "learnerProviderUi": {
+    "stage": "local SQL/real-service/presentation and owner-reported hosted schema accepted; history verified; publication pending",
+    "baseline": "c5b7a4677dae6b03ba61cfd549b64dda96b4b56a",
+    "sqlInputs": 19,
+    "localSqlAccepted": true,
+    "realAuthProviderBrowserAccepted": true,
+    "hostedAccepted": true,
+    "historyReconciled": true,
+    "published": false,
+    "activated": false,
+    "staffMaintenanceTransportConnected": false,
+    "fullMp03Complete": false,
+    "localSql": {
+      "runId": "4e19fdad873775de5c29d7c9ba662693",
+      "reportSha256": "78bf87c693c8566fb6df337e207e6b3fb4a020f22c099e6faf8673b1edac1f2b",
+      "passedGates": 26,
+      "sqlInputs": 19,
+      "cleanup": true,
+      "authModel": "SQL stubs"
+    },
+    "realLocal": {
+      "runId": "f660c500bb3aedfb6c2258d799b6dba9",
+      "reportSha256": "bf1b18f0d6d1d44a47ffc90324627379c1fdf67f4c7365b16c93a90f3cef5c00",
+      "passedGates": 29,
+      "providerUpdates": 4,
+      "providerReads": 2,
+      "generatedAccounts": 6,
+      "generatedFactors": 3,
+      "axeStates": 11,
+      "axeViolations": 0,
+      "cleanup": true,
+      "sourceWasBeforeClassNameOnlyStyling": true
+    },
+    "visual": {
+      "classNameOnly": true,
+      "sharedCssPreserved": true,
+      "focusedChecks": 22,
+      "presentationAxeStates": 16,
+      "presentationAxeViolations": 0,
+      "presentationOnly": true,
+      "ownerApproved": true,
+      "nativeBrowserZoomAccepted": false,
+      "physicalScreenReaderAccepted": false,
+      "sourceManifestSha256": "5c7084c65b789e1e1d220528c5186acd15a61da33554dc76a8d0c5331913934f"
+    },
+    "wrapper": {
+      "runId": "068e5acf70c03d2782260fbf092a6ebd",
+      "reportSha256": "4b9ab384c7393f6aeb27857a17c42832da7bf6f2bc3ef589baa4cb4c63a462c1",
+      "hostedBundleSha256": "de6a5b28eeab06abc5cb3519a96d3bea676f67defdfe6f1e7629b99afc117bb9",
+      "passedGates": 8,
+      "cleanup": true,
+      "clipboardMode": "CRLF"
+    },
+    "hosted": {
+      "status": "MP03_LEARNER_PROVIDER_HOSTED_ACCEPTANCE_PASSED_DEFAULT_CLOSED",
+      "sourceSha256": "8a6bbeebd3a3a2273e104a2009806740b54e6ea714cad051744a4db5cc00872d",
+      "evidence": "Owner-reported final SQL Editor status/SHA row",
+      "functions": 44,
+      "triggers": 18,
+      "privateTables": 15,
+      "newTypedColumns": 24,
+      "defaultClosed": true,
+      "independentlyInspectedRemote": false,
+      "realHostedIdentityProviderTest": false
+    },
+    "history": {
+      "status": "MP03_LEARNER_PROVIDER_HISTORY_VERIFIED",
+      "projectRef": "knsmqtmfizkkrthhpujm",
+      "version": "20261028150000",
+      "sourceSha256": "8a6bbeebd3a3a2273e104a2009806740b54e6ea714cad051744a4db5cc00872d",
+      "hostedBundleSha256": "de6a5b28eeab06abc5cb3519a96d3bea676f67defdfe6f1e7629b99afc117bb9",
+      "method": "supported CLI exact-version repair applied, then read-only list",
+      "listingSha256": "b7a88085560622763bb68f48a7aa4eac40249f3c8da975b72ce6ec93661db4d1",
+      "verifiedAtUtc": "2026-10-28T14:17:25.9127716Z",
+      "evidence": "Owner-run supported exact-version CLI repair, then matching Local/Remote listing",
+      "receiptSha256": "46a2bc83d8fbd5a2f3198b32fde69a6b43c1caba6a4d34bdc8887c3fc4d46dc9"
+    },
+    "publication": {
+      "files": 22,
+      "additions": 13,
+      "updates": 9,
       "approved": false,
       "exactCommitCiPending": true,
+      "readyProductionVerified": false,
       "activated": false,
       "fullMp03Complete": false
     }
-  }
+  },
+  "initialPreparationBaseline": "97e4a725d58a1b6dd439e80bde3abc1fc65fd27e",
+  "initialMp03Evidence": {
+    "preparation": {
+      "unitTests": 2373,
+      "ciGuardTests": 14,
+      "next": "16.4.1",
+      "vitest": "4.1.12",
+      "staffUiEnabled": false,
+      "providerEnabled": false,
+      "fullCiPending": true
+    },
+    "consolidatedSql": {
+      "runId": "a93b53d37df05f2e9213ee8bd88e3b4b",
+      "reportSha256": "7dca47bc9dc607acf86f039eb3d4a191f739f716c347c4eda5c933bb9d6171bc",
+      "runnerSha256": "b664be9f48889f8d0c03beabf93417609fceb2f5e687249709f7c7e7443f32b4",
+      "sqlInputs": 15,
+      "passedGates": 16,
+      "cleanup": true,
+      "authModel": "SQL stubs; real local Auth/browser evidence remains separate"
+    },
+    "hostedWrapperRehearsal": {
+      "runId": "b7edd21f71581662a30b8f387c88b054",
+      "reportSha256": "f478ad16abed89501964319c62d9faad87b1b7d6db2ba5864fc0c3e35225155f",
+      "hostedBundleSha256": "6216ce25caff31ee3fe751cb031b9cee946557225702f25ee3baf6ed590e9295",
+      "passedGates": 5,
+      "cleanup": true,
+      "clipboardMode": "CRLF"
+    },
+    "hostedSchema": {
+      "status": "MP03_HOSTED_ACCEPTANCE_PASSED_DEFAULT_CLOSED",
+      "sourceSetSha256": "fce2652ed0efb0c4900138388303c4c5beb8edc717c7a811ced4fcb9c0e8e226",
+      "evidence": "Owner-reported SQL Editor result, 2026-10-28; matched exact prepared source set",
+      "functions": 27,
+      "triggers": 8,
+      "staffDefaultClosed": true,
+      "liveUserBehaviorVerified": false
+    },
+    "migrationHistory": {
+      "status": "MP03_EXACT_SIX_HISTORY_ROWS_VERIFIED",
+      "versions": [
+        "20261026220000",
+        "20261027150000",
+        "20261027180000",
+        "20261027200000",
+        "20261027210000",
+        "20261027220000"
+      ],
+      "evidenceSha256": "03b27ec8bb113f1144b5681960188896e28dcb02c137737a6edc0bbf121f21b4",
+      "evidence": "Owner-provided completed CLI repair and read-only listing; six exact MP03 Local/Remote rows verified. Output parser corrected for CLI backticks; repair was not repeated."
+    },
+    "publicationScope": {
+      "files": 81,
+      "applicationBehaviorChangedDuringHandover": false,
+      "exactCommitCiRequired": true,
+      "fullMp03Complete": false
+    }
+  },
+  "remainingMp03": [
+    "current patch publication and exact-commit CI/deployment",
+    "Owner-only staff-maintenance transport/UI",
+    "legacy-preview authority/navigation cutover",
+    "reviewed real Owner/MFA/recovery custody and live rollout",
+    "native zoom/physical screen-reader manual acceptance",
+    "final completion-register reconciliation"
+  ]
 }

@@ -3,9 +3,9 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { isFactorId, staffDeadline } from "./staff-entry";
 import type { AccountProof } from "./staff-account-proof";
 
-// Private trusted-operator transport, not a browser or service-role RPC. The SQL
-// take primitive rechecks the Owner/session/factor, consumes proof and claims
-// atomically. No public route or production transport is connected here.
+// Bounded provider adapter. Each journal supplies its own SQL authorization.
+// The learner server action uses the bound one-use permit bridge; the separate
+// Owner-only staff journal retains its private trusted-operator entry point.
 export interface StaffAccountJournal {
   take(
     request: string,
@@ -161,8 +161,8 @@ export async function runStaffAccountProvider(
     typeof until === "string"
       ? Math.ceil((Date.parse(until) - Date.now()) / 1_000)
       : 0;
-  // A transport ceiling, not an automatic suspension policy. The future operator
-  // UI must separately approve the exact target/expiry before enabling any send.
+  // A transport ceiling, not an automatic suspension policy. The connected learner
+  // UI reviews the exact target/expiry; SQL rechecks it before permit consumption.
   if (operation === "auth_resume" || (seconds >= 1 && seconds <= 31_536_000)) {
     try {
       const reply = await staffDeadline(

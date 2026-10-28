@@ -19,6 +19,7 @@ import { parseStaffPeople } from "@/lib/auth/staff-people";
 import { staffDeadline } from "@/lib/auth/staff-entry";
 import { StaffRoleChange } from "./staff-role-change";
 import { StaffGovernance } from "./staff-governance";
+import { StaffLearnerAccount } from "./staff-learner-account";
 import s from "@/components/admin-preview/admin-preview.module.css";
 import styles from "./staff.module.css";
 
@@ -29,9 +30,11 @@ export type StaffPeoplePage = Extract<
 export function StaffPeople({
   access: initialAccess,
   initialPage,
+  accountEnabled = false,
 }: {
   access: LiveStaffAccess;
   initialPage: StaffPeoplePage | null;
+  accountEnabled?: boolean;
 }) {
   const [client, setClient] = useState<SupabaseClient | null>(null);
   const lock = useRef(false);
@@ -41,7 +44,9 @@ export function StaffPeople({
     [appliedQuery, setAppliedQuery] = useState("");
   const [after, setAfter] = useState<string | null>(null),
     [history, setHistory] = useState<(string | null)[]>([]);
-  const [management, setManagement] = useState<"roles" | "governance">("roles");
+  const [management, setManagement] = useState<
+    "roles" | "governance" | "learner"
+  >("roles");
   const [selected, setSelected] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const connected = client !== null;
@@ -128,14 +133,16 @@ export function StaffPeople({
     void load(query.trim(), null, []);
   }
   const person = page?.items.find((p) => p.user_id === selected);
+  const learnerManage =
+    accountEnabled && access.capabilities.includes("people.manage_learners");
   const manage =
     access.capabilities.includes("roles.manage") ||
     access.capabilities.includes("roles.delegate");
   return (
     <>
       <Heading eyebrow="People" title="People">
-        Staff and learner profiles, with only the details needed for role
-        management.
+        Staff and learner profiles, with role management and controlled learner
+        login requests.
       </Heading>
       <p className={`${s.alert} ${styles.notice}`}>
         Privacy by design: this list shows profile names, references and staff
@@ -238,38 +245,60 @@ export function StaffPeople({
                 {
                   label: "Actions",
                   className: "act",
-                  node: manage ? (
-                    <div className={styles.roleTags}>
-                      <button
-                        className={`${s.btn} ${s.sec} ${s.sm}`}
-                        type="button"
-                        disabled={!connected || busy || !!selected}
-                        aria-label={`Manage roles for ${p.display_name}`}
-                        onClick={() => {
-                          setManagement("roles");
-                          setSelected(p.user_id);
-                        }}
-                      >
-                        Roles
-                      </button>
-                      {access.capabilities.includes("roles.manage") && (
-                        <button
-                          className={`${s.btn} ${s.sec} ${s.sm}`}
-                          type="button"
-                          disabled={!connected || busy || !!selected}
-                          aria-label={`Manage governance for ${p.display_name}`}
-                          onClick={() => {
-                            setManagement("governance");
-                            setSelected(p.user_id);
-                          }}
-                        >
-                          Governance
-                        </button>
-                      )}
-                    </div>
-                  ) : (
-                    <span>Read only</span>
-                  ),
+                  node:
+                    manage ||
+                    (learnerManage &&
+                      p.staff_active === null &&
+                      p.user_id !== access.user_id) ? (
+                      <div className={styles.roleTags}>
+                        {manage && (
+                          <button
+                            className={`${s.btn} ${s.sec} ${s.sm}`}
+                            type="button"
+                            disabled={!connected || busy || !!selected}
+                            aria-label={`Manage roles for ${p.display_name}`}
+                            onClick={() => {
+                              setManagement("roles");
+                              setSelected(p.user_id);
+                            }}
+                          >
+                            Roles
+                          </button>
+                        )}
+                        {learnerManage &&
+                          p.staff_active === null &&
+                          p.user_id !== access.user_id && (
+                            <button
+                              className={`${s.btn} ${s.sec} ${s.sm}`}
+                              type="button"
+                              disabled={!connected || busy || !!selected}
+                              aria-label={`Manage learner account for ${p.display_name}`}
+                              onClick={() => {
+                                setManagement("learner");
+                                setSelected(p.user_id);
+                              }}
+                            >
+                              Learner account
+                            </button>
+                          )}
+                        {access.capabilities.includes("roles.manage") && (
+                          <button
+                            className={`${s.btn} ${s.sec} ${s.sm}`}
+                            type="button"
+                            disabled={!connected || busy || !!selected}
+                            aria-label={`Manage governance for ${p.display_name}`}
+                            onClick={() => {
+                              setManagement("governance");
+                              setSelected(p.user_id);
+                            }}
+                          >
+                            Governance
+                          </button>
+                        )}
+                      </div>
+                    ) : (
+                      <span>Read only</span>
+                    ),
                 },
               ],
             }))}
@@ -311,6 +340,18 @@ export function StaffPeople({
           </div>
         </div>
       </section>
+      {person && client && management === "learner" && learnerManage && (
+        <StaffLearnerAccount
+          key={person.user_id}
+          client={client}
+          access={access}
+          person={person}
+          onClose={() => {
+            setSelected(null);
+            results.current?.focus();
+          }}
+        />
+      )}
       {person && client && management === "roles" && (
         <StaffRoleChange
           key={person.user_id}

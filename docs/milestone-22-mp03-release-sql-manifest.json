@@ -68,6 +68,14 @@
     {
       "path": "apps/pipstart/scripts/test-m22-learner-account-intents.sql",
       "sha256": "f8bdd4404170564b3f3b9a1e0c06477d2accad4e2c44f3a949a7e1432be5a0cc"
+    },
+    {
+      "path": "supabase/migrations/20261028150000_pipstart_m22_learner_provider_bridge.sql",
+      "sha256": "8a6bbeebd3a3a2273e104a2009806740b54e6ea714cad051744a4db5cc00872d"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-learner-provider-bridge.sql",
+      "sha256": "11088017211ca2c646733b3e81056db03470a0d6361ca7044b649b9d6cffa86d"
     }
   ]
 }
