@@ -105,6 +105,8 @@ export const MP03_SQL_INPUTS = Object.freeze([
   "apps/pipstart/scripts/test-m22-account-provider-bridge.sql",
   "supabase/migrations/20261027220000_pipstart_m22_staff_retirement.sql",
   "apps/pipstart/scripts/test-m22-staff-retirement.sql",
+  "supabase/migrations/20261028120000_pipstart_m22_learner_account_intents.sql",
+  "apps/pipstart/scripts/test-m22-learner-account-intents.sql",
 ]);
 export function checkedMp03Manifest(repositoryRoot, manifest) {
   if (
@@ -206,6 +208,11 @@ export async function verifyStaffCore(
           "264bc72045b6f423572c14ec65a12e8c8093e846f2cf66968de13196b8d647a9",
       },
     ],
+    learnerStaged: false,
+    learnerHead: false,
+    learnerRaceBlocked: false,
+    learnerSingleIntent: false,
+    learnerFinalClosed: false,
     proofStaged: false,
     journalStaged: false,
     journalHead: false,
@@ -702,6 +709,109 @@ export async function verifyStaffCore(
       ) === "t";
     if (!result.retirementHead)
       throw Error("Retirement rollback/head check failed");
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "supabase/migrations/20261028120000_pipstart_m22_learner_account_intents.sql",
+        ),
+        "utf8",
+      ),
+    );
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "apps/pipstart/scripts/test-m22-learner-account-intents.sql",
+        ),
+        "utf8",
+      ),
+    );
+    result.learnerStaged = true;
+    result.learnerHead =
+      sql(
+        database,
+        "select not enabled and (select count(*)=0 from pipstart_staff_private.learner_requests) and (select count(*)=0 from pipstart_staff_private.learner_request_events) from pipstart_staff_private.control;",
+      ) === "t";
+    if (!result.learnerHead) throw Error("Learner intent rollback/head failed");
+    const learnerActor = crypto.randomUUID(),
+      learnerTarget = crypto.randomUUID(),
+      learnerSession = crypto.randomUUID(),
+      learnerFactor = crypto.randomUUID(),
+      learnerAmr = crypto.randomUUID(),
+      learnerRequest = crypto.randomUUID(),
+      learnerToken = crypto.randomBytes(32).toString("hex");
+    const learnerStamp = Number(
+      sql(
+        database,
+        "select floor(extract(epoch from clock_timestamp()-interval '60 seconds'))::bigint;",
+      ),
+    );
+    if (!Number.isSafeInteger(learnerStamp))
+      throw Error("Invalid fixture AMR second");
+    const learnerClaims = JSON.stringify({
+      sub: learnerActor,
+      session_id: learnerSession,
+      role: "authenticated",
+      aal: "aal2",
+      amr: [{ method: "totp", timestamp: learnerStamp }],
+    });
+    const learnerContext = `set local role authenticated;select set_config('request.jwt.claims','${learnerClaims}',true);`;
+    sql(
+      database,
+      `insert into auth.users(id,raw_user_meta_data) values('${learnerActor}','{"display_name":"Learner contention staff fixture"}'),('${learnerTarget}','{"display_name":"Learner contention target fixture"}');
+    insert into pipstart_staff_private.members(user_id) values('${learnerActor}');insert into pipstart_staff_private.roles values('${learnerActor}','owner');
+    insert into auth.mfa_factors(id,user_id,factor_type,status) values('${learnerFactor}','${learnerActor}','totp','verified');
+    insert into auth.sessions(id,user_id,factor_id,aal) values('${learnerSession}','${learnerActor}','${learnerFactor}','aal2');
+    insert into auth.mfa_amr_claims(id,session_id,authentication_method,updated_at) values('${learnerAmr}','${learnerSession}','totp',to_timestamp(${learnerStamp}));
+    update pipstart_staff_private.control set enabled=true;
+    begin;${learnerContext}select public.pipstart_staff_learner_receipt('${learnerRequest}','${learnerTarget}','auth_resume',null,'access_change','${learnerToken}');commit;`,
+    );
+    const learnerCommand = `select public.pipstart_staff_learner_prepare('${learnerRequest}','${learnerTarget}','auth_resume',null,'access_change','${learnerToken}');`;
+    const learnerFirst = childSql(
+      `set application_name='m22-learner-a-${runId}';begin;select 1 from pipstart_staff_private.control where singleton for update;select 'M22_LEARNER_LOCKED';select pg_sleep(5);${learnerContext}${learnerCommand}commit;`,
+    );
+    await waitFor(
+      () => learnerFirst.output().includes("M22_LEARNER_LOCKED"),
+      8000,
+    );
+    const learnerSecond = childSql(
+      `set application_name='m22-learner-b-${runId}';begin;${learnerContext}${learnerCommand}commit;`,
+    );
+    await waitFor(
+      () =>
+        sql(
+          database,
+          `select exists(select 1 from pg_stat_activity where datname=current_database() and application_name='m22-learner-b-${runId}' and wait_event_type='Lock');`,
+        ) === "t",
+      3500,
+    );
+    result.learnerRaceBlocked = true;
+    const [learnerA, learnerB] = await Promise.all([
+      learnerFirst.done,
+      learnerSecond.done,
+    ]);
+    result.learnerSingleIntent =
+      learnerA.code === 0 &&
+      learnerB.code === 0 &&
+      learnerA.output.includes("intent_recorded") &&
+      learnerB.output.includes("intent_recorded") &&
+      sql(
+        database,
+        "select (select count(*)=1 from pipstart_staff_private.learner_requests) and (select count(*)=1 from pipstart_staff_private.learner_request_events);",
+      ) === "t";
+    if (!result.learnerSingleIntent)
+      throw Error("Learner request observed contention/single intent failed");
+    sql(database, "update pipstart_staff_private.control set enabled=false;");
+    result.learnerFinalClosed =
+      sql(
+        database,
+        "select not enabled from pipstart_staff_private.control;",
+      ) === "t";
+    if (!result.learnerFinalClosed)
+      throw Error("Learner fixture final control not paused");
     cleanup();
     result.passed =
       result.staged &&
@@ -720,7 +830,12 @@ export async function verifyStaffCore(
       result.retirementStaged &&
       result.retirementHead &&
       result.governanceStaged &&
-      result.deletionStaged;
+      result.deletionStaged &&
+      result.learnerStaged &&
+      result.learnerHead &&
+      result.learnerRaceBlocked &&
+      result.learnerSingleIntent &&
+      result.learnerFinalClosed;
     console.log(
       "MP03 CONSOLIDATED SQL ACCEPTANCE PASSED: behavioral/rollback/head gates and observed two-session single-dispatch contention. SQL Auth stubs only; no provider execution or live recovery acceptance.",
     );

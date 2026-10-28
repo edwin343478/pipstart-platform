@@ -60,6 +60,14 @@
     {
       "path": "apps/pipstart/scripts/test-m22-staff-retirement.sql",
       "sha256": "78d04e26daf0e37dc68b5600832ccb4e560fc410e699dc9a3a597bec0f226690"
+    },
+    {
+      "path": "supabase/migrations/20261028120000_pipstart_m22_learner_account_intents.sql",
+      "sha256": "410b6fe0f5c5f37f0e185c9403f36232a037123fe5ebb76518872e6e8eb782ca"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-learner-account-intents.sql",
+      "sha256": "f8bdd4404170564b3f3b9a1e0c06477d2accad4e2c44f3a949a7e1432be5a0cc"
     }
   ]
 }

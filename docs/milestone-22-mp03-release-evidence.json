@@ -1,6 +1,6 @@
 {
   "baseline": "97e4a725d58a1b6dd439e80bde3abc1fc65fd27e",
-  "status": "DEFAULT_OFF_PUBLICATION_REVIEW; LOCAL_SQL_AND_OWNER_REPORTED_HOSTED_SCHEMA_ACCEPTED",
+  "status": "LEARNER_INTENT_LOCAL_SQL_AND_OWNER_REPORTED_HOSTED_SCHEMA_ACCEPTED; PUBLICATION_REVIEW",
   "evidence": [
     {
       "boundary": "governance-browser",
@@ -214,5 +214,72 @@
     "applicationBehaviorChangedDuringHandover": false,
     "exactCommitCiRequired": true,
     "fullMp03Complete": false
+  },
+  "publishedBaselineVerification": {
+    "commit": "cb8f691955609213e34ee5c6f3ac247817e42646",
+    "mainCi": {
+      "runId": 40652198272,
+      "conclusion": "success"
+    },
+    "m22SqlCi": {
+      "runId": 40652198334,
+      "conclusion": "success",
+      "sqlRunId": "23181a37dc3d63f198177d884b1f7ded"
+    },
+    "vercel": "success; owner reports Ready/Production",
+    "source": "Connected GitHub statuses/runs/jobs and supplied main CI logs reviewed 2026-10-28"
+  },
+  "nextSourcePatch": {
+    "scope": "learner-only durable intents; no provider transport/UI or activation",
+    "sqlInputs": 17,
+    "isolatedSqlAccepted": true,
+    "hostedAccepted": true,
+    "published": false,
+    "historyReconciled": true
+  },
+  "learnerIntentAcceptance": {
+    "sourceSha256": "410b6fe0f5c5f37f0e185c9403f36232a037123fe5ebb76518872e6e8eb782ca",
+    "local": {
+      "runId": "2aeb578209ee8ae7982c1f0e95d74c26",
+      "reportSha256": "db416915e9ae82fc270ccd4cc5a6e0a3f3e90017a4960bb5479094cb02597a10",
+      "sqlInputs": 17,
+      "passedGates": 21,
+      "cleanup": true,
+      "authModel": "SQL provider stubs"
+    },
+    "wrapper": {
+      "runId": "24914a9f7341457ade9c2435bd3ec16a",
+      "reportSha256": "1528104cf3a1803475e8c388653c4d362e5c504555f19666f3628e4a416f0263",
+      "hostedBundleSha256": "d166ca17da82b53de0eee2efefd564526938ecc90ddf2b5cef5ccf9fb25c7440",
+      "passedGates": 6,
+      "cleanup": true
+    },
+    "hosted": {
+      "status": "MP03_LEARNER_HOSTED_ACCEPTANCE_PASSED_DEFAULT_CLOSED",
+      "evidence": "Owner-reported SQL Editor row; matching exact prepared migration",
+      "functions": 32,
+      "triggers": 10,
+      "privateTables": 12,
+      "liveAuthProviderBehavior": false
+    },
+    "history": {
+      "version": "20261028120000",
+      "status": "MP03_LEARNER_HISTORY_VERIFIED",
+      "ownerOutputSha256": "0e400f310d38e8387cef80cd898726c8a316864b1e6204273fdaaf4b43d024f8"
+    },
+    "preparation": {
+      "focusedTests": 25,
+      "ciGuardTests": 14,
+      "types": true,
+      "lint": true,
+      "format": true
+    },
+    "publication": {
+      "files": 10,
+      "approved": false,
+      "exactCommitCiPending": true,
+      "activated": false,
+      "fullMp03Complete": false
+    }
   }
 }

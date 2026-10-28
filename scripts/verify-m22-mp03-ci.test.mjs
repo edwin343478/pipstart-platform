@@ -21,7 +21,7 @@ const manifest = JSON.parse(
   ),
 );
 test("complete checked-in MP03 SQL inputs match exact ordered scope", () => {
-  assert.equal(MP03_SQL_INPUTS.length, 15);
+  assert.equal(MP03_SQL_INPUTS.length, 17);
   assert.deepEqual(checkedMp03Manifest(root, manifest), manifest.files);
 });
 test("missing, extra, reordered, duplicate and traversal entries refused", () => {
