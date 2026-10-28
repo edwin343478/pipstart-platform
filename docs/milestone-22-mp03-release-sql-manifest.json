@@ -76,6 +76,14 @@
     {
       "path": "apps/pipstart/scripts/test-m22-learner-provider-bridge.sql",
       "sha256": "11088017211ca2c646733b3e81056db03470a0d6361ca7044b649b9d6cffa86d"
+    },
+    {
+      "path": "supabase/migrations/20261028180000_pipstart_m22_staff_maintenance_transport.sql",
+      "sha256": "df97d6dcf696ffa142f209a3765765e60a0e725f3a04de2ba4cae6e4497f1719"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-staff-maintenance.sql",
+      "sha256": "e4d1c9a3f86f4a10d1c2dd687dd8d3a4fa00e47363f92d1b2fa840700cac6e2b"
     }
   ]
 }

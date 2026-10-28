@@ -11,11 +11,13 @@ export function StaffFrame({
   verified = false,
   people = false,
   audit = false,
+  paused = false,
 }: {
   children: ReactNode;
   verified?: boolean;
   people?: boolean;
   audit?: boolean;
+  paused?: boolean;
 }) {
   return (
     <div className={`${s.root} ${styles.root}`}>
@@ -37,12 +39,23 @@ export function StaffFrame({
       <div className={styles.body}>
         <aside className={styles.side}>
           <nav aria-label="Staff navigation">
-            <Link
-              className={styles.link}
-              href={verified ? "/admin/staff" : "/admin/access"}
-            >
-              {verified ? "Overview" : "Staff verification"}
-            </Link>
+            {/* Paused maintenance must not point at the closed staff entry. */}
+            {paused ? (
+              <Link
+                className={styles.link}
+                href="/admin/maintenance"
+                aria-current="page"
+              >
+                Owner maintenance
+              </Link>
+            ) : (
+              <Link
+                className={styles.link}
+                href={verified ? "/admin/staff" : "/admin/access"}
+              >
+                {verified ? "Overview" : "Staff verification"}
+              </Link>
+            )}
             {verified && people && (
               <Link className={styles.link} href="/admin/staff/people">
                 People
@@ -59,9 +72,11 @@ export function StaffFrame({
             )}
           </nav>
           <p className={s.muted}>
-            {verified
-              ? "Staff session verified"
-              : "Verify your identity before staff access."}
+            {paused
+              ? "Staff access is paused. Only Owner maintenance is available."
+              : verified
+                ? "Staff session verified"
+                : "Verify your identity before staff access."}
           </p>
         </aside>
         <main className={styles.main} id="staff-main" tabIndex={-1}>

@@ -1,6 +1,6 @@
 {
-  "baseline": "c5b7a4677dae6b03ba61cfd549b64dda96b4b56a",
-  "status": "LEARNER_PROVIDER_LOCAL_REAL_AUTH_AND_OWNER_REPORTED_HOSTED_ACCEPTED; HISTORY_VERIFIED; PUBLICATION_PENDING",
+  "baseline": "854d7d30c4654a8af05eb08ab6c647ce22886ac1",
+  "status": "STAFF_MAINTENANCE_LOCAL_REAL_AUTH_AND_OWNER_REPORTED_HOSTED_ACCEPTED; HISTORY_VERIFIED; PUBLICATION_PENDING",
   "evidence": [
     {
       "boundary": "governance-browser",
@@ -302,16 +302,16 @@
     }
   },
   "learnerProviderUi": {
-    "stage": "local SQL/real-service/presentation and owner-reported hosted schema accepted; history verified; publication pending",
+    "stage": "published as 854d7d30c4654a8af05eb08ab6c647ce22886ac1; exact-commit CI and deployment verification pending",
     "baseline": "c5b7a4677dae6b03ba61cfd549b64dda96b4b56a",
     "sqlInputs": 19,
     "localSqlAccepted": true,
     "realAuthProviderBrowserAccepted": true,
     "hostedAccepted": true,
     "historyReconciled": true,
-    "published": false,
+    "published": true,
     "activated": false,
-    "staffMaintenanceTransportConnected": false,
+    "staffMaintenanceTransportConnected": true,
     "fullMp03Complete": false,
     "localSql": {
       "runId": "4e19fdad873775de5c29d7c9ba662693",
@@ -387,7 +387,9 @@
       "readyProductionVerified": false,
       "activated": false,
       "fullMp03Complete": false
-    }
+    },
+    "publishedCommit": "854d7d30c4654a8af05eb08ab6c647ce22886ac1",
+    "exactCommitCiVerified": false
   },
   "initialPreparationBaseline": "97e4a725d58a1b6dd439e80bde3abc1fc65fd27e",
   "initialMp03Evidence": {
@@ -447,11 +449,81 @@
     }
   },
   "remainingMp03": [
-    "current patch publication and exact-commit CI/deployment",
-    "Owner-only staff-maintenance transport/UI",
+    "exact-commit CI/deployment verification for 854d7d30c4654a8af05eb08ab6c647ce22886ac1",
+    "staff-maintenance publication and exact-commit CI/deployment",
     "legacy-preview authority/navigation cutover",
     "reviewed real Owner/MFA/recovery custody and live rollout",
     "native zoom/physical screen-reader manual acceptance",
     "final completion-register reconciliation"
-  ]
+  ],
+  "staffMaintenance": {
+    "stage": "local SQL/real-service accepted; owner visual approval; owner-reported hosted schema accepted; history verified; publication pending",
+    "baseline": "854d7d30c4654a8af05eb08ab6c647ce22886ac1",
+    "sqlInputs": 21,
+    "localSqlAccepted": true,
+    "realAuthProviderBrowserAccepted": true,
+    "ownerVisualApproved": true,
+    "hostedAccepted": true,
+    "historyReconciled": true,
+    "published": false,
+    "activated": false,
+    "defaultOff": true,
+    "fullMp03Complete": false,
+    "localSql": {
+      "runId": "5c046bebc229e9856c739a946ff3cda6",
+      "reportSha256": "e282438eba66f9d08d61cf897442a12e0fd81071a24361b2b799c257c43758e5",
+      "passedGateChecks": 33,
+      "sqlInputs": 21,
+      "cleanup": true,
+      "authModel": "SQL stubs",
+      "sourceVersion": "v2; v3 and v4 changed no SQL"
+    },
+    "realLocal": {
+      "runId": "1dcb904dff2be4abc7a28373c4b37652",
+      "reportSha256": "024aa7718d412f398bb849ff8ca606ee4e23487d7c889df3676ef25cf8ee26ef",
+      "passedGates": 33,
+      "providerUpdates": 4,
+      "providerReads": 3,
+      "generatedAccounts": 5,
+      "generatedFactors": 2,
+      "axeStates": 16,
+      "axeViolations": 0,
+      "cleanup": true,
+      "sourceVersion": "v4"
+    },
+    "hostedWrapperRehearsal": {
+      "runId": "4e126e976c6e3bc000b2fa36c8a159f8",
+      "reportSha256": "0075db183bfda8bba8469c6d0322758ae81d9209aeea8a9d593d0408e2d5ad70",
+      "passedGates": 8,
+      "cleanup": true
+    },
+    "hostedSchema": {
+      "status": "MP03_STAFF_MAINTENANCE_HOSTED_ACCEPTANCE_PASSED_DEFAULT_CLOSED",
+      "sourceSha256": "df97d6dcf696ffa142f209a3765765e60a0e725f3a04de2ba4cae6e4497f1719",
+      "hostedBundleSha256": "993563bed5811943ecf6d1a51f30cb8384cbf8a08f4f3490747eca91a974391e",
+      "projectRef": "knsmqtmfizkkrthhpujm",
+      "ownerReported": true,
+      "independentlyInspectedRemote": false,
+      "replayRefusalObserved": true,
+      "staffDefaultClosed": true,
+      "liveUserBehaviorVerified": false
+    },
+    "migrationHistory": {
+      "status": "MP03_STAFF_MAINTENANCE_HISTORY_VERIFIED",
+      "version": "20261028180000",
+      "listingSha256": "081ce1d183c06de0e49c00056827a38a7d8f6068d35836d6c1b401391db5271f",
+      "method": "supported CLI exact-version repair applied, then read-only list",
+      "evidence": "Owner-run guarded CLI: read-only listing, exact one-version repair, read-only re-listing. One earlier run stopped before repair on a helper path check and is preserved."
+    },
+    "openDecisions": [
+      "A definite SQL refusal at the service take is shown to the Owner as uncertain (fail-safe); clearer wording is an owner decision."
+    ],
+    "publicationScope": {
+      "files": 21,
+      "additions": 15,
+      "updates": 6,
+      "applicationBehaviorChangedDuringHandover": false,
+      "exactCommitCiRequired": true
+    }
+  }
 }

@@ -21,7 +21,11 @@ const manifest = JSON.parse(
   ),
 );
 test("complete checked-in MP03 SQL inputs match exact ordered scope", () => {
-  assert.equal(MP03_SQL_INPUTS.length, 19);
+  assert.equal(MP03_SQL_INPUTS.length, 21);
+  assert.deepEqual(MP03_SQL_INPUTS.slice(-2), [
+    "supabase/migrations/20261028180000_pipstart_m22_staff_maintenance_transport.sql",
+    "apps/pipstart/scripts/test-m22-staff-maintenance.sql",
+  ]);
   assert.deepEqual(checkedMp03Manifest(root, manifest), manifest.files);
 });
 test("missing, extra, reordered, duplicate and traversal entries refused", () => {

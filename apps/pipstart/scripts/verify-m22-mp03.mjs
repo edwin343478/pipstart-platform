@@ -109,6 +109,8 @@ export const MP03_SQL_INPUTS = Object.freeze([
   "apps/pipstart/scripts/test-m22-learner-account-intents.sql",
   "supabase/migrations/20261028150000_pipstart_m22_learner_provider_bridge.sql",
   "apps/pipstart/scripts/test-m22-learner-provider-bridge.sql",
+  "supabase/migrations/20261028180000_pipstart_m22_staff_maintenance_transport.sql",
+  "apps/pipstart/scripts/test-m22-staff-maintenance.sql",
 ]);
 export function checkedMp03Manifest(repositoryRoot, manifest) {
   if (
@@ -210,6 +212,11 @@ export async function verifyStaffCore(
           "264bc72045b6f423572c14ec65a12e8c8093e846f2cf66968de13196b8d647a9",
       },
     ],
+    maintenanceStaged: false,
+    maintenanceHead: false,
+    maintenanceRaceBlocked: false,
+    maintenanceSinglePermit: false,
+    maintenanceFinalClosed: false,
     learnerProviderStaged: false,
     learnerProviderHead: false,
     learnerProviderRaceBlocked: false,
@@ -916,6 +923,121 @@ export async function verifyStaffCore(
       ) === "t";
     if (!result.learnerProviderFinalClosed)
       throw Error("Learner provider final paused head failed");
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "supabase/migrations/20261028180000_pipstart_m22_staff_maintenance_transport.sql",
+        ),
+        "utf8",
+      ),
+    );
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(root, "apps/pipstart/scripts/test-m22-staff-maintenance.sql"),
+        "utf8",
+      ),
+    );
+    result.maintenanceStaged = true;
+    result.maintenanceHead =
+      sql(
+        database,
+        "select not enabled and (select count(*)=0 from pipstart_staff_private.maintenance_permits) from pipstart_staff_private.control;",
+      ) === "t";
+    if (!result.maintenanceHead)
+      throw Error("Maintenance rollback/default-closed head failed");
+    const maintenanceTarget = crypto.randomUUID(),
+      maintenanceRequest = crypto.randomUUID(),
+      maintenanceToken = crypto.randomBytes(32).toString("hex");
+    const maintenanceStamp = Number(
+      sql(
+        database,
+        "select floor(extract(epoch from clock_timestamp()-interval '30 seconds'))::bigint;",
+      ),
+    );
+    if (
+      !Number.isSafeInteger(maintenanceStamp) ||
+      maintenanceStamp === learnerStamp
+    )
+      throw Error("Invalid fixture maintenance AMR second");
+    const maintenanceContext = `set local role authenticated;select set_config('request.jwt.claims','${JSON.stringify({ sub: learnerActor, session_id: learnerSession, role: "authenticated", aal: "aal2", amr: [{ method: "totp", timestamp: maintenanceStamp }] })}',true);`;
+    const maintenanceGrant = JSON.parse(
+      sql(
+        database,
+        `insert into auth.users(id,raw_user_meta_data) values('${maintenanceTarget}','{"display_name":"Maintenance contention target fixture"}');
+      insert into pipstart_staff_private.members(user_id) values('${maintenanceTarget}');
+      select pipstart_staff_private.account_operation_prepare('${maintenanceRequest}','${maintenanceTarget}','auth_resume',null,null,'access_change',(select version from pipstart_staff_private.control where singleton));
+      update auth.mfa_amr_claims set updated_at=to_timestamp(${maintenanceStamp}) where session_id='${learnerSession}' and authentication_method='totp';
+      begin;${maintenanceContext}select public.pipstart_staff_account_receipt('${maintenanceRequest}','dispatch','${maintenanceToken}');select public.pipstart_staff_maintenance_claim('${maintenanceRequest}','dispatch','${maintenanceToken}');commit;`,
+      )
+        .split(/\r?\n/)
+        .at(-1),
+    );
+    if (
+      maintenanceGrant.request_id !== maintenanceRequest ||
+      maintenanceGrant.status !== "execution_permitted" ||
+      typeof maintenanceGrant.permit_id !== "string" ||
+      !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(
+        maintenanceGrant.permit_id,
+      ) ||
+      typeof maintenanceGrant.permit !== "string" ||
+      !/^[0-9a-f]{64}$/.test(maintenanceGrant.permit)
+    )
+      throw Error("Invalid fixture maintenance permit");
+    const maintenanceTake = `select set_config('request.jwt.claims','{"role":"service_role"}',true);select public.pipstart_staff_maintenance_take('${maintenanceRequest}','${maintenanceGrant.permit_id}','${maintenanceGrant.permit}','${maintenanceToken}');`;
+    const maintenanceFirst = childSql(
+      `set application_name='m22-maintenance-a-${runId}';begin;select 1 from pipstart_staff_private.control where singleton for update;select 'M22_MAINTENANCE_LOCKED';select pg_sleep(5);set local role service_role;${maintenanceTake}commit;`,
+    );
+    await waitFor(
+      () => maintenanceFirst.output().includes("M22_MAINTENANCE_LOCKED"),
+      8000,
+    );
+    const maintenanceSecond = childSql(
+      `set application_name='m22-maintenance-b-${runId}';begin;set local role service_role;${maintenanceTake}commit;`,
+    );
+    await waitFor(
+      () =>
+        sql(
+          database,
+          `select exists(select 1 from pg_stat_activity where datname=current_database() and application_name='m22-maintenance-b-${runId}' and wait_event_type='Lock');`,
+        ) === "t",
+      3500,
+    );
+    result.maintenanceRaceBlocked = true;
+    const [maintenanceWinner, maintenanceRefused] = await Promise.all([
+      maintenanceFirst.done,
+      maintenanceSecond.done,
+    ]);
+    result.maintenanceSinglePermit =
+      maintenanceWinner.code === 0 &&
+      maintenanceWinner.output.includes("dispatch_authorized") &&
+      maintenanceRefused.code !== 0 &&
+      maintenanceRefused.errors.includes("42501") &&
+      sql(
+        database,
+        `select (select count(*)=1 from pipstart_staff_private.account_operation_events where request_id='${maintenanceRequest}' and status='dispatched') and (select count(*)=1 from pipstart_staff_private.maintenance_permits where request_id='${maintenanceRequest}' and consumed_at is not null and dispatch_id is not null);`,
+      ) === "t";
+    if (!result.maintenanceSinglePermit)
+      throw Error(
+        "Maintenance observed contention/single executable permit failed",
+      );
+    const maintenanceDispatch = sql(
+      database,
+      `select dispatch_id from pipstart_staff_private.maintenance_permits where id='${maintenanceGrant.permit_id}';`,
+    );
+    sql(
+      database,
+      `begin;set local role service_role;select set_config('request.jwt.claims','{"role":"service_role"}',true);select public.pipstart_staff_maintenance_result('${maintenanceRequest}','${maintenanceGrant.permit_id}','${maintenanceGrant.permit}','${maintenanceDispatch}','succeeded');commit;`,
+    );
+    result.maintenanceFinalClosed =
+      sql(
+        database,
+        "select not enabled and not exists(select 1 from pipstart_staff_private.account_operations where status in ('prepared','dispatched','unknown')) and not exists(select 1 from pipstart_staff_private.maintenance_permits where consumed_at is null) from pipstart_staff_private.control;",
+      ) === "t";
+    if (!result.maintenanceFinalClosed)
+      throw Error("Maintenance final paused/resolved head failed");
     cleanup();
     result.passed =
       result.staged &&
@@ -944,7 +1066,12 @@ export async function verifyStaffCore(
       result.learnerProviderHead &&
       result.learnerProviderRaceBlocked &&
       result.learnerProviderSinglePermit &&
-      result.learnerProviderFinalClosed;
+      result.learnerProviderFinalClosed &&
+      result.maintenanceStaged &&
+      result.maintenanceHead &&
+      result.maintenanceRaceBlocked &&
+      result.maintenanceSinglePermit &&
+      result.maintenanceFinalClosed;
     console.log(
       "MP03 CONSOLIDATED SQL ACCEPTANCE PASSED: behavioral/rollback/head gates and observed two-session single-dispatch contention. SQL Auth stubs only; no provider execution or live recovery acceptance.",
     );
