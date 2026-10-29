@@ -184,9 +184,18 @@ test("lesson key terms open the matching glossary entry and return to lesson con
 }) => {
   await page.goto("/learn/crypto/level-4/gas-transactions-and-failed-attempts");
   const summary = page.getByText("Key terms in this lesson", { exact: true });
-  await summary.focus();
-  await page.keyboard.press("Enter");
-  await page.getByRole("link", { name: "Gas", exact: true }).click();
+  const panel = page.locator("details").filter({ has: summary });
+  const gas = panel.getByRole("link", { name: "Gas", exact: true });
+  // A keypress before hydration can leave the native panel re-rendered closed.
+  // Re-open it with the keyboard until the link is actually shown, then click.
+  await expect(async () => {
+    if (!(await panel.evaluate((d) => (d as HTMLDetailsElement).open))) {
+      await summary.focus();
+      await page.keyboard.press("Enter");
+    }
+    await expect(gas).toBeVisible({ timeout: 2_000 });
+  }).toPass({ timeout: 20_000 });
+  await gas.click();
   await expect(page).toHaveURL(/\/glossary\/crypto#gas$/);
   await expect(page.locator("#gas")).toBeInViewport();
   await page
