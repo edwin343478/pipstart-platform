@@ -6,6 +6,18 @@ export const STAFF_TOTP_QR_MAX_CHARACTERS = 1_048_576;
 export const STAFF_ENTRY_PATH = "/admin/access";
 export const STAFF_HOME_PATH = "/admin/staff";
 
+// A staff-chosen authenticator label, shown at sign-in and during recovery so
+// the primary and backup devices can be told apart.
+export const STAFF_FACTOR_NAME_MAX_CHARACTERS = 40;
+
+export function staffFactorName(value: unknown): string | null {
+  if (typeof value !== "string") return null;
+  const name = value.trim().replace(/\s+/g, " ");
+  if (name.length < 1 || name.length > STAFF_FACTOR_NAME_MAX_CHARACTERS)
+    return null;
+  return /^[\p{L}\p{N}][\p{L}\p{N} .'()_-]*$/u.test(name) ? name : null;
+}
+
 export function isTotpCode(value: string) {
   return /^[0-9]{6}$/.test(value);
 }

@@ -5,6 +5,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { getSupabasePublicConfiguration } from "@/lib/supabase/config";
+import { STAFF_FACTOR_NAME_MAX_CHARACTERS } from "@/lib/auth/staff-entry";
 import {
   enrollStaffFactor,
   readStaffFactors,
@@ -28,6 +29,7 @@ export function StaffMfa({
   const [selected, setSelected] = useState("");
   const [setup, setSetup] = useState<StaffSetup | null>(null);
   const [code, setCode] = useState("");
+  const [factorName, setFactorName] = useState("");
   const [ready, setReady] = useState(false);
   const [canEnroll, setCanEnroll] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -80,12 +82,25 @@ export function StaffMfa({
     setBusy(true);
     setMessage("");
     try {
-      const result = await enrollStaffFactor(client.current, userId);
+      const result = await enrollStaffFactor(
+        client.current,
+        userId,
+        factorName,
+      );
       if (result.kind === "setup") {
         setSetup(result.setup);
         setCode("");
         setMessage(
           "Scan the code or enter the key, then confirm a code from your authenticator.",
+        );
+      } else if (result.kind === "invalid") {
+        // Refused before any provider call; nothing was created.
+        setMessage(
+          "Name this authenticator using up to 40 letters, numbers and spaces.",
+        );
+      } else if (result.kind === "name-taken") {
+        setMessage(
+          "You already use this name for another authenticator. Choose a different name.",
         );
       } else {
         setUncertain(true);
@@ -245,14 +260,44 @@ export function StaffMfa({
           </>
         )}
         {!setup && (backup || factors.length === 0) && (
-          <button
-            className={styles.button}
-            disabled={busy || uncertain || !ready || !canEnroll}
-            type="button"
-            onClick={() => void enroll()}
-          >
-            {backup ? "Add a backup authenticator" : "Set up an authenticator"}
-          </button>
+          <>
+            <label>
+              Name this authenticator
+              <input
+                className={styles.input}
+                name="factor-name"
+                value={factorName}
+                onChange={(event) => setFactorName(event.target.value)}
+                onKeyDown={(event) => {
+                  // Enter names the device; it must not submit the code form.
+                  if (event.key !== "Enter") return;
+                  event.preventDefault();
+                  void enroll();
+                }}
+                maxLength={STAFF_FACTOR_NAME_MAX_CHARACTERS}
+                autoComplete="off"
+                spellCheck={false}
+                disabled={busy || uncertain || !canEnroll}
+                required
+                aria-describedby="staff-factor-name-help"
+              />
+            </label>
+            <p id="staff-factor-name-help">
+              {backup
+                ? "For example “Backup phone” or “Tablet”. Choose a name that tells it apart from your first authenticator."
+                : "For example “Phone”. You will choose it by this name when you sign in."}
+            </p>
+            <button
+              className={styles.button}
+              disabled={busy || uncertain || !ready || !canEnroll}
+              type="button"
+              onClick={() => void enroll()}
+            >
+              {backup
+                ? "Add a backup authenticator"
+                : "Set up an authenticator"}
+            </button>
+          </>
         )}
       </form>
     </>

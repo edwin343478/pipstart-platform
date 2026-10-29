@@ -4,12 +4,19 @@ import {
   isTotpCode,
   safeTotpQr,
   staffDeadline,
+  staffFactorName,
 } from "./staff-entry";
 
 export type StaffFactor = { id: string; name: string };
 export type StaffSetup = { id: string; qr: string; secret: string };
 export type MfaFailure = {
-  kind: "unavailable" | "unknown" | "invalid" | "changed" | "rejected";
+  kind:
+    | "unavailable"
+    | "unknown"
+    | "invalid"
+    | "changed"
+    | "rejected"
+    | "name-taken";
 };
 
 async function sameIdentity(client: SupabaseClient, userId: string) {
@@ -42,7 +49,10 @@ export async function readStaffFactors(
 export async function enrollStaffFactor(
   client: SupabaseClient,
   userId: string,
+  requestedName: string,
 ): Promise<{ kind: "setup"; setup: StaffSetup } | MfaFailure> {
+  const name = staffFactorName(requestedName);
+  if (!name) return { kind: "invalid" };
   let attempted = false;
   try {
     if (!(await sameIdentity(client, userId))) return { kind: "changed" };
@@ -50,16 +60,25 @@ export async function enrollStaffFactor(
     if (existing.error || !existing.data) return { kind: "unavailable" };
     if (existing.data.all.some((f) => f.status !== "verified"))
       return { kind: "changed" };
+    if (
+      existing.data.all.some(
+        (f) => f.friendly_name?.toLowerCase() === name.toLowerCase(),
+      )
+    )
+      return { kind: "name-taken" };
     attempted = true;
     const result = await staffDeadline(
       client.auth.mfa.enroll({
         factorType: "totp",
         issuer: "PipStart",
-        friendlyName: `PipStart ${crypto.randomUUID().slice(0, 8)}`,
+        friendlyName: name,
       }),
     );
-    // An unsuccessful transport can still have created a factor. Never blindly
-    // retry enrollment, log a provider error, or delete another factor to recover.
+    // The provider checks name uniqueness before creating anything.
+    if (result.error?.code === "mfa_factor_name_conflict")
+      return { kind: "name-taken" };
+    // Any other unsuccessful transport can still have created a factor. Never
+    // blindly retry enrollment, log a provider error, or delete another factor.
     if (result.error || !result.data) return { kind: "unknown" };
     const qr = safeTotpQr(result.data.totp?.qr_code);
     if (

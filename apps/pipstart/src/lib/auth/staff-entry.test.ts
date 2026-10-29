@@ -5,6 +5,8 @@ import {
   needsStaffChallenge,
   safeTotpQr,
   staffDeadline,
+  staffFactorName,
+  STAFF_FACTOR_NAME_MAX_CHARACTERS,
   STAFF_REQUEST_DEADLINE_MS,
   STAFF_TOTP_QR_MAX_CHARACTERS,
 } from "./staff-entry";
@@ -42,6 +44,27 @@ describe("staff entry input and bounded waits", () => {
     "",
   ])("rejects a malformed code %s", (value) =>
     expect(isTotpCode(value)).toBe(false),
+  );
+  it.each([
+    ["Phone", "Phone"],
+    ["  Backup   key  ", "Backup key"],
+    ["Téléphone d'Edwin (2)", "Téléphone d'Edwin (2)"],
+    ["x".repeat(STAFF_FACTOR_NAME_MAX_CHARACTERS), "x".repeat(40)],
+  ])("normalizes an authenticator name %s", (value, name) =>
+    expect(staffFactorName(value)).toBe(name),
+  );
+  it.each([
+    "",
+    "   ",
+    "x".repeat(STAFF_FACTOR_NAME_MAX_CHARACTERS + 1),
+    "<script>",
+    "Phone; drop",
+    "-leading",
+    "tab\tname\u0000",
+    null,
+    42,
+  ])("rejects an unusable authenticator name %#", (value) =>
+    expect(staffFactorName(value)).toBeNull(),
   );
   it("accepts the authenticator's exact six digits including leading zeroes", () =>
     expect(isTotpCode("012345")).toBe(true));

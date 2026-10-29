@@ -32,4 +32,17 @@ describe("honest staff entry presentation", () => {
     expect(html).not.toContain("data:image");
     expect(html).toContain('type="button"');
   });
+  it("asks for a bounded authenticator name before setup", () => {
+    const first = renderToStaticMarkup(
+      <StaffMfa userId="2d734acd-a974-45f1-aabc-bc9b0a37fb40" />,
+    );
+    expect(first).toContain("Name this authenticator");
+    expect(first).toContain('maxLength="40"');
+    expect(first).toContain('aria-describedby="staff-factor-name-help"');
+    expect(first).toContain("You will choose it by this name when you sign in");
+    const backup = renderToStaticMarkup(
+      <StaffMfa userId="2d734acd-a974-45f1-aabc-bc9b0a37fb40" backup />,
+    );
+    expect(backup).toContain("tells it apart from your first authenticator");
+  });
 });

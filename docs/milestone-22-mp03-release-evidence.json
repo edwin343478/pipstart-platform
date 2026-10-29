@@ -1,6 +1,6 @@
 {
-  "baseline": "abc215da541bf3fb858f5495ef134325c0e37d81",
-  "status": "PREVIEW_CUTOVER_PUBLISHED_AND_CI_VERIFIED; STAFF_ENROLMENT_GATE_LOCAL_REAL_AUTH_AND_OWNER_REPORTED_HOSTED_ACCEPTED; HISTORY_VERIFIED; PUBLICATION_PENDING",
+  "baseline": "c26b15d3a261f4503e47723f18a3e0897c8ee7de",
+  "status": "STAFF_ENROLMENT_GATE_PUBLISHED_AND_CI_VERIFIED; STAFF_FACTOR_NAMING_LOCAL_REAL_AUTH_ACCEPTED; PUBLICATION_PENDING",
   "evidence": [
     {
       "boundary": "governance-browser",
@@ -452,7 +452,8 @@
     }
   },
   "remainingMp03": [
-    "staff-only enrolment gate publication and exact-commit CI/deployment",
+    "authenticator naming publication and exact-commit CI/deployment",
+    "local rehearsal of the exact hosted Owner runbook",
     "reviewed real Owner/MFA/recovery custody and live rollout",
     "native zoom/physical screen-reader manual acceptance",
     "M16 key-terms test hardening (timing-sensitive; recommended)",
@@ -569,7 +570,7 @@
     "flakyFinding": "milestone-16-h6-accessibility.spec.ts:182 failed twice in attempt 1 (90s click timeout on Gas key-term link) and passed in attempt 2 on the same commit and image; also passes 3/3 locally. Treated as timing-sensitive; a test-hardening follow-up (wait for hydration before toggling the native details) is recommended."
   },
   "staffEnrolmentGate": {
-    "stage": "local SQL/real Auth/browser accepted; owner visual approval; owner-reported hosted schema accepted; history verified; publication pending",
+    "stage": "published and exact-commit CI/deployment verified; default off",
     "baseline": "abc215da541bf3fb858f5495ef134325c0e37d81",
     "gap": "readStaffGate offered TOTP enrolment/step-up to any signed-in account without a verified factor (D03 requires staff only)",
     "function": "public.pipstart_staff_enrolment_allowed()",
@@ -580,7 +581,7 @@
     "ownerVisualApproved": true,
     "hostedAccepted": true,
     "historyReconciled": true,
-    "published": false,
+    "published": true,
     "activated": false,
     "defaultOff": true,
     "fullMp03Complete": false,
@@ -637,6 +638,54 @@
       "files": 10,
       "additions": 3,
       "updates": 7,
+      "applicationBehaviorChangedDuringHandover": false,
+      "exactCommitCiRequired": true
+    },
+    "publishedCommit": "c26b15d3a261f4503e47723f18a3e0897c8ee7de",
+    "exactCommitCiVerified": true,
+    "mainCi": "40849881255 success (attempt 1; Format, lint, typecheck, test and build: success 27/27; M21 SQL success 12/12)",
+    "sqlCi": "40849881492 success 13/13",
+    "deployment": "Ready / Production"
+  },
+  "ownerRolloutDecisions": {
+    "liveScope": "staff core only",
+    "finalState": "leave staff enabled after the live drills pass",
+    "findings": "fix factor naming only before going live",
+    "dressRehearsal": "rehearse the exact hosted runbook locally",
+    "correctedOrder": "bootstrap, primary factor, enable, backup factor, sign-in with the backup"
+  },
+  "staffFactorNaming": {
+    "stage": "local real Auth/browser accepted; owner visual approval; publication pending",
+    "baseline": "c26b15d3a261f4503e47723f18a3e0897c8ee7de",
+    "sql": false,
+    "hostedStepRequired": false,
+    "ownerChosenNames": true,
+    "nameRule": "1-40 letters, numbers, spaces and . ' ( ) _ -, trimmed; duplicate (case-insensitive) refused before enrolment; provider mfa_factor_name_conflict reported as definite",
+    "preparation": "prettier (changed files); vitest 184 files / 2467 tests (+23); both tsc configs; eslint (changed files); default-off webpack build exit 0; verify-public-bundles 191 chunks PASS; Node scan of all 191 chunks: 0 server keys/flags/maintenance RPCs",
+    "realLocal": {
+      "runId": "7c8803c6a47da526d998a73563059b22",
+      "reportSha256": "2afb77b5cd3fc471ae723e1cba2380f1edaf5ae79e05d83039fe9614c0dd911d",
+      "passedGates": 27,
+      "generatedAccounts": 4,
+      "generatedFactors": 3,
+      "axeStates": 15,
+      "axeViolations": 0,
+      "cleanup": true,
+      "newGates": [
+        "browserInvalidNameRefused",
+        "browserDuplicateNameRefused",
+        "browserFactorNamesShown"
+      ],
+      "liveAcceptanceSha256": "5491d014fb99c0300ddf223595ac7164c344328458905d91c3df4d082bb0a999"
+    },
+    "ownerVisualApproved": true,
+    "published": false,
+    "activated": false,
+    "defaultOff": true,
+    "publicationScope": {
+      "files": 9,
+      "additions": 0,
+      "updates": 9,
       "applicationBehaviorChangedDuringHandover": false,
       "exactCommitCiRequired": true
     }

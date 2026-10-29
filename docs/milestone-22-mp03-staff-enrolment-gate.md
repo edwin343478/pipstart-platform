@@ -24,7 +24,8 @@ checked at AAL2, but it was a support and lock-out risk.
   an error, for a forged role claim or a missing subject, so it cannot be used to
   probe other accounts.
 - It works at AAL1 and while staff control is paused. That lets a bootstrapped
-  Owner enrol primary and backup factors before staff is enabled.
+  Owner enrol the primary factor before staff is enabled. The backup factor is
+  added from the staff overview, so only after enablement.
 - `readStaffGate()` calls it, with an 8-second bound, only on the challenge path.
   Non-members get `denied` ("Staff access is not available for this account")
   and no enrolment. An error gives `unavailable`. The staff-access RPC is still
@@ -54,14 +55,41 @@ checked at AAL2, but it was a support and lock-out risk.
   SHA256 `32a8a8ded382e4341fc8d3d19c86210dd69c9c04224b2cc8efeb97341d9a5dc7`, and
   an owner-run CLI listing verified `20261029090000` in Local and Remote.
 
-## Rollout findings (Owner decisions, not changed here)
+## Authenticator names
+
+Before setup, staff name each authenticator, for example "Phone" or "Backup key".
+The name is what the sign-in factor choice shows, so the primary and backup devices
+can be told apart at sign-in and during offline recovery.
+
+- `staffFactorName()` trims the name and collapses spaces. It accepts 1 to 40
+  letters, numbers, spaces and `. ' ( ) _ -`, starting with a letter or number.
+- An unusable name is refused before any provider call.
+- A name already used by another of the caller's factors, ignoring case, is
+  refused before enrolment.
+- The provider's own `mfa_factor_name_conflict` refusal happens before anything is
+  created. It is therefore reported as a definite "choose a different name", not
+  as an uncertain setup.
+- Every other enrolment failure is still treated as uncertain and never retried.
+
+Factors enrolled before this change keep their generated `PipStart 1a2b3c4d`
+names. There are no hosted staff factors yet.
+
+Real local Auth/browser run `7c8803c6a47da526d998a73563059b22` (owner-run) passed
+27 gates with cleanup and Owner visual approval. Its 15 axe states had 0
+violations. On top of the enrolment run's 24 gates, it showed that:
+
+- an invalid name is refused before setup;
+- "phone" is refused as a duplicate of "Phone", with nothing created;
+- a fresh sign-in offers exactly "Phone" and "Backup key", and choosing "Backup
+  key" verifies with the backup factor.
+
+## Rollout findings (Owner decisions)
 
 - While paused, a verified Owner sees the learner-oriented "not available"
-  message. It is fail-closed but confusing during rollout.
+  message. It is fail-closed but confusing during rollout. Deferred.
 - A backup factor can be added only from the staff overview, so only after
   enablement. The rollout order is: bootstrap, primary factor, enable, backup
   factor, then verify with the backup.
-- Factor names are random (`PipStart 1a2b3c4d`), so primary and backup devices
-  cannot be told apart at sign-in.
+- Random factor names: addressed by the authenticator names above.
 - At 390px the staff frame leaves a large empty block above the card, and "Your
-  staff roles" is unstyled.
+  staff roles" is unstyled. Deferred.

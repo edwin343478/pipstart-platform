@@ -54,7 +54,7 @@ Initial MP03 preparation used an external baseline snapshot plus 75 reconciled i
 
 The owner applied the release source packet, completed consolidated isolated SQL acceptance, and reported successful authorized hosted schema acceptance and history reconciliation. A subsequent two-document handover update records those results without changing executable source or SQL. After its owner-run application, obtain publication approval for the exact 81-file MP03 inventory. Then require complete quality and MP03 SQL CI on the exact published commit; the preparation results are not a substitute for those checks. Staff UI/provider settings and hosted staff control remain default-closed. Live bootstrap/activation and the unfinished capabilities in the register above remain separate gates.
 
-Next within MP03: publication and exact-commit CI of the staff-only enrolment gate; then the reviewed real Owner bootstrap, MFA and recovery custody, live rollout, and manual accessibility register. Exact-commit CI and deployment for `854d7d30c4654a8af05eb08ab6c647ce22886ac1`, `ba8bfc8391ef9116b0177918a9d3f8841623e190` and `abc215da541bf3fb858f5495ef134325c0e37d81` are verified. MP04 follows full MP03 acceptance; nine main packages follow MP03.
+Next within MP03: publication and exact-commit CI of authenticator naming; a local rehearsal of the exact hosted Owner runbook; then the reviewed real Owner bootstrap, MFA and recovery custody, live rollout, and manual accessibility register. Exact-commit CI and deployment for `854d7d30c4654a8af05eb08ab6c647ce22886ac1`, `ba8bfc8391ef9116b0177918a9d3f8841623e190`, `abc215da541bf3fb858f5495ef134325c0e37d81` and `c26b15d3a261f4503e47723f18a3e0897c8ee7de` are verified. MP04 follows full MP03 acceptance; nine main packages follow MP03.
 
 ## Publication review — 28 October 2026
 
@@ -106,4 +106,17 @@ Accepted evidence:
 
 Each disposable run confirmed cleanup. Two rehearsal-only harness corrections were made before the owner run; no product defect was found.
 
-The run recorded rollout findings for Owner decision, listed in the enrolment guide. Publication approval, exact-commit main/SQL CI and Ready/Production verification remain pending. No real staff identity, credential/flag setup or activation is claimed.
+The run recorded rollout findings for Owner decision, listed in the enrolment guide. It is published as `c26b15d3a261f4503e47723f18a3e0897c8ee7de`: main CI `40849881255` passed on its first attempt (quality 27/27, M21 SQL 12/12), M22 staff SQL CI `40849881492` passed 13/13, and the Ready/Production deployment succeeded. No real staff identity, credential/flag setup or activation is claimed.
+
+## Authenticator naming publication handover — accepted evidence
+
+The Owner chose staff-core-only live scope, leaving staff enabled after the live drills, and fixing only the factor-naming finding before going live. The exact 9-file scope has nine tracked updates on `c26b15d3a261f4503e47723f18a3e0897c8ee7de` and no SQL; unrelated M15 bundles are excluded.
+
+Staff now name each authenticator before setup. The sign-in choice shows that name, so the primary and backup devices can be told apart during sign-in and offline recovery. Unusable and duplicate names are refused before anything is created. The provider's name-conflict refusal is reported as definite; every other enrolment failure remains uncertain and is never retried. This handover adds the accepted run to the enrolment guide, this register and the evidence index; no source or SQL is altered.
+
+Accepted evidence:
+
+- preparation: types, lint and formatting; 184 test files with 2,467 tests (23 new); the default-off build; and a clean scan of all 191 public chunks;
+- real local Auth/browser `7c8803c6a47da526d998a73563059b22` (27 gates, four generated accounts, three named TOTP factors, 15 clean axe states), with explicit owner visual approval.
+
+No hosted or migration-history step applies. Publication approval, exact-commit CI and Ready/Production verification remain pending. The rehearsed live rollout order is unchanged; the paused-Owner wording and narrow-screen layout findings remain deferred.

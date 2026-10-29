@@ -57,7 +57,7 @@ describe("TOTP provider boundary", () => {
       canEnroll: false,
       factors: [],
     });
-    expect(await enrollStaffFactor(f.client, actor)).toEqual({
+    expect(await enrollStaffFactor(f.client, actor, "Phone")).toEqual({
       kind: "changed",
     });
     expect(f.enroll).not.toHaveBeenCalled();
@@ -68,7 +68,7 @@ describe("TOTP provider boundary", () => {
       data: { user: { id: factor } },
       error: null,
     });
-    expect(await enrollStaffFactor(f.client, actor)).toEqual({
+    expect(await enrollStaffFactor(f.client, actor, "Phone")).toEqual({
       kind: "changed",
     });
     expect(await verifyStaffFactor(f.client, actor, factor, "123456")).toEqual({
@@ -79,14 +79,49 @@ describe("TOTP provider boundary", () => {
   });
   it("creates exactly one TOTP factor and returns its local image/key without a role", async () => {
     const f = fixture();
-    const result = await enrollStaffFactor(f.client, actor);
+    const result = await enrollStaffFactor(f.client, actor, "Phone");
     expect(result.kind).toBe("setup");
     expect(f.enroll).toHaveBeenCalledTimes(1);
-    expect(f.enroll.mock.calls[0][0]).toMatchObject({
+    expect(f.enroll.mock.calls[0][0]).toEqual({
       factorType: "totp",
       issuer: "PipStart",
+      friendlyName: "Phone",
     });
     expect(result).not.toHaveProperty("roles");
+  });
+  it("sends the staff-chosen name trimmed and with collapsed spaces", async () => {
+    const f = fixture();
+    await enrollStaffFactor(f.client, actor, "  Backup   key ");
+    expect(f.enroll.mock.calls[0][0].friendlyName).toBe("Backup key");
+  });
+  it.each(["", "   ", "x".repeat(41), "<img src=x>", "-Phone", "Phone\u0000"])(
+    "refuses an unusable name %# before any provider call",
+    async (name) => {
+      const f = fixture();
+      expect(await enrollStaffFactor(f.client, actor, name)).toEqual({
+        kind: "invalid",
+      });
+      expect(f.getUser).not.toHaveBeenCalled();
+      expect(f.enroll).not.toHaveBeenCalled();
+    },
+  );
+  it("refuses a name already used by another factor, ignoring case, without enrolling", async () => {
+    const f = fixture();
+    expect(await enrollStaffFactor(f.client, actor, "device")).toEqual({
+      kind: "name-taken",
+    });
+    expect(f.enroll).not.toHaveBeenCalled();
+  });
+  it("reports the provider's name conflict as a definite refusal, not an uncertain setup", async () => {
+    const f = fixture();
+    f.enroll.mockResolvedValue({
+      data: null,
+      error: { code: "mfa_factor_name_conflict", message: secret },
+    });
+    expect(await enrollStaffFactor(f.client, actor, "Phone")).toEqual({
+      kind: "name-taken",
+    });
+    expect(f.enroll).toHaveBeenCalledTimes(1);
   });
   it("returns setup once for the provider's larger SVG representation", async () => {
     const f = fixture();
@@ -98,14 +133,14 @@ describe("TOTP provider boundary", () => {
       data: { id: factor, totp: { qr_code: qr, secret } },
       error: null,
     });
-    const result = await enrollStaffFactor(f.client, actor);
+    const result = await enrollStaffFactor(f.client, actor, "Phone");
     expect(result.kind).toBe("setup");
     expect(f.enroll).toHaveBeenCalledTimes(1);
   });
   it("reports an enrollment transport failure as unknown without retrying", async () => {
     const f = fixture();
     f.enroll.mockResolvedValue({ data: null, error: { message: secret } });
-    expect(await enrollStaffFactor(f.client, actor)).toEqual({
+    expect(await enrollStaffFactor(f.client, actor, "Phone")).toEqual({
       kind: "unknown",
     });
     expect(f.enroll).toHaveBeenCalledTimes(1);
@@ -119,7 +154,7 @@ describe("TOTP provider boundary", () => {
       },
       error: null,
     });
-    expect(await enrollStaffFactor(f.client, actor)).toEqual({
+    expect(await enrollStaffFactor(f.client, actor, "Phone")).toEqual({
       kind: "unknown",
     });
   });
@@ -206,7 +241,7 @@ describe("TOTP provider boundary", () => {
     vi.useFakeTimers();
     const f = fixture();
     f.enroll.mockReturnValue(new Promise(() => {}));
-    const result = enrollStaffFactor(f.client, actor);
+    const result = enrollStaffFactor(f.client, actor, "Phone");
     await vi.advanceTimersByTimeAsync(8000);
     expect(await result).toEqual({ kind: "unknown" });
     expect(f.enroll).toHaveBeenCalledTimes(1);
