@@ -113,6 +113,8 @@ export const MP03_SQL_INPUTS = Object.freeze([
   "apps/pipstart/scripts/test-m22-staff-maintenance.sql",
   "supabase/migrations/20261029090000_pipstart_m22_staff_enrolment_gate.sql",
   "apps/pipstart/scripts/test-m22-staff-enrolment-gate.sql",
+  "supabase/migrations/20261030090000_pipstart_m22_editorial_store.sql",
+  "apps/pipstart/scripts/test-m22-editorial-store.sql",
 ]);
 export function checkedMp03Manifest(repositoryRoot, manifest) {
   if (
@@ -221,6 +223,8 @@ export async function verifyStaffCore(
     maintenanceFinalClosed: false,
     enrolmentStaged: false,
     enrolmentHead: false,
+    editorialStaged: false,
+    editorialHead: false,
     learnerProviderStaged: false,
     learnerProviderHead: false,
     learnerProviderRaceBlocked: false,
@@ -1070,6 +1074,31 @@ export async function verifyStaffCore(
       ) === "t";
     if (!result.enrolmentHead)
       throw Error("Enrolment gate rollback/grant/head failed");
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "supabase/migrations/20261030090000_pipstart_m22_editorial_store.sql",
+        ),
+        "utf8",
+      ),
+    );
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(root, "apps/pipstart/scripts/test-m22-editorial-store.sql"),
+        "utf8",
+      ),
+    );
+    result.editorialStaged = true;
+    result.editorialHead =
+      sql(
+        database,
+        "select not enabled and (select not require_review and version=0 from pipstart_editorial_private.policy) and not exists(select 1 from pipstart_editorial_private.items) and not exists(select 1 from pipstart_editorial_private.revisions) and not exists(select 1 from pipstart_editorial_private.audit) and has_function_privilege('authenticated','public.pipstart_editorial_save(text,integer,jsonb,text)','EXECUTE') and not has_function_privilege('anon','public.pipstart_editorial_save(text,integer,jsonb,text)','EXECUTE') and not has_schema_privilege('authenticated','pipstart_editorial_private','USAGE') and not exists(select 1 from auth.users where id::text like 'f4000000-%') from pipstart_staff_private.control;",
+      ) === "t";
+    if (!result.editorialHead)
+      throw Error("Editorial store rollback/grant/head failed");
     cleanup();
     result.passed =
       result.staged &&
@@ -1105,7 +1134,9 @@ export async function verifyStaffCore(
       result.maintenanceSinglePermit &&
       result.maintenanceFinalClosed &&
       result.enrolmentStaged &&
-      result.enrolmentHead;
+      result.enrolmentHead &&
+      result.editorialStaged &&
+      result.editorialHead;
     console.log(
       "MP03 CONSOLIDATED SQL ACCEPTANCE PASSED: behavioral/rollback/head gates and observed two-session single-dispatch contention. SQL Auth stubs only; no provider execution or live recovery acceptance.",
     );

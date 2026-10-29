@@ -92,6 +92,14 @@
     {
       "path": "apps/pipstart/scripts/test-m22-staff-enrolment-gate.sql",
       "sha256": "e1ef86a2fe99559b3a2b3e6ccc7737974f1ff09fdd055e439a21bb66c0de7f99"
+    },
+    {
+      "path": "supabase/migrations/20261030090000_pipstart_m22_editorial_store.sql",
+      "sha256": "71f950a70cb133cf87cfbd25ebe6dbb039c8da8d8981f0cc7514aa3980ed89b7"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-editorial-store.sql",
+      "sha256": "27335af8b096438a2f243c742c538234bb0ef8605a83730ec1354211dbbae890"
     }
   ]
 }
