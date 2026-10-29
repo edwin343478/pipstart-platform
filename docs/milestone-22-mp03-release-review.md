@@ -2,13 +2,19 @@
 
 This is the current handover entry point for the MP03 source on the MP01/MP02 baseline. Earlier per-bundle documents describe their staged state; their old "next" lists are historical, not the current completion register.
 
-## Current status — learner-intent patch preparation
+## Current status — MP03 accepted (29 October 2026)
 
-Published baseline `cb8f691955609213e34ee5c6f3ac247817e42646` passed main CI run `40652198272` and separate M22 SQL CI run `40652198334`; Vercel reports Ready/Production. Those exact-commit results close the earlier publication/CI prerequisites below. The learner-intent source patch is now owner-applied and local SQL/rollback/concurrency accepted, with separately authorized owner-reported hosted schema acceptance and exact one-version history verification. It remains unpublished pending separate approval and exact-commit CI. Provider execution/UI integration and the live-rollout items remain open. See `milestone-22-mp03-learner-account-intents.md` for the current sequence. Earlier publication review paragraphs describe the baseline release.
+MP03 is accepted for its staff-core scope. Every MP03 change is published with exact-commit main CI, M22 staff SQL CI and Ready/Production deployment verified. The latest is `9ef200812b5a8423f3c2048980188c5207df2247`.
+
+- **Live:** the real Owner holds two named authenticators. Staff core (entry, overview, people, audit and governance) is enabled at control version 3, and only `PIPSTART_M22_STAFF_UI_ENABLED` is set in Production. See `milestone-22-mp03-owner-rollout.md`.
+- **Manual accessibility:** native zoom, keyboard-only operation and a physical screen reader were owner-reported passing on the live staff pages.
+- **Deferred:** activating the learner provider and staff maintenance, which are published and default-off, and any further staff grants. These are separate operational rollouts, not MP03 acceptance gates.
+
+The sections below are the historical record of how MP03 got here. Their "next" lines and pending notes describe the state at the time.
 
 ## Decision and scope
 
-Keep staff UI, staff database control and the account-provider adapter default closed. This packet prepares publication of staff source that remains disabled by default and continuous SQL verification. The separately authorized six hosted MP03 migrations and read-only schema acceptance have completed, with the exact source-set hash reported by the owner and matched to the prepared packet. This is not authorization for Owner bootstrap, role grants, provider operations, legacy-preview cutover or activation. Full MP03/live operational readiness is not declared.
+Keep staff UI, staff database control and the account-provider adapter default closed. This packet prepares publication of staff source that remains disabled by default and continuous SQL verification. The separately authorized six hosted MP03 migrations and read-only schema acceptance have completed, with the exact source-set hash reported by the owner and matched to the prepared packet. This is not authorization for Owner bootstrap, role grants, provider operations, legacy-preview cutover or activation. Full MP03/live operational readiness is not declared. (Historical: the current status above supersedes this.)
 
 The reconciled implementation covers staff entry and TOTP; live AAL2 and capability checks; bounded people, roles, delegations, assignments and audit views; single-use fresh-action receipts; own-account deletion eligibility and staff-history protection; the durable private account-operation journal; dormant Owner-proof/provider suspension, resumption and inspection adapter; offline recovery and audit-linked retirement finalization.
 
@@ -42,11 +48,11 @@ Only a fresh, labelled CI PostgreSQL service is selectable in CI mode. Existing 
 1. Learner-provider implementation and the approved visual follow-up were published as `854d7d30c4654a8af05eb08ab6c647ce22886ac1`; its exact-commit main CI `40706793818`, M22 staff SQL CI `40706794241` and Vercel deployment status succeeded. Original preparation note: they were applied locally. Isolated SQL run `4e19fdad873775de5c29d7c9ba662693` passed 19 inputs/26 gates; actual local Auth/provider/controller/browser run `f660c500bb3aedfb6c2258d799b6dba9` passed 29 gates, exact provider counts and cleanup. Publication of the 22-file scope still needs approval and exact-commit main/SQL CI plus deployment verification. The accepted published baseline is `c5b7a4677dae6b03ba61cfd549b64dda96b4b56a`.
 2. The owner reported successful hosted learner-provider schema acceptance for SHA256 `8a6bbeebd3a3a2273e104a2009806740b54e6ea714cad051744a4db5cc00872d`, with default-closed control. Local wrapper rehearsal `068e5acf70c03d2782260fbf092a6ebd` passed eight gates and cleanup. The exact saved owner CLI listing now verifies all eight MP03 history versions through `20261028150000` in Local and Remote. This is owner-reported hosted schema/history evidence, not independent remote inspection or real hosted identity/provider acceptance.
 3. The real Owner rollout is complete for staff core only (see `milestone-22-mp03-owner-rollout.md`). The Owner's own account is the single active Owner, with two verified, named TOTP authenticators on separate devices. Staff control is enabled at version 3 after a successful stop drill, and only `PIPSTART_M22_STAFF_UI_ENABLED` is set in Production. It rests on the published staff-only enrolment gate and authenticator naming. The learner-provider and staff-maintenance flags and keys remain unset, and any further staff grant is a separate reviewed operation. Evidence is owner-reported, not independent remote inspection.
-4. Native browser 200% zoom and physical screen-reader/device acceptance remain unverified. Owner visual approval, automated keyboard/axe evidence and the scoped presentation checks are recorded with their actual limits; CSS zoom does not prove native zoom.
-5. Learner-only account intent, fresh-verification transport and inline suspension/reactivation/state/inspection UI are implemented and locally accepted. Matching owner-reported hosted schema acceptance and exact migration history are complete. Current/former staff and legacy administrator targets remain excluded. Publishing this default-off learner path and reviewed live rollout remain pending.
+4. Manual accessibility is owner-reported passing. A 26-check checklist was run on the live staff pages: sign-in, staff verification, overview, People, Audit and the learner refusal. It covered native browser zoom at 200% and 400%, keyboard-only operation and a physical screen reader. Itemized results and the screen reader used were not supplied. The authenticator setup screen was not exercised live, because that would add a factor; it keeps its automated axe, keyboard and width evidence. Owner visual approval and automated axe evidence remain as recorded.
+5. Learner-only account intent, fresh-verification transport and inline suspension/reactivation/state/inspection UI are implemented, accepted and published, with owner-reported hosted schema and exact migration history. The provider/UI part was published as `854d7d30c4654a8af05eb08ab6c647ce22886ac1` with verified exact-commit CI. Current/former staff and legacy administrator targets remain excluded. The path remains default-off: `PIPSTART_M22_ACCOUNT_PROVIDER_ENABLED` and its dedicated key are unset. Its live rollout is a separate later operation.
 6. Owner-only current/former-staff suspension/resumption/inspection is connected through the default-off `/admin/maintenance` transport/UI (see `milestone-22-mp03-staff-maintenance.md`). It is locally SQL and real-service accepted, owner-approved visually, owner-reported hosted schema accepted and history verified. It is published as `ba8bfc8391ef9116b0177918a9d3f8841623e190` with exact-commit main CI, M22 staff SQL CI and Ready/Production deployment verified; it remains default-off. Offline factor recovery and retirement procedures already have staged acceptance, while real Owner identity/recovery custody and live operational acceptance remain separate. Staff maintenance is not routed through the learner path.
-7. The legacy sample preview and its profile-role gate (`requireAdministrator`, `pipstart_profiles.role = 'admin'`) are retired by the preview-cutover change: the preview routes and preview-only components are removed, `/admin` redirects to staff entry, and no source grants authority from the legacy role. An owner-run hosted count showed five profiles, all `learner`, so no account lost access. The legacy enum value and data are unchanged; the role remains only a learner-path exclusion. The approved CSS/icons/primitives remain the staff design system. It is published as `abc215da541bf3fb858f5495ef134325c0e37d81` with M22 staff SQL CI `40832072217` and Ready/Production deployment verified. Main CI `40832072281` passed on attempt 2 after the M16 key-terms test (`milestone-16-h6-accessibility.spec.ts:182`) timed out twice in attempt 1 on the same commit and image. That test is timing-sensitive, and hardening it is a recommended follow-up.
-8. Retirement preserves pseudonymized audit-linked identity/profile/preferences and protected references. It is not complete erasure or legal compliance certification. Separate privacy cases require their own retention/erasure decision. Final MP03 evidence/register reconciliation follows the unfinished feature and rollout gates.
+7. The legacy sample preview and its profile-role gate (`requireAdministrator`, `pipstart_profiles.role = 'admin'`) are retired by the preview-cutover change: the preview routes and preview-only components are removed, `/admin` redirects to staff entry, and no source grants authority from the legacy role. An owner-run hosted count showed five profiles, all `learner`, so no account lost access. The legacy enum value and data are unchanged; the role remains only a learner-path exclusion. The approved CSS/icons/primitives remain the staff design system. It is published as `abc215da541bf3fb858f5495ef134325c0e37d81` with M22 staff SQL CI `40832072217` and Ready/Production deployment verified. Main CI `40832072281` passed on attempt 2 after the M16 key-terms test (`milestone-16-h6-accessibility.spec.ts:182`) timed out twice in attempt 1 on the same commit and image. That test was hardened in `9ef200812b5a8423f3c2048980188c5207df2247` and passed on the first attempt there. It now re-opens the native panel with the keyboard until the link is visible; a simulated closed panel showed the old steps failing and the new steps recovering.
+8. Retirement preserves pseudonymized audit-linked identity/profile/preferences and protected references. It is not complete erasure or legal compliance certification. Separate privacy cases require their own retention/erasure decision. The final MP03 evidence/register reconciliation is recorded below.
 
 ## Quality and release sequence
 
@@ -54,7 +60,7 @@ Initial MP03 preparation used an external baseline snapshot plus 75 reconciled i
 
 The owner applied the release source packet, completed consolidated isolated SQL acceptance, and reported successful authorized hosted schema acceptance and history reconciliation. A subsequent two-document handover update records those results without changing executable source or SQL. After its owner-run application, obtain publication approval for the exact 81-file MP03 inventory. Then require complete quality and MP03 SQL CI on the exact published commit; the preparation results are not a substitute for those checks. Staff UI/provider settings and hosted staff control remain default-closed. Live bootstrap/activation and the unfinished capabilities in the register above remain separate gates.
 
-Next within MP03: native browser zoom and physical screen-reader acceptance; the recommended M16 key-terms test hardening; then final completion-register reconciliation. The learner-provider and staff-maintenance live rollouts are separate later items. Exact-commit CI and deployment for `854d7d30c4654a8af05eb08ab6c647ce22886ac1`, `ba8bfc8391ef9116b0177918a9d3f8841623e190`, `abc215da541bf3fb858f5495ef134325c0e37d81`, `c26b15d3a261f4503e47723f18a3e0897c8ee7de` and `d5bb601586cace7636b20fbaeec22ea559289f6b` are verified. MP04 follows full MP03 acceptance; nine main packages follow MP03.
+MP03 is accepted; next is MP04. The learner-provider and staff-maintenance live rollouts remain separate later operations. Exact-commit CI and deployment are verified for `854d7d30c4654a8af05eb08ab6c647ce22886ac1`, `ba8bfc8391ef9116b0177918a9d3f8841623e190`, `abc215da541bf3fb858f5495ef134325c0e37d81`, `c26b15d3a261f4503e47723f18a3e0897c8ee7de`, `d5bb601586cace7636b20fbaeec22ea559289f6b`, `87a0e9ff0d72e19cb07875e8739a325ea18057ca` and `9ef200812b5a8423f3c2048980188c5207df2247`. Nine main packages follow MP03.
 
 ## Publication review — 28 October 2026
 
@@ -144,3 +150,30 @@ Phase 3 ran on the hosted project with the owner's explicit authorization. The o
 9. Staff was re-enabled at version 3, and the final check passed: one Owner, two distinct named authenticators, and audit history of exactly the bootstrap then enable, pause and enable.
 
 Staff stays enabled, as the Owner decided. The Owner keeps the offline custody record of the devices; the complete-loss procedure is offline and was not run live. The kill switches are documented in the rollout guide.
+
+## Final MP03 reconciliation — 29 October 2026
+
+Closing items since the Owner rollout:
+
+- **Rollout documentation:** published as `87a0e9ff0d72e19cb07875e8739a325ea18057ca`. Main CI `40886447631` passed 27/27 on the first attempt, M22 staff SQL CI `40886447679` passed 13/13, and the deployment is Ready.
+- **M16 key-terms test hardening:** published as `9ef200812b5a8423f3c2048980188c5207df2247`. Main CI `40894517574` passed 27/27 on the first attempt, including the M16 browser suite; M22 staff SQL CI `40894517755` passed 13/13, and the deployment is Ready. It changes the test only.
+- **Manual accessibility:** owner-reported passing for all 26 checks (register item 4). This closes the remaining MP03 gate.
+
+MP03 acceptance therefore covers:
+
+- the staff core, with the default-closed control and fresh-verification model;
+- staff-only enrolment and named authenticators;
+- the retired legacy preview and profile-role gate;
+- the published, default-off learner-provider and staff-maintenance transports with their accepted SQL, real-service and hosted schema evidence;
+- the offline recovery and retirement procedures;
+- the live Owner rollout.
+
+Every accepted run is indexed in `milestone-22-mp03-release-evidence.json`.
+
+Deliberately outside MP03 acceptance, each a separate reviewed rollout:
+
+- enabling the learner provider or staff maintenance in Production, with their dedicated keys;
+- any second Owner or further staff grant;
+- the deferred presentation findings: the paused-Owner wording, and the 390px staff-frame block and roles heading.
+
+Hosted evidence throughout is owner-reported, not independent remote inspection.

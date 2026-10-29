@@ -1,6 +1,6 @@
 {
-  "baseline": "d5bb601586cace7636b20fbaeec22ea559289f6b",
-  "status": "STAFF_FACTOR_NAMING_PUBLISHED_AND_CI_VERIFIED; OWNER_ROLLOUT_COMPLETE_STAFF_CORE_ENABLED; MANUAL_ACCESSIBILITY_AND_FINAL_RECONCILIATION_PENDING",
+  "baseline": "9ef200812b5a8423f3c2048980188c5207df2247",
+  "status": "MP03_ACCEPTED_STAFF_CORE; LEARNER_PROVIDER_AND_STAFF_MAINTENANCE_PUBLISHED_DEFAULT_OFF",
   "evidence": [
     {
       "boundary": "governance-browser",
@@ -156,8 +156,8 @@
   "hostedAccepted": true,
   "publicationApproved": false,
   "activated": true,
-  "nativeBrowserZoomVerified": false,
-  "physicalScreenReaderVerified": false,
+  "nativeBrowserZoomVerified": true,
+  "physicalScreenReaderVerified": true,
   "hostedDeletionSchemaRequiredBeforePublication": true,
   "preparation": {
     "implementationFocusedTests": 66,
@@ -451,12 +451,7 @@
       "fullMp03Complete": false
     }
   },
-  "remainingMp03": [
-    "native browser zoom and physical screen-reader manual acceptance",
-    "M16 key-terms test hardening (timing-sensitive; recommended)",
-    "final completion-register reconciliation",
-    "later separate rollouts: learner provider, staff maintenance, further staff grants"
-  ],
+  "remainingMp03": [],
   "staffMaintenance": {
     "stage": "published and exact-commit CI/deployment verified; default off",
     "baseline": "854d7d30c4654a8af05eb08ab6c647ce22886ac1",
@@ -753,6 +748,59 @@
       "unset PIPSTART_M22_STAFF_UI_ENABLED and redeploy",
       "revoke through audited governance"
     ],
-    "custody": "two named authenticators on separate devices; offline record kept by the Owner; complete-loss procedure offline and not run live"
-  }
+    "custody": "two named authenticators on separate devices; offline record kept by the Owner; complete-loss procedure offline and not run live",
+    "documentationPublished": {
+      "commit": "87a0e9ff0d72e19cb07875e8739a325ea18057ca",
+      "mainCi": "40886447631 success 27/27",
+      "sqlCi": "40886447679 success 13/13",
+      "deployment": "Ready / Production"
+    }
+  },
+  "mp03Complete": true,
+  "m16KeyTermsHardening": {
+    "commit": "9ef200812b5a8423f3c2048980188c5207df2247",
+    "testOnly": true,
+    "cause": "Enter on the native key-terms <details> followed immediately by a click on the Gas link; a re-render around hydration can leave the panel closed and the click waits 90s on a hidden link (abc215d attempt 1)",
+    "fix": "re-open the panel with the keyboard until the link is visible (expect.toPass, 20s bound), then click",
+    "localChecks": {
+      "prettier": "pass",
+      "eslint": "pass",
+      "tsc": "pass",
+      "stressOriginal": "25/25 passed, 6 workers, next start production build",
+      "stressHardened": "25/25 passed, 6 workers, next start production build",
+      "forcedClosedPanel": "original steps fail and hardened steps recover, 5/5 each",
+      "tempFilesRemoved": true
+    },
+    "mainCi": "40894517574 success (attempt 1; 27/27 (includes the M16 browser suite with the hardened key-terms test))",
+    "sqlCi": "40894517755 success 13/13",
+    "deployment": "Ready / Production"
+  },
+  "manualAccessibility": {
+    "status": "MP03_MANUAL_ACCESSIBILITY_OWNER_REPORTED_PASS",
+    "date": "2026-10-29",
+    "checks": 26,
+    "sections": [
+      "A sign-in",
+      "B staff verification",
+      "C staff overview",
+      "D people",
+      "E staff audit",
+      "F learner refusal",
+      "G overall"
+    ],
+    "result": "all checks reported Pass by the owner",
+    "ownerReported": true,
+    "itemizedResultsSupplied": false,
+    "screenReaderNamed": false,
+    "scope": "native browser zoom 200% and 400%, keyboard-only operation and a physical screen reader on the live staff pages",
+    "limitation": "Authenticator setup screen not exercised live (would add a third factor); it retains its automated axe, keyboard and width evidence.",
+    "recordSha256": "7961720dec8728f9776ba0139736e7b08f3167876cdc6b75a2d137149702b9b3"
+  },
+  "deferredOutsideMp03": [
+    "learner-provider live rollout (PIPSTART_M22_ACCOUNT_PROVIDER_ENABLED and its dedicated key)",
+    "staff-maintenance live rollout (PIPSTART_M22_STAFF_MAINTENANCE_ENABLED and its dedicated key)",
+    "any second Owner or further staff grant",
+    "deferred presentation findings: paused-Owner wording; 390px staff-frame block and roles heading"
+  ],
+  "next": "MP04"
 }
