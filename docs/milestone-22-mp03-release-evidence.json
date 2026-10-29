@@ -1,6 +1,6 @@
 {
-  "baseline": "c26b15d3a261f4503e47723f18a3e0897c8ee7de",
-  "status": "STAFF_ENROLMENT_GATE_PUBLISHED_AND_CI_VERIFIED; STAFF_FACTOR_NAMING_LOCAL_REAL_AUTH_ACCEPTED; PUBLICATION_PENDING",
+  "baseline": "d5bb601586cace7636b20fbaeec22ea559289f6b",
+  "status": "STAFF_FACTOR_NAMING_PUBLISHED_AND_CI_VERIFIED; OWNER_ROLLOUT_COMPLETE_STAFF_CORE_ENABLED; MANUAL_ACCESSIBILITY_AND_FINAL_RECONCILIATION_PENDING",
   "evidence": [
     {
       "boundary": "governance-browser",
@@ -155,7 +155,7 @@
   ],
   "hostedAccepted": true,
   "publicationApproved": false,
-  "activated": false,
+  "activated": true,
   "nativeBrowserZoomVerified": false,
   "physicalScreenReaderVerified": false,
   "hostedDeletionSchemaRequiredBeforePublication": true,
@@ -452,12 +452,10 @@
     }
   },
   "remainingMp03": [
-    "authenticator naming publication and exact-commit CI/deployment",
-    "local rehearsal of the exact hosted Owner runbook",
-    "reviewed real Owner/MFA/recovery custody and live rollout",
-    "native zoom/physical screen-reader manual acceptance",
+    "native browser zoom and physical screen-reader manual acceptance",
     "M16 key-terms test hardening (timing-sensitive; recommended)",
-    "final completion-register reconciliation"
+    "final completion-register reconciliation",
+    "later separate rollouts: learner provider, staff maintenance, further staff grants"
   ],
   "staffMaintenance": {
     "stage": "published and exact-commit CI/deployment verified; default off",
@@ -655,7 +653,7 @@
     "correctedOrder": "bootstrap, primary factor, enable, backup factor, sign-in with the backup"
   },
   "staffFactorNaming": {
-    "stage": "local real Auth/browser accepted; owner visual approval; publication pending",
+    "stage": "published and exact-commit CI/deployment verified",
     "baseline": "c26b15d3a261f4503e47723f18a3e0897c8ee7de",
     "sql": false,
     "hostedStepRequired": false,
@@ -679,7 +677,7 @@
       "liveAcceptanceSha256": "5491d014fb99c0300ddf223595ac7164c344328458905d91c3df4d082bb0a999"
     },
     "ownerVisualApproved": true,
-    "published": false,
+    "published": true,
     "activated": false,
     "defaultOff": true,
     "publicationScope": {
@@ -688,6 +686,73 @@
       "updates": 9,
       "applicationBehaviorChangedDuringHandover": false,
       "exactCommitCiRequired": true
-    }
+    },
+    "publishedCommit": "d5bb601586cace7636b20fbaeec22ea559289f6b",
+    "exactCommitCiVerified": true,
+    "mainCi": "40859549106 success (attempt 1; Format, lint, typecheck, test and build: success 27/27; 184 files / 2467 tests passed (equals candidate preparation); M16 214 passed; milestone-16-h6-accessibility.spec.ts:182 key-terms test passed in 1.8s)",
+    "sqlCi": "40859549142 success 13/13",
+    "deployment": "Ready / Production"
+  },
+  "ownerRollout": {
+    "stage": "complete: staff core enabled for the single Owner",
+    "scope": "staff core only",
+    "ownerReported": true,
+    "independentlyInspectedRemote": false,
+    "ownerIdentityRecordedHere": false,
+    "runbook": {
+      "stages": [
+        "01-preflight.sql",
+        "02-bootstrap.sql",
+        "03-primary-check.sql",
+        "04-enable.sql",
+        "05-backup-check.sql",
+        "06-stop-drill-pause.sql",
+        "07-re-enable.sql",
+        "08-final-check.sql",
+        "K1-kill-switch-pause.sql"
+      ],
+      "manifestSha256": "451c875e30c03ef79cf8c49939c51ed8ed96fe63c4430f21081c5781c2307540",
+      "variable": "Owner Auth UUID only"
+    },
+    "localRehearsal": {
+      "runId": "df731e0a82110fcdc6fc2d8d6884faf3",
+      "gates": "39/39",
+      "stageRuns": 19,
+      "stagesCovered": 9,
+      "templateMismatches": 0,
+      "cleanup": true
+    },
+    "hosted": {
+      "date": "2026-10-29",
+      "projectRef": "knsmqtmfizkkrthhpujm",
+      "stagesInOrder": ["01", "02", "03", "04", "05", "06", "07", "08"],
+      "finalState": {
+        "staffEnabled": true,
+        "controlVersion": 3,
+        "activeOwners": 1,
+        "verifiedNamedAuthenticators": 2,
+        "auditHistory": "bootstrap, then control true,false,true"
+      },
+      "rolloutRecordSha256": "79ad228e80e71aad82ba89e85eb7108d4644cabed8614c0785e43e43a38c1175",
+      "browserChecks": [
+        "primary named and verified while paused",
+        "backup named and verified from the staff overview",
+        "backup sign-in reached the overview",
+        "learner refused at /admin",
+        "open session shut out by the stop drill"
+      ]
+    },
+    "liveFlags": {
+      "PIPSTART_M22_STAFF_UI_ENABLED": "true (Production)",
+      "PIPSTART_M22_ACCOUNT_PROVIDER_ENABLED": "unset",
+      "PIPSTART_M22_STAFF_MAINTENANCE_ENABLED": "unset",
+      "providerAndMaintenanceKeys": "unset"
+    },
+    "killSwitches": [
+      "reviewed kill-switch stage (pause at current version)",
+      "unset PIPSTART_M22_STAFF_UI_ENABLED and redeploy",
+      "revoke through audited governance"
+    ],
+    "custody": "two named authenticators on separate devices; offline record kept by the Owner; complete-loss procedure offline and not run live"
   }
 }

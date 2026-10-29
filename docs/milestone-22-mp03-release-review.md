@@ -41,7 +41,7 @@ Only a fresh, labelled CI PostgreSQL service is selectable in CI mode. Existing 
 
 1. Learner-provider implementation and the approved visual follow-up were published as `854d7d30c4654a8af05eb08ab6c647ce22886ac1`; its exact-commit main CI `40706793818`, M22 staff SQL CI `40706794241` and Vercel deployment status succeeded. Original preparation note: they were applied locally. Isolated SQL run `4e19fdad873775de5c29d7c9ba662693` passed 19 inputs/26 gates; actual local Auth/provider/controller/browser run `f660c500bb3aedfb6c2258d799b6dba9` passed 29 gates, exact provider counts and cleanup. Publication of the 22-file scope still needs approval and exact-commit main/SQL CI plus deployment verification. The accepted published baseline is `c5b7a4677dae6b03ba61cfd549b64dda96b4b56a`.
 2. The owner reported successful hosted learner-provider schema acceptance for SHA256 `8a6bbeebd3a3a2273e104a2009806740b54e6ea714cad051744a4db5cc00872d`, with default-closed control. Local wrapper rehearsal `068e5acf70c03d2782260fbf092a6ebd` passed eight gates and cleanup. The exact saved owner CLI listing now verifies all eight MP03 history versions through `20261028150000` in Local and Remote. This is owner-reported hosted schema/history evidence, not independent remote inspection or real hosted identity/provider acceptance.
-3. Real Owner bootstrap/account grants and live staff/provider activation remain separate reviewed operations. The exact identity, MFA/recovery custody plan, dedicated credential/configuration and signed-in Owner/Administrator/learner/revocation/stop checks remain required before live rollout. No real identity grant or activation is authorized by this handover. Its prerequisite is in place: the staff-only enrolment gate (see `milestone-22-mp03-staff-enrolment-gate.md`) offers TOTP enrolment and step-up only to active staff members. It is locally and owner-reported hosted accepted, and its publication is tracked below. The rehearsed rollout order is bootstrap, primary factor, enable, backup factor, then sign-in with the backup.
+3. The real Owner rollout is complete for staff core only (see `milestone-22-mp03-owner-rollout.md`). The Owner's own account is the single active Owner, with two verified, named TOTP authenticators on separate devices. Staff control is enabled at version 3 after a successful stop drill, and only `PIPSTART_M22_STAFF_UI_ENABLED` is set in Production. It rests on the published staff-only enrolment gate and authenticator naming. The learner-provider and staff-maintenance flags and keys remain unset, and any further staff grant is a separate reviewed operation. Evidence is owner-reported, not independent remote inspection.
 4. Native browser 200% zoom and physical screen-reader/device acceptance remain unverified. Owner visual approval, automated keyboard/axe evidence and the scoped presentation checks are recorded with their actual limits; CSS zoom does not prove native zoom.
 5. Learner-only account intent, fresh-verification transport and inline suspension/reactivation/state/inspection UI are implemented and locally accepted. Matching owner-reported hosted schema acceptance and exact migration history are complete. Current/former staff and legacy administrator targets remain excluded. Publishing this default-off learner path and reviewed live rollout remain pending.
 6. Owner-only current/former-staff suspension/resumption/inspection is connected through the default-off `/admin/maintenance` transport/UI (see `milestone-22-mp03-staff-maintenance.md`). It is locally SQL and real-service accepted, owner-approved visually, owner-reported hosted schema accepted and history verified. It is published as `ba8bfc8391ef9116b0177918a9d3f8841623e190` with exact-commit main CI, M22 staff SQL CI and Ready/Production deployment verified; it remains default-off. Offline factor recovery and retirement procedures already have staged acceptance, while real Owner identity/recovery custody and live operational acceptance remain separate. Staff maintenance is not routed through the learner path.
@@ -54,7 +54,7 @@ Initial MP03 preparation used an external baseline snapshot plus 75 reconciled i
 
 The owner applied the release source packet, completed consolidated isolated SQL acceptance, and reported successful authorized hosted schema acceptance and history reconciliation. A subsequent two-document handover update records those results without changing executable source or SQL. After its owner-run application, obtain publication approval for the exact 81-file MP03 inventory. Then require complete quality and MP03 SQL CI on the exact published commit; the preparation results are not a substitute for those checks. Staff UI/provider settings and hosted staff control remain default-closed. Live bootstrap/activation and the unfinished capabilities in the register above remain separate gates.
 
-Next within MP03: publication and exact-commit CI of authenticator naming; a local rehearsal of the exact hosted Owner runbook; then the reviewed real Owner bootstrap, MFA and recovery custody, live rollout, and manual accessibility register. Exact-commit CI and deployment for `854d7d30c4654a8af05eb08ab6c647ce22886ac1`, `ba8bfc8391ef9116b0177918a9d3f8841623e190`, `abc215da541bf3fb858f5495ef134325c0e37d81` and `c26b15d3a261f4503e47723f18a3e0897c8ee7de` are verified. MP04 follows full MP03 acceptance; nine main packages follow MP03.
+Next within MP03: native browser zoom and physical screen-reader acceptance; the recommended M16 key-terms test hardening; then final completion-register reconciliation. The learner-provider and staff-maintenance live rollouts are separate later items. Exact-commit CI and deployment for `854d7d30c4654a8af05eb08ab6c647ce22886ac1`, `ba8bfc8391ef9116b0177918a9d3f8841623e190`, `abc215da541bf3fb858f5495ef134325c0e37d81`, `c26b15d3a261f4503e47723f18a3e0897c8ee7de` and `d5bb601586cace7636b20fbaeec22ea559289f6b` are verified. MP04 follows full MP03 acceptance; nine main packages follow MP03.
 
 ## Publication review — 28 October 2026
 
@@ -119,4 +119,28 @@ Accepted evidence:
 - preparation: types, lint and formatting; 184 test files with 2,467 tests (23 new); the default-off build; and a clean scan of all 191 public chunks;
 - real local Auth/browser `7c8803c6a47da526d998a73563059b22` (27 gates, four generated accounts, three named TOTP factors, 15 clean axe states), with explicit owner visual approval.
 
-No hosted or migration-history step applies. Publication approval, exact-commit CI and Ready/Production verification remain pending. The rehearsed live rollout order is unchanged; the paused-Owner wording and narrow-screen layout findings remain deferred.
+No hosted or migration-history step applies. It is published as `d5bb601586cace7636b20fbaeec22ea559289f6b`: main CI `40859549106` passed on its first attempt (quality 27/27 including 2,467 unit tests and 214 M16 browser tests, M21 SQL 12/12), M22 staff SQL CI `40859549142` passed 13/13, and the Ready/Production deployment succeeded. The paused-Owner wording and narrow-screen layout findings remain deferred.
+
+## Real Owner rollout — accepted evidence
+
+Phase 2 rehearsed the exact hosted runbook locally:
+
+- nine fingerprinted SQL stages, whose only variable is the Owner's Auth UUID, filled by the same helper used live;
+- real local Auth and browser, with four generated accounts;
+- the application started first without and then with the staff UI flag.
+
+The assistant's run and the owner's run `df731e0a82110fcdc6fc2d8d6884faf3` each passed 39 gates: 9 stage passes and 10 refusals, every refusal with its expected reason and unchanged state, and cleanup confirmed.
+
+Phase 3 ran on the hosted project with the owner's explicit authorization. The owner ran each stage in order through the copy helper and reported each result:
+
+1. A read-only lookup confirmed an ordinary, confirmed, active learner account with no authenticators.
+2. Preflight passed, then the bootstrap left staff paused at version 0.
+3. `PIPSTART_M22_STAFF_UI_ENABLED=true` was set for Production and redeployed.
+4. The primary authenticator was named and verified while paused, and the primary check passed.
+5. Staff was enabled at version 1.
+6. The backup authenticator was named and verified, and the two-factor check passed.
+7. Signing in with the backup reached the staff overview, and a learner account was refused.
+8. The stop drill paused at version 2, shutting out the open session on its next request.
+9. Staff was re-enabled at version 3, and the final check passed: one Owner, two distinct named authenticators, and audit history of exactly the bootstrap then enable, pause and enable.
+
+Staff stays enabled, as the Owner decided. The Owner keeps the offline custody record of the devices; the complete-loss procedure is offline and was not run live. The kill switches are documented in the rollout guide.
