@@ -1,6 +1,6 @@
 {
-  "baseline": "854d7d30c4654a8af05eb08ab6c647ce22886ac1",
-  "status": "STAFF_MAINTENANCE_LOCAL_REAL_AUTH_AND_OWNER_REPORTED_HOSTED_ACCEPTED; HISTORY_VERIFIED; PUBLICATION_PENDING",
+  "baseline": "ba8bfc8391ef9116b0177918a9d3f8841623e190",
+  "status": "STAFF_MAINTENANCE_PUBLISHED_AND_CI_VERIFIED; PREVIEW_CUTOVER_PUBLICATION_PENDING",
   "evidence": [
     {
       "boundary": "governance-browser",
@@ -302,7 +302,7 @@
     }
   },
   "learnerProviderUi": {
-    "stage": "published as 854d7d30c4654a8af05eb08ab6c647ce22886ac1; exact-commit CI and deployment verification pending",
+    "stage": "published and exact-commit CI/deployment verified",
     "baseline": "c5b7a4677dae6b03ba61cfd549b64dda96b4b56a",
     "sqlInputs": 19,
     "localSqlAccepted": true,
@@ -389,7 +389,10 @@
       "fullMp03Complete": false
     },
     "publishedCommit": "854d7d30c4654a8af05eb08ab6c647ce22886ac1",
-    "exactCommitCiVerified": false
+    "exactCommitCiVerified": true,
+    "mainCiRun": "40706793818",
+    "sqlCiRun": "40706794241",
+    "deployment": "Vercel commit status success"
   },
   "initialPreparationBaseline": "97e4a725d58a1b6dd439e80bde3abc1fc65fd27e",
   "initialMp03Evidence": {
@@ -449,15 +452,13 @@
     }
   },
   "remainingMp03": [
-    "exact-commit CI/deployment verification for 854d7d30c4654a8af05eb08ab6c647ce22886ac1",
-    "staff-maintenance publication and exact-commit CI/deployment",
-    "legacy-preview authority/navigation cutover",
+    "preview cutover publication and exact-commit CI/deployment",
     "reviewed real Owner/MFA/recovery custody and live rollout",
     "native zoom/physical screen-reader manual acceptance",
     "final completion-register reconciliation"
   ],
   "staffMaintenance": {
-    "stage": "local SQL/real-service accepted; owner visual approval; owner-reported hosted schema accepted; history verified; publication pending",
+    "stage": "published and exact-commit CI/deployment verified; default off",
     "baseline": "854d7d30c4654a8af05eb08ab6c647ce22886ac1",
     "sqlInputs": 21,
     "localSqlAccepted": true,
@@ -465,7 +466,7 @@
     "ownerVisualApproved": true,
     "hostedAccepted": true,
     "historyReconciled": true,
-    "published": false,
+    "published": true,
     "activated": false,
     "defaultOff": true,
     "fullMp03Complete": false,
@@ -524,6 +525,35 @@
       "updates": 6,
       "applicationBehaviorChangedDuringHandover": false,
       "exactCommitCiRequired": true
-    }
+    },
+    "publishedCommit": "ba8bfc8391ef9116b0177918a9d3f8841623e190",
+    "exactCommitCiVerified": true,
+    "mainCiJobsVerified": true,
+    "sqlCiRuns": [
+      "40750958699 success",
+      "40756357367 success (owner-supplied logs)"
+    ],
+    "deployment": "Ready / Production"
+  },
+  "previewCutover": {
+    "stage": "source prepared; owner application, publication and exact-commit CI pending",
+    "legacyGateRetired": true,
+    "removedRoutes": ["/admin/preview", "/admin/preview/[screen]"],
+    "adminRedirectsTo": "/admin/access",
+    "designSystemRetained": [
+      "admin-preview.module.css",
+      "icons.tsx",
+      "primitives.tsx"
+    ],
+    "hostedLegacyAdminProfiles": 0,
+    "hostedRoleCount": [
+      {
+        "role": "learner",
+        "count": 5
+      }
+    ],
+    "roleCountOwnerReported": true,
+    "migration": false,
+    "dataChanged": false
   }
 }

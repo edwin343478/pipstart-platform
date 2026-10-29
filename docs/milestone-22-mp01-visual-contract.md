@@ -1,6 +1,11 @@
 # Milestone 22 MP01: administration design preview and visual contract
 
-Status: design implemented as a preview. No feature is connected.
+Status: preview retired in MP03. The sample-data routes `/admin/preview` and
+`/admin/preview/[screen]`, their components and the legacy profile-role gate that
+protected them are removed; `/admin` now redirects to staff entry. The approved
+visual tokens (`admin-preview.module.css`, `icons.tsx`, `primitives.tsx`) remain
+the shared design system of the real staff screens. The sections below are the
+historical MP01 record.
 
 ## Approved foundation and implementation boundary
 

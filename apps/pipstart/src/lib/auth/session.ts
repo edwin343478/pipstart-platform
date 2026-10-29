@@ -23,19 +23,3 @@ export async function requireUser(next?: string) {
   if (!user) redirect(getLoginRedirect(next));
   return user;
 }
-
-export async function requireAdministrator() {
-  const user = await requireUser("/admin");
-  const supabase = await createSupabaseServerClient();
-  if (!supabase) redirect("/login");
-
-  const { data } = await supabase
-    .from("pipstart_profiles")
-    .select("role")
-    .eq("user_id", user.id)
-    .single();
-
-  if (data?.role !== "admin")
-    redirect("/account/settings?notice=not-authorized");
-  return user;
-}

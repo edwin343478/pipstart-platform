@@ -136,8 +136,11 @@ describe("Milestone 11 learner accounts", () => {
         `requireUser("/account/${route}")`,
       );
     }
-    expect(read("admin/page.tsx")).toContain("requireAdministrator()");
-    expect(read("../lib/auth/session.ts")).toContain('data?.role !== "admin"');
+    // The legacy profile-role gate is retired; /admin goes to staff entry.
+    expect(read("admin/page.tsx")).toContain("redirect(STAFF_ENTRY_PATH)");
+    expect(read("../lib/auth/session.ts")).not.toContain(
+      "requireAdministrator",
+    );
   });
 
   it("keeps application and local Supabase password policies aligned", () => {
