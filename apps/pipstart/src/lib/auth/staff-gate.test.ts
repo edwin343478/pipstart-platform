@@ -16,7 +16,11 @@ function fixture() {
     },
     error: null,
   });
-  const rpc = vi.fn(() => ({ abortSignal: rpcResult }));
+  const enrolResult = vi.fn().mockResolvedValue({ data: true, error: null });
+  const rpc = vi.fn((name: string) => ({
+    abortSignal:
+      name === "pipstart_staff_enrolment_allowed" ? enrolResult : rpcResult,
+  }));
   const getUser = vi.fn().mockResolvedValue({
     data: {
       user: {
@@ -35,7 +39,12 @@ function fixture() {
     auth: { getUser, mfa: { getAuthenticatorAssuranceLevel: aal } },
     rpc,
   });
-  return { rpc, rpcResult, getUser, aal };
+  return { rpc, rpcResult, enrolResult, getUser, aal };
+}
+// The challenge path may ask only whether the caller is staff, never for staff data.
+function onlyEnrolmentChecked(rpc: ReturnType<typeof vi.fn>) {
+  expect(rpc).toHaveBeenCalledTimes(1);
+  expect(rpc).toHaveBeenCalledWith("pipstart_staff_enrolment_allowed");
 }
 beforeEach(() => {
   vi.stubEnv("PIPSTART_M22_STAFF_UI_ENABLED", "true");
@@ -53,7 +62,7 @@ describe("live staff read gate", () => {
       error: null,
     });
     expect(await readStaffGate()).toEqual({ kind: "challenge", userId: actor });
-    expect(f.rpc).not.toHaveBeenCalled();
+    onlyEnrolmentChecked(f.rpc);
   });
   it("stays closed by default without contacting a provider", async () => {
     vi.stubEnv("PIPSTART_M22_STAFF_UI_ENABLED", "");
@@ -86,9 +95,38 @@ describe("live staff read gate", () => {
         kind: "challenge",
         userId: actor,
       });
-      expect(f.rpc).not.toHaveBeenCalled();
+      onlyEnrolmentChecked(f.rpc);
     },
   );
+  it("offers no enrolment or step-up to a non-member", async () => {
+    const f = fixture();
+    f.getUser.mockResolvedValue({
+      data: { user: { id: actor, factors: [] } },
+      error: null,
+    });
+    for (const data of [false, null, "true", 1, { allowed: true }]) {
+      f.rpc.mockClear();
+      f.enrolResult.mockResolvedValue({ data, error: null });
+      expect(await readStaffGate()).toEqual({ kind: "denied" });
+      onlyEnrolmentChecked(f.rpc);
+    }
+    expect(f.enrolResult.mock.calls[0][0]).toBeInstanceOf(AbortSignal);
+  });
+  it("fails closed when the membership check errors or throws", async () => {
+    const f = fixture();
+    f.aal.mockResolvedValue({
+      data: { currentLevel: "aal1", nextLevel: "aal2" },
+      error: null,
+    });
+    f.enrolResult.mockResolvedValue({ data: true, error: { code: "42501" } });
+    expect(await readStaffGate()).toEqual({ kind: "unavailable" });
+    f.enrolResult.mockRejectedValue(Error("private backend error"));
+    expect(await readStaffGate()).toEqual({ kind: "unavailable" });
+    expect(f.rpc).not.toHaveBeenCalledWith(
+      "pipstart_staff_access",
+      expect.anything(),
+    );
+  });
   it("requires authoritative RPC grants, not editable owner metadata", async () => {
     const f = fixture();
     f.rpcResult.mockResolvedValue({ data: { authorized: false }, error: null });

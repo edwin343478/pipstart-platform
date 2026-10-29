@@ -111,6 +111,8 @@ export const MP03_SQL_INPUTS = Object.freeze([
   "apps/pipstart/scripts/test-m22-learner-provider-bridge.sql",
   "supabase/migrations/20261028180000_pipstart_m22_staff_maintenance_transport.sql",
   "apps/pipstart/scripts/test-m22-staff-maintenance.sql",
+  "supabase/migrations/20261029090000_pipstart_m22_staff_enrolment_gate.sql",
+  "apps/pipstart/scripts/test-m22-staff-enrolment-gate.sql",
 ]);
 export function checkedMp03Manifest(repositoryRoot, manifest) {
   if (
@@ -217,6 +219,8 @@ export async function verifyStaffCore(
     maintenanceRaceBlocked: false,
     maintenanceSinglePermit: false,
     maintenanceFinalClosed: false,
+    enrolmentStaged: false,
+    enrolmentHead: false,
     learnerProviderStaged: false,
     learnerProviderHead: false,
     learnerProviderRaceBlocked: false,
@@ -1038,6 +1042,34 @@ export async function verifyStaffCore(
       ) === "t";
     if (!result.maintenanceFinalClosed)
       throw Error("Maintenance final paused/resolved head failed");
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "supabase/migrations/20261029090000_pipstart_m22_staff_enrolment_gate.sql",
+        ),
+        "utf8",
+      ),
+    );
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "apps/pipstart/scripts/test-m22-staff-enrolment-gate.sql",
+        ),
+        "utf8",
+      ),
+    );
+    result.enrolmentStaged = true;
+    result.enrolmentHead =
+      sql(
+        database,
+        "select not enabled and has_function_privilege('authenticated','public.pipstart_staff_enrolment_allowed()','EXECUTE') and not has_function_privilege('anon','public.pipstart_staff_enrolment_allowed()','EXECUTE') and not has_function_privilege('service_role','public.pipstart_staff_enrolment_allowed()','EXECUTE') and not exists(select 1 from auth.users where id::text like 'e1000000-%') from pipstart_staff_private.control;",
+      ) === "t";
+    if (!result.enrolmentHead)
+      throw Error("Enrolment gate rollback/grant/head failed");
     cleanup();
     result.passed =
       result.staged &&
@@ -1071,7 +1103,9 @@ export async function verifyStaffCore(
       result.maintenanceHead &&
       result.maintenanceRaceBlocked &&
       result.maintenanceSinglePermit &&
-      result.maintenanceFinalClosed;
+      result.maintenanceFinalClosed &&
+      result.enrolmentStaged &&
+      result.enrolmentHead;
     console.log(
       "MP03 CONSOLIDATED SQL ACCEPTANCE PASSED: behavioral/rollback/head gates and observed two-session single-dispatch contention. SQL Auth stubs only; no provider execution or live recovery acceptance.",
     );

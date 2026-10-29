@@ -34,6 +34,13 @@ export async function readStaffGate(): Promise<StaffGateResult> {
       !currentTotp ||
       needsStaffChallenge(assurance.data.currentLevel, assurance.data.nextLevel)
     ) {
+      // Enrolment and step-up are for active staff only (D03). The RPC reveals
+      // only the caller's own membership; it grants nothing at AAL1.
+      const enrolment = await supabase
+        .rpc("pipstart_staff_enrolment_allowed")
+        .abortSignal(AbortSignal.timeout(8_000));
+      if (enrolment.error) return { kind: "unavailable" };
+      if (enrolment.data !== true) return { kind: "denied" };
       return { kind: "challenge", userId: identity.data.user.id };
     }
     const response = await supabase

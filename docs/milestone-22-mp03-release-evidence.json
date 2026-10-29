@@ -1,6 +1,6 @@
 {
-  "baseline": "ba8bfc8391ef9116b0177918a9d3f8841623e190",
-  "status": "STAFF_MAINTENANCE_PUBLISHED_AND_CI_VERIFIED; PREVIEW_CUTOVER_PUBLICATION_PENDING",
+  "baseline": "abc215da541bf3fb858f5495ef134325c0e37d81",
+  "status": "PREVIEW_CUTOVER_PUBLISHED_AND_CI_VERIFIED; STAFF_ENROLMENT_GATE_LOCAL_REAL_AUTH_AND_OWNER_REPORTED_HOSTED_ACCEPTED; HISTORY_VERIFIED; PUBLICATION_PENDING",
   "evidence": [
     {
       "boundary": "governance-browser",
@@ -452,9 +452,10 @@
     }
   },
   "remainingMp03": [
-    "preview cutover publication and exact-commit CI/deployment",
+    "staff-only enrolment gate publication and exact-commit CI/deployment",
     "reviewed real Owner/MFA/recovery custody and live rollout",
     "native zoom/physical screen-reader manual acceptance",
+    "M16 key-terms test hardening (timing-sensitive; recommended)",
     "final completion-register reconciliation"
   ],
   "staffMaintenance": {
@@ -536,7 +537,7 @@
     "deployment": "Ready / Production"
   },
   "previewCutover": {
-    "stage": "source prepared; owner application, publication and exact-commit CI pending",
+    "stage": "published and exact-commit CI/deployment verified",
     "legacyGateRetired": true,
     "removedRoutes": ["/admin/preview", "/admin/preview/[screen]"],
     "adminRedirectsTo": "/admin/access",
@@ -554,6 +555,90 @@
     ],
     "roleCountOwnerReported": true,
     "migration": false,
-    "dataChanged": false
+    "dataChanged": false,
+    "publishedCommit": "abc215da541bf3fb858f5495ef134325c0e37d81",
+    "published": true,
+    "exactCommitCiVerified": true,
+    "mainCi": {
+      "run": "40832072281",
+      "attempt1": "failure: one timing-sensitive M16 test timed out twice",
+      "attempt2": "success; quality 27/27; M21 SQL 12/12"
+    },
+    "sqlCi": "40832072217 success",
+    "deployment": "Ready / Production",
+    "flakyFinding": "milestone-16-h6-accessibility.spec.ts:182 failed twice in attempt 1 (90s click timeout on Gas key-term link) and passed in attempt 2 on the same commit and image; also passes 3/3 locally. Treated as timing-sensitive; a test-hardening follow-up (wait for hydration before toggling the native details) is recommended."
+  },
+  "staffEnrolmentGate": {
+    "stage": "local SQL/real Auth/browser accepted; owner visual approval; owner-reported hosted schema accepted; history verified; publication pending",
+    "baseline": "abc215da541bf3fb858f5495ef134325c0e37d81",
+    "gap": "readStaffGate offered TOTP enrolment/step-up to any signed-in account without a verified factor (D03 requires staff only)",
+    "function": "public.pipstart_staff_enrolment_allowed()",
+    "grants": "authenticated only",
+    "sqlInputs": 23,
+    "localSqlAccepted": true,
+    "realAuthBrowserAccepted": true,
+    "ownerVisualApproved": true,
+    "hostedAccepted": true,
+    "historyReconciled": true,
+    "published": false,
+    "activated": false,
+    "defaultOff": true,
+    "fullMp03Complete": false,
+    "localSql": {
+      "runId": "7aa8944cab2c9372a98c928f99ffa29f",
+      "reportSha256": "f0c2fddc6930235ef0bdf2898d1208723bd89481992d9449ce5bc1573a7db82d",
+      "passedGateChecks": 35,
+      "sqlInputs": 23,
+      "cleanup": true,
+      "authModel": "SQL stubs"
+    },
+    "realLocal": {
+      "runId": "802e351f957aabe0c6e2fd3e0d4e3dbb",
+      "reportSha256": "f3a41b33ba00b12ec31f5326bbf8bd8ff9e0a85bc8f0a0b10dfa843a915347be",
+      "passedGates": 24,
+      "generatedAccounts": 4,
+      "generatedFactors": 3,
+      "axeStates": 14,
+      "axeViolations": 0,
+      "cleanup": true,
+      "liveAcceptanceSha256": "423576e2944b0dc341b84ea9e2cbea3b29b7434e5059d981c26a3ae37e31b659"
+    },
+    "hostedWrapperRehearsal": {
+      "runId": "fc9f89e4283a6cfc2ce54e4d92b4ab2b",
+      "reportSha256": "24ebc8393a77b8533ee1fed7759fa72ab4e119f666a5aa0761cfcc04a9c1272b",
+      "passedGates": 9,
+      "cleanup": true
+    },
+    "hostedSchema": {
+      "status": "MP03_STAFF_ENROLMENT_HOSTED_ACCEPTANCE_PASSED_DEFAULT_CLOSED",
+      "sourceSha256": "32a8a8ded382e4341fc8d3d19c86210dd69c9c04224b2cc8efeb97341d9a5dc7",
+      "hostedBundleSha256": "109cc7e2bbe33d4612d677504fdde6499919a78e44fc635ee47174c8c6ab570c",
+      "projectRef": "knsmqtmfizkkrthhpujm",
+      "ownerReported": true,
+      "independentlyInspectedRemote": false,
+      "staffDefaultClosed": true,
+      "liveUserBehaviorVerified": false
+    },
+    "migrationHistory": {
+      "status": "MP03_STAFF_ENROLMENT_HISTORY_VERIFIED",
+      "version": "20261029090000",
+      "listingSha256": "2b2a4bbbfb70ef592db84695e4a9fa31eca8bf527d91fc412df2aa120f8c1e5b",
+      "method": "supported CLI exact-version repair applied, then read-only list",
+      "evidence": "Owner-run guarded CLI: read-only listing (local-only), exact one-version repair, read-only re-listing."
+    },
+    "rolloutFindings": [
+      "While staff is paused, a verified Owner is shown \"Staff access is not available for this account\" with the learner guidance \"Ask the Owner\". It is fail-closed but confusing for the Owner during rollout. Owner decision whether to add a paused-specific message.",
+      "A backup authenticator can only be added from the staff overview, so only after staff is enabled. The rollout must enable, add the backup factor, then verify with it.",
+      "Authenticator names are random (\"PipStart 757f5ad6\"), so primary and backup devices cannot be told apart at sign-in; relevant to recovery custody.",
+      "At 390px the staff frame side navigation leaves a large empty block above the card (existing frame).",
+      "\"Your staff roles\" renders as small unstyled text on the overview."
+    ],
+    "publicationScope": {
+      "files": 10,
+      "additions": 3,
+      "updates": 7,
+      "applicationBehaviorChangedDuringHandover": false,
+      "exactCommitCiRequired": true
+    }
   }
 }
