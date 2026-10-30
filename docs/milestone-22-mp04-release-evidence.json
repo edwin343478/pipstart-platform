@@ -1,0 +1,107 @@
+{
+  "baseline": "ca2b21f4a2adf91ecd8cbd8284fdfe201d05a37a",
+  "status": "MP04_ACCEPTED_STORE_AND_CONTRACTS; NO_PUBLIC_READ_PATH",
+  "publishedCommits": [
+    {
+      "patch": "MP04a editorial store",
+      "commit": "286475e05b9e5a9d45ca119cf14895420655b6f9",
+      "parent": "91a4ce5dc2cc13233be3a66b4a08eb2b5a2804b9",
+      "ci": "main CI and M22 staff SQL success; Vercel deployment completed"
+    },
+    {
+      "patch": "MP04b-1 contract and leak proofs",
+      "commit": "dd89d532f29ad18ec5c7b8b9e5bbaf08c1192ae0",
+      "parent": "286475e05b9e5a9d45ca119cf14895420655b6f9",
+      "ci": "main CI incl. extended public-bundle scan and M22 staff SQL success; Vercel deployment completed"
+    },
+    {
+      "patch": "MP04b-2 editorial adapter and routes",
+      "commit": "ca2b21f4a2adf91ecd8cbd8284fdfe201d05a37a",
+      "parent": "dd89d532f29ad18ec5c7b8b9e5bbaf08c1192ae0",
+      "ci": "main CI and M22 staff SQL incl. TS/SQL shape parity success; Vercel deployment completed"
+    }
+  ],
+  "evidence": [
+    {
+      "boundary": "isolated SQL (MP04a v3)",
+      "runId": "d0f478de1339b05724a9d3fe450cc2e7",
+      "report": "pipstart-m22-mp03-ci-d0f478de1339b05724a9d3fe450cc2e7.json",
+      "reportSha256": "13922ae5bcc6afb036147c40be2264b1f14ce69e7ea2162cf9a5cb298ed2f0b1",
+      "passed": true,
+      "gates": 37
+    },
+    {
+      "boundary": "real Auth/PostgREST editorial store",
+      "runId": "a81b39842ab30a44a858dbfca8d25571",
+      "report": "pipstart-m22-mp04-editorial-live-a81b39842ab30a44a858dbfca8d25571.json",
+      "reportSha256": "7d4cddf4dfc768a7a775f2e24ff62044590a66e87fa758f91a7077bb54468241",
+      "passed": true,
+      "cleanup": true,
+      "gates": 24,
+      "accounts": 4,
+      "totpFactors": 3,
+      "conflictProbe": {
+        "ms": 482,
+        "rollbacks": 0,
+        "code": "PT409"
+      },
+      "race": {
+        "blockedSessions": 2,
+        "outcome": ["error:PT409", "ok:draft"]
+      },
+      "forgedTokenStatus": 401,
+      "auditOperations": "approve_single_person=2,create=4,policy=2,review_approve=1,review_changes=1,save=4,submit=3"
+    },
+    {
+      "boundary": "hosted wrapper rehearsal (production-state replay)",
+      "runId": "2d0d615bb10eefbdbee77c9e51c2c618",
+      "report": "pipstart-m22-mp04a-hosted-rehearsal-2d0d615bb10eefbdbee77c9e51c2c618.json",
+      "reportSha256": "62b41dbff79014adc4021277615a59029fcb92851236e20b6894b329eedb40a3",
+      "passed": true,
+      "gates": 11
+    },
+    {
+      "boundary": "isolated SQL with TS/SQL shape parity",
+      "runId": "5812e9b568cca327c8ca6ed7629106dd",
+      "report": "pipstart-m22-mp03-ci-5812e9b568cca327c8ca6ed7629106dd.json",
+      "reportSha256": "0de4e961dd6ab3ac312aeaf7c835882dec9fd12c3a5edcd7fc49fdd685ad32bd",
+      "passed": true,
+      "parityAssertions": 30
+    }
+  ],
+  "hostedSchema": {
+    "projectRef": "knsmqtmfizkkrthhpujm",
+    "migrationVersion": "20261030090000",
+    "sourceSha256": "71f950a70cb133cf87cfbd25ebe6dbb039c8da8d8981f0cc7514aa3980ed89b7",
+    "status": "MP04A_EDITORIAL_HOSTED_ACCEPTANCE_PASSED_STAFF_UNCHANGED",
+    "acceptedOwnerReported": true,
+    "staffStateUnchanged": true,
+    "independentlyInspectedRemote": false
+  },
+  "migrationHistory": {
+    "version": "20261030090000",
+    "status": "MP04A_EDITORIAL_HISTORY_VERIFIED",
+    "method": "supported CLI exact-version repair applied, then read-only list",
+    "listingSha256": "c9dfcb816ae13c0eb95d3475cf6c5a9c132246c207fe9496b1e7ec53b79a2f63"
+  },
+  "defectsFoundByLiveRunAndFixedBeforeRelease": [
+    "optimistic conflicts raised 40001, which PostgREST retries: one stale save produced 4,422 rolled-back transactions in 8.2 s without an answer; now PT409 (HTTP 409), answered once in about 0.2-0.5 s",
+    "read RPCs were stable, so PostgREST ran them read-only and the staff actor FOR SHARE check failed (25006); every editorial RPC is now volatile and asserted so",
+    "missing body fields made SQL checks NULL instead of false; every body_ok guard now treats missing as invalid"
+  ],
+  "exitGate": {
+    "permissionsTransitionsConcurrencySchemaHolds": "MP04a SQL suite and 24-gate real Auth/PostgREST run",
+    "noDraftOrKeyLeakage": "MP04b-1 allowlist projection, sentinel and type tests, server-only quiz data, client graph test, post-build scan of browser chunks and prerendered HTML/RSC",
+    "routeResolverContract": "MP04b-2 parity over every published URL and the sitemap, route-space rules, generated new items",
+    "noLiveSourceCutover": "no route imports either adapter or the private view (boundary test); public pages unchanged"
+  },
+  "limits": [
+    "real Auth/PostgREST evidence ran in a disposable local stack; hosted acceptance is schema-only and owner-reported",
+    "only the Owner can author analysis posts until staff assignments gain an analysis kind (separately reviewed staff-core change)",
+    "pages still read the hand-written curriculum; generated content does not render until the MP05 bridge",
+    "new Crypto courses and modules have no page route yet (static folders); MP05 adds them",
+    "learner progress RPC pipstart_set_lesson_completion still raises 40001 through PostgREST; tracked as a separate follow-up"
+  ],
+  "mp04Complete": true,
+  "next": "MP05 importer and parity bridge"
+}

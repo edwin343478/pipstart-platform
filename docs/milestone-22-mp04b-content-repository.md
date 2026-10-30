@@ -1,7 +1,9 @@
 # MP04b-1: content contract, public projection and leak proofs
 
-Status: prepared source. No route, page or database changes. Public pages still read the
-existing code registries directly; switching a route to the repository is MP08 (cutover).
+Status: published in `dd89d53` with exact-commit CI and deployment verified (30 October
+2026). No route, page or database changes. Public pages still read the existing code
+registries directly; switching a route to the repository is MP08 (cutover). MP04 acceptance
+is recorded in `milestone-22-mp04-release-review.md`.
 
 ## What it adds (`apps/pipstart/src/lib/content/`)
 
@@ -49,7 +51,9 @@ future one is not.
 
 # MP04b-2: editorial adapter and route/resolver contract
 
-Status: prepared source. No route, page or database change; the migration is unchanged.
+Status: published in `ca2b21f` with exact-commit CI (including the SQL shape-parity
+assertions) and deployment verified (30 October 2026). No route, page or database change;
+the migration is unchanged.
 
 ## Editorial adapter (`editorial-adapter.ts`, server only)
 
