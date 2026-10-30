@@ -7,6 +7,8 @@ import {
 import { cryptoLessons } from "../app/learn/crypto/level-1/lessons";
 import { forexLessons } from "../app/learn/forex/level-1/lessons";
 import { getPublishedLessons } from "../content/lesson-registry";
+import { shadowCurriculum } from "./content/import/shadow";
+import { contentSnapshotRows } from "./content/source";
 
 export type CurriculumAssessmentRequirement = {
   assessmentId: string;
@@ -1626,8 +1628,8 @@ const allLearningPaths: LearningPath[] = [
   },
 ];
 
-export const learningPaths = selectPublishedContent(allLearningPaths).map(
-  (path) => ({
+const selectPublishedTree = (paths: readonly LearningPath[]) =>
+  selectPublishedContent(paths).map((path) => ({
     ...path,
     levels: selectPublishedContent(path.levels).map((level) => ({
       ...level,
@@ -1639,8 +1641,15 @@ export const learningPaths = selectPublishedContent(allLearningPaths).map(
         })),
       })),
     })),
-  }),
-);
+  }));
+
+const codeLearningPaths = selectPublishedTree(allLearningPaths);
+// MP05c-2: under the snapshot source, courses and everything below come from the approved
+// store rows; paths and levels stay code (D04).
+const snapshotRows = contentSnapshotRows();
+export const learningPaths = snapshotRows
+  ? selectPublishedTree(shadowCurriculum(codeLearningPaths, snapshotRows))
+  : codeLearningPaths;
 
 export function getLearningPath(id: LearningPath["id"]) {
   return learningPaths.find((path) => path.id === id);

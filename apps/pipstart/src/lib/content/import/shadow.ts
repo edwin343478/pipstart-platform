@@ -1,18 +1,18 @@
 import "server-only";
 
 // M22 MP05b shadow reads: rebuild what the site renders today from store rows (imported
-// bodies), without serving anything. Parity tests compare the rebuild with the code
-// registries; MP05c's flagged data source reuses these functions. Paths and levels stay
-// code (D04), so the curriculum rebuild takes them from code and everything below from rows.
+// bodies). Parity tests compare the rebuild with the code registries; the MP05c-2 snapshot
+// source (lib/content/source.ts) serves the site through these functions. Paths and levels
+// stay code (D04), so the curriculum rebuild takes them from code and everything below from rows.
 import type { AnalysisPost } from "../../../app/analysis/posts";
 import type {
   LessonBlock,
+  LessonDocument,
+  LessonMetadata,
   LessonSection,
 } from "../../../content/lesson-content";
-import {
-  buildLessonHref,
-  type PublishedLesson,
-} from "../../../content/lesson-registry";
+import { buildLessonHref } from "../../../content/lesson-href";
+import type { PublishedLesson } from "../../../content/lesson-registry";
 import type { AssessmentDefinition } from "../../assessment";
 import type {
   CurriculumCourse,
@@ -20,6 +20,7 @@ import type {
   CurriculumModule,
   LearningPath,
 } from "../../curriculum";
+import type { CurriculumPresentation } from "../../curriculum-presentation";
 import { hrefFor } from "../routes";
 
 export type StoreRow = {
@@ -30,7 +31,13 @@ export type StoreRow = {
   body: Record<string, unknown>;
 };
 
-type Placement = { order: number; assessmentRequirements?: unknown[] };
+// `route: "level"` keeps a quiz at its level URL (/learn/<path>/<level>/quiz); every other
+// quiz lives under its module (/learn/<path>/<level>/<course>/<module>/quiz).
+type Placement = {
+  order: number;
+  assessmentRequirements?: unknown[];
+  route?: "level";
+};
 const meta = (row: StoreRow) => row.body.metadata as Record<string, unknown>;
 const placement = (row: StoreRow) => meta(row).placement as Placement;
 const requirements = (p: Placement) =>
@@ -40,6 +47,36 @@ const requirements = (p: Placement) =>
           p.assessmentRequirements as CurriculumCourse["assessmentRequirements"],
       }
     : {};
+
+/** Lesson documents for the registry's own publication pipeline (validation and ordering). */
+export function snapshotLessonDocuments(
+  rows: readonly StoreRow[],
+): LessonDocument[] {
+  return rows
+    .filter((row) => row.family === "lesson")
+    .map((row) => {
+      const metadata: Record<string, unknown> = { ...meta(row) };
+      delete metadata.placement;
+      return {
+        metadata: metadata as unknown as LessonMetadata,
+        blocks: row.body.blocks as LessonBlock[],
+        ...(row.body.sections
+          ? { sections: row.body.sections as LessonSection[] }
+          : {}),
+      };
+    });
+}
+
+/** Presentation text (breadcrumbs, SEO, quiz link labels), keyed by item ID. */
+export function shadowPresentation(
+  rows: readonly StoreRow[],
+): Record<string, CurriculumPresentation> {
+  return Object.fromEntries(
+    rows
+      .filter((row) => meta(row).presentation !== undefined)
+      .map((row) => [row.id, meta(row).presentation as CurriculumPresentation]),
+  );
+}
 
 export function shadowLesson(row: StoreRow): PublishedLesson {
   // Placement is store-only curriculum data, not a lesson field.
@@ -172,11 +209,17 @@ export function shadowCurriculum(
                   return {
                     ...requirements(p),
                     estimatedMinutes: p.estimatedMinutes,
-                    href: hrefFor({
-                      kind: "quiz",
-                      path: path.id,
-                      level: level.id,
-                    }),
+                    href: hrefFor(
+                      p.route === "level"
+                        ? { kind: "quiz", path: path.id, level: level.id }
+                        : {
+                            kind: "quiz",
+                            path: path.id,
+                            level: level.id,
+                            course: course.id,
+                            module: mod.id,
+                          },
+                    ),
                     id: quiz.id,
                     objectives: p.objectives,
                     order: p.order,

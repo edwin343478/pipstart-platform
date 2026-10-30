@@ -125,14 +125,24 @@ describe("M17 Phase 2 published-source integration", () => {
     );
   });
   it("keeps published lesson routes and reading keys identical", () => {
+    // MP05c-2 orders lessons by an explicit curriculum rule, which moved the four Crypto
+    // Level 0 lessons after Forex; every lesson's route and reading key is unchanged.
+    const byKey = <T extends { path: string; id: string }>(
+      rows: readonly T[],
+    ) =>
+      [...rows].sort((a, b) =>
+        `${a.path}:${a.id}`.localeCompare(`${b.path}:${b.id}`),
+      );
     expect(
-      publishedLessons.map((l) => ({
-        path: l.learningPath,
-        id: l.id,
-        href: l.href,
-        readingKey: readingStorageKey(l.id, l.sections || []),
-      })),
-    ).toEqual(draft.preservationBaseline);
+      byKey(
+        publishedLessons.map((l) => ({
+          path: l.learningPath,
+          id: l.id,
+          href: l.href,
+          readingKey: readingStorageKey(l.id, l.sections || []),
+        })),
+      ),
+    ).toEqual(byKey(draft.preservationBaseline));
   });
   it("allows only the approved mobile typography rule and preserves the original styles", () => {
     const mobileTypography = Buffer.from(

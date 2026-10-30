@@ -126,6 +126,23 @@ describe("M22 MP04b route/resolver contract", () => {
         course: "mp04b-generated-course",
       },
       { kind: "analysis", slug: "mp04b-generated-post" },
+      // MP05c-2: a new quiz lives under its module, beside the level's own quiz.
+      {
+        kind: "quiz",
+        path: "forex",
+        level: "level-3",
+        id: "mp05c-module-quiz",
+        course: "charts",
+        module: "chart-foundations",
+      },
+      {
+        kind: "quiz",
+        path: "crypto",
+        level: "level-2",
+        id: "mp05c-module-quiz-crypto",
+        course: "wallets-and-security",
+        module: "wallet-and-personal-security",
+      },
     ];
     expect(checkRouteSpace([...targets, ...fresh])).toEqual([]);
     for (const target of fresh)
@@ -133,6 +150,35 @@ describe("M22 MP04b route/resolver contract", () => {
         routeCandidates(hrefFor(target)).some((c) => same(c, target)),
         hrefFor(target),
       ).toBe(true);
+  });
+
+  it("allows one quiz per module URL, apart from the level quiz", () => {
+    const moduleQuiz = (id: string): RouteTarget => ({
+      kind: "quiz",
+      path: "forex",
+      level: "level-3",
+      id,
+      course: "charts",
+      module: "chart-foundations",
+    });
+    expect(hrefFor(moduleQuiz("a"))).toBe(
+      "/learn/forex/level-3/charts/chart-foundations/quiz",
+    );
+    expect(checkRouteSpace([...targets, moduleQuiz("a")])).toEqual([]);
+    expect(
+      checkRouteSpace([...targets, moduleQuiz("a"), moduleQuiz("b")]),
+    ).toHaveLength(1);
+    expect(
+      routeCandidates("/learn/forex/level-3/charts/chart-foundations/quiz"),
+    ).toEqual([
+      {
+        kind: "quiz",
+        path: "forex",
+        level: "level-3",
+        course: "charts",
+        module: "chart-foundations",
+      },
+    ]);
   });
 
   it("records which new item shapes already have a page route (the rest are MP05)", () => {
@@ -198,6 +244,26 @@ describe("M22 MP04b route/resolver contract", () => {
             },
           ],
           ["analysis post", { kind: "analysis", slug: "x-new" }],
+          [
+            "forex module quiz",
+            {
+              kind: "quiz",
+              path: "forex",
+              level: "level-3",
+              course: "charts",
+              module: "x-new",
+            },
+          ],
+          [
+            "crypto module quiz",
+            {
+              kind: "quiz",
+              path: "crypto",
+              level: "level-2",
+              course: "wallets-and-security",
+              module: "x-new",
+            },
+          ],
         ] as [string, RouteTarget][]
       ).map(([label, target]) => [label, hasPageRoute(hrefFor(target))]),
     );
@@ -213,6 +279,9 @@ describe("M22 MP04b route/resolver contract", () => {
       "crypto course": true,
       "crypto module": true,
       "analysis post": true,
+      // MP05c-1a/1b routes, MP05c-2 URLs: a quiz under its module.
+      "forex module quiz": true,
+      "crypto module quiz": true,
     });
   });
 

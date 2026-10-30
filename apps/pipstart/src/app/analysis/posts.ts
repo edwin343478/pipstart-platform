@@ -1,3 +1,5 @@
+import { shadowAnalysisPost } from "../../lib/content/import/shadow";
+import { contentSnapshotRows } from "../../lib/content/source";
 import {
   type PublicationStatus,
   selectPublishedContent,
@@ -133,4 +135,12 @@ const allAnalysisPosts: AnalysisPost[] = [
   },
 ];
 
-export const analysisPosts = selectPublishedContent(allAnalysisPosts);
+// MP05c-2: under the snapshot source, posts are the approved store rows, in snapshot order.
+const snapshotRows = contentSnapshotRows();
+export const analysisPosts = selectPublishedContent(
+  snapshotRows
+    ? snapshotRows
+        .filter((row) => row.family === "analysis")
+        .map(shadowAnalysisPost)
+    : allAnalysisPosts,
+);

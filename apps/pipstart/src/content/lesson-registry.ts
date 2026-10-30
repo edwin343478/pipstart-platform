@@ -127,6 +127,9 @@ import type {
   LessonSection,
 } from "./lesson-content";
 import { selectPublishableLessons } from "./lesson-content";
+import { buildLessonHref } from "./lesson-href";
+import { snapshotLessonDocuments } from "../lib/content/import/shadow";
+import { contentSnapshotRows } from "../lib/content/source";
 import {
   level0Lesson1,
   level0Lesson2,
@@ -396,16 +399,7 @@ const allLessonDocuments = [
   lessonDocument(draftSecurityMetadata, draftSecurityBlocks),
 ];
 
-type LessonRouteMetadata = Pick<
-  LessonMetadata,
-  "learningPath" | "level" | "position" | "slug"
->;
-
-export function buildLessonHref(metadata: LessonRouteMetadata): `/${string}` {
-  const levelRoot =
-    `/learn/${metadata.learningPath}/${metadata.level}` as const;
-  return metadata.position === 1 ? levelRoot : `${levelRoot}/${metadata.slug}`;
-}
+export { buildLessonHref };
 
 const documentsWithTerms = allLessonDocuments.map((document) =>
   document.metadata.learningPath === "crypto"
@@ -418,7 +412,27 @@ const documentsWithTerms = allLessonDocuments.map((document) =>
       }
     : document,
 );
-const cryptoTermSlugs = documentsWithTerms
+// MP05c-2: lessons are ordered by one explicit rule for both sources: learning path in the
+// curriculum's order, then level, then (in selectPublishableLessons) position. Ties keep their
+// source order, which is curriculum order for the store.
+export const lessonPathOrder = ["forex", "crypto"] as const;
+const levelNumber = (level: string) =>
+  Number(/^level-(\d+)$/.exec(level)?.[1] ?? 1e9);
+const inCurriculumOrder = (documents: readonly LessonDocument[]) =>
+  [...documents].sort(
+    (a, b) =>
+      lessonPathOrder.indexOf(a.metadata.learningPath) -
+        lessonPathOrder.indexOf(b.metadata.learningPath) ||
+      levelNumber(a.metadata.level) - levelNumber(b.metadata.level),
+  );
+
+// MP05c-2: under the snapshot source, lessons are the approved store rows, through the same
+// publication pipeline (validation, references and ordering) as the code documents.
+const snapshotRows = contentSnapshotRows();
+const sourceDocuments = inCurriculumOrder(
+  snapshotRows ? snapshotLessonDocuments(snapshotRows) : documentsWithTerms,
+);
+const cryptoTermSlugs = sourceDocuments
   .filter(
     (document) =>
       document.metadata.learningPath === "crypto" &&
@@ -427,7 +441,7 @@ const cryptoTermSlugs = documentsWithTerms
   )
   .flatMap((document) => document.metadata.relatedTermSlugs);
 export const publishedLessons: PublishedLesson[] = selectPublishableLessons(
-  documentsWithTerms,
+  sourceDocuments,
   { validTermSlugs: [...relatedTermSlugs, ...cryptoTermSlugs] },
 ).map(({ blocks, metadata, sections }) => ({
   ...metadata,

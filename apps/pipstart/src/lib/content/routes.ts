@@ -21,7 +21,15 @@ export type RouteTarget =
       slug: string;
       position: number;
     }
-  | { kind: "quiz"; path: LearningPath; level: string; id?: string }
+  // A level quiz, or (MP05c) a quiz under its module when course and module are given.
+  | {
+      kind: "quiz";
+      path: LearningPath;
+      level: string;
+      id?: string;
+      course?: string;
+      module?: string;
+    }
   | { kind: "analysis"; slug: string };
 
 /** One URL segment: lowercase words joined by single hyphens. */
@@ -46,7 +54,9 @@ export function hrefFor(target: RouteTarget): `/${string}` {
         ? `/learn/${target.path}/${target.level}`
         : `/learn/${target.path}/${target.level}/${target.slug}`;
     case "quiz":
-      return `/learn/${target.path}/${target.level}/${QUIZ}`;
+      return target.course && target.module
+        ? `/learn/${target.path}/${target.level}/${target.course}/${target.module}/${QUIZ}`
+        : `/learn/${target.path}/${target.level}/${QUIZ}`;
   }
 }
 
@@ -67,7 +77,10 @@ export function routeCandidates(href: string): RouteTarget[] {
   const [, root, path, level, third, fourth, ...rest] = parts;
   if (root === "analysis" && path && level === undefined)
     return [{ kind: "analysis", slug: path }];
-  if (root !== "learn" || !path || !isPath(path) || rest.length) return [];
+  if (root !== "learn" || !path || !isPath(path)) return [];
+  if (rest.length === 1 && rest[0] === QUIZ && third && fourth)
+    return [{ kind: "quiz", path, level, course: third, module: fourth }];
+  if (rest.length) return [];
   if (level === undefined) return [{ kind: "path", path }];
   if (third === undefined)
     return [
@@ -88,7 +101,8 @@ export type RouteConflict = { href: string; reason: string };
 /**
  * The rules that keep every URL unambiguous. Within a level, "quiz", course ids and the
  * slugs of later lessons share one namespace; lesson slugs are unique per path; every
- * segment is a plain lowercase slug; and each level has at most one quiz URL.
+ * segment is a plain lowercase slug; each level has at most one level quiz URL, and each
+ * module at most one module quiz URL.
  */
 export function checkRouteSpace(
   targets: readonly RouteTarget[],
@@ -149,7 +163,9 @@ export function checkRouteSpace(
       );
     else if (target.kind === "quiz")
       claim(
-        `name:${target.path}:${target.level}:${QUIZ}`,
+        target.course && target.module
+          ? href
+          : `name:${target.path}:${target.level}:${QUIZ}`,
         `quiz ${target.id ?? target.level}`,
         href,
       );

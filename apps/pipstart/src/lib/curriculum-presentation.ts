@@ -2,7 +2,11 @@
 // the curriculum objects (not inside them) so page payloads stay unchanged. An item without an
 // entry here gets text derived from its title and description, so new items need no code edit.
 // Existing values are today's exact strings, moved from the route files (Crypto in MP05c-1a,
-// Forex in MP05c-1b).
+// Forex in MP05c-1b). The import manifest copies them into item bodies (metadata.presentation),
+// and the MP05c-2 snapshot source reads them back from the approved store rows.
+import { shadowPresentation } from "./content/import/shadow";
+import { contentSnapshotRows } from "./content/source";
+
 export type SeoText = { title: string; description: string };
 export type CurriculumPresentation = {
   /**
@@ -16,7 +20,7 @@ export type CurriculumPresentation = {
   lessonQuizLabel?: string;
 };
 
-export const curriculumPresentation: Readonly<
+export const codeCurriculumPresentation: Readonly<
   Record<string, CurriculumPresentation>
 > = {
   bitcoin: { lessonContextTitle: "Bitcoin and Shared Ledgers" },
@@ -230,3 +234,10 @@ export const curriculumPresentation: Readonly<
   },
   "orientation-and-safety": { lessonContextTitle: "Orientation and Safety" },
 };
+
+const snapshotRows = contentSnapshotRows();
+export const curriculumPresentation: Readonly<
+  Record<string, CurriculumPresentation>
+> = snapshotRows
+  ? shadowPresentation(snapshotRows)
+  : codeCurriculumPresentation;

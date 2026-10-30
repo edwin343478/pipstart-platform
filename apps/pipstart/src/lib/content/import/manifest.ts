@@ -4,13 +4,18 @@ import "server-only";
 // a store body, parents before children, with the code IDs unchanged (lesson slugs are the
 // progress lesson IDs; quiz IDs and versions are what attempts reference). Paths and levels
 // stay in code (D04); a course records its level. Images stay in the repository.
+// MP05c-2: a course, module or quiz with presentation text carries it as metadata.presentation,
+// and a quiz served at its level URL records placement.route "level" (others live under their
+// module), so an approved snapshot reproduces the site without code.
 import { analysisPosts } from "../../../app/analysis/posts";
 import type { LessonMetadata } from "../../../content/lesson-content";
 import { publishedLessons } from "../../../content/lesson-registry";
 import { getCurrentPublishedAssessment } from "../../assessment-registry";
 import { learningPaths } from "../../curriculum";
+import { codeCurriculumPresentation } from "../../curriculum-presentation";
 import type { ContentFamily, LearningPath } from "../contract";
 import { jsonbSha256, jsonbText } from "../jsonb";
+import { hrefFor } from "../routes";
 import { checkContentBody } from "../validate";
 
 export type ManifestItem = {
@@ -53,6 +58,11 @@ const lessonMetadataKeys = [
   "title",
 ] as const satisfies readonly (keyof LessonMetadata)[];
 
+const presentation = (id: string) =>
+  codeCurriculumPresentation[id]
+    ? { presentation: codeCurriculumPresentation[id] }
+    : {};
+
 const placement = (item: {
   order: number;
   assessmentRequirements?: readonly unknown[];
@@ -81,6 +91,7 @@ export async function buildImportManifest(): Promise<ManifestItem[]> {
               level: level.id,
               status: course.status,
               placement: placement(course),
+              ...presentation(course.id),
             },
           },
         });
@@ -97,6 +108,7 @@ export async function buildImportManifest(): Promise<ManifestItem[]> {
                 description: mod.description,
                 status: mod.status,
                 placement: placement(mod),
+                ...presentation(mod.id),
               },
             },
           });
@@ -147,8 +159,13 @@ export async function buildImportManifest(): Promise<ManifestItem[]> {
                     retakeCooldownSeconds: quiz.retakeCooldownSeconds,
                     status: quiz.status,
                     governance: quiz.governance,
+                    ...presentation(quiz.id),
                     placement: {
                       ...placement(item),
+                      ...(item.href ===
+                      hrefFor({ kind: "quiz", path: path.id, level: level.id })
+                        ? { route: "level" }
+                        : {}),
                       estimatedMinutes: item.estimatedMinutes,
                       objectives: item.objectives,
                       prerequisites: item.prerequisites,

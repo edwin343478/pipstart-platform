@@ -21,6 +21,8 @@ import { chartFoundationsQuizV1 } from "./chart-foundations-assessment";
 import { technicalToolFoundationsQuizV1 } from "./technical-tool-foundations-assessment";
 import { brokerFoundationsQuizV1 } from "./broker-foundations-assessment";
 import type { AssessmentDefinition, AssessmentQuestion } from "./assessment";
+import { shadowQuiz } from "./content/import/shadow";
+import { contentSnapshotRows } from "./content/source";
 import {
   getCurriculumCourse,
   getCurriculumModule,
@@ -153,7 +155,7 @@ export const forexFoundationsQuizV1: AssessmentDefinition = {
   ],
 };
 
-export const assessmentRegistry: readonly AssessmentDefinition[] = [
+const codeAssessmentRegistry: readonly AssessmentDefinition[] = [
   cryptoOrientationQuizV1,
   cryptoBitcoinQuizV1,
   cryptoWalletQuizV1,
@@ -175,6 +177,24 @@ export const assessmentRegistry: readonly AssessmentDefinition[] = [
   psychologyFoundationsQuizV1,
   strategyDevelopmentFoundationsQuizV1,
   advancedForexFoundationsQuizV1,
+];
+
+// MP05c-2: under the snapshot source, an approved store quiz replaces the code definition with
+// the same ID and version, and new quizzes are added. Older code versions stay, so attempts
+// made against them can still be graded.
+const snapshotQuizzes = (contentSnapshotRows() ?? [])
+  .filter((row) => row.family === "quiz")
+  .map(shadowQuiz);
+const sameVersion = (a: AssessmentDefinition, b: AssessmentDefinition) =>
+  a.id === b.id && a.version === b.version;
+
+export const assessmentRegistry: readonly AssessmentDefinition[] = [
+  ...codeAssessmentRegistry.map(
+    (code) => snapshotQuizzes.find((quiz) => sameVersion(quiz, code)) ?? code,
+  ),
+  ...snapshotQuizzes.filter(
+    (quiz) => !codeAssessmentRegistry.some((code) => sameVersion(code, quiz)),
+  ),
 ];
 
 function nonEmpty(value: string, label: string) {
