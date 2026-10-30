@@ -42,9 +42,10 @@ describe("Milestone 16 approved Crypto Level 8", () => {
         "sentiment-narratives-and-an-evidence-based-research-note",
       ],
     });
-    expect(generateStaticParams()).toEqual(
-      cryptoLessons.slice(1).map((x) => ({ lesson: x.slug })),
-    );
+    expect(generateStaticParams()).toEqual([
+      { lesson: "crypto-risk-and-portfolios" },
+      ...cryptoLessons.slice(1).map((x) => ({ lesson: x.slug })),
+    ]);
     expect(assertUniqueCurriculumIds()).toBeUndefined();
     for (const [index, lesson] of cryptoLessons.entries()) {
       expect(lesson.approved).toBe(true);

@@ -36,9 +36,10 @@ describe("Milestone 16 approved Crypto Level 3", () => {
       module: "exchanges-stablecoins-and-orders",
       prerequisites: ["respond-to-a-crypto-compromise"],
     });
-    expect(generateStaticParams()).toEqual(
-      cryptoLessons.slice(1).map((x) => ({ lesson: x.slug })),
-    );
+    expect(generateStaticParams()).toEqual([
+      { lesson: "crypto-exchanges-and-markets" },
+      ...cryptoLessons.slice(1).map((x) => ({ lesson: x.slug })),
+    ]);
     expect(assertUniqueCurriculumIds()).toBeUndefined();
     for (const [index, lesson] of cryptoLessons.entries()) {
       expect(lesson.approved).toBe(true);

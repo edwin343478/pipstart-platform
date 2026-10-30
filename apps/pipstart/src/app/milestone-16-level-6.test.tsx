@@ -37,9 +37,10 @@ describe("Milestone 16 approved Crypto Level 6", () => {
       module: "defi-liquidity-lending-and-rewards",
       prerequisites: ["build-a-token-dossier-and-check-liquidity"],
     });
-    expect(generateStaticParams()).toEqual(
-      cryptoLessons.slice(1).map((x) => ({ lesson: x.slug })),
-    );
+    expect(generateStaticParams()).toEqual([
+      { lesson: "crypto-defi-foundations" },
+      ...cryptoLessons.slice(1).map((x) => ({ lesson: x.slug })),
+    ]);
     expect(assertUniqueCurriculumIds()).toBeUndefined();
     for (const [index, lesson] of cryptoLessons.entries()) {
       expect(lesson.approved).toBe(true);

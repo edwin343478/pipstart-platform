@@ -38,9 +38,10 @@ describe("Milestone 16 approved Crypto Level 9", () => {
       module: "psychology-planning-and-paper-practice",
       prerequisites: ["dca-rebalancing-exits-and-useful-records"],
     });
-    expect(generateStaticParams()).toEqual(
-      cryptoLessons.slice(1).map((x) => ({ lesson: x.slug })),
-    );
+    expect(generateStaticParams()).toEqual([
+      { lesson: "crypto-planning-and-practice" },
+      ...cryptoLessons.slice(1).map((x) => ({ lesson: x.slug })),
+    ]);
     expect(assertUniqueCurriculumIds()).toBeUndefined();
     for (const [index, lesson] of cryptoLessons.entries()) {
       expect(lesson.approved).toBe(true);

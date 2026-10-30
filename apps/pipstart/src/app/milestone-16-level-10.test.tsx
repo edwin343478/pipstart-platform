@@ -37,9 +37,10 @@ describe("Milestone 16 approved Crypto Level 10", () => {
       module: "advanced-awareness-and-graduation",
       prerequisites: ["read-results-honestly-and-build-a-practice-routine"],
     });
-    expect(generateStaticParams()).toEqual(
-      cryptoLessons.slice(1).map((x) => ({ lesson: x.slug })),
-    );
+    expect(generateStaticParams()).toEqual([
+      { lesson: "crypto-advanced-and-graduation" },
+      ...cryptoLessons.slice(1).map((x) => ({ lesson: x.slug })),
+    ]);
     expect(assertUniqueCurriculumIds()).toBeUndefined();
     for (const [index, lesson] of cryptoLessons.entries()) {
       expect(lesson.approved).toBe(true);

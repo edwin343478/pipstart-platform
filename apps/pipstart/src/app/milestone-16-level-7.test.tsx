@@ -36,9 +36,10 @@ describe("Milestone 16 approved Crypto Level 7", () => {
       module: "charts-market-context-and-evidence",
       prerequisites: ["defi-dependencies-stablecoins-and-governance"],
     });
-    expect(generateStaticParams()).toEqual(
-      cryptoLessons.slice(1).map((x) => ({ lesson: x.slug })),
-    );
+    expect(generateStaticParams()).toEqual([
+      { lesson: "crypto-charts-and-evidence" },
+      ...cryptoLessons.slice(1).map((x) => ({ lesson: x.slug })),
+    ]);
     expect(assertUniqueCurriculumIds()).toBeUndefined();
     for (const [index, lesson] of cryptoLessons.entries()) {
       expect(lesson.approved).toBe(true);

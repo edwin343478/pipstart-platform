@@ -1,10 +1,20 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 
-import BitcoinCoursePage from "./learn/crypto/level-1/bitcoin/page";
-import BitcoinFoundationsPage from "./learn/crypto/level-1/bitcoin/bitcoin-foundations/page";
+import CryptoSegmentPage from "./learn/crypto/level-1/[lesson]/page";
+import CryptoModulePage from "./learn/crypto/level-1/[lesson]/[module]/page";
 import ForexKindergartenPage from "./learn/forex/level-1/forex-kindergarten/page";
 import ForexFoundationsPage from "./learn/forex/level-1/forex-kindergarten/forex-foundations/page";
+
+// MP05c: the Bitcoin course and module pages are served by the generic data-driven routes.
+const bitcoinCourse = await CryptoSegmentPage({
+  params: Promise.resolve({ lesson: "bitcoin" }),
+});
+const BitcoinCoursePage = () => bitcoinCourse;
+const bitcoinFoundations = await CryptoModulePage({
+  params: Promise.resolve({ lesson: "bitcoin", module: "bitcoin-foundations" }),
+});
+const BitcoinFoundationsPage = () => bitcoinFoundations;
 
 describe("Milestone 8 course and module pages", () => {
   it.each([

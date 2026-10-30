@@ -208,11 +208,10 @@ describe("M22 MP04b route/resolver contract", () => {
       "forex course": true,
       "forex module": true,
       "crypto lesson": true,
-      // Caution: a new crypto course URL matches only the [lesson] route, which would look
-      // it up as a lesson. Crypto courses and modules are static folders today; MP05 adds
-      // real dynamic routes for both.
+      // MP05c-1a: a Crypto course URL is resolved by [lesson] as a course or a later lesson,
+      // and a module URL by [lesson]/[module]; both from data, with no static folders.
       "crypto course": true,
-      "crypto module": false,
+      "crypto module": true,
       "analysis post": true,
     });
   });

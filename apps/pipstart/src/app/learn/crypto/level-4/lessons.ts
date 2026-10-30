@@ -1,12 +1,10 @@
-import {
-  cryptoLessonDocuments,
-  type PublishedLesson,
-} from "../../../../content/lesson-registry";
+import type { PublishedLesson } from "../../../../content/lesson-registry";
+import { cryptoLevelPageLessons } from "../../../../lib/crypto-level-lessons";
+
 export type CryptoLesson = PublishedLesson;
-export const cryptoLessons = cryptoLessonDocuments.filter(
-  (lesson) =>
-    lesson.level === "level-4" &&
-    lesson.course === "crypto-ethereum-and-networks",
-);
-export const getCryptoLesson = (slug: string) =>
-  cryptoLessons.find((lesson) => lesson.slug === slug);
+// The level page's course, found from data: the course of the level's position-1 lesson.
+export const cryptoLessons = cryptoLevelPageLessons("level-4");
+
+export function getCryptoLesson(slug: string): CryptoLesson | undefined {
+  return cryptoLessons.find((lesson) => lesson.slug === slug);
+}

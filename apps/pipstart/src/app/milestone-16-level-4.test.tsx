@@ -36,9 +36,10 @@ describe("Milestone 16 approved Crypto Level 4", () => {
       module: "ethereum-contracts-and-connected-networks",
       prerequisites: ["crypto-deposits-withdrawals-and-exchange-failure"],
     });
-    expect(generateStaticParams()).toEqual(
-      cryptoLessons.slice(1).map((x) => ({ lesson: x.slug })),
-    );
+    expect(generateStaticParams()).toEqual([
+      { lesson: "crypto-ethereum-and-networks" },
+      ...cryptoLessons.slice(1).map((x) => ({ lesson: x.slug })),
+    ]);
     expect(assertUniqueCurriculumIds()).toBeUndefined();
     for (const [index, lesson] of cryptoLessons.entries()) {
       expect(lesson.approved).toBe(true);

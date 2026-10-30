@@ -10,13 +10,18 @@ vi.mock("../components/lesson-bookmark-button", () => ({
 
 import CryptoLevelOnePage from "./learn/crypto/level-1/page";
 import ForexLevelOnePage from "./learn/forex/level-1/page";
-import BitcoinCoursePage from "./learn/crypto/level-1/bitcoin/page";
+import CryptoSegmentPage from "./learn/crypto/level-1/[lesson]/page";
 import ForexKindergartenPage from "./learn/forex/level-1/forex-kindergarten/page";
 import { cryptoLessons } from "./learn/crypto/level-1/lessons";
 import { getLessonNavigation } from "../lib/course-engine";
 import { getCurriculumLevel } from "../lib/curriculum";
 
 const appRoot = path.resolve(import.meta.dirname);
+// MP05c: the Bitcoin course and module pages are served by the generic data-driven routes.
+const bitcoinCourse = await CryptoSegmentPage({
+  params: Promise.resolve({ lesson: "bitcoin" }),
+});
+const BitcoinCoursePage = () => bitcoinCourse;
 
 describe("Milestones 8 and 9 hardening", () => {
   it("makes course hierarchy reachable from both lesson experiences", () => {

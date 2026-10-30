@@ -1,22 +1,37 @@
 import "server-only";
 
-import { LessonPage } from "../../../../components/lesson-page";
-import { type CryptoLesson, cryptoLessons } from "./lessons";
-import { CRYPTO_LEVEL_NINE_PROGRESS_KEY } from "./progress";
+import { notFound } from "next/navigation";
 
+import { LessonPage } from "../../../../components/lesson-page";
+import { cryptoLessonContext } from "../../../../lib/crypto-level-routing";
+import {
+  type CryptoLesson,
+  cryptoLessons as levelPageLessons,
+} from "./lessons";
+
+// Any lesson of any course in the level; its course supplies the list, context and progress key.
 export function CryptoLessonPage({
-  lesson = cryptoLessons[0]!,
+  lesson = levelPageLessons[0]!,
 }: {
   lesson?: CryptoLesson;
 }) {
+  const context = cryptoLessonContext("level-9", lesson.course);
+  if (!context) notFound();
+  const {
+    lessons: cryptoLessons,
+    contextTitle,
+    contextHref,
+    progressKey,
+  } = context;
+
   return (
     <LessonPage
       path="crypto"
       lesson={lesson}
       lessons={cryptoLessons}
-      contextTitle="Psychology Planning and Paper Practice"
-      contextHref="/learn/crypto/level-9/crypto-planning-and-practice"
-      progressKey={CRYPTO_LEVEL_NINE_PROGRESS_KEY}
+      contextTitle={contextTitle}
+      contextHref={contextHref}
+      progressKey={progressKey}
     />
   );
 }

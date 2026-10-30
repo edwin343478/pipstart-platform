@@ -1,41 +1,10 @@
-import { notFound } from "next/navigation";
-
-import { createDynamicMetadata } from "../../../../../lib/seo";
+import { cryptoSegmentRoute } from "../../crypto-level-pages";
 import { CryptoLessonPage } from "../crypto-lesson";
-import { cryptoLessons } from "../lessons";
-import {
-  getSecondaryLesson,
-  getSecondaryLessonParams,
-} from "../../../../../lib/secondary-lesson-routing";
 
+// A course page or a later lesson page, both resolved from data.
 export const dynamicParams = false;
 
-export function generateStaticParams() {
-  return getSecondaryLessonParams(cryptoLessons);
-}
-
-type CryptoLessonRouteProps = {
-  params: Promise<{ lesson: string }>;
-};
-
-export async function generateMetadata({ params }: CryptoLessonRouteProps) {
-  const { lesson: lessonSlug } = await params;
-  const lesson = getSecondaryLesson(cryptoLessons, lessonSlug);
-  if (!lesson) return {};
-
-  return createDynamicMetadata({
-    path: lesson.href,
-    title: lesson.seoTitle,
-    description: lesson.seoDescription,
-  });
-}
-
-export default async function CryptoLessonRoute({
-  params,
-}: CryptoLessonRouteProps) {
-  const { lesson: lessonSlug } = await params;
-  const lesson = getSecondaryLesson(cryptoLessons, lessonSlug);
-  if (!lesson) notFound();
-
-  return <CryptoLessonPage lesson={lesson} />;
-}
+const route = cryptoSegmentRoute("level-5", CryptoLessonPage);
+export const generateStaticParams = route.generateStaticParams;
+export const generateMetadata = route.generateMetadata;
+export default route.Page;
