@@ -1,20 +1,15 @@
-import { getForexQuizClientContext } from "../../../../../lib/forex-quiz-context";
-import { toPublicAssessment } from "../../../../../lib/assessment";
-import { getCurrentPublishedAssessment } from "../../../../../lib/assessment-registry";
-import { ForexFoundationsQuiz } from "../../level-1/quiz/quiz-client";
 import { notFound } from "next/navigation";
 
-import { CurriculumPage } from "../../../../../components/curriculum-page";
+import { createDynamicMetadata } from "../../../../../lib/seo";
 import {
-  createDynamicMetadata,
-  createDynamicPageMetadata,
-} from "../../../../../lib/seo";
-import {
+  forexCurriculumMetadata,
+  forexLevelQuiz,
+  forexQuizMetadata,
   getGenericForexSecondSegment,
   getGenericForexSecondSegmentParams,
 } from "../../../../../lib/forex-level-routing";
-import { getLearningPath } from "../../../../../lib/curriculum";
-import ForexLessonPage from "../../level-1/forex-lesson";
+import { ForexContextLesson } from "../../forex-context-lesson";
+import { ForexCurriculumPage, forexQuizPage } from "../../forex-level-pages";
 
 // Published curriculum resolvers below remain the authority for valid routes.
 export const dynamicParams = true;
@@ -35,11 +30,11 @@ export async function generateMetadata({
   if (!route) return {};
 
   if (route.kind === "quiz") {
-    return createDynamicPageMetadata({
-      path: `/learn/forex/${route.level.id}/quiz`,
-      title: route.quizTarget!.label,
-      description: `Review the ${route.module.title} lessons with a module quiz.`,
-    });
+    return forexQuizMetadata(
+      `/learn/forex/${route.level.id}/quiz`,
+      route.quizTarget!.label,
+      route.module,
+    );
   }
 
   if (route.kind === "lesson") {
@@ -50,11 +45,7 @@ export async function generateMetadata({
     });
   }
 
-  return createDynamicPageMetadata({
-    path: route.course.href,
-    title: route.course.title,
-    description: route.course.description,
-  });
+  return forexCurriculumMetadata(route.course);
 }
 
 export default async function GenericForexSecondSegmentPage({
@@ -65,42 +56,14 @@ export default async function GenericForexSecondSegmentPage({
   if (!route) notFound();
 
   if (route.kind === "quiz") {
-    const entry = route.module.lessons.find((item) => item.type === "quiz");
-    const assessment = entry && getCurrentPublishedAssessment(entry.id);
-    const context =
-      assessment &&
-      getForexQuizClientContext(assessment.courseId, assessment.moduleId);
-    if (!assessment || !context) notFound();
-    return (
-      <ForexFoundationsQuiz
-        assessment={toPublicAssessment(assessment)}
-        context={context}
-      />
-    );
+    const found = forexLevelQuiz(route.level.id);
+    if (!found) notFound();
+    return forexQuizPage(found.quiz.id);
   }
 
   if (route.kind === "lesson") {
-    return (
-      <ForexLessonPage
-        courseHref={route.course.href}
-        courseTitle={route.course.title}
-        lesson={route.lesson}
-        lessons={route.lessons}
-        progressKey={route.progressKey}
-        quizTarget={route.quizTarget}
-      />
-    );
+    return <ForexContextLesson context={route} lesson={route.lesson} />;
   }
 
-  const learningPath = getLearningPath("forex");
-  if (!learningPath) notFound();
-
-  return (
-    <CurriculumPage
-      course={route.course}
-      kind="course"
-      learningPath={learningPath}
-      level={route.level}
-    />
-  );
+  return <ForexCurriculumPage course={route.course} level={route.level} />;
 }

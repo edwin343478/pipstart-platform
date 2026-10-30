@@ -1,13 +1,19 @@
 // Presentation text for curriculum items, keyed by course, module or quiz ID. It lives beside
 // the curriculum objects (not inside them) so page payloads stay unchanged. An item without an
 // entry here gets text derived from its title and description, so new items need no code edit.
-// Existing Crypto values are today's exact strings, moved from the per-level route files.
+// Existing values are today's exact strings, moved from the route files (Crypto in MP05c-1a,
+// Forex in MP05c-1b).
 export type SeoText = { title: string; description: string };
 export type CurriculumPresentation = {
-  /** Breadcrumb label on lesson pages; defaults to the course title. */
+  /**
+   * Breadcrumb label on lesson pages. Crypto defaults to the course title; Forex keys this by
+   * module and defaults to a label made from the module ID.
+   */
   lessonContextTitle?: string;
   /** Page SEO; a central seoEntries entry for the URL takes precedence. */
   seo?: SeoText;
+  /** Forex: label of the quiz link on a module's lesson pages; defaults to the quiz title. */
+  lessonQuizLabel?: string;
 };
 
 export const curriculumPresentation: Readonly<
@@ -219,4 +225,8 @@ export const curriculumPresentation: Readonly<
         "Check your understanding of security assumptions, governance, product rights and graduation evidence with fifteen questions.",
     },
   },
+  "forex-foundations-quiz": {
+    lessonQuizLabel: "Take the Forex Foundations quiz",
+  },
+  "orientation-and-safety": { lessonContextTitle: "Orientation and Safety" },
 };

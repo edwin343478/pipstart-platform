@@ -11,13 +11,17 @@ vi.mock("../components/lesson-bookmark-button", () => ({
 import CryptoLevelOnePage from "./learn/crypto/level-1/page";
 import ForexLevelOnePage from "./learn/forex/level-1/page";
 import CryptoSegmentPage from "./learn/crypto/level-1/[lesson]/page";
-import ForexKindergartenPage from "./learn/forex/level-1/forex-kindergarten/page";
+import ForexSegmentPage from "./learn/forex/level-1/[lesson]/page";
 import { cryptoLessons } from "./learn/crypto/level-1/lessons";
 import { getLessonNavigation } from "../lib/course-engine";
 import { getCurriculumLevel } from "../lib/curriculum";
 
 const appRoot = path.resolve(import.meta.dirname);
-// MP05c: the Bitcoin course and module pages are served by the generic data-driven routes.
+// MP05c: course and module pages are served by the generic data-driven routes.
+const forexKindergarten = await ForexSegmentPage({
+  params: Promise.resolve({ lesson: "forex-kindergarten" }),
+});
+const ForexKindergartenPage = () => forexKindergarten;
 const bitcoinCourse = await CryptoSegmentPage({
   params: Promise.resolve({ lesson: "bitcoin" }),
 });

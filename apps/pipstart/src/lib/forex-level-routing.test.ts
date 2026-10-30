@@ -1,15 +1,157 @@
+import { existsSync, readdirSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
+import { getCurrentPublishedAssessment } from "./assessment-registry";
+import { getCurriculumLevel, getLearningPath } from "./curriculum";
+import { forexCourseLessons } from "./forex-level-lessons";
 import {
+  forexLevelPageContext,
+  forexLevelQuiz,
+  forexModuleParams,
+  forexModuleQuizParams,
   forexProgressStorageKey,
+  forexSegmentParams,
   getGenericForexLevelContext,
   getGenericForexLevelParams,
   getGenericForexLevelRootLesson,
   getGenericForexModule,
   getGenericForexModuleParams,
+  getGenericForexModuleQuiz,
+  getGenericForexModuleQuizParams,
   getGenericForexSecondSegment,
   getGenericForexSecondSegmentParams,
+  resolveForexModule,
+  resolveForexModuleQuiz,
+  resolveForexSegment,
 } from "./forex-level-routing";
+
+const forexLevels = getLearningPath("forex")!.levels.map((level) => level.id);
+
+describe("M22 MP05c-1b data-driven Forex routing", () => {
+  it.each(forexLevels)(
+    "resolves every course, module, lesson and quiz of %s from data",
+    (levelId) => {
+      const level = getCurriculumLevel("forex", levelId)!;
+      for (const course of level.courses) {
+        expect(resolveForexSegment(levelId, course.id)).toMatchObject({
+          kind: "course",
+          course: { id: course.id },
+        });
+        for (const curriculumModule of course.modules)
+          expect(
+            resolveForexModule(levelId, course.id, curriculumModule.id),
+          ).toMatchObject({
+            course: { id: course.id },
+            module: { id: curriculumModule.id },
+          });
+        for (const lesson of forexCourseLessons(levelId, course.id)) {
+          const route = resolveForexSegment(levelId, lesson.slug);
+          if (lesson.position === 1) expect(route).toBeUndefined();
+          else
+            expect(route).toMatchObject({
+              kind: "lesson",
+              lesson: { id: lesson.id },
+              module: { id: lesson.module },
+            });
+        }
+      }
+      expect(forexModuleParams(levelId)).toEqual(
+        level.courses.flatMap((course) =>
+          course.modules.map((entry) => ({
+            segment: course.id,
+            module: entry.id,
+          })),
+        ),
+      );
+      // The level quiz keeps /learn/forex/<level>/quiz; its ID is the published assessment.
+      const quiz = forexLevelQuiz(levelId);
+      expect(forexSegmentParams(levelId).includes("quiz")).toBe(Boolean(quiz));
+      if (quiz) {
+        expect(quiz.quiz.href).toBe(`/learn/forex/${levelId}/quiz`);
+        expect(getCurrentPublishedAssessment(quiz.quiz.id)).toBeDefined();
+      }
+      // No module-scoped quiz exists yet; those routes generate nothing today.
+      expect(forexModuleQuizParams(levelId)).toEqual([]);
+    },
+  );
+
+  it("keeps Level 1's page, breadcrumb, progress key and quiz link", () => {
+    expect(forexLevelPageContext("level-1")).toMatchObject({
+      lesson: { href: "/learn/forex/level-1" },
+      contextTitle: "Forex Foundations",
+      course: {
+        href: "/learn/forex/level-1/forex-kindergarten",
+        title: "Forex Kindergarten",
+      },
+      progressKey: "pipstart:learn:forex:level-1:progress",
+      quizTarget: {
+        href: "/learn/forex/level-1/quiz",
+        label: "Take the Forex Foundations quiz",
+      },
+    });
+    expect(forexLevelQuiz("level-1")?.quiz.id).toBe("forex-foundations-quiz");
+  });
+
+  it("keeps the Level 0 breadcrumb and the derived labels of other levels", () => {
+    expect(getGenericForexLevelContext("level-0")?.contextTitle).toBe(
+      "Orientation and Safety",
+    );
+    expect(getGenericForexLevelContext("level-2")).toMatchObject({
+      contextTitle: "Broker Foundations",
+      quizTarget: {
+        href: "/learn/forex/level-2/quiz",
+        label: "Broker Foundations quiz",
+      },
+    });
+  });
+
+  it("refuses unknown and cross-level items and leaves Level 1 to its own routes", () => {
+    expect(resolveForexSegment("level-2", "missing")).toBeUndefined();
+    expect(resolveForexSegment("level-0", "quiz")).toBeUndefined();
+    expect(
+      resolveForexModule(
+        "level-3",
+        "brokers-and-platforms",
+        "broker-foundations",
+      ),
+    ).toBeUndefined();
+    expect(
+      resolveForexModuleQuiz(
+        "level-2",
+        "brokers-and-platforms",
+        "broker-foundations",
+      ),
+    ).toBeUndefined();
+    expect(
+      getGenericForexModuleQuiz(
+        "level-1",
+        "forex-kindergarten",
+        "forex-foundations",
+      ),
+    ).toBeUndefined();
+    expect(getGenericForexModuleQuizParams()).toEqual([]);
+    expect(forexLevelPageContext("level-11")).toBeUndefined();
+  });
+
+  it("names no course or module in the Forex route folders", () => {
+    const forexApp = resolve(import.meta.dirname, "../app/learn/forex");
+    const folders = (dir: string) =>
+      readdirSync(resolve(forexApp, dir), { withFileTypes: true })
+        .filter((entry) => entry.isDirectory())
+        .map((entry) => entry.name)
+        .sort();
+    expect(folders("level-1")).toEqual(["[lesson]", "quiz"]);
+    expect(folders("[level]")).toEqual(["[segment]"]);
+    for (const route of [
+      "level-1/[lesson]/[module]/page.tsx",
+      "level-1/[lesson]/[module]/quiz/page.tsx",
+      "[level]/[segment]/[module]/page.tsx",
+      "[level]/[segment]/[module]/quiz/page.tsx",
+    ])
+      expect(existsSync(resolve(forexApp, route))).toBe(true);
+  });
+});
 
 describe("generic Forex level routing", () => {
   it("keeps the existing Level 1 route owned by the legacy route tree", () => {

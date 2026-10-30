@@ -1,6 +1,11 @@
-import ForexLessonPage from "./forex-lesson";
-import { forexLessons } from "./lessons";
+import { notFound } from "next/navigation";
+
+import { forexLevelPageContext } from "../../../../lib/forex-level-routing";
+import { ForexContextLesson } from "../forex-context-lesson";
 
 export default function ForexLevelOnePage() {
-  return <ForexLessonPage lesson={forexLessons[0]} />;
+  const route = forexLevelPageContext("level-1");
+  if (!route) notFound();
+
+  return <ForexContextLesson context={route} lesson={route.lesson} />;
 }

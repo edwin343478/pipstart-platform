@@ -5,7 +5,7 @@ import {
   getGenericForexLevelParams,
   getGenericForexLevelRootLesson,
 } from "../../../../lib/forex-level-routing";
-import ForexLessonPage from "../level-1/forex-lesson";
+import { ForexContextLesson } from "../forex-context-lesson";
 
 // Published curriculum resolvers below remain the authority for valid routes.
 export const dynamicParams = true;
@@ -37,14 +37,5 @@ export default async function GenericForexLevelPage({
   const route = getGenericForexLevelRootLesson(level);
   if (!route) notFound();
 
-  return (
-    <ForexLessonPage
-      courseHref={route.course.href}
-      courseTitle={route.course.title}
-      lesson={route.lesson}
-      lessons={route.lessons}
-      progressKey={route.progressKey}
-      quizTarget={route.quizTarget}
-    />
-  );
+  return <ForexContextLesson context={route} lesson={route.lesson} />;
 }

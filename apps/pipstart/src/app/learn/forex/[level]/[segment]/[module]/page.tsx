@@ -1,12 +1,11 @@
 import { notFound } from "next/navigation";
 
-import { CurriculumPage } from "../../../../../../components/curriculum-page";
-import { getLearningPath } from "../../../../../../lib/curriculum";
 import {
+  forexCurriculumMetadata,
   getGenericForexModule,
   getGenericForexModuleParams,
 } from "../../../../../../lib/forex-level-routing";
-import { createDynamicPageMetadata } from "../../../../../../lib/seo";
+import { ForexCurriculumPage } from "../../../forex-level-pages";
 
 // Published curriculum resolvers below remain the authority for valid routes.
 export const dynamicParams = true;
@@ -26,11 +25,7 @@ export async function generateMetadata({
   const route = getGenericForexModule(level, segment, module);
   if (!route) return {};
 
-  return createDynamicPageMetadata({
-    path: route.module.href,
-    title: route.module.title,
-    description: route.module.description,
-  });
+  return forexCurriculumMetadata(route.module);
 }
 
 export default async function GenericForexModulePage({
@@ -40,14 +35,9 @@ export default async function GenericForexModulePage({
   const route = getGenericForexModule(level, segment, module);
   if (!route) notFound();
 
-  const learningPath = getLearningPath("forex");
-  if (!learningPath) notFound();
-
   return (
-    <CurriculumPage
+    <ForexCurriculumPage
       course={route.course}
-      kind="module"
-      learningPath={learningPath}
       level={route.level}
       module={route.module}
     />

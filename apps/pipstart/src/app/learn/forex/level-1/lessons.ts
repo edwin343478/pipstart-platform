@@ -1,15 +1,9 @@
-import {
-  getPublishedLessons,
-  type PublishedLesson,
-} from "../../../../content/lesson-registry";
+import type { PublishedLesson } from "../../../../content/lesson-registry";
+import { forexLevelPageLessons } from "../../../../lib/forex-level-lessons";
 
 export type ForexLesson = PublishedLesson;
-export const forexLessons = getPublishedLessons({
-  learningPath: "forex",
-  level: "level-1",
-  course: "forex-kindergarten",
-  module: "forex-foundations",
-});
+// The level page's course, found from data: the course of the level's position-1 lesson.
+export const forexLessons = forexLevelPageLessons("level-1");
 
 export function getForexLesson(slug: string): ForexLesson | undefined {
   return forexLessons.find((lesson) => lesson.slug === slug);

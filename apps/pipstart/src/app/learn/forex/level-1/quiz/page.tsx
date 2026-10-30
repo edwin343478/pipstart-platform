@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { toPublicAssessment } from "../../../../../lib/assessment";
 import { getCurrentPublishedAssessment } from "../../../../../lib/assessment-registry";
+import { forexLevelQuiz } from "../../../../../lib/forex-level-routing";
 import { ForexFoundationsQuiz } from "./quiz-client";
 
 export const metadata: Metadata = {
@@ -14,7 +15,9 @@ export const metadata: Metadata = {
 };
 
 export default function ForexFoundationsQuizPage() {
-  const assessment = getCurrentPublishedAssessment("forex-foundations-quiz");
+  // The level quiz is found by its URL in the curriculum; its ID is the published assessment.
+  const found = forexLevelQuiz("level-1");
+  const assessment = found && getCurrentPublishedAssessment(found.quiz.id);
   const context =
     assessment &&
     getForexQuizClientContext(assessment.courseId, assessment.moduleId);
