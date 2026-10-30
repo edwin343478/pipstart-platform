@@ -115,6 +115,8 @@ export const MP03_SQL_INPUTS = Object.freeze([
   "apps/pipstart/scripts/test-m22-staff-enrolment-gate.sql",
   "supabase/migrations/20261030090000_pipstart_m22_editorial_store.sql",
   "apps/pipstart/scripts/test-m22-editorial-store.sql",
+  "supabase/migrations/20261031090000_pipstart_m22_editorial_import.sql",
+  "apps/pipstart/scripts/test-m22-editorial-import.sql",
 ]);
 export function checkedMp03Manifest(repositoryRoot, manifest) {
   if (
@@ -225,6 +227,8 @@ export async function verifyStaffCore(
     enrolmentHead: false,
     editorialStaged: false,
     editorialHead: false,
+    importStaged: false,
+    importHead: false,
     learnerProviderStaged: false,
     learnerProviderHead: false,
     learnerProviderRaceBlocked: false,
@@ -1099,6 +1103,31 @@ export async function verifyStaffCore(
       ) === "t";
     if (!result.editorialHead)
       throw Error("Editorial store rollback/grant/head failed");
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "supabase/migrations/20261031090000_pipstart_m22_editorial_import.sql",
+        ),
+        "utf8",
+      ),
+    );
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(root, "apps/pipstart/scripts/test-m22-editorial-import.sql"),
+        "utf8",
+      ),
+    );
+    result.importStaged = true;
+    result.importHead =
+      sql(
+        database,
+        "select not exists(select 1 from pipstart_editorial_private.imports) and not exists(select 1 from pipstart_editorial_private.items) and not exists(select 1 from pipstart_editorial_private.decisions) and not has_function_privilege('authenticated','pipstart_editorial_private.import_item(text,text,text,text,jsonb,text,text)','EXECUTE') and not has_function_privilege('service_role','pipstart_editorial_private.import_item(text,text,text,text,jsonb,text,text)','EXECUTE') and not has_table_privilege('authenticated','pipstart_editorial_private.imports','SELECT') and not exists(select 1 from auth.users where id::text like 'f8000000-%');",
+      ) === "t";
+    if (!result.importHead)
+      throw Error("Editorial import rollback/grant/head failed");
     cleanup();
     result.passed =
       result.staged &&
@@ -1136,7 +1165,9 @@ export async function verifyStaffCore(
       result.enrolmentStaged &&
       result.enrolmentHead &&
       result.editorialStaged &&
-      result.editorialHead;
+      result.editorialHead &&
+      result.importStaged &&
+      result.importHead;
     console.log(
       "MP03 CONSOLIDATED SQL ACCEPTANCE PASSED: behavioral/rollback/head gates and observed two-session single-dispatch contention. SQL Auth stubs only; no provider execution or live recovery acceptance.",
     );

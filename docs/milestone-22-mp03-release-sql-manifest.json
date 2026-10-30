@@ -100,6 +100,14 @@
     {
       "path": "apps/pipstart/scripts/test-m22-editorial-store.sql",
       "sha256": "3aeb3c971d8ee05465d7d2c7b3fda2f75ed6f31442f08081618ef0ca96e79aa1"
+    },
+    {
+      "path": "supabase/migrations/20261031090000_pipstart_m22_editorial_import.sql",
+      "sha256": "d194ce7498d1131551aed4ea41e503a75578a8adca5ea97f394ab6024d4ca24c"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-editorial-import.sql",
+      "sha256": "a0732b620758956fa01ca909073de76bfb541ac997d8b9621e596b9071e4cc20"
     }
   ]
 }
