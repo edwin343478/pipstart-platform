@@ -44,10 +44,67 @@ future one is not.
   draft sentence or `correctChoiceIds`. The markers are generated from the quiz registry
   and kept current by `private-markers.test.ts`.
 - **Shared validation:** `content-shape-fixtures.json` (31 cases) runs through the
-  TypeScript validator now. MP04b-2 runs the same file through the SQL `body_ok`.
-  Every lesson, quiz and analysis post in code is accepted as a store body.
+  TypeScript validator. Every lesson, quiz and analysis post in code is accepted as a
+  store body.
 
-## Next
+# MP04b-2: editorial adapter and route/resolver contract
 
-MP04b-2 adds the database adapter (staff RPCs, private view only) and the route/resolver
-contract with full URL parity and generated new items.
+Status: prepared source. No route, page or database change; the migration is unchanged.
+
+## Editorial adapter (`editorial-adapter.ts`, server only)
+
+- `createEditorialRepository(client)` wraps the 11 MP04a staff RPCs: list, item, create,
+  save, submit ("Send to reviewer"), review, publish (the Owner's single-person decision),
+  trash, restore, hold and the review-policy switch.
+- It takes the caller's own signed-in client and never a service key, so the database still
+  decides every permission, assignment and AAL2 check.
+- Before any network call it refuses an invalid identity (ID format, path and parent rules,
+  where analysis has no path and no parent), an invalid body (the shared validator) or a
+  missing reason.
+- Store errors become stable kinds: `PT409` conflict, `42501` forbidden, `22023` invalid,
+  `55000` state; anything else is unavailable.
+- A test reads the parameter names of every public RPC straight from the migration and
+  requires the adapter to send exactly those names.
+- No route imports it (enforced by the boundary test). MP06 editors will use it.
+
+## Route/resolver contract (`routes.ts`, pure)
+
+- `hrefFor(target)` maps a path, level, course, module, lesson, quiz or analysis post to
+  its URL. The first lesson of a level is the level page itself.
+- `routeCandidates(href)` gives every target a URL could mean. A third segment can be a
+  course or a later lesson; the inventory decides which.
+- `checkRouteSpace(targets)` enforces the rules that keep URLs unambiguous:
+  - within a level, `quiz`, course IDs and later-lesson slugs share one namespace;
+  - lesson slugs are unique per path;
+  - each level has one quiz URL;
+  - every segment is a plain lowercase slug.
+- Parity: every published item in code gets exactly the URL the site uses today, and
+  every learning and analysis URL in the sitemap resolves back to its item. Today's
+  inventory has no conflicts.
+- Generated new items (a Forex lesson, module and course, a Crypto lesson and an analysis
+  post) get unambiguous URLs that resolve back. Six kinds of collision are refused.
+
+### Which new items already have a page route
+
+| New item      | Page route today | Note                                                             |
+| ------------- | ---------------- | ---------------------------------------------------------------- |
+| Forex lesson  | yes              | dynamic `[level]/[segment]`                                      |
+| Forex course  | yes              | dynamic `[level]/[segment]`                                      |
+| Forex module  | yes              | dynamic `[level]/[segment]/[module]`                             |
+| Crypto lesson | yes              | dynamic `[lesson]` per level                                     |
+| Crypto course | shape only       | matches the `[lesson]` route, which would look it up as a lesson |
+| Crypto module | no               | static course folders                                            |
+| Analysis post | yes              | dynamic `[slug]`                                                 |
+
+A page route existing is not the same as rendering generated content: the pages still
+read the hand-written curriculum. MP05 adds the data-driven bridge and the missing Crypto
+course and module routes.
+
+## TypeScript and SQL agree
+
+`shape-parity.test.ts` generates one SQL assertion per known-family fixture into
+`test-m22-editorial-store.sql`, which the MP03 runner and CI already run. The store's own
+`body_ok` gives the same answer as `checkContentBody` for all 30 cases. The one
+unknown-family case stays TypeScript-only, because the store's `create` refuses unknown
+families before `body_ok` is reached (covered by the MP04a suite). The test fails if the
+generated block ever drifts from the fixture file.

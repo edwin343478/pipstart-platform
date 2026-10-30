@@ -190,6 +190,38 @@ reset role;
 
 -- Immutability holds even for the database owner role used by migrations.
 select pg_temp.ed_ok(not pipstart_editorial_private.body_ok('quiz','{"metadata":{"title":"Q"},"questions":[{"choices":[{"id":"a"},{"id":"b"}]}]}'),'quiz question needs an answer key');
+-- BEGIN generated shape fixtures (src/lib/content/shape-parity.test.ts)
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('course',$fx${"metadata":{"title":"Course"}}$fx$::jsonb) is true,'shape fixture: course minimal');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('module',$fx${"metadata":{"title":"Module"}}$fx$::jsonb) is true,'shape fixture: module minimal');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('course',$fx${"metadata":{"title":"  Course  "}}$fx$::jsonb) is true,'shape fixture: title padded with spaces');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('course',$fx${"metadata":{"title":"\t"}}$fx$::jsonb) is true,'shape fixture: title of only a tab is not blank to btrim');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('course',$fx${"metadata":{}}$fx$::jsonb) is false,'shape fixture: title missing');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('course',$fx${"metadata":{"title":"   "}}$fx$::jsonb) is false,'shape fixture: title only spaces');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('course',$fx${"metadata":{"title":7}}$fx$::jsonb) is false,'shape fixture: title not a string');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('module',$fx${}$fx$::jsonb) is false,'shape fixture: metadata missing');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('module',$fx$[]$fx$::jsonb) is false,'shape fixture: body is a list');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('lesson',$fx${"metadata":{"title":"Lesson"},"blocks":[{"type":"paragraph","children":"One"}]}$fx$::jsonb) is true,'shape fixture: lesson minimal');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('lesson',$fx${"metadata":{"title":"Lesson"},"blocks":[{"type":"heading","children":"One"}],"sections":[]}$fx$::jsonb) is true,'shape fixture: lesson with sections');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('lesson',$fx${"metadata":{"title":"Lesson"}}$fx$::jsonb) is false,'shape fixture: lesson blocks missing');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('lesson',$fx${"metadata":{"title":"Lesson"},"blocks":[]}$fx$::jsonb) is false,'shape fixture: lesson blocks empty');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('lesson',$fx${"metadata":{"title":"Lesson"},"blocks":[{"type":"script","children":"x"}]}$fx$::jsonb) is false,'shape fixture: lesson unsupported block');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('lesson',$fx${"metadata":{"title":"Lesson"},"blocks":[{"children":"x"}]}$fx$::jsonb) is false,'shape fixture: lesson block without type');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('lesson',$fx${"metadata":{"title":"Lesson"},"blocks":[{"type":"paragraph","children":"x"}],"sections":{}}$fx$::jsonb) is false,'shape fixture: lesson sections not a list');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('quiz',$fx${"metadata":{"title":"Quiz"},"questions":[{"choices":[{"id":"a"},{"id":"b"}],"correctChoiceIds":["a"]}]}$fx$::jsonb) is true,'shape fixture: quiz minimal');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('quiz',$fx${"metadata":{"title":"Quiz"},"questions":[]}$fx$::jsonb) is false,'shape fixture: quiz without questions');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('quiz',$fx${"metadata":{"title":"Quiz"},"questions":[{"choices":[{"id":"a"},{"id":"b"}]}]}$fx$::jsonb) is false,'shape fixture: quiz question without answer key');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('quiz',$fx${"metadata":{"title":"Quiz"},"questions":[{"choices":[{"id":"a"}],"correctChoiceIds":["a"]}]}$fx$::jsonb) is false,'shape fixture: quiz question with one choice');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('quiz',$fx${"metadata":{"title":"Quiz"},"questions":[{"choices":[{"id":"a"},{"id":"b"}],"correctChoiceIds":[]}]}$fx$::jsonb) is false,'shape fixture: quiz empty answer key');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('analysis',$fx${"metadata":{"title":"Gold","category":"technical","excerpt":"Levels"},"paragraphs":["One"]}$fx$::jsonb) is true,'shape fixture: analysis technical');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('analysis',$fx${"metadata":{"title":"Rates","category":"fundamental","excerpt":"Rates"},"paragraphs":["One","Two"]}$fx$::jsonb) is true,'shape fixture: analysis fundamental');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('analysis',$fx${"metadata":{"title":"Gold","excerpt":"e"},"paragraphs":["One"]}$fx$::jsonb) is false,'shape fixture: analysis without a section');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('analysis',$fx${"metadata":{"title":"Gold","category":["fundamental","technical"],"excerpt":"e"},"paragraphs":["One"]}$fx$::jsonb) is false,'shape fixture: analysis in both sections');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('analysis',$fx${"metadata":{"title":"Gold","category":"both","excerpt":"e"},"paragraphs":["One"]}$fx$::jsonb) is false,'shape fixture: analysis unknown section');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('analysis',$fx${"metadata":{"title":"Gold","category":"technical"},"paragraphs":["One"]}$fx$::jsonb) is false,'shape fixture: analysis without excerpt');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('analysis',$fx${"metadata":{"title":"Gold","category":"technical","excerpt":"e"},"paragraphs":[]}$fx$::jsonb) is false,'shape fixture: analysis without paragraphs');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('analysis',$fx${"metadata":{"title":"Gold","category":"technical","excerpt":"e"},"paragraphs":["One","  "]}$fx$::jsonb) is false,'shape fixture: analysis blank paragraph');
+select pg_temp.ed_ok(pipstart_editorial_private.body_ok('analysis',$fx${"metadata":{"title":"Gold","category":"technical","excerpt":"e"},"paragraphs":[3]}$fx$::jsonb) is false,'shape fixture: analysis paragraph not text');
+-- END generated shape fixtures
 select pg_temp.ed_denied($q$update pipstart_editorial_private.revisions set body='{}' where item_id='mp04-lesson' and revision_no=1$q$,'42501','revision body immutable');
 select pg_temp.ed_denied($q$delete from pipstart_editorial_private.revisions where item_id='mp04-lesson'$q$,'42501','revisions cannot be deleted');
 select pg_temp.ed_denied($q$update pipstart_editorial_private.revisions set state='approved' where item_id='mp04-lesson' and revision_no=1$q$,'55000','superseded cannot be re-approved');

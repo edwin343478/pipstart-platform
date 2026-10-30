@@ -62,12 +62,13 @@ describe("M22 MP04b content boundary", { timeout: 60_000 }, () => {
     for (const path of quizData) expect(serverOnly(path), rel(path)).toBe(true);
   });
 
-  it("marks the lesson catalogue, private view and code adapter server-only", () => {
+  it("marks the lesson catalogue, private view and both adapters server-only", () => {
     for (const path of [
       "content/lesson-registry.ts",
       "lib/assessment-registry.ts",
       "lib/content/private.ts",
       "lib/content/code-adapter.ts",
+      "lib/content/editorial-adapter.ts",
     ])
       expect(serverOnly(join(src, path)), path).toBe(true);
   });
@@ -78,13 +79,16 @@ describe("M22 MP04b content boundary", { timeout: 60_000 }, () => {
     expect(runtimeImports(join(src, "lib/content/validate.ts"))).toEqual([
       "./contract",
     ]);
+    expect(runtimeImports(join(src, "lib/content/routes.ts"))).toEqual([]);
   });
 
-  it("switches no route to the private view or code adapter (no cutover)", () => {
+  it("switches no route to the private view or either adapter (no cutover)", () => {
     const importers = sources.filter(
       (path) =>
         !rel(path).startsWith("lib/content/") &&
-        /lib\/content\/(private|code-adapter)["']/.test(read(path)),
+        /lib\/content\/(private|code-adapter|editorial-adapter)["']/.test(
+          read(path),
+        ),
     );
     expect(importers.map(rel)).toEqual([]);
   });
