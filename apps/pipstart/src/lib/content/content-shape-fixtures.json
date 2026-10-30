@@ -1,0 +1,278 @@
+{
+  "note": "Shared structural fixtures: the TypeScript validator and the MP04a SQL body_ok must give the same answer for every case.",
+  "cases": [
+    {
+      "name": "course minimal",
+      "family": "course",
+      "valid": true,
+      "body": { "metadata": { "title": "Course" } }
+    },
+    {
+      "name": "module minimal",
+      "family": "module",
+      "valid": true,
+      "body": { "metadata": { "title": "Module" } }
+    },
+    {
+      "name": "title padded with spaces",
+      "family": "course",
+      "valid": true,
+      "body": { "metadata": { "title": "  Course  " } }
+    },
+    {
+      "name": "title of only a tab is not blank to btrim",
+      "family": "course",
+      "valid": true,
+      "body": { "metadata": { "title": "\t" } }
+    },
+    {
+      "name": "title missing",
+      "family": "course",
+      "valid": false,
+      "body": { "metadata": {} }
+    },
+    {
+      "name": "title only spaces",
+      "family": "course",
+      "valid": false,
+      "body": { "metadata": { "title": "   " } }
+    },
+    {
+      "name": "title not a string",
+      "family": "course",
+      "valid": false,
+      "body": { "metadata": { "title": 7 } }
+    },
+    {
+      "name": "metadata missing",
+      "family": "module",
+      "valid": false,
+      "body": {}
+    },
+    {
+      "name": "body is a list",
+      "family": "module",
+      "valid": false,
+      "body": []
+    },
+    {
+      "name": "unknown family",
+      "family": "page",
+      "valid": false,
+      "body": { "metadata": { "title": "Page" } }
+    },
+    {
+      "name": "lesson minimal",
+      "family": "lesson",
+      "valid": true,
+      "body": {
+        "metadata": { "title": "Lesson" },
+        "blocks": [{ "type": "paragraph", "children": "One" }]
+      }
+    },
+    {
+      "name": "lesson with sections",
+      "family": "lesson",
+      "valid": true,
+      "body": {
+        "metadata": { "title": "Lesson" },
+        "blocks": [{ "type": "heading", "children": "One" }],
+        "sections": []
+      }
+    },
+    {
+      "name": "lesson blocks missing",
+      "family": "lesson",
+      "valid": false,
+      "body": { "metadata": { "title": "Lesson" } }
+    },
+    {
+      "name": "lesson blocks empty",
+      "family": "lesson",
+      "valid": false,
+      "body": { "metadata": { "title": "Lesson" }, "blocks": [] }
+    },
+    {
+      "name": "lesson unsupported block",
+      "family": "lesson",
+      "valid": false,
+      "body": {
+        "metadata": { "title": "Lesson" },
+        "blocks": [{ "type": "script", "children": "x" }]
+      }
+    },
+    {
+      "name": "lesson block without type",
+      "family": "lesson",
+      "valid": false,
+      "body": {
+        "metadata": { "title": "Lesson" },
+        "blocks": [{ "children": "x" }]
+      }
+    },
+    {
+      "name": "lesson sections not a list",
+      "family": "lesson",
+      "valid": false,
+      "body": {
+        "metadata": { "title": "Lesson" },
+        "blocks": [{ "type": "paragraph", "children": "x" }],
+        "sections": {}
+      }
+    },
+    {
+      "name": "quiz minimal",
+      "family": "quiz",
+      "valid": true,
+      "body": {
+        "metadata": { "title": "Quiz" },
+        "questions": [
+          {
+            "choices": [{ "id": "a" }, { "id": "b" }],
+            "correctChoiceIds": ["a"]
+          }
+        ]
+      }
+    },
+    {
+      "name": "quiz without questions",
+      "family": "quiz",
+      "valid": false,
+      "body": { "metadata": { "title": "Quiz" }, "questions": [] }
+    },
+    {
+      "name": "quiz question without answer key",
+      "family": "quiz",
+      "valid": false,
+      "body": {
+        "metadata": { "title": "Quiz" },
+        "questions": [{ "choices": [{ "id": "a" }, { "id": "b" }] }]
+      }
+    },
+    {
+      "name": "quiz question with one choice",
+      "family": "quiz",
+      "valid": false,
+      "body": {
+        "metadata": { "title": "Quiz" },
+        "questions": [{ "choices": [{ "id": "a" }], "correctChoiceIds": ["a"] }]
+      }
+    },
+    {
+      "name": "quiz empty answer key",
+      "family": "quiz",
+      "valid": false,
+      "body": {
+        "metadata": { "title": "Quiz" },
+        "questions": [
+          { "choices": [{ "id": "a" }, { "id": "b" }], "correctChoiceIds": [] }
+        ]
+      }
+    },
+    {
+      "name": "analysis technical",
+      "family": "analysis",
+      "valid": true,
+      "body": {
+        "metadata": {
+          "title": "Gold",
+          "category": "technical",
+          "excerpt": "Levels"
+        },
+        "paragraphs": ["One"]
+      }
+    },
+    {
+      "name": "analysis fundamental",
+      "family": "analysis",
+      "valid": true,
+      "body": {
+        "metadata": {
+          "title": "Rates",
+          "category": "fundamental",
+          "excerpt": "Rates"
+        },
+        "paragraphs": ["One", "Two"]
+      }
+    },
+    {
+      "name": "analysis without a section",
+      "family": "analysis",
+      "valid": false,
+      "body": {
+        "metadata": { "title": "Gold", "excerpt": "e" },
+        "paragraphs": ["One"]
+      }
+    },
+    {
+      "name": "analysis in both sections",
+      "family": "analysis",
+      "valid": false,
+      "body": {
+        "metadata": {
+          "title": "Gold",
+          "category": ["fundamental", "technical"],
+          "excerpt": "e"
+        },
+        "paragraphs": ["One"]
+      }
+    },
+    {
+      "name": "analysis unknown section",
+      "family": "analysis",
+      "valid": false,
+      "body": {
+        "metadata": { "title": "Gold", "category": "both", "excerpt": "e" },
+        "paragraphs": ["One"]
+      }
+    },
+    {
+      "name": "analysis without excerpt",
+      "family": "analysis",
+      "valid": false,
+      "body": {
+        "metadata": { "title": "Gold", "category": "technical" },
+        "paragraphs": ["One"]
+      }
+    },
+    {
+      "name": "analysis without paragraphs",
+      "family": "analysis",
+      "valid": false,
+      "body": {
+        "metadata": {
+          "title": "Gold",
+          "category": "technical",
+          "excerpt": "e"
+        },
+        "paragraphs": []
+      }
+    },
+    {
+      "name": "analysis blank paragraph",
+      "family": "analysis",
+      "valid": false,
+      "body": {
+        "metadata": {
+          "title": "Gold",
+          "category": "technical",
+          "excerpt": "e"
+        },
+        "paragraphs": ["One", "  "]
+      }
+    },
+    {
+      "name": "analysis paragraph not text",
+      "family": "analysis",
+      "valid": false,
+      "body": {
+        "metadata": {
+          "title": "Gold",
+          "category": "technical",
+          "excerpt": "e"
+        },
+        "paragraphs": [3]
+      }
+    }
+  ]
+}

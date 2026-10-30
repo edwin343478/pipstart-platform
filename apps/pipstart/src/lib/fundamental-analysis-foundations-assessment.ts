@@ -1,3 +1,4 @@
+import "server-only";
 import type { AssessmentDefinition } from "./assessment";
 
 export const fundamentalAnalysisFoundationsQuizV1: AssessmentDefinition = {
