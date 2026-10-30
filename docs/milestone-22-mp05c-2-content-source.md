@@ -1,6 +1,7 @@
 # MP05c-2: content source switch (code or approved store snapshot)
 
-Status: prepared source. Production keeps reading code; nothing reads the store by default.
+Status: published at `6189b7a`. Production keeps reading code; nothing reads the store by default.
+The hosted store was brought up to these bodies by the MP05c re-import (41 items updated).
 
 ## The switch
 

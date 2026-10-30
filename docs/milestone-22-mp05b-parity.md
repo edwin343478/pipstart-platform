@@ -1,6 +1,8 @@
 # MP05b: shadow reads and import parity
 
-Status: prepared source. No route, page or database change. Learners still read code.
+Status: published at `62eed29`. The hosted import of all 160 items is accepted (MP05c later
+brought 41 of them up to date). Learners still read code. See
+`milestone-22-mp05-release-review.md`.
 
 ## Shadow reads (`apps/pipstart/src/lib/content/import/shadow.ts`, server only)
 

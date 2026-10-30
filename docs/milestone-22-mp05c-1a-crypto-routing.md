@@ -1,6 +1,6 @@
 # MP05c-1a: data-driven Crypto routes (levels 1-10)
 
-Status: prepared source. Same pages, same text, same URLs. No database or data-source change.
+Status: published at `54853d3`. Same pages, same text, same URLs. No database or data-source change.
 
 ## What changed
 

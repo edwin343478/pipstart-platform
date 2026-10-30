@@ -1,6 +1,6 @@
 # MP05c-1b: data-driven Forex routes (levels 0-10)
 
-Status: prepared source. Same pages, same text, same URLs. No database or data-source change.
+Status: published at `b576de7`. Same pages, same text, same URLs. No database or data-source change.
 
 ## What changed
 

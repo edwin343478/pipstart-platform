@@ -1,7 +1,7 @@
 # MP05c-3: local staging proof (store to site without code edits)
 
-Status: proved on a local disposable stack. The repository gains the snapshot export query and
-its guard test. Production keeps reading code.
+Status: published at `2467321`, after the local staging proof. The repository gains the snapshot
+export query and its guard test. Production keeps reading code.
 
 ## The export
 

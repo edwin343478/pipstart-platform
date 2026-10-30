@@ -1,8 +1,8 @@
 # MP05a: editorial import foundation
 
-Status: prepared source. Additive migration `20261031090000` plus the importer; nothing
-public reads the store, and no import has run on the hosted project (MP05b, separately
-authorized).
+Status: published at `0a19b34` (30 October 2026). The hosted migration `20261031090000` is
+accepted and recorded in the migration history. The hosted content import ran in MP05b. See
+`milestone-22-mp05-release-review.md`.
 
 ## Decisions (owner, 30 October 2026)
 

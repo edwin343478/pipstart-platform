@@ -1,0 +1,194 @@
+{
+  "baseline": "2467321e526778c40098e8da27cff2bc50e26157",
+  "status": "MP05_ACCEPTED_IMPORT_PARITY_AND_BRIDGE; PRODUCTION_READS_CODE",
+  "publishedCommits": [
+    {
+      "patch": "MP05a editorial import foundation",
+      "commit": "0a19b34b847d25e9792e9a8b5a7a16fde0386fbc",
+      "parent": "08f5f84669427733599e9431b50ac22a809df363",
+      "files": 11,
+      "ci": "CI success (run 41038911111); M22 staff SQL acceptance (27 inputs incl. import suite) success (run 41038911408)",
+      "vercel": "success: Deployment has completed"
+    },
+    {
+      "patch": "MP05b shadow reads and import parity",
+      "commit": "62eed290b56106015e1006656c2f1fd37702f1fc",
+      "parent": "0a19b34b847d25e9792e9a8b5a7a16fde0386fbc",
+      "files": 3,
+      "ci": "CI success (run 41046491558); M22 staff SQL acceptance success (run 41046491579)",
+      "vercel": "success: Deployment has completed"
+    },
+    {
+      "patch": "MP05c-1a data-driven Crypto routes",
+      "commit": "54853d350067948999ce6247f336389a93a778bc",
+      "parent": "62eed290b56106015e1006656c2f1fd37702f1fc",
+      "files": 108,
+      "ci": "CI success (run 41063805210); M22 staff SQL acceptance success (run 41063805467)",
+      "vercel": "success: Deployment has completed"
+    },
+    {
+      "patch": "MP05c-1b data-driven Forex routes",
+      "commit": "b576de75834d47635927b154f985df6ecd388fa2",
+      "parent": "54853d350067948999ce6247f336389a93a778bc",
+      "files": 21,
+      "ci": "CI success (run 41074203768); M22 staff SQL acceptance success (run 41074203776)",
+      "vercel": "success: Deployment has completed"
+    },
+    {
+      "patch": "MP05c-2 content source switch",
+      "commit": "6189b7aec0ce478553fc4d5fa586c90c832b088d",
+      "parent": "b576de75834d47635927b154f985df6ecd388fa2",
+      "files": 15,
+      "ci": "CI success (run 41087991147); M22 staff SQL acceptance success (run 41087991274)",
+      "vercel": "success: Deployment has completed"
+    },
+    {
+      "patch": "MP05c-3 snapshot export and local staging proof",
+      "commit": "2467321e526778c40098e8da27cff2bc50e26157",
+      "parent": "6189b7aec0ce478553fc4d5fa586c90c832b088d",
+      "files": 3,
+      "ci": "CI success (run 41094611528); M22 staff SQL acceptance success (run 41094611729)",
+      "vercel": "success: Deployment has completed"
+    }
+  ],
+  "evidence": [
+    {
+      "boundary": "full-inventory local import (MP05a)",
+      "runId": "d6fb8c8214f55a55c5ade4dfed0a7a07",
+      "report": "pipstart-m22-mp05a-import-acceptance-d6fb8c8214f55a55c5ade4dfed0a7a07.json",
+      "reportSha256": "81c01af1699db981aa3579b32c774d3a63ecd009faabf11414c8b2513054bec0",
+      "passed": true,
+      "cleanup": true,
+      "result": "run d6fb8c8214f55a55c5ade4dfed0a7a07: 160 items, partial 80 then resumed, repeat unchanged, drift one revision, store edit kept, identity and hash parity, audit exact"
+    },
+    {
+      "boundary": "hosted wrapper rehearsal, import schema (production-state replay)",
+      "runId": "eb5761ad4c01e2844dd4f7c7627d277d",
+      "report": "pipstart-m22-mp05a-hosted-rehearsal-eb5761ad4c01e2844dd4f7c7627d277d.json",
+      "reportSha256": "05b1b82077007e64d5547b2ae6cc59f305fda9304775a936b471d36cbf6edb96",
+      "passed": true,
+      "cleanup": true,
+      "hostedBundleSha256": "57f95fc364a1fcfafa68ac2987b0ed6467c893ed5a225224cefceb91787f7d92",
+      "gates": [
+        "wrapperBaseline",
+        "wrapperRolloutState",
+        "wrapperPreflight",
+        "wrapperReadOnlyEnforced",
+        "wrapperRollback",
+        "wrapperMigration",
+        "wrapperAcceptance",
+        "wrapperReplayRefused",
+        "wrapperGrantTamperRefused",
+        "wrapperStateDriftRefused",
+        "wrapperBodyTamperRefused"
+      ]
+    },
+    {
+      "boundary": "hosted import schema (owner-reported)",
+      "status": "MP05A_IMPORT_SCHEMA_HOSTED_ACCEPTANCE_PASSED",
+      "migrationVersion": "20261031090000",
+      "hostedBundleSha256": "57f95fc364a1fcfafa68ac2987b0ed6467c893ed5a225224cefceb91787f7d92",
+      "rows": [
+        "MP05A_IMPORT_SCHEMA_HOSTED_PREFLIGHT_PASSED",
+        "MP05A_IMPORT_SCHEMA_HOSTED_MIGRATED_RUN_ACCEPTANCE",
+        "MP05A_IMPORT_SCHEMA_HOSTED_ACCEPTANCE_PASSED"
+      ]
+    },
+    {
+      "boundary": "hosted wrapper rehearsal, content import (production-state replay)",
+      "runId": "7c7de3bef1c9104728b3d6e04452ae6a",
+      "report": "pipstart-m22-mp05b-hosted-rehearsal-7c7de3bef1c9104728b3d6e04452ae6a.json",
+      "reportSha256": "e38f614d3a829d96ba9eecb27422c1e6f412c469825b50aed58ffe1d15cf9d2a",
+      "passed": true,
+      "cleanup": true,
+      "hostedBundleSha256": "8c00f0eeb9dae2dbb4c675d7dd76b8c15bb96fa1cec246a81ecb0c4085624810",
+      "gates": [
+        "wrapperBaseline",
+        "wrapperRolloutState",
+        "wrapperPreflight",
+        "wrapperReadOnlyEnforced",
+        "wrapperOutOfOrderRefused",
+        "wrapperChunkRepeatUnchanged",
+        "wrapperImportComplete",
+        "wrapperAcceptance",
+        "wrapperEditStopsImport",
+        "wrapperAcceptanceDetectsEdit"
+      ]
+    },
+    {
+      "boundary": "hosted content import (owner-reported)",
+      "status": "MP05B_IMPORT_HOSTED_ACCEPTANCE_PASSED_160_ITEMS",
+      "items": 160,
+      "manifestSha256": "aeeb363adc06869646b9f7a1fe9db599354476b527807daabb68a94ec7d1539d",
+      "hostedBundleSha256": "8c00f0eeb9dae2dbb4c675d7dd76b8c15bb96fa1cec246a81ecb0c4085624810",
+      "note": "Owner pasted preflight, chunk 01-04 rows and the final acceptance row in this conversation; chunk 05-10 rows were not pasted, but the acceptance proves all 160 items exactly"
+    },
+    {
+      "boundary": "rendered-output parity, Crypto routes (MP05c-1a)",
+      "result": "1142 prerendered files: 842 identical, 300 route-encoding only (56 pages, visible HTML byte-identical, payload content identical), 20 segment files renamed, 0 different/missing/new; comparer self-check and 3 single-edit sensitivity checks pass",
+      "css": "1 extra stylesheet on 36 later-lesson pages; 178 rules, all module-scoped, 0 classes used on those pages"
+    },
+    {
+      "boundary": "rendered-output parity, Forex routes (MP05c-1b)",
+      "result": "1142 prerendered files: 1065 identical, 77 route-encoding only (17 pages, visible HTML byte-identical, payload content identical), 2 segment files renamed, 0 different/missing/new",
+      "css": "1 extra stylesheet on 5 Level 1 later-lesson pages (shared [lesson] route with the course page); 178 rules, all module-scoped, 0 classes used on those pages; level pages kept identical by splitting forex-context-lesson.tsx"
+    },
+    {
+      "boundary": "content source switch parity (MP05c-2)",
+      "codeSource": "clean builds; 1142 prerendered files: 1141 identical; sitemap.xml same URL set, 4 Crypto Level 0 lesson URLs moved after Forex (explicit lesson order rule)",
+      "snapshotSource": "snapshot of today's manifest (160 items, seal in manifest-snapshot.json); clean builds; 966 identical, 176 payload files differ only in object key order (key-order-check: rows equal after canonical key sort), visible HTML identical on all 44 affected pages, 0 different/missing/new",
+      "css": "CSS page equivalence passed on all 189 pages (applicable rules identical); an earlier non-clean build regrouped CSS chunks from the webpack cache, clean builds do not",
+      "unitTests": "source.test.ts 12 (default code, unknown value, Production refused before reading, missing path, 8 tamper cases, non-snapshot text); snapshot-source.test.ts 3 (today's content equal in 6 exports incl. order; new Crypto and Forex course/module/lesson/module quiz resolve without code edit); routes.test.ts module quiz URLs"
+    },
+    {
+      "boundary": "local staging: store to site without code edits (MP05c-3)",
+      "runId": "7f240776def40c6b58b90a150ac08af3",
+      "report": "pipstart-m22-mp05c3-staging-7f240776def40c6b58b90a150ac08af3.json",
+      "reportSha256": "d8575f8237c6343c5c0b5dc2c09750e871a7486d95e618df709bbbe0910ac174",
+      "passed": true,
+      "cleanup": true,
+      "import": "160 created (today's manifest)",
+      "ownerCreated": "8 approved (course, module, lesson, module quiz in Crypto and Forex Level 2) via staff RPCs; 2 drafts left unapproved",
+      "export": "168 items; generated/store-snapshot.json sha256 07252e0d190b8b605951d27262d703684926df62209fdc7fe2498a8d04830ca3; seal d241e849daeefcefd5a900c9377b7e95ea7233cb359c37fe7f46b3363261db56",
+      "loader": "accepted; 160 imported bodies byte-identical to code, manifest order; 8 new present; drafts absent",
+      "build": "1142 files: 605 identical, 361 route view, 176 different (curriculum tree gains new items; 0 strings removed, 57 added all attributable to new items), 48 added (8 new pages), 0 removed; sitemap +8 URLs only",
+      "served": "8 new pages 200 with store titles; drafts 404 (incl. on-demand Forex); breadcrumb and sidebar from data; progress saved under the new course key and persisted across reload",
+      "grading": "browser submit needs the Supabase service client for rate limiting (absent locally, not handled); in-process grading on the store export: Crypto 15/15 100% passed, Forex 12/12 passed, all-wrong 0 failed, no answer key in public payload",
+      "publicBundles": "verify-public-bundles PASS on the store build: 191 chunks, 989 payloads, no explanations or answer keys"
+    },
+    {
+      "boundary": "hosted wrapper rehearsal, content re-import (production-state replay)",
+      "runId": "4addc4a177583cdf982cf458b1330211",
+      "report": "pipstart-m22-mp05c-reimport-rehearsal-4addc4a177583cdf982cf458b1330211.json",
+      "reportSha256": "a69cd41d4925cdd78a92f23711bf5735f536a6320c86c9274a5eb5999824f528",
+      "passed": true,
+      "cleanup": true,
+      "hostedBundleSha256": "d4fd94327970ddd9a8137663eefdf0bbab4e377901ba2d4b7b413f34875b0827",
+      "gates": [
+        "wrapperHostedStateReplayed",
+        "wrapperPreflight",
+        "wrapperReadOnlyEnforced",
+        "wrapperReimportUpdated41",
+        "wrapperReimportRepeatUnchanged",
+        "wrapperAcceptance",
+        "wrapperPreflightRefusesUpdatedStore",
+        "wrapperEditStopsReimport",
+        "wrapperAcceptanceDetectsEdit"
+      ]
+    },
+    {
+      "boundary": "hosted content re-import (owner-reported)",
+      "status": "MP05C_REIMPORT_HOSTED_ACCEPTANCE_PASSED_160_ITEMS_41_UPDATED",
+      "manifestSha256": "641871a738931e4a33c21011085e534126df0d6bac81c26511502a382d92c674",
+      "previousManifestSha256": "aeeb363adc06869646b9f7a1fe9db599354476b527807daabb68a94ec7d1539d",
+      "hostedBundleSha256": "d4fd94327970ddd9a8137663eefdf0bbab4e377901ba2d4b7b413f34875b0827",
+      "storeState": "160 items; 201 revisions (160 approved, 41 superseded); 201 imported decisions, provenance and import audit rows; policy unchanged",
+      "rows": [
+        "MP05C_REIMPORT_HOSTED_PREFLIGHT_PASSED",
+        "MP05C_REIMPORT_CHUNK_01_OF_01_DONE updated=41",
+        "MP05C_REIMPORT_HOSTED_ACCEPTANCE_PASSED_160_ITEMS_41_UPDATED"
+      ],
+      "authorization": "not sent in chat before execution; the owner ran the stages and reported the results"
+    }
+  ]
+}
