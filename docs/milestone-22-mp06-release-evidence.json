@@ -1,0 +1,198 @@
+{
+  "baseline": "e5e68a2f0b37ce798e6dc10adc79d53780dbf14b",
+  "status": "MP06_ACCEPTED_STAFF_EDITORS_PUBLISHED; PRODUCTION_LEARNER_PAGES_READ_CODE",
+  "publishedCommits": [
+    {
+      "patch": "MP06 staff course and lesson editors",
+      "commit": "4cae4b8e54f729af45cd94f8fc55f92e06e7873b",
+      "parent": "e5e68a2f0b37ce798e6dc10adc79d53780dbf14b",
+      "files": 94,
+      "ci": "M22 staff SQL acceptance success (run 42046711438); CI failure (run 42046711447): 10 Verify patched development dependency audit, new advisory GHSA-g3hv-75wg-m249 (minimatch 10.2.6, dev-only); later steps not run",
+      "vercel": "success"
+    },
+    {
+      "patch": "Dependency audit follow-up (minimatch 10 to 11.0.3)",
+      "commit": "4bd1435ba52fbe3a43a76b6c9e834804d5ce18fc",
+      "parent": "4cae4b8e54f729af45cd94f8fc55f92e06e7873b",
+      "files": 2,
+      "ci": "M22 staff SQL acceptance success (run 42052881586); CI success (run 42052881575)",
+      "vercel": "success"
+    }
+  ],
+  "hostedMigrations": [
+    {
+      "boundary": "Hosted packet 1: revision reads",
+      "migration": "supabase/migrations/20261102090000_pipstart_m22_editorial_revision_read.sql",
+      "migrationSha256": "6ed9bbbd8b2d2325882a5187778944b914321f027f7b76b175858da408aaf8c4",
+      "hostedBundleSha256": "2bdf9d2bbddcb3fb1cfb73ab144a1aba294c9e9d8309881500e0bc6da56f433f",
+      "stages": {
+        "01-read-only-preflight.sql": "MP06E_REVISION_READ_HOSTED_PREFLIGHT_PASSED",
+        "02-authorized-migration.sql": "MP06E_REVISION_READ_HOSTED_MIGRATED_RUN_ACCEPTANCE",
+        "03-read-only-acceptance.sql": "MP06E_REVISION_READ_HOSTED_ACCEPTANCE_PASSED"
+      },
+      "inventory": "13 private and 13 public editorial functions; 3 added with exact fingerprints",
+      "authorizationPhrase": "not sent in chat before execution; the owner ran the stages and reported all three markers",
+      "localWrapperRehearsal": {
+        "runId": "c1f0a25377959cbc2720ecb583fee0c8",
+        "report": "pipstart-m22-mp06e-revision-read-rehearsal-c1f0a25377959cbc2720ecb583fee0c8.json",
+        "reportSha256": "c6edcd7211fa881951b18284853f45912910f9448927ede1c1dfa5931b0866b0",
+        "gates": [
+          "wrapperHostedStateReplayed",
+          "wrapperPreflight",
+          "wrapperReadOnlyEnforced",
+          "wrapperForcedFailureRollsBack",
+          "wrapperMigration",
+          "wrapperAcceptance",
+          "wrapperReplayRefused",
+          "wrapperStoreUnchanged",
+          "wrapperGrantDetected",
+          "wrapperBodyChangeDetected",
+          "wrapperAcceptanceRestored"
+        ]
+      }
+    },
+    {
+      "boundary": "Hosted packet 2: publication sources",
+      "migration": "supabase/migrations/20261105090000_pipstart_m22_editorial_publication_sources.sql",
+      "migrationSha256": "b20d77791e8715c719fed896466986656871f29e8fa6bcc325b32ae8652d53c0",
+      "hostedBundleSha256": "80cb7c9a770ca5ba5b2c971b7fe4ff36bbef094bc458a17ae7b34e174f117716",
+      "stages": {
+        "01-read-only-preflight.sql": "MP06E_PUBLICATION_SOURCES_HOSTED_PREFLIGHT_PASSED",
+        "02-authorized-migration.sql": "MP06E_PUBLICATION_SOURCES_HOSTED_MIGRATED_RUN_ACCEPTANCE",
+        "03-read-only-acceptance.sql": "MP06E_PUBLICATION_SOURCES_HOSTED_ACCEPTANCE_PASSED"
+      },
+      "inventory": "14 private and 13 public editorial functions; rule added; submit, review and approve_single_person at their new fingerprints",
+      "authorizationPhrase": "not sent in chat before execution; the owner ran the stages and reported all three markers",
+      "localWrapperRehearsal": {
+        "runId": "3b717331daaa7aa4d3042e4fb13679ca",
+        "report": "pipstart-m22-mp06e-publication-sources-rehearsal-3b717331daaa7aa4d3042e4fb13679ca.json",
+        "reportSha256": "10d08d8d6538960e3e800595ae591097e76b013f6170aae9cee60108e7fafab9",
+        "gates": [
+          "wrapperHostedStateReplayed",
+          "wrapperPreflight",
+          "wrapperReadOnlyEnforced",
+          "wrapperForcedFailureRollsBack",
+          "wrapperMigration",
+          "wrapperAcceptance",
+          "wrapperReplayRefused",
+          "wrapperStoreUnchanged",
+          "wrapperGrantDetected",
+          "wrapperBodyChangeDetected",
+          "wrapperAcceptanceRestored"
+        ]
+      }
+    }
+  ],
+  "migrationHistory": {
+    "versions": ["20261102090000", "20261105090000"],
+    "method": "supported CLI exact-version repair applied for 20261102090000, 20261105090000, then read-only list",
+    "listingSha256": "27aa126a3025af6666c11cb425371866e98551304aa38e008c095f9b5badf4b3",
+    "receiptSha256": "c99fb5f103928184105279dfb3d86107a4c534def15b5452b1d47f8b15f9ab96"
+  },
+  "connectedAcceptance": [
+    {
+      "boundary": "MP06b2 course and module editor forms",
+      "runId": "b0b27e33122e480647f6a58413c0c8bf",
+      "gates": 48,
+      "cleanup": true,
+      "visualApproved": true,
+      "receipt": "m22-mp06b2-editor-forms/ACCEPTANCE-RECEIPT.json",
+      "receiptSha256": "8e8e240d992c7c8bea95d1d4b5ab886c2c84646d328c6c64abb3d2205aedea67"
+    },
+    {
+      "boundary": "MP06c2 + MP06c2a lesson editor (closes MP06c)",
+      "runId": "09c0f7dafe74a6a237c46c08ac9e728a",
+      "gates": 57,
+      "cleanup": true,
+      "visualApproved": true,
+      "receipt": "m22-mp06c2a-editor-ready/ACCEPTANCE-RECEIPT.json",
+      "receiptSha256": "820148e5cc728e00c8822725371c9f4aa68b619cba0770b18d19c36d0cf5d367"
+    },
+    {
+      "boundary": "MP06d1 revision history and comparison",
+      "runId": "d9aee44a383e9c8018fef567f43ac42a",
+      "gates": 58,
+      "cleanup": true,
+      "receipt": "m22-mp06d1-revision-read/ACCEPTANCE-RECEIPT.json",
+      "receiptSha256": "fdc412259556a44771ee7088429ff5d843fa6fdccd53f10772823d0a5a3aa6bf"
+    },
+    {
+      "boundary": "MP06d2a lesson sources",
+      "runId": "4290406dca86cf60eca00d2ef0e6b276",
+      "gates": 58,
+      "cleanup": true,
+      "receipt": "m22-mp06d2a-lesson-sources/ACCEPTANCE-RECEIPT.json",
+      "receiptSha256": "52f276d9c5904d48637d36cf31f0b827b0f1add1bb3e9406a7977a8b315015d1"
+    },
+    {
+      "boundary": "MP06d2b review and publication",
+      "runId": "f83c9184acb836fde0986f306d5d1916",
+      "gates": 59,
+      "cleanup": true,
+      "receipt": "m22-mp06d2b-review-publish/ACCEPTANCE-RECEIPT.json",
+      "receiptSha256": "d5e3449352e89397130000e62326cd536ef5dbe583ddad032979269f035c59a1"
+    },
+    {
+      "boundary": "MP06d3 archive, restore and hold (closes MP06d)",
+      "runId": "c9b064989509d891b7c86088664de650",
+      "gates": 60,
+      "cleanup": true,
+      "visualApproved": true,
+      "receipt": "m22-mp06d3-lifecycle/ACCEPTANCE-RECEIPT.json",
+      "receiptSha256": "1009d4a320799b0607f6cc647591f258556eeba239cecfc09a210a8cc78977d5"
+    },
+    {
+      "boundary": "MP06b2a curriculum hydration readiness (final journey)",
+      "runId": "a43e9e82a501911acfd89bfcd65f7b88",
+      "gates": 61,
+      "cleanup": true,
+      "receipt": "m22-mp06b2a-curriculum-ready/ACCEPTANCE-RECEIPT.json",
+      "receiptSha256": "1bc5a728e69e65f28a0f58056c5eca32e775198f3079042f77559bf5f86e45c7"
+    }
+  ],
+  "reconciliation": {
+    "mp06Files": 94,
+    "trackedModified": 11,
+    "manifestChain": [
+      "a",
+      "b1",
+      "b2",
+      "c1",
+      "c2",
+      "c2a",
+      "d1",
+      "d2a",
+      "d2b",
+      "d3",
+      "b2a"
+    ],
+    "checks": {
+      "unitSuite": "227 files, 2931 passed, 1 skipped (b2a candidate == owner)",
+      "typescript": "tsconfig.json and tsconfig.production.json",
+      "lint": "eslint . : 0 errors; 2 warnings in pre-MP06 staff-account-proof.test.ts",
+      "prettier": "all 94 MP06 files",
+      "build": "next build --webpack, staff flag unset",
+      "publicBundles": "197 chunks, 949 payloads clean",
+      "sqlProof": "consolidated MP03 SQL incl. revision-read and publication-sources stages: pipstart-m22-mp03-ci-c579dcdf4e94609937daab09a6502b6c.json",
+      "ciTests": "verify-m22-ci + verify-m22-mp03-ci: 14/14",
+      "sqlPreflight": "verify-m22-mp03 --preflight passed",
+      "connectedAcceptance": "owner run a43e9e82, 61 gates"
+    },
+    "receiptSha256": "d7c281a15fee005aa182275fda616bf4f1afc352ecd2622ad25a71fe2e92d231"
+  },
+  "ownerDecisions": {
+    "mp06d": {
+      "recordedAt": "2026-11-02",
+      "source": "Owner answers in chat (AskUserQuestion)",
+      "diffSource": "Add read-only RPC: staff-checked read of a past revision plus its decisions; no write path changes; hosted apply in MP06e with authorization phrase",
+      "newLessonRelease": "Sources required: structured Sources editor; Send to reviewer and Publish refused until at least one valid source; reviewer/review date/approval derived from store decision at publication, never typed into the body",
+      "split": "MP06d1 read RPC + history + diff view; MP06d2 submit/review/publish + sources rule; MP06d3 trash/restore/hold + full connected acceptance + owner visual approval"
+    },
+    "mp06e": {
+      "recordedAt": "2026-11-05",
+      "source": "Owner answers in chat (AskUserQuestion)",
+      "commitShape": "One MP06 commit of all 94 files: exactly the state that passed the 61-gate acceptance",
+      "hostedSql": "Two packets in order (revision reads 20261102090000, then publication sources 20261105090000), each read-only preflight, migration, read-only acceptance, local rehearsal first, own authorization phrase; both before the push"
+    }
+  }
+}
