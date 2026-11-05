@@ -108,6 +108,22 @@
     {
       "path": "apps/pipstart/scripts/test-m22-editorial-import.sql",
       "sha256": "a0732b620758956fa01ca909073de76bfb541ac997d8b9621e596b9071e4cc20"
+    },
+    {
+      "path": "supabase/migrations/20261102090000_pipstart_m22_editorial_revision_read.sql",
+      "sha256": "6ed9bbbd8b2d2325882a5187778944b914321f027f7b76b175858da408aaf8c4"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-editorial-revision-read.sql",
+      "sha256": "429720bbfc712625ccfba0cbae6f1164adf603ac09e531b2db5fec3ca8e8902c"
+    },
+    {
+      "path": "supabase/migrations/20261105090000_pipstart_m22_editorial_publication_sources.sql",
+      "sha256": "b20d77791e8715c719fed896466986656871f29e8fa6bcc325b32ae8652d53c0"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-editorial-publication-sources.sql",
+      "sha256": "87c52c2766d7d7043a32e6619a50de0f5b4bb3263e1821e4d85b01dd2148dac0"
     }
   ]
 }

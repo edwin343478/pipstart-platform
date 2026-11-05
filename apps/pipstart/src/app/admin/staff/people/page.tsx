@@ -7,6 +7,8 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { parseStaffPeople } from "@/lib/auth/staff-people";
 import { learnerProviderConfigured } from "@/lib/supabase/learner-provider";
 
+import { canOpenContentWorkspace } from "@/lib/content/editorial-workspace-contract";
+
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "People | PipStart",
@@ -37,6 +39,7 @@ export default async function StaffPeoplePage() {
   return (
     <StaffFrame
       verified
+      content={canOpenContentWorkspace(gate.access)}
       people
       audit={gate.access.capabilities.includes("audit.read")}
     >

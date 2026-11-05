@@ -1,0 +1,51 @@
+.history,
+.comparison {
+  min-width: 0;
+}
+.history h2,
+.comparison h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 1rem 1.25rem 0.5rem;
+}
+.comparison h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 1rem 1.25rem 0.25rem;
+}
+.history p,
+.comparison p {
+  margin: 0.75rem 1.25rem;
+  line-height: 1.6;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0.75rem 1.25rem;
+}
+.text {
+  display: block;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.lines {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0.75rem 1.25rem 1.25rem;
+  padding: 0;
+  list-style: none;
+}
+.lines li {
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-left-width: 4px;
+  border-radius: 8px;
+  min-width: 0;
+}
+.lines .added {
+  border-left-color: #075e5c;
+}
+.lines .removed {
+  border-left-color: #8a4b08;
+}

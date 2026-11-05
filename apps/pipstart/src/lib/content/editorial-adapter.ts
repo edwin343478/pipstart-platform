@@ -66,12 +66,36 @@ export type EditorialItemView = {
     created_at: string;
   };
   decisions: {
-    kind: "reviewed" | "single_person" | "changes_requested";
+    kind: "imported" | "reviewed" | "single_person" | "changes_requested";
     note: string | null;
     by_me: boolean;
     at: string;
   }[];
   review_required: boolean;
+};
+/** One exact earlier (or the latest) revision, body included: server use only. */
+export type EditorialRevisionView = {
+  item_id: string;
+  latest_revision: number;
+  revision: EditorialItemView["revision"];
+  decisions: EditorialItemView["decisions"];
+  imported: boolean;
+};
+/** Newest-first revision summaries without bodies. */
+export type EditorialHistoryView = {
+  item_id: string;
+  latest_revision: number;
+  revisions: {
+    revision_no: number;
+    body_sha256: string;
+    base_revision: number;
+    author_is_me: boolean;
+    state: RevisionState;
+    reason: string;
+    created_at: string;
+    decisions: EditorialItemView["decisions"];
+    imported: boolean;
+  }[];
 };
 export type EditorialListRow = {
   id: string;
@@ -134,6 +158,18 @@ export function createEditorialRepository(client: EditorialRpcClient) {
     list: (after = "", limit = 50) =>
       call<EditorialListRow[]>("list", { p_after: after, p_limit: limit }),
     item: (id: string) => call<EditorialItemView>("item", { p_id: id }),
+    revision: (id: string, revision: number) =>
+      call<EditorialRevisionView>("revision", {
+        p_id: id,
+        p_revision: revision,
+      }),
+    /** Revisions below `before` (null: from the latest), newest first. */
+    history: (id: string, before: number | null = null, limit = 20) =>
+      call<EditorialHistoryView>("history", {
+        p_id: id,
+        p_before: before,
+        p_limit: limit,
+      }),
     create(item: NewItem) {
       const problem = checkNewItem(item);
       if (problem) refuse(problem);

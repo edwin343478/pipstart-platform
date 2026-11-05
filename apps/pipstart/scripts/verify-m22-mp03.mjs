@@ -117,6 +117,10 @@ export const MP03_SQL_INPUTS = Object.freeze([
   "apps/pipstart/scripts/test-m22-editorial-store.sql",
   "supabase/migrations/20261031090000_pipstart_m22_editorial_import.sql",
   "apps/pipstart/scripts/test-m22-editorial-import.sql",
+  "supabase/migrations/20261102090000_pipstart_m22_editorial_revision_read.sql",
+  "apps/pipstart/scripts/test-m22-editorial-revision-read.sql",
+  "supabase/migrations/20261105090000_pipstart_m22_editorial_publication_sources.sql",
+  "apps/pipstart/scripts/test-m22-editorial-publication-sources.sql",
 ]);
 export function checkedMp03Manifest(repositoryRoot, manifest) {
   if (
@@ -229,6 +233,10 @@ export async function verifyStaffCore(
     editorialHead: false,
     importStaged: false,
     importHead: false,
+    revisionReadStaged: false,
+    revisionReadHead: false,
+    publicationSourcesStaged: false,
+    publicationSourcesHead: false,
     learnerProviderStaged: false,
     learnerProviderHead: false,
     learnerProviderRaceBlocked: false,
@@ -1128,6 +1136,62 @@ export async function verifyStaffCore(
       ) === "t";
     if (!result.importHead)
       throw Error("Editorial import rollback/grant/head failed");
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "supabase/migrations/20261102090000_pipstart_m22_editorial_revision_read.sql",
+        ),
+        "utf8",
+      ),
+    );
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "apps/pipstart/scripts/test-m22-editorial-revision-read.sql",
+        ),
+        "utf8",
+      ),
+    );
+    result.revisionReadStaged = true;
+    result.revisionReadHead =
+      sql(
+        database,
+        "select not exists(select 1 from pipstart_editorial_private.items) and not exists(select 1 from pipstart_editorial_private.revisions) and has_function_privilege('authenticated','public.pipstart_editorial_revision(text,integer)','EXECUTE') and not has_function_privilege('anon','public.pipstart_editorial_history(text,integer,integer)','EXECUTE') and not has_function_privilege('service_role','public.pipstart_editorial_revision(text,integer)','EXECUTE') and not exists(select 1 from auth.users where id::text like 'fa000000-%');",
+      ) === "t";
+    if (!result.revisionReadHead)
+      throw Error("Editorial revision read rollback/grant/head failed");
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "supabase/migrations/20261105090000_pipstart_m22_editorial_publication_sources.sql",
+        ),
+        "utf8",
+      ),
+    );
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "apps/pipstart/scripts/test-m22-editorial-publication-sources.sql",
+        ),
+        "utf8",
+      ),
+    );
+    result.publicationSourcesStaged = true;
+    result.publicationSourcesHead =
+      sql(
+        database,
+        "select not exists(select 1 from pipstart_editorial_private.items) and not exists(select 1 from pipstart_editorial_private.decisions) and has_function_privilege('authenticated','public.pipstart_editorial_submit(text,integer,text)','EXECUTE') and not has_function_privilege('authenticated','pipstart_editorial_private.publication_sources_ok(text,jsonb)','EXECUTE') and not has_function_privilege('service_role','public.pipstart_editorial_approve_single_person(text,integer,text,text)','EXECUTE') and not exists(select 1 from auth.users where id::text like 'fb000000-%');",
+      ) === "t";
+    if (!result.publicationSourcesHead)
+      throw Error("Editorial publication sources rollback/grant/head failed");
     cleanup();
     result.passed =
       result.staged &&
@@ -1167,7 +1231,11 @@ export async function verifyStaffCore(
       result.editorialStaged &&
       result.editorialHead &&
       result.importStaged &&
-      result.importHead;
+      result.importHead &&
+      result.revisionReadStaged &&
+      result.revisionReadHead &&
+      result.publicationSourcesStaged &&
+      result.publicationSourcesHead;
     console.log(
       "MP03 CONSOLIDATED SQL ACCEPTANCE PASSED: behavioral/rollback/head gates and observed two-session single-dispatch contention. SQL Auth stubs only; no provider execution or live recovery acceptance.",
     );

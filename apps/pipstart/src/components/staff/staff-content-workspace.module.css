@@ -1,0 +1,128 @@
+.workspace {
+  display: grid;
+  gap: 1.25rem;
+  min-width: 0;
+}
+.workspace h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 1rem 1.25rem 0.5rem;
+}
+.workspace p {
+  margin: 0.75rem 1.25rem;
+  line-height: 1.6;
+}
+.toolbar {
+  display: flex;
+  gap: 1rem;
+  align-items: end;
+  flex-wrap: wrap;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: white;
+}
+.toolbar label {
+  display: grid;
+  gap: 0.5rem;
+  font-weight: 600;
+  min-width: 0;
+  flex: 1 1 13rem;
+}
+.toolbar input,
+.toolbar select {
+  min-width: 0;
+  width: 100%;
+  min-height: 44px;
+  padding: 0.65rem;
+  border: 1px solid #687985;
+  border-radius: 8px;
+  background: white;
+  color: var(--fg);
+  font: inherit;
+}
+.button {
+  min-height: 44px;
+  padding: 0.65rem 1rem;
+  border: 1px solid #075e5c;
+  border-radius: 8px;
+  background: #075e5c;
+  color: white;
+  font: inherit;
+  cursor: pointer;
+}
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.linkButton {
+  display: inline-block;
+  border: 0;
+  background: transparent;
+  color: #075e5c;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  min-height: 44px;
+}
+.linkButton:disabled {
+  color: #53616b;
+  cursor: not-allowed;
+}
+.workspace :focus-visible {
+  outline: 3px solid #9b4600;
+  outline-offset: 3px;
+}
+.identity {
+  overflow-wrap: anywhere;
+}
+.pager {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem;
+  flex-wrap: wrap;
+}
+.detail {
+  padding: 1.25rem;
+  overflow-wrap: anywhere;
+}
+.detail h2,
+.detail p {
+  padding: 0;
+  margin: 0.5rem 0 1rem;
+}
+.detail h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-top: 1.5rem;
+}
+.detail dl {
+  display: grid;
+  grid-template-columns: minmax(8rem, 1fr) minmax(0, 2fr);
+  gap: 0.75rem;
+}
+.detail dt {
+  font-weight: 600;
+}
+.detail dd {
+  margin: 0;
+}
+.detail ul {
+  padding-left: 1.5rem;
+}
+.detail li {
+  margin: 1rem 0;
+}
+@media (max-width: 480px) {
+  .detail dl {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+  .detail dd {
+    margin-bottom: 0.6rem;
+  }
+}

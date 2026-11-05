@@ -1,0 +1,183 @@
+.editor {
+  display: grid;
+  gap: 1.25rem;
+  min-width: 0;
+  color: var(--fg);
+}
+.editor h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0.5rem 0;
+}
+.editor p {
+  line-height: 1.65;
+  margin: 0.65rem 0;
+}
+.editor a {
+  color: #075e5c;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.editor form,
+.comparison {
+  padding: 1.25rem;
+}
+.editor fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+.editor legend,
+.editor h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+.editor label {
+  display: grid;
+  gap: 0.5rem;
+  min-width: 0;
+  font-weight: 600;
+}
+.editor label span {
+  font-size: 0.85rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #43566a;
+}
+.editor input,
+.editor select,
+.editor textarea {
+  font: inherit;
+  color: var(--fg);
+  background: white;
+  border: 1px solid #687985;
+  border-radius: 8px;
+  min-height: 44px;
+  padding: 0.65rem;
+  min-width: 0;
+  width: 100%;
+}
+.editor textarea {
+  resize: vertical;
+}
+.editor button {
+  font: inherit;
+  min-height: 44px;
+  padding: 0.65rem 1rem;
+  border: 1px solid #075e5c;
+  border-radius: 8px;
+  background: #075e5c;
+  color: white;
+  cursor: pointer;
+}
+.editor button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.editor :focus-visible,
+.notice:focus {
+  outline: 3px solid #9b4600;
+  outline-offset: 3px;
+}
+.actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.25rem;
+}
+.notice {
+  padding: 1rem;
+  border: 1px solid var(--border);
+  background: white;
+  border-radius: 8px;
+}
+.editor dl {
+  overflow-wrap: anywhere;
+}
+.editor dt {
+  font-weight: 700;
+  margin-top: 0.65rem;
+}
+.editor dd {
+  margin: 0.35rem 0;
+}
+.comparison dl > div {
+  border-top: 1px solid var(--border);
+  padding: 0.5rem 0;
+}
+.hash {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 700px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .editor h1 {
+    font-size: 1.65rem;
+  }
+  .actions > button {
+    width: 100%;
+  }
+}
+.editor *,
+.editor *::before,
+.editor *::after {
+  box-sizing: border-box;
+}
+.editor input[type="checkbox"] {
+  width: 1.2rem;
+  min-height: 1.2rem;
+}
+.editor fieldset {
+  margin: 1rem 0;
+}
+.blockList {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+.block,
+.section {
+  border: 1px solid #687985 !important;
+  border-radius: 8px;
+  padding: 1rem !important;
+  min-width: 0;
+}
+.block summary {
+  cursor: pointer;
+  font-weight: 700;
+  min-height: 44px;
+  padding: 0.5rem;
+}
+.block label {
+  margin: 0.75rem 0;
+}
+.preview {
+  padding: 1.25rem;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+.preview img,
+.comparison img {
+  max-width: 100%;
+  height: auto;
+}
+.preview article,
+.comparison article {
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+.preview table,
+.comparison table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}

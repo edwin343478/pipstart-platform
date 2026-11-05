@@ -11,6 +11,8 @@ import {
   type AuditPage,
 } from "@/lib/auth/staff-audit";
 
+import { canOpenContentWorkspace } from "@/lib/content/editorial-workspace-contract";
+
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Staff audit | PipStart",
@@ -50,6 +52,7 @@ export default async function StaffAuditPage({
   return (
     <StaffFrame
       verified
+      content={canOpenContentWorkspace(gate.access)}
       audit
       people={gate.access.capabilities.includes("people.read")}
     >

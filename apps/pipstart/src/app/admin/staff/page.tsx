@@ -5,6 +5,8 @@ import { StaffFrame } from "@/components/staff/staff-frame";
 import styles from "@/components/staff/staff.module.css";
 import { readStaffGate, staffUiEnabled } from "@/lib/auth/staff-gate";
 
+import { canOpenContentWorkspace } from "@/lib/content/editorial-workspace-contract";
+
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Staff overview | PipStart",
@@ -18,6 +20,7 @@ export default async function StaffHomePage() {
   return (
     <StaffFrame
       verified
+      content={canOpenContentWorkspace(gate.access)}
       audit={gate.access.capabilities.includes("audit.read")}
       people={gate.access.capabilities.includes("people.read")}
     >
@@ -39,6 +42,17 @@ export default async function StaffHomePage() {
               prefetch={false}
             >
               Open staff audit
+            </Link>
+          </p>
+        )}
+        {canOpenContentWorkspace(gate.access) && (
+          <p>
+            <Link
+              className={styles.link}
+              href="/admin/staff/content"
+              prefetch={false}
+            >
+              Open content library
             </Link>
           </p>
         )}

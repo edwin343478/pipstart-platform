@@ -11,12 +11,14 @@ export function StaffFrame({
   verified = false,
   people = false,
   audit = false,
+  content = false,
   paused = false,
 }: {
   children: ReactNode;
   verified?: boolean;
   people?: boolean;
   audit?: boolean;
+  content?: boolean;
   paused?: boolean;
 }) {
   return (
@@ -54,6 +56,15 @@ export function StaffFrame({
                 href={verified ? "/admin/staff" : "/admin/access"}
               >
                 {verified ? "Overview" : "Staff verification"}
+              </Link>
+            )}
+            {verified && !paused && content && (
+              <Link
+                className={styles.link}
+                href="/admin/staff/content"
+                prefetch={false}
+              >
+                Content library
               </Link>
             )}
             {verified && people && (

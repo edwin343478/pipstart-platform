@@ -6,6 +6,29 @@ vi.mock("next/navigation", () => ({
 import { StaffFrame } from "./staff-frame";
 import { StaffMfa } from "./staff-mfa";
 describe("honest staff entry presentation", () => {
+  it("links only an enabled verified content workspace and suppresses it while paused", () => {
+    expect(
+      renderToStaticMarkup(
+        <StaffFrame verified content>
+          <h1>Example</h1>
+        </StaffFrame>,
+      ),
+    ).toContain('href="/admin/staff/content"');
+    expect(
+      renderToStaticMarkup(
+        <StaffFrame content>
+          <h1>Example</h1>
+        </StaffFrame>,
+      ),
+    ).not.toContain('href="/admin/staff/content"');
+    expect(
+      renderToStaticMarkup(
+        <StaffFrame verified content paused>
+          <h1>Example</h1>
+        </StaffFrame>,
+      ),
+    ).not.toContain('href="/admin/staff/content"');
+  });
   it("reuses the administration hierarchy without fictional users, counts or permissions", () => {
     const html = renderToStaticMarkup(
       <StaffFrame>

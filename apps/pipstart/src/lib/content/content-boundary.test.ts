@@ -1,5 +1,5 @@
 import { readdirSync, readFileSync } from "node:fs";
-import { join, relative, resolve } from "node:path";
+import { dirname, join, relative, resolve } from "node:path";
 import ts from "typescript";
 import { describe, expect, it } from "vitest";
 
@@ -25,10 +25,10 @@ const rel = (path: string) => relative(src, path).replaceAll("\\", "/");
 const serverOnly = (path: string) =>
   /^import "server-only";\r?\n/.test(read(path));
 
-function runtimeImports(path: string) {
+function runtimeImports(path: string, sourceText = readFileSync(path, "utf8")) {
   const source = ts.createSourceFile(
     path,
-    readFileSync(path, "utf8"),
+    sourceText,
     ts.ScriptTarget.Latest,
     true,
   );
@@ -69,6 +69,7 @@ describe("M22 MP04b content boundary", { timeout: 60_000 }, () => {
       "lib/content/private.ts",
       "lib/content/code-adapter.ts",
       "lib/content/editorial-adapter.ts",
+      "lib/content/editorial-workspace.ts",
     ])
       expect(serverOnly(join(src, path)), path).toBe(true);
   });
@@ -82,13 +83,37 @@ describe("M22 MP04b content boundary", { timeout: 60_000 }, () => {
     expect(runtimeImports(join(src, "lib/content/routes.ts"))).toEqual([]);
   });
 
+  it("distinguishes type-only imports from runtime private dependencies", () => {
+    expect(
+      runtimeImports(
+        "fixture.ts",
+        'import type { EditorialListRow } from "@/lib/content/editorial-adapter";',
+      ),
+    ).toEqual([]);
+    expect(
+      runtimeImports(
+        "fixture.ts",
+        'import { createEditorialRepository } from "@/lib/content/editorial-adapter";',
+      ),
+    ).toEqual(["@/lib/content/editorial-adapter"]);
+  });
   it("switches no route to the private view or either adapter (no cutover)", () => {
+    const privateTargets = new Set(
+      ["private", "code-adapter", "editorial-adapter"].map((name) =>
+        join(src, "lib/content", name),
+      ),
+    );
     const importers = sources.filter(
       (path) =>
         !rel(path).startsWith("lib/content/") &&
-        /lib\/content\/(private|code-adapter|editorial-adapter)["']/.test(
-          read(path),
-        ),
+        runtimeImports(path).some((specifier) => {
+          const target = specifier.startsWith("@/")
+            ? resolve(src, specifier.slice(2))
+            : specifier.startsWith(".")
+              ? resolve(dirname(path), specifier)
+              : "";
+          return privateTargets.has(target.replace(/\.tsx?$/, ""));
+        }),
     );
     expect(importers.map(rel)).toEqual([]);
   });

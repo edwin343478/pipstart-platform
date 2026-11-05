@@ -37,10 +37,12 @@ function ExampleIcon() {
 export function LessonBlocks({
   blocks,
   checklist = false,
+  preview = false,
   checklistState,
 }: {
   blocks: readonly LessonBlock[];
   checklist?: boolean;
+  preview?: boolean;
   checklistState?: {
     prefix: string;
     checked: readonly string[];
@@ -78,9 +80,13 @@ export function LessonBlocks({
                   Practise with a PipStart tool
                 </p>
                 <p>
-                  <Link className={styles.toolLink} href={block.href}>
-                    {block.title} →
-                  </Link>
+                  {preview ? (
+                    <span className={styles.toolLink}>{block.title} →</span>
+                  ) : (
+                    <Link className={styles.toolLink} href={block.href}>
+                      {block.title} →
+                    </Link>
+                  )}
                 </p>
                 <p>{renderInlineText(block.description)}</p>
               </aside>
@@ -92,7 +98,7 @@ export function LessonBlocks({
                 {block.items.map((item) => (
                   <p key={item.url}>
                     <a
-                      href={item.url}
+                      href={preview ? undefined : item.url}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -186,12 +192,15 @@ export function LessonBlocks({
                   <label key={point}>
                     <input
                       type="checkbox"
+                      disabled={preview}
                       checked={
-                        checklistState
-                          ? checklistState.checked.includes(
-                              `${checklistState.prefix}:${index}:${pointIndex}`,
-                            )
-                          : undefined
+                        preview
+                          ? false
+                          : checklistState
+                            ? checklistState.checked.includes(
+                                `${checklistState.prefix}:${index}:${pointIndex}`,
+                              )
+                            : undefined
                       }
                       onChange={
                         checklistState
@@ -236,7 +245,10 @@ export function LessonBlocks({
                     {renderInlineText(prompt)}
                   </p>
                 ))}
-                <details className={styles.practiceAnswers}>
+                <details
+                  className={styles.practiceAnswers}
+                  open={preview || undefined}
+                >
                   <summary>Compare with the worked answers</summary>
                   <div className={styles.practiceSolution}>
                     <h3>Worked answers</h3>
