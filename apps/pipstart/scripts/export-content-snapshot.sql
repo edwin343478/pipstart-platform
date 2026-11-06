@@ -8,6 +8,11 @@
 -- learning path (forex, crypto), level, course, module, then item placement. Analysis posts
 -- follow, by section (fundamental first) and newest first. The loader verifies every body
 -- against the store's own body_sha256 and the whole list against itemsSha256.
+--
+-- MP07a (format 2): quizVersions also lists every approved version of every quiz that is not
+-- trashed or on hold: for each version, its latest revision holding an imported, reviewer or Owner
+-- decision for that exact body. Grading resolves an attempt's own version from it, so attempts
+-- started on version N still finish after N+1, and while N+1 is being edited.
 begin transaction read only;
 
 with recursive approved as (
@@ -51,10 +56,24 @@ snapshot_items as (
     )
   from approved
   where family = 'analysis'
+),
+quiz_versions as (
+  select distinct on (i.id, (r.body->'metadata'->>'version')::integer)
+    i.id, (r.body->'metadata'->>'version')::integer as version, r.revision_no, r.body, r.body_sha256
+  from pipstart_editorial_private.items i
+  join pipstart_editorial_private.revisions r on r.item_id = i.id
+  where i.family = 'quiz' and i.trashed_at is null and i.hold_reason is null
+    and (r.body->'metadata'->>'version') ~ '^[1-9][0-9]{0,8}$'
+    and exists (
+      select 1 from pipstart_editorial_private.decisions d
+      where d.item_id = r.item_id and d.revision_no = r.revision_no and d.body_sha256 = r.body_sha256
+        and d.kind in ('imported', 'reviewed', 'single_person')
+    )
+  order by i.id, (r.body->'metadata'->>'version')::integer, r.revision_no desc
 )
 select json_build_object(
   'format', 'pipstart-content-snapshot',
-  'version', 1,
+  'version', 2,
   'exportedAt', to_char(clock_timestamp() at time zone 'utc', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'),
   'items', json_agg(
     json_build_object(
@@ -70,7 +89,19 @@ select json_build_object(
   ),
   'itemsSha256', encode(sha256(convert_to(string_agg(
     id || ' ' || family || ' ' || revision_no || ' ' || body_sha256 || chr(10), '' order by n
-  ), 'UTF8')), 'hex')
+  ), 'UTF8')), 'hex'),
+  'quizVersions', (
+    select coalesce(json_agg(json_build_object(
+      'id', id, 'version', version, 'revisionNo', revision_no, 'bodySha256', body_sha256, 'body', body
+    ) order by id, version), '[]'::json)
+    from quiz_versions
+  ),
+  'quizVersionsSha256', (
+    select encode(sha256(convert_to(coalesce(string_agg(
+      id || ' ' || version || ' ' || revision_no || ' ' || body_sha256 || chr(10), '' order by id, version
+    ), ''), 'UTF8')), 'hex')
+    from quiz_versions
+  )
 )
 from snapshot_items;
 

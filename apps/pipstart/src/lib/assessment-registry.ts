@@ -22,7 +22,10 @@ import { technicalToolFoundationsQuizV1 } from "./technical-tool-foundations-ass
 import { brokerFoundationsQuizV1 } from "./broker-foundations-assessment";
 import type { AssessmentDefinition, AssessmentQuestion } from "./assessment";
 import { shadowQuiz } from "./content/import/shadow";
-import { contentSnapshotRows } from "./content/source";
+import {
+  contentSnapshotQuizVersions,
+  contentSnapshotRows,
+} from "./content/source";
 import {
   getCurriculumCourse,
   getCurriculumModule,
@@ -188,11 +191,19 @@ const snapshotQuizzes = (contentSnapshotRows() ?? [])
 const sameVersion = (a: AssessmentDefinition, b: AssessmentDefinition) =>
   a.id === b.id && a.version === b.version;
 
+// MP07a: every other approved version of a store quiz is kept as retired, so attempts started on
+// it still finish and grade on it, while new attempts start on the current version.
+const historicalQuizzes = (contentSnapshotQuizVersions() ?? [])
+  .map(shadowQuiz)
+  .filter((old) => !snapshotQuizzes.some((quiz) => sameVersion(quiz, old)))
+  .map((old): AssessmentDefinition => ({ ...old, status: "retired" }));
+const storeQuizzes = [...snapshotQuizzes, ...historicalQuizzes];
+
 export const assessmentRegistry: readonly AssessmentDefinition[] = [
   ...codeAssessmentRegistry.map(
-    (code) => snapshotQuizzes.find((quiz) => sameVersion(quiz, code)) ?? code,
+    (code) => storeQuizzes.find((quiz) => sameVersion(quiz, code)) ?? code,
   ),
-  ...snapshotQuizzes.filter(
+  ...storeQuizzes.filter(
     (quiz) => !codeAssessmentRegistry.some((code) => sameVersion(code, quiz)),
   ),
 ];

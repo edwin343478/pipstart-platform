@@ -12,7 +12,7 @@ export type WorkspaceDecision = {
 };
 export type WorkspaceDetail = {
   id: string;
-  family: "course" | "module" | "lesson";
+  family: "course" | "module" | "lesson" | "quiz";
   path: LearningPath;
   parent: string | null;
   title: string;
@@ -143,7 +143,7 @@ export function parseWorkspaceDetail(
     ) ||
     !identity(i) ||
     i.id !== expectedId ||
-    !["course", "module", "lesson"].includes(String(i.family)) ||
+    !["course", "module", "lesson", "quiz"].includes(String(i.family)) ||
     !integer(i.latest_revision) ||
     typeof i.trashed !== "boolean" ||
     typeof i.on_hold !== "boolean" ||

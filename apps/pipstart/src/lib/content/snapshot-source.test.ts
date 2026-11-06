@@ -15,7 +15,11 @@ import {
   curriculumPresentation,
 } from "../curriculum-presentation";
 import { buildImportManifest, type ManifestItem } from "./import/manifest";
-import { buildContentSnapshot, type SnapshotItem } from "./source";
+import {
+  buildContentSnapshot,
+  type SnapshotItem,
+  type SnapshotQuizVersion,
+} from "./source";
 
 type Item = Omit<SnapshotItem, "state" | "bodySha256">;
 
@@ -30,14 +34,19 @@ const asItems = (manifest: ManifestItem[]): Item[] =>
   }));
 
 // Loads the switched modules in a fresh module graph with the snapshot source on.
-async function underSnapshot(items: Item[]) {
+async function underSnapshot(
+  items: Item[],
+  quizVersions: Omit<SnapshotQuizVersion, "bodySha256">[] = [],
+) {
   const file = join(
     mkdtempSync(join(tmpdir(), "pipstart-snapshot-")),
     "s.json",
   );
   writeFileSync(
     file,
-    JSON.stringify(buildContentSnapshot(items, "2026-10-30T00:00:00.000Z")),
+    JSON.stringify(
+      buildContentSnapshot(items, "2026-10-30T00:00:00.000Z", quizVersions),
+    ),
   );
   vi.resetModules();
   vi.stubEnv("PIPSTART_CONTENT_SOURCE", "snapshot");
@@ -156,7 +165,8 @@ function newItems(
   ];
 }
 
-describe("M22 MP05c-2 snapshot content source", () => {
+// Each test reloads the switched modules and rebuilds the catalogue: allow for a loaded machine.
+describe("M22 MP05c-2 snapshot content source", { timeout: 60_000 }, () => {
   it("serves exactly today's content from a snapshot of today's manifest", async () => {
     const manifest = await buildImportManifest();
     const snap = await underSnapshot(asItems(manifest));
@@ -262,5 +272,64 @@ describe("M22 MP05c-2 snapshot content source", () => {
     expect(forex.forexLevelQuiz("level-2")?.quiz.id).toBe(
       "broker-foundations-quiz",
     );
+  });
+
+  it("keeps an older approved quiz version for grading, and starts new attempts on the current one (MP07a)", async () => {
+    const manifest = await buildImportManifest();
+    const items = asItems(manifest);
+    const at = items.findIndex((item) => item.family === "quiz");
+    const v1 = items[at]!;
+    const meta = v1.body.metadata as { assessmentId: string; version: number };
+    expect(meta.version).toBe(1);
+    const v2 = clone(v1);
+    Object.assign(v2.body.metadata as object, {
+      version: 2,
+      title: "The Second Version",
+    });
+    v2.revisionNo = 2;
+    items[at] = v2;
+    const { assessments } = await underSnapshot(items, [
+      { id: v1.id, version: 1, revisionNo: 1, body: v1.body },
+      { id: v2.id, version: 2, revisionNo: 2, body: v2.body },
+    ]);
+    const id = meta.assessmentId;
+    expect(assessments.getCurrentPublishedAssessment(id)).toMatchObject({
+      version: 2,
+      title: "The Second Version",
+      status: "published",
+    });
+    // Version 1 is still there to finish and grade, but no longer starts.
+    expect(assessments.getContinuableAssessment(id, 1)).toMatchObject({
+      version: 1,
+      status: "retired",
+      title: (v1.body.metadata as { title: string }).title,
+    });
+    expect(assessments.getContinuableAssessment(id, 2)?.status).toBe(
+      "published",
+    );
+    const own = assessments.assessmentRegistry.filter((a) => a.id === id);
+    expect(own.map((a) => [a.version, a.status])).toEqual([
+      [1, "retired"],
+      [2, "published"],
+    ]);
+    // Every other quiz is unchanged.
+    expect(assessments.assessmentRegistry.filter((a) => a.id !== id)).toEqual(
+      assessmentRegistry.filter((a) => a.id !== id),
+    );
+  });
+
+  it("serves today's registry unchanged from today's quiz versions (MP07a)", async () => {
+    const manifest = await buildImportManifest();
+    const items = asItems(manifest);
+    const versions = items
+      .filter((item) => item.family === "quiz")
+      .map((item) => ({
+        id: item.id,
+        version: (item.body.metadata as { version: number }).version,
+        revisionNo: 1,
+        body: item.body,
+      }));
+    const { assessments } = await underSnapshot(items, versions);
+    expect(assessments.assessmentRegistry).toEqual(assessmentRegistry);
   });
 });

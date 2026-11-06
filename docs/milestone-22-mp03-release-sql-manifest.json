@@ -124,6 +124,14 @@
     {
       "path": "apps/pipstart/scripts/test-m22-editorial-publication-sources.sql",
       "sha256": "87c52c2766d7d7043a32e6619a50de0f5b4bb3263e1821e4d85b01dd2148dac0"
+    },
+    {
+      "path": "supabase/migrations/20261106090000_pipstart_m22_quiz_versions.sql",
+      "sha256": "03560b2c84eb00c55707c8af80d4afffb8623b1748fbfead309da20bd6e3c97d"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-editorial-quiz-versions.sql",
+      "sha256": "12276a0974a555cd6d6fa9adad52f901827698bae1ff1c588d312745d45ca459"
     }
   ]
 }

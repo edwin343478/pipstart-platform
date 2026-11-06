@@ -121,6 +121,8 @@ export const MP03_SQL_INPUTS = Object.freeze([
   "apps/pipstart/scripts/test-m22-editorial-revision-read.sql",
   "supabase/migrations/20261105090000_pipstart_m22_editorial_publication_sources.sql",
   "apps/pipstart/scripts/test-m22-editorial-publication-sources.sql",
+  "supabase/migrations/20261106090000_pipstart_m22_quiz_versions.sql",
+  "apps/pipstart/scripts/test-m22-editorial-quiz-versions.sql",
 ]);
 export function checkedMp03Manifest(repositoryRoot, manifest) {
   if (
@@ -237,6 +239,8 @@ export async function verifyStaffCore(
     revisionReadHead: false,
     publicationSourcesStaged: false,
     publicationSourcesHead: false,
+    quizVersionsStaged: false,
+    quizVersionsHead: false,
     learnerProviderStaged: false,
     learnerProviderHead: false,
     learnerProviderRaceBlocked: false,
@@ -1192,6 +1196,34 @@ export async function verifyStaffCore(
       ) === "t";
     if (!result.publicationSourcesHead)
       throw Error("Editorial publication sources rollback/grant/head failed");
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "supabase/migrations/20261106090000_pipstart_m22_quiz_versions.sql",
+        ),
+        "utf8",
+      ),
+    );
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "apps/pipstart/scripts/test-m22-editorial-quiz-versions.sql",
+        ),
+        "utf8",
+      ),
+    );
+    result.quizVersionsStaged = true;
+    result.quizVersionsHead =
+      sql(
+        database,
+        "select not exists(select 1 from pipstart_editorial_private.items) and not exists(select 1 from pipstart_editorial_private.decisions) and has_function_privilege('authenticated','public.pipstart_editorial_save(text,integer,jsonb,text)','EXECUTE') and not has_function_privilege('authenticated','pipstart_editorial_private.quiz_decision_ok(text,integer)','EXECUTE') and not exists(select 1 from auth.users where id::text like 'fc000000-%');",
+      ) === "t";
+    if (!result.quizVersionsHead)
+      throw Error("Editorial quiz versions rollback/grant/head failed");
     cleanup();
     result.passed =
       result.staged &&
@@ -1235,7 +1267,9 @@ export async function verifyStaffCore(
       result.revisionReadStaged &&
       result.revisionReadHead &&
       result.publicationSourcesStaged &&
-      result.publicationSourcesHead;
+      result.publicationSourcesHead &&
+      result.quizVersionsStaged &&
+      result.quizVersionsHead;
     console.log(
       "MP03 CONSOLIDATED SQL ACCEPTANCE PASSED: behavioral/rollback/head gates and observed two-session single-dispatch contention. SQL Auth stubs only; no provider execution or live recovery acceptance.",
     );

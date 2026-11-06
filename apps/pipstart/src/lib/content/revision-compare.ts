@@ -3,6 +3,7 @@ import {
   projectLessonBody,
   type LessonDraftContent,
 } from "./lesson-draft-contract";
+import { projectQuizBody, type QuizDraftQuestion } from "./quiz-draft-contract";
 
 // Comparison of two revision bodies through the same editable projections the editors use, so
 // imported attributes the editors never show (and any private field) never reach the browser.
@@ -154,16 +155,53 @@ function lessonFields(
     ],
   ]);
 }
+/** One line per question part, answer key included: staff comparison only. */
+function quizLines(questions: QuizDraftQuestion[]): Line[] {
+  return questions.flatMap((q, n) => [
+    {
+      label: `Question ${n + 1}`,
+      text: clip(`${q.prompt} · ${q.type} · ${q.id}`),
+    },
+    ...q.choices.map((c) => ({
+      label: `Question ${n + 1} choice`,
+      text: clip(
+        `${c.label}${q.correctChoiceIds.includes(c.id) ? " · correct" : ""} · ${c.id}`,
+      ),
+    })),
+    { label: `Question ${n + 1} explanation`, text: clip(q.explanation) },
+  ]);
+}
 /** Null when either body does not fit the editable projection of its family. */
 export function compareRevisionBodies(
-  family: "course" | "module" | "lesson",
+  family: "course" | "module" | "lesson" | "quiz",
   before: unknown,
   after: unknown,
 ): RevisionComparison | null {
   let fields: FieldChange[],
     lines: ContentLineChange[] = [],
     unchanged = 0;
-  if (family === "lesson") {
+  if (family === "quiz") {
+    const a = projectQuizBody(before),
+      b = projectQuizBody(after);
+    if (!a || !b) return null;
+    fields = fieldChanges([
+      ["Title", a.fields.title, b.fields.title],
+      ["Version", a.version, b.version],
+      [
+        "Passing percentage",
+        a.fields.passingPercentage,
+        b.fields.passingPercentage,
+      ],
+      [
+        "Retake cooldown (seconds)",
+        a.fields.retakeCooldownSeconds,
+        b.fields.retakeCooldownSeconds,
+      ],
+    ]);
+    const changes = lineChanges(quizLines(a.questions), quizLines(b.questions));
+    lines = changes.lines;
+    unchanged = changes.unchanged;
+  } else if (family === "lesson") {
     const a = projectLessonBody(before),
       b = projectLessonBody(after);
     if (!a || !b) return null;

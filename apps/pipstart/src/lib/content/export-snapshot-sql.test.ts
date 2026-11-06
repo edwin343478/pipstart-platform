@@ -38,7 +38,7 @@ describe("M22 MP05c-3 content snapshot export", () => {
 
   it("seals the items exactly as the loader verifies them", () => {
     expect(statements).toContain("'format', 'pipstart-content-snapshot'");
-    expect(statements).toContain("'version', 1");
+    expect(statements).toContain("'version', 2");
     expect(statements).toContain("'state', 'approved'");
     expect(statements).toContain(
       "id || ' ' || family || ' ' || revision_no || ' ' || body_sha256 || chr(10)",
@@ -57,5 +57,40 @@ describe("M22 MP05c-3 content snapshot export", () => {
     expect(sealed.itemsSha256).toBe(
       createHash("sha256").update(line).digest("hex"),
     );
+  });
+
+  it("keeps every approved quiz version, sealed as the loader verifies it (MP07a)", () => {
+    // One row per quiz version: its latest revision decided for that exact body.
+    expect(statements).toContain(
+      "select distinct on (i.id, (r.body->'metadata'->>'version')::integer)",
+    );
+    expect(statements).toContain(
+      "where i.family = 'quiz' and i.trashed_at is null and i.hold_reason is null",
+    );
+    expect(statements).toContain(
+      "where d.item_id = r.item_id and d.revision_no = r.revision_no and d.body_sha256 = r.body_sha256",
+    );
+    expect(statements).toContain(
+      "and d.kind in ('imported', 'reviewed', 'single_person')",
+    );
+    expect(statements).toContain(
+      "order by i.id, (r.body->'metadata'->>'version')::integer, r.revision_no desc",
+    );
+    expect(statements).toContain(
+      "id || ' ' || version || ' ' || revision_no || ' ' || body_sha256 || chr(10), '' order by id, version",
+    );
+    // The list and its seal share one order.
+    expect(statements).toContain(") order by id, version), '[]'::json)");
+    const sealed = buildContentSnapshot([], "2026-11-06T00:00:00.000Z", [
+      { id: "q", version: 2, revisionNo: 5, body: { metadata: {} } },
+    ]);
+    const line = `q 2 5 ${sealed.quizVersions[0]!.bodySha256}\n`;
+    expect(sealed.quizVersionsSha256).toBe(
+      createHash("sha256").update(line).digest("hex"),
+    );
+    // An empty list seals as the hash of nothing, as coalesce(..., '') does.
+    expect(
+      buildContentSnapshot([], "2026-11-06T00:00:00.000Z").quizVersionsSha256,
+    ).toBe(createHash("sha256").update("").digest("hex"));
   });
 });

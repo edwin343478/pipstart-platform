@@ -309,7 +309,9 @@ export function StaffContentWorkspace({
                 { label: "Revision", node: row.latest_revision },
                 {
                   label: "Action",
-                  node: ["course", "module", "lesson"].includes(row.family) ? (
+                  node: ["course", "module", "lesson", "quiz"].includes(
+                    row.family,
+                  ) ? (
                     <div>
                       <button
                         className={styles.linkButton}
@@ -322,14 +324,18 @@ export function StaffContentWorkspace({
                       </button>
                       {canEdit &&
                         !row.trashed &&
-                        ["course", "module", "lesson"].includes(row.family) && (
+                        ["course", "module", "lesson", "quiz"].includes(
+                          row.family,
+                        ) && (
                           <a
                             className={styles.linkButton}
                             aria-label={"Edit draft " + row.id}
                             href={
                               (row.family === "lesson"
                                 ? "/admin/staff/content/lesson?id="
-                                : "/admin/staff/content/editor?id=") +
+                                : row.family === "quiz"
+                                  ? "/admin/staff/content/quiz?id="
+                                  : "/admin/staff/content/editor?id=") +
                               encodeURIComponent(row.id)
                             }
                           >
@@ -391,7 +397,7 @@ export function StaffContentWorkspace({
           onChanged={(message) => void inspect({ id: detail.id }, message)}
         />
       )}
-      {detail && (
+      {detail && detail.family !== "quiz" && (
         <StaffLifecyclePanel
           key={[detail.id, detail.revision, detail.trashed, detail.onHold].join(
             ":",

@@ -117,9 +117,25 @@ describe("workspace exact read contracts", () => {
     expect(JSON.stringify(d)).not.toContain("private body sentinel");
     expect(d).not.toHaveProperty("body");
   });
+  it("reads quiz detail for review and publication (MP07b)", () =>
+    expect(
+      parseWorkspaceDetail(
+        { ...item, item: { ...item.item, family: "quiz" } },
+        "lesson-1",
+      ),
+    ).toMatchObject({ family: "quiz", id: "lesson-1" }));
   it.each([
     { ...item, item: { ...item.item, id: "other" } },
-    { ...item, item: { ...item.item, family: "quiz" } },
+    // Analysis posts stay outside the library detail.
+    {
+      ...item,
+      item: {
+        ...item.item,
+        family: "analysis",
+        learning_path: null,
+        parent_id: null,
+      },
+    },
     { ...item, revision: { ...item.revision, body_sha256: "bad" } },
     { ...item, revision: { ...item.revision, revision_no: 1 } },
     { ...item, revision: { ...item.revision, base_revision: 2 } },

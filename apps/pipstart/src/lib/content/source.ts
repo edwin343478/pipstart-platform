@@ -27,12 +27,23 @@ export type SnapshotItem = {
   body: Record<string, unknown>;
 };
 
+/** One approved version of a quiz, kept so attempts on it can still be graded (MP07a). */
+export type SnapshotQuizVersion = {
+  id: string;
+  version: number;
+  revisionNo: number;
+  bodySha256: string;
+  body: Record<string, unknown>;
+};
+
 export type ContentSnapshot = {
   format: typeof CONTENT_SNAPSHOT_FORMAT;
-  version: 1;
+  version: 2;
   exportedAt: string;
   items: SnapshotItem[];
   itemsSha256: string;
+  quizVersions: SnapshotQuizVersion[];
+  quizVersionsSha256: string;
 };
 
 const sha256 = (text: string) =>
@@ -50,22 +61,40 @@ export function snapshotItemsSha256(items: readonly SnapshotItem[]) {
   );
 }
 
+/** The seal over the quiz versions: one line per version, in file order. */
+export function snapshotQuizVersionsSha256(
+  versions: readonly SnapshotQuizVersion[],
+) {
+  return sha256(
+    versions
+      .map((v) => `${v.id} ${v.version} ${v.revisionNo} ${v.bodySha256}\n`)
+      .join(""),
+  );
+}
+
 /** Seals approved rows as a snapshot file body (the export tooling and tests use this). */
 export function buildContentSnapshot(
   items: readonly Omit<SnapshotItem, "state" | "bodySha256">[],
   exportedAt: string,
+  quizVersions: readonly Omit<SnapshotQuizVersion, "bodySha256">[] = [],
 ): ContentSnapshot {
   const sealed = items.map((item) => ({
     ...item,
     state: "approved" as const,
     bodySha256: sha256(jsonbText(item.body)),
   }));
+  const versions = quizVersions.map((v) => ({
+    ...v,
+    bodySha256: sha256(jsonbText(v.body)),
+  }));
   return {
     format: CONTENT_SNAPSHOT_FORMAT,
-    version: 1,
+    version: 2,
     exportedAt,
     items: sealed,
     itemsSha256: snapshotItemsSha256(sealed),
+    quizVersions: versions,
+    quizVersionsSha256: snapshotQuizVersionsSha256(versions),
   };
 }
 
@@ -79,8 +108,18 @@ const parentFamily: Partial<Record<ContentFamily, ContentFamily>> = {
   quiz: "module",
 };
 
+export type ParsedContentSnapshot = {
+  rows: StoreRow[];
+  /** Every approved quiz version (format 2); empty for a format 1 file. */
+  quizVersions: StoreRow[];
+};
+
 /** Parses and verifies a snapshot file completely; any defect refuses the whole snapshot. */
 export function parseContentSnapshot(text: string): StoreRow[] {
+  return parseContentSnapshotFile(text).rows;
+}
+
+export function parseContentSnapshotFile(text: string): ParsedContentSnapshot {
   const fail = (reason: string): never => {
     throw new Error(`Content snapshot refused: ${reason}`);
   };
@@ -91,7 +130,10 @@ export function parseContentSnapshot(text: string): StoreRow[] {
     fail("not valid JSON");
   }
   if (!isObject(data)) return fail("not an object");
-  if (data.format !== CONTENT_SNAPSHOT_FORMAT || data.version !== 1)
+  if (
+    data.format !== CONTENT_SNAPSHOT_FORMAT ||
+    ![1, 2].includes(data.version as number)
+  )
     fail("unknown format or version");
   if (!Array.isArray(data.items) || data.items.length === 0) fail("no items");
   const items = data.items as SnapshotItem[];
@@ -137,13 +179,61 @@ export function parseContentSnapshot(text: string): StoreRow[] {
   }
   if (data.itemsSha256 !== snapshotItemsSha256(items))
     fail("the item list does not match its seal");
-  return items.map(({ id, family, learningPath, parentId, body }) => ({
+  const rows = items.map(({ id, family, learningPath, parentId, body }) => ({
     id,
     family,
     learningPath,
     parentId,
     body,
   }));
+  if (data.version === 1) return { rows, quizVersions: [] };
+  if (!Array.isArray(data.quizVersions)) return fail("no quiz version list");
+  const versions = data.quizVersions as SnapshotQuizVersion[];
+  const keys = new Set<string>();
+  for (const v of versions) {
+    if (!isObject(v)) fail("a quiz version is not an object");
+    const where = `quiz ${String(v.id)} version ${String(v.version)}`;
+    if (
+      typeof v.id !== "string" ||
+      !/^[a-z0-9][a-z0-9_:/.-]{0,199}$/.test(v.id)
+    )
+      fail(`${where}: invalid ID`);
+    if (!Number.isInteger(v.version) || v.version < 1)
+      fail(`${where}: invalid version`);
+    if (!Number.isInteger(v.revisionNo) || v.revisionNo < 1)
+      fail(`${where}: invalid revision number`);
+    const key = v.id + "@" + v.version;
+    if (keys.has(key)) fail(`${where}: duplicate version`);
+    keys.add(key);
+    if (
+      !isObject(v.body) ||
+      !isObject(v.body.metadata) ||
+      v.body.metadata.version !== v.version
+    )
+      fail(`${where}: body does not carry this version`);
+    const check = checkContentBody("quiz", v.body);
+    if (!check.ok) fail(`${where}: ${check.reason}`);
+    if (v.bodySha256 !== sha256(jsonbText(v.body)))
+      fail(`${where}: body does not match its SHA-256`);
+  }
+  if (data.quizVersionsSha256 !== snapshotQuizVersionsSha256(versions))
+    fail("the quiz version list does not match its seal");
+  return {
+    rows,
+    quizVersions: versions.map(({ id, body }) => {
+      const m = body.metadata as Record<string, unknown>;
+      return {
+        id,
+        family: "quiz" as const,
+        learningPath:
+          m.learningPath === "crypto"
+            ? ("crypto" as const)
+            : ("forex" as const),
+        parentId: null,
+        body,
+      };
+    }),
+  };
 }
 
 export type ContentSourceEnv = {
@@ -157,6 +247,14 @@ export function resolveContentSource(
   env: ContentSourceEnv,
   readFile: (path: string) => string = (path) => readFileSync(path, "utf8"),
 ): StoreRow[] | null {
+  return resolveContentSnapshot(env, readFile)?.rows ?? null;
+}
+
+/** Null for the code source; the verified snapshot rows and quiz versions otherwise. */
+export function resolveContentSnapshot(
+  env: ContentSourceEnv,
+  readFile: (path: string) => string = (path) => readFileSync(path, "utf8"),
+): ParsedContentSnapshot | null {
   const source = env.PIPSTART_CONTENT_SOURCE ?? "code";
   if (source === "code") return null;
   if (source !== "snapshot")
@@ -167,19 +265,27 @@ export function resolveContentSource(
     );
   if (!env.PIPSTART_CONTENT_SNAPSHOT)
     throw new Error("PIPSTART_CONTENT_SNAPSHOT must name the snapshot file");
-  return parseContentSnapshot(readFile(env.PIPSTART_CONTENT_SNAPSHOT));
+  return parseContentSnapshotFile(readFile(env.PIPSTART_CONTENT_SNAPSHOT));
 }
 
-let resolved: { rows: StoreRow[] | null } | undefined;
-
-/** The snapshot rows when the snapshot source is on, else null. Read once per server. */
-export function contentSnapshotRows(): StoreRow[] | null {
+let resolved: { snapshot: ParsedContentSnapshot | null } | undefined;
+const snapshot = () => {
   resolved ??= {
-    rows: resolveContentSource({
+    snapshot: resolveContentSnapshot({
       PIPSTART_CONTENT_SOURCE: process.env.PIPSTART_CONTENT_SOURCE,
       PIPSTART_CONTENT_SNAPSHOT: process.env.PIPSTART_CONTENT_SNAPSHOT,
       VERCEL_ENV: process.env.VERCEL_ENV,
     }),
   };
-  return resolved.rows;
+  return resolved.snapshot;
+};
+
+/** The snapshot rows when the snapshot source is on, else null. Read once per server. */
+export function contentSnapshotRows(): StoreRow[] | null {
+  return snapshot()?.rows ?? null;
+}
+
+/** Every approved quiz version when the snapshot source is on, else null. */
+export function contentSnapshotQuizVersions(): StoreRow[] | null {
+  return snapshot()?.quizVersions ?? null;
 }
