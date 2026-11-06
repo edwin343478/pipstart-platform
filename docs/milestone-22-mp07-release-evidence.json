@@ -1,0 +1,163 @@
+{
+  "baseline": "25c8ace190f4e870a68c4c37c725aca6294fa8bd",
+  "status": "MP07_ACCEPTED_QUIZ_EDITOR_PUBLISHED; PRODUCTION_LEARNER_PAGES_READ_CODE",
+  "publishedCommits": [
+    {
+      "patch": "MP07 quiz versions, quiz editor and sandbox preview",
+      "commit": "197abf7728282cf758588210497ff53e8daf87cb",
+      "parent": "25c8ace190f4e870a68c4c37c725aca6294fa8bd",
+      "files": 32,
+      "ci": "M22 staff SQL acceptance success (run 42169219879); CI success (run 42169219857)",
+      "vercel": "success: Deployment has completed"
+    }
+  ],
+  "hostedMigrations": [
+    {
+      "boundary": "Hosted MP07 packet: quiz versions",
+      "migration": "supabase/migrations/20261106090000_pipstart_m22_quiz_versions.sql",
+      "migrationSha256": "03560b2c84eb00c55707c8af80d4afffb8623b1748fbfead309da20bd6e3c97d",
+      "hostedBundleSha256": "8929e7275fac6d395e9f7a6d7da57030694ae8b6bf9d4ad8fd75f61d21b9f2eb",
+      "stages": {
+        "01-read-only-preflight.sql": "MP07_QUIZ_VERSIONS_HOSTED_PREFLIGHT_PASSED",
+        "02-authorized-migration.sql": "MP07_QUIZ_VERSIONS_HOSTED_MIGRATED_RUN_ACCEPTANCE",
+        "03-read-only-acceptance.sql": "MP07_QUIZ_VERSIONS_HOSTED_ACCEPTANCE_PASSED"
+      },
+      "inventory": "17 private and 13 public editorial functions; quiz rule added; create, save, submit, review and approve_single_person at their new fingerprints",
+      "authorizationPhrase": "not sent in chat before execution; the owner ran the stages and reported all three markers",
+      "localWrapperRehearsal": {
+        "runId": "95101e2842a14ce2434e7b3393e1bae5",
+        "report": "pipstart-m22-mp07-quiz-versions-rehearsal-95101e2842a14ce2434e7b3393e1bae5.json",
+        "reportSha256": "bca4aa85a51fbcfacde181ebc0f93d39ce64db58dd0bdce6eae2e7510015719a",
+        "gates": [
+          "wrapperHostedStateReplayed",
+          "wrapperPreflight",
+          "wrapperReadOnlyEnforced",
+          "wrapperForcedFailureRollsBack",
+          "wrapperMigration",
+          "wrapperAcceptance",
+          "wrapperReplayRefused",
+          "wrapperStoreUnchanged",
+          "wrapperGrantDetected",
+          "wrapperBodyChangeDetected",
+          "wrapperAcceptanceRestored"
+        ]
+      }
+    }
+  ],
+  "migrationHistory": {
+    "versions": ["20261106090000"],
+    "method": "supported CLI exact-version repair applied for 20261106090000, then read-only list",
+    "listingSha256": "f18f05c9bc15d6f2b1c4713eb9d35fa561fa0684f1b80df6a62d0fcfdc115465",
+    "receiptSha256": "19873e441759dd5e7cbe6521243eefba5efe02542c9777b098aa78ab737138f4"
+  },
+  "connectedAcceptance": [
+    {
+      "boundary": "MP07b quiz editor, sandbox and library (full MP06 journey plus quiz)",
+      "runId": "d819aac3a5b66391251584fdd2ffdac1",
+      "gates": 69,
+      "cleanup": true,
+      "installerSmoke": [
+        {
+          "mode": "--check",
+          "passed": true
+        },
+        {
+          "mode": "--apply",
+          "passed": true
+        },
+        {
+          "mode": "--rollback",
+          "passed": true
+        },
+        {
+          "mode": "--apply",
+          "passed": true
+        }
+      ],
+      "receipt": "m22-mp07b-quiz-editor/REHEARSAL-RECEIPT.json",
+      "receiptSha256": "9fc44b3ad2c155e5f2f86ab4f684b91918e5ecf793ffa331338aaff18dd127cb"
+    },
+    {
+      "boundary": "MP07c layout fix (same journey, refreshed screenshots)",
+      "runId": "4ef3127df3caa3c1a4b2fb1a6ef906eb",
+      "gates": 69,
+      "cleanup": true,
+      "installerSmoke": [
+        {
+          "mode": "--check",
+          "passed": true
+        },
+        {
+          "mode": "--apply",
+          "passed": true
+        },
+        {
+          "mode": "--rollback",
+          "passed": true
+        },
+        {
+          "mode": "--apply",
+          "passed": true
+        }
+      ],
+      "receipt": "m22-mp07c-release/LAYOUT-REHEARSAL-RECEIPT.json",
+      "receiptSha256": "9b252230a21d9248e06f3372cc53ebdc1fe78c345893af4df85f57ffc26be629"
+    }
+  ],
+  "continuityProof": {
+    "scope": "MP07c server-level continuity proof (path chosen by Claude after the owner closed the choice dialog; a full browser learner journey was not run)",
+    "sqlProof": {
+      "passed": true,
+      "containerRemoved": true
+    },
+    "stageMarkers": [
+      "ATTEMPT1 1 in_progress 1c42ebf1-c9cb-4c42-8244-ca9e5c839ed8",
+      "SAVED 2",
+      "SENT submitted",
+      "PUBLISHED approved",
+      "REFUSED different-body-under-published-version",
+      "REFUSED submit-claiming-version-2",
+      "REFUSED submit-with-version-2-snapshot",
+      "SUBMITTED1 submitted 1 6/6 true",
+      "ATTEMPT2 2 in_progress"
+    ],
+    "proofTests": "5 passed",
+    "results": {
+      "export": {
+        "v1Versions": [1],
+        "v2Versions": [1, 2],
+        "items": 160,
+        "totalQuizVersions": 22
+      },
+      "continuity": {
+        "currentVersion": 2,
+        "boundVersion": 1,
+        "boundStatus": "retired",
+        "recordedScore": "6/6",
+        "scoreUnderVersion2Key": "5/6",
+        "newAttemptVersion": 2
+      },
+      "tamperRefused": [
+        "answer key",
+        "version number",
+        "dropped version",
+        "item body",
+        "whole source",
+        "attempt version",
+        "attempt snapshot",
+        "unknown version"
+      ],
+      "noLeakage": true
+    },
+    "receiptSha256": "ae9ecb650371fbdcd83aa45239fd8bd7506a33c1e7afb5cb61ade25efceb01c4"
+  },
+  "ownerDecisions": {
+    "recordedAt": "2026-11-05",
+    "source": "Owner answers in chat (AskUserQuestion)",
+    "versioning": "Server assigns on save: the first draft saved after version N is approved is version N+1; later saves keep N+1; editors never type a version. The database refuses approving a body under an already-published version with different content.",
+    "oldAttempts": "Finish on version N: attempts already started on N can be saved and submitted and are graded against N's own key; new attempts start on N+1; past results and passes kept.",
+    "split": "MP07a version rule in SQL + historical quiz versions kept for grading; MP07b quiz editor + sandbox preview; MP07c full connected acceptance (N survives N+1, tampering rejected, no answer leakage), visual approval, release."
+  },
+  "ownerVisualApproval": "approved with COMMIT AND PUSH on 2026-11-06, after the MP07c layout fix",
+  "publishBeforeHostedMigration": "owner decision 2026-11-06: published 197abf7, then applied and recorded the hosted migration"
+}
