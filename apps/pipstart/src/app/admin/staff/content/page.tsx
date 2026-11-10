@@ -45,6 +45,10 @@ export default async function StaffContentPage() {
           ["owner", "editor"].includes(r),
         )}
         canHold={gate.access.roles.includes("owner")}
+        canMakeLive={gate.access.roles.some((r) =>
+          ["owner", "editor"].includes(r),
+        )}
+        isOwner={gate.access.roles.includes("owner")}
         initialPage={result.kind === "list" ? result.page : null}
       />
     </StaffFrame>

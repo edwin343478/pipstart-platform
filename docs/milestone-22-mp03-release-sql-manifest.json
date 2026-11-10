@@ -132,6 +132,30 @@
     {
       "path": "apps/pipstart/scripts/test-m22-editorial-quiz-versions.sql",
       "sha256": "12276a0974a555cd6d6fa9adad52f901827698bae1ff1c588d312745d45ca459"
+    },
+    {
+      "path": "supabase/migrations/20261107090000_pipstart_m22_publication_store.sql",
+      "sha256": "162bac1704614f84c691fd06ad7ce21b6bba87eecb6e8fa0427be0315fe18321"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-publication-store.sql",
+      "sha256": "b20b094b6b96196c03f95c4c2477aed0c9ac5952f954912e59bf55504a92e1fc"
+    },
+    {
+      "path": "supabase/migrations/20261107120000_pipstart_m22_publication_schedules.sql",
+      "sha256": "32b46a3807547b2873ec3482f96509c560ee288b8a2845ba0478c5f990343e90"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-publication-schedules.sql",
+      "sha256": "40aaae7a80811e14e719cb35a46dea1e512a4a160e110627c4daf5d730205c8b"
+    },
+    {
+      "path": "supabase/migrations/20261107150000_pipstart_m22_publication_scheduler.sql",
+      "sha256": "4d7db78151afd8ccf4351b49feddac528541e96ee715ceba5ec676c8b4d0e270"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-publication-scheduler.sql",
+      "sha256": "e6a4738fe807b5327c1339382c585fea51d8f176d50c70e799bd8cfec6957e01"
     }
   ]
 }

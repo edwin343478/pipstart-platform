@@ -54,6 +54,9 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1"],
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   poweredByHeader: false,
+  // MP08b2a: server functions read the build's live generation file (present only when a content
+  // group is switched to the store).
+  outputFileTracingIncludes: { "/**/*": ["./.generated/live-generation.json"] },
   typescript: {
     tsconfigPath:
       process.env.NODE_ENV === "development"

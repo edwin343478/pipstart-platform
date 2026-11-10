@@ -16,6 +16,10 @@ import type { EditorialListRow } from "@/lib/content/editorial-adapter";
 import { StaffRevisionHistory } from "./staff-revision-history";
 import { StaffDecisionPanel } from "./staff-decision-panel";
 import { StaffLifecyclePanel } from "./staff-lifecycle-panel";
+import {
+  StaffItemPublication,
+  StaffLivePublication,
+} from "./staff-publication-panel";
 import s from "@/components/admin-preview/admin-preview.module.css";
 import styles from "./staff-content-workspace.module.css";
 const status = (state: string): BadgeKind =>
@@ -108,6 +112,8 @@ export function StaffContentWorkspace({
   canArchive = false,
   canRestore = false,
   canHold = false,
+  canMakeLive = false,
+  isOwner = false,
 }: {
   initialPage: WorkspacePage | null;
   canEdit?: boolean;
@@ -118,6 +124,8 @@ export function StaffContentWorkspace({
   canArchive?: boolean;
   canRestore?: boolean;
   canHold?: boolean;
+  canMakeLive?: boolean;
+  isOwner?: boolean;
 }) {
   const [page, setPage] = useState(initialPage),
     [detail, setDetail] = useState<WorkspaceDetail | null>(null),
@@ -207,9 +215,11 @@ export function StaffContentWorkspace({
   return (
     <div className={styles.workspace} aria-busy={busy}>
       <Heading eyebrow="Content" title="Library">
-        Browse permitted content and inspect its latest revision. This workspace
-        cannot change learner pages.
+        Browse permitted content and inspect its latest revision. Learner pages
+        change only through live publication, once a content type is switched to
+        the store.
       </Heading>
+      <StaffLivePublication isOwner={isOwner} canManageDelivery={canMakeLive} />
       <div className={styles.toolbar}>
         {canCreateCourse && (
           <a
@@ -309,9 +319,13 @@ export function StaffContentWorkspace({
                 { label: "Revision", node: row.latest_revision },
                 {
                   label: "Action",
-                  node: ["course", "module", "lesson", "quiz"].includes(
-                    row.family,
-                  ) ? (
+                  node: [
+                    "course",
+                    "module",
+                    "lesson",
+                    "quiz",
+                    "analysis",
+                  ].includes(row.family) ? (
                     <div>
                       <button
                         className={styles.linkButton}
@@ -394,6 +408,14 @@ export function StaffContentWorkspace({
           canSubmit={canSubmit}
           canReview={canReview}
           canPublish={canPublish}
+          onChanged={(message) => void inspect({ id: detail.id }, message)}
+        />
+      )}
+      {detail && (
+        <StaffItemPublication
+          key={"live:" + detail.id + ":" + detail.revision + ":" + detail.state}
+          detail={detail}
+          canPublish={canMakeLive}
           onChanged={(message) => void inspect({ id: detail.id }, message)}
         />
       )}

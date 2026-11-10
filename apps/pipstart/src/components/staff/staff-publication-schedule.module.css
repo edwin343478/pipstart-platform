@@ -1,0 +1,52 @@
+.section {
+  border-top: 1px solid var(--line, #dce4e8);
+  padding-top: 1rem;
+  margin-top: 1rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  align-items: start;
+  gap: 1rem;
+  margin-block: 1rem;
+}
+.fields label,
+.section input,
+.section select {
+  min-width: 0;
+  max-width: 100%;
+}
+.section input,
+.section select {
+  box-sizing: border-box;
+  width: 100%;
+}
+.fields p {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.review {
+  border: 1px solid #97ccc6;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  background: #f1f9f8;
+  margin-top: 1rem;
+}
+.history ul {
+  padding-left: 1.25rem;
+}
+.history li {
+  padding-block: 0.5rem;
+}
+.section h3:focus,
+.review h4:focus {
+  outline: 2px solid #0f766e;
+  outline-offset: 4px;
+}

@@ -123,6 +123,12 @@ export const MP03_SQL_INPUTS = Object.freeze([
   "apps/pipstart/scripts/test-m22-editorial-publication-sources.sql",
   "supabase/migrations/20261106090000_pipstart_m22_quiz_versions.sql",
   "apps/pipstart/scripts/test-m22-editorial-quiz-versions.sql",
+  "supabase/migrations/20261107090000_pipstart_m22_publication_store.sql",
+  "apps/pipstart/scripts/test-m22-publication-store.sql",
+  "supabase/migrations/20261107120000_pipstart_m22_publication_schedules.sql",
+  "apps/pipstart/scripts/test-m22-publication-schedules.sql",
+  "supabase/migrations/20261107150000_pipstart_m22_publication_scheduler.sql",
+  "apps/pipstart/scripts/test-m22-publication-scheduler.sql",
 ]);
 export function checkedMp03Manifest(repositoryRoot, manifest) {
   if (
@@ -241,6 +247,25 @@ export async function verifyStaffCore(
     publicationSourcesHead: false,
     quizVersionsStaged: false,
     quizVersionsHead: false,
+    publicationStaged: false,
+    publicationHead: false,
+    publicationRaceBlocked: false,
+    publicationSingleWinner: false,
+    publicationReplaySingle: false,
+    schedulerStaged: false,
+    schedulerHead: false,
+    schedulerOverlap: false,
+    schedulerTickWins: false,
+    schedulerCancelWins: false,
+    schedulerRevokeBlocked: false,
+    schedulerRevoked: false,
+    schedulerDeliverySingle: false,
+    publicationSchedulesStaged: false,
+    publicationSchedulesHead: false,
+    scheduleCreateBlocked: false,
+    scheduleCreateSingle: false,
+    scheduleCancelBlocked: false,
+    scheduleCancelSingle: false,
     learnerProviderStaged: false,
     learnerProviderHead: false,
     learnerProviderRaceBlocked: false,
@@ -1224,6 +1249,454 @@ export async function verifyStaffCore(
       ) === "t";
     if (!result.quizVersionsHead)
       throw Error("Editorial quiz versions rollback/grant/head failed");
+
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "supabase/migrations/20261107090000_pipstart_m22_publication_store.sql",
+        ),
+        "utf8",
+      ),
+    );
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(root, "apps/pipstart/scripts/test-m22-publication-store.sql"),
+        "utf8",
+      ),
+    );
+    result.publicationStaged = true;
+    result.publicationHead =
+      sql(
+        database,
+        "select (select generation from pipstart_editorial_private.publication_pointer) is null and not exists(select 1 from pipstart_editorial_private.generations) and not exists(select 1 from pipstart_editorial_private.refresh_jobs) and not exists(select 1 from pipstart_editorial_private.items) and has_function_privilege('authenticated','public.pipstart_publication_publish(uuid,bigint,text,integer,text,text)','EXECUTE') and not has_function_privilege('authenticated','public.pipstart_publication_snapshot()','EXECUTE') and has_function_privilege('service_role','public.pipstart_publication_snapshot()','EXECUTE') and not has_function_privilege('anon','public.pipstart_publication_status(text)','EXECUTE') and not exists(select 1 from auth.users where id::text like 'fe000000-%');",
+      ) === "t";
+    if (!result.publicationHead)
+      throw Error("Publication store rollback/grant/head failed");
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "supabase/migrations/20261107120000_pipstart_m22_publication_schedules.sql",
+        ),
+        "utf8",
+      ),
+    );
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "apps/pipstart/scripts/test-m22-publication-schedules.sql",
+        ),
+        "utf8",
+      ),
+    );
+    result.publicationSchedulesStaged = true;
+    result.publicationSchedulesHead =
+      sql(
+        database,
+        "select (select count(*) from pipstart_editorial_private.publication_scheduler_control)=1 and exists(select 1 from pipstart_editorial_private.publication_scheduler_control where singleton and not enabled and version=0) and not exists(select 1 from pipstart_editorial_private.publication_schedules) and not exists(select 1 from pipstart_editorial_private.publication_schedule_events) and (select generation from pipstart_editorial_private.publication_pointer) is null and not exists(select 1 from auth.users where id::text like 'ed800000-%');",
+      ) === "t";
+    if (!result.publicationSchedulesHead)
+      throw Error("Schedule rollback/default-off head failed");
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "supabase/migrations/20261107150000_pipstart_m22_publication_scheduler.sql",
+        ),
+        "utf8",
+      ),
+    );
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "apps/pipstart/scripts/test-m22-publication-scheduler.sql",
+        ),
+        "utf8",
+      ),
+    );
+    result.schedulerStaged = true;
+    result.schedulerHead =
+      sql(
+        database,
+        "select not exists(select 1 from pipstart_editorial_private.publication_scheduler_deliveries) and not exists(select 1 from pipstart_editorial_private.publication_schedules) and not exists(select 1 from pipstart_editorial_private.publication_scheduler_control where enabled) and not exists(select 1 from pipstart_editorial_private.generations) and exists(select 1 from pg_roles where rolname='pipstart_publication_scheduler' and not rolcanlogin and not rolsuper and not rolbypassrls) and not has_function_privilege('authenticated','pipstart_editorial_private.scheduler_tick()','execute');",
+      ) === "t";
+    if (!result.schedulerHead)
+      throw Error("Restricted scheduler default-closed/head failed");
+    // Two sessions racing on the live generation: the pointer lock picks one winner; the loser
+    // waits, then refuses as stale. The same operation identity from two sessions publishes once.
+    sql(
+      database,
+      `update pipstart_staff_private.members set active=false where active;
+      insert into auth.users(id,raw_user_meta_data) values('ff000000-0000-4000-8000-000000000001','{}');
+      insert into auth.mfa_factors(id,user_id,factor_type,status) values('ff100000-0000-4000-8000-000000000001','ff000000-0000-4000-8000-000000000001','totp','verified');
+      insert into auth.sessions(id,user_id,factor_id,aal) values('ff200000-0000-4000-8000-000000000001','ff000000-0000-4000-8000-000000000001','ff100000-0000-4000-8000-000000000001','aal2');
+      insert into pipstart_staff_private.members(user_id) values('ff000000-0000-4000-8000-000000000001');
+      insert into pipstart_staff_private.roles values('ff000000-0000-4000-8000-000000000001','owner');
+      select pipstart_staff_private.transition(true,(select version from pipstart_staff_private.control),gen_random_uuid());
+      begin;set local role authenticated;select set_config('request.jwt.claims','{"sub":"ff000000-0000-4000-8000-000000000001","session_id":"ff200000-0000-4000-8000-000000000001","role":"authenticated","aal":"aal2","user_metadata":{"role":"owner"}}',true);
+      select public.pipstart_editorial_approve_single_person(x,1,(public.pipstart_editorial_create(x,'course','forex',null,jsonb_build_object('metadata',jsonb_build_object('title',x)),'race'))->>'body_sha256',null) from unnest(array['race-base']) x;
+      select public.pipstart_publication_baseline('ff900000-0000-4000-8000-000000000001','race baseline');
+      select public.pipstart_editorial_approve_single_person(x,1,(public.pipstart_editorial_create(x,'course','forex',null,jsonb_build_object('metadata',jsonb_build_object('title',x)),'race'))->>'body_sha256',null) from unnest(array['race-a','race-b','race-c']) x;
+      commit;`,
+    );
+    const sha = (id) =>
+      sql(
+        database,
+        `select body_sha256 from pipstart_editorial_private.revisions where item_id='${id}' and revision_no=1;`,
+      );
+    const publish = (op, expected, id) =>
+      `select (public.pipstart_publication_publish('${op}',${expected},'${id}',1,'${sha(id)}','race'))->>'generation' as published;`;
+    const pubA = childSql(
+      `set application_name='m22-pub-a-${runId}';begin;set local role authenticated;select set_config('request.jwt.claims','{"sub":"ff000000-0000-4000-8000-000000000001","session_id":"ff200000-0000-4000-8000-000000000001","role":"authenticated","aal":"aal2","user_metadata":{"role":"owner"}}',true);${publish("ff900000-0000-4000-8000-000000000002", 1, "race-a")}select 'M22_PUB_LOCKED';select pg_sleep(4);commit;`,
+    );
+    // A barrier that is not observed reports the child session's own error.
+    const barrier = async (check, ms, child, label) => {
+      try {
+        await waitFor(check, ms);
+      } catch {
+        const r = await child.done.catch((e) => ({
+          output: "",
+          errors: String(e),
+        }));
+        throw Error(
+          "Publication race " +
+            label +
+            " not observed: " +
+            String(r.errors || r.output).slice(-600),
+        );
+      }
+    };
+    await barrier(
+      () => pubA.output().includes("M22_PUB_LOCKED"),
+      8000,
+      pubA,
+      "session A lock",
+    );
+    const pubB = childSql(
+      `set application_name='m22-pub-b-${runId}';begin;set local role authenticated;select set_config('request.jwt.claims','{"sub":"ff000000-0000-4000-8000-000000000001","session_id":"ff200000-0000-4000-8000-000000000001","role":"authenticated","aal":"aal2","user_metadata":{"role":"owner"}}',true);${publish("ff900000-0000-4000-8000-000000000003", 1, "race-b")}commit;`,
+    );
+    await waitFor(
+      () =>
+        sql(
+          database,
+          `select exists(select 1 from pg_stat_activity where datname=current_database() and application_name='m22-pub-b-${runId}' and wait_event_type='Lock');`,
+        ) === "t",
+      3500,
+    );
+    result.publicationRaceBlocked = true;
+    const [won, lost] = await Promise.all([pubA.done, pubB.done]);
+    result.publicationSingleWinner =
+      won.code === 0 &&
+      /^2$/m.test(won.output) &&
+      lost.code !== 0 &&
+      (lost.output + lost.errors).includes("A newer publication exists") &&
+      sql(
+        database,
+        "select (select generation from pipstart_editorial_private.publication_pointer)=2 and (select count(*) from pipstart_editorial_private.generations)=2;",
+      ) === "t";
+    if (!result.publicationSingleWinner)
+      throw Error(
+        "Publication compare-and-set contention failed: " +
+          JSON.stringify({
+            won: [won.code, won.output.slice(-200), won.errors.slice(-300)],
+            lost: [lost.code, lost.output.slice(-200), lost.errors.slice(-300)],
+          }),
+      );
+    const again = (tag) =>
+      childSql(
+        `set application_name='m22-pub-${tag}-${runId}';begin;set local role authenticated;select set_config('request.jwt.claims','{"sub":"ff000000-0000-4000-8000-000000000001","session_id":"ff200000-0000-4000-8000-000000000001","role":"authenticated","aal":"aal2","user_metadata":{"role":"owner"}}',true);select (public.pipstart_publication_publish('ff900000-0000-4000-8000-000000000004',2,'race-c',1,'${sha("race-c")}','race'))::text;select 'M22_PUB_REPLAY';${tag === "c" ? "select pg_sleep(3);" : ""}commit;`,
+      );
+    const pubC = again("c");
+    await barrier(
+      () => pubC.output().includes("M22_PUB_REPLAY"),
+      8000,
+      pubC,
+      "replay session",
+    );
+    const pubD = again("d");
+    const [pubFirst, pubReplay] = await Promise.all([pubC.done, pubD.done]);
+    result.publicationReplaySingle =
+      pubFirst.code === 0 &&
+      pubReplay.code === 0 &&
+      pubFirst.output.includes('"replayed": false') &&
+      pubReplay.output.includes('"replayed": true') &&
+      sql(
+        database,
+        "select (select generation from pipstart_editorial_private.publication_pointer)=3 and (select count(*) from pipstart_editorial_private.generations)=3 and (select count(*) from pipstart_editorial_private.audit where operation='publish')=2;",
+      ) === "t";
+    if (!result.publicationReplaySingle)
+      throw Error(
+        "Publication operation replay contention failed: " +
+          JSON.stringify({
+            first: [
+              pubFirst.code,
+              pubFirst.output.slice(-300),
+              pubFirst.errors.slice(-300),
+            ],
+            replay: [
+              pubReplay.code,
+              pubReplay.output.slice(-300),
+              pubReplay.errors.slice(-300),
+            ],
+          }),
+      );
+
+    // Real two-session schedule/replay and cancel/replay. Only the existing generated race Owner.
+    const scheduleDue = new Date(
+        Math.ceil((Date.now() + 7200000) / 60000) * 60000,
+      ).toISOString(),
+      scheduleLocal = scheduleDue.slice(0, 16);
+    const scheduleAuth = `begin;set local role authenticated;select set_config('request.jwt.claims','{"sub":"ff000000-0000-4000-8000-000000000001","session_id":"ff200000-0000-4000-8000-000000000001","role":"authenticated","aal":"aal2"}',true);`;
+    const scheduleCall = `select (public.pipstart_publication_schedule('ff990000-0000-4000-8000-000000000001',3,'withdraw','race-c',null,null,'${scheduleLocal}','UTC','${scheduleDue}','Generated concurrent schedule'))->>'state';`;
+    const scheduleA = childSql(
+      `set application_name='m22-schedule-a-${runId}';${scheduleAuth}${scheduleCall}select 'M22_SCHEDULE_LOCKED';select pg_sleep(4);commit;`,
+    );
+    await barrier(
+      () => scheduleA.output().includes("M22_SCHEDULE_LOCKED"),
+      8000,
+      scheduleA,
+      "schedule request",
+    );
+    const scheduleB = childSql(
+      `set application_name='m22-schedule-b-${runId}';${scheduleAuth}${scheduleCall}commit;`,
+    );
+    await waitFor(
+      () =>
+        sql(
+          database,
+          `select exists(select 1 from pg_stat_activity where datname=current_database() and application_name='m22-schedule-b-${runId}' and wait_event_type='Lock');`,
+        ) === "t",
+      3500,
+    );
+    result.scheduleCreateBlocked = true;
+    const scheduleReplies = await Promise.all([scheduleA.done, scheduleB.done]);
+    result.scheduleCreateSingle =
+      scheduleReplies.every(
+        (r) => r.code === 0 && /^scheduled$/m.test(r.output),
+      ) &&
+      sql(
+        database,
+        "select (select count(*) from pipstart_editorial_private.publication_schedules)=1 and (select count(*) from pipstart_editorial_private.publication_schedule_events)=1 and (select generation from pipstart_editorial_private.publication_pointer)=3;",
+      ) === "t";
+    if (!result.scheduleCreateSingle)
+      throw Error(
+        "Schedule identity contention did not produce one durable request/event",
+      );
+    const cancelCall =
+      "select (public.pipstart_publication_cancel_schedule('ff990000-0000-4000-8000-000000000001','Generated concurrent cancel'))->>'state';";
+    const cancelA = childSql(
+      `set application_name='m22-cancel-a-${runId}';${scheduleAuth}${cancelCall}select 'M22_CANCEL_LOCKED';select pg_sleep(4);commit;`,
+    );
+    await barrier(
+      () => cancelA.output().includes("M22_CANCEL_LOCKED"),
+      8000,
+      cancelA,
+      "cancel request",
+    );
+    const cancelB = childSql(
+      `set application_name='m22-cancel-b-${runId}';${scheduleAuth}${cancelCall}commit;`,
+    );
+    await waitFor(
+      () =>
+        sql(
+          database,
+          `select exists(select 1 from pg_stat_activity where datname=current_database() and application_name='m22-cancel-b-${runId}' and wait_event_type='Lock');`,
+        ) === "t",
+      3500,
+    );
+    result.scheduleCancelBlocked = true;
+    const cancelReplies = await Promise.all([cancelA.done, cancelB.done]);
+    result.scheduleCancelSingle =
+      cancelReplies.every(
+        (r) => r.code === 0 && /^cancelled$/m.test(r.output),
+      ) &&
+      sql(
+        database,
+        "select (select count(*) from pipstart_editorial_private.publication_schedule_events)=2 and not exists(select 1 from pipstart_editorial_private.publication_schedules where state='scheduled') and not exists(select 1 from pipstart_editorial_private.publication_scheduler_control where enabled) and (select generation from pipstart_editorial_private.publication_pointer)=3;",
+      ) === "t";
+    if (!result.scheduleCancelSingle)
+      throw Error(
+        "Concurrent cancel did not create exactly one terminal event",
+      );
+    {
+      // Restricted worker overlap, tick/cancel and governance races. No HTTP or saved human actor.
+      const workerAuth = "begin;set local role pipstart_publication_scheduler;";
+      const enqueueDue = (id, action) =>
+        sql(
+          database,
+          `insert into pipstart_editorial_private.publication_schedules(id,actor_id,action,item_id,revision_no,body_sha256,base_generation,policy_version,due_at,time_zone,local_input,reason)
+    values('ff991000-0000-4000-8000-${id}','ff000000-0000-4000-8000-000000000001','${action}','race-c',${action === "publish" ? "1" : "null"},${action === "publish" ? "'" + sha("race-c") + "'" : "null"},(select generation from pipstart_editorial_private.publication_pointer),(select version from pipstart_editorial_private.policy),date_trunc('minute',now()-interval '1 hour'),'UTC',to_char(now()-interval '1 hour','YYYY-MM-DD"T"HH24:MI'),'Generated scheduler contention');`,
+        );
+      sql(
+        database,
+        "update pipstart_editorial_private.publication_scheduler_control set enabled=true;",
+      );
+      enqueueDue("000000000001", "withdraw");
+      const tickA = childSql(
+        `set application_name='m22-tick-a-${runId}';${workerAuth}select pipstart_editorial_private.scheduler_tick()::text;select 'M22_TICK_LOCKED';select pg_sleep(4);commit;`,
+      );
+      await barrier(
+        () => tickA.output().includes("M22_TICK_LOCKED"),
+        8000,
+        tickA,
+        "worker tick",
+      );
+      const tickB = childSql(
+        workerAuth +
+          "select pipstart_editorial_private.scheduler_tick()->>'state';commit;",
+      );
+      const overlap = await tickB.done;
+      result.schedulerOverlap =
+        overlap.code === 0 && /^busy$/m.test(overlap.output);
+      if (!result.schedulerOverlap)
+        throw Error("Overlapping worker did not refuse busy");
+      const cancelDuring = childSql(
+        `set application_name='m22-tick-cancel-${runId}';${scheduleAuth}select public.pipstart_publication_cancel_schedule('ff991000-0000-4000-8000-000000000001','Generated cancel race');commit;`,
+      );
+      await waitFor(
+        () =>
+          sql(
+            database,
+            `select exists(select 1 from pg_stat_activity where application_name='m22-tick-cancel-${runId}' and datname=current_database() and wait_event_type='Lock');`,
+          ) === "t",
+        3500,
+      );
+      const [tickWon, cancelLost] = await Promise.all([
+        tickA.done,
+        cancelDuring.done,
+      ]);
+      result.schedulerTickWins =
+        tickWon.code === 0 &&
+        tickWon.output.includes('"published": 1') &&
+        cancelLost.code !== 0 &&
+        cancelLost.errors.includes(
+          "Completed publication work cannot be cancelled",
+        ) &&
+        sql(
+          database,
+          "select (select generation from pipstart_editorial_private.publication_pointer)=4 and (select count(*) from pipstart_editorial_private.generations where operation_id='ff991000-0000-4000-8000-000000000001')=1;",
+        ) === "t";
+      if (!result.schedulerTickWins)
+        throw Error(
+          "Tick/cancel single winner failed: " +
+            JSON.stringify([tickWon, cancelLost]),
+        );
+      const deliveryA = childSql(
+        "begin;set local role service_role;select public.pipstart_publication_scheduler_claim()::text;select 'M22_DELIVERY_CLAIMED';select pg_sleep(4);commit;",
+      );
+      await barrier(
+        () => deliveryA.output().includes("M22_DELIVERY_CLAIMED"),
+        8000,
+        deliveryA,
+        "delivery claim",
+      );
+      const deliveryB = childSql(
+        `set application_name='m22-delivery-b-${runId}';begin;set local role service_role;select public.pipstart_publication_scheduler_claim()::text;commit;`,
+      );
+      await waitFor(
+        () =>
+          sql(
+            database,
+            `select exists(select 1 from pg_stat_activity where application_name='m22-delivery-b-${runId}' and datname=current_database() and wait_event_type='Lock');`,
+          ) === "t",
+        3500,
+      );
+      const [firstClaim, secondClaim] = await Promise.all([
+        deliveryA.done,
+        deliveryB.done,
+      ]);
+      result.schedulerDeliverySingle =
+        firstClaim.code === 0 &&
+        secondClaim.code === 0 &&
+        firstClaim.output.includes('"state": "claimed"') &&
+        secondClaim.output.includes('"state": "idle"') &&
+        sql(
+          database,
+          "select (select count(*) from pipstart_editorial_private.publication_scheduler_deliveries)=1 and (select attempts from pipstart_editorial_private.refresh_jobs where generation=4)=1;",
+        ) === "t";
+      if (!result.schedulerDeliverySingle)
+        throw Error("Two delivery wakes did not share one durable claim");
+      enqueueDue("000000000002", "publish");
+      const cancelFirst = childSql(
+        `set application_name='m22-cancel-first-${runId}';${scheduleAuth}select public.pipstart_publication_cancel_schedule('ff991000-0000-4000-8000-000000000002','Cancel before worker');select 'M22_CANCEL_FIRST';select pg_sleep(4);commit;`,
+      );
+      await barrier(
+        () => cancelFirst.output().includes("M22_CANCEL_FIRST"),
+        8000,
+        cancelFirst,
+        "cancel first",
+      );
+      const afterCancel = childSql(
+        `set application_name='m22-after-cancel-${runId}';${workerAuth}select pipstart_editorial_private.scheduler_tick()::text;commit;`,
+      );
+      await waitFor(
+        () =>
+          sql(
+            database,
+            `select exists(select 1 from pg_stat_activity where application_name='m22-after-cancel-${runId}' and datname=current_database() and wait_event_type='Lock');`,
+          ) === "t",
+        3500,
+      );
+      const [cancelWon, tickLost] = await Promise.all([
+        cancelFirst.done,
+        afterCancel.done,
+      ]);
+      result.schedulerCancelWins =
+        cancelWon.code === 0 &&
+        tickLost.code === 0 &&
+        tickLost.output.includes('"processed": 0') &&
+        sql(
+          database,
+          "select (select generation from pipstart_editorial_private.publication_pointer)=4 and not exists(select 1 from pipstart_editorial_private.generations where operation_id='ff991000-0000-4000-8000-000000000002');",
+        ) === "t";
+      if (!result.schedulerCancelWins)
+        throw Error("Cancelled schedule executed");
+      enqueueDue("000000000003", "publish");
+      const revokeFirst = childSql(
+        "begin;select 1 from pipstart_staff_private.control where singleton for update;update pipstart_staff_private.members set active=false where user_id='ff000000-0000-4000-8000-000000000001';select 'M22_REVOKE_HELD';select pg_sleep(4);commit;",
+      );
+      await barrier(
+        () => revokeFirst.output().includes("M22_REVOKE_HELD"),
+        8000,
+        revokeFirst,
+        "governance revoke",
+      );
+      const afterRevoke = childSql(
+        `set application_name='m22-after-revoke-${runId}';${workerAuth}select pipstart_editorial_private.scheduler_tick()::text;commit;`,
+      );
+      await waitFor(
+        () =>
+          sql(
+            database,
+            `select exists(select 1 from pg_stat_activity where application_name='m22-after-revoke-${runId}' and datname=current_database() and wait_event_type='Lock');`,
+          ) === "t",
+        3500,
+      );
+      result.schedulerRevokeBlocked = true;
+      const [revoked, refused] = await Promise.all([
+        revokeFirst.done,
+        afterRevoke.done,
+      ]);
+      result.schedulerRevoked =
+        revoked.code === 0 &&
+        refused.code === 0 &&
+        refused.output.includes('"failed": 1') &&
+        sql(
+          database,
+          "select (select generation from pipstart_editorial_private.publication_pointer)=4 and exists(select 1 from pipstart_editorial_private.publication_schedules where id='ff991000-0000-4000-8000-000000000003' and state='failed' and failure_code='revoked');",
+        ) === "t";
+      if (!result.schedulerRevoked)
+        throw Error("Revoked authorizer published due work");
+    }
     cleanup();
     result.passed =
       result.staged &&
@@ -1269,7 +1742,26 @@ export async function verifyStaffCore(
       result.publicationSourcesStaged &&
       result.publicationSourcesHead &&
       result.quizVersionsStaged &&
-      result.quizVersionsHead;
+      result.quizVersionsHead &&
+      result.publicationStaged &&
+      result.publicationHead &&
+      result.publicationRaceBlocked &&
+      result.publicationSingleWinner &&
+      result.publicationReplaySingle &&
+      result.publicationSchedulesStaged &&
+      result.publicationSchedulesHead &&
+      result.scheduleCreateBlocked &&
+      result.scheduleCreateSingle &&
+      result.scheduleCancelBlocked &&
+      result.scheduleCancelSingle &&
+      result.schedulerStaged &&
+      result.schedulerHead &&
+      result.schedulerOverlap &&
+      result.schedulerTickWins &&
+      result.schedulerCancelWins &&
+      result.schedulerRevokeBlocked &&
+      result.schedulerRevoked &&
+      result.schedulerDeliverySingle;
     console.log(
       "MP03 CONSOLIDATED SQL ACCEPTANCE PASSED: behavioral/rollback/head gates and observed two-session single-dispatch contention. SQL Auth stubs only; no provider execution or live recovery acceptance.",
     );

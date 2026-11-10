@@ -136,7 +136,8 @@ const allAnalysisPosts: AnalysisPost[] = [
 ];
 
 // MP05c-2: under the snapshot source, posts are the approved store rows, in snapshot order.
-const snapshotRows = contentSnapshotRows();
+// MP08b2a: in a build with analysis switched to the store, the live generation's posts.
+const snapshotRows = contentSnapshotRows("analysis");
 export const analysisPosts = selectPublishedContent(
   snapshotRows
     ? snapshotRows

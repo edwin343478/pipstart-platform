@@ -8,6 +8,11 @@ import "server-only";
 // so every page follows. The file is verified completely before anything uses it.
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
+import {
+  liveGeneration,
+  storeGroups,
+  type StoreGroup,
+} from "./live-generation";
 
 import { contentFamilies, type ContentFamily } from "./contract";
 import { jsonbText } from "./jsonb";
@@ -269,7 +274,7 @@ export function resolveContentSnapshot(
 }
 
 let resolved: { snapshot: ParsedContentSnapshot | null } | undefined;
-const snapshot = () => {
+const localSnapshot = () => {
   resolved ??= {
     snapshot: resolveContentSnapshot({
       PIPSTART_CONTENT_SOURCE: process.env.PIPSTART_CONTENT_SOURCE,
@@ -280,12 +285,40 @@ const snapshot = () => {
   return resolved.snapshot;
 };
 
-/** The snapshot rows when the snapshot source is on, else null. Read once per server. */
-export function contentSnapshotRows(): StoreRow[] | null {
-  return snapshot()?.rows ?? null;
+let live: { snapshot: ParsedContentSnapshot | null } | undefined;
+/** MP08b2a: the deployment's live publication generation, verified by the same loader. */
+const liveSnapshot = () => {
+  if (!live) {
+    const generation = liveGeneration();
+    live = {
+      snapshot: generation
+        ? parseContentSnapshotFile(generation.snapshot)
+        : null,
+    };
+  }
+  return live.snapshot;
+};
+
+/**
+ * The store rows for one content group, or null when that group reads code. The local snapshot
+ * source (outside Production only) serves every group as before; otherwise a group listed in
+ * PIPSTART_STORE_FAMILIES reads the deployment's live generation. Read once per server.
+ */
+export function contentSnapshotRows(
+  group: StoreGroup = "curriculum",
+): StoreRow[] | null {
+  const local = localSnapshot();
+  if (local) return local.rows;
+  if (!storeGroups(process.env.PIPSTART_STORE_FAMILIES).includes(group))
+    return null;
+  return liveSnapshot()?.rows ?? null;
 }
 
-/** Every approved quiz version when the snapshot source is on, else null. */
+/** Every approved quiz version for the curriculum group, or null when it reads code. */
 export function contentSnapshotQuizVersions(): StoreRow[] | null {
-  return snapshot()?.quizVersions ?? null;
+  const local = localSnapshot();
+  if (local) return local.quizVersions;
+  if (!storeGroups(process.env.PIPSTART_STORE_FAMILIES).includes("curriculum"))
+    return null;
+  return liveSnapshot()?.quizVersions ?? null;
 }

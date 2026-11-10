@@ -43,3 +43,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# MP08b2a: the live publication generation fetched at build time
+/.generated/
