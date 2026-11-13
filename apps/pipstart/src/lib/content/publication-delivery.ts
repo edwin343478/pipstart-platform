@@ -87,10 +87,7 @@ export async function runPublicationDelivery(
       return { kind: "not-configured" };
     const admin = (deps.admin ?? createSupabaseAdminClient)();
     if (!admin) return { kind: "unavailable" };
-    const transition = async (
-      state: "processing" | "failed" | "verified",
-      note: string,
-    ) => {
+    const transition = async (state: "processing" | "failed", note: string) => {
       const reply = await admin
         .rpc("pipstart_publication_refresh", {
           p_generation: command.generation,
@@ -206,12 +203,40 @@ export async function runPublicationDelivery(
     if (current.generation !== command.generation)
       return { kind: "superseded" };
     if (current.refresh?.state === "verified") return { kind: "verified" };
-    if (current.refresh?.state !== "processing") return { kind: "state" };
-    const verified = await transition(
-      "verified",
-      "Anonymous deployment generation, seal and configured groups match.",
-    );
-    return { kind: verified === "ok" ? "verified" : verified };
+    if (
+      !current.refresh ||
+      !["processing", "failed"].includes(current.refresh.state) ||
+      current.refresh.state !== status.refresh.state ||
+      current.refresh.attempts !== status.refresh.attempts
+    )
+      return { kind: "state" };
+    const verified = await admin
+      .rpc("pipstart_publication_verify_observed", {
+        p_generation: command.generation,
+        p_snapshot_sha256: snapshot.data.snapshot_sha256,
+        p_expected_state: current.refresh.state,
+        p_expected_attempts: current.refresh.attempts,
+      })
+      .abortSignal(AbortSignal.timeout(8000));
+    if (verified.error)
+      return {
+        kind: ["55000", "PT409"].includes(verified.error.code)
+          ? "state"
+          : "unknown",
+      };
+    const result: unknown = verified.data;
+    return {
+      kind:
+        object(result) &&
+        Object.keys(result).sort().join(",") === "attempts,generation,state" &&
+        result.generation === command.generation &&
+        result.state === "verified" &&
+        result.attempts === current.refresh.attempts &&
+        positive(result.attempts) &&
+        result.attempts <= 20
+          ? "verified"
+          : "unknown",
+    };
   } catch {
     return { kind: claimed ? "unknown" : "unavailable" };
   }

@@ -129,6 +129,8 @@ export const MP03_SQL_INPUTS = Object.freeze([
   "apps/pipstart/scripts/test-m22-publication-schedules.sql",
   "supabase/migrations/20261107150000_pipstart_m22_publication_scheduler.sql",
   "apps/pipstart/scripts/test-m22-publication-scheduler.sql",
+  "supabase/migrations/20261112190000_pipstart_m22_publication_verify_observed.sql",
+  "apps/pipstart/scripts/test-m22-publication-verify-observed.sql",
 ]);
 export function checkedMp03Manifest(repositoryRoot, manifest) {
   if (
@@ -1331,6 +1333,34 @@ export async function verifyStaffCore(
       ) === "t";
     if (!result.schedulerHead)
       throw Error("Restricted scheduler default-closed/head failed");
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "supabase/migrations/20261112190000_pipstart_m22_publication_verify_observed.sql",
+        ),
+        "utf8",
+      ),
+    );
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "apps/pipstart/scripts/test-m22-publication-verify-observed.sql",
+        ),
+        "utf8",
+      ),
+    );
+    result.observedVerificationStaged = true;
+    result.observedVerificationHead =
+      sql(
+        database,
+        "select (select generation from pipstart_editorial_private.publication_pointer) is null and not exists(select 1 from pipstart_editorial_private.refresh_jobs) and not exists(select 1 from pipstart_editorial_private.publication_scheduler_deliveries) and not exists(select 1 from auth.users where id='ee910000-0000-4000-8000-000000000001') and has_function_privilege('service_role','public.pipstart_publication_verify_observed(bigint,text,text,integer)','execute') and not has_function_privilege('authenticated','public.pipstart_publication_verify_observed(bigint,text,text,integer)','execute');",
+      ) === "t";
+    if (!result.observedVerificationHead)
+      throw Error("Observed verification rollback/grant/head failed");
     // Two sessions racing on the live generation: the pointer lock picks one winner; the loser
     // waits, then refuses as stale. The same operation identity from two sessions publishes once.
     sql(
@@ -1754,6 +1784,8 @@ export async function verifyStaffCore(
       result.scheduleCreateSingle &&
       result.scheduleCancelBlocked &&
       result.scheduleCancelSingle &&
+      result.observedVerificationStaged &&
+      result.observedVerificationHead &&
       result.schedulerStaged &&
       result.schedulerHead &&
       result.schedulerOverlap &&

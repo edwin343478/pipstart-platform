@@ -156,6 +156,14 @@
     {
       "path": "apps/pipstart/scripts/test-m22-publication-scheduler.sql",
       "sha256": "e6a4738fe807b5327c1339382c585fea51d8f176d50c70e799bd8cfec6957e01"
+    },
+    {
+      "path": "supabase/migrations/20261112190000_pipstart_m22_publication_verify_observed.sql",
+      "sha256": "41e4ec4657fa150892143c859063f1471b8bf660c2f5430a1851433d350b251f"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-publication-verify-observed.sql",
+      "sha256": "119b6ad9571b10ea4d40561e1dd5e2e88709ece5077c783b9d739b363bb6c215"
     }
   ]
 }

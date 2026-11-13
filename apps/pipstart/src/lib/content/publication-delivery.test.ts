@@ -49,6 +49,18 @@ function fixture(role = "owner") {
         snapshot_sha256: seal,
         snapshot: { PRIVATE_KEY: "NEVER_RETURN" },
       });
+    if (fn === "pipstart_publication_verify_observed") {
+      if (
+        args?.p_generation !== generation ||
+        args?.p_snapshot_sha256 !== seal ||
+        args?.p_expected_attempts !== attempts ||
+        !["processing", "failed"].includes(String(args?.p_expected_state)) ||
+        (state !== "verified" && state !== args?.p_expected_state)
+      )
+        return response(null, { code: "PT409" });
+      state = "verified";
+      return response({ generation, state, attempts });
+    }
     if (fn !== "pipstart_publication_refresh")
       throw Error("Unreviewed privileged operation");
     const next = args?.p_state;
@@ -441,3 +453,100 @@ it.each(["baseline", "publish", "withdraw", "restore"])(
     expect(f.send).toHaveBeenCalledTimes(1);
   },
 );
+
+describe("MP08 observed deployment reconciliation", () => {
+  it.each(["processing", "failed"])(
+    "verifies %s at the attempt cap with GET only and no new attempt",
+    async (state) => {
+      const f = fixture();
+      f.set(state, 20);
+      f.send.mockImplementation(async () => deployed());
+      expect(await runPublicationDelivery(f.client, check, f.deps)).toEqual({
+        kind: "verified",
+      });
+      expect(f.get()).toEqual({
+        state: "verified",
+        attempts: 20,
+        generation: 4,
+      });
+      expect(f.send).toHaveBeenCalledTimes(1);
+      expect(
+        (f.send.mock.calls[0] as unknown as [string, RequestInit])[1].method,
+      ).toBe("GET");
+      expect(f.adminRpc.mock.calls.map((c) => c[0])).toEqual([
+        "pipstart_publication_snapshot",
+        "pipstart_publication_verify_observed",
+      ]);
+      expect(await runPublicationDelivery(f.client, check, f.deps)).toEqual({
+        kind: "verified",
+      });
+      expect(f.get().attempts).toBe(20);
+    },
+  );
+  it.each(["author", "reviewer", "learner"])(
+    "denies %s check without network/admin calls",
+    async (role) => {
+      const f = fixture(role);
+      f.set("failed", 1);
+      expect(await runPublicationDelivery(f.client, check, f.deps)).toEqual({
+        kind: "denied",
+      });
+      expect(f.send).not.toHaveBeenCalled();
+      expect(f.admin).not.toHaveBeenCalled();
+    },
+  );
+  it.each(["attempt", "state"])(
+    "refuses concurrent %s change during observation",
+    async (mode) => {
+      const f = fixture();
+      f.set("failed", 1);
+      f.send.mockImplementation(async () => {
+        f.set("processing", mode === "attempt" ? 2 : 1);
+        return deployed();
+      });
+      expect(await runPublicationDelivery(f.client, check, f.deps)).toEqual({
+        kind: "state",
+      });
+      expect(f.adminRpc.mock.calls.map((c) => c[0])).toEqual([
+        "pipstart_publication_snapshot",
+      ]);
+    },
+  );
+  it.each([
+    { generation: 5 },
+    { snapshotSha256: "b".repeat(64) },
+    { groups: ["curriculum"] },
+  ])("keeps failed receipt untouched for mismatch %#", async (patch) => {
+    const f = fixture();
+    f.set("failed", 1);
+    f.send.mockResolvedValue(deployed(patch));
+    expect(await runPublicationDelivery(f.client, check, f.deps)).toEqual({
+      kind: "different",
+    });
+    expect(f.get().state).toBe("failed");
+    expect(f.adminRpc.mock.calls.map((c) => c[0])).toEqual([
+      "pipstart_publication_snapshot",
+    ]);
+  });
+  it.each(["55000", "PT409", "XX000"])(
+    "handles verification RPC %s without POST",
+    async (code) => {
+      const f = fixture();
+      f.set("failed", 1);
+      f.send.mockResolvedValue(deployed());
+      const original = f.adminRpc.getMockImplementation()!;
+      f.adminRpc.mockImplementation((fn, args) =>
+        fn === "pipstart_publication_verify_observed"
+          ? {
+              abortSignal: vi.fn(async () => ({ data: null, error: { code } })),
+            }
+          : original(fn, args),
+      );
+      expect(await runPublicationDelivery(f.client, check, f.deps)).toEqual({
+        kind: code === "XX000" ? "unknown" : "state",
+      });
+      expect(f.send).toHaveBeenCalledTimes(1);
+      expect(f.get().state).toBe("failed");
+    },
+  );
+});
