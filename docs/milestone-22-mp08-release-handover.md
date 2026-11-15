@@ -1,5 +1,7 @@
 # MP08 publication and paused-scheduler handover
 
+> Superseded on 15 November 2026 by `milestone-22-mp08-release-review.md` (MP08 accepted). The facts below are the 13 November paused state and are kept as history.
+
 13 November 2026. Source baseline fe67caca15036cf6bd2f2a0874d76eb151787593.
 
 ## Release disposition

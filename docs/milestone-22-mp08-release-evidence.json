@@ -1,0 +1,103 @@
+{
+  "baseline": "616ce755c333b79f4c0efa2d18b1a69d7f8627d3",
+  "status": "MP08_ACCEPTED_SCHEDULED_PUBLISHING_INSTALLED_OFF; LEARNER_PAGES_READ_STORE_GENERATION_8",
+  "publishedCommits": [
+    {
+      "patch": "MP08 publication generations, delivery, panel and paused scheduling",
+      "commit": "6ed6a8dad45adea1358a9dd5153d5b8ce12781bb",
+      "parent": "616ce755c333b79f4c0efa2d18b1a69d7f8627d3",
+      "files": 54,
+      "ci": "CI 129699477993, M21 SQL 129699478108, M22 SQL 129699474525: success; live learner release gates skipped"
+    },
+    {
+      "patch": "Check-only reconciliation of an observed deployment",
+      "commit": "fe67caca15036cf6bd2f2a0874d76eb151787593",
+      "parent": "6ed6a8dad45adea1358a9dd5153d5b8ce12781bb",
+      "files": 8,
+      "ci": "CI 131765985411, M21 SQL 131765985756, M22 SQL 131765985270: success; live learner release gates skipped"
+    },
+    {
+      "patch": "Paused handover and inactive installer safety",
+      "commit": "77a601fe5349292577458fda951011621fef4847",
+      "parent": "fe67caca15036cf6bd2f2a0874d76eb151787593",
+      "files": 3,
+      "ci": "CI 131814025832, M21 SQL 131814025679, M22 SQL 131814025920: success; live learner release gates skipped"
+    }
+  ],
+  "hostedMigrations": [
+    "20261107090000_pipstart_m22_publication_store.sql",
+    "20261107120000_pipstart_m22_publication_schedules.sql",
+    "20261107150000_pipstart_m22_publication_scheduler.sql",
+    "20261112190000_pipstart_m22_publication_verify_observed.sql"
+  ],
+  "futureDuePilot": {
+    "schedule": "ddc67708-ded1-4d87-8d43-367fefc60be4",
+    "runId": "1322771e9450e004931568a789adc1f7",
+    "dueAt": "2026-11-14T20:32:00Z",
+    "publishedGeneration": 7,
+    "generation7Seal": "1eb405256c99eb5f52e75c89e461fa339598e5a70c17fe2eceeccec3189acbd6",
+    "completedAfterDueSeconds": 0.685,
+    "hookSentAfterDueSeconds": 9.45,
+    "publicVisibleAfterDueSeconds": {
+      "lower": 52.731,
+      "upper": 114.863,
+      "basis": "single arm-window DB clock anchor plus observer monotonic clock"
+    },
+    "missing": "same-process final DB clock anchor (process ended before capture); not backfilled",
+    "disposition": "ACCEPTED_BY_OWNER_AMENDMENT_2026-11-15",
+    "generation7Verified": "Check live site 2026-11-15T08:22:07Z; attempts 1; delivery receipt sent"
+  },
+  "stop": {
+    "scheduler": {
+      "enabled": false,
+      "version": 8
+    },
+    "cronJob2": {
+      "active": false,
+      "originalCommandSha256": "a7b95f44cd85778d5f065fb8be16dac26ada457877094efa5caa9b25fadea7ad"
+    },
+    "pending": 0,
+    "verifiedAt": "2026-11-15T08:16:53.085Z"
+  },
+  "restoreArchive": {
+    "restoredFrom": 6,
+    "newGeneration": 8,
+    "generation8Seal": "47cc0291df3c79766ec9edce1d79905b76117541d36e3b2a4e1523fbaf1e6897",
+    "entries": 160,
+    "frozenQuizVersions": 21,
+    "refresh": "verified, attempts 1 (hook acknowledgement uncertain; public match observed 2026-11-15T08:41:18Z, then Check live site)",
+    "archivedFixture": {
+      "id": "m22-analysis-scheduler-timing-verification-20261113",
+      "revision": 1,
+      "bodySha256": "1b3cd6ec6388cb8a24e9d28c957f390726c9e5c9f60a586c34b4fdc1b682fb54",
+      "receipt": "confirmed; session closed"
+    },
+    "finalStatus": "MP08_G6_BASELINE_RESTORED_AS_G8_EXACT_FIXTURE_ARCHIVED_PAUSED",
+    "finalAt": "2026-11-15T08:48:31.337Z",
+    "rehearsal": "9/9 isolated SQL cases, cleanup passed"
+  },
+  "steadyState": {
+    "decision": "Scheduled publishing OFF (owner, 2026-11-15)",
+    "runtimeDelivery": "PIPSTART_PUBLICATION_SCHEDULER_DELIVERY_ENABLED not true; unauthenticated check 503 disabled at 2026-11-15T08:59:30.820Z",
+    "activation": "requires a separate packet and owner authorization for DB control, Cron job and runtime flag"
+  },
+  "externalEvidence": {
+    "m22-mp08-future-due/handover-2026-11-15/stop-reconciled-2026-11-15.md": "6c0aaefeac0fa3b9e37b704a59b149009e54fa763eef0ce9d3371f826a550fae",
+    "m22-mp08-future-due/handover-2026-11-15/current-state.json": "06f1939652fe11cf7454b65fd235b84e2dfead317c66289dbd424137fc074741",
+    "m22-mp08-future-due/five-history-workflow/runs/1322771e9450e004931568a789adc1f7/public-observation.json": "be29cee4bd2200b08366a7e20356836ea630d2ac40c95ddd8e6fd9c390690d19",
+    "m22-mp08-future-due/five-history-workflow/runs/1322771e9450e004931568a789adc1f7/arm-window-clock.json": "96f7fe274dbe1948c79e18f9fa1848de8c99dd3e87d8c7c068a7a346ed5de8df",
+    "m22-mp08-future-due/five-history-workflow/runs/1322771e9450e004931568a789adc1f7/activate-receipt-confirmed.json": "0c6e83eca7f463250b253bd6a76979e7fc098fa53bc789d54f38d4936ede0abd",
+    "m22-mp08-future-due/five-history-workflow/runs/1322771e9450e004931568a789adc1f7/pause-receipt-confirmed.json": "0dfe94b8bc8307a669e0231a648d8640424f4e540a8970e194b58e25ad584ced",
+    "m22-mp08-future-restore-archive/packet-manifest.json": "d769ebc7d66d7cb5095985a83ae5e45f2179f850662e064c6b74eab1691e2518",
+    "m22-mp08-future-restore-archive/restore-rehearsal-result-65a7415a2b2e5911e9f4b9bd64e7b61e.json": "0a235bc1098a65393c35beaba43f30398739e80ce26b8e8b879852d875d809ff",
+    "m22-mp08-future-restore-archive/OUTCOME.md": "3926e472b54b72752f3da47be80d882ed6bb2182e2cc0a4581df8621aab702d9",
+    "m22-mp08-future-restore-archive/owner-final-archive-verification.txt": "cbd84910ad90075cf405744fafaffd247fd9d320fd16eb0ab9c1129c2d8d2208",
+    "m22-mp08-exit-2026-11-15/runtime-refusal-observation.json": "f1718de0da19420f2a4bc1613a16157f51779e9727520ef34e780d6282551be3",
+    "m22-mp08-exit-reconciliation/evidence-index.json": "678e9abcdd0b0bdee151631040c69b4280805d960b605ea1e65131f4b7ec106c"
+  },
+  "limits": [
+    "Timing gate accepted by amendment, not by the formal classifier",
+    "Point-in-time owner read-only facts, not continuous monitoring",
+    "No credentials, tokens, hook URLs or Vault values recorded"
+  ]
+}
