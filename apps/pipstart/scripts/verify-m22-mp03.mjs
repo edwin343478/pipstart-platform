@@ -135,6 +135,8 @@ export const MP03_SQL_INPUTS = Object.freeze([
   "apps/pipstart/scripts/test-m22-partner-store.sql",
   "supabase/migrations/20261116120000_pipstart_m22_partner_snapshot.sql",
   "apps/pipstart/scripts/test-m22-partner-snapshot.sql",
+  "supabase/migrations/20261117090000_pipstart_m22_partner_import.sql",
+  "apps/pipstart/scripts/test-m22-partner-import.sql",
 ]);
 export function checkedMp03Manifest(repositoryRoot, manifest) {
   if (
@@ -263,6 +265,8 @@ export async function verifyStaffCore(
     partnerSnapshotContinuity: false,
     partnerSnapshotStaged: false,
     partnerSnapshotHead: false,
+    partnerImportStaged: false,
+    partnerImportHead: false,
     schedulerStaged: false,
     schedulerHead: false,
     schedulerOverlap: false,
@@ -1454,6 +1458,31 @@ export async function verifyStaffCore(
       ) === "t";
     if (!result.partnerSnapshotHead)
       throw Error("Partner snapshot rollback/grant/head failed");
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "supabase/migrations/20261117090000_pipstart_m22_partner_import.sql",
+        ),
+        "utf8",
+      ),
+    );
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(root, "apps/pipstart/scripts/test-m22-partner-import.sql"),
+        "utf8",
+      ),
+    );
+    result.partnerImportStaged = true;
+    result.partnerImportHead =
+      sql(
+        database,
+        "select not exists(select 1 from pipstart_editorial_private.items where family in ('partner','link')) and not exists(select 1 from pipstart_editorial_private.partner_policies) and not exists(select 1 from pipstart_editorial_private.imports where item_id like 'partner:%' or item_id like 'link:%') and (select generation from pipstart_editorial_private.publication_pointer) is null and not exists(select 1 from auth.users where id::text like 'f7000000-%') and to_regprocedure('pipstart_editorial_private.import_partner_item(text,text,text,jsonb,text,text)') is not null and not has_function_privilege('service_role','pipstart_editorial_private.import_partner_item(text,text,text,jsonb,text,text)','execute') and not has_function_privilege('authenticated','pipstart_editorial_private.import_partner_policy(text,text,jsonb,text)','execute') and not has_function_privilege('anon','pipstart_editorial_private.import_owner()','execute');",
+      ) === "t";
+    if (!result.partnerImportHead)
+      throw Error("Partner import rollback/grant/head failed");
     // Two sessions racing on the live generation: the pointer lock picks one winner; the loser
     // waits, then refuses as stale. The same operation identity from two sessions publishes once.
     sql(
@@ -1884,6 +1913,8 @@ export async function verifyStaffCore(
       result.partnerSnapshotContinuity &&
       result.partnerSnapshotStaged &&
       result.partnerSnapshotHead &&
+      result.partnerImportStaged &&
+      result.partnerImportHead &&
       result.schedulerStaged &&
       result.schedulerHead &&
       result.schedulerOverlap &&
