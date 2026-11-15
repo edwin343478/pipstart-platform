@@ -12,7 +12,13 @@ export type WorkspaceDecision = {
 };
 export type WorkspaceDetail = {
   id: string;
-  family: "course" | "module" | "lesson" | "quiz" | "analysis";
+  family:
+    | "course"
+    | "module"
+    | "lesson"
+    | "quiz"
+    | "analysis"
+    | WorkspacePartnerFamily;
   path: LearningPath;
   parent: string | null;
   title: string;
@@ -26,6 +32,8 @@ export type WorkspaceDetail = {
   createdAt: string;
   decisions: WorkspaceDecision[];
 };
+/** Partner directory content (MP09): store families outside the learner content contract. */
+export type WorkspacePartnerFamily = "partner" | "link";
 export type WorkspacePage = { rows: EditorialListRow[]; next: string | null };
 export type WorkspaceResult =
   | { kind: "list"; page: WorkspacePage }
@@ -37,13 +45,16 @@ const exact = (v: Record<string, unknown>, keys: string) =>
   Object.keys(v).sort().join(",") === keys;
 const id = (v: unknown): v is string =>
   typeof v === "string" && /^[a-z0-9][a-z0-9_:/.-]{0,199}$/.test(v);
-const families: ContentFamily[] = [
+const families: (ContentFamily | WorkspacePartnerFamily)[] = [
   "course",
   "module",
   "lesson",
   "quiz",
   "analysis",
+  "partner",
+  "link",
 ];
+const pathless = ["analysis", "partner", "link"];
 const states: RevisionState[] = [
   "draft",
   "submitted",
@@ -72,15 +83,21 @@ export function canOpenContentWorkspace(access: LiveStaffAccess) {
   return (
     access.capabilities.includes("content.read") ||
     access.roles.some((r) =>
-      ["owner", "author", "reviewer", "editor"].includes(r),
+      ["owner", "author", "reviewer", "editor", "affiliate_manager"].includes(
+        r,
+      ),
     )
   );
 }
 function identity(v: Record<string, unknown>) {
-  if (!id(v.id) || !families.includes(v.family as ContentFamily)) return false;
-  const root = v.family === "course" || v.family === "analysis";
+  if (
+    !id(v.id) ||
+    !families.includes(v.family as ContentFamily | WorkspacePartnerFamily)
+  )
+    return false;
+  const root = ["course", "analysis", "partner"].includes(String(v.family));
   return (
-    (v.family === "analysis"
+    (pathless.includes(String(v.family))
       ? v.learning_path === null
       : ["forex", "crypto"].includes(String(v.learning_path))) &&
     (root ? v.parent_id === null : id(v.parent_id))
@@ -143,9 +160,7 @@ export function parseWorkspaceDetail(
     ) ||
     !identity(i) ||
     i.id !== expectedId ||
-    !["course", "module", "lesson", "quiz", "analysis"].includes(
-      String(i.family),
-    ) ||
+    !families.includes(i.family as ContentFamily | WorkspacePartnerFamily) ||
     !integer(i.latest_revision) ||
     typeof i.trashed !== "boolean" ||
     typeof i.on_hold !== "boolean" ||

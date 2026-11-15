@@ -32,21 +32,24 @@ export default async function StaffContentPage() {
         )}
         canCreateCourse={gate.access.roles.includes("owner")}
         canSubmit={gate.access.roles.some((r) =>
-          ["owner", "author", "editor"].includes(r),
+          ["owner", "author", "editor", "affiliate_manager"].includes(r),
         )}
         canReview={gate.access.roles.some((r) =>
           ["owner", "reviewer"].includes(r),
         )}
         canPublish={gate.access.roles.includes("owner")}
         canArchive={gate.access.roles.some((r) =>
-          ["owner", "author", "editor"].includes(r),
+          ["owner", "author", "editor", "affiliate_manager"].includes(r),
         )}
         canRestore={gate.access.roles.some((r) =>
-          ["owner", "editor"].includes(r),
+          ["owner", "editor", "affiliate_manager"].includes(r),
         )}
         canHold={gate.access.roles.includes("owner")}
         canMakeLive={gate.access.roles.some((r) =>
           ["owner", "editor"].includes(r),
+        )}
+        canEditPartners={gate.access.roles.some((r) =>
+          ["owner", "affiliate_manager"].includes(r),
         )}
         isOwner={gate.access.roles.includes("owner")}
         initialPage={result.kind === "list" ? result.page : null}

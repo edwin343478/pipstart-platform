@@ -131,6 +131,10 @@ export const MP03_SQL_INPUTS = Object.freeze([
   "apps/pipstart/scripts/test-m22-publication-scheduler.sql",
   "supabase/migrations/20261112190000_pipstart_m22_publication_verify_observed.sql",
   "apps/pipstart/scripts/test-m22-publication-verify-observed.sql",
+  "supabase/migrations/20261116090000_pipstart_m22_partner_store.sql",
+  "apps/pipstart/scripts/test-m22-partner-store.sql",
+  "supabase/migrations/20261116120000_pipstart_m22_partner_snapshot.sql",
+  "apps/pipstart/scripts/test-m22-partner-snapshot.sql",
 ]);
 export function checkedMp03Manifest(repositoryRoot, manifest) {
   if (
@@ -254,6 +258,11 @@ export async function verifyStaffCore(
     publicationRaceBlocked: false,
     publicationSingleWinner: false,
     publicationReplaySingle: false,
+    partnerStoreStaged: false,
+    partnerStoreHead: false,
+    partnerSnapshotContinuity: false,
+    partnerSnapshotStaged: false,
+    partnerSnapshotHead: false,
     schedulerStaged: false,
     schedulerHead: false,
     schedulerOverlap: false,
@@ -1361,6 +1370,90 @@ export async function verifyStaffCore(
       ) === "t";
     if (!result.observedVerificationHead)
       throw Error("Observed verification rollback/grant/head failed");
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "supabase/migrations/20261116090000_pipstart_m22_partner_store.sql",
+        ),
+        "utf8",
+      ),
+    );
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(root, "apps/pipstart/scripts/test-m22-partner-store.sql"),
+        "utf8",
+      ),
+    );
+    result.partnerStoreStaged = true;
+    result.partnerStoreHead =
+      sql(
+        database,
+        "select not exists(select 1 from pipstart_editorial_private.partner_policies) and not exists(select 1 from pipstart_editorial_private.generation_partner_policies) and not exists(select 1 from pipstart_editorial_private.items where family in ('partner','link')) and (select generation from pipstart_editorial_private.publication_pointer) is null and not exists(select 1 from auth.users where id::text like 'fd000000-%') and has_function_privilege('authenticated','public.pipstart_partner_policy_set(text,text,integer,jsonb,text)','execute') and not has_function_privilege('anon','public.pipstart_partner_policy_set(text,text,integer,jsonb,text)','execute') and not has_function_privilege('service_role','public.pipstart_partner_policy(text)','execute') and not has_function_privilege('authenticated','pipstart_editorial_private.allowed(text,text,text)','execute');",
+      ) === "t";
+    if (!result.partnerStoreHead)
+      throw Error("Partner store rollback/grant/head failed");
+    // Seal continuity: content sealed by the previous snapshot function must still verify after the
+    // MP09b redefinition. One transaction, rolled back; the migration's own begin/commit are removed.
+    const partnerSnapshotSource = fs.readFileSync(
+      path.join(
+        root,
+        "supabase/migrations/20261116120000_pipstart_m22_partner_snapshot.sql",
+      ),
+      "utf8",
+    );
+    const partnerSnapshotBody = partnerSnapshotSource
+      .replace(/\r/g, "")
+      .replace(/^begin;$/m, "")
+      .replace(/^commit;\s*$/m, "");
+    result.partnerSnapshotContinuity =
+      sql(
+        database,
+        `begin;
+        update pipstart_staff_private.members set active=false where active;
+        insert into auth.users(id,raw_user_meta_data) values('fa000000-0000-4000-8000-000000000001','{}');
+        insert into auth.mfa_factors(id,user_id,factor_type,status) values('fa100000-0000-4000-8000-000000000001','fa000000-0000-4000-8000-000000000001','totp','verified');
+        insert into auth.sessions(id,user_id,factor_id,aal) values('fa200000-0000-4000-8000-000000000001','fa000000-0000-4000-8000-000000000001','fa100000-0000-4000-8000-000000000001','aal2');
+        insert into pipstart_staff_private.members(user_id) values('fa000000-0000-4000-8000-000000000001');
+        insert into pipstart_staff_private.roles values('fa000000-0000-4000-8000-000000000001','owner');
+        select pipstart_staff_private.transition(true,(select version from pipstart_staff_private.control),gen_random_uuid());
+        set local role authenticated;
+        select set_config('request.jwt.claims','{"sub":"fa000000-0000-4000-8000-000000000001","session_id":"fa200000-0000-4000-8000-000000000001","role":"authenticated","aal":"aal2","user_metadata":{"role":"owner"}}',true);
+        select public.pipstart_editorial_approve_single_person(x.id,1,(public.pipstart_editorial_create(x.id,x.family,x.path,x.parent,x.body::jsonb,'continuity'))->>'body_sha256',null)
+          from (values (1,'sc-course','course','forex',null,'{"metadata":{"title":"Course","placement":{"order":1}}}'),
+            (2,'sc-module','module','forex','sc-course','{"metadata":{"title":"Module","placement":{"order":1}}}'),
+            (3,'sc-quiz','quiz','forex','sc-module','{"metadata":{"title":"Quiz","version":1,"placement":{"order":1}},"questions":[{"id":"q1","choices":[{"id":"a"},{"id":"b"}],"correctChoiceIds":["a"]}]}'),
+            (4,'sc-post','analysis',null,null,'{"metadata":{"title":"Post","category":"technical","excerpt":"Short"},"paragraphs":["Text"]}')) x(n,id,family,path,parent,body) order by x.n;
+        select public.pipstart_publication_baseline('fa900000-0000-4000-8000-000000000001','Continuity baseline');
+        reset role;
+        ${partnerSnapshotBody}
+        set local role service_role;
+        select (public.pipstart_publication_snapshot())->>'generation'='1' and not ((public.pipstart_publication_snapshot())->'snapshot' ? 'partners');
+        rollback;`,
+      )
+        .split(/\r?\n/)
+        .filter(Boolean)
+        .at(-1) === "t";
+    if (!result.partnerSnapshotContinuity)
+      throw Error("Partner snapshot changed an earlier generation's seal");
+    sql(database, partnerSnapshotSource);
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(root, "apps/pipstart/scripts/test-m22-partner-snapshot.sql"),
+        "utf8",
+      ),
+    );
+    result.partnerSnapshotStaged = true;
+    result.partnerSnapshotHead =
+      sql(
+        database,
+        "select (select generation from pipstart_editorial_private.publication_pointer) is null and not exists(select 1 from pipstart_editorial_private.partner_policies) and not exists(select 1 from auth.users where id::text like 'fc000000-%' or id::text like 'fa000000-%') and to_regprocedure('pipstart_editorial_private.partner_snapshot(bigint)') is not null and not has_function_privilege('service_role','pipstart_editorial_private.partner_snapshot(bigint)','execute');",
+      ) === "t";
+    if (!result.partnerSnapshotHead)
+      throw Error("Partner snapshot rollback/grant/head failed");
     // Two sessions racing on the live generation: the pointer lock picks one winner; the loser
     // waits, then refuses as stale. The same operation identity from two sessions publishes once.
     sql(
@@ -1786,6 +1879,11 @@ export async function verifyStaffCore(
       result.scheduleCancelSingle &&
       result.observedVerificationStaged &&
       result.observedVerificationHead &&
+      result.partnerStoreStaged &&
+      result.partnerStoreHead &&
+      result.partnerSnapshotContinuity &&
+      result.partnerSnapshotStaged &&
+      result.partnerSnapshotHead &&
       result.schedulerStaged &&
       result.schedulerHead &&
       result.schedulerOverlap &&

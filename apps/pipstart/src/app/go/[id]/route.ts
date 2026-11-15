@@ -1,16 +1,12 @@
-import { providers } from "../../../content/providers";
-import { providerLinks } from "../../../content/provider-links";
-import {
-  resolveProviderLink,
-  validateProviderDirectory,
-} from "../../../lib/provider-directory";
+import { resolveProviderLink } from "../../../lib/provider-directory";
+import { providerDirectory } from "../../../lib/provider-registry";
 
 export const dynamic = "force-dynamic";
 export async function GET(
   _request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  validateProviderDirectory(providers, providerLinks);
+  const { providers, links: providerLinks } = providerDirectory();
   const { id } = await params;
   const link = resolveProviderLink(id, providers, providerLinks);
   const headers = {

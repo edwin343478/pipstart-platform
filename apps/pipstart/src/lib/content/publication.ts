@@ -11,10 +11,11 @@ import {
 
 // Navigation guidance only: the store (MP08a) decides every permission, rule and race.
 const roles: Record<PublicationInput["action"], string[]> = {
-  status: ["owner", "author", "reviewer", "editor"],
+  status: ["owner", "author", "reviewer", "editor", "affiliate_manager"],
   baseline: ["owner"],
   publish: ["owner", "editor"],
-  withdraw: ["owner", "editor"],
+  // An assigned Affiliate Manager may take a link offline (revoke); SQL refuses anything else.
+  withdraw: ["owner", "editor", "affiliate_manager"],
   restore: ["owner"],
 };
 const codes: Record<

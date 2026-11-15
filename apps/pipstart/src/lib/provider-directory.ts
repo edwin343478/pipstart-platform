@@ -105,9 +105,12 @@ export function providerReviewState(
     ? "overdue"
     : "current";
 }
+/** Throws on any invalid record. A published store generation may list an affiliate partner whose
+ * link was revoked (MP09b); the deployment register may not. */
 export function validateProviderDirectory(
   providers: readonly Provider[],
   links: readonly ProviderLink[],
+  options: { allowUnlinkedAffiliates?: boolean } = {},
 ): void {
   const ids = new Set<string>();
   const linkIds = new Set<string>();
@@ -221,7 +224,10 @@ export function validateProviderDirectory(
         link.relationship !== provider.relationship
       )
         throw new Error("Provider/link mismatch: " + provider.id);
-    } else if (provider.relationship === "affiliate")
+    } else if (
+      provider.relationship === "affiliate" &&
+      !options.allowUnlinkedAffiliates
+    )
       throw new Error("Affiliate provider needs a link record: " + provider.id);
   }
   for (const link of links) {

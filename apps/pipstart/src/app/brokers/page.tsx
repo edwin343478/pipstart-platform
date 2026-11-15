@@ -1,18 +1,16 @@
 import { CompactFooter, CompactHeader } from "../../components/site-chrome";
 import { AffiliateDisclosure } from "../../components/affiliate-disclosure";
-import { providers } from "../../content/providers";
-import { providerLinks } from "../../content/provider-links";
 import {
   publishedProviders,
   resolveProviderLink,
-  validateProviderDirectory,
 } from "../../lib/provider-directory";
+import { providerDirectory } from "../../lib/provider-registry";
 import ProviderCard from "./provider-card";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
 export default function BrokersPage() {
-  validateProviderDirectory(providers, providerLinks);
+  const { providers, links: providerLinks } = providerDirectory();
   const now = new Date();
   const brokers = publishedProviders(providers, "forex-broker");
   return (

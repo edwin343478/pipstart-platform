@@ -164,6 +164,22 @@
     {
       "path": "apps/pipstart/scripts/test-m22-publication-verify-observed.sql",
       "sha256": "119b6ad9571b10ea4d40561e1dd5e2e88709ece5077c783b9d739b363bb6c215"
+    },
+    {
+      "path": "supabase/migrations/20261116090000_pipstart_m22_partner_store.sql",
+      "sha256": "0592563eb39ac1848c4ba778d932029f3841edf8f0a08d04fc4b804ec8e2d84a"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-partner-store.sql",
+      "sha256": "f6167efa3c5efcab5703e7771a1907063d4ffe3211a517b6e1b51be5b288d9c6"
+    },
+    {
+      "path": "supabase/migrations/20261116120000_pipstart_m22_partner_snapshot.sql",
+      "sha256": "adbed970a610d3cc9bf3f25320e189b74749040283b706c8b5db2c15a109eaeb"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-partner-snapshot.sql",
+      "sha256": "5e2859f5f2fccc13f6f2ff846294e285fd17ffba7aded907b8b289982b84b31f"
     }
   ]
 }

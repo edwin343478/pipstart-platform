@@ -110,6 +110,36 @@ describe("workspace exact read contracts", () => {
         "",
       ),
     ).not.toBeNull());
+  it("lists partners at the root and links under a partner, without paths (MP09c)", () => {
+    const base = { ...row, learning_path: null, category: null };
+    expect(
+      parseWorkspaceList(
+        [
+          { ...base, id: "partner:deriv", family: "partner", parent_id: null },
+          {
+            ...base,
+            id: "link:deriv",
+            family: "link",
+            parent_id: "partner:deriv",
+          },
+        ],
+        "",
+      )?.rows,
+    ).toHaveLength(2);
+    for (const bad of [
+      { ...base, id: "partner:x", family: "partner", parent_id: "partner:y" },
+      { ...base, id: "link:x", family: "link", parent_id: null },
+      {
+        ...base,
+        id: "partner:x",
+        family: "partner",
+        parent_id: null,
+        learning_path: "forex",
+      },
+      { ...base, id: "x", family: "broker", parent_id: null },
+    ])
+      expect(parseWorkspaceList([bad], "")).toBeNull();
+  });
   it("recognizes imported provenance and strips body from browser detail", () => {
     const d = parseWorkspaceDetail(item, "lesson-1");
     expect(d?.decisions[0].kind).toBe("imported");

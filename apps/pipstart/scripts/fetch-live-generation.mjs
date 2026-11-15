@@ -8,7 +8,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const GROUPS = ["analysis", "curriculum"];
+const GROUPS = ["analysis", "curriculum", "partners"];
 const FILE = path.join(".generated", "live-generation.json");
 
 export function groupsFrom(value) {

@@ -54,7 +54,13 @@ export async function readRevisionHistory(
     // A save between the two reads: never compare against a revision that is no longer latest.
     if (earlier.latest !== latest.revision) return { kind: "stale" };
     // Analysis posts have no editor projection yet (MP08b1 shows them for publication only).
-    if (latest.family === "analysis") return { kind: "unsupported" };
+    // Partners and links (MP09) likewise compare through their own editor.
+    if (
+      latest.family === "analysis" ||
+      latest.family === "partner" ||
+      latest.family === "link"
+    )
+      return { kind: "unsupported" };
     const comparison = compareRevisionBodies(
       latest.family,
       earlier.body,

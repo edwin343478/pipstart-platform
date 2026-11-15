@@ -6,8 +6,9 @@ import "server-only";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-/** Content groups that switch together: analysis posts, and the curriculum with its quizzes. */
-export const STORE_GROUPS = ["analysis", "curriculum"] as const;
+/** Content groups that switch together: analysis posts, the curriculum with its quizzes, and the
+ * partner directory with its links (MP09b). */
+export const STORE_GROUPS = ["analysis", "curriculum", "partners"] as const;
 export type StoreGroup = (typeof STORE_GROUPS)[number];
 export const LIVE_GENERATION_FILE = join(".generated", "live-generation.json");
 export const LIVE_GENERATION_FORMAT = "pipstart-live-generation";

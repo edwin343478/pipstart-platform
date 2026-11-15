@@ -13,7 +13,7 @@ import {
 } from "./editorial-decision-contract";
 // Navigation guidance only: SQL decides every permission, including review by a different person.
 const roles: Record<DecisionAction, string[]> = {
-  submit: ["owner", "author", "editor"],
+  submit: ["owner", "author", "editor", "affiliate_manager"],
   approve: ["owner", "reviewer"],
   changes: ["owner", "reviewer"],
   publish: ["owner"],

@@ -351,10 +351,13 @@ export function StaffLivePublication({
 export function StaffItemPublication({
   detail,
   canPublish,
+  canRevoke = false,
   onChanged,
 }: {
   detail: WorkspaceDetail;
   canPublish: boolean;
+  /** An assigned Affiliate Manager may take a live link offline (MP09); the store decides. */
+  canRevoke?: boolean;
   onChanged: (message: string) => void;
 }) {
   const p = usePublication(detail.id);
@@ -372,7 +375,8 @@ export function StaffItemPublication({
     g !== null &&
     approved &&
     live?.bodySha256 !== detail.bodySha256;
-  const canTakeOffline = canPublish && g !== null && live !== null;
+  const canTakeOffline =
+    (canPublish || canRevoke) && g !== null && live !== null;
   const ready = !p.busy && !p.blocked && !scheduleBusy;
   function act(kind: "publish" | "withdraw") {
     const r = reason.trim();

@@ -113,6 +113,7 @@ export function StaffContentWorkspace({
   canRestore = false,
   canHold = false,
   canMakeLive = false,
+  canEditPartners = false,
   isOwner = false,
 }: {
   initialPage: WorkspacePage | null;
@@ -125,6 +126,8 @@ export function StaffContentWorkspace({
   canRestore?: boolean;
   canHold?: boolean;
   canMakeLive?: boolean;
+  /** Owner or Affiliate Manager: partner and link drafts (MP09). */
+  canEditPartners?: boolean;
   isOwner?: boolean;
 }) {
   const [page, setPage] = useState(initialPage),
@@ -242,6 +245,11 @@ export function StaffContentWorkspace({
             New lesson
           </a>
         )}
+        {canEditPartners && (
+          <a className={styles.linkButton} href="/admin/staff/content/partner">
+            New partner
+          </a>
+        )}
         <label htmlFor="content-family">
           Content family
           <select
@@ -254,7 +262,15 @@ export function StaffContentWorkspace({
             }}
           >
             <option value="all">All families</option>
-            {["course", "module", "lesson", "quiz", "analysis"].map((f) => (
+            {[
+              "course",
+              "module",
+              "lesson",
+              "quiz",
+              "analysis",
+              "partner",
+              "link",
+            ].map((f) => (
               <option key={f} value={f}>
                 {f.charAt(0).toUpperCase() + f.slice(1)}
               </option>
@@ -325,6 +341,8 @@ export function StaffContentWorkspace({
                     "lesson",
                     "quiz",
                     "analysis",
+                    "partner",
+                    "link",
                   ].includes(row.family) ? (
                     <div>
                       <button
@@ -350,6 +368,20 @@ export function StaffContentWorkspace({
                                 : row.family === "quiz"
                                   ? "/admin/staff/content/quiz?id="
                                   : "/admin/staff/content/editor?id=") +
+                              encodeURIComponent(row.id)
+                            }
+                          >
+                            Edit draft
+                          </a>
+                        )}
+                      {canEditPartners &&
+                        !row.trashed &&
+                        ["partner", "link"].includes(row.family) && (
+                          <a
+                            className={styles.linkButton}
+                            aria-label={"Edit draft " + row.id}
+                            href={
+                              "/admin/staff/content/partner?id=" +
                               encodeURIComponent(row.id)
                             }
                           >
@@ -416,6 +448,7 @@ export function StaffContentWorkspace({
           key={"live:" + detail.id + ":" + detail.revision + ":" + detail.state}
           detail={detail}
           canPublish={canMakeLive}
+          canRevoke={canEditPartners && detail.family === "link"}
           onChanged={(message) => void inspect({ id: detail.id }, message)}
         />
       )}

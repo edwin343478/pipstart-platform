@@ -11,8 +11,8 @@ import {
 } from "./editorial-lifecycle-contract";
 // Navigation guidance only: SQL decides every permission.
 const roles: Record<LifecycleAction, string[]> = {
-  archive: ["owner", "author", "editor"],
-  restore: ["owner", "editor"],
+  archive: ["owner", "author", "editor", "affiliate_manager"],
+  restore: ["owner", "editor", "affiliate_manager"],
   hold: ["owner"],
   release: ["owner"],
 };
