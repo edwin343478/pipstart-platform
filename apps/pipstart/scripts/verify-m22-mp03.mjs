@@ -137,6 +137,8 @@ export const MP03_SQL_INPUTS = Object.freeze([
   "apps/pipstart/scripts/test-m22-partner-snapshot.sql",
   "supabase/migrations/20261117090000_pipstart_m22_partner_import.sql",
   "apps/pipstart/scripts/test-m22-partner-import.sql",
+  "supabase/migrations/20261118090000_pipstart_m22_maintenance_store.sql",
+  "apps/pipstart/scripts/test-m22-maintenance-store.sql",
 ]);
 export function checkedMp03Manifest(repositoryRoot, manifest) {
   if (
@@ -267,6 +269,8 @@ export async function verifyStaffCore(
     partnerSnapshotHead: false,
     partnerImportStaged: false,
     partnerImportHead: false,
+    maintenanceStoreStaged: false,
+    maintenanceStoreHead: false,
     schedulerStaged: false,
     schedulerHead: false,
     schedulerOverlap: false,
@@ -1483,6 +1487,31 @@ export async function verifyStaffCore(
       ) === "t";
     if (!result.partnerImportHead)
       throw Error("Partner import rollback/grant/head failed");
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "supabase/migrations/20261118090000_pipstart_m22_maintenance_store.sql",
+        ),
+        "utf8",
+      ),
+    );
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(root, "apps/pipstart/scripts/test-m22-maintenance-store.sql"),
+        "utf8",
+      ),
+    );
+    result.maintenanceStoreStaged = true;
+    result.maintenanceStoreHead =
+      sql(
+        database,
+        "select not exists(select 1 from pipstart_maintenance_private.events) and not exists(select 1 from pipstart_maintenance_private.results) and not exists(select 1 from pipstart_maintenance_private.allowlist) and (select count(*) from pipstart_maintenance_private.intervals)=2 and not exists(select 1 from pipstart_staff_private.assignments where resource_kind='maintenance') and (select generation from pipstart_editorial_private.publication_pointer) is null and not exists(select 1 from auth.users where id::text like 'fb000000-%') and has_function_privilege('authenticated','public.pipstart_maintenance_worklist(text,text,text,text,integer)','execute') and not has_function_privilege('anon','public.pipstart_maintenance_worklist(text,text,text,text,integer)','execute') and not has_function_privilege('service_role','public.pipstart_maintenance_record_result(text,integer,text,text,text,text)','execute') and not has_function_privilege('authenticated','pipstart_maintenance_private.live_items()','execute') and not has_schema_privilege('authenticated','pipstart_maintenance_private','usage');",
+      ) === "t";
+    if (!result.maintenanceStoreHead)
+      throw Error("Maintenance store rollback/grant/head failed");
     // Two sessions racing on the live generation: the pointer lock picks one winner; the loser
     // waits, then refuses as stale. The same operation identity from two sessions publishes once.
     sql(
@@ -1915,6 +1944,8 @@ export async function verifyStaffCore(
       result.partnerSnapshotHead &&
       result.partnerImportStaged &&
       result.partnerImportHead &&
+      result.maintenanceStoreStaged &&
+      result.maintenanceStoreHead &&
       result.schedulerStaged &&
       result.schedulerHead &&
       result.schedulerOverlap &&

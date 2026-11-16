@@ -188,6 +188,14 @@
     {
       "path": "apps/pipstart/scripts/test-m22-partner-import.sql",
       "sha256": "3dff6bd45112fa0c580e1dcf5e67c92e1011f79945b51b73d0db6940db66db0a"
+    },
+    {
+      "path": "supabase/migrations/20261118090000_pipstart_m22_maintenance_store.sql",
+      "sha256": "8d991e84a96422add61528d0d29c2fa33cf2947bea9bc1240f56019902932d35"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-maintenance-store.sql",
+      "sha256": "29e230531c161f9a6a89f4dda0a5a9ddab834c5070cba1ba323fbf3bb1510960"
     }
   ]
 }
