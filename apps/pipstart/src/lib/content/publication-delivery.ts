@@ -10,6 +10,7 @@ import {
   type PublicationResult,
 } from "./publication-contract";
 import { runPublication } from "./publication";
+import { STORE_GROUPS } from "./live-generation";
 import {
   validDeliveryInput,
   type DeliveryInput,
@@ -32,7 +33,7 @@ function groups(): string[] | null {
     .map((v) => v.trim());
   if (
     !values.length ||
-    values.some((v) => !["analysis", "curriculum"].includes(v)) ||
+    values.some((v) => !(STORE_GROUPS as readonly string[]).includes(v)) ||
     new Set(values).size !== values.length
   )
     return null;

@@ -378,6 +378,52 @@ describe("MP08b2b delivery boundary", () => {
     });
     expect(f.send).not.toHaveBeenCalled();
   });
+  describe("MP09d4 partners store group", () => {
+    beforeEach(() => {
+      vi.stubEnv("PIPSTART_STORE_FAMILIES", "analysis,curriculum,partners");
+    });
+    it("verifies a deployment that switched all three groups, in any order", async () => {
+      const f = fixture();
+      f.set("processing", 1);
+      f.send.mockResolvedValue(
+        deployed({ groups: ["partners", "analysis", "curriculum"] }),
+      );
+      expect(await runPublicationDelivery(f.client, check, f.deps)).toEqual({
+        kind: "verified",
+      });
+      expect(f.get()).toEqual({
+        state: "verified",
+        attempts: 1,
+        generation: 4,
+      });
+    });
+    it.each([
+      { groups: ["analysis", "curriculum"] },
+      { groups: ["analysis", "curriculum", "partners", "partners"] },
+      { groups: ["partners"] },
+    ])("never verifies a deployment with other groups %#", async (patch) => {
+      const f = fixture();
+      f.set("processing", 1);
+      f.send.mockResolvedValue(deployed(patch));
+      expect(await runPublicationDelivery(f.client, check, f.deps)).toEqual({
+        kind: "different",
+      });
+      expect(f.get().state).toBe("processing");
+    });
+    it.each(["analysis,brokers", "partners,partners", "analysis,"])(
+      "refuses an unknown or malformed group list %s before any request",
+      async (value) => {
+        const f = fixture();
+        vi.stubEnv("PIPSTART_STORE_FAMILIES", value);
+        f.set("processing", 1);
+        expect(await runPublicationDelivery(f.client, check, f.deps)).toEqual({
+          kind: "not-configured",
+        });
+        expect(f.send).not.toHaveBeenCalled();
+        expect(f.get().state).toBe("processing");
+      },
+    );
+  });
   it("refuses a changed generation between check and commit", async () => {
     const f = fixture();
     f.set("processing", 1);
