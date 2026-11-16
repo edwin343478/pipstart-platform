@@ -47,7 +47,19 @@ const refusal: Record<
     "This change is not possible in the current state (for example, publish the parent first, or take the contents offline first). Nothing was changed.",
   uncertain:
     "The change may or may not have been recorded. It will not be resent. Reload the status to see the live generation.",
+  references:
+    "This revision points at pages or images this site does not have. Fix them in the editor first. Nothing was changed.",
 };
+/** MP10b: the refusal plus the first missing pages or images, one per line. */
+export function referencesMessage(result: {
+  total: number;
+  references: string[];
+}) {
+  const lines = [refusal.references, ...result.references];
+  if (result.total > result.references.length)
+    lines.push(`…and ${result.total - result.references.length} more.`);
+  return lines.join("\n");
+}
 const operation = () => crypto.randomUUID();
 type PublicationRead =
   { status: PublicationStatus; configured: boolean } | { message: string };
@@ -121,6 +133,10 @@ function usePublication(id: string | null) {
         );
         await load();
         return true;
+      }
+      if (result.kind === "references") {
+        setMessage(referencesMessage(result));
+        return false;
       }
       if (result.kind === "uncertain") setBlocked(true);
       setMessage(refusal[result.kind === "status" ? "uncertain" : result.kind]);
@@ -338,7 +354,12 @@ export function StaffLivePublication({
           )}
         </>
       )}
-      <p role="status" aria-live="polite" aria-atomic="true">
+      <p
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        style={{ whiteSpace: "pre-line" }}
+      >
         {p.busy
           ? "Checking live staff access and recording the change…"
           : p.message}
@@ -471,7 +492,12 @@ export function StaffItemPublication({
           </button>
         )}
       </div>
-      <p role="status" aria-live="polite" aria-atomic="true">
+      <p
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        style={{ whiteSpace: "pre-line" }}
+      >
         {p.busy
           ? "Checking live staff access and recording the change…"
           : p.message}

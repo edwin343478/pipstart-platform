@@ -10,6 +10,7 @@ import {
   liveSummary,
   StaffItemPublication,
   StaffLivePublication,
+  referencesMessage,
 } from "./staff-publication-panel";
 import type { WorkspaceDetail } from "@/lib/content/editorial-workspace-contract";
 
@@ -70,5 +71,22 @@ describe("M22 MP08b1 Publication panels", () => {
     expect(html).not.toContain("Make revision 2 live");
     expect(html).not.toContain("Create the live baseline");
     expect(mocks.action).not.toHaveBeenCalled();
+  });
+});
+
+describe("MP10b reference refusal message", () => {
+  it("lists the missing targets one per line and counts the rest", () => {
+    expect(
+      referencesMessage({
+        total: 3,
+        references: [
+          "blocks[0].href links to a page that does not exist: /tools/gone",
+        ],
+      }).split("\n"),
+    ).toEqual([
+      "This revision points at pages or images this site does not have. Fix them in the editor first. Nothing was changed.",
+      "blocks[0].href links to a page that does not exist: /tools/gone",
+      "…and 2 more.",
+    ]);
   });
 });

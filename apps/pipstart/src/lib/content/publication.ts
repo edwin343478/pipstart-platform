@@ -8,6 +8,7 @@ import {
   type PublicationInput,
   type PublicationResult,
 } from "./publication-contract";
+import { bodyReferenceFindings, describeFinding } from "./reference-check";
 
 // Navigation guidance only: the store (MP08a) decides every permission, rule and race.
 const roles: Record<PublicationInput["action"], string[]> = {
@@ -20,7 +21,10 @@ const roles: Record<PublicationInput["action"], string[]> = {
 };
 const codes: Record<
   string,
-  Exclude<PublicationResult["kind"], "status" | "done" | "uncertain">
+  Exclude<
+    PublicationResult["kind"],
+    "status" | "done" | "uncertain" | "references"
+  >
 > = {
   PT409: "conflict",
   "42501": "denied",
@@ -59,6 +63,37 @@ export async function runPublication(
       if (error) return { kind: codes[error.code ?? ""] ?? "unavailable" };
       const status = parsePublicationStatus(data, command.id !== null);
       return status ? { kind: "status", status } : { kind: "unavailable" };
+    }
+    if (command.action === "publish") {
+      // MP10b (D4): read the exact revision on the user's own session and refuse Make live while it
+      // points at a page or image this deployment does not have. Nothing is sent on refusal.
+      const read = await call("pipstart_editorial_revision", {
+        p_id: command.id,
+        p_revision: command.revision,
+      });
+      if (read.error)
+        return { kind: codes[read.error.code ?? ""] ?? "unavailable" };
+      const data: unknown = read.data;
+      const revision =
+        data && typeof data === "object" && !Array.isArray(data)
+          ? (data as { revision?: unknown }).revision
+          : null;
+      if (
+        !revision ||
+        typeof revision !== "object" ||
+        (revision as { body_sha256?: unknown }).body_sha256 !== command.sha
+      )
+        return { kind: "conflict" };
+      const findings = bodyReferenceFindings(
+        command.id,
+        (revision as { body?: unknown }).body,
+      );
+      if (findings.length)
+        return {
+          kind: "references",
+          total: findings.length,
+          references: findings.slice(0, 10).map(describeFinding),
+        };
     }
     sent = true;
     const { data, error } =

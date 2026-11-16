@@ -42,6 +42,8 @@ export type PublicationResult =
       replayed: boolean;
       delivery?: DeliveryCode;
     }
+  /** MP10b: Make live refused before sending; the revision points at missing pages or images. */
+  | { kind: "references"; total: number; references: string[] }
   | {
       kind:
         | "invalid"

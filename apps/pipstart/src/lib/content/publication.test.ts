@@ -18,9 +18,21 @@ const reply = (generation: number, replayed = false) => ({
   snapshot_sha256: "b".repeat(64),
   replayed,
 });
+const cleanBody = {
+  metadata: { title: "Post" },
+  blocks: [{ type: "learningLink", href: "/tools/risk-reward-calculator" }],
+};
+const revisionRead = (body: unknown = cleanBody, bodySha = sha) => ({
+  data: {
+    item_id: "post-1",
+    revision: { revision_no: 2, body, body_sha256: bodySha },
+  },
+  error: null as unknown,
+});
 function fixture(
   role = "owner",
   write: { data: unknown; error: unknown } = { data: reply(5), error: null },
+  read: { data: unknown; error: unknown } = revisionRead(),
 ) {
   const response = (data: unknown, error: unknown = null) => ({
     abortSignal: vi.fn(() => Promise.resolve({ data, error })),
@@ -51,7 +63,9 @@ function fixture(
             item_id: "post-1",
             published: { revision_no: 1, body_sha256: sha },
           })
-        : response(write.data, write.error),
+        : fn === "pipstart_editorial_revision"
+          ? response(read.data, read.error)
+          : response(write.data, write.error),
   );
   return {
     rpc,
@@ -72,7 +86,11 @@ const publish = (patch: Record<string, unknown> = {}) => ({
 const writes = (f: ReturnType<typeof fixture>) =>
   f.rpc.mock.calls.filter(
     (c) =>
-      !["pipstart_staff_access", "pipstart_publication_status"].includes(c[0]),
+      ![
+        "pipstart_staff_access",
+        "pipstart_publication_status",
+        "pipstart_editorial_revision",
+      ].includes(c[0]),
   );
 beforeEach(() => vi.stubEnv("PIPSTART_M22_STAFF_UI_ENABLED", "true"));
 afterEach(() => vi.unstubAllEnvs());
@@ -313,5 +331,90 @@ describe("M22 MP08b1 live publication service", () => {
         p_reason: "Undo",
       },
     ]);
+  });
+});
+
+describe("M22 MP10b Make live reference gate", () => {
+  const reads = (f: ReturnType<typeof fixture>) =>
+    f.rpc.mock.calls.filter((c) => c[0] === "pipstart_editorial_revision");
+  it("reads the exact revision before publishing", async () => {
+    const f = fixture("editor");
+    expect((await runPublication(f.client, publish())).kind).toBe("done");
+    expect(reads(f)).toEqual([
+      ["pipstart_editorial_revision", { p_id: "post-1", p_revision: 2 }],
+    ]);
+    const order = f.rpc.mock.calls.map((c) => c[0]);
+    expect(order.indexOf("pipstart_editorial_revision")).toBeLessThan(
+      order.indexOf("pipstart_publication_publish"),
+    );
+  });
+  it("refuses a revision with missing pages or images and sends nothing", async () => {
+    const blocks = [
+      { type: "learningLink", href: "/tools/gone" },
+      ...Array.from({ length: 11 }, (_, i) => ({
+        type: "diagram",
+        alt: "A",
+        src: `/images/missing-${i}.svg`,
+        width: 1,
+        height: 1,
+      })),
+    ];
+    const f = fixture(
+      "owner",
+      undefined,
+      revisionRead({ metadata: { title: "L" }, blocks }),
+    );
+    const result = await runPublication(f.client, publish());
+    expect(result).toEqual({
+      kind: "references",
+      total: 12,
+      references: [
+        "blocks[0].href links to a page that does not exist: /tools/gone",
+        ...Array.from(
+          { length: 9 },
+          (_, i) =>
+            `blocks[${i + 1}].src uses an image that does not exist: /images/missing-${i}.svg`,
+        ),
+      ],
+    });
+    expect(writes(f)).toEqual([]);
+  });
+  it("treats a revision whose hash changed as a conflict and sends nothing", async () => {
+    const f = fixture(
+      "owner",
+      undefined,
+      revisionRead(cleanBody, "c".repeat(64)),
+    );
+    expect(await runPublication(f.client, publish())).toEqual({
+      kind: "conflict",
+    });
+    expect(writes(f)).toEqual([]);
+  });
+  it.each([
+    [{ data: null, error: { code: "42501" } }, "denied"],
+    [{ data: null, error: { code: "22023" } }, "invalid"],
+    [{ data: null, error: { code: "57014" } }, "unavailable"],
+    [{ data: { item_id: "post-1" }, error: null }, "conflict"],
+  ])(
+    "maps a failed revision read %# to %s without sending",
+    async (read, kind) => {
+      const f = fixture("owner", undefined, read);
+      expect(await runPublication(f.client, publish())).toEqual({ kind });
+      expect(writes(f)).toEqual([]);
+    },
+  );
+  it("does not read revisions for withdraw, restore or baseline", async () => {
+    const f = fixture("owner", {
+      data: { ...reply(5), kind: "withdraw" },
+      error: null,
+    });
+    await runPublication(f.client, {
+      action: "withdraw",
+      operation: op,
+      expected: 4,
+      id: "post-1",
+      reason: "Offline",
+    });
+    expect(reads(f)).toEqual([]);
   });
 });
