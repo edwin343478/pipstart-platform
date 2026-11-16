@@ -204,6 +204,18 @@
     {
       "path": "apps/pipstart/scripts/test-m22-audit-filters.sql",
       "sha256": "6f7a13a2bec2d316f2a66e04ecc693c90810dd5d62d862151d4a8ae7fee56759"
+    },
+    {
+      "path": "supabase/migrations/20260916100000_pipstart_permanent_progress.sql",
+      "sha256": "a537bccbd1544e51a319617eea3af7671c47b33b2905b03e83a908b0f926c25a"
+    },
+    {
+      "path": "supabase/migrations/20261120090000_pipstart_m22_conflict_codes.sql",
+      "sha256": "5a1efb0653bf0044880d10cd547497d861a2960bb327a4de952bad9ec8dd9c61"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-conflict-codes.sql",
+      "sha256": "06c6282a3c2920900cd81bf142017e37c5d27a1080575c3bd5ae01a654664a79"
     }
   ]
 }

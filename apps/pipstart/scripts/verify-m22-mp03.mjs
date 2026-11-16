@@ -141,6 +141,9 @@ export const MP03_SQL_INPUTS = Object.freeze([
   "apps/pipstart/scripts/test-m22-maintenance-store.sql",
   "supabase/migrations/20261119090000_pipstart_m22_audit_filters.sql",
   "apps/pipstart/scripts/test-m22-audit-filters.sql",
+  "supabase/migrations/20260916100000_pipstart_permanent_progress.sql",
+  "supabase/migrations/20261120090000_pipstart_m22_conflict_codes.sql",
+  "apps/pipstart/scripts/test-m22-conflict-codes.sql",
 ]);
 export function checkedMp03Manifest(repositoryRoot, manifest) {
   if (
@@ -275,6 +278,8 @@ export async function verifyStaffCore(
     maintenanceStoreHead: false,
     auditFiltersStaged: false,
     auditFiltersHead: false,
+    conflictCodesStaged: false,
+    conflictCodesHead: false,
     schedulerStaged: false,
     schedulerHead: false,
     schedulerOverlap: false,
@@ -1541,6 +1546,42 @@ export async function verifyStaffCore(
       ) === "t";
     if (!result.auditFiltersHead)
       throw Error("Audit filters rollback/grant/head failed");
+    // Learner progress is not otherwise in this chain; hosted already has it applied.
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "supabase/migrations/20260916100000_pipstart_permanent_progress.sql",
+        ),
+        "utf8",
+      ),
+    );
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "supabase/migrations/20261120090000_pipstart_m22_conflict_codes.sql",
+        ),
+        "utf8",
+      ),
+    );
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(root, "apps/pipstart/scripts/test-m22-conflict-codes.sql"),
+        "utf8",
+      ),
+    );
+    result.conflictCodesStaged = true;
+    result.conflictCodesHead =
+      sql(
+        database,
+        "select not exists(select 1 from auth.users where id::text like 'fd000000-%') and not exists(select 1 from public.pipstart_lesson_progress) and not exists(select 1 from pipstart_staff_private.account_operations where request_id::text like 'fd100000-%') and position('40001' in pg_get_functiondef('public.pipstart_set_lesson_completion(text,text,text,boolean,bigint)'::regprocedure))=0 and position('40001' in pg_get_functiondef('pipstart_staff_private.account_operation_claim(uuid)'::regprocedure))=0 and has_function_privilege('authenticated','public.pipstart_set_lesson_completion(text,text,text,boolean,bigint)','execute') and not has_function_privilege('anon','public.pipstart_set_lesson_completion(text,text,text,boolean,bigint)','execute') and not has_function_privilege('service_role','pipstart_staff_private.account_operation_claim(uuid)','execute');",
+      ) === "t";
+    if (!result.conflictCodesHead)
+      throw Error("Conflict codes rollback/grant/head failed");
     // Two sessions racing on the live generation: the pointer lock picks one winner; the loser
     // waits, then refuses as stale. The same operation identity from two sessions publishes once.
     sql(
@@ -1977,6 +2018,8 @@ export async function verifyStaffCore(
       result.maintenanceStoreHead &&
       result.auditFiltersStaged &&
       result.auditFiltersHead &&
+      result.conflictCodesStaged &&
+      result.conflictCodesHead &&
       result.schedulerStaged &&
       result.schedulerHead &&
       result.schedulerOverlap &&

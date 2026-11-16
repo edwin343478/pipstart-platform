@@ -403,7 +403,6 @@ export async function submitAssessmentAttemptAction(input: {
     console.error("Assessment progress reconciliation failed", {
       attemptId: row.id,
       courseId: assessment.courseId,
-      userId: session.user.id,
       cause: cause instanceof Error ? cause.message : "unknown",
     });
   }

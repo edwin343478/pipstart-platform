@@ -11,6 +11,7 @@ import {
   getPublishedCourse,
   getPublishedLessonContext,
 } from "../../lib/permanent-progress-catalogue";
+import { progressSaveErrorMessage } from "../../lib/progress-conflict";
 import { createSupabaseServerClient } from "../../lib/supabase/server";
 
 type Row = {
@@ -114,12 +115,7 @@ export async function setLessonCompletionAction(input: {
       requested_lesson_id: context.lessonId,
     },
   );
-  if (error)
-    throw new Error(
-      error.code === "40001"
-        ? "Progress changed on another device. Refresh and try again."
-        : "Progress was not saved. Try again.",
-    );
+  if (error) throw new Error(progressSaveErrorMessage(error.code));
   try {
     await reconcileCourseEnrollmentForUser(
       currentSession.userId,
