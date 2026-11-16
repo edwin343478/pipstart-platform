@@ -196,6 +196,14 @@
     {
       "path": "apps/pipstart/scripts/test-m22-maintenance-store.sql",
       "sha256": "29e230531c161f9a6a89f4dda0a5a9ddab834c5070cba1ba323fbf3bb1510960"
+    },
+    {
+      "path": "supabase/migrations/20261119090000_pipstart_m22_audit_filters.sql",
+      "sha256": "2e3b3eb998cab3a21c5e0cf29183f2839dc3f5bf1d0d6a3f409f7bde8ffb2d00"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-audit-filters.sql",
+      "sha256": "6f7a13a2bec2d316f2a66e04ecc693c90810dd5d62d862151d4a8ae7fee56759"
     }
   ]
 }

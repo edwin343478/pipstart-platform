@@ -6,10 +6,14 @@ import { StaffAudit } from "@/components/staff/staff-audit";
 import { readStaffGate, staffUiEnabled } from "@/lib/auth/staff-gate";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import {
-  parseAuditCursor,
+  auditFiltered,
+  auditRpcArgs,
+  parseAuditQuery,
+  parseContentAudit,
   parseStaffAudit,
   STAFF_AUDIT_PAGE_SIZE,
   type AuditPage,
+  type ContentAuditPage,
 } from "@/lib/auth/staff-audit";
 
 import { canOpenContentWorkspace } from "@/lib/content/editorial-workspace-contract";
@@ -28,22 +32,40 @@ export default async function StaffAuditPage({
   const gate = await readStaffGate();
   if (gate.kind !== "authorized") redirect("/admin/access");
   if (!gate.access.capabilities.includes("audit.read")) notFound();
-  const input = parseAuditCursor(await searchParams);
+  const input = parseAuditQuery(await searchParams);
   let page: AuditPage | null = null;
+  let contentPage: ContentAuditPage | null = null;
   if (input.kind === "ready") {
+    const q = input.query;
     try {
       const client = await createSupabaseServerClient();
       if (client) {
-        const reply = await client
-          .rpc("pipstart_staff_audit_page", {
-            p_before: input.cursor?.before ?? null,
-            p_before_id: input.cursor?.beforeId ?? null,
-            p_limit: STAFF_AUDIT_PAGE_SIZE + 1,
-          })
-          .abortSignal(AbortSignal.timeout(8_000));
+        // An unfiltered staff query keeps the original page and arguments (MP02); filters and the
+        // content view use the MP10f views (D7).
+        const reply = !auditFiltered(q)
+          ? await client
+              .rpc("pipstart_staff_audit_page", {
+                p_before: q.cursor?.before ?? null,
+                p_before_id: q.cursor?.beforeId ?? null,
+                p_limit: STAFF_AUDIT_PAGE_SIZE + 1,
+              })
+              .abortSignal(AbortSignal.timeout(8_000))
+          : await client
+              .rpc(
+                q.source === "staff"
+                  ? "pipstart_staff_audit_page_filtered"
+                  : "pipstart_content_audit_page",
+                auditRpcArgs(q),
+              )
+              .abortSignal(AbortSignal.timeout(8_000));
         if (!reply.error) {
-          const parsed = parseStaffAudit(reply.data, input.cursor);
-          if (parsed.kind === "ready") page = parsed;
+          if (q.source === "staff") {
+            const parsed = parseStaffAudit(reply.data, q.cursor);
+            if (parsed.kind === "ready") page = parsed;
+          } else {
+            const parsed = parseContentAudit(reply.data, q.cursor);
+            if (parsed.kind === "ready") contentPage = parsed;
+          }
         }
       }
     } catch {
@@ -60,8 +82,10 @@ export default async function StaffAuditPage({
     >
       <StaffAudit
         page={page}
+        contentPage={contentPage}
+        query={input.kind === "ready" ? input.query : null}
         invalid={input.kind === "invalid"}
-        paginated={input.kind === "ready" && input.cursor !== null}
+        paginated={input.kind === "ready" && input.query.cursor !== null}
       />
     </StaffFrame>
   );

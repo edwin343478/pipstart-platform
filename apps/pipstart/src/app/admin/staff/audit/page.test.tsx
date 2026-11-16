@@ -145,3 +145,97 @@ describe("read-only staff audit route", () => {
     expect(mocks.factory).toHaveBeenCalledTimes(1);
   });
 });
+describe("MP10f filtered audit views", () => {
+  const ok = () => {
+    const rpc = vi.fn(() => ({
+      abortSignal: vi.fn().mockResolvedValue({ data: [], error: null }),
+    }));
+    mocks.factory.mockResolvedValue({ rpc });
+    return rpc;
+  };
+  it("sends a filtered staff query to the filtered staff view", async () => {
+    const rpc = ok();
+    await run({
+      operation: "grant_role",
+      actor,
+      from: "2026-11-01",
+      to: "2026-11-16",
+    });
+    expect(rpc).toHaveBeenCalledExactlyOnceWith(
+      "pipstart_staff_audit_page_filtered",
+      {
+        p_before: null,
+        p_before_id: null,
+        p_limit: 26,
+        p_operation: "grant_role",
+        p_actor: actor,
+        p_resource: null,
+        p_from: "2026-11-01T00:00:00.000Z",
+        p_to: "2026-11-17T00:00:00.000Z",
+      },
+    );
+  });
+  it("reads the content view and passes its page and query to the view", async () => {
+    const rpc = ok();
+    const view = await run({
+      source: "content",
+      operation: "maintenance",
+      item: "crypto-start-here",
+    });
+    expect(rpc).toHaveBeenCalledExactlyOnceWith("pipstart_content_audit_page", {
+      p_before: null,
+      p_before_id: null,
+      p_limit: 26,
+      p_operation: "maintenance",
+      p_actor: null,
+      p_item: "crypto-start-here",
+      p_from: null,
+      p_to: null,
+    });
+    expect(view.props.children.props.contentPage).toEqual({
+      kind: "ready",
+      items: [],
+      next: null,
+    });
+    expect(view.props.children.props.page).toBeNull();
+    expect(view.props.children.props.query.source).toBe("content");
+  });
+  it("keeps the original staff page when the form is submitted empty", async () => {
+    const rpc = ok();
+    await run({
+      source: "staff",
+      operation: "",
+      actor: "",
+      item: "",
+      from: "",
+      to: "",
+    });
+    expect(rpc).toHaveBeenCalledExactlyOnceWith("pipstart_staff_audit_page", {
+      p_before: null,
+      p_before_id: null,
+      p_limit: 26,
+    });
+  });
+  it.each([
+    { source: "content", operation: "grant_role" },
+    { actor: "nobody" },
+    { from: "2026-11-16", to: "2026-11-01" },
+  ])("makes no call for an invalid filter %j", async (params) => {
+    const view = await run(params as unknown as Record<string, string>);
+    expect(mocks.factory).not.toHaveBeenCalled();
+    expect(view.props.children.props.invalid).toBe(true);
+  });
+  it("fails closed on a malformed content reply", async () => {
+    mocks.factory.mockResolvedValue({
+      rpc: () => ({
+        abortSignal: vi.fn().mockResolvedValue({
+          data: [{ detail: "private-sentinel" }],
+          error: null,
+        }),
+      }),
+    });
+    expect(
+      (await run({ source: "content" })).props.children.props.contentPage,
+    ).toBeNull();
+  });
+});

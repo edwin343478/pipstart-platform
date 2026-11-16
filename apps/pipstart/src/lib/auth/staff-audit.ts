@@ -211,3 +211,209 @@ export function parseStaffAudit(
         : null,
   };
 }
+
+// M22 MP10f (owner decision D7): filters for the staff audit, and a minimized view of the content
+// audit (content, publication, partner and maintenance changes). Reasons and details are never shown.
+export const contentAuditLabels = {
+  create: "Draft created",
+  save: "Draft saved",
+  submit: "Sent for review",
+  review_approve: "Review approved",
+  review_changes: "Changes requested",
+  approve_single_person: "Approved by the Owner",
+  trash: "Archived",
+  restore: "Restored",
+  hold: "Hold placed",
+  release: "Hold released",
+  policy: "Partner policy changed",
+  import: "Imported",
+  publication_baseline: "Publication baseline",
+  publish: "Made live",
+  withdraw: "Taken offline",
+  publication_restore: "Generation restored",
+  refresh: "Delivery recorded",
+  maintenance: "Maintenance",
+} as const;
+export const maintenanceActionLabels = {
+  assign: "assigned",
+  reassign: "reassigned",
+  unassign: "owner removed",
+  acknowledge: "acknowledged",
+  reschedule: "rescheduled",
+  result: "check recorded",
+  interval: "review interval changed",
+  allowlist: "allowlist changed",
+} as const;
+export type AuditSource = "staff" | "content";
+export type AuditQuery = {
+  source: AuditSource;
+  operation: string | null;
+  actor: string | null;
+  item: string | null;
+  from: string | null;
+  to: string | null;
+  cursor: AuditCursor | null;
+};
+export type ContentAuditEvent = {
+  id: string;
+  created_at: string;
+  actor_id: string;
+  operation: keyof typeof contentAuditLabels;
+  item_id: string | null;
+  revision_no: number | null;
+  action: keyof typeof maintenanceActionLabels | null;
+};
+export type ContentAuditPage = {
+  kind: "ready";
+  items: ContentAuditEvent[];
+  next: AuditCursor | null;
+};
+const itemId = (v: unknown): v is string =>
+  typeof v === "string" && /^[a-z0-9][a-z0-9_:/.-]{0,199}$/.test(v);
+const day = (v: unknown): v is string =>
+  typeof v === "string" &&
+  /^\d{4}-\d{2}-\d{2}$/.test(v) &&
+  new Date(v + "T00:00:00Z").toISOString().slice(0, 10) === v;
+
+/** Strict query parsing: unknown keys, repeated values or malformed filters make the link invalid.
+ * Empty form fields count as absent. Dates are whole UTC days; the end day is included. */
+export function parseAuditQuery(
+  params: Record<string, string | string[] | undefined>,
+): { kind: "ready"; query: AuditQuery } | { kind: "invalid" } {
+  const allowed = [
+    "source",
+    "operation",
+    "actor",
+    "item",
+    "from",
+    "to",
+    "before",
+    "beforeId",
+  ];
+  const v: Record<string, string> = {};
+  for (const [k, raw] of Object.entries(params)) {
+    if (!allowed.includes(k) || typeof raw !== "string")
+      return { kind: "invalid" };
+    if (raw !== "") v[k] = raw;
+  }
+  const source = (v.source ?? "staff") as AuditSource;
+  if (source !== "staff" && source !== "content") return { kind: "invalid" };
+  const labels = source === "staff" ? auditLabels : contentAuditLabels;
+  if (
+    (v.operation !== undefined && !Object.hasOwn(labels, v.operation)) ||
+    (v.actor !== undefined && !uuid(v.actor)) ||
+    (v.item !== undefined && !itemId(v.item)) ||
+    (v.from !== undefined && !day(v.from)) ||
+    (v.to !== undefined && !day(v.to)) ||
+    (v.from !== undefined && v.to !== undefined && v.from > v.to) ||
+    (v.before === undefined) !== (v.beforeId === undefined) ||
+    (v.before !== undefined && (!timestampKey(v.before) || !uuid(v.beforeId)))
+  )
+    return { kind: "invalid" };
+  return {
+    kind: "ready",
+    query: {
+      source,
+      operation: v.operation ?? null,
+      actor: v.actor ?? null,
+      item: v.item ?? null,
+      from: v.from ?? null,
+      to: v.to ?? null,
+      cursor: v.before ? { before: v.before, beforeId: v.beforeId } : null,
+    },
+  };
+}
+/** Whether a query needs the filtered views; an unfiltered staff query keeps the original page. */
+export function auditFiltered(q: AuditQuery): boolean {
+  return (
+    q.source === "content" ||
+    q.operation !== null ||
+    q.actor !== null ||
+    q.item !== null ||
+    q.from !== null ||
+    q.to !== null
+  );
+}
+/** RPC arguments for a filtered query; the end day is exclusive at the next midnight UTC. */
+export function auditRpcArgs(q: AuditQuery) {
+  const next = (d: string) =>
+    new Date(Date.parse(d + "T00:00:00Z") + 864e5).toISOString();
+  return {
+    p_before: q.cursor?.before ?? null,
+    p_before_id: q.cursor?.beforeId ?? null,
+    p_limit: STAFF_AUDIT_PAGE_SIZE + 1,
+    p_operation: q.operation,
+    p_actor: q.actor,
+    [q.source === "staff" ? "p_resource" : "p_item"]: q.item,
+    p_from: q.from ? q.from + "T00:00:00.000Z" : null,
+    p_to: q.to ? next(q.to) : null,
+  };
+}
+export function parseContentAudit(
+  value: unknown,
+  cursor: AuditCursor | null = null,
+): ContentAuditPage | { kind: "unavailable" } {
+  const fail = { kind: "unavailable" } as const;
+  const before = cursor && timestampKey(cursor.before);
+  if (cursor && (!before || !uuid(cursor.beforeId))) return fail;
+  if (!Array.isArray(value) || value.length > STAFF_AUDIT_PAGE_SIZE + 1)
+    return fail;
+  const items: ContentAuditEvent[] = [],
+    ids = new Set<string>();
+  let prior: { time: string; id: string } | null = cursor
+    ? { time: before!, id: cursor.beforeId }
+    : null;
+  for (const raw of value) {
+    if (
+      !record(raw) ||
+      Object.keys(raw).sort().join(",") !==
+        "action,actor_id,created_at,id,item_id,operation,revision_no" ||
+      !uuid(raw.id) ||
+      !uuid(raw.actor_id) ||
+      typeof raw.operation !== "string" ||
+      !Object.hasOwn(contentAuditLabels, raw.operation) ||
+      !(raw.item_id === null || itemId(raw.item_id)) ||
+      !(
+        raw.revision_no === null ||
+        (Number.isSafeInteger(raw.revision_no) &&
+          (raw.revision_no as number) >= 1)
+      ) ||
+      !(
+        raw.action === null ||
+        (raw.operation === "maintenance" &&
+          typeof raw.action === "string" &&
+          Object.hasOwn(maintenanceActionLabels, raw.action))
+      )
+    )
+      return fail;
+    const time = timestampKey(raw.created_at);
+    if (
+      !time ||
+      ids.has(raw.id) ||
+      (prior &&
+        (time > prior.time || (time === prior.time && raw.id >= prior.id)))
+    )
+      return fail;
+    items.push({
+      id: raw.id,
+      created_at: raw.created_at as string,
+      actor_id: raw.actor_id,
+      operation: raw.operation as ContentAuditEvent["operation"],
+      item_id: raw.item_id as string | null,
+      revision_no: raw.revision_no as number | null,
+      action: raw.action as ContentAuditEvent["action"],
+    });
+    ids.add(raw.id);
+    prior = { time, id: raw.id };
+  }
+  const visible = items.slice(0, STAFF_AUDIT_PAGE_SIZE),
+    last = visible.at(-1);
+  return {
+    kind: "ready",
+    items: visible,
+    next:
+      items.length > STAFF_AUDIT_PAGE_SIZE && last
+        ? { before: last.created_at, beforeId: last.id }
+        : null,
+  };
+}

@@ -139,6 +139,8 @@ export const MP03_SQL_INPUTS = Object.freeze([
   "apps/pipstart/scripts/test-m22-partner-import.sql",
   "supabase/migrations/20261118090000_pipstart_m22_maintenance_store.sql",
   "apps/pipstart/scripts/test-m22-maintenance-store.sql",
+  "supabase/migrations/20261119090000_pipstart_m22_audit_filters.sql",
+  "apps/pipstart/scripts/test-m22-audit-filters.sql",
 ]);
 export function checkedMp03Manifest(repositoryRoot, manifest) {
   if (
@@ -271,6 +273,8 @@ export async function verifyStaffCore(
     partnerImportHead: false,
     maintenanceStoreStaged: false,
     maintenanceStoreHead: false,
+    auditFiltersStaged: false,
+    auditFiltersHead: false,
     schedulerStaged: false,
     schedulerHead: false,
     schedulerOverlap: false,
@@ -1512,6 +1516,31 @@ export async function verifyStaffCore(
       ) === "t";
     if (!result.maintenanceStoreHead)
       throw Error("Maintenance store rollback/grant/head failed");
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "supabase/migrations/20261119090000_pipstart_m22_audit_filters.sql",
+        ),
+        "utf8",
+      ),
+    );
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(root, "apps/pipstart/scripts/test-m22-audit-filters.sql"),
+        "utf8",
+      ),
+    );
+    result.auditFiltersStaged = true;
+    result.auditFiltersHead =
+      sql(
+        database,
+        "select not exists(select 1 from pipstart_editorial_private.audit where id::text like 'fc400000-%') and not exists(select 1 from pipstart_staff_private.audit where id::text like 'fc300000-%') and not exists(select 1 from auth.users where id::text like 'fc000000-%') and has_function_privilege('authenticated','public.pipstart_content_audit_page(timestamptz,uuid,integer,text,uuid,text,timestamptz,timestamptz)','execute') and not has_function_privilege('anon','public.pipstart_content_audit_page(timestamptz,uuid,integer,text,uuid,text,timestamptz,timestamptz)','execute') and not has_function_privilege('service_role','public.pipstart_staff_audit_page_filtered(timestamptz,uuid,integer,text,uuid,text,timestamptz,timestamptz)','execute') and not has_function_privilege('authenticated','pipstart_staff_private.audit_page_ok(timestamptz,uuid,integer,timestamptz,timestamptz)','execute') and to_regclass('pipstart_editorial_private.pipstart_editorial_audit_time_idx') is not null;",
+      ) === "t";
+    if (!result.auditFiltersHead)
+      throw Error("Audit filters rollback/grant/head failed");
     // Two sessions racing on the live generation: the pointer lock picks one winner; the loser
     // waits, then refuses as stale. The same operation identity from two sessions publishes once.
     sql(
@@ -1946,6 +1975,8 @@ export async function verifyStaffCore(
       result.partnerImportHead &&
       result.maintenanceStoreStaged &&
       result.maintenanceStoreHead &&
+      result.auditFiltersStaged &&
+      result.auditFiltersHead &&
       result.schedulerStaged &&
       result.schedulerHead &&
       result.schedulerOverlap &&

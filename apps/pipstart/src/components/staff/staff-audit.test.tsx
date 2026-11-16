@@ -46,7 +46,8 @@ describe("minimized read-only audit presentation", () => {
         next: { before: event.created_at, beforeId: event.id },
       },
     });
-    expect(result.match(/method="get"/g)).toHaveLength(2);
+    // MP10f: the filter form, Reload and Older events are all native GET forms.
+    expect(result.match(/method="get"/g)).toHaveLength(3);
     expect(result).toContain(
       'name="before" value="2026-10-27T09:00:00.123456+00:00"',
     );
@@ -57,7 +58,7 @@ describe("minimized read-only audit presentation", () => {
   });
   it("distinguishes invalid, unavailable, empty and end of history", () => {
     expect(html({ page: null, invalid: true })).toContain(
-      "page link is invalid",
+      "page link or filter is invalid",
     );
     expect(html({ page: null })).toContain("audit view is unavailable");
     expect(html({ page: { kind: "ready", items: [], next: null } })).toContain(
@@ -106,4 +107,61 @@ describe("minimized read-only audit presentation", () => {
         </StaffFrame>,
       ),
     ).toContain('href="/admin/staff/audit"'));
+});
+describe("MP10f audit filters and content view", () => {
+  const query = {
+    source: "content" as const,
+    operation: "maintenance",
+    actor: null,
+    item: "crypto-start-here",
+    from: "2026-11-01",
+    to: null,
+    cursor: null,
+  };
+  const contentPage = {
+    kind: "ready" as const,
+    items: [
+      {
+        id: "00000000-0000-4000-8000-000000000002",
+        created_at: "2026-11-16T16:58:00.123456+00:00",
+        actor_id: "2d734acd-a974-45f1-aabc-bc9b0a37fb40",
+        operation: "maintenance" as const,
+        item_id: "crypto-start-here",
+        revision_no: 1,
+        action: "acknowledge" as const,
+      },
+    ],
+    next: {
+      before: "2026-11-16T16:58:00.123456+00:00",
+      beforeId: "00000000-0000-4000-8000-000000000002",
+    },
+  };
+  it("shows content events with the maintenance action, never reasons", () => {
+    const result = html({ page: null, contentPage, query });
+    expect(result).toContain("Content and maintenance audit events");
+    expect(result).toContain("Maintenance: acknowledged");
+    expect(result).toContain("crypto-start-here");
+    expect(result).toContain("Reasons and other free text are not shown here");
+    expect(result).not.toContain("Staff governance audit events");
+  });
+  it("keeps the filters on the paging forms and pre-fills the filter form", () => {
+    const result = html({ page: null, contentPage, query });
+    expect(result.match(/name="source" value="content"/g)).toHaveLength(2);
+    expect(
+      result.match(/name="item" value="crypto-start-here"/g)?.length,
+    ).toBeGreaterThanOrEqual(2);
+    expect(result).toContain('name="from" value="2026-11-01"');
+    expect(result).toContain('value="maintenance" selected=""');
+    expect(result).toContain("Older events");
+    expect(result).toContain('href="/admin/staff/audit"');
+  });
+  it("lists only the actions of the chosen records type", () => {
+    expect(html({ page: null, contentPage, query })).toContain(">Made live<");
+    expect(html({ page: null, contentPage, query })).not.toContain(
+      ">Role granted<",
+    );
+    expect(html({ page: { kind: "ready", items: [], next: null } })).toContain(
+      ">Role granted<",
+    );
+  });
 });
