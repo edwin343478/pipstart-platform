@@ -1,0 +1,133 @@
+{
+  "baseline": "2e082c2a278cb9bafc024bdfe09caf0ff5077dee",
+  "status": "MP10_ACCEPTED; MAINTENANCE_STORE_AND_AUDIT_VIEWS_HOSTED; AUTOMATIC_CHECK_BUILT_OFF",
+  "ownerDecisions": {
+    "acceptedAt": "2026-11-16",
+    "D1": "due computed on read; partners review expiry, links expiry, quizzes nextReviewAt, analysis 180 and lessons 365 days after the last genuine review; no genuine date shows 'No review on record'",
+    "D2": "acknowledge and reschedule never change review dates; reschedule at most 90 days, 365 for the Owner",
+    "D3": "maintenance owner is a staff assignment of kind maintenance, set by the Owner or an Editor in scope",
+    "D4": "internal references checked; a missing target blocks Make live",
+    "D5": "option A: manual results plus a staff-clicked safe check on an Owner allowlist, off unless proved",
+    "D6": "private append-only store, cursor pages of at most 50",
+    "D7": "Staff audit filters and content audit view: delivered as MP10f after the exit review found them missing from MP10c (owner choice, 2026-11-16)",
+    "D8": "no reminder email, no Cron, no background crawl",
+    "D9": "Maintenance section in the staff navigation",
+    "rehearsal": "local connected harness, focused run (2026-11-16)",
+    "walkthroughPart2": "skipped by the owner; automatic check stays off (2026-11-16)"
+  },
+  "publishedCommits": [
+    {
+      "patch": "MP10a maintenance store",
+      "commit": "952eec196fc9566abcdac095d76524452bb691e8",
+      "parent": "2e082c2a278cb9bafc024bdfe09caf0ff5077dee",
+      "files": 6,
+      "ci": "CI 133285570032, M21 SQL 133285569633, M22 SQL 133285569491 (49 inputs): success; live learner release gates skipped"
+    },
+    {
+      "patch": "MP10b internal reference check and Make live gate",
+      "commit": "17550603c810d8391d6b053d1aa418e1fac4625a",
+      "parent": "952eec196fc9566abcdac095d76524452bb691e8",
+      "files": 11,
+      "ci": "CI 133317858084, M21 SQL 133317858587, M22 SQL 133317857282: success; live learner release gates skipped"
+    },
+    {
+      "patch": "MP10c staff Maintenance pages",
+      "commit": "9674b77bd2ef1d7f37eca81e45b04441646fa392",
+      "parent": "17550603c810d8391d6b053d1aa418e1fac4625a",
+      "files": 14,
+      "ci": "CI 133380289588, M21 SQL 133380290079, M22 SQL 133380288589: success; live learner release gates skipped"
+    },
+    {
+      "patch": "MP10d safe single-link check, off by default",
+      "commit": "6be9fb03159be6cea667a89ed531b7f607879e21",
+      "parent": "9674b77bd2ef1d7f37eca81e45b04441646fa392",
+      "files": 7,
+      "ci": "CI 133440422355, M21 SQL 133440421951, M22 SQL 133440421403: success; live learner release gates skipped"
+    },
+    {
+      "patch": "MP10f Staff audit filters and content audit view",
+      "commit": "8213869d5010555af887f4707345ca3c1e988c22",
+      "parent": "6be9fb03159be6cea667a89ed531b7f607879e21",
+      "files": 12,
+      "ci": "CI 133485408628, M21 SQL 133485409122, M22 SQL 133485407939 (51 inputs): success; live learner release gates skipped"
+    }
+  ],
+  "referenceReport": {
+    "items": 162,
+    "findings": 0,
+    "examined": {
+      "diagrams": 152,
+      "desktopImages": 68,
+      "learningLinks": 154,
+      "quizzes": 21
+    },
+    "plantedBreaksCaught": "70 of 70"
+  },
+  "connectedRehearsal": {
+    "run": "e6c8ef8e8c0663dffbc9867e288b7da3",
+    "gates": 18,
+    "axe": "clean on 12 views (4 pages at 1440, 390 and 320)",
+    "earlierRun": "run 1 stopped on an ambiguous harness locator; product unaffected"
+  },
+  "walkthrough": {
+    "item": "crypto-start-here",
+    "link": "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/crypto-asset-custody-basics-retail-investors-investor-bulletin-0",
+    "before": "MP10E_READY_ASSIGN_ACKNOWLEDGE_RECORD",
+    "manual": "MP10E_MANUAL_STEPS_VERIFIED (manual_ok; 3 audit rows, all the Owner's)",
+    "automatic": "not run (owner choice); PIPSTART_MAINTENANCE_PROBE_ENABLED not set",
+    "rehearsal": "17 cases"
+  },
+  "openItems": [
+    "Automatic single-link check: real network transport not yet exercised; off"
+  ],
+  "live": {
+    "generation": 10,
+    "schedulerEnabled": false,
+    "schedulerVersion": 8
+  },
+  "hostedMigrations": [
+    {
+      "version": "20261118090000",
+      "file": "20261118090000_pipstart_m22_maintenance_store.sql",
+      "sha256": "8d991e84a96422add61528d0d29c2fa33cf2947bea9bc1240f56019902932d35",
+      "status": "MP10A_MAINTENANCE_STORE_HOSTED_ACCEPTED_AND_RECORDED",
+      "catalog": {
+        "pre": [
+          "fb5d06096a7a813657a3135c78b942ae5e5ff6c9a845a567df5538134e693352",
+          "faa0c954ffe720c4c50dcd8a4139a868e8a9bb3f8e0129d509f5de12091896ce"
+        ],
+        "post": [
+          "175128b776dddd6408a57310cc567833b01bf87e796b586f8767cfbea5ebc26f",
+          "b008a72db5f55c26f162cfb07dbf1c5063e58694caa5822c5d19de3428d4775f"
+        ]
+      },
+      "maintainedAtAcceptance": {
+        "total": 118,
+        "overdue": 0,
+        "due": 0,
+        "current": 29,
+        "noReview": 89
+      },
+      "history": "73 rows, no local-only version",
+      "rehearsal": "26 cases"
+    },
+    {
+      "version": "20261119090000",
+      "file": "20261119090000_pipstart_m22_audit_filters.sql",
+      "sha256": "2e3b3eb998cab3a21c5e0cf29183f2839dc3f5bf1d0d6a3f409f7bde8ffb2d00",
+      "status": "MP10F_AUDIT_FILTERS_HOSTED_ACCEPTED_AND_RECORDED",
+      "catalog": {
+        "pre": [
+          "175128b776dddd6408a57310cc567833b01bf87e796b586f8767cfbea5ebc26f",
+          "b008a72db5f55c26f162cfb07dbf1c5063e58694caa5822c5d19de3428d4775f"
+        ],
+        "post": [
+          "8a197c3fb6423778d6451437e0b48719006ac45b7c051566d5ef2745b4729791",
+          "0249f9eb6148c36370426ca0a12f098819e8bfcc1b80663f2883dfe07b96e391"
+        ]
+      },
+      "history": "74 rows, no local-only version",
+      "rehearsal": "23 cases"
+    }
+  ]
+}
