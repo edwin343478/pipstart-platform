@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { StaffFrame } from "@/components/staff/staff-frame";
+import { canOpenMaintenance } from "@/lib/content/maintenance-contract";
 import { StaffAudit } from "@/components/staff/staff-audit";
 import { readStaffGate, staffUiEnabled } from "@/lib/auth/staff-gate";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
@@ -52,6 +53,7 @@ export default async function StaffAuditPage({
   return (
     <StaffFrame
       verified
+      maintenance={canOpenMaintenance(gate.access)}
       content={canOpenContentWorkspace(gate.access)}
       audit
       people={gate.access.capabilities.includes("people.read")}

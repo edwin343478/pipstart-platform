@@ -12,6 +12,7 @@ export function StaffFrame({
   people = false,
   audit = false,
   content = false,
+  maintenance = false,
   paused = false,
 }: {
   children: ReactNode;
@@ -19,6 +20,8 @@ export function StaffFrame({
   people?: boolean;
   audit?: boolean;
   content?: boolean;
+  /** MP10c: the Maintenance section (review worklists and link checks). */
+  maintenance?: boolean;
   paused?: boolean;
 }) {
   return (
@@ -65,6 +68,15 @@ export function StaffFrame({
                 prefetch={false}
               >
                 Content library
+              </Link>
+            )}
+            {verified && !paused && maintenance && (
+              <Link
+                className={styles.link}
+                href="/admin/staff/maintenance"
+                prefetch={false}
+              >
+                Maintenance
               </Link>
             )}
             {verified && people && (

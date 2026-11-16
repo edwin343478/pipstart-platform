@@ -6,6 +6,7 @@ import {
   partnerSlug,
 } from "@/lib/content/partner-editor-contract";
 import { StaffFrame } from "@/components/staff/staff-frame";
+import { canOpenMaintenance } from "@/lib/content/maintenance-contract";
 import { StaffPartnerEditor } from "@/components/staff/staff-partner-editor";
 import { runPartnerEditorAction } from "../partner-actions";
 export const dynamic = "force-dynamic";
@@ -34,6 +35,7 @@ export default async function Page({
   const frame = (children: React.ReactNode) => (
     <StaffFrame
       verified
+      maintenance={canOpenMaintenance(gate.access)}
       content
       people={gate.access.capabilities.includes("people.read")}
       audit={gate.access.capabilities.includes("audit.read")}

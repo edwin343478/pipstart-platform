@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { StaffFrame } from "@/components/staff/staff-frame";
+import { canOpenMaintenance } from "@/lib/content/maintenance-contract";
 import styles from "@/components/staff/staff.module.css";
 import { readStaffGate, staffUiEnabled } from "@/lib/auth/staff-gate";
 
@@ -20,6 +21,7 @@ export default async function StaffHomePage() {
   return (
     <StaffFrame
       verified
+      maintenance={canOpenMaintenance(gate.access)}
       content={canOpenContentWorkspace(gate.access)}
       audit={gate.access.capabilities.includes("audit.read")}
       people={gate.access.capabilities.includes("people.read")}
