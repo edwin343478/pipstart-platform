@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState, type FormEvent } from "react";
 import { runMaintenanceAction } from "@/app/admin/staff/maintenance/actions";
+import { runMaintenanceProbeAction } from "@/app/admin/staff/maintenance/probe-actions";
 import type { MaintenancePage } from "@/lib/content/maintenance";
 import {
   actionMessage,
@@ -106,18 +107,96 @@ function Results({ item }: { item: WorklistItem }) {
   );
 }
 
+const probeMessage: Record<string, string> = {
+  disabled: "Automatic checks are switched off on this site.",
+  invalid:
+    "Only an HTTPS link on the standard port, written exactly as in the content, can be checked. Links that look like sign-in, reset or token links are never checked.",
+  denied: "You cannot check links for this item. Nothing was recorded.",
+  unavailable: "The check could not start. Nothing was recorded.",
+  "not-allowed":
+    "This host is not on the Owner's allowlist, or it is an affiliate host. Record a manual check instead.",
+  busy: "Another check is running. Try again in a moment.",
+  conflict:
+    "This item changed (a new revision went live). Reload and check again.",
+  uncertain:
+    "The link was checked, but saving the result may not have finished. Reload to see the recorded checks.",
+};
+
+/** MP10d: one staff-clicked check of one allowlisted link, recorded as an automatic result. */
+function ProbeForm({ item }: { item: WorklistItem }) {
+  const lock = useRef(false);
+  const [busy, setBusy] = useState(false);
+  const [message, setMessage] = useState("");
+  const inputId = `probe-${item.id.replace(/[^a-z0-9]/g, "-")}`;
+  return (
+    <form
+      className={styles.form}
+      onSubmit={async (e) => {
+        e.preventDefault();
+        if (lock.current) return;
+        lock.current = true;
+        setBusy(true);
+        setMessage("");
+        try {
+          const r = await runMaintenanceProbeAction({
+            id: item.id,
+            revision: item.revision,
+            reference: field(e.currentTarget, "reference"),
+          });
+          setMessage(
+            r.kind === "checked"
+              ? `Checked: ${resultLabel[r.classification] ?? r.classification} (${r.evidence}). Saved.`
+              : probeMessage[r.kind],
+          );
+        } catch {
+          setMessage(probeMessage.uncertain);
+        } finally {
+          lock.current = false;
+          setBusy(false);
+        }
+      }}
+    >
+      <h3>Check a link automatically</h3>
+      <p>
+        One check of one link on an allowed host. Redirects are reported, not
+        followed.
+      </p>
+      <label htmlFor={inputId}>
+        Link, exactly as it appears in the content
+      </label>
+      <input
+        id={inputId}
+        name="reference"
+        className={styles.input}
+        maxLength={2048}
+        required
+      />
+      <button className={styles.button} disabled={busy}>
+        {busy ? "Checking…" : "Check link"}
+      </button>
+      {message && (
+        <p role="status" aria-live="polite">
+          {message}
+        </p>
+      )}
+    </form>
+  );
+}
+
 function ItemActions({
   item,
   me,
   owner,
   editor,
   staff,
+  probeEnabled,
 }: {
   item: WorklistItem;
   me: string;
   owner: boolean;
   editor: boolean;
   staff: { id: string; name: string }[] | null;
+  probeEnabled: boolean;
 }) {
   const { busy, blocked, message, send } = useMaintenance();
   const canAct = owner || item.assignedToMe;
@@ -243,6 +322,7 @@ function ItemActions({
               Record check
             </button>
           </form>
+          {probeEnabled && <ProbeForm item={item} />}
         </>
       )}
       {(owner || editor) && (
@@ -339,6 +419,7 @@ function Worklist({
   me,
   owner,
   editor,
+  probeEnabled,
 }: {
   view: "mine" | "all";
   page: MaintenancePage;
@@ -349,6 +430,7 @@ function Worklist({
   me: string;
   owner: boolean;
   editor: boolean;
+  probeEnabled: boolean;
 }) {
   const names = new Map((page.staff ?? []).map((p) => [p.id, p.name]));
   if (!page.worklist)
@@ -436,6 +518,7 @@ function Worklist({
                 owner={owner}
                 editor={editor}
                 staff={page.staff}
+                probeEnabled={probeEnabled}
               />
             </li>
           ))}
@@ -628,6 +711,7 @@ export function StaffContentMaintenance({
   me,
   owner,
   editor,
+  probeEnabled = false,
 }: {
   view: MaintenanceView;
   filters: {
@@ -640,6 +724,8 @@ export function StaffContentMaintenance({
   me: string;
   owner: boolean;
   editor: boolean;
+  /** MP10d: the automatic check is shown only when the site enables it. */
+  probeEnabled?: boolean;
 }) {
   const visible = views.filter((v) => v.id !== "all" || owner || editor);
   return (
@@ -668,6 +754,7 @@ export function StaffContentMaintenance({
           me={me}
           owner={owner}
           editor={editor}
+          probeEnabled={probeEnabled}
         />
       )}
       {view === "report" && <Report report={report} />}

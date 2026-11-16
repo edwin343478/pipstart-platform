@@ -1,6 +1,9 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 vi.mock("next/navigation", () => ({ useRouter: () => ({ refresh: vi.fn() }) }));
+vi.mock("@/app/admin/staff/maintenance/probe-actions", () => ({
+  runMaintenanceProbeAction: vi.fn(),
+}));
 vi.mock("@/app/admin/staff/maintenance/actions", () => ({
   runMaintenanceAction: vi.fn(),
 }));
@@ -171,5 +174,24 @@ describe("MP10c Maintenance page", () => {
         </StaffFrame>,
       ),
     ).not.toContain("/admin/staff/maintenance");
+  });
+  it("shows the automatic check only when the site enables it, and only to someone who can act", () => {
+    expect(render({})).not.toContain("Check a link automatically");
+    expect(render({ probeEnabled: true })).toContain(
+      "Check a link automatically",
+    );
+    expect(
+      render({
+        probeEnabled: true,
+        editor: true,
+        view: "all",
+        page: {
+          worklist: { items: [item({ assignedToMe: false })], next: null },
+          intervals: null,
+          allowlist: null,
+          staff: null,
+        },
+      }),
+    ).not.toContain("Check a link automatically");
   });
 });

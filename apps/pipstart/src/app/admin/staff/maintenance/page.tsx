@@ -126,6 +126,7 @@ export default async function StaffMaintenancePage({
         me={gate.access.user_id}
         owner={owner}
         editor={editor}
+        probeEnabled={process.env.PIPSTART_MAINTENANCE_PROBE_ENABLED === "true"}
       />
     </StaffFrame>
   );
