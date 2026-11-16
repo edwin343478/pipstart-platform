@@ -1,0 +1,137 @@
+{
+  "baseline": "658e7578140446662ab902212ae5463fdfd60323",
+  "status": "MP09_ACCEPTED; PARTNERS_READ_STORE_GENERATION_10; SCHEDULED_PUBLISHING_OFF",
+  "ownerDecisions": {
+    "acceptedAt": "2026-11-15",
+    "D1": "partner and link families in the existing editorial store; new store group 'partners'",
+    "D2": "Owner-only audited policy for approved hosts and risk notice; enforced in SQL",
+    "D3": "revoke and suspend are new generations delivered by deployment; expiry checked per /go request; no runtime database read on /go",
+    "D4": "Owner single-person publication policy until a distinct reviewer exists",
+    "D5": "no public crypto directory in MP09",
+    "D6": "byte-exact Deriv import, owner-approved switch, drill on generated links only",
+    "D7": "minimal DTOs; no secret fields reach Affiliate Manager pages",
+    "MP09d2": "Deriv imported by a new operator-only import migration (2026-11-15)",
+    "MP09d5": "link drill run locally, not on pipstart.net (2026-11-16)"
+  },
+  "publishedCommits": [
+    {
+      "patch": "MP09a-c partner store and policy, sealed delivery, staff partner editor",
+      "commit": "d45b5d4787502a9599bd8cb2916266fd7bcfaea6",
+      "parent": "658e7578140446662ab902212ae5463fdfd60323",
+      "files": 34,
+      "ci": "CI 132880419543, M21 SQL 132880419311, M22 SQL 132880419122: success; live learner release gates skipped"
+    },
+    {
+      "patch": "MP09d2a operator-only partner import and Deriv import generator",
+      "commit": "332c213863b07d186f67950ae5a3df44c89fd80c",
+      "parent": "d45b5d4787502a9599bd8cb2916266fd7bcfaea6",
+      "files": 8,
+      "ci": "CI 132922762267, M21 SQL 132922762541, M22 SQL 132922761689: success; live learner release gates skipped"
+    },
+    {
+      "patch": "MP09d4a Check live site accepts the partners group",
+      "commit": "e2ffec585459234a3a3f59db74dd0ccadd46318a",
+      "parent": "332c213863b07d186f67950ae5a3df44c89fd80c",
+      "files": 3,
+      "ci": "CI 133240739531, M21 SQL 133240739209, M22 SQL 133240738922: success; live learner release gates skipped"
+    }
+  ],
+  "hostedMigrations": [
+    {
+      "version": "20261116090000",
+      "file": "20261116090000_pipstart_m22_partner_store.sql",
+      "status": "MP09D1_PARTNER_MIGRATIONS_HOSTED_ACCEPTED_AND_RECORDED"
+    },
+    {
+      "version": "20261116120000",
+      "file": "20261116120000_pipstart_m22_partner_snapshot.sql",
+      "status": "MP09D1_PARTNER_MIGRATIONS_HOSTED_ACCEPTED_AND_RECORDED"
+    },
+    {
+      "version": "20261117090000",
+      "file": "20261117090000_pipstart_m22_partner_import.sql",
+      "sha256": "f4856c207a466fc0933b9c2b876c1c6af82a6166c9a57f634d134013d8a06da9",
+      "status": "MP09D2_PARTNER_IMPORT_HOSTED_AND_DERIV_IMPORTED_NOT_LIVE",
+      "history": "72 rows, Local equals Remote on every row"
+    }
+  ],
+  "derivImport": {
+    "manifestSha256": "5139f06d496ef5672b1e033d759d07fae44f011944a7230f7ab75f08fa0b68bc",
+    "partnerBodySha256": "4864ec1afef495674929e1521d74a9416fe6c8aae8f5829627a1e8f4d6be8ea5",
+    "linkBodySha256": "492c43fb52ed90efc2049ace7b8679aa33ce251c1e0d2df157812dcf6145f078",
+    "policies": [
+      "partner:deriv v1 risk notice",
+      "link:deriv v1 hosts t.deriv.link"
+    ],
+    "attributionUrlSha256": "6a4a459de7b1ef8cf026efbd249e405e14fb6eded202a45306ed34007c2e815d"
+  },
+  "makeLive": {
+    "generation9": {
+      "item": "partner:deriv revision 1",
+      "seal": "e4d0831f6cef7a89b59475d8ae8147b5167037f67078c36a6134ae4856a6f61b",
+      "refresh": "verified at attempt 1"
+    },
+    "generation10": {
+      "item": "link:deriv revision 1",
+      "seal": "7730f7944b6ab5354ba4db16128686c8a2df43a03402175bd278a31a876aab80",
+      "refresh": "verified at attempt 1"
+    },
+    "status": "MP09D3_DERIV_LIVE_VERIFIED_PARTNERS_SWITCH_OFF"
+  },
+  "switch": {
+    "vercelProduction": "PIPSTART_STORE_FAMILIES=analysis,curriculum,partners",
+    "baseline": "MP09D4B_BASELINE_OBSERVED_CODE_REGISTER (generation 10; groups analysis,curriculum)",
+    "afterCodeDeploy": "MP09D4B_PARTNERS_OFF_AGAIN_DIRECTORY_UNCHANGED (e2ffec5 deployed)",
+    "afterSwitch": "MP09D4B_PARTNERS_SWITCHED_DIRECTORY_UNCHANGED (groups analysis,curriculum,partners)",
+    "brokersVisibleTextSha256": "dfde60b9d7edb37b7c82353a2cde3c7b03a287f825dcf3b1a2a483554083eb71",
+    "goDeriv": "302 to the exact attribution URL; no-store; noindex",
+    "checkLiveSite": "matches generation 10 with three groups (owner, 2026-11-16)",
+    "rollback": "PIPSTART_STORE_FAMILIES=analysis,curriculum; redeploy without build cache; observe"
+  },
+  "linkDrill": {
+    "status": "MP09D5_LOCAL_LINK_DRILL_PASSED",
+    "storeRun": "271d543330f2bbf46560c236d8be27e5",
+    "candidate": "e2ffec585459234a3a3f59db74dd0ccadd46318a",
+    "host": "go.drill.invalid (reserved, never resolvable)",
+    "snapshotA": {
+      "generation": 11,
+      "checks": 17,
+      "cards": {
+        "deriv": "visit",
+        "drill-a": "visit",
+        "drill-b": "unavailable (expires today)",
+        "drill-c": "unavailable (suspended)",
+        "drill-d": "overdue"
+      }
+    },
+    "snapshotB": {
+      "generation": 16,
+      "checks": 17,
+      "cards": {
+        "deriv": "visit",
+        "drill-a": "unavailable (suspended by revision)",
+        "drill-b": "visit (renewed)",
+        "drill-c": "unavailable (revoked)",
+        "drill-d": "absent (withdrawn)"
+      }
+    },
+    "outage": "server ran with no database connection; /go and /brokers served from the baked generation",
+    "limits": [
+      "expiry tested at the UTC date boundary, not across midnight",
+      "only the partners group switched in drill builds",
+      "no browser or Vercel"
+    ]
+  },
+  "connectedEditorRehearsal": {
+    "run": "52139a5c0cda34e1176213b09da6aaea",
+    "gates": 117,
+    "partnerGates": 14,
+    "axe": "zero violations on all five partner screens"
+  },
+  "live": {
+    "generation": 10,
+    "schedulerEnabled": false,
+    "schedulerVersion": 8,
+    "cronJob2": "inactive"
+  }
+}
