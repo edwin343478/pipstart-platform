@@ -216,6 +216,14 @@
     {
       "path": "apps/pipstart/scripts/test-m22-conflict-codes.sql",
       "sha256": "06c6282a3c2920900cd81bf142017e37c5d27a1080575c3bd5ae01a654664a79"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-audit-coverage.sql",
+      "sha256": "448d3c47ef7a78d74c36a2dc8700ea5a0ead9922f29c2998b5a851ea7003e96a"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-retention-restore.sql",
+      "sha256": "5f5d28966f7db845706879eb26f12cf1757cda65bc9b681c66d1e65c143e0107"
     }
   ]
 }

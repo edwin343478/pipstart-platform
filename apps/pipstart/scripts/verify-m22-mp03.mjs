@@ -144,6 +144,8 @@ export const MP03_SQL_INPUTS = Object.freeze([
   "supabase/migrations/20260916100000_pipstart_permanent_progress.sql",
   "supabase/migrations/20261120090000_pipstart_m22_conflict_codes.sql",
   "apps/pipstart/scripts/test-m22-conflict-codes.sql",
+  "apps/pipstart/scripts/test-m22-audit-coverage.sql",
+  "apps/pipstart/scripts/test-m22-retention-restore.sql",
 ]);
 export function checkedMp03Manifest(repositoryRoot, manifest) {
   if (
@@ -280,6 +282,8 @@ export async function verifyStaffCore(
     auditFiltersHead: false,
     conflictCodesStaged: false,
     conflictCodesHead: false,
+    auditCoverageStaged: false,
+    auditCoverageHead: false,
     schedulerStaged: false,
     schedulerHead: false,
     schedulerOverlap: false,
@@ -1582,6 +1586,28 @@ export async function verifyStaffCore(
       ) === "t";
     if (!result.conflictCodesHead)
       throw Error("Conflict codes rollback/grant/head failed");
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(root, "apps/pipstart/scripts/test-m22-audit-coverage.sql"),
+        "utf8",
+      ),
+    );
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(root, "apps/pipstart/scripts/test-m22-retention-restore.sql"),
+        "utf8",
+      ),
+    );
+    result.auditCoverageStaged = true;
+    result.auditCoverageHead =
+      sql(
+        database,
+        "select not exists(select 1 from auth.users where id::text like 'fe000000-%' or id::text like 'ff000000-%') and not exists(select 1 from pipstart_editorial_private.items where id like 'fe-%' or id like 'ff-%') and not exists(select 1 from pg_trigger where tgname like 'cv_fault_%') and (select count(*) from pg_trigger where tgrelid='pipstart_editorial_private.revisions'::regclass and tgname='pipstart_editorial_revision_guard')=1;",
+      ) === "t";
+    if (!result.auditCoverageHead)
+      throw Error("Audit coverage and retention rollback/head failed");
     // Two sessions racing on the live generation: the pointer lock picks one winner; the loser
     // waits, then refuses as stale. The same operation identity from two sessions publishes once.
     sql(
@@ -2020,6 +2046,8 @@ export async function verifyStaffCore(
       result.auditFiltersHead &&
       result.conflictCodesStaged &&
       result.conflictCodesHead &&
+      result.auditCoverageStaged &&
+      result.auditCoverageHead &&
       result.schedulerStaged &&
       result.schedulerHead &&
       result.schedulerOverlap &&
