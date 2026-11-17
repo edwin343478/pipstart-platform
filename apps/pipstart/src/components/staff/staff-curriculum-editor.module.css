@@ -87,6 +87,11 @@
   outline: 3px solid #9b4600;
   outline-offset: 3px;
 }
+/* A date field's calendar button takes focus without :focus or :focus-visible on the field itself; keep the ring on the field. */
+.editor input[type="date"]:focus-within {
+  outline: 3px solid #9b4600;
+  outline-offset: 3px;
+}
 .actions {
   display: flex;
   gap: 1rem;

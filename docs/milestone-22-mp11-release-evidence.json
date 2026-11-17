@@ -1,0 +1,99 @@
+{
+  "baseline": "25e1fe8a6f96f11d0de28c8de28e827b628a6966",
+  "status": "MP11_ACCEPTED_INTERNAL_PREAUDIT; CONFLICT_CODES_HOSTED; AT01_TO_AT05_ACCEPTED",
+  "independentAudit": false,
+  "ownerDecisions": {
+    "acceptedAt": "2026-11-16",
+    "D1": "internal pre-audit, never presented as independent",
+    "D2": "drills local; hosted read-only only",
+    "D3": "AT01-AT05 proof",
+    "D4": "option A: lesson restore drill; quizzes retained; AT05 note",
+    "D5": "fix the learner progress 40001 defect",
+    "D6": "failure drills",
+    "D7": "import, restore and export compatibility",
+    "D8": "runbook and hosted access review",
+    "D9": "accessibility",
+    "D10": "query budget",
+    "findingsChoice": "F1+F2+F5 fixed; F3 accepted (2026-11-16)",
+    "nextUpgrade": "Next.js 16.4.5 for GHSA-mfr8-8qww-v76h (2026-11-17)",
+    "leanPath": "MP11d as a traced evidence map; no further connected runs; one combined final patch (2026-11-17)"
+  },
+  "publishedCommits": [
+    {
+      "patch": "MP11b conflict codes",
+      "commit": "41d1474635f2aa8adc0199c4c566de86b44045e2",
+      "parent": "25e1fe8a6f96f11d0de28c8de28e827b628a6966",
+      "files": 10,
+      "ci": "CI, M21 SQL, M22 SQL (54 inputs) and Vercel: success"
+    },
+    {
+      "patch": "MP11c1 audit coverage and retention suites",
+      "commit": "76462541c1908abe9ba7e92031ae655f0cacfbe1",
+      "parent": "41d1474635f2aa8adc0199c4c566de86b44045e2",
+      "files": 6,
+      "ci": "M21 SQL and M22 SQL (56 inputs) success; dependency audit failed on a new advisory, fixed by the next commit"
+    },
+    {
+      "patch": "Next.js 16.4.5",
+      "commit": "a0ce1558d21908deeb01f51a0b8eb6e9341f2c89",
+      "parent": "76462541c1908abe9ba7e92031ae655f0cacfbe1",
+      "files": 3,
+      "ci": "CI incl. dependency audit, M21 SQL, M22 SQL and Vercel: success"
+    }
+  ],
+  "hostedMigrations": [
+    {
+      "version": "20261120090000",
+      "file": "20261120090000_pipstart_m22_conflict_codes.sql",
+      "sha256": "5a1efb0653bf0044880d10cd547497d861a2960bb327a4de952bad9ec8dd9c61",
+      "status": "MP11B_CONFLICT_CODES_HOSTED_ACCEPTED_AND_RECORDED",
+      "twoFunctionDigest": {
+        "pre": "a338a33d45d2a92a0aae4bc45cb6233ab4987e2ad003a6110b9d088b3470c171",
+        "post": "0d22d85cf0b506bd4f654c3d5f08b64a0813c315d8c7a8c080c4c5f56b1db9da"
+      },
+      "history": "75 rows, no local-only version",
+      "firstPacket": "preflight refused (service_role default grant not reproduced); resealed and accepted"
+    }
+  ],
+  "realPostgrestProof": {
+    "before": "no answer in 12 s; 8,998 rollbacks; still retrying after the client left",
+    "after": "HTTP 409 PT409 in 16 ms"
+  },
+  "connectedRun": {
+    "code": "a0ce155 production build",
+    "at01": "180/180 refused, unchanged",
+    "at02": "10/10 refused; owner replay positive control",
+    "at03": "0 hits in 1,878 responses plus logs",
+    "queryBudget": {
+      "worstP95Ms": 14.2,
+      "maxRpcPerPage": 5,
+      "volume": { "items": 2007, "audit": 20019, "maintenanceEvents": 5001 }
+    },
+    "accessibility": "19 views; two defects fixed in the final commit",
+    "limits": [
+      "browser bypassed CSP for the plain-HTTP local bridge",
+      "database time, not hosted latency"
+    ]
+  },
+  "accessReview": {
+    "date": "2026-11-17",
+    "staffEnabled": true,
+    "staffVersion": 3,
+    "activeMembers": 1,
+    "activeOwners": 1,
+    "inactiveMembers": 0,
+    "delegations": 0,
+    "assignments": { "maintenance": 1 },
+    "unexpiredReceipts": 0,
+    "schedulerEnabled": false,
+    "liveGeneration": 10,
+    "anonExecutableM22Rpcs": 0,
+    "progressServiceRoleExecute": true
+  },
+  "openItems": [
+    "service_role execute on pipstart_set_lesson_completion: unused; recommended revoke by a later hosted migration",
+    "hosted database backups and retention: not verified (owner to confirm in Supabase)",
+    "automatic link check real network test (from MP10)",
+    "Moderator role scope (F4) and the quiz archive button (AT05 note) for MP12"
+  ]
+}
