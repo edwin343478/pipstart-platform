@@ -1,5 +1,6 @@
 import type { LearningPath } from "./contract";
 import { routeSegment } from "./routes";
+import type { ActionLimited } from "./staff-action-limit";
 export type CurriculumDraftFields = {
   title: string;
   description: string;
@@ -40,6 +41,7 @@ export type CurriculumDraftView = {
   fields: CurriculumDraftFields;
 };
 export type CurriculumDraftResult =
+  | ActionLimited
   | { kind: "ready"; item: CurriculumDraftView }
   | { kind: "saved"; id: string; revision: number; bodySha256: string }
   | { kind: "invalid" | "denied" | "unavailable" | "conflict" | "uncertain" };

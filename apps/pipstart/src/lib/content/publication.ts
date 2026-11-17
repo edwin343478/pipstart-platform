@@ -1,4 +1,5 @@
 import "server-only";
+import { limitedFrom } from "./staff-action-limit";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { staffDeadline } from "../auth/staff-entry";
 import { readLiveStaffAccess } from "../auth/staff-role-flow";
@@ -23,7 +24,7 @@ const codes: Record<
   string,
   Exclude<
     PublicationResult["kind"],
-    "status" | "done" | "uncertain" | "references"
+    "status" | "done" | "uncertain" | "references" | "limited"
   >
 > = {
   PT409: "conflict",
@@ -125,6 +126,8 @@ export async function runPublication(
                 p_reason: command.reason,
               });
     if (error) {
+      const limited = limitedFrom(error);
+      if (limited) return limited;
       const kind = codes[error.code ?? ""];
       return { kind: kind ?? "uncertain" };
     }

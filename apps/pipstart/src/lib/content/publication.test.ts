@@ -274,6 +274,17 @@ describe("M22 MP08b1 live publication service", () => {
     expect(await runPublication(f.client, publish())).toEqual({ kind });
     expect(writes(f)).toHaveLength(1);
   });
+  it("maps the hourly action limit (PT429) to limited and never resends", async () => {
+    const f = fixture("owner", {
+      data: null,
+      error: { code: "PT429", message: "PRIVATE", hint: "retry_after=600" },
+    });
+    expect(await runPublication(f.client, publish())).toEqual({
+      kind: "limited",
+      retryAfter: 600,
+    });
+    expect(writes(f)).toHaveLength(1);
+  });
   it.each([
     null,
     reply(7),

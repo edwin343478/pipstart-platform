@@ -1,4 +1,5 @@
 import "server-only";
+import { limitedFrom } from "./staff-action-limit";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { staffDeadline } from "../auth/staff-entry";
 import { readLiveStaffAccess } from "../auth/staff-role-flow";
@@ -106,7 +107,10 @@ export async function runMaintenance(
                         p_reason: c.reason,
                       },
                     );
-    if (error) return { kind: codes[error.code ?? ""] ?? "uncertain" };
+    if (error)
+      return (
+        limitedFrom(error) ?? { kind: codes[error.code ?? ""] ?? "uncertain" }
+      );
     return data && typeof data === "object" && !Array.isArray(data)
       ? { kind: "done" }
       : { kind: "uncertain" };

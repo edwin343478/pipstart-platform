@@ -1,4 +1,4 @@
-# M22 audit follow-up (Packages 1 and 2)
+# M22 audit follow-up (Packages 1, 2 and 4)
 
 An implementation review of the accepted M22 (17 November 2026, reviewed commit `0961665`) found:
 
@@ -31,3 +31,40 @@ Migration `20261121090000` adds one table, one function and one revoke. It is ap
 
 - The automatic check is still off; turning it on still needs one controlled real-network check (A3).
 - Broader staff rate limits (beyond this check) and the other audit packages (backups, quiz gaps, connected journey) are separate.
+
+# Package 4: staff action limits
+
+The audit asked for bounded per-person limits on consequential staff writes before a second staff member is added. Owner decisions D1–D8 were accepted on 17 November 2026.
+
+## What changed
+
+- **Store (migration `20261122090000`):**
+  - A `before insert` trigger on each action journal (editorial audit, staff audit, schedule events, learner requests) classifies the action.
+  - It takes one lock per person, counts that person's actions of the same class in the rolling hour, and raises `PT429` with `retry_after=<seconds>` once the limit is reached.
+  - The whole call rolls back, so nothing is kept. No RPC body changed.
+  - Only actions made in the person's own staff session are checked. The scheduler, migrations and owner-run SQL are never refused.
+  - An action the classifier does not know is refused (`55000`), so any future journal operation must be classified on purpose.
+- **Limits and exemptions:** see the runbook's "Staff action limits". They are kept in `pipstart_staff_private.action_limits`, which is closed to every API role.
+- **App:**
+  - `PT429` becomes a definite "limited" outcome, never "uncertain".
+  - Editors, decisions, archive and restore, publication, scheduling, partners and maintenance show the limit message with a retry estimate, and keep the work.
+  - Role, governance and learner-account changes map it to their existing "refused, nothing changed" outcome (a stated limit).
+
+## Proof
+
+- **SQL suite `test-m22-staff-action-limits.sql`** (verifier inputs 58 → 60, staged last). It checks:
+  - one past the edit, review and publish limits is refused through the real RPCs with a retry hint, and changes nothing;
+  - two people are counted apart;
+  - hold, release, withdraw, publication restore and editorial restore all work at the limit;
+  - writes with no session or another session are never refused;
+  - the rolling hour releases on time;
+  - the people limit and its exemptions behave correctly on the staff journal;
+  - every journal operation is classified;
+  - no API role has access.
+- **The SQL suite bites:** it fails with the journal trigger disabled, with withdraw misclassified as publish, and with the session check removed.
+- **A two-session race at limit 1:** the second session is refused. A planted lock-free limiter lets it through, which shows the race test is meaningful.
+- **Unit tests:** 9 new tests, all failing against the previous code, where `PT429` fell through to "uncertain".
+
+## Hosted step
+
+Migration `20261122090000` adds one table, six functions, four triggers and four indexes. It changes no existing function and grants nothing. It is applied through the owner-run packet: preflight, migration, read-only structure acceptance, history. No limit is exercised on the live project.

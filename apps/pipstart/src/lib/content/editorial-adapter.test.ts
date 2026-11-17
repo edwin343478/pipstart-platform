@@ -29,7 +29,9 @@ const signatures = new Map(
   ]),
 );
 
-function recorder(result: { data?: unknown; error?: { code: string } } = {}) {
+function recorder(
+  result: { data?: unknown; error?: { code: string; hint?: string } } = {},
+) {
   const calls: { fn: string; args: Record<string, unknown> }[] = [];
   const client: EditorialRpcClient = {
     rpc: (fn, args = {}) => {
@@ -91,6 +93,16 @@ describe("M22 MP04b editorial adapter", () => {
     }
   });
 
+  it("maps PT429 to limited with the store's retry_after hint", async () => {
+    const { repo } = recorder({
+      error: { code: "PT429", hint: "retry_after=600" },
+    });
+    const error = (await repo
+      .item("x")
+      .catch((e: unknown) => e)) as EditorialError;
+    expect(error).toBeInstanceOf(EditorialError);
+    expect([error.kind, error.retryAfter]).toEqual(["limited", 600]);
+  });
   it("refuses invalid identities, bodies and reasons before any network call", async () => {
     const { calls, repo } = recorder();
     const attempts = [

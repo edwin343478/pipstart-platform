@@ -232,6 +232,14 @@
     {
       "path": "apps/pipstart/scripts/test-m22-probe-intent.sql",
       "sha256": "f993e064c45bacd55886b284c59768fbb1adfa13a2129477bc118bdaa14c9caa"
+    },
+    {
+      "path": "supabase/migrations/20261122090000_pipstart_m22_staff_action_limits.sql",
+      "sha256": "0a0a7577a283e58a0fab9510829b2248f6ec80bc5693c71cb32168c6d14a27ff"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-staff-action-limits.sql",
+      "sha256": "703e1f6e22c8bc7c184b7259dfb1e8da5d13ce02c393fc531ee182665dee1079"
     }
   ]
 }

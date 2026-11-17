@@ -1,4 +1,5 @@
 import "server-only";
+import { limitedFrom } from "./staff-action-limit";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { staffDeadline } from "../auth/staff-entry";
 import { parseStaffAccess } from "../auth/staff-access";
@@ -72,7 +73,11 @@ export async function runPublicationSchedule(
         p_reason: command.reason,
       });
       if (write.error)
-        return { kind: errorKind(write.error.code) ?? "uncertain" };
+        return (
+          limitedFrom(write.error) ?? {
+            kind: errorKind(write.error.code) ?? "uncertain",
+          }
+        );
       const record = parseScheduleRecord(write.data, command.id);
       return record &&
         record.id === command.schedule &&
@@ -96,7 +101,11 @@ export async function runPublicationSchedule(
       p_reason: command.reason,
     });
     if (write.error)
-      return { kind: errorKind(write.error.code) ?? "uncertain" };
+      return (
+        limitedFrom(write.error) ?? {
+          kind: errorKind(write.error.code) ?? "uncertain",
+        }
+      );
     const record = parseScheduleRecord(write.data, command.id);
     return record &&
       record.id === command.operation &&

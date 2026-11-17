@@ -1,3 +1,4 @@
+import { actionLimitMessage } from "./staff-action-limit";
 import type {
   LessonDraftContent,
   LessonDraftFields,
@@ -160,7 +161,9 @@ export function lessonEditorReducer(
             ? "Save outcome uncertain. Do not resend. Load the latest permitted draft and compare before deciding what to do."
             : phase === "denied"
               ? "Current access was refused. Saving is blocked; entered work remains in this tab."
-              : "Request refused or unavailable. Check fields and parent access. Your work is preserved.",
+              : r.kind === "limited"
+                ? actionLimitMessage(r.retryAfter)
+                : "Request refused or unavailable. Check fields and parent access. Your work is preserved.",
     };
   }
   return s;

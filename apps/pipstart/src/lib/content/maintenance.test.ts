@@ -357,6 +357,23 @@ describe("MP10c maintenance service", () => {
       p_evidence: "Opened it",
     });
   });
+  it("maps the hourly action limit (PT429) to limited and never resends", async () => {
+    const f = fixture("moderator", {
+      pipstart_maintenance_acknowledge: {
+        data: null,
+        error: { code: "PT429", message: "PRIVATE", hint: "retry_after=600" },
+      },
+    });
+    expect(
+      await runMaintenance(f.client, {
+        action: "acknowledge",
+        id: "l1",
+        revision: 2,
+        reason: "x",
+      }),
+    ).toEqual({ kind: "limited", retryAfter: 600 });
+    expect(f.writes()).toHaveLength(1);
+  });
   it.each([
     ["PT409", "conflict"],
     ["42501", "denied"],

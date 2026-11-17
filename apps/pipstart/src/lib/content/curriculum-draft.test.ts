@@ -202,6 +202,26 @@ describe("MP06b1 authenticated curriculum draft writes", () => {
       ).toHaveLength(1);
     }
   });
+  it("maps the hourly action limit (PT429) to limited, never uncertain", async () => {
+    const f = fixture(),
+      original = f.rpc.getMockImplementation()!;
+    f.rpc.mockImplementation((fn, args) =>
+      fn === "pipstart_editorial_save"
+        ? f.response(null, {
+            code: "PT429",
+            message: "PRIVATE_SQL_ERROR",
+            hint: "retry_after=600",
+          })
+        : original(fn, args),
+    );
+    expect(await runCurriculumDraft(f.client, save())).toEqual({
+      kind: "limited",
+      retryAfter: 600,
+    });
+    expect(
+      f.rpc.mock.calls.filter(([fn]) => fn === "pipstart_editorial_save"),
+    ).toHaveLength(1);
+  });
   it("never retries an unknown/malformed write result", async () => {
     for (const value of [
       null,

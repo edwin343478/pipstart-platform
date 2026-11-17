@@ -1,4 +1,5 @@
 "use client";
+import { actionLimitMessage } from "@/lib/content/staff-action-limit";
 import { useState, useSyncExternalStore, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { runPartnerEditorAction } from "@/app/admin/staff/content/partner-actions";
@@ -155,7 +156,11 @@ export function StaffPartnerEditor({
         : { kind: "create-link", slug, fields: link, reason: r };
     const result = await run(input);
     if (result.kind !== "saved")
-      return setMessage(outcome[result.kind] ?? outcome.unavailable);
+      return setMessage(
+        result.kind === "limited"
+          ? actionLimitMessage(result.retryAfter)
+          : (outcome[result.kind] ?? outcome.unavailable),
+      );
     setReason("");
     if (!base) {
       router.push(
@@ -198,7 +203,11 @@ export function StaffPartnerEditor({
       reason: r,
     });
     if (result.kind !== "policy-saved")
-      return setMessage(outcome[result.kind] ?? outcome.unavailable);
+      return setMessage(
+        result.kind === "limited"
+          ? actionLimitMessage(result.retryAfter)
+          : (outcome[result.kind] ?? outcome.unavailable),
+      );
     setPolicyReason("");
     const fresh = await run({ kind: "read-policy", id: itemId });
     if (fresh.kind === "policy") setPolicy(fresh.policy);

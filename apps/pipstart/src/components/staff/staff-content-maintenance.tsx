@@ -1,4 +1,5 @@
 "use client";
+import { actionLimitMessage } from "@/lib/content/staff-action-limit";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState, type FormEvent } from "react";
@@ -55,7 +56,11 @@ function useMaintenance() {
       const result = await runMaintenanceAction(input);
       if (result.kind === "results") return result;
       if (result.kind === "uncertain") setBlocked(true);
-      setMessage(actionMessage[result.kind]);
+      setMessage(
+        result.kind === "limited"
+          ? actionLimitMessage(result.retryAfter)
+          : actionMessage[result.kind],
+      );
       if (result.kind === "done") router.refresh();
       return result;
     } catch {

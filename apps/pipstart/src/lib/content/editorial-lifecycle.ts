@@ -104,6 +104,8 @@ export async function runEditorialLifecycle(
     if (error instanceof EditorialError) {
       if (error.kind === "forbidden") return { kind: "denied" };
       if (error.kind === "conflict") return { kind: "conflict" };
+      if (error.kind === "limited")
+        return { kind: "limited", retryAfter: error.retryAfter };
       if (error.kind === "state") return { kind: "state" };
       if (error.kind === "invalid") return { kind: "invalid" };
     }

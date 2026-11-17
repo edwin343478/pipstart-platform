@@ -1,4 +1,5 @@
 import type { DeliveryCode } from "./publication-delivery-contract";
+import type { ActionLimited } from "./staff-action-limit";
 // M22 MP08b1 live publication: the browser-safe contract for the staff Publication panel. The
 // store (MP08a) decides every permission and rule; these checks only refuse malformed input early.
 export type PublicationInput =
@@ -35,6 +36,7 @@ export type PublicationStatus = {
   published: { revision: number; bodySha256: string } | null;
 };
 export type PublicationResult =
+  | ActionLimited
   | { kind: "status"; status: PublicationStatus; deliveryConfigured?: boolean }
   | {
       kind: "done";

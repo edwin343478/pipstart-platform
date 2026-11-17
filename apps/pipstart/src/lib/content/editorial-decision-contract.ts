@@ -1,4 +1,5 @@
 import type { RevisionState } from "./editorial-adapter";
+import type { ActionLimited } from "./staff-action-limit";
 export type DecisionAction = "submit" | "approve" | "changes" | "publish";
 export type DecisionInput = {
   action: DecisionAction;
@@ -8,6 +9,7 @@ export type DecisionInput = {
   note: string | null;
 };
 export type DecisionResult =
+  | ActionLimited
   | { kind: "done"; id: string; revision: number; state: RevisionState }
   | {
       kind:

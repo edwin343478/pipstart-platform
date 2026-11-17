@@ -79,7 +79,8 @@ export async function runLearnerProviderTransport(
         .abortSignal(AbortSignal.timeout(8_000));
       if (prepared.error)
         return {
-          kind: ["42501", "22023", "40001", "23505"].includes(
+          // PT429: the hourly learner-account limit; nothing was recorded.
+          kind: ["42501", "22023", "40001", "23505", "PT429"].includes(
             prepared.error.code,
           )
             ? "denied"

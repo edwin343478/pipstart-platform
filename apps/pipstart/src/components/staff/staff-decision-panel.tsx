@@ -1,4 +1,5 @@
 "use client";
+import { actionLimitMessage } from "@/lib/content/staff-action-limit";
 import { useRef, useState } from "react";
 import { runEditorialDecisionAction } from "@/app/admin/staff/content/decision-actions";
 import type {
@@ -17,6 +18,7 @@ const done: Record<DecisionAction, string> = {
   publish: "Published by the Owner.",
 };
 const refusal: Record<Exclude<DecisionResult["kind"], "done">, string> = {
+  limited: actionLimitMessage(null),
   invalid:
     "The store refused this decision. Reload the revision and check it before trying again.",
   denied:
@@ -89,7 +91,11 @@ export function StaffDecisionPanel({
         return;
       }
       if (result.kind === "uncertain") setBlocked(true);
-      setMessage(refusal[result.kind]);
+      setMessage(
+        result.kind === "limited"
+          ? actionLimitMessage(result.retryAfter)
+          : refusal[result.kind],
+      );
     } catch {
       setBlocked(true);
       setMessage(refusal.uncertain);

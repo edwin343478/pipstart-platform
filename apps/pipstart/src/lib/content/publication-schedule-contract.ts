@@ -1,4 +1,5 @@
 import { publicationReason } from "./publication-contract";
+import type { ActionLimited } from "./staff-action-limit";
 export type ScheduleAction = "publish" | "withdraw";
 export type ScheduleRecord = {
   id: string;
@@ -36,6 +37,7 @@ export type ScheduleInput =
       reason: string;
     };
 export type ScheduleResult =
+  | ActionLimited
   | { kind: "status"; status: ScheduleStatus }
   | { kind: "recorded"; record: ScheduleRecord }
   | { kind: "time"; problem: "invalid" | "ambiguous" | "nonexistent" }

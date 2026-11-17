@@ -1,3 +1,4 @@
+import { actionLimitMessage } from "./staff-action-limit";
 import type {
   QuizDraftFields,
   QuizDraftQuestion,
@@ -133,7 +134,9 @@ export function quizEditorReducer(
             ? "Save outcome uncertain. Do not resend. Load the latest permitted draft and compare before deciding what to do."
             : phase === "denied"
               ? "Current access was refused. Saving is blocked; entered work remains in this tab."
-              : "The store refused this draft or is unavailable. Nothing was saved. Load latest to check the current version; your work is preserved.",
+              : r.kind === "limited"
+                ? actionLimitMessage(r.retryAfter)
+                : "The store refused this draft or is unavailable. Nothing was saved. Load latest to check the current version; your work is preserved.",
     };
   }
   return s;

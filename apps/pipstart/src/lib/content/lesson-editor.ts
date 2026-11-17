@@ -91,6 +91,8 @@ export async function runLessonEditor(
     if (e instanceof EditorialError) {
       if (e.kind === "forbidden") return { kind: "denied" };
       if (e.kind === "conflict") return { kind: "conflict" };
+      if (e.kind === "limited")
+        return { kind: "limited", retryAfter: e.retryAfter };
       if (["invalid", "state"].includes(e.kind)) return { kind: "invalid" };
     }
     return { kind: sent ? "uncertain" : "unavailable" };

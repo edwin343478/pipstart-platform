@@ -1,4 +1,5 @@
 "use client";
+import { actionLimitMessage } from "@/lib/content/staff-action-limit";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { runPublicationScheduleAction } from "@/app/admin/staff/content/publication-actions";
 import { publicationReason } from "@/lib/content/publication-contract";
@@ -17,9 +18,16 @@ import workspace from "./staff-content-workspace.module.css";
 import panel from "./staff-decision-panel.module.css";
 import styles from "./staff-publication-schedule.module.css";
 const refusal: Record<
-  "invalid" | "denied" | "unavailable" | "conflict" | "state" | "uncertain",
+  | "invalid"
+  | "denied"
+  | "unavailable"
+  | "conflict"
+  | "state"
+  | "uncertain"
+  | "limited",
   string
 > = {
+  limited: actionLimitMessage(null),
   invalid: "Check the action, reason and date/time. No schedule was saved.",
   denied:
     "Your current access does not allow this request. Schedule details have been cleared.",
@@ -230,7 +238,9 @@ export function StaffPublicationSchedule({
             ? scheduleTimeMessage[result.problem]
             : result.kind === "status"
               ? refusal.uncertain
-              : refusal[result.kind],
+              : result.kind === "limited"
+                ? actionLimitMessage(result.retryAfter)
+                : refusal[result.kind],
         );
         if (result.kind === "status") setBlocked(true);
       }

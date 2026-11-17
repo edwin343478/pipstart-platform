@@ -1,4 +1,5 @@
 "use client";
+import { actionLimitMessage } from "@/lib/content/staff-action-limit";
 import { StaffPublicationSchedule } from "./staff-publication-schedule";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
@@ -35,6 +36,7 @@ const refusal: Record<
   Exclude<PublicationResult["kind"], "status" | "done">,
   string
 > = {
+  limited: actionLimitMessage(null),
   invalid:
     "The store refused this change. Reload and check it before trying again. Nothing was changed.",
   denied:
@@ -139,7 +141,11 @@ function usePublication(id: string | null) {
         return false;
       }
       if (result.kind === "uncertain") setBlocked(true);
-      setMessage(refusal[result.kind === "status" ? "uncertain" : result.kind]);
+      setMessage(
+        result.kind === "limited"
+          ? actionLimitMessage(result.retryAfter)
+          : refusal[result.kind === "status" ? "uncertain" : result.kind],
+      );
       if (result.kind === "status" || result.kind === "uncertain")
         setBlocked(true);
       return false;

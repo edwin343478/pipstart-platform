@@ -1,3 +1,4 @@
+import type { ActionLimited } from "./staff-action-limit";
 // M22 MP09c: the partner and link editor's shapes, shared by the browser and the server. The rules
 // mirror the store (MP09a); the store stays the authority and rechecks everything. One link per
 // partner: partner:<slug> owns link:<slug>, served at /go/<slug>.
@@ -67,6 +68,7 @@ export type PartnerEditorView =
   | ({ kind: "partner"; fields: PartnerFields; hasLink: boolean } & ViewBase)
   | ({ kind: "link"; fields: LinkFields } & ViewBase);
 export type PartnerEditorResult =
+  | ActionLimited
   | { kind: "ready"; view: PartnerEditorView }
   | { kind: "policy"; policy: PartnerPolicyView }
   | { kind: "saved"; id: string; revision: number }

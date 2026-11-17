@@ -148,6 +148,8 @@ export const MP03_SQL_INPUTS = Object.freeze([
   "apps/pipstart/scripts/test-m22-retention-restore.sql",
   "supabase/migrations/20261121090000_pipstart_m22_probe_intent.sql",
   "apps/pipstart/scripts/test-m22-probe-intent.sql",
+  "supabase/migrations/20261122090000_pipstart_m22_staff_action_limits.sql",
+  "apps/pipstart/scripts/test-m22-staff-action-limits.sql",
 ]);
 export function checkedMp03Manifest(repositoryRoot, manifest) {
   if (
@@ -288,6 +290,8 @@ export async function verifyStaffCore(
     auditCoverageHead: false,
     probeIntentStaged: false,
     probeIntentHead: false,
+    actionLimitsStaged: false,
+    actionLimitsHead: false,
     schedulerStaged: false,
     schedulerHead: false,
     schedulerOverlap: false,
@@ -2003,6 +2007,35 @@ export async function verifyStaffCore(
       if (!result.schedulerRevoked)
         throw Error("Revoked authorizer published due work");
     }
+    // Package 4: the hourly staff action limits, staged last so no earlier stage meets them.
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "supabase/migrations/20261122090000_pipstart_m22_staff_action_limits.sql",
+        ),
+        "utf8",
+      ),
+    );
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "apps/pipstart/scripts/test-m22-staff-action-limits.sql",
+        ),
+        "utf8",
+      ),
+    );
+    result.actionLimitsStaged = true;
+    result.actionLimitsHead =
+      sql(
+        database,
+        "select not exists(select 1 from auth.users where id::text like 'f4000000-%') and (select jsonb_object_agg(class,per_hour) from pipstart_staff_private.action_limits)='{\"edit\":120,\"review\":60,\"publish\":10,\"people\":30,\"upkeep\":60,\"learner_accounts\":10}'::jsonb and (select count(*) from pg_trigger where tgname='pipstart_action_limit' and tgenabled='O')=4 and not has_table_privilege('authenticated','pipstart_staff_private.action_limits','select') and not has_function_privilege('authenticated','pipstart_staff_private.action_spend(uuid,text)','execute');",
+      ) === "t";
+    if (!result.actionLimitsHead)
+      throw Error("Action limit rollback/grant/head failed");
     cleanup();
     result.passed =
       result.staged &&
@@ -2079,6 +2112,8 @@ export async function verifyStaffCore(
       result.auditCoverageHead &&
       result.probeIntentStaged &&
       result.probeIntentHead &&
+      result.actionLimitsStaged &&
+      result.actionLimitsHead &&
       result.schedulerStaged &&
       result.schedulerHead &&
       result.schedulerOverlap &&

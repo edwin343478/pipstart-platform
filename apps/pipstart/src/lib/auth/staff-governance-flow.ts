@@ -247,7 +247,8 @@ export async function completeGovernanceIntent(
       return {
         kind: reconcileOnly
           ? "unknown"
-          : ["42501", "22023"].includes(reply.error.code)
+          : // PT429: the hourly people-change limit; the change and its receipt were rolled back.
+            ["42501", "22023", "PT429"].includes(reply.error.code)
             ? "rejected"
             : "unknown",
       };

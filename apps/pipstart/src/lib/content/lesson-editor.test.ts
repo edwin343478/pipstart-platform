@@ -233,6 +233,26 @@ describe("lesson editor creation transport", () => {
       f.rpc.mock.calls.filter((c) => c[0] === "pipstart_editorial_create"),
     ).toHaveLength(1);
   });
+  it("maps the hourly action limit (PT429) on create to limited, never uncertain", async () => {
+    const f = fixture(),
+      base = f.rpc.getMockImplementation()!;
+    f.rpc.mockImplementation((fn, args) =>
+      fn === "pipstart_editorial_create"
+        ? f.response(null, {
+            code: "PT429",
+            message: "PRIVATE_PROVIDER_ERROR",
+            hint: "retry_after=600",
+          })
+        : base(fn, args),
+    );
+    expect(await runLessonEditor(f.client, command())).toEqual({
+      kind: "limited",
+      retryAfter: 600,
+    });
+    expect(
+      f.rpc.mock.calls.filter((c) => c[0] === "pipstart_editorial_create"),
+    ).toHaveLength(1);
+  });
   it("retains uncertain state for a malformed creation acknowledgement", async () => {
     const f = fixture(),
       base = f.rpc.getMockImplementation()!;

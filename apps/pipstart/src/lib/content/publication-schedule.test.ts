@@ -275,6 +275,15 @@ describe("current-user schedule controller", () => {
       expect(f.writes).toHaveLength(1);
     },
   );
+  it("maps the hourly action limit (PT429) to limited without retry", async () => {
+    const f = fixture();
+    f.write(null, { code: "PT429", hint: "retry_after=600" });
+    expect(await runPublicationSchedule(f.client, input())).toEqual({
+      kind: "limited",
+      retryAfter: 600,
+    });
+    expect(f.writes).toHaveLength(1);
+  });
   it.each([
     { id: "6a2b3c4d-1111-4222-8333-444455556667" },
     { body_sha256: "b".repeat(64) },

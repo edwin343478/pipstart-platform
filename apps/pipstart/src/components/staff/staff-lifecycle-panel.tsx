@@ -1,4 +1,5 @@
 "use client";
+import { actionLimitMessage } from "@/lib/content/staff-action-limit";
 import { useRef, useState } from "react";
 import { runEditorialLifecycleAction } from "@/app/admin/staff/content/lifecycle-actions";
 import type {
@@ -25,6 +26,7 @@ const confirmText: Record<LifecycleAction, (d: WorkspaceDetail) => string> = {
   release: (d) => `Release the hold on ${d.id}?`,
 };
 const refusal: Record<Exclude<LifecycleResult["kind"], "done">, string> = {
+  limited: actionLimitMessage(null),
   invalid: "The store refused this request. Check the reason and try again.",
   denied:
     "You cannot do this for this item. Access is checked again on every request.",
@@ -85,7 +87,11 @@ export function StaffLifecyclePanel({
         return;
       }
       if (result.kind === "uncertain") setBlocked(true);
-      setMessage(refusal[result.kind]);
+      setMessage(
+        result.kind === "limited"
+          ? actionLimitMessage(result.retryAfter)
+          : refusal[result.kind],
+      );
     } catch {
       setBlocked(true);
       setMessage(refusal.uncertain);

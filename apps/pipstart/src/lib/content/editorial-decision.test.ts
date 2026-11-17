@@ -283,6 +283,16 @@ describe("review and publication decisions", () => {
     expect(JSON.stringify(r)).not.toContain("private");
     expect(writes(f)).toHaveLength(1);
   });
+  it("maps the hourly action limit (PT429) to limited without retrying", async () => {
+    const f = fixture("owner", {
+      pipstart_editorial_approve_single_person: Error("PT429"),
+    });
+    expect(await runEditorialDecision(f.client, command("publish"))).toEqual({
+      kind: "limited",
+      retryAfter: null,
+    });
+    expect(writes(f)).toHaveLength(1);
+  });
   it("treats an unexpected acknowledgement as uncertain", async () => {
     for (const reply of [
       result("draft"),

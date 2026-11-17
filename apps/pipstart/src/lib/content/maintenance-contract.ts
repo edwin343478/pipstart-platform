@@ -2,6 +2,7 @@
 // MP10a store replies and the commands the Maintenance page may send. The store decides every
 // permission; these shapes only refuse malformed data before or after it.
 import type { LiveStaffAccess } from "../auth/staff-role-flow";
+import { actionLimitMessage, type ActionLimited } from "./staff-action-limit";
 
 export const MAINTENANCE_FAMILIES = [
   "lesson",
@@ -91,6 +92,7 @@ export type MaintenanceInput =
       reason: string;
     };
 export type MaintenanceActionResult =
+  | ActionLimited
   | { kind: "done" }
   | { kind: "results"; revision: number; results: MaintenanceResult[] }
   | {
@@ -389,6 +391,7 @@ export const actionMessage: Record<
   Exclude<MaintenanceActionResult["kind"], "results">,
   string
 > = {
+  limited: actionLimitMessage(null),
   done: "Saved.",
   invalid:
     "The store refused this. Check the reason, date or reference and try again. Nothing was changed.",

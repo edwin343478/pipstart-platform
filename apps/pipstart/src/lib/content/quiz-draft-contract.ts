@@ -1,4 +1,5 @@
 import { draftId, object } from "./curriculum-draft-contract";
+import type { ActionLimited } from "./staff-action-limit";
 
 // M22 MP07b quiz drafts. The same rules as the grading registry (lib/assessment-registry.ts), so a
 // saved draft can always be graded once approved. Editors never choose a version: the server sets it.
@@ -47,6 +48,7 @@ export type QuizDraftView = {
   questions: QuizDraftQuestion[];
 };
 export type QuizDraftResult =
+  | ActionLimited
   | { kind: "ready"; item: QuizDraftView }
   | {
       kind: "saved";

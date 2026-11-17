@@ -1,3 +1,4 @@
+import type { ActionLimited } from "./staff-action-limit";
 export type LifecycleAction = "archive" | "restore" | "hold" | "release";
 export type LifecycleInput = {
   action: LifecycleAction;
@@ -7,6 +8,7 @@ export type LifecycleInput = {
   reason: string | null;
 };
 export type LifecycleResult =
+  | ActionLimited
   | {
       kind: "done";
       id: string;

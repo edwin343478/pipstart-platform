@@ -7,10 +7,11 @@ import "server-only";
 // until MP08.
 import type { ContentBody, ContentFamily, LearningPath } from "./contract";
 import { checkContentBody } from "./validate";
+import { retryAfterFromHint } from "./staff-action-limit";
 
 type RpcResult = {
   data: unknown;
-  error: { code?: string; message?: string } | null;
+  error: { code?: string; message?: string; hint?: string } | null;
 };
 /** The part of a Supabase client this adapter uses; pass the signed-in staff client. */
 export type EditorialRpcClient = {
@@ -18,12 +19,14 @@ export type EditorialRpcClient = {
 };
 
 export type EditorialErrorKind =
-  "conflict" | "forbidden" | "invalid" | "state" | "unavailable";
+  "conflict" | "forbidden" | "invalid" | "state" | "unavailable" | "limited";
 export class EditorialError extends Error {
   constructor(
     readonly kind: EditorialErrorKind,
     message: string,
     readonly code?: string,
+    /** Seconds until the hourly action limit frees a slot (kind "limited" only). */
+    readonly retryAfter: number | null = null,
   ) {
     super(message);
     this.name = "EditorialError";
@@ -32,6 +35,8 @@ export class EditorialError extends Error {
 // PT409 is the store's optimistic conflict (never 40001, which PostgREST retries).
 const kinds: Record<string, EditorialErrorKind> = {
   PT409: "conflict",
+  // Package 4: the per-actor hourly action limit; the whole call was rolled back.
+  PT429: "limited",
   "42501": "forbidden",
   "22023": "invalid",
   "55000": "state",
@@ -148,6 +153,7 @@ export function createEditorialRepository(client: EditorialRpcClient) {
         kinds[error.code ?? ""] ?? "unavailable",
         error.message ?? "Editorial store unavailable",
         error.code,
+        error.code === "PT429" ? retryAfterFromHint(error.hint) : null,
       );
     return data as T;
   }

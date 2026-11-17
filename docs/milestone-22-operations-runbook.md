@@ -28,6 +28,24 @@ One page for running the M22 staff platform. It gathers the operator rules from 
 - Only the Owner manages Owner and Administrator roles and delegations.
 - Metadata in a user's account grants nothing (proven in MP11c).
 
+## Staff action limits
+
+Each person may make only so many consequential changes per rolling hour (Package 4, migration `20261122090000`). The store counts them, so the limit holds across every server instance and for direct API calls.
+
+| Class            | Actions                                                        | Per person per hour |
+| ---------------- | -------------------------------------------------------------- | ------------------- |
+| Edit             | create, save, archive, review policy, partner policy           | 120                 |
+| Review           | submit, approve, request changes, single-person approval       | 60                  |
+| Publish          | make live, delivery refresh, schedule, cancel a schedule       | 10                  |
+| People           | grant or revoke a role or delegation, assign, unassign, resume | 30                  |
+| Upkeep           | maintenance actions and check results                          | 60                  |
+| Learner accounts | learner suspend or resume requests                             | 10                  |
+
+- **Never limited:** pausing or enabling staff access, suspending a staff member, placing or releasing a hold, withdrawing (taking offline), restoring content or a generation, imports, the baseline, the scheduler, and owner-run SQL.
+- **The Owner is limited too.** Every emergency and recovery action above stays open.
+- **What staff see:** "Too many changes in the last hour. Nothing was changed…" with an estimate of when to retry. The editors keep the unsaved text. Role, governance and learner-account screens show their usual "refused, nothing changed" message instead (a stated limit).
+- **Changing a limit:** owner-run SQL, for example `update pipstart_staff_private.action_limits set per_hour=… where class='publish';` (classes as above, 1–10000). No screen changes a limit, and no API role can read the table.
+
 ## Retention
 
 - **Content:** every revision, decision and generation is kept. Archive is the store's trash, and nothing is ever purged.

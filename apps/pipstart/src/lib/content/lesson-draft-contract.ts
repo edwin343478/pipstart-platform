@@ -1,5 +1,6 @@
 import type { LessonBlock, LessonSource } from "../../content/lesson-content";
 import { draftId, object } from "./curriculum-draft-contract";
+import type { ActionLimited } from "./staff-action-limit";
 export type LessonEditableBlock = LessonBlock;
 export type LessonDraftFields = {
   title: string;
@@ -247,6 +248,7 @@ export type LessonDraftView = {
   protectedBlockIndexes: number[];
 };
 export type LessonDraftResult =
+  | ActionLimited
   | { kind: "ready"; item: LessonDraftView }
   | { kind: "saved"; id: string; revision: number; bodySha256: string }
   | { kind: "invalid" | "denied" | "unavailable" | "conflict" | "uncertain" };

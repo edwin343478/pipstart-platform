@@ -1,4 +1,5 @@
 import "server-only";
+import { limitedFrom } from "./staff-action-limit";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { staffDeadline } from "../auth/staff-entry";
 import { readLiveStaffAccess } from "../auth/staff-role-flow";
@@ -20,9 +21,15 @@ const EDITORS = ["owner", "affiliate_manager"];
 type Rpc = (
   fn: string,
   args: Record<string, unknown>,
-) => Promise<{ data: unknown; error: { code?: string } | null }>;
+) => Promise<{
+  data: unknown;
+  error: { code?: string; hint?: string } | null;
+}>;
 class StoreError extends Error {
-  constructor(readonly code: string) {
+  constructor(
+    readonly code: string,
+    readonly hint: string | null = null,
+  ) {
     super(code);
   }
 }
@@ -72,7 +79,8 @@ export async function runPartnerEditor(
     };
     const call = async (fn: string, args: Record<string, unknown>) => {
       const r = await rpc(fn, args);
-      if (r.error) throw new StoreError(r.error.code ?? "");
+      if (r.error)
+        throw new StoreError(r.error.code ?? "", r.error.hint ?? null);
       return r.data;
     };
     const read = async (id: string): Promise<PartnerEditorView | null> => {
@@ -225,6 +233,8 @@ export async function runPartnerEditor(
     if (error instanceof StoreError) {
       if (error.code === "42501") return { kind: "denied" };
       if (error.code === "PT409") return { kind: "conflict" };
+      const limited = limitedFrom(error);
+      if (limited) return limited;
       if (["22023", "55000"].includes(error.code)) return { kind: "invalid" };
     }
     return { kind: sent ? "uncertain" : "unavailable" };

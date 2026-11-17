@@ -99,6 +99,8 @@ export async function runLessonDraft(
     if (error instanceof EditorialError) {
       if (error.kind === "forbidden") return { kind: "denied" };
       if (error.kind === "conflict") return { kind: "conflict" };
+      if (error.kind === "limited")
+        return { kind: "limited", retryAfter: error.retryAfter };
       if (["invalid", "state"].includes(error.kind)) return { kind: "invalid" };
     }
     return { kind: sent ? "uncertain" : "unavailable" };

@@ -221,6 +221,26 @@ describe("MP06c1 verified lesson service", () => {
       f.rpc.mock.calls.filter((c) => c[0] === "pipstart_editorial_save"),
     ).toHaveLength(1);
   });
+  it("maps the hourly action limit (PT429) to limited with its retry time, never uncertain", async () => {
+    const f = fixture(),
+      base = f.rpc.getMockImplementation()!;
+    f.rpc.mockImplementation((fn) =>
+      fn === "pipstart_editorial_save"
+        ? f.response(null, {
+            code: "PT429",
+            message: "PRIVATE_SQL",
+            hint: "retry_after=600",
+          })
+        : base(fn),
+    );
+    expect(await runLessonDraft(f.client, save())).toEqual({
+      kind: "limited",
+      retryAfter: 600,
+    });
+    expect(
+      f.rpc.mock.calls.filter((c) => c[0] === "pipstart_editorial_save"),
+    ).toHaveLength(1);
+  });
   it("treats malformed acknowledgements and lost write responses as uncertain, never retrying", async () => {
     for (const data of [
       null,

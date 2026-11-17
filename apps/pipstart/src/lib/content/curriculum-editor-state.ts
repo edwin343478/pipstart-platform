@@ -1,3 +1,4 @@
+import { actionLimitMessage } from "./staff-action-limit";
 import type {
   CurriculumDraftFields,
   CurriculumDraftResult,
@@ -134,7 +135,9 @@ export function editorReducer(s: EditorState, e: EditorEvent): EditorState {
             ? "The save outcome is uncertain. Do not resend it. Load the latest permitted draft and compare before deciding what to do."
             : r.kind === "denied"
               ? "Staff access changed. Saving is blocked. Your entered values remain in this tab."
-              : "The request was refused or unavailable. Check the fields, identity and parent access. Your values are preserved.",
+              : r.kind === "limited"
+                ? actionLimitMessage(r.retryAfter)
+                : "The request was refused or unavailable. Check the fields, identity and parent access. Your values are preserved.",
     };
   }
   return s;
