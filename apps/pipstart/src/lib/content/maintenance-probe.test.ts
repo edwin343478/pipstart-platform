@@ -61,8 +61,17 @@ describe("MP10d checkable URLs", () => {
     "https://docs.example.org/a b",
     "ftp://docs.example.org/",
     "https://docs.example.org/" + "a".repeat(2048),
+    "https://docs.example.org/%72eset/opaque",
+    "https://docs.example.org/%75nsubscribe/opaque",
+    "https://docs.example.org/%2572eset/opaque",
+    "https://docs.example.org/a%2Freset",
+    "https://docs.example.org/a%5Creset",
+    "https://docs.example.org/%E0%A4%A",
+    "https://docs.example.org/LOG%49N",
     42,
   ])("refuses %s", (u) => expect(checkableUrl(u)).toBeNull());
+  it("accepts an ordinary encoded path", () =>
+    expect(checkableUrl("https://docs.example.org/a%20guide")).not.toBeNull());
 });
 
 describe("MP10d public addresses", () => {
@@ -252,8 +261,8 @@ describe("MP10d staff check", () => {
         : replies[fn]
           ? response(replies[fn].data, replies[fn].error)
           : response(
-              fn === "pipstart_maintenance_check_allowed"
-                ? true
+              fn === "pipstart_maintenance_probe_intent"
+                ? { status: "cleared", item_id: "l1", revision: 2 }
                 : { item_id: "l1", status: "recorded" },
             ),
     );
@@ -306,7 +315,10 @@ describe("MP10d staff check", () => {
   });
   it("never contacts a host the store does not allow", async () => {
     const c = client("moderator", {
-        pipstart_maintenance_check_allowed: { data: false, error: null },
+        pipstart_maintenance_probe_intent: {
+          data: { status: "not-allowed" },
+          error: null,
+        },
       }),
       { d, sent } = deps(["93.184.216.34"]);
     expect(await runMaintenanceProbe(c.client, input, d)).toEqual({
@@ -314,7 +326,7 @@ describe("MP10d staff check", () => {
     });
     expect(sent).toEqual([]);
     expect(c.calls().map((x) => x[0])).toEqual([
-      "pipstart_maintenance_check_allowed",
+      "pipstart_maintenance_probe_intent",
     ]);
   });
   it("checks once and records one probe result", async () => {
@@ -326,7 +338,10 @@ describe("MP10d staff check", () => {
       evidence: "HEAD 404 in 40 ms",
     });
     expect(c.calls()).toEqual([
-      ["pipstart_maintenance_check_allowed", { p_url: input.reference }],
+      [
+        "pipstart_maintenance_probe_intent",
+        { p_item: "l1", p_expected_revision: 2, p_reference: input.reference },
+      ],
       [
         "pipstart_maintenance_record_result",
         {
@@ -355,6 +370,26 @@ describe("MP10d staff check", () => {
       expect(sent).toHaveLength(1);
     },
   );
+  it.each([
+    ["42501", "denied"],
+    ["PT409", "conflict"],
+    ["22023", "invalid"],
+    ["PT429", "limited"],
+  ])(
+    "makes no DNS or HTTP contact when the store refuses the intent (%s)",
+    async (code, kind) => {
+      const c = client("moderator", {
+          pipstart_maintenance_probe_intent: { data: null, error: { code } },
+        }),
+        { d, sent } = deps(["93.184.216.34"]);
+      expect(await runMaintenanceProbe(c.client, input, d)).toEqual({ kind });
+      expect(d.resolve).not.toHaveBeenCalled();
+      expect(sent).toEqual([]);
+      expect(c.calls().map((x) => x[0])).toEqual([
+        "pipstart_maintenance_probe_intent",
+      ]);
+    },
+  );
   it("runs one check at a time", async () => {
     let release: () => void = () => {};
     const gate = new Promise<void>((r) => (release = r));
@@ -373,5 +408,80 @@ describe("MP10d staff check", () => {
     });
     release();
     expect((await first).kind).toBe("checked");
+  });
+});
+
+describe("MP10d overall deadline (audit F2)", () => {
+  beforeEach(() => vi.useFakeTimers());
+  afterEach(() => vi.useRealTimers());
+  const hanging = (onSend?: (signal: AbortSignal) => void): ProbeDeps => ({
+    resolve: async () => [{ address: "93.184.216.34", family: 4 }],
+    send: (input) => {
+      onSend?.(input.signal);
+      return new Promise(() => {});
+    },
+    now: () => Date.now(),
+  });
+  it("ends a send that never answers at 8 s and aborts the real request", async () => {
+    let signal: AbortSignal | undefined;
+    let settled = false;
+    const run = probeUrl(
+      url,
+      hanging((s) => (signal = s)),
+    ).then((r) => ((settled = true), r));
+    await vi.advanceTimersByTimeAsync(7999);
+    expect(settled).toBe(false);
+    expect(signal?.aborted).toBe(false);
+    await vi.advanceTimersByTimeAsync(1);
+    expect(await run).toEqual({
+      classification: "timeout",
+      evidence: "No reply within 8000 ms",
+    });
+    expect(signal?.aborted).toBe(true);
+    expect(vi.getTimerCount()).toBe(0);
+  });
+  it("counts the HEAD-to-GET fallback inside the same 8 s", async () => {
+    const signals: AbortSignal[] = [];
+    const d: ProbeDeps = {
+      resolve: async () => [{ address: "93.184.216.34", family: 4 }],
+      send: (input) => {
+        signals.push(input.signal);
+        return input.method === "HEAD"
+          ? new Promise((r) =>
+              setTimeout(() => r({ status: 405, location: null }), 6000),
+            )
+          : new Promise(() => {});
+      },
+      now: () => Date.now(),
+    };
+    const run = probeUrl(url, d);
+    await vi.advanceTimersByTimeAsync(8000);
+    expect((await run).classification).toBe("timeout");
+    expect(signals).toHaveLength(2);
+    expect(signals.every((s) => s.aborted)).toBe(true);
+  });
+  it("ends a DNS lookup that never answers at 3 s without contacting anything", async () => {
+    const send = vi.fn();
+    const run = probeUrl(url, {
+      resolve: () => new Promise(() => {}),
+      send,
+      now: () => Date.now(),
+    });
+    await vi.advanceTimersByTimeAsync(3000);
+    expect(await run).toEqual({
+      classification: "timeout",
+      evidence: "DNS lookup timed out",
+    });
+    expect(send).not.toHaveBeenCalled();
+    expect(vi.getTimerCount()).toBe(0);
+  });
+  it("clears every timer when a check finishes early", async () => {
+    const run = probeUrl(url, {
+      resolve: async () => [{ address: "93.184.216.34", family: 4 }],
+      send: async () => ({ status: 200, location: null }),
+      now: () => Date.now(),
+    });
+    expect((await run).classification).toBe("ok");
+    expect(vi.getTimerCount()).toBe(0);
   });
 });

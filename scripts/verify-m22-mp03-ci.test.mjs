@@ -21,8 +21,8 @@ const manifest = JSON.parse(
   ),
 );
 test("complete checked-in MP03 SQL inputs match exact ordered scope", () => {
-  assert.equal(MP03_SQL_INPUTS.length, 56);
-  assert.deepEqual(MP03_SQL_INPUTS.slice(-33), [
+  assert.equal(MP03_SQL_INPUTS.length, 58);
+  assert.deepEqual(MP03_SQL_INPUTS.slice(-35), [
     "supabase/migrations/20261030090000_pipstart_m22_editorial_store.sql",
     "apps/pipstart/scripts/test-m22-editorial-store.sql",
     "supabase/migrations/20261031090000_pipstart_m22_editorial_import.sql",
@@ -56,6 +56,8 @@ test("complete checked-in MP03 SQL inputs match exact ordered scope", () => {
     "apps/pipstart/scripts/test-m22-conflict-codes.sql",
     "apps/pipstart/scripts/test-m22-audit-coverage.sql",
     "apps/pipstart/scripts/test-m22-retention-restore.sql",
+    "supabase/migrations/20261121090000_pipstart_m22_probe_intent.sql",
+    "apps/pipstart/scripts/test-m22-probe-intent.sql",
   ]);
   assert.deepEqual(checkedMp03Manifest(root, manifest), manifest.files);
 });

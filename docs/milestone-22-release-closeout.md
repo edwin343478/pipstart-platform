@@ -69,7 +69,7 @@ AT01 to AT05 are all **accepted**; see `milestone-22-mp11-release-review.md`.
 | A2  | **The live admin and learner gate is deferred** until test accounts exist. Real Auth and PostgREST were proven locally (MP03, MP11c); CI skips the live learner gates       |
 | A3  | **The automatic single-link check ships off.** Its rules are tested with simulated network faults; the real network test was not run                                        |
 | A4  | **Quiz editor gaps:** no new-quiz creation, no reviewer read-only view, no archive button. The store archives and restores quizzes, and every version is kept               |
-| A5  | **The Moderator role covers assigned maintenance only;** no moderation feature exists                                                                                       |
+| A5  | **Clarification, not a shortfall:** the original master plan already limited the Moderator to assigned maintenance (no forum); no other moderation feature exists           |
 | A6  | **MP11 lean path:** the integrated journey and failure drills are a traced evidence map, not one single run; the date-field fix was verified by a same-browser reproduction |
 
 **Accepted limits:**

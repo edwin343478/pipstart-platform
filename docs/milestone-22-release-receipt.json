@@ -1,0 +1,38 @@
+{
+  "milestone": "M22",
+  "kind": "terminal release receipt (written after the fact; it does not certify its own commit)",
+  "acceptedCommit": "09616659d70576843134f11148f7cf8e316baf93",
+  "acceptedCommitTitle": "Close Milestone 22 with the release closeout and handover",
+  "checks": [
+    {
+      "name": "CI (format, lint, typecheck, test, build; M21 SQL)",
+      "conclusion": "success",
+      "url": "https://github.com/edwin343478/pipstart-platform/actions/runs/44098607117",
+      "completedAt": "2026-11-17T14:22:28Z"
+    },
+    {
+      "name": "M22 staff SQL acceptance (56 inputs)",
+      "conclusion": "success",
+      "url": "https://github.com/edwin343478/pipstart-platform/actions/runs/44098607057",
+      "completedAt": "2026-11-17T14:02:55Z"
+    },
+    {
+      "name": "Live learner release gates",
+      "conclusion": "skipped",
+      "note": "not passed: deferred by amendment A2"
+    }
+  ],
+  "deployment": {
+    "provider": "Vercel",
+    "state": "success",
+    "url": "https://vercel.com/pipstart/pipstart-platform/4NU1toNp5DEawWpBoW1thzbHgztu",
+    "reportedAt": "2026-11-17T14:02:02Z",
+    "note": "a reported successful deployment for the commit; not an independent check of every production setting"
+  },
+  "amendments": ["A1", "A2", "A3", "A4", "A5 (clarification)", "A6"],
+  "ownerAcceptance": {
+    "statement": "Accept M22",
+    "date": "2026-11-17"
+  },
+  "independentAudit": "none before acceptance; an implementation review dated 2026-11-17 followed (see milestone-22-audit-followup.md)"
+}

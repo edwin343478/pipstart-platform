@@ -116,6 +116,8 @@ const probeMessage: Record<string, string> = {
   "not-allowed":
     "This host is not on the Owner's allowlist, or it is an affiliate host. Record a manual check instead.",
   busy: "Another check is running. Try again in a moment.",
+  limited:
+    "You have used this hour's automatic checks. Try again later, or record a manual check.",
   conflict:
     "This item changed (a new revision went live). Reload and check again.",
   uncertain:

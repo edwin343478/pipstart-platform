@@ -4,16 +4,16 @@ One page for running the M22 staff platform. It gathers the operator rules from 
 
 ## Who can do what
 
-| Role              | Can do (only on assigned items, except the Owner)                                      |
-| ----------------- | -------------------------------------------------------------------------------------- |
-| Owner             | Everything, including roles, partner disclosure policy, holds and review intervals     |
-| Administrator     | Read people. With a delegation: manage learners, delegate roles, read the audit        |
-| Author            | Write, submit and archive courses, modules, lessons and quizzes                        |
-| Reviewer          | Review content, partners and links                                                     |
-| Editor            | As Author, plus publish, withdraw and restore; publish and withdraw partners and links |
-| Affiliate Manager | Write, archive and restore partners and links; revoke links                            |
-| Moderator         | Assigned maintenance work only                                                         |
-| Any staff role    | Their own assigned maintenance items                                                   |
+| Role              | Can do (only on assigned items, except the Owner)                                                                                |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Owner             | Everything, including any role, partner disclosure policy, holds and review intervals                                            |
+| Administrator     | Read people. With a delegation: manage learners, read the audit, and grant or revoke the five non-admin roles (`roles.delegate`) |
+| Author            | Write, submit and archive courses, modules, lessons and quizzes                                                                  |
+| Reviewer          | Review content, partners and links                                                                                               |
+| Editor            | As Author, plus publish, withdraw and restore; publish and withdraw partners and links                                           |
+| Affiliate Manager | Write, archive and restore partners and links; revoke links                                                                      |
+| Moderator         | Assigned maintenance work only                                                                                                   |
+| Any staff role    | Their own assigned maintenance items                                                                                             |
 
 **Every staff action needs:**
 
@@ -21,7 +21,12 @@ One page for running the M22 staff platform. It gathers the operator rules from 
 - a TOTP (aal2) session;
 - staff access switched on.
 
-Only the Owner changes roles. Metadata in a user's account grants nothing (proven in MP11c).
+**Role changes:**
+
+- The Owner can grant or revoke any role.
+- An Administrator holding the `roles.delegate` delegation can grant or revoke **only** Author, Reviewer, Editor, Moderator and Affiliate Manager, **only** for other people, and **never** for an Owner or Administrator (the store's delegation ceiling).
+- Only the Owner manages Owner and Administrator roles and delegations.
+- Metadata in a user's account grants nothing (proven in MP11c).
 
 ## Retention
 
@@ -49,7 +54,7 @@ Only the Owner changes roles. Metadata in a user's account grants nothing (prove
   2. Review and approve it.
   3. Make it live.
 - **Scheduler:** paused (version 8, Cron job 2 inactive). Resuming needs a reviewed capacity check (MP01 gate `MP08-hosted-scheduler-capacity`).
-- **Automatic link check:** off. To enable:
+- **Automatic link check:** off. Before any outside contact, the store authorizes the exact person, item, live revision, link and host, and allows at most 20 checks per person per hour. To enable:
   1. Add allowlisted hosts.
   2. Set `PIPSTART_MAINTENANCE_PROBE_ENABLED=true` and redeploy.
   3. Check one link and confirm the result.

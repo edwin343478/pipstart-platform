@@ -18,7 +18,7 @@ When the check is enabled, the assignee or the Owner gets **Check a link automat
    - Links that look like sign-in, reset, verify, unsubscribe or callback links are refused.
    - So are links with secret-looking query parameters (token, key, signature, code, session, password and similar). These are never checked.
 2. **Staff access** is checked again for the request: Owner, Author, Reviewer, Editor, Moderator or Affiliate Manager.
-3. **The store confirms the host** (`pipstart_maintenance_check_allowed`): it must be on the Owner's allowlist and must not be any approved affiliate host. Otherwise nothing is contacted.
+3. **The store clears the check before any contact** (`pipstart_maintenance_probe_intent`, added after the 17 November audit): the caller must be allowed to act on the item, the revision must be the live one, the link must be in it, and the host must be on the Owner's allowlist and not an affiliate host. It also allows at most 20 checks per person per rolling hour, counted in the store so every server shares it. Otherwise nothing is contacted. (Before the audit fix, only the host was confirmed here, and the item was checked only when recording; see `milestone-22-audit-followup.md`.)
 4. **Address checks:** the host is resolved once, and **every** address must be globally routable.
    - Refused IPv4: private, loopback, link-local, carrier-grade NAT, benchmarking, documentation, multicast and reserved ranges.
    - Refused IPv6: unspecified, loopback, IPv4-mapped and IPv4-compatible, NAT64, unique-local, link-local, site-local, multicast, Teredo and other protocol assignments, 6to4, and documentation ranges.
@@ -28,7 +28,7 @@ When the check is enabled, the assignee or the Owner gets **Check a link automat
    - `HEAD` is sent first, falling back to a `GET` for one byte (`Range: bytes=0-0`) when `HEAD` is not allowed.
    - Only `User-Agent` and `Accept` headers are sent: no cookies or credentials.
    - Redirects are reported (with the target host) and never followed.
-   - The body is never read, response headers are capped at 16 KB, and there is one 8-second deadline (3 seconds for DNS).
+   - The body is never read, response headers are capped at 16 KB, and one 8-second deadline covers DNS (itself capped at 3 seconds), the connection, the headers and the HEAD-to-GET fallback. When it expires, the real request is aborted. (Before the audit fix the 8 seconds was only a socket inactivity timer.)
    - One check runs at a time per server.
 6. **Classification:**
    - 2xx: ok;

@@ -39,6 +39,7 @@ export type ProbeResult =
         | "unavailable"
         | "not-allowed"
         | "busy"
+        | "limited"
         | "conflict"
         | "uncertain";
     };
@@ -51,6 +52,8 @@ export type SendInput = {
   method: "HEAD" | "GET";
   headers: Record<string, string>;
   timeoutMs: number;
+  /** Aborted when the overall deadline expires; the transport must destroy its request. */
+  signal: AbortSignal;
 };
 export type ProbeDeps = {
   resolve: (host: string) => Promise<Resolved[]>;
@@ -80,6 +83,22 @@ export function checkableUrl(value: unknown): URL | null {
   } catch {
     return null;
   }
+  // The path is decoded once before the sensitive-path test, because a server may decode "%72eset" to
+  // "reset". Malformed encodings, anything still encoded after one decode (double encoding) and encoded
+  // or literal backslashes or encoded slashes are refused outright.
+  let decodedPath: string;
+  try {
+    decodedPath = decodeURIComponent(u.pathname);
+  } catch {
+    return null;
+  }
+  if (
+    /%2f|%5c/i.test(u.pathname) ||
+    decodedPath.includes("%") ||
+    decodedPath.includes("\\") ||
+    RISKY_PATH.test(decodedPath)
+  )
+    return null;
   if (
     u.protocol !== "https:" ||
     u.username ||
@@ -191,11 +210,17 @@ export const realProbeDeps: ProbeDeps = {
       address: r.address,
       family: r.family === 6 ? 6 : 4,
     })),
-  send: ({ url, address, family, method, headers, timeoutMs }) =>
+  send: ({ url, address, family, method, headers, timeoutMs, signal }) =>
     new Promise((resolve, reject) => {
+      if (signal.aborted) {
+        reject(new Error("ETIMEDOUT"));
+        return;
+      }
       const req = httpsRequest(
         {
           protocol: "https:",
+          // The overall deadline aborts (and destroys) the real request, not just the wait for it.
+          signal,
           hostname: url.hostname,
           servername: url.hostname,
           port: 443,
@@ -228,87 +253,118 @@ export const realProbeDeps: ProbeDeps = {
 };
 
 let active = 0;
-/** One bounded check of one already-validated URL. Never throws. */
+/**
+ * One bounded check of one already-validated URL. Never throws. One overall deadline covers DNS, the
+ * connection, the headers and the HEAD-to-GET fallback; when it expires the real request is aborted
+ * (not just abandoned), and every timer is cleared when the check settles.
+ */
 export async function probeUrl(
   url: URL,
   deps: ProbeDeps,
 ): Promise<ProbeOutcome> {
   const started = deps.now();
-  const left = () => Math.max(1, DEADLINE_MS - (deps.now() - started));
-  let resolved: Resolved[];
-  try {
-    resolved = await Promise.race([
-      deps.resolve(url.hostname),
-      new Promise<never>((_, reject) =>
-        setTimeout(() => reject(new Error("ETIMEDOUT")), 3000),
-      ),
-    ]);
-  } catch (e) {
-    return (e as Error).message === "ETIMEDOUT"
-      ? { classification: "timeout", evidence: "DNS lookup timed out" }
-      : { classification: "unreachable", evidence: "DNS lookup failed" };
-  }
-  if (!resolved.length || resolved.some((r) => !publicAddress(r.address)))
-    return {
-      classification: "unreachable",
-      evidence: "Not contacted: the host resolves to a non-public address",
-    };
-  const target = resolved[0];
-  const headers = { "User-Agent": "PipStart-LinkCheck/1.0", Accept: "*/*" };
-  const send = (method: "HEAD" | "GET", extra: Record<string, string> = {}) =>
-    deps.send({
-      url,
-      address: target.address,
-      family: target.family,
-      method,
-      headers: { ...headers, ...extra },
-      timeoutMs: left(),
+  const controller = new AbortController();
+  const timers: ReturnType<typeof setTimeout>[] = [];
+  const expiry = (ms: number, onExpire?: () => void) => {
+    const p = new Promise<never>((_, reject) => {
+      timers.push(
+        setTimeout(() => {
+          onExpire?.();
+          reject(new Error("ETIMEDOUT"));
+        }, ms),
+      );
     });
+    p.catch(() => {});
+    return p;
+  };
+  const deadline = expiry(DEADLINE_MS, () => controller.abort());
+  const within = <T>(work: Promise<T>) => Promise.race([work, deadline]);
+  const left = () => Math.max(1, DEADLINE_MS - (deps.now() - started));
   try {
-    let method: "HEAD" | "GET" = "HEAD";
-    let reply = await send("HEAD");
-    if (reply.status === 405 || reply.status === 501) {
-      method = "GET";
-      reply = await send("GET", { Range: "bytes=0-0" });
+    let resolved: Resolved[];
+    try {
+      resolved = await within(
+        Promise.race([deps.resolve(url.hostname), expiry(3000)]),
+      );
+    } catch (e) {
+      return (e as Error).message === "ETIMEDOUT"
+        ? { classification: "timeout", evidence: "DNS lookup timed out" }
+        : { classification: "unreachable", evidence: "DNS lookup failed" };
     }
-    const classification = classifyStatus(reply.status);
-    let note = "";
-    if (classification === "redirect" && reply.location) {
-      try {
-        note = " to " + new URL(reply.location, url).host;
-      } catch {
-        note = " (unreadable location)";
+    if (!resolved.length || resolved.some((r) => !publicAddress(r.address)))
+      return {
+        classification: "unreachable",
+        evidence: "Not contacted: the host resolves to a non-public address",
+      };
+    const target = resolved[0];
+    const headers = { "User-Agent": "PipStart-LinkCheck/1.0", Accept: "*/*" };
+    const send = (method: "HEAD" | "GET", extra: Record<string, string> = {}) =>
+      within(
+        deps.send({
+          url,
+          address: target.address,
+          family: target.family,
+          method,
+          headers: { ...headers, ...extra },
+          timeoutMs: left(),
+          signal: controller.signal,
+        }),
+      );
+    try {
+      let method: "HEAD" | "GET" = "HEAD";
+      let reply = await send("HEAD");
+      if (reply.status === 405 || reply.status === 501) {
+        method = "GET";
+        reply = await send("GET", { Range: "bytes=0-0" });
       }
-    }
-    return {
-      classification,
-      evidence: `${method} ${reply.status}${note} in ${deps.now() - started} ms`,
-    };
-  } catch (e) {
-    const code = String(
-      (e as { code?: string; message?: string }).code ??
-        (e as Error).message ??
-        "error",
-    ).slice(0, 40);
-    return code === "ETIMEDOUT"
-      ? {
-          classification: "timeout",
-          evidence: `No reply within ${DEADLINE_MS} ms`,
+      const classification = classifyStatus(reply.status);
+      let note = "";
+      if (classification === "redirect" && reply.location) {
+        try {
+          note = " to " + new URL(reply.location, url).host;
+        } catch {
+          note = " (unreadable location)";
         }
-      : {
-          classification: "unreachable",
-          evidence: `Connection failed (${code.replace(/[^A-Za-z0-9_]/g, "")})`,
-        };
+      }
+      return {
+        classification,
+        evidence: `${method} ${reply.status}${note} in ${deps.now() - started} ms`,
+      };
+    } catch (e) {
+      const code = controller.signal.aborted
+        ? "ETIMEDOUT"
+        : String(
+            (e as { code?: string; message?: string }).code ??
+              (e as Error).message ??
+              "error",
+          ).slice(0, 40);
+      return code === "ETIMEDOUT"
+        ? {
+            classification: "timeout",
+            evidence: `No reply within ${DEADLINE_MS} ms`,
+          }
+        : {
+            classification: "unreachable",
+            evidence: `Connection failed (${code.replace(/[^A-Za-z0-9_]/g, "")})`,
+          };
+    }
+  } finally {
+    for (const t of timers) clearTimeout(t);
   }
 }
 
-const codes: Record<string, "conflict" | "denied" | "invalid"> = {
+const codes: Record<string, "conflict" | "denied" | "invalid" | "limited"> = {
   PT409: "conflict",
+  PT429: "limited",
   "42501": "denied",
   "22023": "invalid",
 };
 
-/** The staff-clicked check: allowlist confirmed by the store, one probe, result recorded once. */
+/**
+ * The staff-clicked check. Before any DNS or HTTP, the store authorizes the exact actor, item, live
+ * revision, reference and host (pipstart_maintenance_probe_intent) and counts the actor's hourly quota;
+ * then one probe; then the result is recorded once, with the store's write-time checks.
+ */
 export async function runMaintenanceProbe(
   client: SupabaseClient,
   input: unknown,
@@ -344,16 +400,20 @@ export async function runMaintenanceProbe(
     if (live.kind !== "authorized")
       return { kind: live.kind === "unavailable" ? "unavailable" : "denied" };
     if (!canOpenMaintenance(live.access)) return { kind: "denied" };
-    const allowed = await call("pipstart_maintenance_check_allowed", {
-      p_url: reference,
-    });
-    if (allowed.error)
-      return { kind: codes[allowed.error.code ?? ""] ?? "unavailable" };
-    if (allowed.data !== true) return { kind: "not-allowed" };
     if (active > 0) return { kind: "busy" };
     active++;
     let outcome: ProbeOutcome;
     try {
+      const intent = await call("pipstart_maintenance_probe_intent", {
+        p_item: id,
+        p_expected_revision: revision,
+        p_reference: reference,
+      });
+      if (intent.error)
+        return { kind: codes[intent.error.code ?? ""] ?? "unavailable" };
+      const status = (intent.data as { status?: unknown } | null)?.status;
+      if (status === "not-allowed") return { kind: "not-allowed" };
+      if (status !== "cleared") return { kind: "unavailable" };
       outcome = await probeUrl(url, deps);
     } finally {
       active--;

@@ -1,7 +1,7 @@
 {
   "milestone": "M22",
   "baseline": "ade6019b7971185fcba3532282f4e0965b968ed9",
-  "status": "M22_DELIVERED_WITH_OWNER_AMENDMENTS; FINAL_ACCEPTANCE_PENDING_CI",
+  "status": "M22_ACCEPTED_BY_OWNER_2026-11-17; SEE milestone-22-release-receipt.json",
   "independentAudit": false,
   "packageExits": {
     "MP04": "08f5f84",

@@ -224,6 +224,14 @@
     {
       "path": "apps/pipstart/scripts/test-m22-retention-restore.sql",
       "sha256": "5f5d28966f7db845706879eb26f12cf1757cda65bc9b681c66d1e65c143e0107"
+    },
+    {
+      "path": "supabase/migrations/20261121090000_pipstart_m22_probe_intent.sql",
+      "sha256": "3ba180c7eaea5a4333f7b57df349072bd3011e5a54ae2638dc4c7c79167ed5f0"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-probe-intent.sql",
+      "sha256": "f993e064c45bacd55886b284c59768fbb1adfa13a2129477bc118bdaa14c9caa"
     }
   ]
 }
