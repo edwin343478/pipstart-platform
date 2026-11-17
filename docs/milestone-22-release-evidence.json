@@ -1,0 +1,85 @@
+{
+  "milestone": "M22",
+  "baseline": "ade6019b7971185fcba3532282f4e0965b968ed9",
+  "status": "M22_DELIVERED_WITH_OWNER_AMENDMENTS; FINAL_ACCEPTANCE_PENDING_CI",
+  "independentAudit": false,
+  "packageExits": {
+    "MP04": "08f5f84",
+    "MP05": "e5e68a2",
+    "MP06": "25c8ace",
+    "MP07": "616ce75",
+    "MP08": "658e757",
+    "MP09": "2e082c2",
+    "MP10": "25e1fe8",
+    "MP11": "ade6019"
+  },
+  "features": {
+    "course-editor": "delivered",
+    "lesson-editor": "delivered",
+    "quiz-editor": "delivered-with-amendment-A4",
+    "draft-review": "delivered",
+    "publishing": "delivered",
+    "scheduling": "delivered-paused-A1",
+    "revision-history": "delivered",
+    "user-management": "delivered-provider-and-account-maintenance-default-off",
+    "role-management": "delivered",
+    "partner-management": "delivered-live",
+    "affiliate-link-management": "delivered-live",
+    "content-review-reminders": "delivered-in-app-no-email",
+    "audit-logs": "delivered",
+    "broken-link-reports": "delivered-automatic-check-off-A3"
+  },
+  "acceptance": {
+    "AT01": "accepted",
+    "AT02": "accepted",
+    "AT03": "accepted",
+    "AT04": "accepted",
+    "AT05": "accepted-with-note-A4"
+  },
+  "releaseGates": {
+    "MP01-visual-render": "passed-sample-components",
+    "MP03-live-admin-learner": "amended-A2",
+    "MP08-hosted-scheduler-capacity": "amended-A1",
+    "MP01-exact-release-ci": "this commit, confirmed before final acceptance",
+    "MP01-owner-acceptance": "final owner acceptance"
+  },
+  "amendments": {
+    "acceptedBy": "owner",
+    "acceptedAt": "2026-11-17",
+    "A1": "scheduled publishing ships paused; resuming needs the capacity check",
+    "A2": "live admin and learner gate deferred until test accounts; proven locally with real Auth",
+    "A3": "automatic single-link check ships off; real network test not run",
+    "A4": "quiz editor: no new-quiz creation, reviewer read-only view or archive button; store archives and keeps every version",
+    "A5": "Moderator role covers assigned maintenance only",
+    "A6": "MP11 lean path: traced evidence map; date-field fix verified by reproduction"
+  },
+  "acceptedLimits": [
+    "scheduling ledger not in the Staff audit view",
+    "no staff rate limit (MFA staff only)",
+    "connected run bypassed CSP for its local bridge"
+  ],
+  "hosted": {
+    "projectRef": "knsmqtmfizkkrthhpujm",
+    "liveGeneration": 10,
+    "seal": "7730f7944b6ab5354ba4db16128686c8a2df43a03402175bd278a31a876aab80",
+    "storeFamilies": "analysis,curriculum,partners",
+    "staffVersion": 3,
+    "activeMembers": 1,
+    "activeOwners": 1,
+    "delegations": 0,
+    "schedulerEnabled": false,
+    "schedulerVersion": 8,
+    "cronJob2Active": false,
+    "m22Migrations": {
+      "count": 26,
+      "first": "20261026120000",
+      "last": "20261120090000",
+      "history": "75 rows, no local-only (2026-11-17)"
+    },
+    "progressServiceRoleExecute": true
+  },
+  "openItems": [
+    "revoke unused service_role grant on pipstart_set_lesson_completion (deferred by owner)",
+    "hosted backups and retention not verified (owner skipped)"
+  ]
+}
