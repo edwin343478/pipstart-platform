@@ -9,6 +9,7 @@ import {
 } from "./editorial-adapter";
 import { parseWorkspaceDetail } from "./editorial-workspace-contract";
 import { object } from "./curriculum-draft-contract";
+import { runQuizCreate } from "./quiz-create";
 import {
   mergeQuizDraft,
   projectQuizBody,
@@ -50,6 +51,9 @@ export async function runQuizDraft(
 ): Promise<QuizDraftResult> {
   if (process.env.PIPSTART_M22_STAFF_UI_ENABLED !== "true")
     return { kind: "denied" };
+  // Package 5: a new quiz under a module.
+  if (object(input) && input.kind === "create")
+    return runQuizCreate(client, input);
   const parsed = quizDraftInputSchema.safeParse(input);
   if (!parsed.success) return { kind: "invalid" };
   const command = parsed.data;

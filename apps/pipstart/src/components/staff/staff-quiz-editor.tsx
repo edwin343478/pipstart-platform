@@ -7,11 +7,15 @@ import {
   type FormEvent,
 } from "react";
 import { runQuizDraftAction } from "@/app/admin/staff/content/quiz-actions";
+import { draftId } from "@/lib/content/curriculum-draft-contract";
 import {
   nextQuizPartId,
+  parseQuizCreation,
   QUIZ_LIMITS,
+  QUIZ_SOURCES,
   quizDraftInputSchema,
   quizDraftProblems,
+  quizSourceProblems,
   type QuizDraftQuestion,
   type QuizDraftView,
   type QuizQuestionType,
@@ -22,15 +26,12 @@ import {
   quizEditorReducer,
 } from "@/lib/content/quiz-editor-state";
 import { StaffQuizPreview } from "./staff-quiz-preview";
+import { QuizSummary, quizTypeLabels } from "./staff-quiz-summary";
 import { useDraftLeaveGuard } from "./use-draft-leave-guard";
 import s from "@/components/admin-preview/admin-preview.module.css";
 import styles from "./staff-quiz-editor.module.css";
 
-const typeLabels: Record<QuizQuestionType, string> = {
-  "single-choice": "Single choice",
-  "multiple-answer": "Multiple answers",
-  "true-false": "True or false",
-};
+const typeLabels = quizTypeLabels;
 const subscribeToHydration = () => () => {};
 const clientHydrated = () => true;
 const serverHydrated = () => false;
@@ -62,7 +63,37 @@ export function newQuizQuestion(
   };
 }
 
-export function StaffQuizEditor({ item }: { item: QuizDraftView }) {
+/** Package 5: where a new quiz is created; the server derives everything else. */
+export type QuizEditorCreation = { path: "forex" | "crypto"; parent: string };
+/** The empty starting point for a new module quiz: version 1 and one starter question. */
+export function newQuizView(creation: QuizEditorCreation): QuizDraftView {
+  return {
+    id: "",
+    path: creation.path,
+    parent: creation.parent,
+    scope: "module",
+    revision: 0,
+    bodySha256: "0".repeat(64),
+    version: 1,
+    nextVersion: 1,
+    approved: false,
+    fields: { title: "", passingPercentage: 70, retakeCooldownSeconds: 0 },
+    questions: [newQuizQuestion("single-choice", [])],
+  };
+}
+const sourceLines = (v: string) =>
+  v
+    .split(/\r?\n/)
+    .map((x) => x.trim())
+    .filter(Boolean);
+
+export function StaffQuizEditor({
+  item,
+  creation,
+}: {
+  item: QuizDraftView;
+  creation?: QuizEditorCreation;
+}) {
   const [state, dispatch] = useReducer(
       quizEditorReducer,
       item,
@@ -70,10 +101,16 @@ export function StaffQuizEditor({ item }: { item: QuizDraftView }) {
     ),
     [loading, setLoading] = useState(false),
     [preview, setPreview] = useState(false),
-    [addType, setAddType] = useState<QuizQuestionType>("single-choice");
+    [addType, setAddType] = useState<QuizQuestionType>("single-choice"),
+    [identity, setIdentity] = useState(""),
+    [sourcesText, setSourcesText] = useState("");
   const lock = useRef(false),
     status = useRef<HTMLParagraphElement>(null);
-  const dirty = quizBuffer(state) !== state.clean;
+  // Create mode lasts until the first save; the saved quiz is then edited by its identity.
+  const creating = !!creation && state.base.revision === 0;
+  const dirty =
+    quizBuffer(state) !== state.clean ||
+    (creating && (identity !== "" || sourcesText !== ""));
   useDraftLeaveGuard(
     dirty || state.phase === "busy" || state.phase === "uncertain",
   );
@@ -88,7 +125,15 @@ export function StaffQuizEditor({ item }: { item: QuizDraftView }) {
     !hydrated ||
     loading ||
     ["busy", "uncertain", "denied", "saved"].includes(state.phase);
-  const problems = quizDraftProblems(state.fields, state.questions);
+  const problems = [
+    ...(creating && !draftId(identity)
+      ? [
+          "Enter a permanent identity: lowercase letters, digits and hyphens, starting with a letter or digit.",
+        ]
+      : []),
+    ...quizDraftProblems(state.fields, state.questions),
+    ...(creating ? quizSourceProblems(sourceLines(sourcesText)) : []),
+  ];
   const setQuestions = (questions: QuizDraftQuestion[]) =>
     dispatch({ type: "edit", buffer: { questions } });
   const setQuestion = (n: number, q: QuizDraftQuestion) =>
@@ -101,16 +146,32 @@ export function StaffQuizEditor({ item }: { item: QuizDraftView }) {
   async function save(event: FormEvent) {
     event.preventDefault();
     if (lock.current || state.phase !== "idle") return;
-    const command = {
-      kind: "save",
-      id: state.base.id,
-      baseRevision: state.base.revision,
-      baseSha256: state.base.bodySha256,
-      fields: state.fields,
-      questions: state.questions,
-      reason: state.reason,
-    };
-    if (!quizDraftInputSchema.safeParse(command).success) {
+    const command =
+      creating && creation
+        ? {
+            kind: "create",
+            id: identity,
+            path: creation.path,
+            parent: creation.parent,
+            fields: state.fields,
+            questions: state.questions,
+            sources: sourceLines(sourcesText),
+            reason: state.reason,
+          }
+        : {
+            kind: "save",
+            id: state.base.id,
+            baseRevision: state.base.revision,
+            baseSha256: state.base.bodySha256,
+            fields: state.fields,
+            questions: state.questions,
+            reason: state.reason,
+          };
+    if (
+      creating
+        ? !parseQuizCreation(command)
+        : !quizDraftInputSchema.safeParse(command).success
+    ) {
       dispatch({ type: "invalid" });
       status.current?.focus();
       return;
@@ -151,13 +212,25 @@ export function StaffQuizEditor({ item }: { item: QuizDraftView }) {
     <div className={styles.editor}>
       <header>
         <p className={s.eyebrow}>Content · Quiz draft</p>
-        <h1>Edit quiz</h1>
+        <h1>{creation ? "New quiz" : "Edit quiz"}</h1>
         <p>
           Save a private draft. Saving does not approve, publish or change the
           quiz learners take.
         </p>
         <a href="/admin/staff/content">Back to content library</a>
       </header>
+      {creation && state.phase === "saved" && state.base.id && (
+        <p>
+          <a
+            href={
+              "/admin/staff/content/quiz?id=" +
+              encodeURIComponent(state.base.id)
+            }
+          >
+            Open quiz {state.base.id}
+          </a>
+        </p>
+      )}
       <p
         className={styles.notice}
         ref={status}
@@ -176,9 +249,38 @@ export function StaffQuizEditor({ item }: { item: QuizDraftView }) {
       >
         <fieldset disabled={disabled}>
           <legend>Permanent quiz identity</legend>
+          {creating && (
+            <div className={styles.grid}>
+              <label>
+                Permanent identity (cannot be changed later)
+                <input
+                  required
+                  maxLength={200}
+                  value={identity}
+                  onChange={(e) => setIdentity(e.target.value)}
+                />
+              </label>
+              <label>
+                Sources ({QUIZ_SOURCES.min} to {QUIZ_SOURCES.max}, one per line)
+                <textarea
+                  required
+                  rows={3}
+                  value={sourcesText}
+                  onChange={(e) => setSourcesText(e.target.value)}
+                />
+              </label>
+            </div>
+          )}
+          {creating && (
+            <p className={styles.version}>
+              The quiz is created in module {base.parent} as version 1. Its
+              course, scope, position and review record are set by the server.
+              Like a new lesson, it starts as a draft that learners do not see.
+            </p>
+          )}
           <dl>
             <dt>Identity</dt>
-            <dd>{base.id}</dd>
+            <dd>{creating ? identity || "Not chosen yet" : base.id}</dd>
             <dt>Learning path</dt>
             <dd>{base.path}</dd>
             <dt>Scope</dt>
@@ -190,7 +292,7 @@ export function StaffQuizEditor({ item }: { item: QuizDraftView }) {
             <dt>Version on save</dt>
             <dd>{base.nextVersion}</dd>
           </dl>
-          <p className={styles.version}>
+          <p className={styles.version} hidden={creating}>
             {base.approved
               ? `Version ${base.version} is approved and never changes: attempts started on it finish and are graded on it. Saving creates version ${base.nextVersion}, which learners only take after it is reviewed and published.`
               : `This draft is version ${base.version}, which is not approved yet. Saving keeps version ${base.nextVersion}.`}{" "}
@@ -356,10 +458,15 @@ export function StaffQuizEditor({ item }: { item: QuizDraftView }) {
               problems.length > 0
             }
           >
-            {state.phase === "busy" ? "Saving quiz…" : "Save quiz draft"}
+            {state.phase === "busy"
+              ? "Saving quiz…"
+              : creating
+                ? "Create quiz draft"
+                : "Save quiz draft"}
           </button>
           <button
             type="button"
+            hidden={creating}
             disabled={!hydrated || loading || state.phase === "busy"}
             onClick={() => void latest()}
           >
@@ -428,10 +535,12 @@ export function StaffQuizEditor({ item }: { item: QuizDraftView }) {
           />
         </div>
       )}
-      <p>
-        Revision {base.revision} ·{" "}
-        <code className={styles.hash}>{base.bodySha256}</code>
-      </p>
+      {!creating && (
+        <p>
+          Revision {base.revision} ·{" "}
+          <code className={styles.hash}>{base.bodySha256}</code>
+        </p>
+      )}
     </div>
   );
 }
@@ -600,46 +709,6 @@ function QuestionFields({
           onChange={(e) => onChange({ ...q, explanation: e.target.value })}
         />
       </label>
-    </div>
-  );
-}
-
-function QuizSummary({
-  heading,
-  fields,
-  questions,
-}: {
-  heading: string;
-  fields: QuizDraftView["fields"];
-  questions: QuizDraftQuestion[];
-}) {
-  return (
-    <div>
-      <h3>{heading}</h3>
-      <dl>
-        <dt>Title</dt>
-        <dd>{fields.title}</dd>
-        <dt>Passing percentage</dt>
-        <dd>{String(fields.passingPercentage)}</dd>
-        <dt>Retake cooldown (seconds)</dt>
-        <dd>{String(fields.retakeCooldownSeconds)}</dd>
-      </dl>
-      <ol>
-        {questions.map((q, n) => (
-          <li key={n}>
-            <p>{q.prompt}</p>
-            <ul>
-              {q.choices.map((c) => (
-                <li key={c.id}>
-                  {c.label}
-                  {q.correctChoiceIds.includes(c.id) ? " (correct)" : ""}
-                </li>
-              ))}
-            </ul>
-            <p>Explanation: {q.explanation}</p>
-          </li>
-        ))}
-      </ol>
     </div>
   );
 }

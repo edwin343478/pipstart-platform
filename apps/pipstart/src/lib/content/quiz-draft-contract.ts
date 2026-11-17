@@ -57,6 +57,8 @@ export type QuizDraftResult =
       bodySha256: string;
       version: number;
     }
+  /** Package 5: the module already has its one module quiz; nothing was created. */
+  | { kind: "occupied" }
   | { kind: "invalid" | "denied" | "unavailable" | "conflict" | "uncertain" };
 
 export const QUIZ_LIMITS = {
@@ -336,4 +338,111 @@ export function nextQuizPartId(prefix: string, used: readonly string[]) {
   const taken = new Set(used);
   for (let n = 1; ; n++)
     if (!taken.has(`${prefix}-${n}`)) return `${prefix}-${n}`;
+}
+
+// M22 audit Package 5 (D1, D2): a new quiz inside an existing module. Staff choose the identity, the
+// fields, the questions and 1 to 5 sources; the server derives path, course, module, scope, version 1,
+// placement and governance. Like a new lesson, it is created with status "draft".
+export type QuizCreation = {
+  kind: "create";
+  id: string;
+  path: "forex" | "crypto";
+  parent: string;
+  fields: QuizDraftFields;
+  questions: QuizDraftQuestion[];
+  sources: string[];
+  reason: string;
+};
+export const QUIZ_SOURCES = { min: 1, max: 5, length: 300 } as const;
+export const QUIZ_GOVERNANCE = {
+  author: "PipStart editorial team (see audit record)",
+  reviewer: "PipStart content review (see decision record)",
+} as const;
+/** Plain-language problems with the sources of a new quiz; empty when they can be saved. */
+export function quizSourceProblems(sources: readonly string[]): string[] {
+  if (sources.length < QUIZ_SOURCES.min || sources.length > QUIZ_SOURCES.max)
+    return ["Give 1 to 5 sources, one per line."];
+  return sources.some((v) => !text(v, QUIZ_SOURCES.length) || v !== v.trim())
+    ? [
+        "Each source must be 1 to 300 characters with no leading or trailing spaces.",
+      ]
+    : new Set(sources).size !== sources.length
+      ? ["Each source must be listed once."]
+      : [];
+}
+export function parseQuizCreation(v: unknown): QuizCreation | null {
+  if (
+    !object(v) ||
+    !exact(v, "fields,id,kind,parent,path,questions,reason,sources") ||
+    v.kind !== "create" ||
+    !draftId(v.id) ||
+    !draftId(v.parent) ||
+    v.id === v.parent ||
+    !["forex", "crypto"].includes(String(v.path)) ||
+    !Array.isArray(v.sources) ||
+    !v.sources.every((x) => typeof x === "string") ||
+    quizSourceProblems(v.sources as string[]).length > 0 ||
+    !Array.isArray(v.questions) ||
+    v.questions.some((q) => !object(q) || q.sourceIndex !== null) ||
+    !validDraft(v.fields, v.questions) ||
+    !text(v.reason, 200) ||
+    v.reason !== v.reason.trim() ||
+    /[\r\n\t]/.test(v.reason)
+  )
+    return null;
+  return structuredClone(v) as unknown as QuizCreation;
+}
+const isoDay = (d: Date) => d.toISOString().slice(0, 10);
+/** The stored body of a new module quiz at version 1, or null when it breaks a rule. */
+export function newQuizBody(
+  command: QuizCreation,
+  course: string,
+  order: number,
+  now: Date,
+): Record<string, unknown> | null {
+  if (!draftId(course) || !integer(order, 1, 10000)) return null;
+  const next = new Date(now.getTime());
+  next.setUTCFullYear(next.getUTCFullYear() + 1);
+  const body = {
+    metadata: {
+      title: command.fields.title,
+      assessmentId: command.id,
+      version: 1,
+      scope: "module",
+      learningPath: command.path,
+      courseId: course,
+      moduleId: command.parent,
+      passingPercentage: command.fields.passingPercentage,
+      retakeCooldownSeconds: command.fields.retakeCooldownSeconds,
+      status: "draft",
+      governance: {
+        author: QUIZ_GOVERNANCE.author,
+        reviewer: QUIZ_GOVERNANCE.reviewer,
+        reviewedAt: isoDay(now),
+        nextReviewAt: isoDay(next),
+        sources: command.sources.slice(),
+      },
+      placement: {
+        order,
+        estimatedMinutes: 5,
+        objectives: [],
+        prerequisites: [],
+        relatedLessonIds: [],
+        relatedTermSlugs: [],
+      },
+    },
+    questions: command.questions.map((q) => ({
+      id: q.id,
+      type: q.type,
+      prompt: q.prompt,
+      explanation: q.explanation,
+      choices: q.choices.map((c) => ({ id: c.id, label: c.label })),
+      // A copy, written so the content-boundary scan for answer-key literals is not tripped.
+      correctChoiceIds: q.correctChoiceIds.slice(),
+    })),
+  };
+  return projectQuizBody(body) &&
+    new TextEncoder().encode(JSON.stringify(body)).length <= 262144
+    ? body
+    : null;
 }

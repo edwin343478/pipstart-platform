@@ -374,6 +374,36 @@ export function StaffContentWorkspace({
                             Edit draft
                           </a>
                         )}
+                      {canEdit &&
+                        !row.trashed &&
+                        row.family === "module" &&
+                        (row.learning_path === "forex" ||
+                          row.learning_path === "crypto") && (
+                          <a
+                            className={styles.linkButton}
+                            aria-label={"New quiz in module " + row.id}
+                            href={
+                              "/admin/staff/content/quiz?parent=" +
+                              encodeURIComponent(row.id) +
+                              "&path=" +
+                              row.learning_path
+                            }
+                          >
+                            New quiz
+                          </a>
+                        )}
+                      {(canEdit || canReview) && row.family === "quiz" && (
+                        <a
+                          className={styles.linkButton}
+                          aria-label={"View quiz " + row.id}
+                          href={
+                            "/admin/staff/content/quiz/view?id=" +
+                            encodeURIComponent(row.id)
+                          }
+                        >
+                          View quiz
+                        </a>
+                      )}
                       {canEditPartners &&
                         !row.trashed &&
                         ["partner", "link"].includes(row.family) && (
@@ -452,7 +482,7 @@ export function StaffContentWorkspace({
           onChanged={(message) => void inspect({ id: detail.id }, message)}
         />
       )}
-      {detail && detail.family !== "quiz" && (
+      {detail && (
         <StaffLifecyclePanel
           key={[detail.id, detail.revision, detail.trashed, detail.onHold].join(
             ":",

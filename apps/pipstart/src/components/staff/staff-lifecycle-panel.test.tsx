@@ -40,6 +40,13 @@ const html = (
     />,
   );
 describe("archive and hold panel", () => {
+  it("explains the quiz rules on a quiz (Package 5)", () => {
+    const h = html(detail({ family: "quiz", id: "quiz-1" }), { archive: true });
+    expect(h).toContain(">Archive<");
+    expect(h).toContain("A live quiz must be withdrawn before it is archived");
+    expect(h).toContain("completed attempts and results stay recorded");
+    expect(html(detail(), { archive: true })).not.toContain("live quiz");
+  });
   it("offers an author Archive with a required reason", () => {
     const h = html(detail(), { archive: true });
     expect(h).toContain(">Archive<");

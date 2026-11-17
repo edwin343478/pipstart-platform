@@ -3,7 +3,10 @@ import { notFound, redirect } from "next/navigation";
 import { readStaffGate, staffUiEnabled } from "@/lib/auth/staff-gate";
 import { draftId } from "@/lib/content/curriculum-draft-contract";
 import { StaffFrame } from "@/components/staff/staff-frame";
-import { StaffQuizEditor } from "@/components/staff/staff-quiz-editor";
+import {
+  newQuizView,
+  StaffQuizEditor,
+} from "@/components/staff/staff-quiz-editor";
 import { runQuizDraftAction } from "../quiz-actions";
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
@@ -21,12 +24,28 @@ export default async function Page({
   if (!gate.access.roles.some((r) => ["owner", "author", "editor"].includes(r)))
     notFound();
   const params = await searchParams;
-  // Existing quizzes only: a quiz is opened by its permanent identity.
+  const keys = Object.keys(params).sort().join(",");
+  // Package 5: a new quiz is created in a module (?parent=&path=); an existing quiz is opened by
+  // its permanent identity (?id=). Nothing else is accepted.
   if (
-    Object.keys(params).length !== 1 ||
-    typeof params.id !== "string" ||
-    !draftId(params.id)
-  )
+    keys === "parent,path" &&
+    typeof params.parent === "string" &&
+    draftId(params.parent) &&
+    (params.path === "forex" || params.path === "crypto")
+  ) {
+    const creation = { path: params.path, parent: params.parent } as const;
+    return (
+      <StaffFrame
+        verified
+        content
+        people={gate.access.capabilities.includes("people.read")}
+        audit={gate.access.capabilities.includes("audit.read")}
+      >
+        <StaffQuizEditor item={newQuizView(creation)} creation={creation} />
+      </StaffFrame>
+    );
+  }
+  if (keys !== "id" || typeof params.id !== "string" || !draftId(params.id))
     notFound();
   const result = await runQuizDraftAction({ kind: "load", id: params.id });
   if (result.kind !== "ready")

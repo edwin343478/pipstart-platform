@@ -15,6 +15,7 @@ import {
   curriculumPresentation,
 } from "../curriculum-presentation";
 import { buildImportManifest, type ManifestItem } from "./import/manifest";
+import { newQuizBody, parseQuizCreation } from "./quiz-draft-contract";
 import {
   buildContentSnapshot,
   type SnapshotItem,
@@ -331,5 +332,85 @@ describe("M22 MP05c-2 snapshot content source", { timeout: 60_000 }, () => {
       }));
     const { assessments } = await underSnapshot(items, versions);
     expect(assessments.assessmentRegistry).toEqual(assessmentRegistry);
+  });
+});
+
+// M22 audit Package 5: a quiz made by the staff create flow loads into the learner build without
+// breaking it, and stays out of learner pages while its status is draft (as new lessons do).
+describe("Package 5 created quiz in a snapshot", { timeout: 60_000 }, () => {
+  it("loads a created module quiz as a draft that learners do not see", async () => {
+    const manifest = await buildImportManifest();
+    const items = asItems(manifest);
+    const mod = items.find(
+      (item) =>
+        item.family === "module" &&
+        item.learningPath === "crypto" &&
+        !items.some(
+          (q) =>
+            q.family === "quiz" &&
+            q.parentId === item.id &&
+            (q.body.metadata as { placement?: { route?: string } }).placement
+              ?.route !== "level",
+        ),
+    )!;
+    const command = parseQuizCreation({
+      kind: "create",
+      id: "p5-created-quiz",
+      path: "crypto",
+      parent: mod.id,
+      fields: {
+        title: "Created quiz",
+        passingPercentage: 70,
+        retakeCooldownSeconds: 0,
+      },
+      questions: [
+        {
+          sourceIndex: null,
+          id: "question-1",
+          type: "true-false",
+          prompt: "A wallet seed phrase should be shared?",
+          explanation: "Never share a seed phrase.",
+          choices: [
+            { id: "true", label: "True" },
+            { id: "false", label: "False" },
+          ],
+          correctChoiceIds: ["false"],
+        },
+      ],
+      sources: ["PipStart: Wallet security"],
+      reason: "Practice",
+    })!;
+    const body = newQuizBody(
+      command,
+      mod.parentId!,
+      99,
+      new Date("2026-11-18T00:00:00Z"),
+    )!;
+    const snap = await underSnapshot([
+      ...items,
+      {
+        id: "p5-created-quiz",
+        family: "quiz",
+        learningPath: "crypto",
+        parentId: mod.id,
+        revisionNo: 1,
+        body,
+      },
+    ]);
+    const own = snap.assessments.assessmentRegistry.filter(
+      (a) => a.id === "p5-created-quiz",
+    );
+    expect(own.map((a) => [a.version, a.status, a.moduleId])).toEqual([
+      [1, "draft", mod.id],
+    ]);
+    expect(
+      snap.assessments.getCurrentPublishedAssessment("p5-created-quiz"),
+    ).toBeUndefined();
+    const lessons = snap.curriculum.learningPaths
+      .flatMap((p) => p.levels)
+      .flatMap((l) => l.courses)
+      .flatMap((c) => c.modules)
+      .flatMap((m) => m.lessons);
+    expect(lessons.some((l) => l.id === "p5-created-quiz")).toBe(false);
   });
 });

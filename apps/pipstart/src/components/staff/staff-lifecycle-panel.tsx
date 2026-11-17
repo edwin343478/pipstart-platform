@@ -123,6 +123,8 @@ export function StaffLifecyclePanel({
           : "Archiving keeps every revision and can be undone by restoring. Learner pages are not changed."}
         {detail.onHold &&
           " An Owner hold is in place, so it cannot be archived."}
+        {detail.family === "quiz" &&
+          " A live quiz must be withdrawn before it is archived. Once it is withdrawn, learners cannot resume unfinished attempts on it; completed attempts and results stay recorded. Restoring keeps its version."}
       </p>
       {needsReason && (
         <label className={panel.note}>

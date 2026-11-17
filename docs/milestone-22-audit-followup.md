@@ -1,4 +1,4 @@
-# M22 audit follow-up (Packages 1, 2 and 4)
+# M22 audit follow-up (Packages 1, 2, 4 and 5)
 
 An implementation review of the accepted M22 (17 November 2026, reviewed commit `0961665`) found:
 
@@ -68,3 +68,47 @@ The audit asked for bounded per-person limits on consequential staff writes befo
 ## Hosted step
 
 Migration `20261122090000` adds one table, six functions, four triggers and four indexes. It changes no existing function and grants nothing. It is applied through the owner-run packet: preflight, migration, read-only structure acceptance, history. No limit is exercised on the live project.
+
+# Package 5: quiz product gaps
+
+Closes amendment A4 and finding F6. Owner decisions D1–D8 were accepted on 17 November 2026. **No store change:** the store already creates quizzes at version 1, lets assigned Reviewers read them, and archives or restores them after withdrawal. The gaps were in the staff app.
+
+## What changed
+
+- **New quiz (D1, D2):**
+  - "New quiz" on module rows opens the quiz editor in create mode (`/admin/staff/content/quiz?parent=…&path=…`).
+  - The server reads the module and its course and refuses a module that already has its module quiz, since each module has one module quiz URL.
+  - It takes the next position among the children it can read, writes version 1 with the derived course, module, scope and review record, and sends the create once.
+  - The created quiz passes the same rules as the grading registry, so it cannot break the learner build.
+- **Read-only view (D4):** `/admin/staff/content/quiz/view?id=…[&revision=…]` for Owner, Author, Editor and Reviewer.
+  - It shows the editable projection of one exact revision: questions, answer key, explanations, review record and sandbox preview.
+  - Every call re-checks Auth and live roles, and the store still decides item access.
+  - The route is dynamic, and the public-bundle check confirms no key or explanation reaches a browser chunk or a prerendered page.
+- **Archive, restore and hold (D5):** the lifecycle panel now appears for quizzes, and the app no longer refuses them. The store rules are unchanged. The panel states that withdrawing ends unfinished attempts while completed results stay recorded.
+- **Shared rendering (D8):** the editor's comparison and the new view use one `QuizSummary` component.
+
+## Proof
+
+- **SQL suite `test-m22-quiz-lifecycle.sql`** (verifier inputs 60 → 61, staged last; it works from any live generation). It covers:
+  - create only at version 1, with a refusal recording nothing;
+  - v1 published and frozen;
+  - v2 published, with both versions kept for grading;
+  - archive refused while live, recording nothing;
+  - withdraw, archive, then restore as a draft that keeps version 2;
+  - identical re-approval and a second publish;
+  - an assigned Reviewer reading every revision but unable to save.
+- **The suite bites:** it fails when a planted store lets a live quiz be archived, and when the frozen quiz versions are dropped.
+- **Unit tests** cover:
+  - create (derived fields, refusals, roles, one send);
+  - the view (access, exact revision, no hidden attributes);
+  - both routes, the editor's create mode, the view, the lifecycle panel and the library links;
+  - a created quiz loading into the learner snapshot as a draft that learners do not see.
+
+  Every new test fails against the previous code. Version continuity (an attempt on v1 still grades after v2) is covered by the MP07a snapshot test.
+
+## Stated limits
+
+- **Not visible to learners:** like a new lesson, a new quiz is created with `status: draft`, so learners do not see it even after Make live. No editor changes that status yet; this is the same for lessons since MP06.
+- **Optional practice:** module completion requirements are not editable (D3).
+- **Author line:** it reads "PipStart editorial team (see audit record)", because staff access carries no display name. The audit record names the person.
+- **One module quiz per module:** the check covers the module children the caller can read. The Owner reads all of them.

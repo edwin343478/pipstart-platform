@@ -4,7 +4,12 @@ const mocks = vi.hoisted(() => ({ action: vi.fn() }));
 vi.mock("@/app/admin/staff/content/quiz-actions", () => ({
   runQuizDraftAction: mocks.action,
 }));
-import { newQuizQuestion, StaffQuizEditor } from "./staff-quiz-editor";
+import {
+  newQuizQuestion,
+  newQuizView,
+  StaffQuizEditor,
+} from "./staff-quiz-editor";
+import { StaffQuizView } from "./staff-quiz-view";
 import { StaffQuizPreview } from "./staff-quiz-preview";
 import type { QuizDraftView } from "@/lib/content/quiz-draft-contract";
 import {
@@ -184,5 +189,107 @@ describe("M22 MP07b quiz editor state", () => {
     });
     expect(s.phase).toBe(phase);
     expect(s.reason).toBe("Edit");
+  });
+});
+
+// M22 audit Package 5 (D1, D2): create mode and the read-only view.
+describe("Package 5 new quiz and read-only view", () => {
+  const creation = { path: "crypto" as const, parent: "module-1" };
+  it("starts a new module quiz at version 1 with identity and sources, and no comparison", () => {
+    const view = newQuizView(creation);
+    expect(view).toMatchObject({
+      id: "",
+      revision: 0,
+      version: 1,
+      nextVersion: 1,
+      scope: "module",
+      parent: "module-1",
+    });
+    expect(view.questions).toHaveLength(1);
+    const html = renderToStaticMarkup(
+      <StaffQuizEditor item={view} creation={creation} />,
+    );
+    for (const label of [
+      "New quiz",
+      "Permanent identity (cannot be changed later)",
+      "Sources (1 to 5, one per line)",
+      "created in module module-1 as version 1",
+      "starts as a draft that learners do not see",
+      "Create quiz draft",
+    ])
+      expect(html).toContain(label);
+    expect(html).not.toContain("Edit quiz");
+    expect(html).toMatch(/hidden=""[^>]*>Load latest/);
+    expect(html).not.toContain("Revision 0");
+  });
+  it("names the created quiz, keeps entered work when the module is occupied", () => {
+    const start = initialQuizEditor(newQuizView(creation));
+    const saved = quizEditorReducer(
+      quizEditorReducer(start, { type: "busy" }),
+      {
+        type: "result",
+        result: {
+          kind: "saved",
+          id: "new-quiz",
+          revision: 1,
+          bodySha256: "b".repeat(64),
+          version: 1,
+        },
+      },
+    );
+    expect(saved.base).toMatchObject({ id: "new-quiz", revision: 1 });
+    expect(saved.message).toContain(
+      "New quiz new-quiz created as a private draft",
+    );
+    const edited = quizEditorReducer(start, {
+      type: "edit",
+      buffer: { reason: "Keep" },
+    });
+    const occupied = quizEditorReducer(
+      quizEditorReducer(edited, { type: "busy" }),
+      { type: "result", result: { kind: "occupied" } },
+    );
+    expect(occupied.phase).toBe("idle");
+    expect(occupied.reason).toBe("Keep");
+    expect(occupied.message).toContain("already has its module quiz");
+  });
+  it("shows one revision read-only with the answer key, review record and no form", () => {
+    const html = renderToStaticMarkup(
+      <StaffQuizView
+        canEdit={false}
+        view={{
+          id: "quiz-1",
+          path: "forex",
+          parent: "module-1",
+          scope: "module",
+          revision: 2,
+          latestRevision: 3,
+          state: "superseded",
+          bodySha256: "a".repeat(64),
+          version: 1,
+          trashed: false,
+          onHold: false,
+          fields: item().fields,
+          questions: item().questions,
+          governance: {
+            author: "Author",
+            reviewer: "Reviewer",
+            reviewedAt: "2026-10-01",
+            nextReviewAt: "2027-04-01",
+            sources: ["Source one"],
+          },
+        }}
+      />,
+    );
+    for (const text of [
+      "Quiz (read only)",
+      "Revision 2 of 3, version 1",
+      "(correct)",
+      "Explanation:",
+      "Source one",
+      "Open sandbox preview",
+    ])
+      expect(html).toContain(text);
+    expect(html).not.toMatch(/<form|<input|<textarea|Edit draft/);
   });
 });

@@ -61,6 +61,47 @@ describe("M22 MP07b quizzes in the content library", () => {
     expect(html).toContain("View latest revision of quiz-1");
     expect(html).toContain('href="/admin/staff/content/quiz?id=quiz-1"');
     expect(html).not.toContain("Separate editor");
+    expect(html).toContain('href="/admin/staff/content/quiz/view?id=quiz-1"');
+  });
+
+  it("offers New quiz on active module rows for editors, and View quiz to reviewers", () => {
+    const row = (patch: Record<string, unknown>) =>
+      ({
+        id: "module-1",
+        family: "module",
+        learning_path: "crypto",
+        category: null,
+        parent_id: "course-1",
+        latest_revision: 1,
+        state: "approved",
+        trashed: false,
+        ...patch,
+      }) as never;
+    const edit = renderToStaticMarkup(
+      <StaffContentWorkspace
+        canEdit
+        initialPage={{
+          rows: [row({}), row({ id: "module-2", trashed: true })],
+          next: null,
+        }}
+      />,
+    );
+    expect(edit).toContain(
+      'href="/admin/staff/content/quiz?parent=module-1&amp;path=crypto"',
+    );
+    expect(edit).not.toContain("parent=module-2");
+    const review = renderToStaticMarkup(
+      <StaffContentWorkspace
+        canReview
+        initialPage={{
+          rows: [row({}), row({ id: "quiz-9", family: "quiz" })],
+          next: null,
+        }}
+      />,
+    );
+    expect(review).not.toContain("New quiz");
+    expect(review).not.toContain("quiz?id=quiz-9");
+    expect(review).toContain('href="/admin/staff/content/quiz/view?id=quiz-9"');
   });
 
   it("compares quiz revisions field by field and line by line, through the editable projection only", () => {
@@ -113,7 +154,7 @@ describe("M22 MP07b quizzes in the content library", () => {
     expect(compareRevisionBodies("quiz", quiz(), { metadata: {} })).toBeNull();
   });
 
-  it("refuses to archive, restore or hold a quiz, without writing", async () => {
+  it("archives and holds a quiz through the store, writing once each", async () => {
     const rpc = vi.fn((fn: string) => ({
       abortSignal: () =>
         Promise.resolve({
@@ -125,29 +166,33 @@ describe("M22 MP07b quizzes in the content library", () => {
                   roles: ["owner"],
                   capabilities: ["staff.enter"],
                 }
-              : {
-                  item: {
-                    id: "quiz-1",
-                    family: "quiz",
-                    learning_path: "forex",
-                    parent_id: "module-1",
-                    latest_revision: 3,
-                    trashed: false,
-                    on_hold: false,
-                  },
-                  revision: {
-                    revision_no: 3,
-                    schema_version: 1,
-                    body: quiz(),
-                    body_sha256: "a".repeat(64),
-                    base_revision: 2,
-                    author_is_me: false,
-                    state: "approved",
-                    created_at: "2026-11-05T10:00:00.000Z",
-                  },
-                  decisions: [],
-                  review_required: false,
-                },
+              : fn === "pipstart_editorial_trash"
+                ? { item_id: "quiz-1", trashed: true }
+                : fn === "pipstart_editorial_hold"
+                  ? { item_id: "quiz-1", held: true }
+                  : {
+                      item: {
+                        id: "quiz-1",
+                        family: "quiz",
+                        learning_path: "forex",
+                        parent_id: "module-1",
+                        latest_revision: 3,
+                        trashed: false,
+                        on_hold: false,
+                      },
+                      revision: {
+                        revision_no: 3,
+                        schema_version: 1,
+                        body: quiz(),
+                        body_sha256: "a".repeat(64),
+                        base_revision: 2,
+                        author_is_me: false,
+                        state: "approved",
+                        created_at: "2026-11-05T10:00:00.000Z",
+                      },
+                      decisions: [],
+                      review_required: false,
+                    },
           error: null,
         }),
     }));
@@ -169,12 +214,14 @@ describe("M22 MP07b quizzes in the content library", () => {
           sha: "a".repeat(64),
           reason: "Retired",
         }),
-      ).toEqual({ kind: "unavailable" });
+      ).toEqual({ kind: "done", id: "quiz-1", action, revision: 3 });
     expect(
-      rpc.mock.calls.filter(
-        (c) =>
-          !["pipstart_staff_access", "pipstart_editorial_item"].includes(c[0]),
-      ),
-    ).toEqual([]);
+      rpc.mock.calls
+        .map((c) => c[0])
+        .filter(
+          (fn) =>
+            !["pipstart_staff_access", "pipstart_editorial_item"].includes(fn),
+        ),
+    ).toEqual(["pipstart_editorial_trash", "pipstart_editorial_hold"]);
   });
 });

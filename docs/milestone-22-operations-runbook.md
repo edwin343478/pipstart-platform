@@ -71,6 +71,14 @@ Each person may make only so many consequential changes per rolling hour (Packag
   1. Content library, then archived item, then Restore as draft.
   2. Review and approve it.
   3. Make it live.
+- **Quizzes (Package 5):**
+  - **New quiz:** on a module row, choose New quiz (Owner, Author, Editor). Enter the permanent identity, title, pass mark, cooldown, questions and 1 to 5 sources. The server sets the course, module, version 1, position and review record. A module has at most one module quiz, so a module that already has one is refused.
+  - **Review:** View quiz opens a read-only page with the answer key, explanations, review record and sandbox preview (Owner, Author, Editor, and Reviewers on assigned quizzes). Add `&revision=N` to read an earlier revision.
+  - **Archive and restore:** withdraw a live quiz first, then archive it. While it is withdrawn, learners cannot resume unfinished attempts; completed attempts and results stay recorded. Restoring makes a draft that keeps its version, which can be approved and made live again.
+  - **Stated limits:**
+    - Like a new lesson, a new quiz is created with `status: draft`, so learners do not see it even after Make live; no editor changes that status yet.
+    - A new quiz is optional practice; module completion requirements are not editable.
+    - Its author line reads "PipStart editorial team (see audit record)"; the audit record names the person.
 - **Scheduler:** paused (version 8, Cron job 2 inactive). Resuming needs a reviewed capacity check (MP01 gate `MP08-hosted-scheduler-capacity`).
 - **Automatic link check:** off. Before any outside contact, the store authorizes the exact person, item, live revision, link and host, and allows at most 20 checks per person per hour. To enable:
   1. Add allowlisted hosts.

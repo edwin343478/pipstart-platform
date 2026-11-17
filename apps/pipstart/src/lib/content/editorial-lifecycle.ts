@@ -49,8 +49,9 @@ export async function runEditorialLifecycle(
       await repository.item(command.id),
       command.id,
     );
-    // Quizzes are not archived, restored or held from the library (MP07b).
-    if (!detail || detail.family === "quiz") return { kind: "unavailable" };
+    // Package 5: quizzes are archived, restored and held like other content. The store keeps its
+    // rules (withdraw first; restore makes a new draft that keeps the version, MP07a).
+    if (!detail) return { kind: "unavailable" };
     // The store does not bind these actions to a revision; the UI must act on what it showed.
     if (
       detail.revision !== command.revision ||

@@ -100,6 +100,7 @@ export function quizEditorReducer(
         ...s,
         base: {
           ...s.base,
+          id: r.id,
           revision: r.revision,
           bodySha256: r.bodySha256,
           version: r.version,
@@ -111,7 +112,10 @@ export function quizEditorReducer(
         reason: "",
         phase: "saved" as const,
         latest: null,
-        message: `Private quiz draft saved as version ${r.version}. Reload it before editing again. Nothing was approved or published.`,
+        message:
+          s.base.revision === 0
+            ? `New quiz ${r.id} created as a private draft, version 1. Open it to keep editing, or send it for review from the content library. Nothing was approved or published.`
+            : `Private quiz draft saved as version ${r.version}. Reload it before editing again. Nothing was approved or published.`,
       };
       return { ...next, clean: quizBuffer(next) };
     }
@@ -136,7 +140,9 @@ export function quizEditorReducer(
               ? "Current access was refused. Saving is blocked; entered work remains in this tab."
               : r.kind === "limited"
                 ? actionLimitMessage(r.retryAfter)
-                : "The store refused this draft or is unavailable. Nothing was saved. Load latest to check the current version; your work is preserved.",
+                : r.kind === "occupied"
+                  ? "This module already has its module quiz, so nothing was created. Choose another module, or edit the existing quiz."
+                  : "The store refused this draft or is unavailable. Nothing was saved. Load latest to check the current version; your work is preserved.",
     };
   }
   return s;

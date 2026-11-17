@@ -240,6 +240,10 @@
     {
       "path": "apps/pipstart/scripts/test-m22-staff-action-limits.sql",
       "sha256": "703e1f6e22c8bc7c184b7259dfb1e8da5d13ce02c393fc531ee182665dee1079"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-m22-quiz-lifecycle.sql",
+      "sha256": "1b5fb95a3ef18722131aeaf56d274374e2f35d3a962f7b910d14dc3de8b979d1"
     }
   ]
 }

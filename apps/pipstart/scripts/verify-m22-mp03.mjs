@@ -150,6 +150,7 @@ export const MP03_SQL_INPUTS = Object.freeze([
   "apps/pipstart/scripts/test-m22-probe-intent.sql",
   "supabase/migrations/20261122090000_pipstart_m22_staff_action_limits.sql",
   "apps/pipstart/scripts/test-m22-staff-action-limits.sql",
+  "apps/pipstart/scripts/test-m22-quiz-lifecycle.sql",
 ]);
 export function checkedMp03Manifest(repositoryRoot, manifest) {
   if (
@@ -292,6 +293,8 @@ export async function verifyStaffCore(
     probeIntentHead: false,
     actionLimitsStaged: false,
     actionLimitsHead: false,
+    quizLifecycleStaged: false,
+    quizLifecycleHead: false,
     schedulerStaged: false,
     schedulerHead: false,
     schedulerOverlap: false,
@@ -2036,6 +2039,22 @@ export async function verifyStaffCore(
       ) === "t";
     if (!result.actionLimitsHead)
       throw Error("Action limit rollback/grant/head failed");
+    // Package 5: a new quiz through its whole life on the existing store (no migration), staged last.
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(root, "apps/pipstart/scripts/test-m22-quiz-lifecycle.sql"),
+        "utf8",
+      ),
+    );
+    result.quizLifecycleStaged = true;
+    result.quizLifecycleHead =
+      sql(
+        database,
+        "select not exists(select 1 from auth.users where id::text like 'f2000000-%') and not exists(select 1 from pipstart_editorial_private.items where id like 'fq-%') and not exists(select 1 from pipstart_editorial_private.generation_quiz_versions where item_id='fq-quiz');",
+      ) === "t";
+    if (!result.quizLifecycleHead)
+      throw Error("Quiz lifecycle rollback/head failed");
     cleanup();
     result.passed =
       result.staged &&
@@ -2114,6 +2133,8 @@ export async function verifyStaffCore(
       result.probeIntentHead &&
       result.actionLimitsStaged &&
       result.actionLimitsHead &&
+      result.quizLifecycleStaged &&
+      result.quizLifecycleHead &&
       result.schedulerStaged &&
       result.schedulerHead &&
       result.schedulerOverlap &&
