@@ -8,6 +8,18 @@ Local checks passed deep-input protections and 812 ordinary-pattern comparisons 
 
 The raw registry audit may still flag GHSA-vfj7-8cjw-p6xm because the package version stays 3.0.3. `scripts/verify-m17-dependency-audit.mjs` requires exact patch-file/installed-source hashes, runs behavioral checks, and permits only that known advisory on the existing development-only Next ESLint/fast-glob/micromatch paths. Any other advisory, version, production path, missing patch or malformed audit response fails the gate. There is no global ignore setting. CI runs this same gate after normal tests.
 
+**Added 17 November 2026 (M22 audit follow-up):**
+
+- The same gate also accepts GHSA-fc5q-39xc-vjpf (picomatch <=4.0.7 ReDoS through single-branch repeated extglobs). No fixed release exists: npm lists `>=4.0.8`, which is not published.
+- picomatch is accepted only:
+  - at the installed 4.0.5 and 2.3.2;
+  - as a development dependency;
+  - on paths from the workspaces through vitest, `eslint-config-next` or `@mdx-js/rollup`.
+- Those tools read glob patterns from this repository's own configuration, never from users.
+- Any other version, a production path, or a different root fails.
+- The script's self-test now runs on every CI invocation, with eight picomatch rejection fixtures.
+- Remove the exception together with the upgrade once a fixed picomatch is adopted.
+
 This is a locally maintained mitigation pending a verified upstream release, not a clean raw audit or an upstream fix. Re-review when braces/parent dependencies change; remove the patch and scoped policy together when a verified upstream repair is adopted. Do not remove the verification gate while retaining the audit exception.
 
 Approved glossary content, fonts, CSS and lesson/progress identities remain unchanged.

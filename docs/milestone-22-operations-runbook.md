@@ -85,3 +85,8 @@ Each person may make only so many consequential changes per rolling hour (Packag
 
 - **Access review:** run the read-only access review (counts only; see the MP11 release review). Confirm exactly one active Owner and no unexpected role, delegation or unexpired receipt.
 - **CI:** the dependency audit fails on any new advisory. Treat that as a prompt to patch, not to allow-list (Next.js 16.4.5, MP11).
+  - **Two scoped exceptions remain, both development-only:**
+    - braces GHSA-vfj7-8cjw-p6xm, mitigated by a local patch (M17);
+    - picomatch GHSA-fc5q-39xc-vjpf, a ReDoS with no published fix, accepted on 17 November 2026 only for picomatch 4.0.5 and 2.3.2 reached through vitest, the Next ESLint config or the MDX rollup plugin.
+  - Any other version, path or advisory still fails.
+  - When a fixed picomatch (4.0.8 or later) is published, upgrade it and remove the picomatch exception in the same change.
