@@ -1,5 +1,7 @@
 "use client";
 
+import "../lib/validation-csp";
+
 import { useCallback, useRef, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {

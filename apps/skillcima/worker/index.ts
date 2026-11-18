@@ -1,3 +1,4 @@
+import { secureSkillcimaResponse } from "./security-response";
 import { handleCourseConfirmationRequest } from "./course-confirmation-route";
 import { handleNewsletterUnsubscribeRequest } from "./newsletter-unsubscribe-route";
 import { handleResendWebhookRequest } from "./resend-webhook-route";
@@ -650,4 +651,11 @@ const worker = {
   },
 };
 
-export default worker;
+const securedWorker = {
+  ...worker,
+  async fetch(request: Request, env: Env): Promise<Response> {
+    return secureSkillcimaResponse(await worker.fetch(request, env));
+  },
+};
+
+export default securedWorker;

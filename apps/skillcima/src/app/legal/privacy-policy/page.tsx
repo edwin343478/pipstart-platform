@@ -17,7 +17,7 @@ export default function PrivacyPolicyPage() {
         Privacy Policy
       </h1>
 
-      <p className="mt-4 text-sm text-muted">Last updated: 6 August 2026</p>
+      <p className="mt-4 text-sm text-muted">Last updated: 18 November 2026</p>
 
       <div className="mt-10 space-y-10 leading-8 text-muted">
         <section>
@@ -55,6 +55,40 @@ export default function PrivacyPolicyPage() {
             An email address will be used to deliver the course requested by the
             learner. Continuing educational emails will only be sent when the
             learner separately chooses to receive them.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="font-heading text-2xl font-bold text-foreground">
+            Website analytics
+          </h2>
+          <p className="mt-4">
+            We use Cloudflare Web Analytics for aggregate website usage and
+            performance measurements. Cloudflare describes this service as
+            cookieless and states that it does not collect or use visitors&apos;
+            personal data. It also states that query strings are not logged.
+          </p>
+          <p className="mt-4">
+            These measurements are separate from course enrolment information
+            and email-marketing preferences. Skillcima&apos;s analytics
+            configuration is managed separately from PipStart&apos;s.
+          </p>
+          <p className="mt-4">
+            Read{" "}
+            <a
+              className="font-semibold underline underline-offset-4"
+              href="https://developers.cloudflare.com/web-analytics/about/"
+            >
+              Cloudflare&apos;s description of Web Analytics
+            </a>{" "}
+            and its{" "}
+            <a
+              className="font-semibold underline underline-offset-4"
+              href="https://developers.cloudflare.com/web-analytics/faq/"
+            >
+              data collection FAQ
+            </a>
+            .
           </p>
         </section>
 

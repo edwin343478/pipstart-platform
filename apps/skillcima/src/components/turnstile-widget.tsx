@@ -128,6 +128,7 @@ export function TurnstileWidget({
       <div
         ref={containerRef}
         className="min-h-[65px] w-full overflow-hidden rounded-xl"
+        role="group"
         aria-label="Security verification"
       />
     </>

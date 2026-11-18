@@ -17,7 +17,7 @@ export default function CookiePolicyPage() {
         Cookie Policy
       </h1>
 
-      <p className="mt-4 text-sm text-muted">Last updated: 6 August 2026</p>
+      <p className="mt-4 text-sm text-muted">Last updated: 18 November 2026</p>
 
       <div className="mt-10 space-y-10 leading-8 text-muted">
         <section>
@@ -45,13 +45,35 @@ export default function CookiePolicyPage() {
 
         <section>
           <h2 className="font-heading text-2xl font-bold text-foreground">
-            Analytics and optional technologies
+            Cookieless analytics
           </h2>
 
           <p className="mt-4">
-            Any future analytics or optional technologies will be documented
-            before activation, including their purpose and the available visitor
-            choices.
+            Skillcima uses Cloudflare Web Analytics to understand aggregate page
+            visits and loading performance. Cloudflare states that this service
+            does not use cookies or local storage to collect usage metrics.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="font-heading text-2xl font-bold text-foreground">
+            Optional tracking
+          </h2>
+          <p className="mt-4">
+            Any future non-essential cookies, persistent visitor-tracking
+            identifiers or advertising pixels will be disclosed and subject to
+            applicable visitor choices. Essential security and enrolment
+            technologies remain separate from optional tracking.
+          </p>
+          <p className="mt-4">
+            Read more about{" "}
+            <a
+              className="font-semibold underline underline-offset-4"
+              href="https://www.cloudflare.com/web-analytics/"
+            >
+              Cloudflare Web Analytics and its privacy approach
+            </a>
+            .
           </p>
         </section>
 
