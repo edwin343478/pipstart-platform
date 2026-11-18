@@ -24,7 +24,6 @@ vi.mock("@/components/staff/staff-quiz-editor", () => ({
       CONNECTED_QUIZ_EDITOR {creation ? "CREATE " + creation.parent : "EDIT"}
     </div>
   ),
-  newQuizView: () => ({}),
 }));
 import Page from "./page";
 beforeEach(() => {

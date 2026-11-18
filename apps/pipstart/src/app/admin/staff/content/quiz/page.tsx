@@ -3,10 +3,8 @@ import { notFound, redirect } from "next/navigation";
 import { readStaffGate, staffUiEnabled } from "@/lib/auth/staff-gate";
 import { draftId } from "@/lib/content/curriculum-draft-contract";
 import { StaffFrame } from "@/components/staff/staff-frame";
-import {
-  newQuizView,
-  StaffQuizEditor,
-} from "@/components/staff/staff-quiz-editor";
+import { StaffQuizEditor } from "@/components/staff/staff-quiz-editor";
+import { newQuizView } from "@/lib/content/quiz-new";
 import { runQuizDraftAction } from "../quiz-actions";
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {

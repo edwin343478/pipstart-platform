@@ -4,11 +4,8 @@ const mocks = vi.hoisted(() => ({ action: vi.fn() }));
 vi.mock("@/app/admin/staff/content/quiz-actions", () => ({
   runQuizDraftAction: mocks.action,
 }));
-import {
-  newQuizQuestion,
-  newQuizView,
-  StaffQuizEditor,
-} from "./staff-quiz-editor";
+import { StaffQuizEditor } from "./staff-quiz-editor";
+import { newQuizQuestion, newQuizView } from "@/lib/content/quiz-new";
 import { StaffQuizView } from "./staff-quiz-view";
 import { StaffQuizPreview } from "./staff-quiz-preview";
 import type { QuizDraftView } from "@/lib/content/quiz-draft-contract";

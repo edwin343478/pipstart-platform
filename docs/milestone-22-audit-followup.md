@@ -112,3 +112,9 @@ Closes amendment A4 and finding F6. Owner decisions D1–D8 were accepted on 17 
 - **Optional practice:** module completion requirements are not editable (D3).
 - **Author line:** it reads "PipStart editorial team (see audit record)", because staff access carries no display name. The audit record names the person.
 - **One module quiz per module:** the check covers the module children the caller can read. The Owner reads all of them.
+
+### Package 5 fix (found by the Package 6 journey)
+
+- **The defect:** the new-quiz page (`/admin/staff/content/quiz?parent=…&path=…`) failed with a server error in production builds. The page, a server component, called `newQuizView` from the editor's `"use client"` module. In a production build such a function reaches server code only as a client reference, and calling it fails the request. The unit tests mocked the editor, so they did not see it.
+- **The fix:** `newQuizView`, `newQuizQuestion` and `QuizEditorCreation` move to the plain module `lib/content/quiz-new.ts`, which both the page and the editor import.
+- **The guard:** a new test, `src/app/client-boundary.test.ts`, scans every server page, layout and route, and fails on any plain value or function imported from a `"use client"` module. It fails on the previous code, naming exactly this import, and finds no other case.
