@@ -118,3 +118,47 @@ Closes amendment A4 and finding F6. Owner decisions D1–D8 were accepted on 17 
 - **The defect:** the new-quiz page (`/admin/staff/content/quiz?parent=…&path=…`) failed with a server error in production builds. The page, a server component, called `newQuizView` from the editor's `"use client"` module. In a production build such a function reaches server code only as a client reference, and calling it fails the request. The unit tests mocked the editor, so they did not see it.
 - **The fix:** `newQuizView`, `newQuizQuestion` and `QuizEditorCreation` move to the plain module `lib/content/quiz-new.ts`, which both the page and the editor import.
 - **The guard:** a new test, `src/app/client-boundary.test.ts`, scans every server page, layout and route, and fails on any plain value or function imported from a `"use client"` module. It fails on the previous code, naming exactly this import, and finds no other case.
+
+# Package 6: assurance and operability
+
+Closes amendment A6 and findings F7 and F9 for what can be run locally. Amendment A2's live gates are recorded as deferred until the owner runs them. Owner decisions D1–D8 were accepted on 17 November 2026. The evidence is in `milestone-22-assurance-evidence.json`.
+
+## 6a: one connected journey under the real security policy (passed)
+
+- **The stack:** a run-owned, isolated local stack (cached Postgres, Auth and PostgREST images, no published ports) with all 77 migrations and the 160-item code catalogue loaded through the operator import, served by a production build.
+- **The real CSP, with no bypass:** the API is served over HTTPS on `127.0.0.1` with a run-only certificate, trusted only by the test browser and the local server, so the production policy applies unchanged. Run `eb386735…` saw 21 pages with the enforced policy, 18 browser API calls over HTTPS and 0 violations.
+- **One journey keeps the same IDs throughout:**
+  - MFA sign-in for Owner, Author and Reviewer;
+  - edit, save and reload; a conflict refused with the work kept;
+  - review approval and make-live;
+  - a new quiz, and the Reviewer's read-only view;
+  - a rebuild with the anonymous and signed-in learner views, and saved progress;
+  - withdraw, archive, restore and make-live again;
+  - the server killed mid-save, with nothing written twice and the uncertain outcome shown;
+  - role removal, after which the next save is refused.
+
+  The lesson's audit, generations and decisions, the quiz, the role removal and the learner's progress all carry the same IDs.
+
+- **What it found:** one real defect, the new-quiz page in production builds, fixed in `7fd1b83` with a guard test (see the Package 5 fix). The other findings were harness defects only.
+- **Stated limits:**
+  - Withdraw is checked at the live snapshot, without a second rebuild.
+  - Make live, withdraw, archive, restore and revoke used each person's own signed-in session, not clicks.
+
+## 6b: one hosted-change runner (passed)
+
+- **What it is:** a versioned generator (`pipstart-hosted-runner-v1`) that builds a complete owner-run hosted packet from a short configuration:
+  - the three SQL stages;
+  - the manifest;
+  - the history parser and its tests;
+  - the guard, and the Copy and Record scripts;
+  - an immutable per-run manifest.
+- **The resume rule:**
+  - Read-only stages can be re-run at any time.
+  - The schema stage refuses a replay.
+  - An uncertain write is never re-sent.
+- **Proof:** it regenerates all 11 files of the hosted-accepted Package 4 packet byte for byte, and passes its 28-case rehearsal.
+- **Use:** the next hosted change uses it.
+
+## 6c: live gates (deferred)
+
+The live learner gate (CI "Live learner release gates", which creates and deletes its own disposable learners) and the owner's read-only live admin checklist have not been run on this commit. They are recorded as **deferred**, never as passed.

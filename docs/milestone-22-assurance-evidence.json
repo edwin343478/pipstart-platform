@@ -1,0 +1,117 @@
+{
+  "format": "pipstart-m22-assurance-evidence-v1",
+  "package": "M22 audit follow-up, Package 6 (amendments A2, A6; findings F7, F9)",
+  "recorded": "2026-11-18",
+  "internalReview": true,
+  "statusRule": "A gate is passed only with its own receipt. A gate that was not run is deferred, never passed.",
+  "gates": [
+    {
+      "id": "6a-connected-journey",
+      "status": "passed",
+      "commit": "7fd1b8343713867e47117bd1559b58cc80c836d9",
+      "runId": "eb3867351b5a952b0defd1e54b4c3e1e",
+      "reportSha256": "7543ac804c3f52218fc858111e1acaee1e907ac9a7dd38556f088cb840c2f362",
+      "harnessManifestSha256": "71fec43db792a1138a9beda05a661cf6cf8bc4c7d07d52fbad9b7c6648bc3ff7",
+      "where": "local, run-owned isolated stack (cached Postgres, Auth and PostgREST images, no published ports), all 77 migrations, the 160-item code catalogue through the operator import, a production build; no hosted action",
+      "gatesPassed": [
+        "realAuthAal2",
+        "catalogueLive",
+        "journeySteps",
+        "interruptionDrill",
+        "sameIdTrace",
+        "realCspNoViolations",
+        "noSecretExposure"
+      ],
+      "realCsp": {
+        "bypass": false,
+        "how": "HTTPS API bridge on 127.0.0.1 with a run-only certificate trusted only by the test browser (SPKI pin) and the local Next server (NODE_EXTRA_CA_CERTS)",
+        "documentsWithEnforcedPolicy": 21,
+        "browserApiRequestsOverHttps": 18,
+        "violations": 0
+      },
+      "steps": [
+        {
+          "step": "MFA sign-in, Owner, Author, Reviewer (real TOTP)",
+          "how": "browser"
+        },
+        { "step": "Author edits, saves, reloads", "how": "browser" },
+        {
+          "step": "Two tabs: second save refused, work kept",
+          "how": "browser"
+        },
+        { "step": "Author sends to review", "how": "browser" },
+        { "step": "Reviewer approves", "how": "browser" },
+        { "step": "Owner makes live", "how": "Owner session" },
+        {
+          "step": "Author creates a quiz in the module (version 1)",
+          "how": "browser"
+        },
+        {
+          "step": "Reviewer reads it read-only with the answer key",
+          "how": "browser"
+        },
+        {
+          "step": "Rebuild; anonymous visitor sees the change",
+          "how": "browser"
+        },
+        {
+          "step": "Signed-in learner sees it; Mark complete saves progress",
+          "how": "browser"
+        },
+        {
+          "step": "Owner withdraws; lesson leaves the live snapshot",
+          "how": "Owner session"
+        },
+        {
+          "step": "Author archives; Owner restores, re-approves, makes live again",
+          "how": "Author and Owner sessions"
+        },
+        {
+          "step": "Server killed mid-save: written at most once, editor shows the uncertain outcome",
+          "how": "browser"
+        },
+        {
+          "step": "Owner revokes the Author: next save refused (42501), editor closed",
+          "how": "Owner session and browser"
+        }
+      ],
+      "sameIdTrace": {
+        "lesson": "crypto-loss-and-risk",
+        "audit": "import,save,save,submit,review_approve,publish,withdraw,trash,restore,approve_single_person,publish",
+        "generations": "2:publish,3:withdraw,4:publish",
+        "decisions": "1:imported,3:reviewed,4:single_person",
+        "quiz": "created by the Author",
+        "revoke": 1,
+        "learnerProgressRows": 1
+      },
+      "statedLimits": [
+        "Withdraw is checked at the live snapshot; no second rebuild after withdrawal",
+        "Make live, withdraw, archive, restore and revoke ran through each person's own signed-in session (the same store rules the pages call), not by clicking"
+      ],
+      "findingsFixed": [
+        "A real defect: the new-quiz page failed in production builds (server page called a client-module function). Fixed in 7fd1b83 with a guard test for the whole class",
+        "Harness defects only (no app change): byte decoding of large responses, label-based locators for filled fields, the stepped lesson's completion control, the snapshot reply shape"
+      ]
+    },
+    {
+      "id": "6b-hosted-change-runner",
+      "status": "passed",
+      "runnerVersion": "pipstart-hosted-runner-v1",
+      "runnerSha256": "8c251ea03b2fbe445211d48769186a352d1a3627a7e060fcf816f4ffe70f91b9",
+      "proofSha256": "47c7236c200a220fc0136791805530e7f222e43c9975ecac2e0dfdd01d8e594b",
+      "proof": "Regenerates all 11 files of the hosted-accepted Package 4 packet byte for byte, and passes its 28-case rehearsal with the runner's stage generator"
+    },
+    {
+      "id": "6c-live-learner-gate",
+      "status": "deferred",
+      "how": "CI job 'Live learner release gates' (workflow_dispatch, environment assessment-release); creates and deletes its own disposable learners",
+      "note": "Not run on this commit. Record the run ID and result here when the owner runs it."
+    },
+    {
+      "id": "6c-live-admin-checklist",
+      "status": "deferred",
+      "how": "Owner-run, read-only, ten checks on the live staff pages",
+      "note": "Not run on this commit. Record the date and the ten results here when the owner runs it."
+    }
+  ]
+}
