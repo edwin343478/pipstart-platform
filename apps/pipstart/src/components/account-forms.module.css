@@ -53,6 +53,7 @@
 
 .passwordControl button {
   position: absolute;
+  min-block-size: 24px;
   top: 50%;
   right: 0.5rem;
   border: 0;
