@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { type Ref, useEffect, useRef, useState } from "react";
 import {
   Heading,
   Badge,
@@ -30,7 +30,13 @@ const status = (state: string): BadgeKind =>
       : state === "draft"
         ? "draft"
         : "arch";
-export function ContentRevisionDetail({ detail }: { detail: WorkspaceDetail }) {
+export function ContentRevisionDetail({
+  detail,
+  headingRef,
+}: {
+  detail: WorkspaceDetail;
+  headingRef?: Ref<HTMLHeadingElement>;
+}) {
   const labels = {
     imported: "Imported baseline",
     reviewed: "Reviewer approval",
@@ -42,7 +48,7 @@ export function ContentRevisionDetail({ detail }: { detail: WorkspaceDetail }) {
       className={`${s.panel} ${styles.detail}`}
       aria-labelledby="content-detail-heading"
     >
-      <h2 id="content-detail-heading" tabIndex={-1}>
+      <h2 id="content-detail-heading" ref={headingRef} tabIndex={-1}>
         {detail.title}
       </h2>
       <p>
@@ -162,6 +168,10 @@ export function StaffContentWorkspace({
     );
   const lock = useRef(false),
     heading = useRef<HTMLHeadingElement>(null);
+  const detailHeading = useRef<HTMLHeadingElement>(null);
+  useEffect(() => {
+    if (detail) detailHeading.current?.focus();
+  }, [detail]);
   async function load(cursor: string, history: string[]) {
     if (lock.current) return;
     lock.current = true;
@@ -201,12 +211,14 @@ export function StaffContentWorkspace({
     setBusy(true);
     setDetail(null);
     setMessage("");
+    let didLoadDetail = false;
     try {
       const result = await readEditorialWorkspaceAction({
         kind: "item",
         id: row.id,
       });
       if (result.kind === "item") {
+        didLoadDetail = true;
         setDetail(result.detail);
         setMessage(loaded ?? "Latest permitted revision loaded.");
       } else {
@@ -225,7 +237,7 @@ export function StaffContentWorkspace({
     } finally {
       lock.current = false;
       setBusy(false);
-      heading.current?.focus();
+      if (!didLoadDetail) heading.current?.focus();
     }
   }
   const rows = (page?.rows ?? []).filter(
@@ -480,7 +492,9 @@ export function StaffContentWorkspace({
       <Link className={styles.linkButton} href="/admin/access">
         Return to staff verification
       </Link>
-      {detail && <ContentRevisionDetail detail={detail} />}
+      {detail && (
+        <ContentRevisionDetail detail={detail} headingRef={detailHeading} />
+      )}
       {detail && (
         <StaffDecisionPanel
           key={detail.id + ":" + detail.revision + ":" + detail.state}

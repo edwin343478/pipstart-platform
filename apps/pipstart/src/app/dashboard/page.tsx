@@ -30,10 +30,12 @@ function percentageLabel(value: number) {
 function SectionHeader({
   eyebrow,
   icon,
+  id,
   title,
 }: {
   eyebrow: string;
   icon: React.ReactNode;
+  id: string;
   title: string;
 }) {
   return (
@@ -43,7 +45,7 @@ function SectionHeader({
       </span>
       <div>
         <p className={styles.sectionEyebrow}>{eyebrow}</p>
-        <h2>{title}</h2>
+        <h2 id={id}>{title}</h2>
       </div>
     </div>
   );
@@ -298,6 +300,7 @@ export default async function DashboardPage() {
               aria-labelledby="active-courses"
             >
               <SectionHeader
+                id="active-courses"
                 eyebrow="In progress"
                 icon={<BookIcon />}
                 title="Enrolled courses"
@@ -345,6 +348,7 @@ export default async function DashboardPage() {
               aria-labelledby="recent-lessons"
             >
               <SectionHeader
+                id="recent-lessons"
                 eyebrow="Recent activity"
                 icon={<ClockIcon />}
                 title="Recent lessons"
@@ -368,6 +372,7 @@ export default async function DashboardPage() {
 
             <section className={styles.section} aria-labelledby="quiz-results">
               <SectionHeader
+                id="quiz-results"
                 eyebrow="Assessments"
                 icon={<CheckBadgeIcon />}
                 title="Quiz scores"
@@ -393,6 +398,7 @@ export default async function DashboardPage() {
 
           <section className={styles.section} aria-labelledby="bookmarks">
             <SectionHeader
+              id="bookmarks"
               eyebrow="Saved for later"
               icon={<BookmarkIcon />}
               title="Bookmarks"
@@ -419,6 +425,7 @@ export default async function DashboardPage() {
               aria-labelledby="completed-courses"
             >
               <SectionHeader
+                id="completed-courses"
                 eyebrow="Finished"
                 icon={<FlagIcon />}
                 title="Completed courses"
@@ -439,6 +446,7 @@ export default async function DashboardPage() {
             aria-labelledby="account-settings"
           >
             <SectionHeader
+              id="account-settings"
               eyebrow="Your account"
               icon={<SlidersIcon />}
               title="Settings and notifications"

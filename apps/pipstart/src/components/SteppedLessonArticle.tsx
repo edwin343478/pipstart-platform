@@ -255,10 +255,7 @@ export function SteppedLessonArticle({
         />
       </div>
 
-      <div
-        className={styles.mobileProgress}
-        aria-label={`Section ${activeIndex + 1} of ${total}`}
-      >
+      <div className={styles.mobileProgress}>
         {sections.map((section, index) => (
           <span
             key={section.title}
