@@ -79,6 +79,9 @@ const heroTrustPoints = [
 export default function Home() {
   return (
     <main className={styles.page}>
+      <a className="pipstart-skip-link" href="#pipstart-skip-heading">
+        Skip to content
+      </a>
       <header className={styles.header}>
         <Link className={styles.brand} href="/" aria-label="PipStart home">
           PipStart
@@ -100,7 +103,9 @@ export default function Home() {
           <span className={styles.eyebrowDot} aria-hidden="true" />
           <p>Structured Forex &amp; crypto education</p>
         </div>
-        <h1>Learn markets with structure, not shortcuts.</h1>
+        <h1 id="pipstart-skip-heading" tabIndex={-1}>
+          Learn markets with structure, not shortcuts.
+        </h1>
         <div className={styles.heroDescription}>
           A complete, free learning path — from what a currency pair is to
           building your own risk-managed trading plan.

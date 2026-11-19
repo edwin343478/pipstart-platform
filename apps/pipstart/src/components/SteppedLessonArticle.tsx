@@ -200,7 +200,9 @@ export function SteppedLessonArticle({
           {isLastSection && !nextLesson ? " · Final lesson" : ""}
         </span>
       </div>
-      <h1 className={styles.title}>{title}</h1>
+      <h1 id="pipstart-skip-heading" tabIndex={-1} className={styles.title}>
+        {title}
+      </h1>
 
       {/* Section pills — horizontally scrollable so an N-section lesson
           never forces illegibly small pills on mobile. Proper ARIA

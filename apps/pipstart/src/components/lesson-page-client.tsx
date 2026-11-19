@@ -96,6 +96,9 @@ export function LessonPageClient({
 
   return (
     <main className={styles.page} data-learning-path={path}>
+      <a className="pipstart-skip-link" href="#pipstart-skip-heading">
+        Skip to content
+      </a>
       {/* A streamed loading boundary normally relies on JavaScript to reveal
           the resolved article. With scripting disabled, reveal only hidden
           containers holding this static lesson and hide its obsolete loader.
