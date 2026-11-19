@@ -64,6 +64,7 @@ export function StaffLessonEditor({
       initialLessonEditor,
     ),
     [identity, setIdentity] = useState({ id: "", ...creation, order: 1 }),
+    [preparing, setPreparing] = useState(false),
     [loading, setLoading] = useState(false),
     [preview, setPreview] = useState(false),
     [blockType, setBlockType] =
@@ -71,6 +72,7 @@ export function StaffLessonEditor({
   const lock = useRef(false),
     status = useRef<HTMLParagraphElement>(null);
   const dirty =
+    preparing ||
     lessonBuffer(state) !== state.clean ||
     (!state.base &&
       (identity.id !== "" ||
@@ -229,15 +231,26 @@ export function StaffLessonEditor({
       </div>
     );
   }
-  async function save(event: FormEvent) {
+  async function save(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (lock.current || state.phase !== "idle") return;
     const id = state.base
       ? { id: state.base.id, path: state.base.path, parent: state.base.parent }
       : { id: identity.id, path: identity.path, parent: identity.parent };
+    const form = new FormData(event.currentTarget);
     const command = state.base
       ? {
           kind: "save",
+          ...(preparing
+            ? {
+                publication: {
+                  author: form.get("publicAuthor"),
+                  reviewer: form.get("publicReviewer"),
+                  publishedDate: form.get("publishedDate"),
+                  reviewDate: form.get("reviewDate"),
+                },
+              }
+            : {}),
           id: id.id,
           baseRevision: state.base.revision,
           baseSha256: state.base.bodySha256,
@@ -285,6 +298,8 @@ export function StaffLessonEditor({
     setLoading(true);
     try {
       const result = await runLessonEditorAction({ kind: "load", id });
+      if (result.kind === "ready" && state.phase === "saved")
+        setPreparing(false);
       dispatch({ type: "latest", result });
       if (result.kind === "ready" && state.phase === "saved")
         dispatch({ type: "use-latest" });
@@ -650,6 +665,40 @@ export function StaffLessonEditor({
                 Add section
               </button>
             </>
+          )}
+          {state.base?.canPrepareForPublication && (
+            <fieldset>
+              <legend>Learner publication</legend>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={preparing}
+                  onChange={(e) => setPreparing(e.target.checked)}
+                />{" "}
+                Request learner publication for this revision
+              </label>
+              <p>Save the draft, then submit it for review.</p>
+              {preparing && (
+                <>
+                  <label>
+                    Public author credit
+                    <input required name="publicAuthor" maxLength={120} />
+                  </label>
+                  <label>
+                    Public reviewer credit
+                    <input required name="publicReviewer" maxLength={120} />
+                  </label>
+                  <label>
+                    Publication date
+                    <input required type="date" name="publishedDate" />
+                  </label>
+                  <label>
+                    Review date
+                    <input required type="date" name="reviewDate" />
+                  </label>
+                </>
+              )}
+            </fieldset>
           )}
           <label>
             Change reason

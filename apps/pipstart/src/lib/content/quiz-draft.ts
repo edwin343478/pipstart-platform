@@ -1,4 +1,5 @@
 import "server-only";
+import { checkContentBody } from "./validate";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { staffDeadline } from "../auth/staff-entry";
 import { readLiveStaffAccess } from "../auth/staff-role-flow";
@@ -30,6 +31,10 @@ function project(raw: EditorialItemView, id: string): QuizDraftView | null {
   if (!body) return null;
   const approved = d.decisions.some((x) => approval.includes(x.kind));
   return {
+    canPrepareForPublication:
+      object(raw.revision.body) &&
+      object(raw.revision.body.metadata) &&
+      raw.revision.body.metadata.status === "draft",
     id: d.id,
     path: d.path,
     parent: d.parent,
@@ -88,6 +93,14 @@ export async function runQuizDraft(
       view.nextVersion,
     );
     if (!body) return { kind: "invalid" };
+    // A request belongs only to this revision. A later ordinary save clears it.
+    delete body.learnerPublicationRequest;
+    if (command.prepareForPublication) {
+      if (!object(body.metadata) || body.metadata.status !== "draft")
+        return { kind: "invalid" };
+      body.learnerPublicationRequest = true;
+      if (!checkContentBody("quiz", body).ok) return { kind: "invalid" };
+    }
     sent = true;
     const result = await repository.save(
       command.id,

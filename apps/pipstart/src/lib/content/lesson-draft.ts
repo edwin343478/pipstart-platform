@@ -1,4 +1,6 @@
 import "server-only";
+import { lessonPublicationView } from "./learner-publication";
+import { checkContentBody } from "./validate";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { staffDeadline } from "../auth/staff-entry";
 import { readLiveStaffAccess } from "../auth/staff-role-flow";
@@ -22,6 +24,10 @@ function project(raw: EditorialItemView, id: string): LessonDraftView | null {
   const body = projectLessonBody(raw.revision.body);
   if (!body) return null;
   return {
+    canPrepareForPublication:
+      object(raw.revision.body) &&
+      object(raw.revision.body.metadata) &&
+      raw.revision.body.metadata.status === "draft",
     id: d.id,
     path: d.path,
     parent: d.parent,
@@ -70,6 +76,19 @@ export async function runLessonDraft(
       command.content,
     );
     if (!body) return { kind: "invalid" };
+    // A request belongs only to this revision. A later ordinary save clears it.
+    delete body.learnerPublicationRequest;
+    if (command.publication) {
+      if (!object(body.metadata) || body.metadata.status !== "draft")
+        return { kind: "invalid" };
+      body.learnerPublicationRequest = command.publication;
+      try {
+        lessonPublicationView(body);
+      } catch {
+        return { kind: "invalid" };
+      }
+      if (!checkContentBody("lesson", body).ok) return { kind: "invalid" };
+    }
     sent = true;
     const result = await repository.save(
       command.id,

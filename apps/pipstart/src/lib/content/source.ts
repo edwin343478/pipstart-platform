@@ -15,6 +15,7 @@ import {
 } from "./live-generation";
 
 import { contentFamilies, type ContentFamily } from "./contract";
+import { deliveredLearnerRow } from "./learner-publication";
 import { jsonbText } from "./jsonb";
 import { checkContentBody } from "./validate";
 import type { StoreRow } from "./import/shadow";
@@ -290,9 +291,17 @@ let live: { snapshot: ParsedContentSnapshot | null } | undefined;
 const liveSnapshot = () => {
   if (!live) {
     const generation = liveGeneration();
+    const verified = generation
+      ? parseContentSnapshotFile(generation.snapshot)
+      : null;
     live = {
-      snapshot: generation
-        ? parseContentSnapshotFile(generation.snapshot)
+      snapshot: verified
+        ? {
+            ...verified,
+            rows: generation?.groups.includes("curriculum")
+              ? verified.rows.map(deliveredLearnerRow)
+              : verified.rows,
+          }
         : null,
     };
   }

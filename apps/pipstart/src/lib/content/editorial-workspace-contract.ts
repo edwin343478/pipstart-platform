@@ -29,6 +29,14 @@ export type WorkspaceDetail = {
   onHold: boolean;
   authorIsMe: boolean;
   reviewRequired: boolean;
+  publicationRequest?:
+    | true
+    | {
+        author: string;
+        reviewer: string;
+        publishedDate: string;
+        reviewDate: string;
+      };
   createdAt: string;
   decisions: WorkspaceDecision[];
 };
@@ -214,6 +222,24 @@ export function parseWorkspaceDetail(
       at: d.at,
     });
   }
+  const requested = r.body.learnerPublicationRequest;
+  let publicationRequest: WorkspaceDetail["publicationRequest"];
+  if (i.family === "quiz" && requested === true) publicationRequest = true;
+  if (i.family === "lesson" && object(requested)) {
+    const { author, reviewer, publishedDate, reviewDate } = requested;
+    if (
+      typeof author !== "string" ||
+      author.length > 120 ||
+      typeof reviewer !== "string" ||
+      reviewer.length > 120 ||
+      typeof publishedDate !== "string" ||
+      !/^\d{4}-\d{2}-\d{2}$/.test(publishedDate) ||
+      typeof reviewDate !== "string" ||
+      !/^\d{4}-\d{2}-\d{2}$/.test(reviewDate)
+    )
+      return null;
+    publicationRequest = { author, reviewer, publishedDate, reviewDate };
+  }
   // The browser receives only this allowlist, never the full body or hidden fields.
   return {
     id: i.id as string,
@@ -228,6 +254,7 @@ export function parseWorkspaceDetail(
     onHold: i.on_hold,
     authorIsMe: r.author_is_me,
     reviewRequired: v.review_required,
+    ...(publicationRequest ? { publicationRequest } : {}),
     createdAt: r.created_at,
     decisions,
   };

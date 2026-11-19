@@ -62,6 +62,7 @@ export function StaffQuizEditor({
       item,
       initialQuizEditor,
     ),
+    [preparing, setPreparing] = useState(false),
     [loading, setLoading] = useState(false),
     [preview, setPreview] = useState(false),
     [addType, setAddType] = useState<QuizQuestionType>("single-choice"),
@@ -72,6 +73,7 @@ export function StaffQuizEditor({
   // Create mode lasts until the first save; the saved quiz is then edited by its identity.
   const creating = !!creation && state.base.revision === 0;
   const dirty =
+    preparing ||
     quizBuffer(state) !== state.clean ||
     (creating && (identity !== "" || sourcesText !== ""));
   useDraftLeaveGuard(
@@ -106,7 +108,7 @@ export function StaffQuizEditor({
       type: "edit",
       buffer: { fields: { ...state.fields, ...patch } },
     });
-  async function save(event: FormEvent) {
+  async function save(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (lock.current || state.phase !== "idle") return;
     const command =
@@ -123,6 +125,7 @@ export function StaffQuizEditor({
           }
         : {
             kind: "save",
+            ...(preparing ? { prepareForPublication: true } : {}),
             id: state.base.id,
             baseRevision: state.base.revision,
             baseSha256: state.base.bodySha256,
@@ -159,6 +162,8 @@ export function StaffQuizEditor({
         kind: "load",
         id: state.base.id,
       });
+      if (result.kind === "ready" && state.phase === "saved")
+        setPreparing(false);
       dispatch({ type: "latest", result });
       if (result.kind === "ready" && state.phase === "saved")
         dispatch({ type: "use-latest" });
@@ -389,6 +394,20 @@ export function StaffQuizEditor({
               Add {typeLabels[addType].toLowerCase()} question
             </button>
           </div>
+          {!creating && state.base.canPrepareForPublication && (
+            <fieldset>
+              <legend>Learner publication</legend>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={preparing}
+                  onChange={(e) => setPreparing(e.target.checked)}
+                />{" "}
+                Request learner publication for this revision
+              </label>
+              <p>Save the draft, then submit it for review.</p>
+            </fieldset>
+          )}
           <label>
             Change reason
             <input

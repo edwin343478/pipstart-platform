@@ -189,6 +189,115 @@ describe("M22 MP05c-2 snapshot content source", { timeout: 60_000 }, () => {
       expect(ids.has(id), id).toBe(true);
   });
 
+  it("exposes requested drafts only from the delivered curriculum generation", async () => {
+    const manifest = await buildImportManifest();
+    const additions = newItems(manifest, "crypto", "level-2");
+    for (const item of additions) {
+      const m = item.body.metadata as Record<string, unknown>;
+      if (item.family === "lesson") {
+        item.body.learnerPublicationRequest = {
+          author: m.author,
+          reviewer: m.reviewer,
+          publishedDate: m.publishedDate,
+          reviewDate: m.reviewDate,
+        };
+        Object.assign(m, {
+          status: "draft",
+          approved: false,
+          author: "Editorial draft",
+          reviewer: "Review pending",
+          publishedDate: "",
+          reviewDate: "",
+        });
+      } else if (item.family === "quiz") {
+        m.status = "draft";
+        item.body.learnerPublicationRequest = true;
+      }
+    }
+    const items = [...asItems(manifest), ...additions];
+    const review = await underSnapshot(items);
+    expect(
+      review.crypto.resolveCryptoSegment("level-2", "x-crypto-new-lesson"),
+    ).toBeUndefined();
+    expect(
+      review.assessments.getCurrentPublishedAssessment("x-crypto-new-quiz"),
+    ).toBeUndefined();
+    vi.stubEnv("PIPSTART_CONTENT_SOURCE", "code");
+    vi.stubEnv("PIPSTART_STORE_FAMILIES", "curriculum");
+    let snapshot = JSON.stringify(
+      buildContentSnapshot(items, "2026-11-19T00:00:00Z"),
+    );
+    vi.doMock("./live-generation", async (importOriginal) => ({
+      ...(await importOriginal<typeof import("./live-generation")>()),
+      liveGeneration: () => ({ snapshot, groups: ["curriculum"] }),
+    }));
+    try {
+      vi.resetModules();
+      const live = await import("../crypto-level-routing");
+      expect(
+        live.resolveCryptoSegment("level-2", "x-crypto-new-lesson")?.kind,
+      ).toBe("lesson");
+      expect(
+        live.resolveCryptoModuleQuiz(
+          "level-2",
+          "x-crypto-new-course",
+          "x-crypto-new-module",
+        )?.quiz.id,
+      ).toBe("x-crypto-new-quiz");
+      // The next delivered generation withdraws these exact items.
+      snapshot = JSON.stringify(
+        buildContentSnapshot(asItems(manifest), "2026-11-19T01:00:00Z"),
+      );
+      vi.resetModules();
+      const withdrawn = await import("../crypto-level-routing");
+      expect(
+        withdrawn.resolveCryptoSegment("level-2", "x-crypto-new-lesson"),
+      ).toBeUndefined();
+      expect(
+        withdrawn.resolveCryptoModuleQuiz(
+          "level-2",
+          "x-crypto-new-course",
+          "x-crypto-new-module",
+        ),
+      ).toBeUndefined();
+    } finally {
+      vi.doUnmock("./live-generation");
+    }
+  });
+
+  it("keeps draft lesson and quiz routes hidden even when their parents are published", async () => {
+    const manifest = await buildImportManifest();
+    const additions = newItems(manifest, "crypto", "level-2");
+    for (const item of additions) {
+      if (item.family === "lesson" || item.family === "quiz") {
+        Object.assign(item.body.metadata as object, { status: "draft" });
+        if (item.family === "lesson") {
+          Object.assign(item.body.metadata as object, { approved: false });
+        }
+      }
+    }
+    const { crypto, assessments } = await underSnapshot([
+      ...asItems(manifest),
+      ...additions,
+    ]);
+    expect(
+      crypto.resolveCryptoSegment("level-2", "x-crypto-new-course")?.kind,
+    ).toBe("course");
+    expect(
+      crypto.resolveCryptoSegment("level-2", "x-crypto-new-lesson"),
+    ).toBeUndefined();
+    expect(
+      crypto.resolveCryptoModuleQuiz(
+        "level-2",
+        "x-crypto-new-course",
+        "x-crypto-new-module",
+      ),
+    ).toBeUndefined();
+    expect(
+      assessments.getCurrentPublishedAssessment("x-crypto-new-quiz"),
+    ).toBeUndefined();
+  });
+
   it("resolves a new Crypto course, module, lesson and module quiz without a code edit", async () => {
     const manifest = await buildImportManifest();
     const snap = await underSnapshot([

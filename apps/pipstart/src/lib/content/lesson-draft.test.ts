@@ -1,3 +1,4 @@
+import { newLessonBody, LESSON_DRAFT_RISK } from "./lesson-create-contract";
 import { afterEach, beforeEach, describe, it, expect, vi } from "vitest";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { runLessonDraft } from "./lesson-draft";
@@ -45,7 +46,7 @@ const raw = () => ({
   decisions: [],
   review_required: false,
 });
-function fixture(role = "owner") {
+function fixture(role = "owner", item: unknown = raw()) {
   const response = (data: unknown, error: unknown = null) => ({
     abortSignal: vi.fn(() => Promise.resolve({ data, error })),
   });
@@ -63,7 +64,7 @@ function fixture(role = "owner") {
             capabilities: ["staff.enter"],
           })
       : fn === "pipstart_editorial_item"
-        ? response(raw())
+        ? response(item)
         : response({
             item_id: "lesson",
             revision_no: 4,
@@ -101,6 +102,78 @@ const save = () => {
 beforeEach(() => vi.stubEnv("PIPSTART_M22_STAFF_UI_ENABLED", "true"));
 afterEach(() => vi.unstubAllEnvs());
 describe("MP06c1 verified lesson service", () => {
+  it("prepares a staff-created lesson as a private draft and refuses an invalid public review date", async () => {
+    const initial = save();
+    const fields = {
+      ...initial.fields,
+      sources: [
+        { title: "Reference", url: "https://example.com/lesson" as const },
+      ],
+    };
+    const created = newLessonBody(
+      {
+        kind: "create",
+        id: "lesson",
+        parent: "module",
+        path: "forex",
+        order: 1,
+        reason: "Create lesson",
+        fields,
+        content: {
+          mode: "flat",
+          blocks: [
+            {
+              sourceIndex: null,
+              value: { type: "paragraph", children: "Introduction" },
+            },
+            {
+              sourceIndex: null,
+              value: { type: "riskNotice", children: LESSON_DRAFT_RISK },
+            },
+          ],
+        },
+      },
+      "course",
+      "level-1",
+    )!;
+    const base = raw();
+    const item = { ...base, revision: { ...base.revision, body: created } };
+    const { content } = projectLessonBody(created)!;
+    const publication = {
+      author: "Editorial team",
+      reviewer: "Content review",
+      publishedDate: "2026-01-01",
+      reviewDate: "2026-01-02",
+    };
+    const f = fixture("author", item);
+    const command = { ...initial, fields, content, publication };
+    expect((await runLessonDraft(f.client, command)).kind).toBe("saved");
+    expect(f.rpc).toHaveBeenCalledWith(
+      "pipstart_editorial_save",
+      expect.objectContaining({
+        p_body: expect.objectContaining({
+          learnerPublicationRequest: publication,
+          metadata: expect.objectContaining({
+            status: "draft",
+            approved: false,
+          }),
+        }),
+      }),
+    );
+    const bad = fixture("author", item);
+    expect(
+      (
+        await runLessonDraft(bad.client, {
+          ...command,
+          publication: { ...publication, reviewDate: "2025-12-01" },
+        })
+      ).kind,
+    ).toBe("invalid");
+    expect(bad.rpc).not.toHaveBeenCalledWith(
+      "pipstart_editorial_save",
+      expect.anything(),
+    );
+  });
   it("defaults closed and rejects arbitrary caller metadata before Auth", async () => {
     const f = fixture();
     vi.stubEnv("PIPSTART_M22_STAFF_UI_ENABLED", "TRUE");

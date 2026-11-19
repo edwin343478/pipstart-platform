@@ -60,6 +60,24 @@ export function ContentRevisionDetail({ detail }: { detail: WorkspaceDetail }) {
         <dd>{detail.parent ?? "No parent"}</dd>
         <dt>Latest revision</dt>
         <dd>{detail.revision}</dd>
+        {detail.publicationRequest && (
+          <>
+            <dt>Learner publication</dt>
+            <dd>Requested for this revision</dd>
+            {detail.publicationRequest !== true && (
+              <>
+                <dt>Public author credit</dt>
+                <dd>{detail.publicationRequest.author}</dd>
+                <dt>Public reviewer credit</dt>
+                <dd>{detail.publicationRequest.reviewer}</dd>
+                <dt>Publication date</dt>
+                <dd>{detail.publicationRequest.publishedDate}</dd>
+                <dt>Review date</dt>
+                <dd>{detail.publicationRequest.reviewDate}</dd>
+              </>
+            )}
+          </>
+        )}
         <dt>Revision state</dt>
         <dd>{detail.state.replaceAll("_", " ")}</dd>
         <dt>Created (UTC)</dt>

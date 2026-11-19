@@ -30,6 +30,12 @@ export type LessonDraftInput =
   | { kind: "load"; id: string }
   | {
       kind: "save";
+      publication?: {
+        author: string;
+        reviewer: string;
+        publishedDate: string;
+        reviewDate: string;
+      };
       id: string;
       baseRevision: number;
       baseSha256: string;
@@ -213,17 +219,36 @@ function validInput(v: unknown): v is LessonDraftInput {
     return shape(v, { kind: (k) => k === "load", id: draftId });
   return (
     v.kind === "save" &&
-    shape(v, {
-      kind: (k) => k === "save",
-      id: draftId,
-      baseRevision: (v) => integer(v, 1, 2147483646),
-      baseSha256: (v) => typeof v === "string" && /^[a-f0-9]{64}$/.test(v),
-      fields: validFields,
-      content: validContent,
-      reason: (v) => text(v, 200) && v === v.trim() && !/[\r\n\t]/.test(v),
-    })
+    shape(
+      v,
+      {
+        kind: (k) => k === "save",
+        id: draftId,
+        baseRevision: (v) => integer(v, 1, 2147483646),
+        baseSha256: (v) => typeof v === "string" && /^[a-f0-9]{64}$/.test(v),
+        fields: validFields,
+        content: validContent,
+        reason: (v) => text(v, 200) && v === v.trim() && !/[\r\n\t]/.test(v),
+      },
+      {
+        publication: (p) =>
+          shape(p, {
+            author: credit,
+            reviewer: credit,
+            publishedDate: date,
+            reviewDate: date,
+          }),
+      },
+    )
   );
 }
+const credit = (v: unknown) =>
+  text(v, 120) &&
+  v === v.trim() &&
+  !/[\r\n\t]/.test(v) &&
+  !["Editorial draft", "Review pending"].includes(v);
+const date = (v: unknown) =>
+  typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v);
 function schema<T>(valid: (v: unknown) => v is T) {
   return {
     safeParse(v: unknown): { success: true; data: T } | { success: false } {
@@ -238,6 +263,7 @@ export const lessonBlockSchema = schema(validBlock),
   lessonFieldsSchema = schema(validFields),
   lessonDraftInputSchema = schema(validInput);
 export type LessonDraftView = {
+  canPrepareForPublication?: boolean;
   id: string;
   path: "forex" | "crypto";
   parent: string;

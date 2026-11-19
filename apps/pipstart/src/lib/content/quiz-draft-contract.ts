@@ -25,6 +25,7 @@ export type QuizDraftInput =
   | { kind: "load"; id: string }
   | {
       kind: "save";
+      prepareForPublication?: true;
       id: string;
       baseRevision: number;
       baseSha256: string;
@@ -33,6 +34,7 @@ export type QuizDraftInput =
       reason: string;
     };
 export type QuizDraftView = {
+  canPrepareForPublication?: boolean;
   id: string;
   path: "forex" | "crypto";
   parent: string;
@@ -195,7 +197,12 @@ function validInput(v: unknown): v is QuizDraftInput {
   if (v.kind === "load") return exact(v, "id,kind") && draftId(v.id);
   return (
     v.kind === "save" &&
-    exact(v, "baseRevision,baseSha256,fields,id,kind,questions,reason") &&
+    (exact(v, "baseRevision,baseSha256,fields,id,kind,questions,reason") ||
+      (v.prepareForPublication === true &&
+        exact(
+          v,
+          "baseRevision,baseSha256,fields,id,kind,prepareForPublication,questions,reason",
+        ))) &&
     draftId(v.id) &&
     integer(v.baseRevision, 1, 2147483646) &&
     typeof v.baseSha256 === "string" &&

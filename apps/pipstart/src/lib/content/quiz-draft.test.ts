@@ -116,6 +116,23 @@ const sentBody = (f: ReturnType<typeof fixture>) =>
 beforeEach(() => vi.stubEnv("PIPSTART_M22_STAFF_UI_ENABLED", "true"));
 afterEach(() => vi.unstubAllEnvs());
 describe("M22 MP07b verified quiz draft service", () => {
+  it("saves publication intent on the exact draft without promoting it or spilling it onto later ordinary edits", async () => {
+    const item = raw([]);
+    item.revision.body.metadata.status = "draft";
+    const f = fixture("author", item);
+    expect(
+      (await runQuizDraft(f.client, save({ prepareForPublication: true })))
+        .kind,
+    ).toBe("saved");
+    expect(sentBody(f)).toMatchObject({
+      learnerPublicationRequest: true,
+      metadata: { version: 2, status: "draft" },
+    });
+    Object.assign(item.revision.body, { learnerPublicationRequest: true });
+    const next = fixture("author", item);
+    expect((await runQuizDraft(next.client, save())).kind).toBe("saved");
+    expect(sentBody(next)).not.toHaveProperty("learnerPublicationRequest");
+  });
   it("defaults closed and refuses a caller-chosen version before Auth", async () => {
     const f = fixture();
     vi.stubEnv("PIPSTART_M22_STAFF_UI_ENABLED", "TRUE");
