@@ -31,6 +31,7 @@ describe("buildConsentEvents", () => {
     expect(events[1]).toMatchObject({
       category: "educational_newsletter",
       action: "granted",
+      privacyNoticeVersion: "2026-11-18",
     });
   });
 
@@ -53,7 +54,7 @@ describe("buildConsentEvents", () => {
       newsletterConsent: false,
     });
 
-    expect(events[0]?.privacyNoticeVersion).toBe("2026-08-06");
+    expect(events[0]?.privacyNoticeVersion).toBe("2026-11-18");
     expect(events[0]?.consentWordingVersion).toBe("1.0.0");
     expect(events[0]?.landingPageVersion).toBe("1.0.0");
     expect(events[0]?.consentWording.length).toBeGreaterThan(0);

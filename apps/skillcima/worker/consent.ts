@@ -1,7 +1,9 @@
 import type { ConsentAction, ConsentCategory } from "@repo/types";
 import type { LeadFormData } from "@repo/validation";
 
-export const SKILLCIMA_PRIVACY_NOTICE_VERSION = "2026-08-06";
+import { SKILLCIMA_PRIVACY_NOTICE_VERSION } from "../src/lib/privacy-notice-version";
+
+export { SKILLCIMA_PRIVACY_NOTICE_VERSION };
 export const SKILLCIMA_LANDING_PAGE_VERSION = "1.0.0";
 export const SKILLCIMA_CONSENT_WORDING_VERSION = "1.0.0";
 

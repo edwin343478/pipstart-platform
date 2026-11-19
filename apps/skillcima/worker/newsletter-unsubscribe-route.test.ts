@@ -91,7 +91,7 @@ describe("Skillcima newsletter unsubscribe HTTP handler", () => {
       env,
       token,
       {
-        privacyNoticeVersion: "2026-08-06",
+        privacyNoticeVersion: "2026-11-18",
 
         consentWording:
           "Unsubscribe me from continuing Skillcima educational emails.",

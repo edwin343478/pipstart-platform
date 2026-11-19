@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { SKILLCIMA_PRIVACY_NOTICE_VERSION } from "@/lib/privacy-notice-version";
+
 export const metadata: Metadata = {
   title: "Privacy Policy | Skillcima",
   description:
@@ -17,7 +19,20 @@ export default function PrivacyPolicyPage() {
         Privacy Policy
       </h1>
 
-      <p className="mt-4 text-sm text-muted">Last updated: 18 November 2026</p>
+      <p className="mt-4 text-sm text-muted">
+        Last updated:{" "}
+        <time dateTime={SKILLCIMA_PRIVACY_NOTICE_VERSION}>
+          {new Date(SKILLCIMA_PRIVACY_NOTICE_VERSION).toLocaleDateString(
+            "en-GB",
+            {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+              timeZone: "UTC",
+            },
+          )}
+        </time>
+      </p>
 
       <div className="mt-10 space-y-10 leading-8 text-muted">
         <section>
