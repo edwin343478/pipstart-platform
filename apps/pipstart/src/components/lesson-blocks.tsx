@@ -268,9 +268,15 @@ export function LessonBlocks({
                 <p>{renderInlineText(block.prompt)}</p>
               </section>
             );
-          case "diagram":
+          case "diagram": {
+            // The visible caption can serve as the text alternative when it is identical.
+            const captionIsAlternative = block.caption === block.alt;
             return (
-              <figure className={styles.diagram} key={key}>
+              <figure
+                aria-label={captionIsAlternative ? "Lesson diagram" : undefined}
+                className={styles.diagram}
+                key={key}
+              >
                 <picture>
                   {block.desktopSrc ? (
                     <source
@@ -279,7 +285,7 @@ export function LessonBlocks({
                     />
                   ) : null}
                   <Image
-                    alt={block.alt}
+                    alt={captionIsAlternative ? "" : block.alt}
                     height={block.height}
                     src={block.src}
                     width={block.width}
@@ -308,6 +314,7 @@ export function LessonBlocks({
                 ) : null}
               </figure>
             );
+          }
           case "comparisonTable":
             return (
               <div
