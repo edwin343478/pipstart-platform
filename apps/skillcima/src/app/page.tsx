@@ -27,7 +27,7 @@ export default function Home() {
                 Free five-day beginner course
               </p>
 
-              <h1 className="mt-6 max-w-4xl font-heading text-5xl font-bold leading-tight tracking-tight sm:text-6xl">
+              <h1 className="mt-6 max-w-4xl font-heading text-5xl font-bold leading-tight tracking-tight sm:text-6xl [overflow-wrap:anywhere]">
                 Start with understanding, not guessing.
               </h1>
 
