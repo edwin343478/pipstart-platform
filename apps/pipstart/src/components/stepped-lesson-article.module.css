@@ -587,10 +587,20 @@
 }
 
 /* Progressive reading: keep complete HTML while retaining the approved stepper. */
-.article[data-enhanced="false"] .stepRow,
-.article[data-enhanced="false"] .progressTrack,
-.article[data-enhanced="false"] .mobileProgress,
-.article[data-enhanced="false"] .showAllToggle,
+/* Reserve the stepper rows before hydration, using the active breakpoint. */
+.article[data-enhanced="false"]
+  :is(.stepRow, .progressTrack, .mobileProgress, .showAllToggle) {
+  visibility: hidden;
+}
+
+/* Keep full reading compact when scripting is unavailable. */
+@media not all and (scripting: enabled) {
+  .article[data-enhanced="false"]
+    :is(.stepRow, .progressTrack, .mobileProgress, .showAllToggle) {
+    display: none;
+  }
+}
+
 .article[data-enhanced="false"] .markComplete,
 .article[data-enhanced="false"] .footerControls button,
 .article[data-enhanced="false"] .footerControls [role="status"] {
