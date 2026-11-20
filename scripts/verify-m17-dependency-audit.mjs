@@ -15,16 +15,6 @@ const hashes = {
   "lib/stringify.js":
     "009cc9699ce8bbcb9c0ec5302f2961ab2531f16a0040dfbd24aba710bdc7e64a",
 };
-const advisory = "GHSA-vfj7-8cjw-p6xm";
-// M22 audit follow-up (17 November 2026): GHSA-fc5q-39xc-vjpf, picomatch <=4.0.7 ReDoS via single-branch repeated
-// extglobs, has no published fix (npm lists ">=4.0.8", which does not exist yet). picomatch is reached only through
-// development tooling whose glob patterns come from this repository's own configuration, never from users.
-// Accepted only for the exact installed versions, dev-only, through vitest, the Next ESLint config or the MDX
-// rollup plugin. Remove this entry when a fixed picomatch is adopted.
-const picomatchAdvisory = "GHSA-fc5q-39xc-vjpf";
-const picomatchVersions = new Set(["4.0.5", "2.3.2"]);
-const picomatchPath =
-  /^(apps__(pipstart|skillcima)|packages__(ui|validation))>(vitest|eslint-config-next|@mdx-js\/rollup)(>[@a-z0-9._/-]+)*>picomatch$/;
 const hash = (value) => createHash("sha256").update(value).digest("hex");
 export function verifyBraces(directory) {
   const req = createRequire(path.join(directory, "package.json"));
@@ -86,64 +76,29 @@ export function verifyBraces(directory) {
   assert.doesNotThrow(() => braces.compile("\\{".repeat(500)));
   return directory;
 }
+const severities = ["info", "low", "moderate", "high", "critical"];
+
 export function verifyAudit(report) {
+  const advisories = report?.advisories;
+  const counts = report?.metadata?.vulnerabilities;
   assert(
     report &&
       !report.error &&
-      report.advisories &&
-      report.metadata?.vulnerabilities,
+      advisories &&
+      typeof advisories === "object" &&
+      !Array.isArray(advisories) &&
+      counts &&
+      typeof counts === "object" &&
+      !Array.isArray(counts) &&
+      severities.every((severity) => Object.hasOwn(counts, severity)) &&
+      Object.values(counts).every(
+        (count) => Number.isSafeInteger(count) && count >= 0,
+      ),
     "Incomplete/errored audit response.",
   );
-  const rows = Object.values(report.advisories);
-  for (const row of rows) {
-    if (row.github_advisory_id === picomatchAdvisory) {
-      assert.equal(row.module_name, "picomatch");
-      assert(row.findings?.length > 0, "Missing dependency paths.");
-      for (const finding of row.findings) {
-        assert(
-          picomatchVersions.has(finding.version),
-          "Unexpected picomatch version: " + finding.version,
-        );
-        assert.equal(
-          finding.dev,
-          true,
-          "picomatch appeared in production dependencies.",
-        );
-        assert(finding.paths?.length > 0);
-        for (const chain of finding.paths)
-          assert(
-            picomatchPath.test(chain) && !/>next>/.test(chain),
-            "Unexpected picomatch dependency path: " + chain,
-          );
-      }
-      continue;
-    }
-    assert.equal(
-      row.github_advisory_id,
-      advisory,
-      "Unresolved additional advisory: " + row.github_advisory_id,
-    );
-    assert.equal(row.module_name, "braces");
-    assert(row.findings?.length > 0, "Missing dependency paths.");
-    for (const finding of row.findings) {
-      assert.equal(finding.version, "3.0.3");
-      assert.equal(
-        finding.dev,
-        true,
-        "Braces appeared in production dependencies.",
-      );
-      assert(finding.paths?.length > 0);
-      for (const chain of finding.paths)
-        assert(
-          /^apps__(pipstart|skillcima)>eslint-config-next>@next\/eslint-plugin-next>fast-glob>micromatch>braces$/.test(
-            chain,
-          ),
-          "Unexpected braces dependency path: " + chain,
-        );
-    }
-  }
-  const reported = Object.values(report.metadata.vulnerabilities).reduce(
-    (n, v) => n + v,
+  const rows = Object.values(advisories);
+  const reported = Object.values(counts).reduce(
+    (total, count) => total + count,
     0,
   );
   assert.equal(
@@ -151,95 +106,50 @@ export function verifyAudit(report) {
     rows.length,
     "Audit summary disagrees with detailed findings.",
   );
-  return rows.length;
+  assert.equal(rows.length, 0, "Unresolved dependency advisories remain.");
 }
+
 function selfTest() {
-  const valid = {
-    advisories: {
-      one: {
-        github_advisory_id: advisory,
-        module_name: "braces",
-        findings: [
-          {
-            version: "3.0.3",
-            dev: true,
-            paths: [
-              "apps__pipstart>eslint-config-next>@next/eslint-plugin-next>fast-glob>micromatch>braces",
-            ],
-          },
-        ],
-      },
+  const clean = {
+    advisories: {},
+    metadata: {
+      vulnerabilities: { info: 0, low: 0, moderate: 0, high: 0, critical: 0 },
     },
-    metadata: { vulnerabilities: { high: 1 } },
   };
-  assert.equal(verifyAudit(valid), 1);
-  const picomatch = {
-    github_advisory_id: picomatchAdvisory,
-    module_name: "picomatch",
-    findings: [
-      {
-        version: "4.0.5",
-        dev: true,
-        paths: [
-          "apps__pipstart>vitest>vite>tinyglobby>fdir>picomatch",
-          "apps__pipstart>@mdx-js/rollup>@rollup/pluginutils>picomatch",
-          "packages__ui>vitest>picomatch",
-        ],
-      },
-      {
-        version: "2.3.2",
-        dev: true,
-        paths: [
-          "apps__skillcima>eslint-config-next>@next/eslint-plugin-next>fast-glob>micromatch>picomatch",
-        ],
-      },
-    ],
-  };
-  const both = structuredClone(valid);
-  both.advisories.two = structuredClone(picomatch);
-  both.metadata.vulnerabilities.high = 2;
-  assert.equal(verifyAudit(both), 2);
-  const alone = {
-    advisories: { two: structuredClone(picomatch) },
-    metadata: { vulnerabilities: { high: 1 } },
-  };
-  assert.equal(verifyAudit(alone), 1);
-  for (const mutate of [
-    (r) => (r.advisories.two.findings[0].dev = false),
-    (r) => (r.advisories.two.findings[0].version = "4.0.6"),
-    (r) =>
-      (r.advisories.two.findings[0].paths = ["apps__pipstart>next>picomatch"]),
-    (r) =>
-      (r.advisories.two.findings[0].paths = [
-        "apps__pipstart>chokidar>picomatch",
-      ]),
-    (r) =>
-      (r.advisories.two.findings[0].paths = [
-        "apps__pipstart>vitest>vite>picomatch>evil",
-      ]),
-    (r) => (r.advisories.two.module_name = "micromatch"),
-    (r) => (r.advisories.two.github_advisory_id = "GHSA-0000-0000-0000"),
-    (r) => (r.metadata.vulnerabilities.high = 1),
+  assert.doesNotThrow(() => verifyAudit(clean));
+  for (const id of [
+    "GHSA-vfj7-8cjw-p6xm",
+    "GHSA-fc5q-39xc-vjpf",
+    "other-advisory",
   ]) {
-    const r = structuredClone(both);
-    mutate(r);
-    assert.throws(() => verifyAudit(r));
+    const finding = structuredClone(clean);
+    finding.advisories[id] = { github_advisory_id: id };
+    finding.metadata.vulnerabilities.high = 1;
+    assert.throws(
+      () => verifyAudit(finding),
+      /Unresolved dependency advisories remain/,
+    );
   }
-  for (const mutate of [
-    (r) => (r.advisories.one.github_advisory_id = "other"),
-    (r) => (r.advisories.one.findings[0].dev = false),
-    (r) => (r.advisories.one.findings[0].version = "3.0.4"),
-    (r) => (r.advisories.one.findings[0].paths = ["other>braces"]),
-    (r) => (r.metadata.vulnerabilities.high = 2),
-  ]) {
-    const r = structuredClone(valid);
-    mutate(r);
-    assert.throws(() => verifyAudit(r));
-  }
+  const inconsistent = structuredClone(clean);
+  inconsistent.metadata.vulnerabilities.high = 1;
+  assert.throws(() => verifyAudit(inconsistent), /Audit summary disagrees/);
+  assert.throws(
+    () => verifyAudit({ ...clean, error: { code: "EFAIL" } }),
+    /Incomplete\/errored/,
+  );
+  assert.throws(
+    () => verifyAudit({ ...clean, advisories: [] }),
+    /Incomplete\/errored/,
+  );
+  assert.throws(
+    () => verifyAudit({ ...clean, metadata: { vulnerabilities: {} } }),
+    /Incomplete\/errored/,
+  );
   console.log(
-    "Audit policy: valid scoped braces and picomatch findings, five braces and eight picomatch rejection fixtures passed.",
+    "Audit policy: accepted a clean response and rejected seven advisory or response errors.",
   );
 }
+
 function main() {
   selfTest();
   if (process.argv.includes("--self-test")) return;
@@ -281,19 +191,12 @@ function main() {
     "Audit command failed: " + run.stderr + " " + run.stdout,
   );
   const report = JSON.parse(run.stdout);
-  const findings = verifyAudit(report);
+  verifyAudit(report);
   console.log(
     "Installed braces depth guards and normal-pattern checks passed.",
   );
   console.log(
-    findings
-      ? "Raw audit retains " +
-          findings +
-          " scoped advisory record(s): braces (mitigated by the verified local patch) and/or picomatch (development tooling only, no published fix). All other advisories cleared."
-      : "Fresh audit reports no advisories.",
-  );
-  console.log(
-    "No global audit ignore is configured. This check requires the installed patch and rejects new/production/unexpected findings.",
+    "Fresh audit reports no advisories. No audit exceptions are configured.",
   );
 }
 if (
