@@ -2,7 +2,7 @@
 
 import "../lib/validation-csp";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   leadFormDefaultValues,
@@ -12,7 +12,7 @@ import {
 } from "@repo/validation";
 import { Button, Card, Checkbox, FormField, Input } from "@repo/ui";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { type SubmitErrorHandler, useForm } from "react-hook-form";
 
 import { readLeadAttributionFromSearch } from "../lib/lead-attribution";
 import { TurnstileWidget } from "./turnstile-widget";
@@ -52,6 +52,8 @@ function getLeadEndpoint(): string {
 
 export function LeadForm() {
   const router = useRouter();
+  const formRef = useRef<HTMLFormElement>(null);
+  const invalidField = useRef<keyof LeadFormInput | undefined>(undefined);
 
   const logicalSubmissionRef = useRef<{
     payload: string;
@@ -61,6 +63,7 @@ export function LeadForm() {
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [turnstileResetKey, setTurnstileResetKey] = useState(0);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [requestPending, setRequestPending] = useState(false);
 
   const turnstileSiteKey =
     process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? "";
@@ -76,12 +79,37 @@ export function LeadForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    setFocus,
+    formState: { errors, isSubmitting, submitCount },
   } = useForm<LeadFormInput, Record<string, never>, LeadFormData>({
     resolver: zodResolver(leadFormSchema),
     defaultValues: leadFormDefaultValues,
     mode: "onBlur",
+    shouldFocusError: false,
   });
+
+  useEffect(() => {
+    if (isSubmitting) return;
+    if (invalidField.current) {
+      const field = invalidField.current;
+      invalidField.current = undefined;
+      setFocus(field);
+    } else if (submitError && document.activeElement === document.body) {
+      formRef.current
+        ?.querySelector<HTMLButtonElement>('button[type="submit"]')
+        ?.focus();
+    }
+  }, [isSubmitting, setFocus, submitCount, submitError]);
+
+  const onInvalid: SubmitErrorHandler<LeadFormInput> = (fieldErrors) => {
+    const fields = [
+      "firstName",
+      "email",
+      "privacyAcknowledged",
+      "newsletterConsent",
+    ] as const;
+    invalidField.current = fields.find((field) => fieldErrors[field]);
+  };
 
   async function onSubmit(data: LeadFormData) {
     setSubmitError(null);
@@ -116,6 +144,7 @@ export function LeadForm() {
 
     const submissionId = logicalSubmissionRef.current.submissionId;
 
+    setRequestPending(true);
     try {
       const response = await fetch(getLeadEndpoint(), {
         method: "POST",
@@ -164,6 +193,8 @@ export function LeadForm() {
 
       setTurnstileToken(null);
       setTurnstileResetKey((value) => value + 1);
+    } finally {
+      setRequestPending(false);
     }
   }
 
@@ -178,10 +209,11 @@ export function LeadForm() {
       </p>
 
       <form
+        ref={formRef}
         className="mt-8 space-y-6"
         noValidate
         onSubmit={(event) => {
-          void handleSubmit(onSubmit)(event);
+          void handleSubmit(onSubmit, onInvalid)(event);
         }}
       >
         <FormField
@@ -262,6 +294,9 @@ export function LeadForm() {
             resetKey={turnstileResetKey}
             onTokenChange={handleTurnstileTokenChange}
           />
+          <p className="sr-only" role="status">
+            {requestPending ? "Submitting your enrolment request." : ""}
+          </p>
         </div>
 
         {submitError ? (

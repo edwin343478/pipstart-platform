@@ -239,7 +239,11 @@ export default function ToolsPage() {
         </label>
       </section>
 
-      <div className={styles.mobileFilters} aria-label="Calculator categories">
+      <div
+        className={styles.mobileFilters}
+        role="group"
+        aria-label="Calculator categories"
+      >
         <Button
           variant="secondary"
           type="button"
