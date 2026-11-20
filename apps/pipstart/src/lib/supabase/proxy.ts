@@ -10,6 +10,12 @@ function redirectToLogin(request: NextRequest) {
   const nextPath = `${request.nextUrl.pathname}${request.nextUrl.search}`;
   return NextResponse.redirect(
     new URL(getLoginRedirect(nextPath), request.url),
+    {
+      headers: {
+        "Cache-Control": "private, no-store, max-age=0",
+        Vary: "Cookie",
+      },
+    },
   );
 }
 
