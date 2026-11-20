@@ -120,6 +120,10 @@ jobs:
       - name: Install Chromium for publication smoke checks
         run: pnpm --filter pipstart exec playwright install --with-deps chromium
 
+      - name: Verify public performance budgets
+        timeout-minutes: 5
+        run: node scripts/verify-m24-public-performance-budgets.mjs
+
       - name: Verify M20 economic calendar integration
         timeout-minutes: 20
         run: |
