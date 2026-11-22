@@ -1,6 +1,8 @@
 name: M24 uptime checks
 
 on:
+  schedule:
+    - cron: "4-59/10 * * * *"
   workflow_dispatch:
     inputs:
       report:
@@ -30,10 +32,10 @@ jobs:
       - name: Test monitor
         run: node --test scripts/m24-uptime.test.mjs
       - name: Probe public routes only
-        if: inputs.report == false
+        if: github.event_name == 'workflow_dispatch' && !inputs.report
         run: node scripts/m24-uptime.mjs
       - name: Probe public routes and report
-        if: inputs.report == true
+        if: github.event_name == 'schedule' || inputs.report
         env:
           HC_UPTIME_PIPSTART: ${{ secrets.HC_UPTIME_PIPSTART }}
           HC_UPTIME_SKILLCIMA: ${{ secrets.HC_UPTIME_SKILLCIMA }}
