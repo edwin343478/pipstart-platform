@@ -1,0 +1,41 @@
+name: M24 uptime checks
+
+on:
+  workflow_dispatch:
+    inputs:
+      report:
+        description: Send results to the configured Healthchecks checks
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: m24-uptime
+  cancel-in-progress: false
+
+jobs:
+  uptime:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24.18.1
+      - name: Test monitor
+        run: node --test scripts/m24-uptime.test.mjs
+      - name: Probe public routes only
+        if: inputs.report == false
+        run: node scripts/m24-uptime.mjs
+      - name: Probe public routes and report
+        if: inputs.report == true
+        env:
+          HC_UPTIME_PIPSTART: ${{ secrets.HC_UPTIME_PIPSTART }}
+          HC_UPTIME_SKILLCIMA: ${{ secrets.HC_UPTIME_SKILLCIMA }}
+          HC_UPTIME_DATABASE: ${{ secrets.HC_UPTIME_DATABASE }}
+        run: node scripts/m24-uptime.mjs --report
