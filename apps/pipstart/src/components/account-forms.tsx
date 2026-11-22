@@ -330,13 +330,20 @@ export function EmailPreferencesForm({
     updateEmailPreferencesAction,
     initialAccountActionState,
   );
+  // React resets uncontrolled controls after a server action returns.
+  // Use the validated submission as the defaults when the save fails.
+  const draft = state.preferenceDraft;
+  const draftEducational = draft?.educationalEmails ?? educational;
+  const draftMarketing = draft?.marketingEmails ?? marketing;
+  const draftFrequency = draft?.learningFrequency ?? frequency;
   return (
     <form action={action} className={styles.form}>
       <Status state={state} />
       <EmailPreferenceFields
-        educational={educational}
-        marketing={marketing}
-        frequency={frequency}
+        key={`${draftEducational}:${draftMarketing}:${draftFrequency}`}
+        educational={draftEducational}
+        marketing={draftMarketing}
+        frequency={draftFrequency}
         showFrequency
       />
       <p className={styles.hint}>

@@ -20,7 +20,10 @@ import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { getSiteUrl } from "@/lib/supabase/config";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
+import type { OptionalEmailPreferences } from "@/lib/email-preferences";
+
 export type AccountActionState = {
+  preferenceDraft?: OptionalEmailPreferences;
   fieldErrors?: Record<string, string>;
   message?: string;
   status: "error" | "idle" | "success";
@@ -208,7 +211,7 @@ export async function updateEmailPreferencesAction(
   const preferences = readEmailPreferenceForm(formData);
   if (!preferences.ok) return { message: preferences.message, status: "error" };
   const supabase = await createSupabaseServerClient();
-  if (!supabase) return unavailable;
+  if (!supabase) return { ...unavailable, preferenceDraft: preferences.value };
   const { error } = await supabase
     .from("pipstart_email_preferences")
     .update({
@@ -221,7 +224,9 @@ export async function updateEmailPreferencesAction(
     .single();
   if (error)
     return {
-      message: "Your email preferences could not be updated.",
+      message:
+        "We could not confirm that your email preferences were saved. Review your choices and try again.",
+      preferenceDraft: preferences.value,
       status: "error",
     };
   revalidatePath("/account/email-preferences");
