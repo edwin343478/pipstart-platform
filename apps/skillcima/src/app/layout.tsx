@@ -28,14 +28,9 @@ export const metadata: Metadata = {
 
   description: skillcimaBrand.description,
 
-  alternates: {
-    canonical: "/",
-  },
-
   openGraph: {
     title: `${skillcimaBrand.name} | Free Forex Foundations Course`,
     description: skillcimaBrand.description,
-    url: "/",
     siteName: skillcimaBrand.name,
     locale: "en_US",
     type: "website",
@@ -48,8 +43,8 @@ export const metadata: Metadata = {
   },
 
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
 };
 

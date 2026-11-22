@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 import { forexFoundationsCourse } from "@repo/content";
 
 import { HeroMotif } from "@/components/hero-motif";
@@ -9,12 +11,26 @@ import { CourseTimeline } from "@/components/course-timeline";
 import { AudienceSection } from "@/components/audience-section";
 import { FAQAccordion } from "@/components/faq-accordion";
 import { DecorativeCornerShapes } from "@/components/decorative-corner-shapes";
+import { JsonLd } from "@/components/json-ld";
+import { skillcimaFaqs } from "@/content/faqs";
+import {
+  courseJsonLd,
+  faqJsonLd,
+  organizationJsonLd,
+} from "@/lib/structured-data";
 
 const course = forexFoundationsCourse;
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <JsonLd data={organizationJsonLd()} />
+      <JsonLd data={courseJsonLd(course)} />
+      <JsonLd data={faqJsonLd(skillcimaFaqs)} />
       <SiteHeader />
 
       <main id="main-content">

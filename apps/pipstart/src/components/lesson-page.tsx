@@ -1,7 +1,9 @@
 import "server-only";
 
+import { JsonLd } from "./json-ld";
 import { LessonPageClient } from "./lesson-page-client";
 import type { PublishedLesson } from "../content/lesson-registry";
+import { createLessonJsonLd } from "../lib/lesson-json-ld";
 import { prepareLessonPageData } from "../lib/lesson-page-server-data";
 import type { LessonTarget } from "../lib/lesson-page-data";
 
@@ -16,5 +18,10 @@ type Props = {
 };
 
 export function LessonPage(props: Props) {
-  return <LessonPageClient {...prepareLessonPageData(props)} />;
+  return (
+    <>
+      <JsonLd data={createLessonJsonLd(props.lesson)} />
+      <LessonPageClient {...prepareLessonPageData(props)} />
+    </>
+  );
 }

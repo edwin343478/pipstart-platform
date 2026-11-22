@@ -1,4 +1,5 @@
 import { secureSkillcimaResponse } from "./security-response";
+import { reportWorkerError, workerErrorCode } from "./error-report";
 import { handleCourseConfirmationRequest } from "./course-confirmation-route";
 import { handleNewsletterUnsubscribeRequest } from "./newsletter-unsubscribe-route";
 import { handleResendWebhookRequest } from "./resend-webhook-route";
@@ -50,6 +51,9 @@ interface Env {
 
   LEAD_RATE_LIMITER: RateLimitBinding;
   SKILLCIMA_EMAIL_QUEUE: EmailQueueBinding;
+
+  /** Optional M24 X01 Healthchecks ping URL (Worker secret). Blank disables error pings. */
+  SKILLCIMA_ERROR_PING_URL?: string;
 }
 
 interface ApiError {
@@ -654,7 +658,28 @@ const worker = {
 const securedWorker = {
   ...worker,
   async fetch(request: Request, env: Env): Promise<Response> {
-    return secureSkillcimaResponse(await worker.fetch(request, env));
+    let response: Response;
+    try {
+      response = await worker.fetch(request, env);
+    } catch (error) {
+      // Report, then keep the platform's existing behaviour for a thrown error.
+      await reportWorkerError(
+        env.SKILLCIMA_ERROR_PING_URL,
+        request.url,
+        500,
+        workerErrorCode(error),
+      );
+      throw error;
+    }
+    if (response.status >= 500) {
+      await reportWorkerError(
+        env.SKILLCIMA_ERROR_PING_URL,
+        request.url,
+        response.status,
+        "Status" + response.status,
+      );
+    }
+    return secureSkillcimaResponse(response);
   },
 };
 

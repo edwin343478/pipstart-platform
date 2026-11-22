@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
+
+import { pageMetadata } from "@/lib/page-metadata";
 import Link from "next/link";
 
 import { PageShell } from "@/components/page-shell";
 
-export const metadata: Metadata = {
-  title: "Contact | Skillcima",
+export const metadata: Metadata = pageMetadata({
+  title: "Contact",
+  path: "/contact",
   description:
     "Contact information and support guidance for Skillcima learners.",
-};
+});
 
 export default function ContactPage() {
   return (

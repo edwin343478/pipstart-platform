@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 
+import { pageMetadata } from "@/lib/page-metadata";
+
 import { RiskNotice } from "@repo/ui";
 
-export const metadata: Metadata = {
-  title: "Risk Disclaimer | Skillcima",
+export const metadata: Metadata = pageMetadata({
+  title: "Risk Disclaimer",
+  path: "/legal/risk-disclaimer",
   description:
     "Important risk information concerning Forex and cryptocurrency education.",
-};
+});
 
 export default function RiskDisclaimerPage() {
   return (

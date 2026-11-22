@@ -176,6 +176,7 @@ export function LessonPageClient({
                 Published {lesson.publishedDate} · Reviewed {lesson.reviewDate}{" "}
                 · {lesson.estimatedMinutes}-minute read
               </p>
+              <p>Written, checked and approved by the PipStart team</p>
               <LessonBookmarkButton
                 lessonHref={lesson.href}
                 lessonId={lesson.id}

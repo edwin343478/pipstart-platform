@@ -4,7 +4,8 @@ import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
 
 export const metadata: Metadata = {
-  title: "Email Preferences | Skillcima",
+  title: "Email Preferences",
+  robots: { index: false, follow: false },
   description:
     "Information about Skillcima course delivery and optional educational emails.",
 };

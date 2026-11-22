@@ -5,6 +5,7 @@ import { describe, it, expect, vi } from "vitest";
 import { getPublishedLessons } from "../content/lesson-registry";
 import { prepareLessonPageData } from "./lesson-page-server-data";
 import { getForexQuizClientContext } from "./forex-quiz-context";
+import { createLessonJsonLd } from "./lesson-json-ld";
 vi.mock("../components/lesson-bookmark-button", () => ({
   LessonBookmarkButton: () => null,
 }));
@@ -134,9 +135,17 @@ describe("Milestone 15-H1 publication boundaries", () => {
           lessons.map(({ id, title, href }) => ({ id, title, href })),
         );
         expect(Object.keys(data.lesson)).not.toContain("seoDescription");
+        // M24-06: the page is [server-rendered JSON-LD, client lesson]. Only the
+        // client element receives props, and they are exactly the compact data.
         const page = LessonPage(props);
-        expect(page.props).toEqual(data);
-        for (const row of page.props.lessons)
+        const [jsonLd, client] = page.props.children;
+        expect(page.props.children).toHaveLength(2);
+        expect(jsonLd.props.data).toEqual(createLessonJsonLd(lesson));
+        expect(JSON.stringify(jsonLd.props.data)).not.toMatch(
+          /"(blocks|sections)"/,
+        );
+        expect(client.props).toEqual(data);
+        for (const row of client.props.lessons)
           expect(Object.keys(row).sort()).toEqual(["href", "id", "title"]);
       }
     },

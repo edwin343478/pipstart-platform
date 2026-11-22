@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Cookie Policy | Skillcima",
+import { pageMetadata } from "@/lib/page-metadata";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Cookie Policy",
+  path: "/legal/cookie-policy",
   description:
     "Information about cookies and similar technologies on Skillcima.",
-};
+});
 
 export default function CookiePolicyPage() {
   return (

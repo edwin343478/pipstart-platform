@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 
+import { pageMetadata } from "@/lib/page-metadata";
+
 import { SKILLCIMA_PRIVACY_NOTICE_VERSION } from "@/lib/privacy-notice-version";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy | Skillcima",
+export const metadata: Metadata = pageMetadata({
+  title: "Privacy Policy",
+  path: "/legal/privacy-policy",
   description:
     "How Skillcima handles course enrolment information and communication choices.",
-};
+});
 
 export default function PrivacyPolicyPage() {
   return (

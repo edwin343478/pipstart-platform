@@ -4,7 +4,8 @@ import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
 
 export const metadata: Metadata = {
-  title: "Thank You | Skillcima",
+  title: "Thank You",
+  robots: { index: false, follow: false },
   description: "Take the final step to begin Skillcima Forex Foundations.",
 };
 

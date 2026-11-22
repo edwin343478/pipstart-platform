@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Terms of Use | Skillcima",
+import { pageMetadata } from "@/lib/page-metadata";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Terms of Use",
+  path: "/legal/terms",
   description: "Terms governing use of Skillcima educational content.",
-};
+});
 
 export default function TermsPage() {
   return (
