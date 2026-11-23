@@ -114,7 +114,10 @@ describe("Skillcima structured data", () => {
       "utf8",
     );
     expect(contact).toContain("mailto:${supportEmail}");
-    expect(contact).not.toMatch(/being prepared|will be added after/);
+    expect(contact).not.toMatch(
+      /being prepared|will be added after|dedicated contact method/,
+    );
+    expect(contact.match(/mailto:\$\{supportEmail\}/g)).toHaveLength(2);
   });
 
   it("llms.txt links only to pages in the sitemap", () => {

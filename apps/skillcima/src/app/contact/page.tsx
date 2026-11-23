@@ -53,8 +53,15 @@ export default function ContactPage() {
             </h2>
 
             <p className="mt-4 leading-7 text-muted">
-              Privacy enquiries and data-rights requests will receive a
-              dedicated contact method before the enrolment system is activated.
+              Privacy enquiries and data-rights requests, such as asking for a
+              copy or deletion of your enrolment details, can also be sent to{" "}
+              <a
+                href={`mailto:${supportEmail}`}
+                className="font-semibold text-brand-accent underline underline-offset-4"
+              >
+                {supportEmail}
+              </a>
+              . Please use &ldquo;Privacy request&rdquo; as the subject.
             </p>
 
             <Link
