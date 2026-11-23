@@ -2,6 +2,7 @@ import { skillcimaBrand } from "@repo/brand";
 import { forexFoundationsCourse } from "@repo/content";
 
 import type { FAQItem } from "@/content/faqs";
+import { supportEmail } from "./contact";
 
 // M24-06: schema.org data for search engines and AI tools. Every value comes
 // from content already shown on the page; nothing here makes a new claim.
@@ -13,7 +14,20 @@ const organization = {
   name: skillcimaBrand.name,
   url: siteUrl,
   description: skillcimaBrand.description,
-  logo: `${siteUrl}/icon.png`,
+  logo: {
+    "@type": "ImageObject",
+    url: `${siteUrl}/skillcima-logo.png`,
+    width: 2400,
+    height: 645,
+  },
+  image: `${siteUrl}/og-image.png`,
+  email: supportEmail,
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "customer support",
+    email: supportEmail,
+    availableLanguage: "English",
+  },
 };
 
 export function organizationJsonLd() {

@@ -5,7 +5,8 @@ import { forexFoundationsCourse } from "@repo/content";
 
 import sitemap from "../src/app/sitemap";
 import { skillcimaFaqs } from "../src/content/faqs";
-import { pageMetadata } from "../src/lib/page-metadata";
+import { supportEmail } from "../src/lib/contact";
+import { pageMetadata, socialImage } from "../src/lib/page-metadata";
 import {
   courseJsonLd,
   faqJsonLd,
@@ -78,6 +79,42 @@ describe("Skillcima structured data", () => {
       title: "About | Skillcima",
       description: "D",
     });
+  });
+
+  it("brand assets and the support email are published and referenced", () => {
+    const publicFile = (name: string) =>
+      readFileSync(new URL(`../public/${name}`, import.meta.url));
+    // og-image.png is 1200x630: PNG width and height sit at bytes 16-23.
+    const og = publicFile("og-image.png");
+    expect([og.readUInt32BE(16), og.readUInt32BE(20)]).toEqual([1200, 630]);
+    expect(socialImage).toMatchObject({ url: "/og-image.png", width: 1200 });
+    const logo = publicFile("skillcima-logo.png");
+    expect([logo.readUInt32BE(16), logo.readUInt32BE(20)]).toEqual([2400, 645]);
+    const svg = publicFile("skillcima-logo.svg").toString("utf8");
+    expect(svg).not.toMatch(/<script|href=|on[a-z]+=/i);
+
+    const m = pageMetadata({
+      title: "About",
+      description: "D",
+      path: "/about",
+    });
+    expect(m.openGraph).toMatchObject({ images: [socialImage] });
+    expect(m.twitter).toMatchObject({
+      card: "summary_large_image",
+      images: ["/og-image.png"],
+    });
+
+    expect(supportEmail).toBe("support@skillcima.com");
+    expect(organizationJsonLd()).toMatchObject({
+      logo: { url: "https://skillcima.com/skillcima-logo.png" },
+      contactPoint: { email: supportEmail },
+    });
+    const contact = readFileSync(
+      new URL("../src/app/contact/page.tsx", import.meta.url),
+      "utf8",
+    );
+    expect(contact).toContain("mailto:${supportEmail}");
+    expect(contact).not.toMatch(/being prepared|will be added after/);
   });
 
   it("llms.txt links only to pages in the sitemap", () => {
