@@ -1,5 +1,4 @@
 import { readBoundedRequestBody } from "@/lib/http/request-body";
-import { buildReport, sendErrorReport } from "@/lib/ops/error-report";
 
 // M24 X01: browser error boundaries report here (same origin, so the existing
 // connect-src 'self' policy applies). The reply is always 204 and reveals nothing.
@@ -7,6 +6,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const maxBytes = 2048;
+let lastLoggedAt = Number.NEGATIVE_INFINITY;
 const done = () =>
   new Response(null, { status: 204, headers: { "cache-control": "no-store" } });
 
@@ -26,15 +26,17 @@ export async function POST(request: Request): Promise<Response> {
     const text = new TextDecoder("utf-8", { fatal: true }).decode(bodyBytes);
     const body: unknown = JSON.parse(text);
     if (!body || typeof body !== "object") return done();
-    const { route, digest, kind } = body as Record<string, unknown>;
+    const { kind } = body as Record<string, unknown>;
     if (kind !== "boundary" && kind !== "global") return done();
-    const code =
-      typeof digest === "string" && /^[0-9A-Za-z@:_-]{1,64}$/.test(digest)
-        ? digest
-        : kind === "global"
-          ? "GlobalError"
-          : "BoundaryError";
-    await sendErrorReport(buildReport("client", route, null, code));
+    const now = Date.now();
+    if (now - lastLoggedAt >= 60_000) {
+      lastLoggedAt = now;
+      console.warn(
+        kind === "global"
+          ? "PIPSTART_BROWSER_GLOBAL_ERROR"
+          : "PIPSTART_BROWSER_BOUNDARY_ERROR",
+      );
+    }
   } catch {
     // Malformed input is ignored; nothing is logged about its content.
   }

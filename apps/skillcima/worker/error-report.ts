@@ -5,7 +5,25 @@
 
 const pingPattern =
   /^https:\/\/hc-ping\.com\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
-const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const publicRoutes = new Set([
+  "/",
+  "/about",
+  "/contact",
+  "/api/v1/health",
+  "/api/v1/lead",
+  "/api/v1/confirm",
+  "/api/v1/unsubscribe",
+  "/api/v1/webhooks/resend",
+]);
+const errorNames = new Set([
+  "Error",
+  "TypeError",
+  "RangeError",
+  "SyntaxError",
+  "ReferenceError",
+  "URIError",
+  "AbortError",
+]);
 
 export function isPingUrl(value: unknown): value is string {
   return (
@@ -22,30 +40,12 @@ export function workerRouteTemplate(requestUrl: string): string {
   } catch {
     return "/unknown";
   }
-  return (
-    "/" +
-    path
-      .split("/")
-      .filter(Boolean)
-      .slice(0, 8)
-      .map((segment) => {
-        if (uuid.test(segment)) return ":id";
-        if (/^\d+$/.test(segment)) return ":n";
-        if (!/^[a-z0-9][a-z0-9-]{0,63}$/i.test(segment)) return ":x";
-        return segment.toLowerCase();
-      })
-      .join("/")
-  );
+  return publicRoutes.has(path) ? path : "/unknown";
 }
 
 export function workerErrorCode(error: unknown): string {
-  const name =
-    error && typeof error === "object"
-      ? (error as { name?: unknown }).name
-      : undefined;
-  return typeof name === "string" && /^[A-Za-z]{1,40}$/.test(name)
-    ? name
-    : "Error";
+  const name = error instanceof Error ? error.name : undefined;
+  return name && errorNames.has(name) ? name : "Error";
 }
 
 // One ping per isolate per minute; Healthchecks alerts once per state change.
@@ -81,7 +81,8 @@ export async function reportWorkerError(
         surface: "worker",
         route: workerRouteTemplate(requestUrl),
         status,
-        code,
+        code:
+          errorNames.has(code) || code === "Status" + status ? code : "Error",
         at: new Date(t).toISOString(),
       }),
       redirect: "error",

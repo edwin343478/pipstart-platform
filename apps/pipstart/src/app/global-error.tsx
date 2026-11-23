@@ -17,7 +17,7 @@ export default function GlobalError({
   reset?: () => void;
 }) {
   useEffect(() => {
-    reportClientError(error, "global");
+    reportClientError("global");
   }, [error]);
 
   return (

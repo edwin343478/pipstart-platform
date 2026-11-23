@@ -15,7 +15,7 @@ export default function RouteError({
   reset: () => void;
 }) {
   useEffect(() => {
-    reportClientError(error, "boundary");
+    reportClientError("boundary");
   }, [error]);
 
   return (

@@ -12,23 +12,13 @@ const url = "https://hc-ping.com/00000000-0000-4000-8000-000000000001";
 const ok = () => new Response("OK", { status: 200 });
 
 describe("routeTemplate", () => {
-  it("keeps public slugs and Next templates but strips everything identifying", () => {
-    expect(routeTemplate("/learn/forex/level-1/what-is-forex")).toBe(
-      "/learn/forex/level-1/what-is-forex",
-    );
-    expect(routeTemplate("/learn/[track]/[...slug]")).toBe(
-      "/learn/[track]/[...slug]",
-    );
-    expect(
-      routeTemplate("/admin/staff/content/quiz/view?id=7&email=a@b.c"),
-    ).toBe("/admin/staff/content/quiz/view");
-    expect(routeTemplate("/x/123e4567-e89b-42d3-a456-426614174000/42")).toBe(
-      "/x/:id/:n",
-    );
-    expect(routeTemplate("/u/someone@example.com")).toBe("/u/:x");
-    expect(routeTemplate("https://evil.test/a#frag")).toBe("/a");
-    expect(routeTemplate("/%E0%A4%A")).toBe("/:x");
-    expect(routeTemplate("/a/b/c/d/e/f/g/h/i/j")).toBe("/a/b/c/d/e/f/g/h");
+  it("preserves fixed categories and drops path details", () => {
+    expect(routeTemplate("/learn/forex/level-1/what-is-forex")).toBe("/learn");
+    expect(routeTemplate("/learn/[track]/[...slug]")).toBe("/learn");
+    expect(routeTemplate("/admin/staff/content?view=quiz")).toBe("/admin");
+    expect(routeTemplate("/unknown-category/detail")).toBe("/unknown");
+    expect(routeTemplate("https://example.invalid/account")).toBe("/unknown");
+    expect(routeTemplate("/")).toBe("/");
   });
   it("rejects non-strings and oversized input", () => {
     expect(routeTemplate(undefined)).toBe("/unknown");
@@ -38,12 +28,12 @@ describe("routeTemplate", () => {
 });
 
 describe("errorCode and buildReport", () => {
-  it("uses only a digest or a plain class name", () => {
+  it("uses only a fixed error class name", () => {
     expect(
       errorCode(
         Object.assign(new Error("secret message"), { digest: "2847361" }),
       ),
-    ).toBe("2847361");
+    ).toBe("Error");
     expect(errorCode(new TypeError("user@example.com"))).toBe("TypeError");
     expect(errorCode({ name: "<script>" })).toBe("Error");
     expect(errorCode("boom")).toBe("Error");
@@ -65,7 +55,7 @@ describe("errorCode and buildReport", () => {
       at: "1970-01-01T00:00:00.000Z",
     });
     expect(
-      buildReport("client", "/", 9999, "bad code!", () => 0),
+      buildReport("server", "/", 9999, "custom-code", () => 0),
     ).toMatchObject({ status: null, code: "Error" });
   });
 });

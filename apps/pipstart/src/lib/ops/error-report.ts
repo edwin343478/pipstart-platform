@@ -8,7 +8,7 @@ import { fetchEmailResponse, watchdogResponseLimits } from "../email-response";
 // Never messages, stacks, full URLs, query strings, headers, cookies, user IDs,
 // emails or bodies. Details stay in the hosting platform's own logs.
 
-export type ErrorSurface = "server" | "client";
+export type ErrorSurface = "server";
 
 export interface ErrorReport {
   app: "pipstart";
@@ -19,50 +19,50 @@ export interface ErrorReport {
   at: string;
 }
 
-const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-const safeSegment = /^[a-z0-9][a-z0-9-]{0,63}$/i;
-const nextSegment = /^\[{1,2}(\.\.\.)?[a-z][a-z0-9_]{0,31}\]{1,2}$/i;
+const routeGroups = [
+  "/account",
+  "/admin",
+  "/analysis",
+  "/api",
+  "/auth",
+  "/brokers",
+  "/dashboard",
+  "/glossary",
+  "/learn",
+  "/login",
+  "/signup",
+  "/tools",
+];
+const errorNames = new Set([
+  "Error",
+  "TypeError",
+  "RangeError",
+  "SyntaxError",
+  "ReferenceError",
+  "URIError",
+  "AbortError",
+]);
 
-// Reduce any path or URL to a template: no query, fragment, IDs or odd text.
 export function routeTemplate(input: unknown): string {
-  if (typeof input !== "string" || input.length === 0 || input.length > 2048)
+  if (
+    typeof input !== "string" ||
+    input.length > 2048 ||
+    !input.startsWith("/") ||
+    input.startsWith("//")
+  )
     return "/unknown";
-  let path: string;
-  try {
-    path = new URL(input, "https://route.invalid").pathname;
-  } catch {
-    return "/unknown";
-  }
-  const parts = path
-    .split("/")
-    .filter(Boolean)
-    .slice(0, 8)
-    .map((raw) => {
-      let segment = raw;
-      try {
-        segment = decodeURIComponent(raw);
-      } catch {
-        return ":x";
-      }
-      if (nextSegment.test(segment)) return segment;
-      if (uuid.test(segment)) return ":id";
-      if (/^\d+$/.test(segment)) return ":n";
-      if (!safeSegment.test(segment)) return ":x";
-      return segment.toLowerCase();
-    });
-  return "/" + parts.join("/");
+  const route = input.split(/[?#]/, 1)[0];
+  if (route === "/") return "/";
+  return (
+    routeGroups.find(
+      (group) => route === group || route.startsWith(group + "/"),
+    ) ?? "/unknown"
+  );
 }
 
-// Next's digest, or a plain error class name; anything else becomes "Error".
 export function errorCode(error: unknown): string {
-  if (error && typeof error === "object") {
-    const digest = (error as { digest?: unknown }).digest;
-    if (typeof digest === "string" && /^[0-9A-Za-z@:_-]{1,64}$/.test(digest))
-      return digest;
-    const name = (error as { name?: unknown }).name;
-    if (typeof name === "string" && /^[A-Za-z]{1,40}$/.test(name)) return name;
-  }
-  return "Error";
+  const name = error instanceof Error ? error.name : undefined;
+  return name && errorNames.has(name) ? name : "Error";
 }
 
 export function buildReport(
@@ -83,7 +83,7 @@ export function buildReport(
       status <= 599
         ? status
         : null,
-    code: /^[0-9A-Za-z@:_-]{1,64}$/.test(code) ? code : "Error",
+    code: errorNames.has(code) ? code : "Error",
     at: new Date(now()).toISOString(),
   };
 }

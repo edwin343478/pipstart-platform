@@ -1,16 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-const sent: unknown[] = [];
-vi.mock("@/lib/ops/error-report", async (importOriginal) => {
-  const real = await importOriginal<typeof import("@/lib/ops/error-report")>();
-  return {
-    ...real,
-    sendErrorReport: vi.fn(async (report: unknown) => {
-      sent.push(report);
-      return "sent";
-    }),
-  };
-});
+const send = vi.hoisted(() => vi.fn());
+vi.mock("@/lib/ops/error-report", () => ({ sendErrorReport: send }));
 
 import { POST } from "./route";
 
@@ -28,29 +19,31 @@ const post = (body: string, headers: Record<string, string> = {}) =>
   );
 
 describe("POST /api/client-error", () => {
+  let now = 0;
   beforeEach(() => {
-    sent.length = 0;
+    now += 60_000;
+    vi.spyOn(Date, "now").mockReturnValue(now);
+    vi.spyOn(console, "warn").mockImplementation(() => {});
   });
-  afterEach(() => vi.clearAllMocks());
+  afterEach(() => {
+    expect(send).not.toHaveBeenCalled();
+    vi.restoreAllMocks();
+  });
 
-  it("forwards a scrubbed client report and always answers 204", async () => {
-    const res = await post(
-      JSON.stringify({
-        route: "/account/profile?email=a@b.c",
-        digest: "123456",
-        kind: "boundary",
-      }),
-    );
+  it("keeps a fixed browser diagnostic and answers 204", async () => {
+    const report = JSON.stringify({
+      route: "/account/profile",
+      digest: "local-diagnostic",
+      kind: "boundary",
+    });
+    const res = await post(report);
     expect(res.status).toBe(204);
     expect(await res.text()).toBe("");
-    expect(sent).toEqual([
-      expect.objectContaining({
-        surface: "client",
-        route: "/account/profile",
-        code: "123456",
-        status: null,
-      }),
-    ]);
+    expect(console.warn).toHaveBeenCalledExactlyOnceWith(
+      "PIPSTART_BROWSER_BOUNDARY_ERROR",
+    );
+    await post(report);
+    expect(console.warn).toHaveBeenCalledTimes(1);
   });
 
   it("ignores other origins, wrong types, oversized and malformed bodies", async () => {
@@ -66,7 +59,7 @@ describe("POST /api/client-error", () => {
       await post(JSON.stringify({ route: "/", kind: "something-else" })),
     ])
       expect(res.status).toBe(204);
-    expect(sent).toEqual([]);
+    expect(console.warn).not.toHaveBeenCalled();
   });
 
   it("enforces the byte limit and accepts only JSON media types", async () => {
@@ -86,13 +79,15 @@ describe("POST /api/client-error", () => {
         )
       ).status,
     ).toBe(204);
-    expect(sent).toEqual([]);
+    expect(console.warn).not.toHaveBeenCalled();
   });
 
-  it("replaces an unsafe digest with a constant code", async () => {
+  it("keeps only the global diagnostic category", async () => {
     await post(
       JSON.stringify({ route: "/", digest: "<img src=x>", kind: "global" }),
     );
-    expect(sent).toEqual([expect.objectContaining({ code: "GlobalError" })]);
+    expect(console.warn).toHaveBeenCalledExactlyOnceWith(
+      "PIPSTART_BROWSER_GLOBAL_ERROR",
+    );
   });
 });

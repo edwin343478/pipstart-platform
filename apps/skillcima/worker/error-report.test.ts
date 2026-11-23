@@ -38,7 +38,7 @@ describe("Skillcima worker error report", () => {
       workerRouteTemplate(
         "https://skillcima.com/x/123e4567-e89b-42d3-a456-426614174000/7/a.b",
       ),
-    ).toBe("/x/:id/:n/:x");
+    ).toBe("/unknown");
     expect(workerErrorCode(new RangeError("secret"))).toBe("RangeError");
     expect(workerErrorCode("oops")).toBe("Error");
   });
@@ -48,7 +48,7 @@ describe("Skillcima worker error report", () => {
     expect(
       await reportWorkerError(
         url,
-        "https://skillcima.com/api/v1/leads?x=1",
+        "https://skillcima.com/api/v1/lead?x=1",
         503,
         "Status503",
         send,
@@ -73,7 +73,7 @@ describe("Skillcima worker error report", () => {
     expect(JSON.parse(String(init.body))).toEqual({
       app: "skillcima",
       surface: "worker",
-      route: "/api/v1/leads",
+      route: "/api/v1/lead",
       status: 503,
       code: "Status503",
       at: "1970-01-01T00:00:05.000Z",
