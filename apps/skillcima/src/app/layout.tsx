@@ -4,6 +4,8 @@ import { Inter, Space_Grotesk } from "next/font/google";
 
 import { skillcimaBrand } from "@repo/brand";
 
+import { socialImage } from "@/lib/page-metadata";
+
 import "./globals.css";
 
 const bodyFont = Inter({
@@ -34,12 +36,14 @@ export const metadata: Metadata = {
     siteName: skillcimaBrand.name,
     locale: "en_US",
     type: "website",
+    images: [socialImage],
   },
 
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: `${skillcimaBrand.name} | Free Forex Foundations Course`,
     description: skillcimaBrand.description,
+    images: [socialImage.url],
   },
 
   robots: {

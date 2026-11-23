@@ -4,6 +4,7 @@ import { pageMetadata } from "@/lib/page-metadata";
 import Link from "next/link";
 
 import { PageShell } from "@/components/page-shell";
+import { supportEmail } from "@/lib/contact";
 
 export const metadata: Metadata = pageMetadata({
   title: "Contact",
@@ -25,8 +26,8 @@ export default function ContactPage() {
         </h1>
 
         <p className="mt-6 text-lg leading-8 text-muted">
-          Skillcima&apos;s official support channel is being prepared and will
-          be published before the website becomes publicly active.
+          Questions about the course, the lesson emails or this website can be
+          sent to Skillcima support by email.
         </p>
 
         <div className="mt-12 space-y-8">
@@ -34,8 +35,15 @@ export default function ContactPage() {
             <h2 className="font-heading text-2xl font-bold">General support</h2>
 
             <p className="mt-4 leading-7 text-muted">
-              An official support email address will be added after the domain
-              email service and security records have been configured.
+              Email{" "}
+              <a
+                href={`mailto:${supportEmail}`}
+                className="font-semibold text-brand-accent underline underline-offset-4"
+              >
+                {supportEmail}
+              </a>
+              . Please include the email address you used to join the course if
+              your question is about the lesson emails.
             </p>
           </section>
 
@@ -45,8 +53,15 @@ export default function ContactPage() {
             </h2>
 
             <p className="mt-4 leading-7 text-muted">
-              Privacy enquiries and data-rights requests will receive a
-              dedicated contact method before the enrolment system is activated.
+              Privacy enquiries and data-rights requests, such as asking for a
+              copy or deletion of your enrolment details, can also be sent to{" "}
+              <a
+                href={`mailto:${supportEmail}`}
+                className="font-semibold text-brand-accent underline underline-offset-4"
+              >
+                {supportEmail}
+              </a>
+              . Please use &ldquo;Privacy request&rdquo; as the subject.
             </p>
 
             <Link

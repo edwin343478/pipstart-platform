@@ -20,9 +20,16 @@ export function SiteHeader({ variant = "default" }: SiteHeaderProps) {
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
           <Link
             href="/"
-            className="font-heading text-xl font-bold tracking-tight"
+            className="inline-flex items-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
           >
-            Skillcima
+            {/* eslint-disable-next-line @next/next/no-img-element -- static export, small SVG */}
+            <img
+              src="/skillcima-logo.svg"
+              alt="Skillcima"
+              width={119}
+              height={32}
+              className="h-8 w-auto"
+            />
           </Link>
 
           <nav
