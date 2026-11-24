@@ -120,6 +120,82 @@ describe("Skillcima worker error report", () => {
     expect(String(send.mock.calls[0][0])).toBe(url + "/fail");
   });
 
+  it.each([
+    "OK" + " ".repeat(62) + "unexpected",
+    "OK " + "é".repeat(31),
+    "OK extra",
+    new Uint8Array([79, 75, 255]),
+  ])("rejects a malformed or oversized acknowledgement", async (body) => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    const send = vi.fn(async () => new Response(body));
+    await expect(
+      reportWorkerError(url, "https://skillcima.com/", 500, "Error", send),
+    ).resolves.toBe("failed");
+  });
+
+  it("checks the entire chunked acknowledgment and bounds a stalled body", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    const encoder = new TextEncoder();
+    const chunked = new Response(
+      new ReadableStream({
+        start(controller) {
+          controller.enqueue(encoder.encode("O"));
+          controller.enqueue(encoder.encode("K\n"));
+          controller.close();
+        },
+      }),
+    );
+    await expect(
+      reportWorkerError(
+        url,
+        "https://skillcima.com/",
+        500,
+        "Error",
+        async () => chunked,
+      ),
+    ).resolves.toBe("sent");
+
+    resetWorkerReportThrottleForTests();
+    vi.useFakeTimers();
+    try {
+      const cancel = vi.fn(() => Promise.reject(new Error("cancel failed")));
+      const stalled = new Response(new ReadableStream({ cancel }));
+      const sending = reportWorkerError(
+        url,
+        "https://skillcima.com/",
+        500,
+        "Error",
+        async () => stalled,
+      );
+      await vi.advanceTimersByTimeAsync(3000);
+      await expect(sending).resolves.toBe("failed");
+      expect(cancel).toHaveBeenCalledTimes(1);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("returns the business response while the alert runs in the Worker context", async () => {
+    let resolvePing!: (reply: Response) => void;
+    vi.spyOn(globalThis, "fetch").mockImplementation(
+      () =>
+        new Promise((resolve) => {
+          resolvePing = resolve;
+        }),
+    );
+    const waitUntil = vi.fn<(promise: Promise<unknown>) => void>();
+    const response = await worker.fetch(
+      new Request("https://skillcima.com/api/v1/health"),
+      { SKILLCIMA_ERROR_PING_URL: url } as never,
+      { waitUntil },
+    );
+
+    expect(response.status).toBe(503);
+    expect(waitUntil).toHaveBeenCalledOnce();
+    resolvePing(new Response("OK"));
+    await expect(waitUntil.mock.calls[0][0]).resolves.toBe("sent");
+  });
+
   it("does not ping for a normal response", async () => {
     const send = vi.spyOn(globalThis, "fetch");
     const env = { SKILLCIMA_ERROR_PING_URL: url } as never;

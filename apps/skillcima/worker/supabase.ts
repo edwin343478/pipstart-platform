@@ -42,37 +42,33 @@ export async function checkSupabaseConnection(
     };
   }
 
-  const url = new URL(`${configuration.url}/rest/v1/leads`);
-
-  url.searchParams.set("select", "id");
-  url.searchParams.set("limit", "1");
-
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 3000);
   try {
+    const url = new URL(`${configuration.url}/rest/v1/leads`);
+    url.searchParams.set("select", "id");
+    url.searchParams.set("limit", "1");
+
     const response = await fetch(url, {
       method: "GET",
+      redirect: "error",
+      signal: controller.signal,
       headers: {
         Accept: "application/json",
         apikey: configuration.secretKey,
       },
     });
 
-    if (!response.ok) {
-      await response.body?.cancel();
-
-      return {
-        status: "unavailable",
-        httpStatus: response.status,
-      };
-    }
-
-    await response.body?.cancel();
-
-    return {
-      status: "ok",
-    };
+    // The probe only needs the status. A slow or rejected cancellation
+    // should not delay or change that result.
+    void response.body?.cancel().catch(() => {});
+    controller.signal.throwIfAborted();
+    return response.ok
+      ? { status: "ok" }
+      : { status: "unavailable", httpStatus: response.status };
   } catch {
-    return {
-      status: "unavailable",
-    };
+    return { status: "unavailable" };
+  } finally {
+    clearTimeout(timer);
   }
 }

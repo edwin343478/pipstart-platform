@@ -657,27 +657,34 @@ const worker = {
 
 const securedWorker = {
   ...worker,
-  async fetch(request: Request, env: Env): Promise<Response> {
+  async fetch(
+    request: Request,
+    env: Env,
+    context?: { waitUntil(promise: Promise<unknown>): void },
+  ): Promise<Response> {
+    async function report(status: number, code: string) {
+      const pending = reportWorkerError(
+        env.SKILLCIMA_ERROR_PING_URL,
+        request.url,
+        status,
+        code,
+      );
+      if (context) {
+        context.waitUntil(pending);
+      } else {
+        await pending;
+      }
+    }
+
     let response: Response;
     try {
       response = await worker.fetch(request, env);
     } catch (error) {
-      // Report, then keep the platform's existing behaviour for a thrown error.
-      await reportWorkerError(
-        env.SKILLCIMA_ERROR_PING_URL,
-        request.url,
-        500,
-        workerErrorCode(error),
-      );
+      await report(500, workerErrorCode(error));
       throw error;
     }
     if (response.status >= 500) {
-      await reportWorkerError(
-        env.SKILLCIMA_ERROR_PING_URL,
-        request.url,
-        response.status,
-        "Status" + response.status,
-      );
+      await report(response.status, "Status" + response.status);
     }
     return secureSkillcimaResponse(response);
   },

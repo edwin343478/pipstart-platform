@@ -48,6 +48,43 @@ export function workerErrorCode(error: unknown): string {
   return name && errorNames.has(name) ? name : "Error";
 }
 
+const acknowledgementLimitBytes = 64;
+
+async function readAcknowledgement(
+  reply: Response,
+  signal: AbortSignal,
+): Promise<string> {
+  if (!reply.body) return "";
+  const reader = reply.body.getReader();
+  const cancel = () => void reader.cancel().catch(() => {});
+  signal.addEventListener("abort", cancel, { once: true });
+
+  try {
+    const bytes = new Uint8Array(acknowledgementLimitBytes);
+    let length = 0;
+    while (true) {
+      signal.throwIfAborted();
+      const { done, value } = await reader.read();
+      signal.throwIfAborted();
+      if (done) break;
+      if (length + value.byteLength > bytes.byteLength) {
+        throw new Error("acknowledgement too large");
+      }
+      bytes.set(value, length);
+      length += value.byteLength;
+    }
+    return new TextDecoder("utf-8", { fatal: true })
+      .decode(bytes.subarray(0, length))
+      .trim();
+  } catch (error) {
+    cancel();
+    throw error;
+  } finally {
+    signal.removeEventListener("abort", cancel);
+    reader.releaseLock();
+  }
+}
+
 // One ping per isolate per minute; Healthchecks alerts once per state change.
 let lastSentAt = Number.NEGATIVE_INFINITY;
 export function resetWorkerReportThrottleForTests() {
@@ -88,8 +125,13 @@ export async function reportWorkerError(
       redirect: "error",
       signal: controller.signal,
     });
-    const text = (await reply.text()).slice(0, 64).trim();
-    if (reply.status !== 200 || text !== "OK") throw new Error("ping");
+    if (reply.status !== 200) {
+      void reply.body?.cancel().catch(() => {});
+      throw new Error("ping");
+    }
+    if ((await readAcknowledgement(reply, controller.signal)) !== "OK") {
+      throw new Error("ping");
+    }
     return "sent";
   } catch {
     console.error("SKILLCIMA_ERROR_PING_FAILED");

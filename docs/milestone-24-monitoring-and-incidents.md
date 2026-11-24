@@ -1,68 +1,40 @@
 # M24 monitoring and incident runbook (X01, X02, S12)
 
-Everything alerts through the **existing Healthchecks.io account** (free Hobbyist plan) and its verified email integration, the same inbox that already receives the M21 delivery-sweep alerts. Healthchecks emails only when a check changes state, so a burst of identical failures produces one email.
+The existing Healthchecks.io account and email integration receive uptime alerts, trusted application error alerts, and the separate M21 delivery-sweep alerts. Ping URLs are credentials. Keep their values in approved secret storage.
 
-## Checks
+## Coverage and ownership
 
-| Healthchecks check                                 | Fed by                                 | Period / grace  | Goes Down when                                                                                                  |
-| -------------------------------------------------- | -------------------------------------- | --------------- | --------------------------------------------------------------------------------------------------------------- |
-| PipStart production delivery sweep (existing, M21) | Email sweep success pings              | 5 min / 10 min  | Email delivery health fails or the sweep stops                                                                  |
-| PipStart site                                      | `m24-uptime.yml` every 10 min          | 10 min / 20 min | `/`, `/start-here`, `/learn/forex` or `/login` is not a complete 200 page, or the runs stop                     |
-| Skillcima site                                     | `m24-uptime.yml`                       | 10 min / 20 min | `https://skillcima.com/` is not a complete 200 page                                                             |
-| Database (via Skillcima health)                    | `m24-uptime.yml`                       | 10 min / 20 min | `https://skillcima.com/api/v1/health` does not report `"database":"ok"`. It shares PipStart's Supabase project. |
-| PipStart errors                                    | App `/fail` pings (server and browser) | 30 days / 1 day | Any reported application error (the period is long, so it only changes on errors)                               |
-| Skillcima errors                                   | Worker `/fail` pings                   | 30 days / 1 day | A Worker 5xx response or thrown error                                                                           |
+| Check or signal                          | Source and expected behavior                                                                                                                                                                                                                                                    |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| PipStart site                            | Cloudflare Worker `m24-uptime-monitor` probes `/`, `/start-here`, `/learn/forex` and `/login` for HTTP 200 and page markers.                                                                                                                                                    |
+| Skillcima site                           | The same Worker probes the Skillcima homepage for HTTP 200 and its course marker.                                                                                                                                                                                               |
+| Database via Skillcima                   | The same Worker requires a successful Skillcima health response with `data.database == "ok"`. This is a shared Supabase connectivity sample.                                                                                                                                    |
+| PipStart errors                          | Trusted server paths send sanitized failure events. The browser-error API logs fixed diagnostic categories only.                                                                                                                                                                |
+| Skillcima errors                         | Worker fetch 5xx responses and thrown fetch errors send sanitized failure events. Browser error handling uses the browser console. Queue and scheduled outbox failure events are logged separately. Verify any additional alert coverage for those events before relying on it. |
+| PipStart production delivery sweep (M21) | The existing delivery-sweep monitor reports delivery health. Use its own runbook and settings for this check.                                                                                                                                                                   |
 
-**What a report contains:** app, surface (server, client or worker), route template, status, an error digest or class name, and the UTC time. Never messages, stacks, full URLs, query strings, cookies, user IDs, emails or bodies. Details stay in the Vercel and Cloudflare logs.
+Cloudflare is the recurring uptime runner. The accepted activation on 23 November 2026 ran every ten minutes at minutes 4, 14, 24, 34, 44 and 54 UTC. All three Healthchecks checks received fresh pings. The recorded PipStart uptime drill produced Down and Up emails. GitHub's `m24-uptime.yml` is a manual workflow, with probe-only mode as its default. Keep a single recurring runner. Before relying on a detection target, confirm the current Healthchecks period/grace and record missed-run detection alongside the Cloudflare cadence.
 
-**Throttle:** one report per instance per minute. The browser endpoint accepts at most 2 KB, same origin only.
+The manual CLI imports `scripts/m24-uptime-probes.mjs`. This module uses Web APIs so it can also be reviewed as the portable probe implementation for the Cloudflare Worker. Updating the repository does not deploy the separately versioned uptime Worker. Record the active Worker version when an approved deployment is verified.
 
-**Limits:**
+Trusted application diagnostics send fixed app and surface labels, route categories, status, short error codes, and a UTC timestamp. Keep messages, stacks, URLs with query strings, cookies, user identifiers, and request bodies out of alerts. Inspect the hosting platform logs privately when investigating. Trusted reporters throttle attempts to one per instance or isolate per minute.
 
-- GitHub can delay scheduled runs by 5–30 minutes. Expect detection in about 10–40 minutes.
-- GitHub disables schedules in public repos after 60 days without activity. Re-enable from the Actions tab.
-- Healthchecks keeps the last 100 events per check.
-- Re-decide a fuller tool (for example Sentry) at M25 launch.
+## Application error lifecycle
 
-## Owner setup (one time; values never go into Git, chat or screenshots)
+Application checks receive failure events and alert on state transitions. A long period/grace does not make a Healthchecks check event-only. An active check that expects a success can go Down when the deadline passes. Treat missed uptime/sweep signals and application-error events as different incident types.
 
-1. In the existing Healthchecks project, create the five new checks above with those periods and graces. Attach the existing email integration to each.
-2. Copy each check's ping URL (`https://hc-ping.com/<uuid>`) **into your password manager**, then:
-   - **Vercel Production, Secret:** `PIPSTART_ERROR_PING_URL` = the PipStart errors URL. Redeploy.
-   - **Cloudflare Worker secret:** `wrangler secret put SKILLCIMA_ERROR_PING_URL` = the Skillcima errors URL. Redeploy the Worker.
-   - **GitHub repository secrets:** `HC_UPTIME_PIPSTART`, `HC_UPTIME_SKILLCIMA` and `HC_UPTIME_DATABASE`.
-3. A blank or malformed value disables that integration and never breaks the site.
+The owner investigates and acknowledges an application error, records the result, and restores the check to its intended ready state after verifying recovery. A disposable drill demonstrated email delivery and re-arming to New. Before beta, confirm the production settings and the behavior for a quiet interval and a second independent incident using a controlled rehearsal. Keep an unresolved error visible during investigation.
 
-## Alert drill (separately authorized; one at a time)
+## Configuration and controlled drills
 
-| Drill                            | How                                                                                                                                                                                                                    | Expected                                                                                                                     |
-| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| Uptime: email path and first run | In Healthchecks, press **"Send test notification"** on the Skillcima site check. Then run the workflow manually (Actions → M24 uptime checks → Run workflow) and confirm all three uptime checks show **up**.          | One test email; checks green after the manual run                                                                            |
-| Uptime: real failure path        | From a PowerShell window, send one `/fail` to the _PipStart site_ check with its ping URL from the password manager: `Invoke-WebRequest -Method Post -Body 'drill' (<url> + '/fail')`. Then run the workflow manually. | A **Down** email, then an **Up** email after the run                                                                         |
-| PipStart error                   | `Invoke-WebRequest -Method Post -ContentType 'application/json' -Body '{"route":"/drill","kind":"boundary"}' https://pipstart.net/api/client-error`                                                                    | 204 reply; a **Down** email on _PipStart errors_ whose last event shows `/drill`. Then **Resume** the check in Healthchecks. |
-| Skillcima error                  | Not drilled by forcing a production 5xx. The Worker path is covered by unit tests. Optionally, press "Send test notification" on _Skillcima errors_ to prove email delivery.                                           | Test email                                                                                                                   |
+- Cloudflare uptime reporting uses `HC_UPTIME_PIPSTART`, `HC_UPTIME_SKILLCIMA` and `HC_UPTIME_DATABASE`. Vercel Production uses `PIPSTART_ERROR_PING_URL`; the Skillcima Worker uses `SKILLCIMA_ERROR_PING_URL`. Record secret presence and deployment identity without copying values into receipts.
+- For uptime, review the three current check states and recent pings, then match their times to Cloudflare scheduled runs. For separately approved alert rehearsals, use a disposable check to exercise a missed run, failure, and recovery. Use the manual workflow's reporting mode only for an approved run against the intended checks.
+- Exercise application alerts with a disposable check and a fixed synthetic trusted event. Confirm receipt, re-arm, then verify a later event. Browser diagnostics can be checked in the log channel using an isolated fixture.
 
-Record each drill's time and result. Never paste a ping URL anywhere but the password manager and the three secret stores.
+## Incident handling
 
-## Incident runbook
-
-1. **Detect.** An email arrives from Healthchecks: which check, and Down or Up.
-2. **Classify (severity):**
-   - **S1:** PipStart or Skillcima site down, or the database down. Learners or visitors are affected.
-   - **S2:** error reports are repeating, or email delivery health has failed. Some users are affected.
-   - **S3:** a single error report, with the site otherwise fine.
-3. **Look:**
-   - Open the check's event log (route template, status, code).
-   - Then look in Vercel → Deployments → Runtime Logs, or Cloudflare → Workers → Logs, for the same time.
-   - For the database, check the Supabase dashboard project status (paused, restoring or healthy).
-4. **Contain:**
-   - **Bad deploy:** promote the previous deployment (Vercel → Deployments → ⋯ → Promote; Cloudflare → Worker → Deployments → Rollback).
-   - **Paused Supabase:** press Restore in the dashboard. Free projects pause when idle.
-   - **Leaked secret:** rotate it. Vault-paired tokens follow `Vault-Reprovisioning.md`. Other provider keys are rotated at the provider, then the variable is updated, then you redeploy.
-5. **Data recovery** (only if data is lost or corrupted): use the latest verified encrypted backup in `D:\PipStart-Protected-Backups` and the M24-05-03 isolated restore procedure. Never restore over production without a separate, explicit decision.
-6. **Communicate:** for S1 lasting more than 1 hour, post a short notice on the site, or contact affected learners through the normal email channel. No learner data in the notice.
-7. **Recover and close:**
-   - Confirm the checks are back **up**.
-   - **Resume** any error check.
-   - Note the time to detect, time to recover, cause and follow-up in the operations log.
-   - Targets: recovery within **4 hours**, data loss at most **24 hours**, which needs a recent verified backup.
+1. Match the check and timestamp to Vercel, Cloudflare or Supabase. Record whether an endpoint failed, a scheduled ping was missed, or a trusted application event was reported.
+2. Classify a public site or database outage as S1. Treat recurring application errors or delivery failures as S2 when users are affected. Investigate isolated errors as S3 unless the impact warrants escalation.
+3. Use the reviewed rollback path for a bad deploy. Use the provider dashboard and approved recovery procedure for a paused database or credential incident. Refer to the Vault reprovisioning runbook for Vault-paired tokens.
+4. For loss or corruption, locate the latest verified encrypted backup and follow the M24-05-03 isolated restore procedure. Production restore requires a separate decision.
+5. Coordinate any public incident notice with the owner. Record detection time, recovery time, cause, mitigation, follow-up and whether the relevant checks recovered. Recovery objectives are four hours to recover and at most 24 hours of lost changes, with 30-day retention.
