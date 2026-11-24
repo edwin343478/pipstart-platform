@@ -207,15 +207,19 @@ test.describe("Milestone 14 authenticated learner dashboard", () => {
     await expect(
       page.getByText("Progress is synchronized with your account."),
     ).toBeVisible({ timeout: 15_000 });
-    const bookmarkButton = page.getByRole("button", {
-      name: "Bookmark",
+    const saveLesson = page.getByRole("button", {
+      name: "Save lesson",
       exact: true,
     });
-    await expect(bookmarkButton).toBeVisible({ timeout: 15_000 });
-    await bookmarkButton.click();
-    await expect(
-      page.getByRole("button", { name: "Bookmarked", exact: true }),
-    ).toBeVisible({ timeout: 15_000 });
+    const savedLesson = page.getByRole("button", {
+      name: "Saved lesson",
+      exact: true,
+    });
+    await expect(saveLesson).toBeVisible({ timeout: 15_000 });
+    await expect(saveLesson).toHaveAttribute("aria-pressed", "false");
+    await saveLesson.click();
+    await expect(savedLesson).toBeVisible({ timeout: 15_000 });
+    await expect(savedLesson).toHaveAttribute("aria-pressed", "true");
     await expect(page.getByText("Lesson bookmarked.")).toBeVisible({
       timeout: 15_000,
     });
@@ -261,13 +265,13 @@ test.describe("Milestone 14 authenticated learner dashboard", () => {
     await expect(quizSection.getByText(/4\/6.*Not passed/)).toBeVisible();
 
     await page.goto("/learn/forex/level-1");
-    await expect(
-      page.getByRole("button", { name: "Bookmarked", exact: true }),
-    ).toBeVisible({ timeout: 15_000 });
-    await page.getByRole("button", { name: "Bookmarked", exact: true }).click();
+    await expect(savedLesson).toBeVisible({ timeout: 15_000 });
+    await expect(savedLesson).toHaveAttribute("aria-pressed", "true");
+    await savedLesson.click();
     await expect(page.getByText("Bookmark removed.")).toBeVisible({
       timeout: 15_000,
     });
+    await expect(saveLesson).toHaveAttribute("aria-pressed", "false");
 
     await page.goto("/dashboard");
     const emptyBookmarksSection = page.locator("section").filter({
