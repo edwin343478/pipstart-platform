@@ -70,6 +70,13 @@ describe("M22 MP07b quiz editor presentation", () => {
     expect(html).toContain('href="/admin/staff/content"');
     expect(html).not.toMatch(/name="version"|sourceIndex/);
   });
+  it("labels a populated question prompt independently of its saved value", () => {
+    const html = renderToStaticMarkup(<StaffQuizEditor item={item()} />);
+    expect(html).toMatch(
+      /<span id="([^"]+)">Question 1 prompt<\/span><textarea[^>]*aria-labelledby="\1"[^>]*>Pick one<\/textarea>/,
+    );
+  });
+
   it("explains that an unapproved draft keeps its version", () => {
     const html = renderToStaticMarkup(
       <StaffQuizEditor

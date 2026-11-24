@@ -1,5 +1,6 @@
 "use client";
 import {
+  useId,
   useReducer,
   useRef,
   useState,
@@ -536,6 +537,7 @@ function QuestionFields({
   number: number;
   onChange: (q: QuizDraftQuestion) => void;
 }) {
+  const promptLabelId = useId();
   const single = q.type !== "multiple-answer";
   const setKey = (id: string, on: boolean) =>
     onChange({
@@ -593,8 +595,9 @@ function QuestionFields({
         </select>
       </label>
       <label>
-        Question {number} prompt
+        <span id={promptLabelId}>Question {number} prompt</span>
         <textarea
+          aria-labelledby={promptLabelId}
           required
           rows={2}
           maxLength={QUIZ_LIMITS.prompt}
