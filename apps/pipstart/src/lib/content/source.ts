@@ -1,9 +1,12 @@
 import "server-only";
 
-// M22 MP05c-2 content source switch. Code is the default and the only source in Production.
-// Outside Production, PIPSTART_CONTENT_SOURCE=snapshot makes the site read an approved store
-// snapshot (PIPSTART_CONTENT_SNAPSHOT, a file exported from the editorial store) instead of
-// the code registries. The lesson registry, curriculum, assessment registry, analysis posts
+// M22 MP05c-2 content source switch. Code is the default source. Production refuses the local
+// snapshot source below, but since MP08b2a each group listed in PIPSTART_STORE_FAMILIES reads
+// the deployment's verified live publication generation instead of code, and curriculum rows
+// pass through deliveredLearnerRow (contentSnapshotRows). Outside Production,
+// PIPSTART_CONTENT_SOURCE=snapshot makes the site read an approved store snapshot
+// (PIPSTART_CONTENT_SNAPSHOT, a file exported from the editorial store) instead of the code
+// registries. The lesson registry, curriculum, assessment registry, analysis posts
 // and presentation text each switch where they are defined, through the MP05b shadow reads,
 // so every page follows. The file is verified completely before anything uses it.
 import { createHash } from "node:crypto";
