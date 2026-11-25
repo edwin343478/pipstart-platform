@@ -122,7 +122,7 @@ export async function reportWorkerError(
           errorNames.has(code) || code === "Status" + status ? code : "Error",
         at: new Date(t).toISOString(),
       }),
-      redirect: "error",
+      redirect: "manual",
       signal: controller.signal,
     });
     if (reply.status !== 200) {

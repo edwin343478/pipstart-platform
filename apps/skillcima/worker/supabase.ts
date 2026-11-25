@@ -51,7 +51,7 @@ export async function checkSupabaseConnection(
 
     const response = await fetch(url, {
       method: "GET",
-      redirect: "error",
+      redirect: "manual",
       signal: controller.signal,
       headers: {
         Accept: "application/json",

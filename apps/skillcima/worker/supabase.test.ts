@@ -30,8 +30,23 @@ describe("Skillcima database health", () => {
     await vi.advanceTimersByTimeAsync(3000);
 
     expect(request.mock.calls[0][1]?.signal?.aborted).toBe(true);
-    expect(request.mock.calls[0][1]?.redirect).toBe("error");
+    expect(request.mock.calls[0][1]?.redirect).toBe("manual");
     await expect(health).resolves.toEqual({ status: "unavailable" });
+  });
+
+  it("treats a redirect as unavailable without following it", async () => {
+    const request = vi
+      .spyOn(globalThis, "fetch")
+      .mockResolvedValueOnce(
+        Response.redirect("https://redirect.example.test/"),
+      );
+
+    await expect(checkSupabaseConnection(env)).resolves.toEqual({
+      status: "unavailable",
+      httpStatus: 302,
+    });
+    expect(request).toHaveBeenCalledTimes(1);
+    expect(request.mock.calls[0][1]?.redirect).toBe("manual");
   });
 
   it("uses HTTP status even when body cancellation rejects", async () => {

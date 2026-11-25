@@ -196,6 +196,20 @@ describe("Skillcima worker error report", () => {
     await expect(waitUntil.mock.calls[0][0]).resolves.toBe("sent");
   });
 
+  it("rejects a redirect from the alert provider without following it", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    const send = vi
+      .fn<typeof fetch>()
+      .mockResolvedValueOnce(
+        Response.redirect("https://redirect.example.test/"),
+      );
+    await expect(
+      reportWorkerError(url, "https://skillcima.com/", 500, "Error", send),
+    ).resolves.toBe("failed");
+    expect(send).toHaveBeenCalledTimes(1);
+    expect(send.mock.calls[0][1]?.redirect).toBe("manual");
+  });
+
   it("does not ping for a normal response", async () => {
     const send = vi.spyOn(globalThis, "fetch");
     const env = { SKILLCIMA_ERROR_PING_URL: url } as never;
