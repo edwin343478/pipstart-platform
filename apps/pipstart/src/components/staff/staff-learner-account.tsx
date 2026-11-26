@@ -248,10 +248,18 @@ export function StaffLearnerAccount({
       aria-labelledby="learner-account-title"
       aria-busy={stage === "busy"}
     >
-      <h2 id="learner-account-title" tabIndex={-1} ref={heading}>
-        Learner account: {person.display_name}
-      </h2>
-      <p>Reference: {person.user_id}</p>
+      <div className={styles.panelHead}>
+        <span className={styles.panelInitials} aria-hidden="true">
+          {person.display_name.slice(0, 2).toUpperCase()}
+        </span>
+        <div>
+          <p className={styles.panelEyebrow}>Learner login</p>
+          <h2 id="learner-account-title" tabIndex={-1} ref={heading}>
+            Learner account: {person.display_name}
+          </h2>
+        </div>
+      </div>
+      <p className={styles.refChip}>Reference: {person.user_id}</p>
       <p>
         Suspension blocks new logins until the chosen end time. Existing learner
         sessions may remain usable until they expire or sign out. Reactivation

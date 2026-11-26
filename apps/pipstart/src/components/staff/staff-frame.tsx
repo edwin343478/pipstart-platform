@@ -53,7 +53,7 @@ export function StaffFrame({
   maintenance?: boolean;
   paused?: boolean;
   /** Opts a redesigned page into the new shell; the value names that page. */
-  appearance?: "access" | "overview" | "content" | "maintenance";
+  appearance?: "access" | "overview" | "content" | "maintenance" | "people";
 }) {
   const redesigned = appearance !== undefined;
   const status = paused
@@ -153,6 +153,7 @@ export function StaffFrame({
                 redesigned={redesigned}
                 href="/admin/staff/people"
                 icon="users"
+                current={appearance === "people"}
               >
                 People
               </NavLink>

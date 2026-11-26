@@ -160,13 +160,19 @@ export function StaffRoleChange({
       aria-labelledby="staff-role-title"
       aria-busy={stage === "busy"}
     >
-      <div className={visual.ph}>
-        <h2 id="staff-role-title" ref={heading} tabIndex={-1}>
-          Roles · {person.display_name}
-        </h2>
+      <div className={`${visual.ph} ${styles.panelHead}`}>
+        <span className={styles.panelInitials} aria-hidden="true">
+          {person.display_name.slice(0, 2).toUpperCase()}
+        </span>
+        <div>
+          <p className={styles.panelEyebrow}>Manage roles</p>
+          <h2 id="staff-role-title" ref={heading} tabIndex={-1}>
+            Roles · {person.display_name}
+          </h2>
+        </div>
       </div>
       <div className={visual.pb}>
-        <p className={styles.notice}>
+        <p className={styles.refChip}>
           Profile reference:{" "}
           <span className={styles.identifier}>{person.user_id}</span>
         </p>

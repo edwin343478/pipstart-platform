@@ -1229,3 +1229,470 @@
     flex: 1 1 100%;
   }
 }
+
+/* People (redesign step 10): scoped to .peoplePage so the staff audit page,
+   which shares the toolbar, help and summary classes, is unchanged. */
+.peoplePage {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 65rem;
+  min-width: 0;
+}
+.privacyNote {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0.875rem 1.125rem;
+  border: 1px solid #ccfbef;
+  border-radius: 1rem;
+  background: #f0fdfa;
+  color: #134e4a;
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+.privacyIcon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 0.625rem;
+  background: #ccfbef;
+  color: var(--accent);
+}
+.privacyIcon svg {
+  width: 16px;
+  height: 16px;
+}
+.peopleCard {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #e7ebee;
+  border-radius: 1.25rem;
+  background: #fff;
+  box-shadow: 0 20px 40px -28px rgba(11, 18, 32, 0.16);
+}
+.peoplePage .peopleToolbar {
+  gap: 0.625rem;
+  padding: 1.375rem 1.5rem 0;
+}
+.peoplePage .peopleToolbar label {
+  flex: 1 1 20rem;
+  font-size: 0.8125rem;
+}
+.peoplePage .input {
+  min-height: 44px;
+  border-radius: 0.75rem;
+}
+.peoplePage .button,
+.peoplePage .secondary {
+  min-height: 44px;
+  padding: 0 1.125rem;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+}
+.peoplePage .secondary {
+  font-weight: 700;
+}
+.peoplePage .peopleCard > .tableHelp {
+  margin: 0;
+  padding: 0.625rem 1.5rem 0;
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+.resultsHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+  padding: 1.25rem 1.5rem 0.75rem;
+}
+.peoplePage .resultsHead .resultsTitle {
+  margin: 0;
+  padding: 0;
+  font-size: 1.125rem;
+  font-weight: 800;
+}
+.peoplePage .resultsHead .tableHelp {
+  margin: 0;
+  padding: 0;
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+.peopleTableWrap {
+  min-width: 0;
+  overflow-x: auto;
+}
+.peopleTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+.peopleTable th {
+  padding: 0.625rem 1rem;
+  background: #f9fafb;
+  color: var(--muted);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-align: left;
+  text-transform: uppercase;
+}
+.peopleTable th:nth-child(3),
+.peopleTable td[data-label="Staff membership"] {
+  white-space: nowrap;
+}
+.peopleTable td[data-label="Person"] {
+  min-width: 11rem;
+}
+.peopleTable td[data-label="Actions"] {
+  min-width: 11rem;
+}
+.peopleTable td {
+  padding: 0.875rem 1rem;
+  border-top: 1px solid var(--line);
+  vertical-align: middle;
+}
+.peopleTable th:first-child,
+.peopleTable td:first-child {
+  padding-left: 1.5rem;
+}
+.personCell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+.personInitials,
+.panelInitials {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 0.75rem;
+  background: #ccfbef;
+  color: var(--accent);
+  font-size: 0.8125rem;
+  font-weight: 800;
+}
+.personText {
+  display: grid;
+  min-width: 0;
+}
+.personText strong {
+  font-size: 0.875rem;
+}
+.personRef {
+  overflow: hidden;
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.71875rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.peoplePage .roleTags {
+  gap: 0.375rem;
+}
+.roleChip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 0.625rem;
+  border: 1px solid #ccfbef;
+  border-radius: 999px;
+  background: #ecfdf9;
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+.mutedText {
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+.memberBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: 26px;
+  padding: 0 0.625rem;
+  border: 1px solid #abefc6;
+  border-radius: 999px;
+  background: #ecfdf3;
+  color: #067647;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.memberBadge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: currentColor;
+}
+.memberBadge[data-state="suspended"] {
+  border-color: #fecdca;
+  background: #fef3f2;
+  color: #b42318;
+}
+.memberBadge[data-state="none"] {
+  border-color: #e4e7ec;
+  background: #f2f4f7;
+  color: #475467;
+}
+.rowAction {
+  min-height: 34px;
+  padding: 0 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.625rem;
+  background: #fff;
+  color: var(--ink);
+  font-size: 0.78125rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.rowAction:hover:not(:disabled) {
+  border-color: var(--bright);
+  color: var(--accent);
+}
+.rowAction:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+.peoplePager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.875rem 1.5rem;
+  border-top: 1px solid var(--line);
+  background: #fcfcfd;
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+.pagerButtons {
+  display: flex;
+  gap: 0.5rem;
+}
+.peoplePage .pagerButtons .secondary {
+  min-height: 38px;
+  padding: 0 0.875rem;
+  font-size: 0.8125rem;
+}
+
+/* Roles, governance and learner panels inside the People page. */
+.peoplePage .rolePanel,
+.peoplePage .learnerPanel {
+  max-width: none;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--bright);
+  border-radius: 1.25rem;
+  background: #fff;
+  box-shadow:
+    0 0 0 4px rgba(20, 184, 166, 0.1),
+    0 20px 40px -28px rgba(11, 18, 32, 0.16);
+}
+.peoplePage .learnerPanel {
+  display: grid;
+  gap: 1rem;
+  padding: 0 1.5rem 1.5rem;
+}
+.panelHead {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 !important;
+  padding: 1.125rem 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+.peoplePage .learnerPanel > .panelHead {
+  margin: 0 -1.5rem !important;
+}
+.panelInitials {
+  width: 40px;
+  height: 40px;
+}
+.peoplePage .panelHead p.panelEyebrow {
+  margin: 0;
+  color: var(--accent);
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+.peoplePage .panelHead h2 {
+  margin: 0.125rem 0 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.3;
+}
+.peoplePage .rolePanel > div:last-child {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem 1.5rem;
+}
+.peoplePage .rolePanel p,
+.peoplePage .learnerPanel p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+.peoplePage .rolePanel h3,
+.peoplePage .learnerPanel h3 {
+  margin: 0.25rem 0 0;
+  font-size: 1rem;
+  font-weight: 800;
+}
+.peoplePage p.refChip {
+  justify-self: start;
+  max-width: 100%;
+  margin: 0 !important;
+  padding: 0.375rem 0.625rem;
+  border: 1px solid var(--line);
+  border-radius: 0.625rem;
+  background: var(--bg);
+  color: #475467;
+  font-size: 0.75rem;
+  overflow-wrap: anywhere;
+}
+.peoplePage .rolePanel p.notice {
+  margin: 0 !important;
+  padding: 0.625rem 0.875rem;
+  border-radius: 0.75rem;
+  background: #f0fdfa;
+  color: #134e4a;
+}
+.peoplePage .rolePanel .form,
+.peoplePage .learnerForm,
+.peoplePage .learnerReview {
+  margin: 0;
+  padding: 1.125rem 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--bg);
+}
+.peoplePage .rolePanel .fields {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr));
+  gap: 0.75rem;
+}
+.peoplePage .rolePanel .fields legend {
+  float: left;
+  width: 100%;
+  margin: 0 0 0.25rem;
+  font-size: 0.9375rem;
+  font-weight: 800;
+}
+.peoplePage .rolePanel .fields > :not(label) {
+  grid-column: 1 / -1;
+}
+.peoplePage .rolePanel .fields > button,
+.peoplePage .rolePanel > div:last-child > button {
+  justify-self: start;
+}
+.peoplePage .rolePanel label,
+.peoplePage .learnerPanel label {
+  font-size: 0.8125rem;
+}
+.peoplePage .rolePanel .secondary {
+  margin: 0;
+}
+.peoplePage .rolePanel .roleTags {
+  gap: 0.5rem;
+}
+.peoplePage .rolePanel ul {
+  display: grid;
+  gap: 0.375rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.peoplePage .rolePanel li {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.625rem;
+  background: var(--bg);
+  font-size: 0.8125rem;
+}
+.peoplePage .summary {
+  margin: 0;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.875rem;
+  background: var(--bg);
+  font-size: 0.875rem;
+}
+.peoplePage .summary dt {
+  color: var(--muted);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.peoplePage .learnerLookup {
+  margin: 0;
+}
+.peoplePage .learnerPanel > button {
+  justify-self: start;
+  margin: 0;
+}
+@media (max-width: 767px) {
+  .peoplePage .peopleToolbar {
+    padding: 1.125rem 1.125rem 0;
+  }
+  .peoplePage .peopleCard > .tableHelp,
+  .resultsHead,
+  .peoplePager {
+    padding-right: 1.125rem;
+    padding-left: 1.125rem;
+  }
+  .peopleTable thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+  }
+  .peopleTable,
+  .peopleTable tbody,
+  .peopleTable tr,
+  .peopleTable td {
+    display: block;
+  }
+  .peopleTable tr {
+    padding: 0.875rem 1.125rem;
+    border-top: 1px solid var(--line);
+  }
+  .peopleTable td[data-label],
+  .peopleTable td:first-child {
+    min-width: 0;
+    padding: 0.375rem 0;
+    border: 0;
+  }
+  .peopleTable td:not(:first-child)::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 0.25rem;
+    color: var(--muted);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .panelHead {
+    padding: 1rem 1.125rem;
+  }
+  .peoplePage .learnerPanel {
+    padding: 0 1.125rem 1.125rem;
+  }
+  .peoplePage .learnerPanel > .panelHead {
+    margin: 0 -1.125rem !important;
+  }
+  .peoplePage .rolePanel > div:last-child {
+    padding: 1.125rem;
+  }
+}

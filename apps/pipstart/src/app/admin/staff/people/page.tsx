@@ -39,6 +39,7 @@ export default async function StaffPeoplePage() {
   }
   return (
     <StaffFrame
+      appearance="people"
       verified
       maintenance={canOpenMaintenance(gate.access)}
       content={canOpenContentWorkspace(gate.access)}

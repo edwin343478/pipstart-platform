@@ -115,13 +115,21 @@ export function StaffGovernance({
       aria-labelledby="staff-governance-details"
       aria-busy={busy}
     >
-      <div className={visual.ph}>
-        <h2 id="staff-governance-details" ref={title} tabIndex={-1}>
-          Governance · {person.display_name}
-        </h2>
+      <div className={`${visual.ph} ${styles.panelHead}`}>
+        <span className={styles.panelInitials} aria-hidden="true">
+          {person.display_name.slice(0, 2).toUpperCase()}
+        </span>
+        <div>
+          <p className={styles.panelEyebrow}>Staff governance</p>
+          <h2 id="staff-governance-details" ref={title} tabIndex={-1}>
+            Governance · {person.display_name}
+          </h2>
+        </div>
       </div>
       <div className={visual.pb}>
-        <p className={styles.identifier}>Profile reference: {person.user_id}</p>
+        <p className={`${styles.identifier} ${styles.refChip}`}>
+          Profile reference: {person.user_id}
+        </p>
         <p role="status" aria-live="polite">
           {message}
         </p>

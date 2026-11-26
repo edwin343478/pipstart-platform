@@ -3,13 +3,7 @@
 import { createBrowserClient } from "@supabase/ssr";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import {
-  Heading,
-  DataTable,
-  Badge,
-  Tag,
-  PersonCell,
-} from "@/components/admin-preview/primitives";
+import { Icon } from "@/components/admin-preview/icons";
 import { getSupabasePublicConfiguration } from "@/lib/supabase/config";
 import {
   readLiveStaffPeople,
@@ -139,18 +133,27 @@ export function StaffPeople({
     access.capabilities.includes("roles.manage") ||
     access.capabilities.includes("roles.delegate");
   return (
-    <>
-      <Heading eyebrow="People" title="People">
-        Staff and learner profiles, with role management and controlled learner
-        login requests.
-      </Heading>
-      <p className={`${s.alert} ${styles.notice}`}>
-        Privacy by design: this list shows profile names, references and staff
-        membership only. It does not expose email addresses, learning progress,
-        authenticator status or last activity.
+    <div className={styles.peoplePage}>
+      <div className={styles.intro}>
+        <p className={styles.eyebrow}>People</p>
+        <h1>People</h1>
+        <p className={styles.lead}>
+          Staff and learner profiles, with role management and controlled
+          learner login requests.
+        </p>
+      </div>
+      <p className={styles.privacyNote}>
+        <span className={styles.privacyIcon} aria-hidden="true">
+          <Icon name="shield" />
+        </span>
+        <span>
+          <strong>Privacy by design:</strong> this list shows profile names,
+          references and staff membership only. It does not expose email
+          addresses, learning progress, authenticator status or last activity.
+        </span>
       </p>
       <section
-        className={s.panel}
+        className={styles.peopleCard}
         aria-labelledby="staff-people-results"
         aria-busy={busy}
       >
@@ -188,129 +191,147 @@ export function StaffPeople({
           Use a name prefix of at least two characters, or leave empty to list
           profiles.
         </p>
-        <h2
-          id="staff-people-results"
-          ref={results}
-          tabIndex={-1}
-          className={styles.resultsTitle}
-        >
-          People results
-        </h2>
-        <p className={styles.tableHelp} role="status" aria-live="polite">
-          {busy ? "Loading people…" : message}
-        </p>
+        <div className={styles.resultsHead}>
+          <h2
+            id="staff-people-results"
+            ref={results}
+            tabIndex={-1}
+            className={styles.resultsTitle}
+          >
+            People results
+          </h2>
+          <p className={styles.tableHelp} role="status" aria-live="polite">
+            {busy ? "Loading people…" : message}
+          </p>
+        </div>
         {page && (
-          <DataTable
-            caption="People and current staff roles"
-            cols="minmax(0,2fr) minmax(0,1.5fr) minmax(0,1fr) 9rem"
-            head={["Person", "Staff roles", "Staff membership", "Actions"]}
-            rows={page.items.map((p) => ({
-              cells: [
-                {
-                  label: "Person",
-                  className: "main",
-                  node: (
-                    <PersonCell
-                      name={p.display_name}
-                      initials={p.display_name.slice(0, 2).toUpperCase()}
-                      sub={p.user_id}
-                    />
-                  ),
-                },
-                {
-                  label: "Staff roles",
-                  node: (
-                    <div className={styles.roleTags}>
-                      {p.staff_roles.length ? (
-                        p.staff_roles.map((r) => (
-                          <Tag key={r}>{r.replaceAll("_", " ")}</Tag>
-                        ))
-                      ) : (
-                        <span>No staff roles</span>
-                      )}
-                    </div>
-                  ),
-                },
-                {
-                  label: "Staff membership",
-                  node:
-                    p.staff_active === null ? (
-                      <Tag kind="slate">Not staff</Tag>
-                    ) : (
-                      <Badge kind={p.staff_active ? "ok" : "fail"}>
-                        {p.staff_active ? "Active" : "Suspended"}
-                      </Badge>
-                    ),
-                },
-                {
-                  label: "Actions",
-                  className: "act",
-                  node:
-                    manage ||
-                    (learnerManage &&
-                      p.staff_active === null &&
-                      p.user_id !== access.user_id) ? (
+          <div className={styles.peopleTableWrap}>
+            <table className={styles.peopleTable}>
+              <caption className={s.srOnly}>
+                People and current staff roles
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Person</th>
+                  <th scope="col">Staff roles</th>
+                  <th scope="col">Staff membership</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {page.items.map((p) => (
+                  <tr key={p.user_id}>
+                    <td data-label="Person">
+                      <div className={styles.personCell}>
+                        <span
+                          className={styles.personInitials}
+                          aria-hidden="true"
+                        >
+                          {p.display_name.slice(0, 2).toUpperCase()}
+                        </span>
+                        <span className={styles.personText}>
+                          <strong>{p.display_name}</strong>
+                          <span className={styles.personRef}>{p.user_id}</span>
+                        </span>
+                      </div>
+                    </td>
+                    <td data-label="Staff roles">
                       <div className={styles.roleTags}>
-                        {manage && (
-                          <button
-                            className={`${s.btn} ${s.sec} ${s.sm}`}
-                            type="button"
-                            disabled={!connected || busy || !!selected}
-                            aria-label={`Manage roles for ${p.display_name}`}
-                            onClick={() => {
-                              setManagement("roles");
-                              setSelected(p.user_id);
-                            }}
-                          >
-                            Roles
-                          </button>
+                        {p.staff_roles.length ? (
+                          p.staff_roles.map((r) => (
+                            <span key={r} className={styles.roleChip}>
+                              {r.replaceAll("_", " ")}
+                            </span>
+                          ))
+                        ) : (
+                          <span className={styles.mutedText}>
+                            No staff roles
+                          </span>
                         )}
-                        {learnerManage &&
-                          p.staff_active === null &&
-                          p.user_id !== access.user_id && (
+                      </div>
+                    </td>
+                    <td data-label="Staff membership">
+                      {p.staff_active === null ? (
+                        <span className={styles.memberBadge} data-state="none">
+                          Not staff
+                        </span>
+                      ) : (
+                        <span
+                          className={styles.memberBadge}
+                          data-state={p.staff_active ? "active" : "suspended"}
+                        >
+                          {p.staff_active ? "Active" : "Suspended"}
+                        </span>
+                      )}
+                    </td>
+                    <td data-label="Actions">
+                      {manage ||
+                      (learnerManage &&
+                        p.staff_active === null &&
+                        p.user_id !== access.user_id) ? (
+                        <div className={styles.roleTags}>
+                          {manage && (
                             <button
-                              className={`${s.btn} ${s.sec} ${s.sm}`}
+                              className={styles.rowAction}
                               type="button"
                               disabled={!connected || busy || !!selected}
-                              aria-label={`Manage learner account for ${p.display_name}`}
+                              aria-label={`Manage roles for ${p.display_name}`}
                               onClick={() => {
-                                setManagement("learner");
+                                setManagement("roles");
                                 setSelected(p.user_id);
                               }}
                             >
-                              Learner account
+                              Roles
                             </button>
                           )}
-                        {access.capabilities.includes("roles.manage") && (
-                          <button
-                            className={`${s.btn} ${s.sec} ${s.sm}`}
-                            type="button"
-                            disabled={!connected || busy || !!selected}
-                            aria-label={`Manage governance for ${p.display_name}`}
-                            onClick={() => {
-                              setManagement("governance");
-                              setSelected(p.user_id);
-                            }}
-                          >
-                            Governance
-                          </button>
-                        )}
-                      </div>
-                    ) : (
-                      <span>Read only</span>
-                    ),
-                },
-              ],
-            }))}
-          />
+                          {learnerManage &&
+                            p.staff_active === null &&
+                            p.user_id !== access.user_id && (
+                              <button
+                                className={styles.rowAction}
+                                type="button"
+                                disabled={!connected || busy || !!selected}
+                                aria-label={`Manage learner account for ${p.display_name}`}
+                                onClick={() => {
+                                  setManagement("learner");
+                                  setSelected(p.user_id);
+                                }}
+                              >
+                                Learner account
+                              </button>
+                            )}
+                          {access.capabilities.includes("roles.manage") && (
+                            <button
+                              className={styles.rowAction}
+                              type="button"
+                              disabled={!connected || busy || !!selected}
+                              aria-label={`Manage governance for ${p.display_name}`}
+                              onClick={() => {
+                                setManagement("governance");
+                                setSelected(p.user_id);
+                              }}
+                            >
+                              Governance
+                            </button>
+                          )}
+                        </div>
+                      ) : (
+                        <span className={styles.mutedText}>Read only</span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
-        <div className={s.pager}>
+        <div className={styles.peoplePager}>
           <span>
             {page
               ? `${page.items.length} profiles on this page`
               : "No current page"}
           </span>
-          <div className={s.row}>
+          <div className={styles.pagerButtons}>
             <button
               type="button"
               className={styles.secondary}
@@ -394,6 +415,6 @@ export function StaffPeople({
           }
         />
       )}
-    </>
+    </div>
   );
 }
