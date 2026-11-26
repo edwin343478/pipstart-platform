@@ -12,6 +12,7 @@ import {
   type MaintenanceReview,
 } from "@/lib/auth/staff-maintenance-contract";
 import { executeMaintenanceAction } from "@/app/admin/maintenance/actions";
+import { Icon } from "@/components/admin-preview/icons";
 import styles from "./staff-maintenance.module.css";
 type MaintenanceResult = Awaited<ReturnType<typeof executeMaintenanceAction>>;
 export type NoticeTone = "success" | "warning" | "error" | "info";
@@ -83,34 +84,50 @@ export function MaintenanceReviewDetails({
         </p>
       )}
       <dl>
-        <dt>Request</dt>
-        <dd>{review.request_id}</dd>
-        <dt>Staff account ID</dt>
-        <dd>{review.target_id}</dd>
-        <dt>Action</dt>
-        <dd>
-          {review.operation === "auth_suspend"
-            ? "Suspend Auth account"
-            : "Resume Auth account"}
-        </dd>
-        <dt>Suspension ends</dt>
-        <dd>
-          {review.suspend_until === null ? (
-            formatUtc(null)
-          ) : (
-            <time dateTime={review.suspend_until}>
-              {formatUtc(review.suspend_until)}
-            </time>
-          )}
-        </dd>
-        <dt>Reason</dt>
-        <dd>{review.reason.replaceAll("_", " ")}</dd>
-        <dt>{acted ? "Journal state at review" : "Journal state"}</dt>
-        <dd>{review.state}</dd>
-        <dt>Mode</dt>
-        <dd>
-          {mode === "dispatch" ? "One provider action" : "Read-only inspection"}
-        </dd>
+        <div>
+          <dt>Request</dt>
+          <dd>{review.request_id}</dd>
+        </div>
+        <div>
+          <dt>Staff account ID</dt>
+          <dd>{review.target_id}</dd>
+        </div>
+        <div>
+          <dt>Action</dt>
+          <dd>
+            {review.operation === "auth_suspend"
+              ? "Suspend Auth account"
+              : "Resume Auth account"}
+          </dd>
+        </div>
+        <div>
+          <dt>Suspension ends</dt>
+          <dd>
+            {review.suspend_until === null ? (
+              formatUtc(null)
+            ) : (
+              <time dateTime={review.suspend_until}>
+                {formatUtc(review.suspend_until)}
+              </time>
+            )}
+          </dd>
+        </div>
+        <div>
+          <dt>Reason</dt>
+          <dd>{review.reason.replaceAll("_", " ")}</dd>
+        </div>
+        <div>
+          <dt>{acted ? "Journal state at review" : "Journal state"}</dt>
+          <dd>{review.state}</dd>
+        </div>
+        <div>
+          <dt>Mode</dt>
+          <dd>
+            {mode === "dispatch"
+              ? "One provider action"
+              : "Read-only inspection"}
+          </dd>
+        </div>
       </dl>
     </div>
   );
@@ -243,109 +260,135 @@ export function StaffMaintenance({ userId }: { userId: string }) {
   }
   return (
     <section className={styles.panel} aria-busy={stage === "busy"}>
-      <p className={styles.eyebrow}>Account security · Paused staff</p>
-      <h1 ref={heading} tabIndex={-1}>
-        Owner staff maintenance
-      </h1>
-      <p>
-        Execute or inspect one operator-prepared suspension or resumption
-        request for a current or former staff account. A live Owner account and
-        fresh authenticator verification are required. General staff access
-        stays paused.
-      </p>
-      <p>
-        Account suspension is not immediate revocation of every existing Auth
-        token. Protected staff requests also check the live account state.
+      <div className={styles.intro}>
+        <p className={styles.eyebrow}>Account security · Paused staff</p>
+        <h1 ref={heading} tabIndex={-1}>
+          Owner staff maintenance
+        </h1>
+        <p className={styles.lead}>
+          Execute or inspect one operator-prepared suspension or resumption
+          request for a current or former staff account. A live Owner account
+          and fresh authenticator verification are required. General staff
+          access stays paused.
+        </p>
+      </div>
+      <p className={styles.caution}>
+        <span className={styles.cautionIcon} aria-hidden="true">
+          <Icon name="alert" />
+        </span>
+        <span>
+          Account suspension is not immediate revocation of every existing Auth
+          token. Protected staff requests also check the live account state.
+        </span>
       </p>
       {stage === "edit" && (
-        <form onSubmit={verify} className={styles.form}>
-          <label htmlFor="maintenance-request">
-            Exact operator-prepared request ID
-          </label>
-          <input
-            id="maintenance-request"
-            required
-            value={request}
-            onChange={(e) => setRequest(e.target.value)}
-            maxLength={36}
-            autoComplete="off"
-            spellCheck={false}
-          />
-          <label htmlFor="maintenance-mode">Request mode</label>
-          <select
-            id="maintenance-mode"
-            value={mode}
-            onChange={(e) => setMode(e.target.value as "dispatch" | "inspect")}
-          >
-            <option value="dispatch">Execute prepared action once</option>
-            <option value="inspect">Inspect provider state only</option>
-          </select>
-          <label htmlFor="maintenance-factor">Authenticator</label>
-          <select
-            id="maintenance-factor"
-            value={factor}
-            onChange={(e) => setFactor(e.target.value)}
-            required
-          >
-            <option value="">Select authenticator</option>
-            {factors.map((f) => (
-              <option key={f.id} value={f.id}>
-                {f.name}
-              </option>
-            ))}
-          </select>
-          <label htmlFor="maintenance-code">
-            Current six-digit authenticator code
-          </label>
-          <input
-            id="maintenance-code"
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            required
-            inputMode="numeric"
-            pattern="[0-9]{6}"
-            maxLength={6}
-            autoComplete="one-time-code"
-          />
-          <button type="submit" disabled={!client || !factors.length}>
-            Verify and review request
-          </button>
-          <p>Verification alone does not execute the provider action.</p>
-        </form>
+        <div className={styles.card}>
+          <h2>Verify and review a request</h2>
+          <form onSubmit={verify} className={styles.form}>
+            <div className={`${styles.field} ${styles.wide}`}>
+              <label htmlFor="maintenance-request">
+                Exact operator-prepared request ID
+              </label>
+              <input
+                id="maintenance-request"
+                className={styles.mono}
+                required
+                value={request}
+                onChange={(e) => setRequest(e.target.value)}
+                maxLength={36}
+                autoComplete="off"
+                spellCheck={false}
+              />
+            </div>
+            <div className={`${styles.field} ${styles.wide}`}>
+              <label htmlFor="maintenance-mode">Request mode</label>
+              <select
+                id="maintenance-mode"
+                value={mode}
+                onChange={(e) =>
+                  setMode(e.target.value as "dispatch" | "inspect")
+                }
+              >
+                <option value="dispatch">Execute prepared action once</option>
+                <option value="inspect">Inspect provider state only</option>
+              </select>
+            </div>
+            <div className={styles.field}>
+              <label htmlFor="maintenance-factor">Authenticator</label>
+              <select
+                id="maintenance-factor"
+                value={factor}
+                onChange={(e) => setFactor(e.target.value)}
+                required
+              >
+                <option value="">Select authenticator</option>
+                {factors.map((f) => (
+                  <option key={f.id} value={f.id}>
+                    {f.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className={styles.field}>
+              <label htmlFor="maintenance-code">
+                Current six-digit authenticator code
+              </label>
+              <input
+                id="maintenance-code"
+                className={styles.code}
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                required
+                inputMode="numeric"
+                pattern="[0-9]{6}"
+                maxLength={6}
+                autoComplete="one-time-code"
+              />
+            </div>
+            <div className={styles.submitRow}>
+              <button type="submit" disabled={!client || !factors.length}>
+                Verify and review request
+              </button>
+              <p>Verification alone does not execute the provider action.</p>
+            </div>
+          </form>
+        </div>
       )}
       {review && (
-        <MaintenanceReviewDetails
-          review={review}
-          mode={mode}
-          acted={stage === "finished"}
-        />
-      )}
-      {stage === "review" && (
-        <div className={styles.actions}>
-          <button type="button" onClick={() => void confirm()}>
-            {mode === "dispatch"
-              ? "Confirm exact action once"
-              : "Confirm read-only inspection"}
-          </button>
-          <button
-            type="button"
-            className={styles.secondary}
-            onClick={() => {
-              setProof(null);
-              setReview(null);
-              setStage("edit");
-              setNotice({
-                tone: "info",
-                text: "Local review dismissed. The operator-prepared journal request was not cancelled.",
-              });
-            }}
-          >
-            Dismiss review
-          </button>
+        <div className={styles.reviewCard}>
+          <MaintenanceReviewDetails
+            review={review}
+            mode={mode}
+            acted={stage === "finished"}
+          />
+          {stage === "review" && (
+            <div className={styles.actions}>
+              <button type="button" onClick={() => void confirm()}>
+                {mode === "dispatch"
+                  ? "Confirm exact action once"
+                  : "Confirm read-only inspection"}
+              </button>
+              <button
+                type="button"
+                className={styles.secondary}
+                onClick={() => {
+                  setProof(null);
+                  setReview(null);
+                  setStage("edit");
+                  setNotice({
+                    tone: "info",
+                    text: "Local review dismissed. The operator-prepared journal request was not cancelled.",
+                  });
+                }}
+              >
+                Dismiss review
+              </button>
+            </div>
+          )}
         </div>
       )}
       {stage === "busy" && (
-        <p role="status">
+        <p role="status" className={styles.busy}>
           Checking the exact request. Do not repeat or reload this operation.
         </p>
       )}
@@ -362,6 +405,7 @@ export function StaffMaintenance({ userId }: { userId: string }) {
       {stage === "finished" && (
         <button
           type="button"
+          className={styles.fresh}
           onClick={() => {
             setMode("inspect");
             setReview(null);
@@ -373,7 +417,7 @@ export function StaffMaintenance({ userId }: { userId: string }) {
           Prepare a fresh read-only inspection
         </button>
       )}
-      <p>
+      <p className={styles.footnote}>
         Request creation, cancellation, uncertainty resolution, factor recovery
         and retirement remain reviewed operator procedures. This page cannot
         enable staff, grant roles or remove factors.

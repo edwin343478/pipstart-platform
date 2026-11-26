@@ -21,7 +21,7 @@ export default async function MaintenancePage() {
   // This shell exposes no protected account data. Every review/claim requires
   // a live paused Owner and an exact fresh request-bound MFA receipt in SQL.
   return (
-    <StaffFrame paused>
+    <StaffFrame paused appearance="owner">
       <StaffMaintenance userId={identity.data.user.id} />
     </StaffFrame>
   );

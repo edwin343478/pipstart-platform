@@ -54,7 +54,13 @@ export function StaffFrame({
   paused?: boolean;
   /** Opts a redesigned page into the new shell; the value names that page. */
   appearance?:
-    "access" | "overview" | "content" | "maintenance" | "people" | "audit";
+    | "access"
+    | "overview"
+    | "content"
+    | "maintenance"
+    | "people"
+    | "audit"
+    | "owner";
 }) {
   const redesigned = appearance !== undefined;
   const status = paused
