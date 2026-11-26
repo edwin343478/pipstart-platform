@@ -4,6 +4,7 @@ import { readStaffGate, staffUiEnabled } from "@/lib/auth/staff-gate";
 import { draftId } from "@/lib/content/curriculum-draft-contract";
 import { StaffFrame } from "@/components/staff/staff-frame";
 import { StaffQuizView } from "@/components/staff/staff-quiz-view";
+import staffStyles from "@/components/staff/staff.module.css";
 import { runQuizViewAction } from "../../quiz-actions";
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
@@ -39,17 +40,23 @@ export default async function Page({
   });
   if (result.kind !== "ready")
     return (
-      <StaffFrame verified content>
-        <h1>Quiz unavailable</h1>
-        <p>
-          The quiz could not be read with your current access, or it is outside
-          the supported question rules. No content was changed.
-        </p>
-        <a href="/admin/staff/content">Back to content library</a>
+      <StaffFrame appearance="content" verified content>
+        <section className={staffStyles.stateCard}>
+          <p className={staffStyles.eyebrow}>Content · Quiz (read only)</p>
+          <h1>Quiz unavailable</h1>
+          <p>
+            The quiz could not be read with your current access, or it is
+            outside the supported question rules. No content was changed.
+          </p>
+          <a className={staffStyles.primary} href="/admin/staff/content">
+            Back to content library
+          </a>
+        </section>
       </StaffFrame>
     );
   return (
     <StaffFrame
+      appearance="content"
       verified
       content
       people={gate.access.capabilities.includes("people.read")}

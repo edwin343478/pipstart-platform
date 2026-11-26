@@ -25,12 +25,18 @@ export function QuizSummary({
     <div>
       <h3>{heading}</h3>
       <dl>
-        <dt>Title</dt>
-        <dd>{fields.title}</dd>
-        <dt>Passing percentage</dt>
-        <dd>{String(fields.passingPercentage)}</dd>
-        <dt>Retake cooldown (seconds)</dt>
-        <dd>{String(fields.retakeCooldownSeconds)}</dd>
+        <div>
+          <dt>Title</dt>
+          <dd>{fields.title}</dd>
+        </div>
+        <div>
+          <dt>Passing percentage</dt>
+          <dd>{String(fields.passingPercentage)}</dd>
+        </div>
+        <div>
+          <dt>Retake cooldown (seconds)</dt>
+          <dd>{String(fields.retakeCooldownSeconds)}</dd>
+        </div>
       </dl>
       <ol>
         {questions.map((q, n) => (
@@ -40,7 +46,12 @@ export function QuizSummary({
             </p>
             <ul>
               {q.choices.map((c) => (
-                <li key={c.id}>
+                <li
+                  key={c.id}
+                  data-correct={
+                    q.correctChoiceIds.includes(c.id) ? "true" : undefined
+                  }
+                >
                   {c.label}
                   {q.correctChoiceIds.includes(c.id) ? " (correct)" : ""}
                 </li>
