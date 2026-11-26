@@ -1,12 +1,8 @@
 "use client";
 import Link from "next/link";
 import { type Ref, useEffect, useRef, useState } from "react";
-import {
-  Heading,
-  Badge,
-  DataTable,
-  type BadgeKind,
-} from "@/components/admin-preview/primitives";
+import { Badge, type BadgeKind } from "@/components/admin-preview/primitives";
+import { Icon } from "@/components/admin-preview/icons";
 import { readEditorialWorkspaceAction } from "@/app/admin/staff/content/actions";
 import type {
   WorkspaceDetail,
@@ -20,7 +16,6 @@ import {
   StaffItemPublication,
   StaffLivePublication,
 } from "./staff-publication-panel";
-import s from "@/components/admin-preview/admin-preview.module.css";
 import styles from "./staff-content-workspace.module.css";
 const status = (state: string): BadgeKind =>
   state === "approved"
@@ -30,6 +25,15 @@ const status = (state: string): BadgeKind =>
       : state === "draft"
         ? "draft"
         : "arch";
+const families = [
+  "course",
+  "module",
+  "lesson",
+  "quiz",
+  "analysis",
+  "partner",
+  "link",
+];
 export function ContentRevisionDetail({
   detail,
   headingRef,
@@ -43,76 +47,90 @@ export function ContentRevisionDetail({
     single_person: "Owner approval",
     changes_requested: "Changes requested",
   };
+  const facts: [string, string][] = [
+    ["Permanent identity", detail.id],
+    ["Family", detail.family],
+    ["Learning path", detail.path],
+    ["Parent identity", detail.parent ?? "No parent"],
+    ["Latest revision", String(detail.revision)],
+  ];
+  if (detail.publicationRequest) {
+    facts.push(["Learner publication", "Requested for this revision"]);
+    if (detail.publicationRequest !== true)
+      facts.push(
+        ["Public author credit", detail.publicationRequest.author],
+        ["Public reviewer credit", detail.publicationRequest.reviewer],
+        ["Publication date", detail.publicationRequest.publishedDate],
+        ["Review date", detail.publicationRequest.reviewDate],
+      );
+  }
+  facts.push(
+    ["Revision state", detail.state.replaceAll("_", " ")],
+    ["Created (UTC)", new Date(detail.createdAt).toISOString()],
+  );
+  const after: [string, string][] = [
+    ["Archive", detail.trashed ? "In archive" : "Active"],
+    ["Retention hold", detail.onHold ? "On hold" : "No hold"],
+    [
+      "Review policy",
+      detail.reviewRequired
+        ? "Independent review required"
+        : "Owner single-person approval available",
+    ],
+  ];
   return (
     <section
-      className={`${s.panel} ${styles.detail}`}
+      className={styles.detailCard}
       aria-labelledby="content-detail-heading"
     >
-      <h2 id="content-detail-heading" ref={headingRef} tabIndex={-1}>
-        {detail.title}
-      </h2>
-      <p>
-        Read-only revision details. An approval here does not make a revision
-        live on learner pages.
-      </p>
-      <dl>
-        <dt>Permanent identity</dt>
-        <dd>{detail.id}</dd>
-        <dt>Family</dt>
-        <dd>{detail.family}</dd>
-        <dt>Learning path</dt>
-        <dd>{detail.path}</dd>
-        <dt>Parent identity</dt>
-        <dd>{detail.parent ?? "No parent"}</dd>
-        <dt>Latest revision</dt>
-        <dd>{detail.revision}</dd>
-        {detail.publicationRequest && (
-          <>
-            <dt>Learner publication</dt>
-            <dd>Requested for this revision</dd>
-            {detail.publicationRequest !== true && (
-              <>
-                <dt>Public author credit</dt>
-                <dd>{detail.publicationRequest.author}</dd>
-                <dt>Public reviewer credit</dt>
-                <dd>{detail.publicationRequest.reviewer}</dd>
-                <dt>Publication date</dt>
-                <dd>{detail.publicationRequest.publishedDate}</dd>
-                <dt>Review date</dt>
-                <dd>{detail.publicationRequest.reviewDate}</dd>
-              </>
-            )}
-          </>
-        )}
-        <dt>Revision state</dt>
-        <dd>{detail.state.replaceAll("_", " ")}</dd>
-        <dt>Created (UTC)</dt>
-        <dd>{new Date(detail.createdAt).toISOString()}</dd>
-        <dt>Fingerprint</dt>
-        <dd>
-          <code>{detail.bodySha256}</code>
-        </dd>
-        <dt>Archive</dt>
-        <dd>{detail.trashed ? "In archive" : "Active"}</dd>
-        <dt>Retention hold</dt>
-        <dd>{detail.onHold ? "On hold" : "No hold"}</dd>
-        <dt>Review policy</dt>
-        <dd>
-          {detail.reviewRequired
-            ? "Independent review required"
-            : "Owner single-person approval available"}
-        </dd>
+      <div className={styles.detailHead}>
+        <div>
+          <p className={styles.eyebrow}>Revision details</p>
+          <h2 id="content-detail-heading" ref={headingRef} tabIndex={-1}>
+            {detail.title}
+          </h2>
+          <p>
+            Read-only revision details. An approval here does not make a
+            revision live on learner pages.
+          </p>
+        </div>
+        <Badge kind={detail.trashed ? "arch" : status(detail.state)}>
+          {detail.trashed ? "Archived" : detail.state.replaceAll("_", " ")}
+        </Badge>
+      </div>
+      <dl className={styles.facts}>
+        {facts.map(([term, value]) => (
+          <div key={term}>
+            <dt>{term}</dt>
+            <dd>{value}</dd>
+          </div>
+        ))}
+        <div className={styles.factWide}>
+          <dt>Fingerprint</dt>
+          <dd>
+            <code>{detail.bodySha256}</code>
+          </dd>
+        </div>
+        {after.map(([term, value]) => (
+          <div key={term}>
+            <dt>{term}</dt>
+            <dd>{value}</dd>
+          </div>
+        ))}
       </dl>
       <h3>Decisions for this exact revision</h3>
       {!detail.decisions.length ? (
         <p>No decision recorded.</p>
       ) : (
-        <ul>
+        <ul className={styles.decisions}>
           {detail.decisions.map((d, i) => (
-            <li key={i}>
-              <strong>{labels[d.kind]}</strong> · {new Date(d.at).toISOString()}
-              {d.kind !== "imported" &&
-                (d.byMe ? " · By you" : " · Recorded actor")}
+            <li key={i} data-kind={d.kind}>
+              <div>
+                <strong>{labels[d.kind]}</strong> ·{" "}
+                {new Date(d.at).toISOString()}
+                {d.kind !== "imported" &&
+                  (d.byMe ? " · By you" : " · Recorded actor")}
+              </div>
               {d.kind === "imported" && (
                 <p>
                   Recorded import provenance; this is not a new human review.
@@ -246,226 +264,267 @@ export function StaffContentWorkspace({
       r.id.includes(query.toLowerCase()),
   );
   return (
-    <div className={styles.workspace} aria-busy={busy}>
-      <Heading eyebrow="Content" title="Library">
-        Browse permitted content and inspect its latest revision. Learner pages
-        change only through live publication, once a content type is switched to
-        the store.
-      </Heading>
-      <StaffLivePublication isOwner={isOwner} canManageDelivery={canMakeLive} />
-      <div className={styles.toolbar}>
-        {canCreateCourse && (
-          <a
-            className={styles.linkButton}
-            href="/admin/staff/content/editor?family=course"
-          >
-            New course
-          </a>
+    <div className={`${styles.workspace} ${styles.library}`} aria-busy={busy}>
+      <div className={styles.libraryHead}>
+        <div className={styles.libraryIntro}>
+          <p className={styles.eyebrow}>Content</p>
+          <h1>Library</h1>
+          <p>
+            Browse permitted content and inspect its latest revision. Learner
+            pages change only through live publication, once a content type is
+            switched to the store.
+          </p>
+        </div>
+        {(canCreateCourse || canEdit || canEditPartners) && (
+          <div className={styles.createActions}>
+            {canCreateCourse && (
+              <a
+                className={styles.createAction}
+                href="/admin/staff/content/editor?family=course"
+              >
+                <Icon name="plus" />
+                New course
+              </a>
+            )}
+            {canEdit && (
+              <a
+                className={styles.createAction}
+                href="/admin/staff/content/editor?family=module"
+              >
+                <Icon name="plus" />
+                New module
+              </a>
+            )}
+            {canEdit && (
+              <a
+                className={styles.createAction}
+                href="/admin/staff/content/lesson"
+              >
+                <Icon name="plus" />
+                New lesson
+              </a>
+            )}
+            {canEditPartners && (
+              <a
+                className={styles.createAction}
+                href="/admin/staff/content/partner"
+              >
+                <Icon name="plus" />
+                New partner
+              </a>
+            )}
+          </div>
         )}
-        {canEdit && (
-          <a
-            className={styles.linkButton}
-            href="/admin/staff/content/editor?family=module"
-          >
-            New module
-          </a>
-        )}
-        {canEdit && (
-          <a className={styles.linkButton} href="/admin/staff/content/lesson">
-            New lesson
-          </a>
-        )}
-        {canEditPartners && (
-          <a className={styles.linkButton} href="/admin/staff/content/partner">
-            New partner
-          </a>
-        )}
-        <label htmlFor="content-family">
-          Content family
-          <select
-            id="content-family"
-            value={family}
-            disabled={busy}
-            onChange={(e) => {
-              setFamily(e.target.value);
-              setDetail(null);
-            }}
-          >
-            <option value="all">All families</option>
-            {[
-              "course",
-              "module",
-              "lesson",
-              "quiz",
-              "analysis",
-              "partner",
-              "link",
-            ].map((f) => (
-              <option key={f} value={f}>
-                {f.charAt(0).toUpperCase() + f.slice(1)}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label htmlFor="content-query">
-          Filter identities on this page
-          <input
-            id="content-query"
-            value={query}
-            disabled={busy}
-            maxLength={200}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              setDetail(null);
-            }}
-            type="search"
-          />
-        </label>
-        <button
-          type="button"
-          className={styles.button}
-          disabled={busy}
-          onClick={() => void load("", [])}
-        >
-          Reload list
-        </button>
       </div>
-      <section className={s.panel} aria-labelledby="content-results-heading">
-        <h2 id="content-results-heading" ref={heading} tabIndex={-1}>
-          Permitted content
-        </h2>
-        <p>
-          {page
-            ? `${rows.length} shown from ${page.rows.length} permitted items on this page. Filters apply to this page only.`
-            : "No current list loaded."}
-        </p>
+      <StaffLivePublication isOwner={isOwner} canManageDelivery={canMakeLive} />
+      <section
+        className={styles.resultsCard}
+        aria-labelledby="content-results-heading"
+      >
+        <div className={styles.resultsHead}>
+          <div className={styles.resultsTitle}>
+            <h2 id="content-results-heading" ref={heading} tabIndex={-1}>
+              Permitted content
+            </h2>
+            <p>
+              {page
+                ? `${rows.length} shown from ${page.rows.length} permitted items on this page. Filters apply to this page only.`
+                : "No current list loaded."}
+            </p>
+          </div>
+          <label htmlFor="content-family">
+            Content family
+            <select
+              id="content-family"
+              value={family}
+              disabled={busy}
+              onChange={(e) => {
+                setFamily(e.target.value);
+                setDetail(null);
+              }}
+            >
+              <option value="all">All families</option>
+              {families.map((f) => (
+                <option key={f} value={f}>
+                  {f.charAt(0).toUpperCase() + f.slice(1)}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label htmlFor="content-query">
+            Filter identities on this page
+            <input
+              id="content-query"
+              value={query}
+              disabled={busy}
+              maxLength={200}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setDetail(null);
+              }}
+              type="search"
+            />
+          </label>
+          <button
+            type="button"
+            className={styles.secondaryButton}
+            disabled={busy}
+            onClick={() => void load("", [])}
+          >
+            <Icon name="refresh" />
+            Reload list
+          </button>
+        </div>
         {!!rows.length && (
-          <DataTable
-            caption="Permitted content identities and latest revision states"
-            cols="minmax(0,2fr) 6rem 6rem 8rem 4rem 7rem"
-            head={["Identity", "Family", "Path", "State", "Revision", "Action"]}
-            rows={rows.map((row) => ({
-              cells: [
-                {
-                  label: "Identity",
-                  node: <span className={styles.identity}>{row.id}</span>,
-                },
-                { label: "Family", node: row.family },
-                { label: "Path", node: row.learning_path ?? "No path" },
-                {
-                  label: "State",
-                  node: (
-                    <Badge kind={row.trashed ? "arch" : status(row.state)}>
-                      {row.trashed
-                        ? "Archived"
-                        : row.state.replaceAll("_", " ")}
-                    </Badge>
-                  ),
-                },
-                { label: "Revision", node: row.latest_revision },
-                {
-                  label: "Action",
-                  node: [
-                    "course",
-                    "module",
-                    "lesson",
-                    "quiz",
-                    "analysis",
-                    "partner",
-                    "link",
-                  ].includes(row.family) ? (
-                    <div>
-                      <button
-                        className={styles.linkButton}
-                        type="button"
-                        disabled={busy}
-                        onClick={() => void inspect(row)}
-                        aria-label={`View latest revision of ${row.id}`}
-                      >
-                        View revision
-                      </button>
-                      {canEdit &&
-                        !row.trashed &&
-                        ["course", "module", "lesson", "quiz"].includes(
-                          row.family,
-                        ) && (
-                          <a
-                            className={styles.linkButton}
-                            aria-label={"Edit draft " + row.id}
-                            href={
-                              (row.family === "lesson"
-                                ? "/admin/staff/content/lesson?id="
-                                : row.family === "quiz"
-                                  ? "/admin/staff/content/quiz?id="
-                                  : "/admin/staff/content/editor?id=") +
-                              encodeURIComponent(row.id)
-                            }
+          <div className={styles.tableWrap}>
+            <table className={styles.table} role="table">
+              <caption>
+                Permitted content identities and latest revision states
+              </caption>
+              <thead role="rowgroup">
+                <tr role="row">
+                  <th role="columnheader" scope="col">
+                    Identity
+                  </th>
+                  <th role="columnheader" scope="col">
+                    Family
+                  </th>
+                  <th role="columnheader" scope="col">
+                    Path
+                  </th>
+                  <th role="columnheader" scope="col">
+                    State
+                  </th>
+                  <th role="columnheader" scope="col">
+                    Revision
+                  </th>
+                  <th role="columnheader" scope="col">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody role="rowgroup">
+                {rows.map((row) => (
+                  <tr
+                    key={row.id}
+                    role="row"
+                    aria-current={detail?.id === row.id ? "true" : undefined}
+                  >
+                    <td role="cell" data-label="Identity">
+                      <span className={styles.identity}>{row.id}</span>
+                    </td>
+                    <td role="cell" data-label="Family">
+                      {row.family}
+                    </td>
+                    <td role="cell" data-label="Path">
+                      {row.learning_path ?? "No path"}
+                    </td>
+                    <td role="cell" data-label="State">
+                      <Badge kind={row.trashed ? "arch" : status(row.state)}>
+                        {row.trashed
+                          ? "Archived"
+                          : row.state.replaceAll("_", " ")}
+                      </Badge>
+                    </td>
+                    <td role="cell" data-label="Revision">
+                      {row.latest_revision}
+                    </td>
+                    <td role="cell" data-label="Action">
+                      {families.includes(row.family) ? (
+                        <div className={styles.rowActions}>
+                          <button
+                            className={styles.rowButton}
+                            type="button"
+                            disabled={busy}
+                            onClick={() => void inspect(row)}
+                            aria-label={`View latest revision of ${row.id}`}
                           >
-                            Edit draft
-                          </a>
-                        )}
-                      {canEdit &&
-                        !row.trashed &&
-                        row.family === "module" &&
-                        (row.learning_path === "forex" ||
-                          row.learning_path === "crypto") && (
-                          <a
-                            className={styles.linkButton}
-                            aria-label={"New quiz in module " + row.id}
-                            href={
-                              "/admin/staff/content/quiz?parent=" +
-                              encodeURIComponent(row.id) +
-                              "&path=" +
-                              row.learning_path
-                            }
-                          >
-                            New quiz
-                          </a>
-                        )}
-                      {(canEdit || canReview) && row.family === "quiz" && (
-                        <a
-                          className={styles.linkButton}
-                          aria-label={"View quiz " + row.id}
-                          href={
-                            "/admin/staff/content/quiz/view?id=" +
-                            encodeURIComponent(row.id)
-                          }
-                        >
-                          View quiz
-                        </a>
+                            View revision
+                          </button>
+                          {canEdit &&
+                            !row.trashed &&
+                            ["course", "module", "lesson", "quiz"].includes(
+                              row.family,
+                            ) && (
+                              <a
+                                className={styles.rowLink}
+                                aria-label={"Edit draft " + row.id}
+                                href={
+                                  (row.family === "lesson"
+                                    ? "/admin/staff/content/lesson?id="
+                                    : row.family === "quiz"
+                                      ? "/admin/staff/content/quiz?id="
+                                      : "/admin/staff/content/editor?id=") +
+                                  encodeURIComponent(row.id)
+                                }
+                              >
+                                Edit draft
+                              </a>
+                            )}
+                          {canEdit &&
+                            !row.trashed &&
+                            row.family === "module" &&
+                            (row.learning_path === "forex" ||
+                              row.learning_path === "crypto") && (
+                              <a
+                                className={styles.rowLink}
+                                aria-label={"New quiz in module " + row.id}
+                                href={
+                                  "/admin/staff/content/quiz?parent=" +
+                                  encodeURIComponent(row.id) +
+                                  "&path=" +
+                                  row.learning_path
+                                }
+                              >
+                                New quiz
+                              </a>
+                            )}
+                          {(canEdit || canReview) && row.family === "quiz" && (
+                            <a
+                              className={styles.rowLink}
+                              aria-label={"View quiz " + row.id}
+                              href={
+                                "/admin/staff/content/quiz/view?id=" +
+                                encodeURIComponent(row.id)
+                              }
+                            >
+                              View quiz
+                            </a>
+                          )}
+                          {canEditPartners &&
+                            !row.trashed &&
+                            ["partner", "link"].includes(row.family) && (
+                              <a
+                                className={styles.rowLink}
+                                aria-label={"Edit draft " + row.id}
+                                href={
+                                  "/admin/staff/content/partner?id=" +
+                                  encodeURIComponent(row.id)
+                                }
+                              >
+                                Edit draft
+                              </a>
+                            )}
+                        </div>
+                      ) : (
+                        <span>Separate editor</span>
                       )}
-                      {canEditPartners &&
-                        !row.trashed &&
-                        ["partner", "link"].includes(row.family) && (
-                          <a
-                            className={styles.linkButton}
-                            aria-label={"Edit draft " + row.id}
-                            href={
-                              "/admin/staff/content/partner?id=" +
-                              encodeURIComponent(row.id)
-                            }
-                          >
-                            Edit draft
-                          </a>
-                        )}
-                    </div>
-                  ) : (
-                    <span>Separate editor</span>
-                  ),
-                },
-              ],
-            }))}
-          />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
         {page && !rows.length && (
-          <p>
+          <p className={styles.empty}>
             No matching items on this page. Change the filter or check another
             page.
           </p>
         )}
-        <div className={styles.pager}>
+        <div className={styles.pagerBar}>
           <button
-            className={styles.button}
+            className={styles.secondaryButton}
             type="button"
             disabled={busy || !trail.length}
             onClick={() =>
@@ -475,7 +534,7 @@ export function StaffContentWorkspace({
             Previous page
           </button>
           <button
-            className={styles.button}
+            className={styles.secondaryButton}
             type="button"
             disabled={busy || !page?.next}
             onClick={() =>
@@ -486,12 +545,14 @@ export function StaffContentWorkspace({
           </button>
         </div>
       </section>
-      <p role="status" aria-live="polite" aria-atomic="true">
-        {busy ? "Checking live staff access and loading content…" : message}
-      </p>
-      <Link className={styles.linkButton} href="/admin/access">
-        Return to staff verification
-      </Link>
+      <div className={styles.libraryFoot}>
+        <p role="status" aria-live="polite" aria-atomic="true">
+          {busy ? "Checking live staff access and loading content…" : message}
+        </p>
+        <Link className={styles.footLink} href="/admin/access">
+          Return to staff verification
+        </Link>
+      </div>
       {detail && (
         <ContentRevisionDetail detail={detail} headingRef={detailHeading} />
       )}

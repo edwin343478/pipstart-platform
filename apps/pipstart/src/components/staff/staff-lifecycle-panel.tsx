@@ -7,7 +7,7 @@ import type {
   LifecycleResult,
 } from "@/lib/content/editorial-lifecycle-contract";
 import type { WorkspaceDetail } from "@/lib/content/editorial-workspace-contract";
-import s from "@/components/admin-preview/admin-preview.module.css";
+import { Icon } from "@/components/admin-preview/icons";
 import workspace from "./staff-content-workspace.module.css";
 import styles from "./staff-revision-history.module.css";
 import panel from "./staff-decision-panel.module.css";
@@ -103,7 +103,13 @@ export function StaffLifecyclePanel({
   const button = (action: LifecycleAction, label: string) => (
     <button
       type="button"
-      className={workspace.button}
+      className={
+        action === "archive"
+          ? workspace.dangerButton
+          : action === "restore"
+            ? workspace.primaryButton
+            : workspace.secondaryButton
+      }
       disabled={busy || blocked}
       onClick={() => void act(action)}
     >
@@ -112,11 +118,16 @@ export function StaffLifecyclePanel({
   );
   return (
     <section
-      className={`${s.panel} ${styles.history}`}
+      className={styles.history}
       aria-labelledby="lifecycle-heading"
       aria-busy={busy}
     >
-      <h2 id="lifecycle-heading">Archive and hold</h2>
+      <h2 id="lifecycle-heading">
+        <span className={styles.headIconMuted}>
+          <Icon name="layers" />
+        </span>
+        Archive and hold
+      </h2>
       <p>
         {detail.trashed
           ? "This item is in the archive. Restoring it creates a new draft revision; earlier approvals are not reinstated."

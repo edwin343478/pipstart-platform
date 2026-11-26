@@ -7,7 +7,7 @@ import type {
   RevisionHistoryResult,
   RevisionSummary,
 } from "@/lib/content/revision-history-contract";
-import s from "@/components/admin-preview/admin-preview.module.css";
+import { Icon } from "@/components/admin-preview/icons";
 import workspace from "./staff-content-workspace.module.css";
 import styles from "./staff-revision-history.module.css";
 type Comparison = Extract<RevisionHistoryResult, { kind: "compare" }>;
@@ -33,7 +33,7 @@ export function RevisionComparisonView({ result }: { result: Comparison }) {
   const { comparison: c, from, to } = result;
   return (
     <section
-      className={`${s.panel} ${styles.comparison}`}
+      className={styles.comparison}
       aria-labelledby="revision-comparison-heading"
     >
       <h3 id="revision-comparison-heading" tabIndex={-1}>
@@ -174,11 +174,14 @@ export function StaffRevisionHistory({
   );
   return (
     <section
-      className={`${s.panel} ${styles.history}`}
+      className={styles.history}
       aria-labelledby="revision-history-heading"
       aria-busy={busy}
     >
       <h2 id="revision-history-heading" ref={heading} tabIndex={-1}>
+        <span className={styles.headIcon}>
+          <Icon name="clock" />
+        </span>
         Revision history
       </h2>
       <p>
@@ -188,7 +191,7 @@ export function StaffRevisionHistory({
       <div className={styles.actions}>
         <button
           type="button"
-          className={workspace.button}
+          className={workspace.secondaryButton}
           disabled={busy}
           onClick={() => void history(null, [])}
         >
@@ -197,7 +200,7 @@ export function StaffRevisionHistory({
         {lastApproved && (
           <button
             type="button"
-            className={workspace.button}
+            className={workspace.secondaryButton}
             disabled={busy}
             onClick={() => void compare(lastApproved.revision)}
           >
@@ -266,7 +269,7 @@ export function StaffRevisionHistory({
                   ) : (
                     <button
                       type="button"
-                      className={workspace.linkButton}
+                      className={workspace.rowLink}
                       disabled={busy}
                       aria-label={`Compare revision ${r.revision} with the latest revision`}
                       onClick={() => void compare(r.revision)}
@@ -283,7 +286,7 @@ export function StaffRevisionHistory({
         <div className={workspace.pager}>
           <button
             type="button"
-            className={workspace.button}
+            className={workspace.secondaryButton}
             disabled={busy || !trail.length}
             onClick={() =>
               void history(trail[trail.length - 1], trail.slice(0, -1))
@@ -293,7 +296,7 @@ export function StaffRevisionHistory({
           </button>
           <button
             type="button"
-            className={workspace.button}
+            className={workspace.secondaryButton}
             disabled={busy || !page.next}
             onClick={() =>
               page.next && void history(page.next, [...trail, before])

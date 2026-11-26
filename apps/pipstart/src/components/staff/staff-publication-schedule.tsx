@@ -281,7 +281,7 @@ export function StaffPublicationSchedule({
       </p>
       <button
         type="button"
-        className={workspace.button}
+        className={workspace.secondaryButton}
         disabled={busy || disabled}
         onClick={() => {
           setStatus(null);
@@ -378,7 +378,7 @@ export function StaffPublicationSchedule({
               <button
                 ref={reviewButton}
                 type="button"
-                className={workspace.button}
+                className={workspace.secondaryButton}
                 disabled={!ready}
                 onClick={review}
               >
@@ -435,7 +435,7 @@ export function StaffPublicationSchedule({
           <div className={styles.buttons}>
             <button
               type="button"
-              className={workspace.button}
+              className={workspace.secondaryButton}
               disabled={held}
               onClick={() => void confirm()}
             >
@@ -445,7 +445,7 @@ export function StaffPublicationSchedule({
             </button>
             <button
               type="button"
-              className={workspace.button}
+              className={workspace.secondaryButton}
               disabled={busy}
               onClick={() => {
                 setPreview(null);
@@ -498,7 +498,7 @@ export function StaffPublicationSchedule({
                   {canPublish && r.state === "scheduled" && (
                     <button
                       type="button"
-                      className={workspace.button}
+                      className={workspace.secondaryButton}
                       disabled={!ready}
                       onClick={() => reviewCancel(r)}
                     >

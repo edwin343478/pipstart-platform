@@ -7,7 +7,7 @@ import type {
   DecisionResult,
 } from "@/lib/content/editorial-decision-contract";
 import type { WorkspaceDetail } from "@/lib/content/editorial-workspace-contract";
-import s from "@/components/admin-preview/admin-preview.module.css";
+import { Icon } from "@/components/admin-preview/icons";
 import workspace from "./staff-content-workspace.module.css";
 import styles from "./staff-revision-history.module.css";
 import panel from "./staff-decision-panel.module.css";
@@ -106,18 +106,25 @@ export function StaffDecisionPanel({
   }
   return (
     <section
-      className={`${s.panel} ${styles.history}`}
+      className={styles.history}
       aria-labelledby="decision-heading"
       aria-busy={busy}
     >
-      <h2 id="decision-heading">Review and publication</h2>
+      <h2 id="decision-heading">
+        <span className={styles.headIcon}>
+          <Icon name="check" />
+        </span>
+        Review and publication
+      </h2>
       <p>
         Decisions apply to revision {detail.revision} exactly. Approval does not
         change learner pages yet: they keep reading the published code until the
         public content cutover.
       </p>
       {detail.trashed && (
-        <p>Archived content cannot be reviewed or published.</p>
+        <p className={styles.warn}>
+          Archived content cannot be reviewed or published.
+        </p>
       )}
       {open && detail.state === "approved" && (
         <p>This revision is approved. Save a new draft to change it.</p>
@@ -135,7 +142,9 @@ export function StaffDecisionPanel({
           <p>You saved this revision, so a different person must review it.</p>
         )}
       {open && detail.reviewRequired && canPublish && (
-        <p>Independent review is required by policy, so Publish is closed.</p>
+        <p className={styles.warn}>
+          Independent review is required by policy, so Publish is closed.
+        </p>
       )}
       {(review || publish) && (
         <label className={panel.note}>
@@ -154,7 +163,7 @@ export function StaffDecisionPanel({
         {submit && (
           <button
             type="button"
-            className={workspace.button}
+            className={workspace.primaryButton}
             disabled={busy || blocked}
             onClick={() => void decide("submit")}
           >
@@ -164,7 +173,7 @@ export function StaffDecisionPanel({
         {review && (
           <button
             type="button"
-            className={workspace.button}
+            className={workspace.primaryButton}
             disabled={busy || blocked}
             onClick={() => void decide("approve")}
           >
@@ -174,7 +183,7 @@ export function StaffDecisionPanel({
         {review && (
           <button
             type="button"
-            className={workspace.button}
+            className={workspace.secondaryButton}
             disabled={busy || blocked}
             onClick={() => void decide("changes")}
           >
@@ -184,7 +193,7 @@ export function StaffDecisionPanel({
         {publish && (
           <button
             type="button"
-            className={workspace.button}
+            className={workspace.primaryButton}
             disabled={busy || blocked}
             onClick={() => void decide("publish")}
           >

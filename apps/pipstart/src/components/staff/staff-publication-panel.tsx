@@ -17,7 +17,7 @@ import {
   type DeliveryInput,
 } from "@/lib/content/publication-delivery-contract";
 import type { WorkspaceDetail } from "@/lib/content/editorial-workspace-contract";
-import s from "@/components/admin-preview/admin-preview.module.css";
+import { Icon } from "@/components/admin-preview/icons";
 import workspace from "./staff-content-workspace.module.css";
 import styles from "./staff-revision-history.module.css";
 import panel from "./staff-decision-panel.module.css";
@@ -229,55 +229,67 @@ export function StaffLivePublication({
   const ready = !p.busy && !p.blocked && p.status !== null;
   return (
     <section
-      className={`${s.panel} ${styles.history}`}
+      className={workspace.liveCard}
       aria-labelledby="live-heading"
       aria-busy={p.busy}
     >
-      <h2 id="live-heading">Live publication</h2>
-      <p>{liveSummary(p.status)}</p>
-      <p>
-        Learner pages change only when a new generation is delivered to the live
-        site. Until a content type is switched to the store, its learner pages
-        keep reading the published code.
-      </p>
-      {g !== null && p.status?.refresh && (
-        <p>Delivery attempts: {p.status.refresh.attempts} of 20.</p>
-      )}
-      {p.status && !p.configured && <p>Delivery is not configured.</p>}
-      {canManageDelivery && g !== null && (
-        <div className={styles.actions}>
-          <button
-            type="button"
-            className={workspace.button}
-            disabled={p.busy}
-            onClick={() => void p.delivery("check")}
-          >
-            Check live site
-          </button>
-          {p.status?.refresh &&
-            ["pending", "failed"].includes(p.status.refresh.state) &&
-            p.status.refresh.attempts < 20 &&
-            p.configured && (
-              <button
-                type="button"
-                className={workspace.button}
-                disabled={p.busy}
-                onClick={() => {
-                  if (
-                    window.confirm(
-                      "Request a new deployment for this generation? A previous unconfirmed request may already have been accepted. This does not repeat publication.",
-                    )
-                  )
-                    void p.delivery("retry");
-                }}
-              >
-                Retry delivery
-              </button>
-            )}
+      <div className={workspace.liveMain}>
+        <div className={workspace.cardHead}>
+          <span className={workspace.iconBadge}>
+            <Icon name="globe" />
+          </span>
+          <h2 id="live-heading">Live publication</h2>
         </div>
-      )}
+        <p className={workspace.liveStatus}>{liveSummary(p.status)}</p>
+        <p>
+          Learner pages change only when a new generation is delivered to the
+          live site. Until a content type is switched to the store, its learner
+          pages keep reading the published code.
+        </p>
+        {g !== null && p.status?.refresh && (
+          <p>Delivery attempts: {p.status.refresh.attempts} of 20.</p>
+        )}
+        {p.status && !p.configured && <p>Delivery is not configured.</p>}
+        {canManageDelivery && g !== null && (
+          <div className={workspace.liveActions}>
+            <button
+              type="button"
+              className={workspace.secondaryButton}
+              disabled={p.busy}
+              onClick={() => void p.delivery("check")}
+            >
+              Check live site
+            </button>
+            {p.status?.refresh &&
+              ["pending", "failed"].includes(p.status.refresh.state) &&
+              p.status.refresh.attempts < 20 &&
+              p.configured && (
+                <button
+                  type="button"
+                  className={workspace.secondaryButton}
+                  disabled={p.busy}
+                  onClick={() => {
+                    if (
+                      window.confirm(
+                        "Request a new deployment for this generation? A previous unconfirmed request may already have been accepted. This does not repeat publication.",
+                      )
+                    )
+                      void p.delivery("retry");
+                  }}
+                >
+                  Retry delivery
+                </button>
+              )}
+          </div>
+        )}
+      </div>
       {isOwner && p.status && (
-        <>
+        <div className={workspace.liveSide}>
+          {g !== null && (
+            <p className={workspace.liveSideTitle}>
+              Restore an earlier generation
+            </p>
+          )}
           <Reason
             label="Reason (1 to 200 characters)"
             value={reason}
@@ -287,7 +299,7 @@ export function StaffLivePublication({
           {g === null ? (
             <button
               type="button"
-              className={workspace.button}
+              className={workspace.primaryButton}
               disabled={!ready}
               onClick={() => {
                 const r = reason.trim();
@@ -310,7 +322,7 @@ export function StaffLivePublication({
               Create the live baseline
             </button>
           ) : (
-            <div className={styles.actions}>
+            <div className={workspace.restoreRow}>
               <label className={panel.note}>
                 Generation to restore
                 <input
@@ -323,7 +335,7 @@ export function StaffLivePublication({
               </label>
               <button
                 type="button"
-                className={workspace.button}
+                className={workspace.primaryButton}
                 disabled={!ready || !from}
                 onClick={() => {
                   const r = reason.trim(),
@@ -358,9 +370,10 @@ export function StaffLivePublication({
               </button>
             </div>
           )}
-        </>
+        </div>
       )}
       <p
+        className={workspace.liveMessage}
         role="status"
         aria-live="polite"
         aria-atomic="true"
@@ -449,12 +462,17 @@ export function StaffItemPublication({
   }
   return (
     <section
-      className={`${s.panel} ${styles.history}`}
+      className={styles.history}
       aria-labelledby="item-live-heading"
       aria-busy={p.busy}
     >
-      <h2 id="item-live-heading">Live publication of this item</h2>
-      <p>
+      <h2 id="item-live-heading">
+        <span className={styles.headIcon}>
+          <Icon name="globe" />
+        </span>
+        Live publication of this item
+      </h2>
+      <p className={styles.statusChip}>
         {p.status === null
           ? "Live status not loaded."
           : g === null
@@ -480,7 +498,7 @@ export function StaffItemPublication({
         {canMakeLive && (
           <button
             type="button"
-            className={workspace.button}
+            className={workspace.primaryButton}
             disabled={!ready}
             onClick={() => act("publish")}
           >
@@ -490,7 +508,7 @@ export function StaffItemPublication({
         {canTakeOffline && (
           <button
             type="button"
-            className={workspace.button}
+            className={workspace.dangerButton}
             disabled={!ready}
             onClick={() => act("withdraw")}
           >

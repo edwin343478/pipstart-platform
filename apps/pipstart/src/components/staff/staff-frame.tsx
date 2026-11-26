@@ -53,7 +53,7 @@ export function StaffFrame({
   maintenance?: boolean;
   paused?: boolean;
   /** Opts a redesigned page into the new shell; the value names that page. */
-  appearance?: "access" | "overview";
+  appearance?: "access" | "overview" | "content";
 }) {
   const redesigned = appearance !== undefined;
   const status = paused
@@ -132,6 +132,7 @@ export function StaffFrame({
                 href="/admin/staff/content"
                 icon="book"
                 prefetch={false}
+                current={appearance === "content"}
               >
                 Content library
               </NavLink>
