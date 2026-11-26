@@ -1696,3 +1696,204 @@
     padding: 1.125rem;
   }
 }
+
+/* Staff audit (redesign step 11), scoped to .auditPage. It reuses the step-10
+   privacy note, results head, table wrap, membership badge and pager. */
+.auditPage {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 65rem;
+  min-width: 0;
+}
+.auditCard {
+  display: grid;
+  gap: 0.875rem;
+  min-width: 0;
+  padding: 1.375rem 1.5rem;
+  border: 1px solid #e7ebee;
+  border-radius: 1.25rem;
+  background: #fff;
+  box-shadow: 0 20px 40px -28px rgba(11, 18, 32, 0.16);
+}
+.auditCard.auditResults {
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+}
+.auditPage .resultsTitle {
+  margin: 0;
+  padding: 0;
+  font-size: 1.125rem;
+  font-weight: 800;
+}
+.auditPage .tableHelp {
+  margin: 0;
+  padding: 0;
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+.auditFilters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem 0.875rem;
+}
+.filterField {
+  display: grid;
+  align-content: start;
+  gap: 0.375rem;
+  min-width: 0;
+}
+.filterField label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+.filterField input,
+.filterField select {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+}
+.filterActions {
+  display: flex;
+  flex-wrap: wrap;
+  grid-column: 1 / -1;
+  align-items: center;
+  gap: 0.875rem;
+  padding-top: 0.25rem;
+}
+.auditPage .filterActions .button {
+  min-height: 44px;
+  padding: 0 1.125rem;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+}
+.filterActions a {
+  color: var(--accent);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.auditTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+.auditTable th {
+  padding: 0.625rem 1rem;
+  background: #f9fafb;
+  color: var(--muted);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-align: left;
+  text-transform: uppercase;
+}
+.auditTable td {
+  padding: 1rem;
+  border-top: 1px solid var(--line);
+  vertical-align: top;
+}
+.auditTable th:first-child,
+.auditTable td:first-child {
+  padding-left: 1.5rem;
+}
+.auditTable th:last-child,
+.auditTable td:last-child {
+  padding-right: 1.5rem;
+}
+.auditTable td[data-label="Time (UTC)"] {
+  width: 9.5rem;
+}
+.auditTable td[data-label="Event"] {
+  width: 10.5rem;
+}
+.auditTime {
+  color: #344054;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.78125rem;
+}
+.auditTable strong {
+  font-size: 0.875rem;
+}
+.eventCell {
+  display: grid;
+  justify-items: start;
+  gap: 0.5rem;
+}
+.detailTiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 7.5rem), 1fr));
+  gap: 0.5rem;
+  margin: 0;
+}
+.detailTiles > div {
+  min-width: 0;
+  padding: 0.5rem 0.625rem;
+  border: 1px solid var(--line);
+  border-radius: 0.625rem;
+  background: var(--bg);
+}
+.detailTiles dt {
+  color: var(--muted);
+  font-size: 0.65625rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.detailTiles dd {
+  margin: 0.1875rem 0 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.auditPage .pagerButtons {
+  flex-wrap: wrap;
+}
+.auditPage .pagerButtons .secondary {
+  min-height: 40px;
+  padding: 0 0.875rem;
+  border-radius: 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+@media (max-width: 767px) {
+  .auditCard {
+    padding: 1.125rem;
+  }
+  .auditFilters {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .auditTable thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+  }
+  .auditTable,
+  .auditTable tbody,
+  .auditTable tr,
+  .auditTable td {
+    display: block;
+  }
+  .auditTable tr {
+    padding: 0.875rem 1.125rem;
+    border-top: 1px solid var(--line);
+  }
+  .auditTable td[data-label],
+  .auditTable td:first-child,
+  .auditTable td:last-child {
+    width: auto;
+    padding: 0.25rem 0;
+    border: 0;
+  }
+}
+@media (min-width: 768px) and (max-width: 1100px) {
+  .auditFilters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

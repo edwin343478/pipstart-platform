@@ -74,6 +74,7 @@ export default async function StaffAuditPage({
   }
   return (
     <StaffFrame
+      appearance="audit"
       verified
       maintenance={canOpenMaintenance(gate.access)}
       content={canOpenContentWorkspace(gate.access)}

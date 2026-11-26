@@ -53,7 +53,8 @@ export function StaffFrame({
   maintenance?: boolean;
   paused?: boolean;
   /** Opts a redesigned page into the new shell; the value names that page. */
-  appearance?: "access" | "overview" | "content" | "maintenance" | "people";
+  appearance?:
+    "access" | "overview" | "content" | "maintenance" | "people" | "audit";
 }) {
   const redesigned = appearance !== undefined;
   const status = paused
@@ -164,6 +165,7 @@ export function StaffFrame({
                 href="/admin/staff/audit"
                 icon="clock"
                 prefetch={false}
+                current={appearance === "audit"}
               >
                 Staff audit
               </NavLink>

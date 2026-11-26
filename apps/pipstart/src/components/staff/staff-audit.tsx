@@ -1,8 +1,4 @@
-import {
-  Heading,
-  DataTable,
-  Badge,
-} from "@/components/admin-preview/primitives";
+import { Icon } from "@/components/admin-preview/icons";
 import {
   auditLabels,
   contentAuditLabels,
@@ -43,7 +39,7 @@ function Filters({ query }: { query: AuditQuery | null }) {
   const source = query?.source ?? "staff";
   const labels = source === "staff" ? auditLabels : contentAuditLabels;
   return (
-    <section className={s.panel} aria-labelledby="staff-audit-filters">
+    <section className={styles.auditCard} aria-labelledby="staff-audit-filters">
       <h2 id="staff-audit-filters" className={styles.resultsTitle}>
         Filters
       </h2>
@@ -51,63 +47,77 @@ function Filters({ query }: { query: AuditQuery | null }) {
       <form
         action="/admin/staff/audit"
         method="get"
-        className={styles.peopleToolbar}
+        className={styles.auditFilters}
       >
-        <label htmlFor="audit-source">Records</label>
-        <select id="audit-source" name="source" defaultValue={source}>
-          <option value="staff">Staff access changes</option>
-          <option value="content">Content and maintenance changes</option>
-        </select>
-        <label htmlFor="audit-operation">Action</label>
-        <select
-          id="audit-operation"
-          name="operation"
-          defaultValue={query?.operation ?? ""}
-        >
-          <option value="">Any</option>
-          {Object.entries(labels).map(([value, label]) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </select>
-        <label htmlFor="audit-actor">Actor (staff ID)</label>
-        <input
-          id="audit-actor"
-          name="actor"
-          defaultValue={query?.actor ?? ""}
-          maxLength={36}
-        />
-        <label htmlFor="audit-item">
-          {source === "staff" ? "Resource" : "Item"}
-        </label>
-        <input
-          id="audit-item"
-          name="item"
-          defaultValue={query?.item ?? ""}
-          maxLength={200}
-        />
-        <label htmlFor="audit-from">From (UTC day)</label>
-        <input
-          id="audit-from"
-          name="from"
-          type="date"
-          defaultValue={query?.from ?? ""}
-        />
-        <label htmlFor="audit-to">To (UTC day, included)</label>
-        <input
-          id="audit-to"
-          name="to"
-          type="date"
-          defaultValue={query?.to ?? ""}
-        />
-        <button className={styles.secondary} type="submit">
-          Apply filters
-        </button>
+        <div className={styles.filterField}>
+          <label htmlFor="audit-source">Records</label>
+          <select id="audit-source" name="source" defaultValue={source}>
+            <option value="staff">Staff access changes</option>
+            <option value="content">Content and maintenance changes</option>
+          </select>
+        </div>
+        <div className={styles.filterField}>
+          <label htmlFor="audit-operation">Action</label>
+          <select
+            id="audit-operation"
+            name="operation"
+            defaultValue={query?.operation ?? ""}
+          >
+            <option value="">Any</option>
+            {Object.entries(labels).map(([value, label]) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className={styles.filterField}>
+          <label htmlFor="audit-actor">Actor (staff ID)</label>
+          <input
+            id="audit-actor"
+            name="actor"
+            defaultValue={query?.actor ?? ""}
+            maxLength={36}
+          />
+        </div>
+        <div className={styles.filterField}>
+          <label htmlFor="audit-item">
+            {source === "staff" ? "Resource" : "Item"}
+          </label>
+          <input
+            id="audit-item"
+            name="item"
+            defaultValue={query?.item ?? ""}
+            maxLength={200}
+          />
+        </div>
+        <div className={styles.filterField}>
+          <label htmlFor="audit-from">From (UTC day)</label>
+          <input
+            id="audit-from"
+            name="from"
+            type="date"
+            defaultValue={query?.from ?? ""}
+          />
+        </div>
+        <div className={styles.filterField}>
+          <label htmlFor="audit-to">To (UTC day, included)</label>
+          <input
+            id="audit-to"
+            name="to"
+            type="date"
+            defaultValue={query?.to ?? ""}
+          />
+        </div>
+        <div className={styles.filterActions}>
+          <button className={styles.button} type="submit">
+            Apply filters
+          </button>
+          <a href="/admin/staff/audit">Clear filters</a>
+        </div>
       </form>
       <p className={styles.tableHelp}>
-        Changing the records type lists its own actions after you apply.{" "}
-        <a href="/admin/staff/audit">Clear filters</a>
+        Changing the records type lists its own actions after you apply.
       </p>
     </section>
   );
@@ -130,162 +140,197 @@ export function StaffAudit({
   const current = content ? contentPage : page;
   const next = current?.next ?? null;
   return (
-    <>
-      <Heading eyebrow="Governance" title="Staff audit">
-        Recorded staff access, content and maintenance changes.
-      </Heading>
-      <p className={`${s.alert} ${styles.notice}`}>
-        {content
-          ? "This view shows recorded content, publication, partner and maintenance changes. Reasons and other free text are not shown here. It does not show failed attempts."
-          : "This view shows recorded staff governance events only. Staff membership suspension does not confirm that an Auth account was suspended. It does not show failed attempts or a complete security history."}
+    <div className={styles.auditPage}>
+      <div className={styles.intro}>
+        <p className={styles.eyebrow}>Governance</p>
+        <h1>Staff audit</h1>
+        <p className={styles.lead}>
+          Recorded staff access, content and maintenance changes.
+        </p>
+      </div>
+      <p className={styles.privacyNote}>
+        <span className={styles.privacyIcon} aria-hidden="true">
+          <Icon name="info" />
+        </span>
+        <span>
+          {content
+            ? "This view shows recorded content, publication, partner and maintenance changes. Reasons and other free text are not shown here. It does not show failed attempts."
+            : "This view shows recorded staff governance events only. Staff membership suspension does not confirm that an Auth account was suspended. It does not show failed attempts or a complete security history."}
+        </span>
       </p>
       <Filters query={query} />
-      <section className={s.panel} aria-labelledby="staff-audit-results">
-        <h2 id="staff-audit-results" className={styles.resultsTitle}>
-          Recorded events
-        </h2>
-        <p className={styles.tableHelp} role="status">
-          {invalid
-            ? "This page link or filter is invalid. Return to the newest events."
-            : !current
-              ? "The audit view is unavailable. Reload this page to try again."
-              : current.items.length
-                ? "Newest first. Times are shown in UTC."
-                : paginated
-                  ? "No older events found."
-                  : content
-                    ? "No recorded content or maintenance events match."
-                    : "No recorded staff events."}
-        </p>
+      <section
+        className={`${styles.auditCard} ${styles.auditResults}`}
+        aria-labelledby="staff-audit-results"
+      >
+        <div className={styles.resultsHead}>
+          <h2 id="staff-audit-results" className={styles.resultsTitle}>
+            Recorded events
+          </h2>
+          <p className={styles.tableHelp} role="status">
+            {invalid
+              ? "This page link or filter is invalid. Return to the newest events."
+              : !current
+                ? "The audit view is unavailable. Reload this page to try again."
+                : current.items.length
+                  ? "Newest first. Times are shown in UTC."
+                  : paginated
+                    ? "No older events found."
+                    : content
+                      ? "No recorded content or maintenance events match."
+                      : "No recorded staff events."}
+          </p>
+        </div>
         {!content && page && page.items.length > 0 && (
-          <DataTable
-            caption="Staff governance audit events"
-            cols="minmax(0,1fr) minmax(0,1.2fr) minmax(0,2fr)"
-            head={["Time (UTC)", "Event", "Recorded details"]}
-            rows={page.items.map((event) => ({
-              cells: [
-                {
-                  label: "Time (UTC)",
-                  node: (
-                    <time
-                      className={styles.identifier}
-                      dateTime={event.created_at}
-                    >
-                      {utc(event.created_at)}
-                    </time>
-                  ),
-                },
-                {
-                  label: "Event",
-                  node: (
-                    <>
-                      <strong>{auditLabels[event.operation]}</strong>
-                      <p>
-                        <Badge
-                          kind={event.outcome === "changed" ? "ok" : "draft"}
+          <div className={styles.peopleTableWrap}>
+            <table className={styles.auditTable}>
+              <caption className={s.srOnly}>
+                Staff governance audit events
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Time (UTC)</th>
+                  <th scope="col">Event</th>
+                  <th scope="col">Recorded details</th>
+                </tr>
+              </thead>
+              <tbody>
+                {page.items.map((event) => (
+                  <tr key={event.id}>
+                    <td data-label="Time (UTC)">
+                      <time
+                        className={`${styles.identifier} ${styles.auditTime}`}
+                        dateTime={event.created_at}
+                      >
+                        {utc(event.created_at)}
+                      </time>
+                    </td>
+                    <td data-label="Event">
+                      <div className={styles.eventCell}>
+                        <strong>{auditLabels[event.operation]}</strong>
+                        <span
+                          className={styles.memberBadge}
+                          data-state={
+                            event.outcome === "changed" ? "active" : "none"
+                          }
                         >
                           {event.outcome === "changed"
                             ? "Changed"
                             : "No change"}
-                        </Badge>
-                      </p>
-                    </>
-                  ),
-                },
-                {
-                  label: "Recorded details",
-                  node: (
-                    <dl className={styles.summary}>
-                      <dt>Actor</dt>
-                      <dd>{event.actor_id || "Database operator"}</dd>
-                      <dt>Target</dt>
-                      <dd>{event.target_id || "Staff access control"}</dd>
-                      {event.value && (
-                        <>
-                          <dt>Value</dt>
-                          <dd>{event.value.replaceAll("_", " ")}</dd>
-                        </>
-                      )}
-                      {event.resource_kind && (
-                        <>
-                          <dt>Resource</dt>
-                          <dd>
-                            {event.resource_kind}: {event.resource_id}
-                          </dd>
-                        </>
-                      )}
-                      <dt>Reason</dt>
-                      <dd>{event.reason_code.replaceAll("_", " ")}</dd>
-                      <dt>Request</dt>
-                      <dd>{event.request_id}</dd>
-                      <dt>Record</dt>
-                      <dd>{event.id}</dd>
-                    </dl>
-                  ),
-                },
-              ],
-            }))}
-          />
+                        </span>
+                      </div>
+                    </td>
+                    <td data-label="Recorded details">
+                      <dl className={styles.detailTiles}>
+                        <div>
+                          <dt>Actor</dt>
+                          <dd>{event.actor_id || "Database operator"}</dd>
+                        </div>
+                        <div>
+                          <dt>Target</dt>
+                          <dd>{event.target_id || "Staff access control"}</dd>
+                        </div>
+                        {event.value && (
+                          <div>
+                            <dt>Value</dt>
+                            <dd>{event.value.replaceAll("_", " ")}</dd>
+                          </div>
+                        )}
+                        {event.resource_kind && (
+                          <div>
+                            <dt>Resource</dt>
+                            <dd>
+                              {event.resource_kind}: {event.resource_id}
+                            </dd>
+                          </div>
+                        )}
+                        <div>
+                          <dt>Reason</dt>
+                          <dd>{event.reason_code.replaceAll("_", " ")}</dd>
+                        </div>
+                        <div>
+                          <dt>Request</dt>
+                          <dd>{event.request_id}</dd>
+                        </div>
+                        <div>
+                          <dt>Record</dt>
+                          <dd>{event.id}</dd>
+                        </div>
+                      </dl>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
         {content && contentPage && contentPage.items.length > 0 && (
-          <DataTable
-            caption="Content and maintenance audit events"
-            cols="minmax(0,1fr) minmax(0,1.2fr) minmax(0,2fr)"
-            head={["Time (UTC)", "Event", "Recorded details"]}
-            rows={contentPage.items.map((event) => ({
-              cells: [
-                {
-                  label: "Time (UTC)",
-                  node: (
-                    <time
-                      className={styles.identifier}
-                      dateTime={event.created_at}
-                    >
-                      {utc(event.created_at)}
-                    </time>
-                  ),
-                },
-                {
-                  label: "Event",
-                  node: (
-                    <strong>
-                      {contentAuditLabels[event.operation]}
-                      {event.action
-                        ? `: ${maintenanceActionLabels[event.action]}`
-                        : ""}
-                    </strong>
-                  ),
-                },
-                {
-                  label: "Recorded details",
-                  node: (
-                    <dl className={styles.summary}>
-                      <dt>Actor</dt>
-                      <dd>{event.actor_id}</dd>
-                      <dt>Item</dt>
-                      <dd>{event.item_id ?? "Site-wide policy"}</dd>
-                      {event.revision_no !== null && (
-                        <>
-                          <dt>Revision</dt>
-                          <dd>{event.revision_no}</dd>
-                        </>
-                      )}
-                      <dt>Record</dt>
-                      <dd>{event.id}</dd>
-                    </dl>
-                  ),
-                },
-              ],
-            }))}
-          />
+          <div className={styles.peopleTableWrap}>
+            <table className={styles.auditTable}>
+              <caption className={s.srOnly}>
+                Content and maintenance audit events
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Time (UTC)</th>
+                  <th scope="col">Event</th>
+                  <th scope="col">Recorded details</th>
+                </tr>
+              </thead>
+              <tbody>
+                {contentPage.items.map((event) => (
+                  <tr key={event.id}>
+                    <td data-label="Time (UTC)">
+                      <time
+                        className={`${styles.identifier} ${styles.auditTime}`}
+                        dateTime={event.created_at}
+                      >
+                        {utc(event.created_at)}
+                      </time>
+                    </td>
+                    <td data-label="Event">
+                      <strong>
+                        {contentAuditLabels[event.operation]}
+                        {event.action
+                          ? `: ${maintenanceActionLabels[event.action]}`
+                          : ""}
+                      </strong>
+                    </td>
+                    <td data-label="Recorded details">
+                      <dl className={styles.detailTiles}>
+                        <div>
+                          <dt>Actor</dt>
+                          <dd>{event.actor_id}</dd>
+                        </div>
+                        <div>
+                          <dt>Item</dt>
+                          <dd>{event.item_id ?? "Site-wide policy"}</dd>
+                        </div>
+                        {event.revision_no !== null && (
+                          <div>
+                            <dt>Revision</dt>
+                            <dd>{event.revision_no}</dd>
+                          </div>
+                        )}
+                        <div>
+                          <dt>Record</dt>
+                          <dd>{event.id}</dd>
+                        </div>
+                      </dl>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
-        <nav className={s.pager} aria-label="Audit pagination">
+        <nav className={styles.peoplePager} aria-label="Audit pagination">
           <span>
             {current
               ? `${current.items.length} ${current.items.length === 1 ? "event" : "events"} on this page`
               : "No current page"}
           </span>
-          <div className={s.row}>
+          <div className={styles.pagerButtons}>
             {/* Native GET navigation deliberately performs a fresh server gate and
               avoids restoring a previously cached client-router audit page. */}
             <form action="/admin/staff/audit" method="get">
@@ -307,6 +352,6 @@ export function StaffAudit({
           </div>
         </nav>
       </section>
-    </>
+    </div>
   );
 }
