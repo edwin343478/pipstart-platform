@@ -189,3 +189,502 @@
     width: 100%;
   }
 }
+
+/* Quiz editor redesign (admin step 06). Scoped to .editor.redesign, and field
+   rules to its form card, so the quiz view and the sandbox preview (which share
+   this module) keep their current look. */
+.editor.redesign {
+  gap: 1.25rem;
+  max-width: 61.25rem;
+}
+.editor.redesign .head {
+  display: grid;
+  gap: 1rem;
+}
+.editor.redesign .back {
+  justify-self: start;
+  color: var(--accent);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.editor.redesign .back::before {
+  content: "‹ ";
+}
+.editor.redesign .back:hover {
+  text-decoration: underline;
+}
+.editor.redesign .headText {
+  display: grid;
+  gap: 0.5rem;
+}
+.editor.redesign .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  margin: 0;
+  color: var(--accent);
+  font-size: 0.71875rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.editor.redesign .eyebrow::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--bright);
+}
+.editor.redesign .headText h1 {
+  margin: 0;
+  font-size: clamp(1.75rem, 4vw, 2.375rem);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+}
+.editor.redesign .headText p:not(.eyebrow) {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+.editor.redesign .headAction {
+  margin: 0;
+}
+.editor.redesign .headAction a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: #fff;
+  color: var(--ink);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.editor.redesign .notice {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.5rem 0.875rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--slate);
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.editor.redesign .notice::before {
+  content: "";
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #98a2b3;
+}
+.editor.redesign .notice[data-state="unsaved"] {
+  border-color: var(--warn-bd);
+  background: var(--warn-bg);
+  color: var(--warn);
+}
+.editor.redesign .notice[data-state="unsaved"]::before {
+  background: #d97706;
+}
+.editor.redesign .notice[data-state="message"] {
+  border-color: #99f6e4;
+  background: #f0fdfa;
+  color: var(--accent-h);
+}
+.editor.redesign .notice[data-state="message"]::before {
+  background: var(--bright);
+}
+.editor.redesign .formCard {
+  padding: 0;
+  border: 1px solid #e7ebee;
+  border-radius: 1.25rem;
+  background: #fff;
+  box-shadow: 0 20px 40px -28px rgba(11, 18, 32, 0.16);
+  overflow: hidden;
+}
+.editor.redesign .formCard > fieldset {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 1.5rem 1.75rem;
+}
+.editor.redesign .formCard legend {
+  margin: 0;
+  padding: 0;
+  font-size: 1.0625rem;
+  font-weight: 800;
+}
+.editor.redesign .formCard > fieldset > legend {
+  float: left;
+  width: 100%;
+}
+.editor.redesign .formCard .partTitle {
+  margin: 0.5rem 0 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+  font-size: 1.0625rem;
+  font-weight: 800;
+}
+.editor.redesign .formCard > fieldset > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+.editor.redesign .formCard .version {
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: var(--bg);
+  color: var(--slate);
+  font-size: 0.8125rem;
+  line-height: 1.55;
+}
+.editor.redesign .formCard .grid {
+  gap: 1rem 1.25rem;
+  margin: 0;
+}
+.editor.redesign .formCard .settings {
+  grid-template-columns: minmax(0, 2fr) repeat(2, minmax(0, 1fr));
+}
+.editor.redesign .formCard label {
+  gap: 0.375rem;
+  color: var(--ink);
+  font-size: 0.875rem;
+}
+.editor.redesign .formCard input,
+.editor.redesign .formCard select,
+.editor.redesign .formCard textarea {
+  min-height: 46px;
+  padding: 0.625rem 0.75rem;
+  border-color: var(--border);
+  border-radius: 0.75rem;
+}
+.editor.redesign .formCard input[type="checkbox"],
+.editor.redesign .formCard input[type="radio"] {
+  width: 1.125rem;
+  min-height: 1.125rem;
+  padding: 0;
+  accent-color: var(--accent);
+}
+.editor.redesign .identityTiles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-flow: row dense;
+  gap: 0.625rem;
+  margin: 0;
+}
+.editor.redesign .identityTiles > div {
+  min-width: 0;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: var(--bg);
+}
+.editor.redesign .identityTiles .tileWide {
+  grid-column: span 2;
+}
+.editor.redesign .identityTiles .tileNext {
+  border-color: #99f6e4;
+  background: #f0fdfa;
+  color: var(--accent-h);
+}
+.editor.redesign .identityTiles dt {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.editor.redesign .identityTiles .tileNext dt {
+  color: var(--accent-h);
+}
+.editor.redesign .identityTiles dd {
+  margin: 0.25rem 0 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.editor.redesign .mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.8125rem;
+}
+/* Questions */
+.editor.redesign .formCard .questions {
+  gap: 0.625rem;
+  margin: 0;
+}
+.editor.redesign .formCard .questionCard {
+  padding: 0 !important;
+  border: 1px solid #e7ebee !important;
+  border-radius: 0.875rem;
+  background: #fff;
+}
+.editor.redesign .formCard .questionCard[open] {
+  border-color: var(--bright) !important;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.12);
+}
+.editor.redesign .formCard .questionCard > summary {
+  display: flex;
+  align-items: center;
+  min-height: 52px;
+  padding: 0 1rem;
+  font-size: 0.875rem;
+}
+.editor.redesign .formCard .questionCard[open] > summary {
+  border-bottom: 1px solid var(--line);
+}
+.editor.redesign .formCard .questionCard > .questionFields,
+.editor.redesign .formCard .questionCard > .actions {
+  margin: 1rem;
+}
+.editor.redesign .formCard .questionCard > .actions {
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line);
+}
+.editor.redesign .formCard .questionFields > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+.editor.redesign .formCard .questionFields > fieldset {
+  display: grid;
+  gap: 0.625rem;
+  margin: 0;
+  padding: 0.875rem 1rem;
+  border: 1px solid #e7ebee;
+  border-radius: 0.875rem;
+  background: var(--bg);
+}
+.editor.redesign .formCard .questionFields > fieldset > legend {
+  padding: 0 0.375rem;
+  font-size: 0.875rem;
+}
+.editor.redesign .formCard .choiceRow {
+  grid-template-columns: 11rem minmax(0, 1fr) auto;
+  gap: 0.625rem;
+  margin: 0;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid #e7ebee;
+  border-radius: 0.75rem;
+  background: #fff;
+}
+.editor.redesign .formCard .choiceRow[data-correct="true"] {
+  border-color: #99f6e4;
+  background: #f0fdfa;
+}
+.editor.redesign .formCard .choiceRow[data-correct="true"] .choice {
+  color: var(--accent-h);
+  font-weight: 700;
+}
+.editor.redesign .formCard .choice {
+  font-size: 0.8125rem;
+}
+/* Buttons in the form card */
+.editor.redesign .formCard button {
+  min-height: 46px;
+  padding: 0 1.375rem;
+  border-color: var(--accent);
+  border-radius: 0.75rem;
+  background: var(--accent);
+  font-weight: 700;
+}
+.editor.redesign .formCard button:hover:not(:disabled) {
+  background: var(--accent-h);
+}
+.editor.redesign .formCard .questionCard .actions button,
+.editor.redesign .formCard .choiceRow button,
+.editor.redesign .formCard .addButton {
+  min-height: 40px;
+  padding: 0 0.75rem;
+  border-color: var(--border);
+  border-radius: 0.625rem;
+  background: #fff;
+  color: var(--ink);
+  font-size: 0.8125rem;
+}
+.editor.redesign .formCard .questionCard .actions button:hover:not(:disabled),
+.editor.redesign .formCard .choiceRow button:hover:not(:disabled) {
+  border-color: var(--bright);
+  background: #fff;
+  color: var(--accent);
+}
+.editor.redesign .formCard .addButton {
+  justify-self: start;
+  border-style: dashed;
+  border-color: var(--bright);
+  background: #f0fdfa;
+  color: var(--accent);
+}
+.editor.redesign .formCard .addButton:hover:not(:disabled) {
+  background: #ccfbf1;
+}
+.editor.redesign button.danger,
+.editor.redesign .formCard button.danger,
+.editor.redesign .formCard .questionCard .actions button.danger,
+.editor.redesign .formCard .choiceRow button.danger {
+  border-style: solid;
+  border-color: var(--danger-bd);
+  background: #fff;
+  color: var(--danger);
+}
+.editor.redesign button.danger:hover:not(:disabled),
+.editor.redesign
+  .formCard
+  .questionCard
+  .actions
+  button.danger:hover:not(:disabled),
+.editor.redesign .formCard .choiceRow button.danger:hover:not(:disabled) {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+.editor.redesign .formCard .addRow {
+  gap: 0.625rem;
+  margin: 0;
+}
+.editor.redesign .formCard .addRow .addButton {
+  min-height: 46px;
+  font-size: 0.875rem;
+}
+.editor.redesign .formCard .publication {
+  display: grid;
+  gap: 0.625rem;
+  margin: 0;
+  padding: 1rem 1.125rem;
+  border: 1px solid #e7ebee;
+  border-radius: 1rem;
+}
+.editor.redesign .formCard .publication > legend {
+  padding: 0 0.375rem;
+  font-size: 0.9375rem;
+}
+.editor.redesign .formCard .publication > label:first-of-type {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+.editor.redesign .formCard .publication > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+.editor.redesign .formCard .reason {
+  margin: 0;
+  padding: 0.875rem 1rem;
+  border: 1px solid #99f6e4;
+  border-radius: 0.875rem;
+  background: #f0fdfa;
+  font-weight: 700;
+}
+.editor.redesign .formCard .reason input {
+  border-color: #99f6e4;
+}
+.editor.redesign .formCard .problems {
+  margin: 0 1.75rem 1.25rem;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--danger-bd);
+  border-radius: 0.875rem;
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+.editor.redesign .formCard .problems h2 {
+  margin: 0 0 0.375rem;
+  font-size: 0.9375rem;
+  font-weight: 800;
+  color: var(--danger);
+}
+.editor.redesign .formCard .problems ul {
+  margin: 0;
+  padding-left: 1.125rem;
+  font-size: 0.875rem;
+}
+.editor.redesign .formCard .footer {
+  gap: 0.625rem;
+  margin: 0;
+  padding: 1rem 1.75rem;
+  border-top: 1px solid var(--line);
+  background: var(--bg);
+}
+.editor.redesign .formCard button.secondary,
+.editor.redesign .formCard button.toggle {
+  border-color: var(--border);
+  background: #fff;
+  color: var(--ink);
+}
+.editor.redesign .formCard button.secondary:hover:not(:disabled),
+.editor.redesign .formCard button.toggle:hover:not(:disabled) {
+  border-color: var(--bright);
+  background: #fff;
+  color: var(--accent);
+}
+.editor.redesign .formCard button.toggle[aria-expanded="true"] {
+  border-color: var(--accent);
+  background: #f0fdfa;
+  color: var(--accent);
+}
+/* Comparison, preview frame and revision line */
+.editor.redesign .compareCard {
+  display: grid;
+  gap: 0.875rem;
+  padding: 1.5rem 1.75rem;
+  border: 1px solid #e7ebee;
+  border-radius: 1.25rem;
+  background: #fff;
+}
+.editor.redesign .compareCard > h2 {
+  margin: 0;
+  font-size: 1.1875rem;
+  font-weight: 800;
+}
+.editor.redesign .compareCard > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+.editor.redesign .compareCard > button.danger {
+  justify-self: start;
+  min-height: 44px;
+  padding: 0 1rem;
+  border-radius: 0.75rem;
+  font-weight: 700;
+}
+.editor.redesign .previewCard {
+  padding: 1.5rem 1.75rem;
+  border: 1px solid #e7ebee;
+  border-radius: 1.25rem;
+  background: #fff;
+}
+.editor.redesign .revision {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+@media (max-width: 767px) {
+  .editor.redesign .formCard > fieldset,
+  .editor.redesign .compareCard,
+  .editor.redesign .previewCard {
+    padding: 1.25rem;
+  }
+  .editor.redesign .formCard .footer {
+    padding: 1rem 1.25rem;
+  }
+  .editor.redesign .formCard .problems {
+    margin: 0 1.25rem 1rem;
+  }
+  .editor.redesign .identityTiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .editor.redesign .formCard .settings,
+  .editor.redesign .formCard .choiceRow {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

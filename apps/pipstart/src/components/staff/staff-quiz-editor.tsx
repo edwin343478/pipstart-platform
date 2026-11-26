@@ -178,18 +178,22 @@ export function StaffQuizEditor({
   }
   const base = state.base;
   return (
-    <div className={styles.editor}>
-      <header>
-        <p className={s.eyebrow}>Content · Quiz draft</p>
-        <h1>{creation ? "New quiz" : "Edit quiz"}</h1>
-        <p>
-          Save a private draft. Saving does not approve, publish or change the
-          quiz learners take.
-        </p>
-        <a href="/admin/staff/content">Back to content library</a>
+    <div className={`${styles.editor} ${styles.redesign}`}>
+      <header className={styles.head}>
+        <a className={styles.back} href="/admin/staff/content">
+          Back to content library
+        </a>
+        <div className={styles.headText}>
+          <p className={styles.eyebrow}>Content · Quiz draft</p>
+          <h1>{creation ? "New quiz" : "Edit quiz"}</h1>
+          <p>
+            Save a private draft. Saving does not approve, publish or change the
+            quiz learners take.
+          </p>
+        </div>
       </header>
       {creation && state.phase === "saved" && state.base.id && (
-        <p>
+        <p className={styles.headAction}>
           <a
             href={
               "/admin/staff/content/quiz?id=" +
@@ -202,6 +206,7 @@ export function StaffQuizEditor({
       )}
       <p
         className={styles.notice}
+        data-state={state.message ? "message" : dirty ? "unsaved" : "clean"}
         ref={status}
         tabIndex={-1}
         role="status"
@@ -211,7 +216,7 @@ export function StaffQuizEditor({
         {state.message || (dirty ? "Unsaved changes." : "No unsaved changes.")}
       </p>
       <form
-        className={s.panel}
+        className={`${s.panel} ${styles.formCard}`}
         aria-label="Quiz draft"
         aria-busy={!hydrated || state.phase === "busy" || loading}
         onSubmit={(e) => void save(e)}
@@ -247,19 +252,33 @@ export function StaffQuizEditor({
               Like a new lesson, it starts as a draft that learners do not see.
             </p>
           )}
-          <dl>
-            <dt>Identity</dt>
-            <dd>{creating ? identity || "Not chosen yet" : base.id}</dd>
-            <dt>Learning path</dt>
-            <dd>{base.path}</dd>
-            <dt>Scope</dt>
-            <dd>{base.scope}</dd>
-            <dt>Parent</dt>
-            <dd>{base.parent}</dd>
-            <dt>Base revision</dt>
-            <dd>{base.revision}</dd>
-            <dt>Version on save</dt>
-            <dd>{base.nextVersion}</dd>
+          <dl className={styles.identityTiles}>
+            <div className={styles.tileWide}>
+              <dt>Identity</dt>
+              <dd className={styles.mono}>
+                {creating ? identity || "Not chosen yet" : base.id}
+              </dd>
+            </div>
+            <div>
+              <dt>Learning path</dt>
+              <dd>{base.path}</dd>
+            </div>
+            <div>
+              <dt>Scope</dt>
+              <dd>{base.scope}</dd>
+            </div>
+            <div className={styles.tileWide}>
+              <dt>Parent</dt>
+              <dd className={styles.mono}>{base.parent}</dd>
+            </div>
+            <div>
+              <dt>Base revision</dt>
+              <dd>{base.revision}</dd>
+            </div>
+            <div className={styles.tileNext}>
+              <dt>Version on save</dt>
+              <dd>{base.nextVersion}</dd>
+            </div>
           </dl>
           <p className={styles.version} hidden={creating}>
             {base.approved
@@ -267,7 +286,7 @@ export function StaffQuizEditor({
               : `This draft is version ${base.version}, which is not approved yet. Saving keeps version ${base.nextVersion}.`}{" "}
             The version is set by the server; it cannot be typed.
           </p>
-          <div className={styles.grid}>
+          <div className={`${styles.grid} ${styles.settings}`}>
             <label>
               Title
               <input
@@ -312,7 +331,7 @@ export function StaffQuizEditor({
               />
             </label>
           </div>
-          <h2>Questions</h2>
+          <h2 className={styles.partTitle}>Questions</h2>
           <p>
             Each question needs a prompt, an explanation shown after submission,
             2 to 10 choices and an answer key. Explanations and answer keys stay
@@ -321,7 +340,10 @@ export function StaffQuizEditor({
           <ol className={styles.questions}>
             {state.questions.map((q, n) => (
               <li key={n}>
-                <details open={q.sourceIndex === null}>
+                <details
+                  className={styles.questionCard}
+                  open={q.sourceIndex === null}
+                >
                   <summary>
                     Question {n + 1}: {q.prompt.trim() || "Untitled question"} ·{" "}
                     {typeLabels[q.type]}
@@ -348,6 +370,7 @@ export function StaffQuizEditor({
                     ))}
                     <button
                       type="button"
+                      className={styles.danger}
                       disabled={state.questions.length === 1}
                       onClick={() => {
                         if (
@@ -365,7 +388,7 @@ export function StaffQuizEditor({
               </li>
             ))}
           </ol>
-          <div className={styles.actions}>
+          <div className={`${styles.actions} ${styles.addRow}`}>
             <label>
               Question type to add
               <select
@@ -381,6 +404,7 @@ export function StaffQuizEditor({
             </label>
             <button
               type="button"
+              className={styles.addButton}
               disabled={state.questions.length >= QUIZ_LIMITS.questions}
               onClick={() =>
                 setQuestions([
@@ -396,7 +420,7 @@ export function StaffQuizEditor({
             </button>
           </div>
           {!creating && state.base.canPrepareForPublication && (
-            <fieldset>
+            <fieldset className={styles.publication}>
               <legend>Learner publication</legend>
               <label>
                 <input
@@ -409,7 +433,7 @@ export function StaffQuizEditor({
               <p>Save the draft, then submit it for review.</p>
             </fieldset>
           )}
-          <label>
+          <label className={styles.reason}>
             Change reason
             <input
               required
@@ -431,7 +455,7 @@ export function StaffQuizEditor({
             </ul>
           </section>
         )}
-        <div className={styles.actions}>
+        <div className={`${styles.actions} ${styles.footer}`}>
           <button
             type="submit"
             disabled={
@@ -449,6 +473,7 @@ export function StaffQuizEditor({
           </button>
           <button
             type="button"
+            className={styles.secondary}
             hidden={creating}
             disabled={!hydrated || loading || state.phase === "busy"}
             onClick={() => void latest()}
@@ -461,6 +486,7 @@ export function StaffQuizEditor({
           </button>
           <button
             type="button"
+            className={styles.toggle}
             aria-expanded={preview}
             disabled={!hydrated}
             onClick={() => setPreview(!preview)}
@@ -471,7 +497,7 @@ export function StaffQuizEditor({
       </form>
       {state.latest && (
         <section
-          className={s.panel + " " + styles.comparison}
+          className={`${s.panel} ${styles.comparison} ${styles.compareCard}`}
           aria-label="Compare latest quiz"
         >
           <h2>Latest revision {state.latest.revision}</h2>
@@ -493,6 +519,7 @@ export function StaffQuizEditor({
           </div>
           <button
             type="button"
+            className={styles.danger}
             disabled={loading || state.phase === "busy"}
             onClick={() => {
               if (
@@ -508,7 +535,7 @@ export function StaffQuizEditor({
         </section>
       )}
       {preview && (
-        <div className={s.panel}>
+        <div className={`${s.panel} ${styles.previewCard}`}>
           <StaffQuizPreview
             key={JSON.stringify([state.fields, state.questions])}
             id={base.id}
@@ -519,7 +546,7 @@ export function StaffQuizEditor({
         </div>
       )}
       {!creating && (
-        <p>
+        <p className={styles.revision}>
           Revision {base.revision} ·{" "}
           <code className={styles.hash}>{base.bodySha256}</code>
         </p>
@@ -611,7 +638,13 @@ function QuestionFields({
           {single ? " (one correct answer)" : " (two or more correct answers)"}
         </legend>
         {q.choices.map((c, i) => (
-          <div key={c.id} className={styles.choiceRow}>
+          <div
+            key={c.id}
+            className={styles.choiceRow}
+            data-correct={
+              q.correctChoiceIds.includes(c.id) ? "true" : undefined
+            }
+          >
             <label className={styles.choice}>
               <input
                 type={single ? "radio" : "checkbox"}
@@ -643,6 +676,7 @@ function QuestionFields({
                 </label>
                 <button
                   type="button"
+                  className={styles.danger}
                   disabled={q.choices.length <= QUIZ_LIMITS.choicesMin}
                   onClick={() =>
                     onChange({
@@ -663,6 +697,7 @@ function QuestionFields({
         {q.type !== "true-false" && (
           <button
             type="button"
+            className={styles.addButton}
             disabled={q.choices.length >= QUIZ_LIMITS.choicesMax}
             onClick={() =>
               onChange({
