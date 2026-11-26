@@ -112,6 +112,7 @@ export default async function StaffMaintenancePage({
   }
   return (
     <StaffFrame
+      appearance="maintenance"
       verified
       content={canOpenContentWorkspace(gate.access)}
       maintenance

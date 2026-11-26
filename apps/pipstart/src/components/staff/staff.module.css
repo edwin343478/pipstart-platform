@@ -953,3 +953,279 @@
     min-height: 48px;
   }
 }
+
+/* Maintenance redesign (admin step 09). Scoped to .maintenance; the shared
+   .panel, .form, .input, .button and .secondary rules used by other pages are
+   unchanged. */
+.panel.maintenance {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 65rem;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+.maintenance.maintenance p {
+  margin: 0;
+}
+.maintenance .intro {
+  padding-top: 0.5rem;
+}
+.maintenance.maintenance .lead {
+  color: var(--muted);
+}
+.viewTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  justify-self: start;
+  padding: 0.25rem;
+  border: 1px solid #e7ebee;
+  border-radius: 0.875rem;
+  background: #fff;
+}
+.viewTabs a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 0.875rem;
+  border-radius: 0.625rem;
+  color: var(--slate);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.viewTabs a:hover {
+  background: var(--bg);
+  color: var(--ink);
+}
+.viewTabs a[aria-current="page"] {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+}
+.filterBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.375rem 0.75rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid #e7ebee;
+  border-radius: 1rem;
+  background: #fff;
+}
+.filterBar label {
+  align-self: center;
+  color: var(--ink);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+.filterBar select {
+  min-width: 12rem;
+  min-height: 44px;
+  padding: 0 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: #fff;
+  margin-right: 0.5rem;
+}
+.itemList {
+  display: grid;
+  gap: 0.875rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.itemCard {
+  display: grid;
+  gap: 0.875rem;
+  min-width: 0;
+  padding: 1.375rem 1.5rem;
+  border: 1px solid #e7ebee;
+  border-radius: 1.25rem;
+  background: #fff;
+  box-shadow: 0 20px 40px -28px rgba(11, 18, 32, 0.16);
+  overflow-wrap: anywhere;
+}
+.maintenance .itemCard h2 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 800;
+}
+.factTiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr));
+  gap: 0.625rem;
+  margin: 0;
+}
+.factTiles > div {
+  min-width: 0;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: var(--bg);
+}
+.factTiles dt {
+  color: var(--muted);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.factTiles dd {
+  margin: 0.25rem 0 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.factTiles .tileWideFact {
+  grid-column: 1 / -1;
+}
+.itemCard[data-status="overdue"] .statusTile {
+  border-color: var(--warn-bd);
+  background: var(--warn-bg);
+}
+.itemCard[data-status="overdue"] .statusTile dt,
+.itemCard[data-status="overdue"] .statusTile dd {
+  color: var(--warn);
+}
+.actionsPanel {
+  border: 1px solid #e7ebee;
+  border-radius: 0.875rem;
+}
+.actionsPanel[open] {
+  border-color: var(--bright);
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+}
+.actionsPanel > summary {
+  display: flex;
+  align-items: center;
+  min-height: 46px;
+  padding: 0 1rem;
+  color: var(--accent);
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.actionsPanel[open] > summary {
+  border-bottom: 1px solid var(--line);
+}
+.actionsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+  align-items: start;
+  gap: 0.875rem;
+  padding: 1rem;
+}
+.actionsGrid > :not(form) {
+  grid-column: 1 / -1;
+}
+.maintenance .form p {
+  color: var(--muted);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.maintenance .actionsPanel .form,
+.maintCard .form {
+  gap: 0.625rem;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.875rem;
+  background: var(--bg);
+}
+.maintenance .actionsPanel .form h3,
+.maintCard .form h3 {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 800;
+}
+.maintenance .form label {
+  font-size: 0.8125rem;
+}
+.maintenance .input {
+  min-height: 44px;
+  border-radius: 0.625rem;
+}
+.maintenance .button,
+.maintenance .secondary {
+  justify-self: start;
+  min-height: 40px;
+  padding: 0 0.875rem;
+  border-radius: 0.625rem;
+  font-size: 0.8125rem;
+}
+.maintenance .secondary {
+  border-color: var(--border);
+}
+.pagerNav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: #fff;
+  color: var(--ink);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+.pagerNav a::after {
+  content: " ›";
+  margin-left: 0.25rem;
+}
+.maintCard {
+  display: grid;
+  gap: 0.875rem;
+  min-width: 0;
+  padding: 1.5rem 1.75rem;
+  border: 1px solid #e7ebee;
+  border-radius: 1.25rem;
+  background: #fff;
+  box-shadow: 0 20px 40px -28px rgba(11, 18, 32, 0.16);
+  overflow-wrap: anywhere;
+}
+.maintenance .maintCard h2 {
+  margin: 0.5rem 0 0;
+  font-size: 1.125rem;
+  font-weight: 800;
+}
+.maintenance .maintCard h2:first-child {
+  margin-top: 0;
+}
+.maintenance.maintenance .maintCard > p {
+  color: var(--muted);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+.maintCard > ul {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.maintCard > ul > li {
+  display: grid;
+  gap: 0.625rem;
+  padding: 0.75rem 0.875rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: var(--bg);
+  font-size: 0.875rem;
+}
+.maintCard > ul > li .form {
+  padding: 0;
+  border: 0;
+  background: none;
+}
+@media (max-width: 767px) {
+  .itemCard,
+  .maintCard {
+    padding: 1.25rem;
+  }
+  .filterBar select {
+    width: 100%;
+    margin-right: 0;
+  }
+  .filterBar label {
+    flex: 1 1 100%;
+  }
+}

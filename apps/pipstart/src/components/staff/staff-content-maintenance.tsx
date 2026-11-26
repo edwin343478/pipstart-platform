@@ -22,7 +22,6 @@ import {
   type WorklistItem,
 } from "@/lib/content/maintenance-contract";
 import styles from "./staff.module.css";
-import workspace from "./staff-content-workspace.module.css";
 
 export type LinkReport =
   | { kind: "ready"; generation: number; items: number; lines: string[] }
@@ -217,204 +216,207 @@ function ItemActions({
   const disabled = busy || blocked;
   const id = (name: string) => `${name}-${item.id.replace(/[^a-z0-9]/g, "-")}`;
   return (
-    <details className={workspace.detail}>
+    <details className={styles.actionsPanel}>
       <summary>Actions for {item.title ?? item.id}</summary>
-      {canAct && (
-        <>
-          <form
-            className={styles.form}
-            onSubmit={submit((f) => ({
-              action: "acknowledge",
-              id: item.id,
-              revision: item.revision,
-              reason: field(f, "reason"),
-            }))}
-          >
-            <h3>Acknowledge</h3>
-            <p>
-              Records that you have seen this. It stays due; it is not a review.
-            </p>
-            <label htmlFor={id("ack")}>Reason</label>
-            <input
-              id={id("ack")}
-              name="reason"
-              className={styles.input}
-              maxLength={200}
-              required
-            />
-            <button className={styles.button} disabled={disabled}>
-              Acknowledge
-            </button>
-          </form>
-          <form
-            className={styles.form}
-            onSubmit={submit((f) => ({
-              action: "reschedule",
-              id: item.id,
-              revision: item.revision,
-              due: field(f, "due"),
-              reason: field(f, "reason"),
-            }))}
-          >
-            <h3>Reschedule</h3>
-            <p>
-              A new due date for this revision: at most {owner ? "365" : "90"}{" "}
-              days ahead.
-            </p>
-            <label htmlFor={id("due")}>New due date</label>
-            <input
-              id={id("due")}
-              name="due"
-              type="date"
-              className={styles.input}
-              required
-            />
-            <label htmlFor={id("rs")}>Reason</label>
-            <input
-              id={id("rs")}
-              name="reason"
-              className={styles.input}
-              maxLength={200}
-              required
-            />
-            <button className={styles.button} disabled={disabled}>
-              Reschedule
-            </button>
-          </form>
-          <form
-            className={styles.form}
-            onSubmit={submit((f) => ({
-              action: "result",
-              id: item.id,
-              revision: item.revision,
-              reference: field(f, "reference"),
-              classification: field(
-                f,
-                "classification",
-              ) as (typeof MANUAL_RESULTS)[number],
-              note: field(f, "note"),
-            }))}
-          >
-            <h3>Record a manual check</h3>
-            <label htmlFor={id("ref")}>
-              Link or reference, exactly as it appears in the content
-            </label>
-            <input
-              id={id("ref")}
-              name="reference"
-              className={styles.input}
-              maxLength={2048}
-              required
-            />
-            <label htmlFor={id("cls")}>Result</label>
-            <select
-              id={id("cls")}
-              name="classification"
-              className={styles.input}
+      <div className={styles.actionsGrid}>
+        {canAct && (
+          <>
+            <form
+              className={styles.form}
+              onSubmit={submit((f) => ({
+                action: "acknowledge",
+                id: item.id,
+                revision: item.revision,
+                reason: field(f, "reason"),
+              }))}
             >
-              {MANUAL_RESULTS.map((c) => (
-                <option key={c} value={c}>
-                  {resultLabel[c]}
-                </option>
-              ))}
-            </select>
-            <label htmlFor={id("note")}>Note (optional)</label>
-            <input
-              id={id("note")}
-              name="note"
-              className={styles.input}
-              maxLength={500}
-            />
-            <button className={styles.button} disabled={disabled}>
-              Record check
-            </button>
-          </form>
-          {probeEnabled && <ProbeForm item={item} />}
-        </>
-      )}
-      {(owner || editor) && (
-        <form
-          className={styles.form}
-          onSubmit={submit((f) =>
-            owner
-              ? {
-                  action: "assign",
-                  id: item.id,
-                  assignee: field(f, "assignee"),
-                  reason: field(f, "reason"),
-                }
-              : {
-                  action: "assign",
-                  id: item.id,
-                  assignee: me,
-                  reason: field(f, "reason"),
-                },
-          )}
-        >
-          <h3>Maintenance owner</h3>
-          {owner && staff ? (
-            <>
-              <label htmlFor={id("who")}>Assign to</label>
-              <select
-                id={id("who")}
-                name="assignee"
+              <h3>Acknowledge</h3>
+              <p>
+                Records that you have seen this. It stays due; it is not a
+                review.
+              </p>
+              <label htmlFor={id("ack")}>Reason</label>
+              <input
+                id={id("ack")}
+                name="reason"
+                className={styles.input}
+                maxLength={200}
+                required
+              />
+              <button className={styles.button} disabled={disabled}>
+                Acknowledge
+              </button>
+            </form>
+            <form
+              className={styles.form}
+              onSubmit={submit((f) => ({
+                action: "reschedule",
+                id: item.id,
+                revision: item.revision,
+                due: field(f, "due"),
+                reason: field(f, "reason"),
+              }))}
+            >
+              <h3>Reschedule</h3>
+              <p>
+                A new due date for this revision: at most {owner ? "365" : "90"}{" "}
+                days ahead.
+              </p>
+              <label htmlFor={id("due")}>New due date</label>
+              <input
+                id={id("due")}
+                name="due"
+                type="date"
                 className={styles.input}
                 required
+              />
+              <label htmlFor={id("rs")}>Reason</label>
+              <input
+                id={id("rs")}
+                name="reason"
+                className={styles.input}
+                maxLength={200}
+                required
+              />
+              <button className={styles.button} disabled={disabled}>
+                Reschedule
+              </button>
+            </form>
+            <form
+              className={styles.form}
+              onSubmit={submit((f) => ({
+                action: "result",
+                id: item.id,
+                revision: item.revision,
+                reference: field(f, "reference"),
+                classification: field(
+                  f,
+                  "classification",
+                ) as (typeof MANUAL_RESULTS)[number],
+                note: field(f, "note"),
+              }))}
+            >
+              <h3>Record a manual check</h3>
+              <label htmlFor={id("ref")}>
+                Link or reference, exactly as it appears in the content
+              </label>
+              <input
+                id={id("ref")}
+                name="reference"
+                className={styles.input}
+                maxLength={2048}
+                required
+              />
+              <label htmlFor={id("cls")}>Result</label>
+              <select
+                id={id("cls")}
+                name="classification"
+                className={styles.input}
               >
-                {staff.map((p) => (
-                  <option key={p.id} value={p.id}>
-                    {p.name}
+                {MANUAL_RESULTS.map((c) => (
+                  <option key={c} value={c}>
+                    {resultLabel[c]}
                   </option>
                 ))}
               </select>
-            </>
-          ) : (
-            <p>Assign this item to yourself.</p>
-          )}
-          <label htmlFor={id("ar")}>Reason</label>
-          <input
-            id={id("ar")}
-            name="reason"
-            className={styles.input}
-            maxLength={200}
-            required
-          />
-          <button
-            className={styles.button}
-            disabled={disabled || (owner && !staff?.length)}
+              <label htmlFor={id("note")}>Note (optional)</label>
+              <input
+                id={id("note")}
+                name="note"
+                className={styles.input}
+                maxLength={500}
+              />
+              <button className={styles.button} disabled={disabled}>
+                Record check
+              </button>
+            </form>
+            {probeEnabled && <ProbeForm item={item} />}
+          </>
+        )}
+        {(owner || editor) && (
+          <form
+            className={styles.form}
+            onSubmit={submit((f) =>
+              owner
+                ? {
+                    action: "assign",
+                    id: item.id,
+                    assignee: field(f, "assignee"),
+                    reason: field(f, "reason"),
+                  }
+                : {
+                    action: "assign",
+                    id: item.id,
+                    assignee: me,
+                    reason: field(f, "reason"),
+                  },
+            )}
           >
-            {owner ? "Assign" : "Assign to me"}
-          </button>
-        </form>
-      )}
-      {(owner || editor) && (item.assignee || item.assignedToMe) && (
-        <form
-          className={styles.form}
-          onSubmit={submit((f) => ({
-            action: "unassign",
-            id: item.id,
-            reason: field(f, "reason"),
-          }))}
-        >
-          <label htmlFor={id("ur")}>Reason for removing the owner</label>
-          <input
-            id={id("ur")}
-            name="reason"
-            className={styles.input}
-            maxLength={200}
-            required
-          />
-          <button className={styles.secondary} disabled={disabled}>
-            Remove maintenance owner
-          </button>
-        </form>
-      )}
-      {(canAct || owner || editor) && <Results item={item} />}
-      {message && (
-        <p role="status" aria-live="polite">
-          {message}
-        </p>
-      )}
+            <h3>Maintenance owner</h3>
+            {owner && staff ? (
+              <>
+                <label htmlFor={id("who")}>Assign to</label>
+                <select
+                  id={id("who")}
+                  name="assignee"
+                  className={styles.input}
+                  required
+                >
+                  {staff.map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.name}
+                    </option>
+                  ))}
+                </select>
+              </>
+            ) : (
+              <p>Assign this item to yourself.</p>
+            )}
+            <label htmlFor={id("ar")}>Reason</label>
+            <input
+              id={id("ar")}
+              name="reason"
+              className={styles.input}
+              maxLength={200}
+              required
+            />
+            <button
+              className={styles.button}
+              disabled={disabled || (owner && !staff?.length)}
+            >
+              {owner ? "Assign" : "Assign to me"}
+            </button>
+          </form>
+        )}
+        {(owner || editor) && (item.assignee || item.assignedToMe) && (
+          <form
+            className={styles.form}
+            onSubmit={submit((f) => ({
+              action: "unassign",
+              id: item.id,
+              reason: field(f, "reason"),
+            }))}
+          >
+            <label htmlFor={id("ur")}>Reason for removing the owner</label>
+            <input
+              id={id("ur")}
+              name="reason"
+              className={styles.input}
+              maxLength={200}
+              required
+            />
+            <button className={styles.secondary} disabled={disabled}>
+              Remove maintenance owner
+            </button>
+          </form>
+        )}
+        {(canAct || owner || editor) && <Results item={item} />}
+        {message && (
+          <p role="status" aria-live="polite">
+            {message}
+          </p>
+        )}
+      </div>
     </details>
   );
 }
@@ -444,7 +446,7 @@ function Worklist({
     return <p role="alert">The maintenance list could not be read.</p>;
   return (
     <>
-      <form className={workspace.toolbar} method="get">
+      <form className={styles.filterBar} method="get">
         <input type="hidden" name="view" value={view} />
         <label htmlFor="mt-status">Status</label>
         <select
@@ -472,7 +474,7 @@ function Worklist({
             </option>
           ))}
         </select>
-        <button className={workspace.button}>Filter</button>
+        <button className={styles.primary}>Filter</button>
       </form>
       {page.worklist.items.length === 0 ? (
         <p>
@@ -481,42 +483,56 @@ function Worklist({
             : "No live items match."}
         </p>
       ) : (
-        <ul>
+        <ul className={styles.itemList}>
           {page.worklist.items.map((item) => (
-            <li key={item.id}>
+            <li
+              key={item.id}
+              className={styles.itemCard}
+              data-status={item.status}
+            >
               <h2>{item.title ?? item.id}</h2>
-              <dl className={styles.summary}>
-                <dt>Type</dt>
-                <dd>{familyLabel[item.family]}</dd>
-                <dt>Status</dt>
-                <dd>{statusLabel[item.status]}</dd>
-                <dt>Due</dt>
-                <dd>
-                  {item.due ?? "No date"}
-                  {item.rescheduled
-                    ? ` (rescheduled; content date ${item.contentDue ?? "none"})`
-                    : ""}
-                </dd>
-                <dt>Last review</dt>
-                <dd>{item.reviewedOn ?? "No review on record"}</dd>
-                <dt>Maintenance owner</dt>
-                <dd>
-                  {item.assignedToMe
-                    ? "You"
-                    : item.assignee
-                      ? (names.get(item.assignee) ?? "Another staff member")
-                      : owner
-                        ? "Unassigned"
-                        : "Not you"}
-                </dd>
+              <dl className={styles.factTiles}>
+                <div>
+                  <dt>Type</dt>
+                  <dd>{familyLabel[item.family]}</dd>
+                </div>
+                <div className={styles.statusTile}>
+                  <dt>Status</dt>
+                  <dd>{statusLabel[item.status]}</dd>
+                </div>
+                <div>
+                  <dt>Due</dt>
+                  <dd>
+                    {item.due ?? "No date"}
+                    {item.rescheduled
+                      ? ` (rescheduled; content date ${item.contentDue ?? "none"})`
+                      : ""}
+                  </dd>
+                </div>
+                <div>
+                  <dt>Last review</dt>
+                  <dd>{item.reviewedOn ?? "No review on record"}</dd>
+                </div>
+                <div>
+                  <dt>Maintenance owner</dt>
+                  <dd>
+                    {item.assignedToMe
+                      ? "You"
+                      : item.assignee
+                        ? (names.get(item.assignee) ?? "Another staff member")
+                        : owner
+                          ? "Unassigned"
+                          : "Not you"}
+                  </dd>
+                </div>
                 {item.acknowledged && (
-                  <>
+                  <div className={styles.tileWideFact}>
                     <dt>Acknowledged</dt>
                     <dd>
                       {item.acknowledged.at.slice(0, 10)}:{" "}
                       {item.acknowledged.reason}
                     </dd>
-                  </>
+                  </div>
                 )}
               </dl>
               <ItemActions
@@ -532,7 +548,7 @@ function Worklist({
         </ul>
       )}
       {page.worklist.next && (
-        <nav className={workspace.pager} aria-label="Maintenance pages">
+        <nav className={styles.pagerNav} aria-label="Maintenance pages">
           <Link
             href={href(view, {
               ...(filters.status ? { status: filters.status } : {}),
@@ -736,13 +752,16 @@ export function StaffContentMaintenance({
 }) {
   const visible = views.filter((v) => v.id !== "all" || owner || editor);
   return (
-    <section className={styles.panel}>
-      <h1>Maintenance</h1>
-      <p>
-        Reviews that are due, who looks after them, and recorded link checks.
-        Acknowledging an item never counts as a review.
-      </p>
-      <nav aria-label="Maintenance views" className={workspace.toolbar}>
+    <section className={`${styles.panel} ${styles.maintenance}`}>
+      <div className={styles.intro}>
+        <p className={styles.eyebrow}>Staff area</p>
+        <h1>Maintenance</h1>
+        <p className={styles.lead}>
+          Reviews that are due, who looks after them, and recorded link checks.
+          Acknowledging an item never counts as a review.
+        </p>
+      </div>
+      <nav aria-label="Maintenance views" className={styles.viewTabs}>
         {visible.map((v) => (
           <Link
             key={v.id}
@@ -764,8 +783,16 @@ export function StaffContentMaintenance({
           probeEnabled={probeEnabled}
         />
       )}
-      {view === "report" && <Report report={report} />}
-      {view === "policy" && <Policy page={page} owner={owner} />}
+      {view === "report" && (
+        <div className={styles.maintCard}>
+          <Report report={report} />
+        </div>
+      )}
+      {view === "policy" && (
+        <div className={styles.maintCard}>
+          <Policy page={page} owner={owner} />
+        </div>
+      )}
     </section>
   );
 }
