@@ -802,3 +802,154 @@
     display: none;
   }
 }
+
+/* Staff overview (/admin/staff): section cards, roles and account security. */
+.sectionCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sectionCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+  padding: 1.5rem;
+  border: 1px solid #e7ebee;
+  border-radius: 1.25rem;
+  background: #fff;
+  box-shadow: 0 20px 40px -28px rgba(11, 18, 32, 0.16);
+  overflow-wrap: anywhere;
+  transition: border-color 0.15s ease;
+}
+.sectionCard:hover,
+.sectionCard:focus-within {
+  border-color: var(--bright);
+}
+.sectionCard .badge {
+  width: 2.75rem;
+  height: 2.75rem;
+}
+.sectionCard p {
+  color: var(--muted);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+.sectionLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-top: auto;
+  padding-top: 0.25rem;
+  color: var(--accent);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+/* The whole card is the link's target; the link text stays its name. */
+.sectionLink::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+.sectionLink:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 0.25rem;
+}
+.sectionLink svg {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+.overviewGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+  align-items: start;
+}
+.overviewCard {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+  padding: 1.5rem 1.75rem;
+  border: 1px solid #e7ebee;
+  border-radius: 1.25rem;
+  background: #fff;
+  overflow-wrap: anywhere;
+}
+.roleChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.roleChips li {
+  padding: 0.375rem 0.875rem;
+  border: 1px solid #99f6e4;
+  border-radius: 999px;
+  background: #f0fdfa;
+  color: var(--accent-h);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+.noteBox {
+  display: flex;
+  gap: 0.625rem;
+  align-items: flex-start;
+  padding: 0.75rem 0.875rem;
+  border: 1px solid #e7ebee;
+  border-radius: 0.75rem;
+  background: var(--bg);
+  color: var(--slate);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.noteBox svg {
+  margin-top: 0.15rem;
+}
+.secondaryAction {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-self: start;
+  min-height: 44px;
+  padding: 0 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: #fff;
+  color: var(--ink);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+.secondaryAction:hover {
+  border-color: var(--bright);
+  color: var(--accent);
+}
+.secondaryAction:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+@media (max-width: 900px) {
+  .overviewGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 767px) {
+  .sectionCard,
+  .overviewCard {
+    padding: 1.25rem;
+    border-radius: 1.125rem;
+  }
+  .secondaryAction {
+    justify-self: stretch;
+    justify-content: center;
+    min-height: 48px;
+  }
+}

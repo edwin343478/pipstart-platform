@@ -52,9 +52,10 @@ export function StaffFrame({
   /** MP10c: the Maintenance section (review worklists and link checks). */
   maintenance?: boolean;
   paused?: boolean;
-  appearance?: "access";
+  /** Opts a redesigned page into the new shell; the value names that page. */
+  appearance?: "access" | "overview";
 }) {
-  const redesigned = appearance === "access";
+  const redesigned = appearance !== undefined;
   const status = paused
     ? "Staff access is paused. Only Owner maintenance is available."
     : verified
@@ -108,7 +109,12 @@ export function StaffFrame({
                 Owner maintenance
               </NavLink>
             ) : verified ? (
-              <NavLink redesigned={redesigned} href="/admin/staff" icon="home">
+              <NavLink
+                redesigned={redesigned}
+                href="/admin/staff"
+                icon="home"
+                current={appearance === "overview"}
+              >
                 Overview
               </NavLink>
             ) : (
