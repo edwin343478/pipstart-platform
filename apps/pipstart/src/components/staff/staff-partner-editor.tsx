@@ -18,6 +18,7 @@ import {
   type PartnerPolicyView,
 } from "@/lib/content/partner-editor-contract";
 import s from "@/components/admin-preview/admin-preview.module.css";
+import { Icon } from "@/components/admin-preview/icons";
 import styles from "./staff-curriculum-editor.module.css";
 
 export type PartnerCreation = {
@@ -239,27 +240,34 @@ export function StaffPartnerEditor({
         : `New link for ${slug}`;
 
   return (
-    <div className={styles.editor}>
-      <p className={s.eyebrow}>Partner directory</p>
-      <h1>{title}</h1>
-      <p>
-        Drafts change nothing public. A saved draft is reviewed and made live
-        from the <a href="/admin/staff/content">content library</a>; the
-        directory and <code>/go</code> change when that generation is delivered.
-      </p>
+    <div className={`${styles.editor} ${styles.redesign} ${styles.partner}`}>
+      <header className={styles.head}>
+        <div className={styles.headRow}>
+          <div className={styles.headText}>
+            <p className={styles.eyebrow}>Partner directory</p>
+            <h1>{title}</h1>
+            <p>
+              Drafts change nothing public. A saved draft is reviewed and made
+              live from the <a href="/admin/staff/content">content library</a>;
+              the directory and <code>/go</code> change when that generation is
+              delivered.
+            </p>
+          </div>
+        </div>
+      </header>
       {view?.trashed && (
-        <p className={styles.notice}>
+        <p className={styles.archived}>
           This item is archived and cannot be edited.
         </p>
       )}
       {base && (
-        <p>
+        <p className={styles.revisionChip}>
           Latest revision {base.revision} · state{" "}
           {base.state.replaceAll("_", " ")}
         </p>
       )}
       {kind === "partner" && view?.kind === "partner" && (
-        <p>
+        <p className={styles.headAction}>
           {view.hasLink ? (
             <a
               href={
@@ -280,7 +288,11 @@ export function StaffPartnerEditor({
           )}
         </p>
       )}
-      <form onSubmit={(e) => void save(e)} noValidate>
+      <form
+        className={styles.formCard}
+        onSubmit={(e) => void save(e)}
+        noValidate
+      >
         <fieldset disabled={disabled}>
           <legend>
             {kind === "partner" ? "Partner details" : "Link details"}
@@ -372,7 +384,7 @@ export function StaffPartnerEditor({
                   </select>
                 </label>
               </div>
-              <label htmlFor="partner-summary">
+              <label htmlFor="partner-summary" className={styles.wide}>
                 Summary
                 <textarea
                   id="partner-summary"
@@ -383,7 +395,7 @@ export function StaffPartnerEditor({
                   onChange={(e) => field("summary", e.target.value)}
                 />
               </label>
-              <fieldset>
+              <fieldset className={styles.subBox}>
                 <legend>Review</legend>
                 <div className={styles.grid}>
                   <label htmlFor="partner-review-status">
@@ -440,10 +452,10 @@ export function StaffPartnerEditor({
                   </span>
                 </label>
               </fieldset>
-              <fieldset>
+              <fieldset className={styles.subBox}>
                 <legend>Facts</legend>
                 {partner.facts.map((f, i) => (
-                  <fieldset key={i}>
+                  <fieldset key={i} className={styles.factCard}>
                     <legend>Fact {i + 1}</legend>
                     <div className={styles.grid}>
                       <label htmlFor={`fact-label-${i}`}>
@@ -510,6 +522,7 @@ export function StaffPartnerEditor({
                     </div>
                     <button
                       type="button"
+                      className={styles.dangerAction}
                       onClick={() => {
                         setDirty(true);
                         setPartner((x) => ({
@@ -524,6 +537,7 @@ export function StaffPartnerEditor({
                 ))}
                 <button
                   type="button"
+                  className={styles.addButton}
                   disabled={partner.facts.length >= 50}
                   onClick={() => {
                     setDirty(true);
@@ -607,7 +621,7 @@ export function StaffPartnerEditor({
               </label>
             </>
           )}
-          <label htmlFor="partner-reason">
+          <label htmlFor="partner-reason" className={styles.reason}>
             Change reason
             <input
               id="partner-reason"
@@ -619,7 +633,7 @@ export function StaffPartnerEditor({
           </label>
         </fieldset>
         {problems.length > 0 && (
-          <ul aria-label="Problems to fix">
+          <ul aria-label="Problems to fix" className={styles.problems}>
             {problems.map((p) => (
               <li key={p}>{p}</li>
             ))}
@@ -638,6 +652,7 @@ export function StaffPartnerEditor({
           {base && (
             <button
               type="button"
+              className={styles.dangerAction}
               disabled={disabled}
               onClick={() =>
                 void reload(
@@ -651,8 +666,16 @@ export function StaffPartnerEditor({
         </div>
       </form>
       {(isOwner || policy.version > 0) && (base || kind === "link") && (
-        <section className={s.panel} aria-labelledby="policy-heading">
-          <h2 id="policy-heading">Owner policy</h2>
+        <section
+          className={`${s.panel} ${styles.policyCard}`}
+          aria-labelledby="policy-heading"
+        >
+          <h2 id="policy-heading">
+            <span className={styles.policyIcon}>
+              <Icon name="shield" />
+            </span>
+            Owner policy
+          </h2>
           <p>
             {kind === "partner"
               ? "The risk notice shown on this partner’s card. Only the Owner can change it."
@@ -712,7 +735,12 @@ export function StaffPartnerEditor({
       {kind === "partner" && !base && isOwner && (
         <p>Save the partner first, then set its risk notice here.</p>
       )}
-      <p role="status" aria-live="polite" aria-atomic="true">
+      <p
+        className={styles.statusLine}
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
         {busy ? "Checking live staff access with the store…" : message}
       </p>
     </div>

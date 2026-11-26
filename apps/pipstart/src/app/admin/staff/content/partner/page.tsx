@@ -8,6 +8,7 @@ import {
 import { StaffFrame } from "@/components/staff/staff-frame";
 import { canOpenMaintenance } from "@/lib/content/maintenance-contract";
 import { StaffPartnerEditor } from "@/components/staff/staff-partner-editor";
+import staffStyles from "@/components/staff/staff.module.css";
 import { runPartnerEditorAction } from "../partner-actions";
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
@@ -34,6 +35,7 @@ export default async function Page({
   const isOwner = gate.access.roles.includes("owner");
   const frame = (children: React.ReactNode) => (
     <StaffFrame
+      appearance="content"
       verified
       maintenance={canOpenMaintenance(gate.access)}
       content
@@ -51,14 +53,17 @@ export default async function Page({
     });
     if (result.kind !== "ready")
       return frame(
-        <>
+        <section className={staffStyles.stateCard}>
+          <p className={staffStyles.eyebrow}>Partner directory</p>
           <h1>Partner editor unavailable</h1>
           <p>
             The item could not be loaded with your current access. No content
             was changed.
           </p>
-          <a href="/admin/staff/content">Back to content library</a>
-        </>,
+          <a className={staffStyles.primary} href="/admin/staff/content">
+            Back to content library
+          </a>
+        </section>,
       );
     return frame(
       // Keyed by the loaded item: moving between new, partner and link pages remounts the form
