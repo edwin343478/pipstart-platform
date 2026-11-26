@@ -4,6 +4,7 @@ import { readStaffGate, staffUiEnabled } from "@/lib/auth/staff-gate";
 import { draftId } from "@/lib/content/curriculum-draft-contract";
 import { StaffFrame } from "@/components/staff/staff-frame";
 import { StaffLessonEditor } from "@/components/staff/staff-lesson-editor";
+import staffStyles from "@/components/staff/staff.module.css";
 import { runLessonEditorAction } from "../lesson-actions";
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
@@ -45,17 +46,23 @@ export default async function Page({
       : null;
   if (result && result.kind !== "ready")
     return (
-      <StaffFrame verified content>
-        <h1>Lesson editor unavailable</h1>
-        <p>
-          The lesson could not be read with your current access. No content was
-          changed.
-        </p>
-        <a href="/admin/staff/content">Back to content library</a>
+      <StaffFrame appearance="content" verified content>
+        <section className={staffStyles.stateCard}>
+          <p className={staffStyles.eyebrow}>Content · Lesson draft</p>
+          <h1>Lesson editor unavailable</h1>
+          <p>
+            The lesson could not be read with your current access. No content
+            was changed.
+          </p>
+          <a className={staffStyles.primary} href="/admin/staff/content">
+            Back to content library
+          </a>
+        </section>
       </StaffFrame>
     );
   return (
     <StaffFrame
+      appearance="content"
       verified
       content
       people={gate.access.capabilities.includes("people.read")}

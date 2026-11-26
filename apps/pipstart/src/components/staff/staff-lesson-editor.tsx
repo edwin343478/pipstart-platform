@@ -196,6 +196,7 @@ export function StaffLessonEditor({
                 ))}
                 <button
                   type="button"
+                  className={styles.danger}
                   disabled={disabled || locked || blocks.length === 1}
                   onClick={() => {
                     if (window.confirm("Remove this block from the draft?"))
@@ -213,6 +214,7 @@ export function StaffLessonEditor({
         })}
         <button
           type="button"
+          className={styles.addButton}
           disabled={
             disabled ||
             entries.length >= 500 ||
@@ -312,18 +314,23 @@ export function StaffLessonEditor({
     }
   }
   return (
-    <div className={styles.editor}>
-      <header>
-        <p className={s.eyebrow}>Content · Lesson draft</p>
-        <h1>{state.base ? "Edit lesson" : "New lesson"}</h1>
-        <p>
-          Save a private draft. Saving does not approve, publish or change
-          learner content.
-        </p>
-        <a href="/admin/staff/content">Back to content library</a>
+    <div className={`${styles.editor} ${styles.redesign}`}>
+      <header className={styles.head}>
+        <a className={styles.back} href="/admin/staff/content">
+          Back to content library
+        </a>
+        <div className={styles.headText}>
+          <p className={styles.eyebrow}>Content · Lesson draft</p>
+          <h1>{state.base ? "Edit lesson" : "New lesson"}</h1>
+          <p>
+            Save a private draft. Saving does not approve, publish or change
+            learner content.
+          </p>
+        </div>
       </header>
       <p
         className={styles.notice}
+        data-state={state.message ? "message" : dirty ? "unsaved" : "clean"}
         ref={status}
         tabIndex={-1}
         role="status"
@@ -333,7 +340,7 @@ export function StaffLessonEditor({
         {state.message || (dirty ? "Unsaved changes." : "No unsaved changes.")}
       </p>
       <form
-        className={s.panel}
+        className={`${s.panel} ${styles.formCard}`}
         aria-label="Lesson draft"
         aria-busy={!hydrated || state.phase === "busy" || loading}
         onSubmit={(e) => void save(e)}
@@ -345,15 +352,23 @@ export function StaffLessonEditor({
               : "Choose a permanent identity"}
           </legend>
           {state.base ? (
-            <dl>
-              <dt>Identity</dt>
-              <dd>{state.base.id}</dd>
-              <dt>Learning path</dt>
-              <dd>{state.base.path}</dd>
-              <dt>Parent module</dt>
-              <dd>{state.base.parent}</dd>
-              <dt>Base revision</dt>
-              <dd>{state.base.revision}</dd>
+            <dl className={styles.identityTiles}>
+              <div className={styles.tileWide}>
+                <dt>Identity</dt>
+                <dd className={styles.mono}>{state.base.id}</dd>
+              </div>
+              <div>
+                <dt>Learning path</dt>
+                <dd>{state.base.path}</dd>
+              </div>
+              <div>
+                <dt>Base revision</dt>
+                <dd>{state.base.revision}</dd>
+              </div>
+              <div className={styles.tileFull}>
+                <dt>Parent module</dt>
+                <dd className={styles.mono}>{state.base.parent}</dd>
+              </div>
             </dl>
           ) : (
             <div className={styles.grid}>
@@ -419,11 +434,15 @@ export function StaffLessonEditor({
               </p>
             </div>
           )}
-          <div className={styles.grid}>
+          <h2 className={styles.partTitle}>Lesson details</h2>
+          <div className={`${styles.grid} ${styles.details}`}>
             {Object.entries(labels).map(([name, label]) => {
               const key = name as keyof typeof labels;
               return (
-                <label key={key}>
+                <label
+                  key={key}
+                  className={key === "description" ? styles.wide : undefined}
+                >
                   {label}
                   {key === "estimatedMinutes" ? (
                     <input
@@ -528,13 +547,13 @@ export function StaffLessonEditor({
               </select>
             </label>
           )}
-          <h2>Lesson content</h2>
+          <h2 className={styles.partTitle}>Lesson content</h2>
           <p>
             Use the block controls to edit and reorder content. Existing
             identity, references, dates, approvals and required disclosures are
             preserved.
           </p>
-          <label>
+          <label className={styles.blockPicker}>
             Block to add
             <select
               value={blockType}
@@ -620,6 +639,7 @@ export function StaffLessonEditor({
                     ))}
                     <button
                       type="button"
+                      className={styles.danger}
                       disabled={
                         state.content.mode !== "sections" ||
                         state.content.sections.length === 1 ||
@@ -643,6 +663,7 @@ export function StaffLessonEditor({
               ))}
               <button
                 type="button"
+                className={styles.addSection}
                 disabled={
                   state.content.sections.length >= 100 || entries.length >= 500
                 }
@@ -667,7 +688,7 @@ export function StaffLessonEditor({
             </>
           )}
           {state.base?.canPrepareForPublication && (
-            <fieldset>
+            <fieldset className={styles.publication}>
               <legend>Learner publication</legend>
               <label>
                 <input
@@ -700,7 +721,7 @@ export function StaffLessonEditor({
               )}
             </fieldset>
           )}
-          <label>
+          <label className={styles.reason}>
             Change reason
             <input
               required
@@ -712,7 +733,7 @@ export function StaffLessonEditor({
             />
           </label>
         </fieldset>
-        <div className={styles.actions}>
+        <div className={`${styles.actions} ${styles.footer}`}>
           <button
             type="submit"
             disabled={disabled || state.phase !== "idle" || !dirty}
@@ -721,6 +742,7 @@ export function StaffLessonEditor({
           </button>
           <button
             type="button"
+            className={styles.secondary}
             disabled={
               !hydrated ||
               loading ||
@@ -737,6 +759,7 @@ export function StaffLessonEditor({
           </button>
           <button
             type="button"
+            className={styles.toggle}
             aria-expanded={preview}
             onClick={() => setPreview(!preview)}
           >
@@ -746,7 +769,7 @@ export function StaffLessonEditor({
       </form>
       {state.latest && (
         <section
-          className={s.panel + " " + styles.comparison}
+          className={`${s.panel} ${styles.comparison} ${styles.compareCard}`}
           aria-label="Compare latest lesson"
         >
           <h2>Latest revision {state.latest.revision}</h2>
@@ -806,6 +829,7 @@ export function StaffLessonEditor({
           </div>
           <button
             type="button"
+            className={styles.danger}
             disabled={loading || state.phase === "busy"}
             onClick={() => {
               if (
@@ -821,12 +845,13 @@ export function StaffLessonEditor({
         </section>
       )}
       {preview && (
-        <div className={s.panel + " " + styles.preview}>
+        <div className={`${s.panel} ${styles.preview} ${styles.previewCard}`}>
+          <p className={styles.previewLabel}>Preview</p>
           <StaffLessonPreview fields={state.fields} content={state.content} />
         </div>
       )}
       {state.base && (
-        <p>
+        <p className={styles.revision}>
           Revision {state.base.revision} ·{" "}
           <code className={styles.hash}>{state.base.bodySha256}</code>
         </p>

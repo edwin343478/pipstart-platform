@@ -181,3 +181,516 @@
   max-width: 100%;
   overflow-x: auto;
 }
+
+/* Lesson editor redesign (admin step 05). Scoped to .editor.redesign. */
+.editor.redesign {
+  gap: 1.25rem;
+  max-width: 61.25rem;
+}
+.editor.redesign .head {
+  display: grid;
+  gap: 1rem;
+}
+.editor.redesign .back {
+  justify-self: start;
+  color: var(--accent);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.editor.redesign .back::before {
+  content: "‹ ";
+}
+.editor.redesign .back:hover {
+  text-decoration: underline;
+}
+.editor.redesign .headText {
+  display: grid;
+  gap: 0.5rem;
+}
+.editor.redesign .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  margin: 0;
+  color: var(--accent);
+  font-size: 0.71875rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.editor.redesign .eyebrow::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--bright);
+}
+.editor.redesign h1 {
+  margin: 0;
+  font-size: clamp(1.75rem, 4vw, 2.375rem);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+}
+.editor.redesign .headText p:not(.eyebrow) {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+.editor.redesign .notice {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.5rem 0.875rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--slate);
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.editor.redesign .notice::before {
+  content: "";
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #98a2b3;
+}
+.editor.redesign .notice[data-state="unsaved"] {
+  border-color: var(--warn-bd);
+  background: var(--warn-bg);
+  color: var(--warn);
+}
+.editor.redesign .notice[data-state="unsaved"]::before {
+  background: #d97706;
+}
+.editor.redesign .notice[data-state="message"] {
+  border-color: #99f6e4;
+  background: #f0fdfa;
+  color: var(--accent-h);
+}
+.editor.redesign .notice[data-state="message"]::before {
+  background: var(--bright);
+}
+.editor.redesign .formCard {
+  padding: 0;
+  border: 1px solid #e7ebee;
+  border-radius: 1.25rem;
+  background: #fff;
+  box-shadow: 0 20px 40px -28px rgba(11, 18, 32, 0.16);
+  overflow: hidden;
+}
+.editor.redesign .formCard > fieldset {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 1.5rem 1.75rem;
+}
+.editor.redesign legend {
+  margin: 0;
+  padding: 0;
+  font-size: 1.0625rem;
+  font-weight: 800;
+}
+.editor.redesign .formCard > fieldset > legend {
+  float: left;
+  width: 100%;
+}
+.editor.redesign .partTitle {
+  margin: 0.5rem 0 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+  font-size: 1.0625rem;
+  font-weight: 800;
+}
+.editor.redesign .formCard > fieldset > p,
+.editor.redesign .grid > p,
+.editor.redesign .section > p,
+.editor.redesign .publication > p,
+.editor.redesign .compareCard > p,
+.editor.redesign .block > p,
+.editor.redesign .revision,
+.editor.redesign .notice {
+  margin: 0;
+}
+.editor.redesign .formCard > fieldset > p,
+.editor.redesign .publication > p {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+.editor.redesign .grid {
+  grid-auto-flow: row dense;
+  gap: 1rem 1.25rem;
+  margin: 0;
+}
+.editor.redesign .grid > p {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+.editor.redesign .wide {
+  grid-column: 1 / -1;
+}
+.editor.redesign label {
+  gap: 0.375rem;
+  color: var(--ink);
+  font-size: 0.875rem;
+}
+.editor.redesign label span {
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+.editor.redesign input,
+.editor.redesign select,
+.editor.redesign textarea {
+  min-height: 46px;
+  padding: 0.625rem 0.75rem;
+  border-color: var(--border);
+  border-radius: 0.75rem;
+}
+.editor.redesign input[type="checkbox"] {
+  width: 1.25rem;
+  min-height: 1.25rem;
+  accent-color: var(--accent);
+}
+.editor.redesign .blockPicker {
+  max-width: 20rem;
+}
+.editor.redesign .identityTiles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-flow: row dense;
+  gap: 0.625rem;
+  margin: 0;
+}
+.editor.redesign .identityTiles > div {
+  min-width: 0;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: var(--bg);
+}
+.editor.redesign .identityTiles .tileWide {
+  grid-column: span 2;
+}
+.editor.redesign .identityTiles .tileFull {
+  grid-column: 1 / -1;
+}
+.editor.redesign .identityTiles dt {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.editor.redesign .identityTiles dd {
+  margin: 0.25rem 0 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.editor.redesign .mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.8125rem;
+}
+/* Content: sections, blocks and their controls */
+.editor.redesign .blockList {
+  gap: 0.5rem;
+  margin: 0;
+}
+.editor.redesign .block {
+  padding: 0 !important;
+  border: 1px solid #e7ebee !important;
+  border-radius: 0.75rem;
+  background: #fff;
+}
+.editor.redesign .block[open] {
+  border-color: var(--bright) !important;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.12);
+}
+.editor.redesign .block summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  padding: 0 0.875rem;
+  font-size: 0.875rem;
+}
+.editor.redesign .block[open] summary {
+  border-bottom: 1px solid var(--line);
+}
+.editor.redesign .block > fieldset,
+.editor.redesign .block > p,
+.editor.redesign .block > label,
+.editor.redesign .block > .actions {
+  margin: 0.875rem;
+}
+.editor.redesign .block > p {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--warn-bd);
+  border-radius: 0.625rem;
+  background: var(--warn-bg);
+  color: var(--warn);
+  font-size: 0.8125rem;
+}
+.editor.redesign .block fieldset fieldset {
+  margin: 0.75rem 0;
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+}
+.editor.redesign .block legend {
+  font-size: 0.875rem;
+}
+.editor.redesign .section {
+  display: grid;
+  gap: 0.875rem;
+  margin: 0;
+  padding: 1.125rem !important;
+  border: 1px solid #e7ebee !important;
+  border-radius: 1rem;
+  background: var(--bg);
+}
+.editor.redesign .section > legend {
+  width: auto;
+  padding: 0.125rem 0.625rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.editor.redesign .section > label input {
+  background: #fff;
+}
+.editor.redesign .publication {
+  display: grid;
+  gap: 0.625rem;
+  margin: 0;
+  padding: 1rem 1.125rem;
+  border: 1px solid #e7ebee;
+  border-radius: 1rem;
+}
+.editor.redesign .publication > legend {
+  padding: 0 0.375rem;
+  font-size: 0.9375rem;
+}
+.editor.redesign .publication > label:first-of-type {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+.editor.redesign .reason {
+  padding: 0.875rem 1rem;
+  border: 1px solid #99f6e4;
+  border-radius: 0.875rem;
+  background: #f0fdfa;
+  font-weight: 700;
+}
+.editor.redesign .reason input {
+  border-color: #99f6e4;
+}
+/* Objectives and sources lists inside the form */
+.editor.redesign
+  .formCard
+  > fieldset
+  > fieldset:not(.section):not(.publication) {
+  display: grid;
+  gap: 0.625rem;
+  margin: 0;
+  padding: 1rem 1.125rem;
+  border: 1px solid #e7ebee;
+  border-radius: 1rem;
+}
+.editor.redesign
+  .formCard
+  > fieldset
+  > fieldset:not(.section):not(.publication)
+  > legend {
+  padding: 0 0.375rem;
+  font-size: 0.9375rem;
+}
+/* List buttons keep their natural width. */
+.editor.redesign
+  .formCard
+  > fieldset
+  > fieldset:not(.section):not(.publication)
+  > button,
+.editor.redesign
+  .formCard
+  > fieldset
+  > fieldset:not(.section):not(.publication)
+  > div
+  > button {
+  justify-self: start;
+}
+/* Buttons */
+.editor.redesign button {
+  min-height: 46px;
+  padding: 0 1.375rem;
+  border-color: var(--accent);
+  border-radius: 0.75rem;
+  background: var(--accent);
+  font-weight: 700;
+}
+.editor.redesign button:hover:not(:disabled) {
+  background: var(--accent-h);
+}
+.editor.redesign .actions {
+  gap: 0.5rem;
+  margin-top: 0;
+}
+.editor.redesign .blockList .actions button,
+.editor.redesign .section > .actions button,
+.editor.redesign
+  .formCard
+  > fieldset
+  > fieldset:not(.section):not(.publication)
+  button,
+.editor.redesign .block fieldset button,
+.editor.redesign .addButton {
+  min-height: 38px;
+  padding: 0 0.75rem;
+  border-color: var(--border);
+  border-radius: 0.625rem;
+  background: #fff;
+  color: var(--ink);
+  font-size: 0.8125rem;
+}
+.editor.redesign .addButton {
+  justify-self: start;
+  border-style: dashed;
+  border-color: var(--bright);
+  background: #f0fdfa;
+  color: var(--accent);
+}
+.editor.redesign .blockList .actions button:hover:not(:disabled),
+.editor.redesign .section > .actions button:hover:not(:disabled),
+.editor.redesign
+  .formCard
+  > fieldset
+  > fieldset:not(.section):not(.publication)
+  button:hover:not(:disabled),
+.editor.redesign .block fieldset button:hover:not(:disabled),
+.editor.redesign .addButton:hover:not(:disabled) {
+  border-color: var(--bright);
+  background: #fff;
+  color: var(--accent);
+}
+.editor.redesign button.danger,
+.editor.redesign .actions button.danger {
+  border-color: var(--danger-bd);
+  border-style: solid;
+  background: #fff;
+  color: var(--danger);
+}
+.editor.redesign button.danger:hover:not(:disabled) {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+.editor.redesign .addSection {
+  justify-self: start;
+  border: 1px dashed var(--bright);
+  background: #f0fdfa;
+  color: var(--accent);
+}
+.editor.redesign .addSection:hover:not(:disabled) {
+  background: #ccfbf1;
+}
+.editor.redesign .footer {
+  gap: 0.625rem;
+  margin: 0;
+  padding: 1rem 1.75rem;
+  border-top: 1px solid var(--line);
+  background: var(--bg);
+}
+.editor.redesign button.secondary,
+.editor.redesign button.toggle {
+  border-color: var(--border);
+  background: #fff;
+  color: var(--ink);
+}
+.editor.redesign button.secondary:hover:not(:disabled),
+.editor.redesign button.toggle:hover:not(:disabled) {
+  border-color: var(--bright);
+  background: #fff;
+  color: var(--accent);
+}
+.editor.redesign button.toggle[aria-expanded="true"] {
+  border-color: var(--accent);
+  background: #f0fdfa;
+  color: var(--accent);
+}
+/* Comparison, preview and revision */
+.editor.redesign .compareCard {
+  display: grid;
+  gap: 0.875rem;
+  padding: 1.5rem 1.75rem;
+  border: 1px solid #e7ebee;
+  border-radius: 1.25rem;
+  background: #fff;
+}
+.editor.redesign .compareCard h2 {
+  margin: 0;
+  font-size: 1.1875rem;
+  font-weight: 800;
+}
+.editor.redesign .compareCard h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: 800;
+}
+.editor.redesign .compareCard p {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+.editor.redesign .compareCard > button.danger {
+  justify-self: start;
+}
+.editor.redesign .previewCard {
+  padding: 0;
+  border: 1px solid #e7ebee;
+  border-radius: 1.25rem;
+  background: #fff;
+  overflow: hidden;
+}
+.editor.redesign .previewCard > :not(.previewLabel) {
+  margin: 1.5rem 1.75rem;
+}
+.editor.redesign .previewLabel {
+  margin: 0;
+  padding: 0.625rem 1.25rem;
+  border-bottom: 1px solid #99f6e4;
+  background: #f0fdfa;
+  color: var(--accent-h);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.editor.redesign .revision {
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+@media (max-width: 767px) {
+  .editor.redesign .formCard > fieldset,
+  .editor.redesign .compareCard {
+    padding: 1.25rem;
+  }
+  .editor.redesign .footer {
+    padding: 1rem 1.25rem;
+  }
+  .editor.redesign .identityTiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .editor.redesign .previewCard > :not(.previewLabel) {
+    margin: 1.25rem;
+  }
+}
