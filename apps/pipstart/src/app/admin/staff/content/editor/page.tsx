@@ -4,6 +4,7 @@ import { readStaffGate, staffUiEnabled } from "@/lib/auth/staff-gate";
 import { draftId } from "@/lib/content/curriculum-draft-contract";
 import { StaffFrame } from "@/components/staff/staff-frame";
 import { StaffCurriculumEditor } from "@/components/staff/staff-curriculum-editor";
+import staffStyles from "@/components/staff/staff.module.css";
 import { runCurriculumDraftAction } from "../draft-actions";
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
@@ -44,13 +45,18 @@ export default async function Page({
     if (result.kind === "ready") item = result.item;
     else
       return (
-        <StaffFrame verified content>
-          <h1>Draft editor unavailable</h1>
-          <p>
-            The item could not be loaded with your current access. No content
-            was changed.
-          </p>
-          <a href="/admin/staff/content">Back to content library</a>
+        <StaffFrame appearance="content" verified content>
+          <section className={staffStyles.stateCard}>
+            <p className={staffStyles.eyebrow}>Content · Draft editor</p>
+            <h1>Draft editor unavailable</h1>
+            <p>
+              The item could not be loaded with your current access. No content
+              was changed.
+            </p>
+            <a className={staffStyles.primary} href="/admin/staff/content">
+              Back to content library
+            </a>
+          </section>
         </StaffFrame>
       );
   } else {
@@ -69,6 +75,7 @@ export default async function Page({
   }
   return (
     <StaffFrame
+      appearance="content"
       verified
       content
       people={gate.access.capabilities.includes("people.read")}

@@ -159,45 +159,53 @@ export function StaffCurriculumEditor({
     state.phase === "uncertain" ||
     state.phase === "denied";
   return (
-    <div className={styles.editor}>
-      <header>
-        <p className={s.eyebrow}>Content · Draft editor</p>
-        <h1>
-          {state.base ? "Edit " + state.base.family : "New " + creation.family}
-        </h1>
-        <p>
-          Save a private editorial draft. This does not approve, publish or
-          change learner pages.
-        </p>
-        <a href="/admin/staff/content">Back to content library</a>
-        {state.base?.family === "course" && (
-          <p>
-            <a
-              href={
-                "/admin/staff/content/editor?family=module&path=" +
-                state.base.path +
-                "&parent=" +
-                encodeURIComponent(state.base.id)
-              }
-            >
-              Add module to this course
-            </a>
-          </p>
-        )}
-        {state.base?.family === "module" && (
-          <p>
-            <a
-              href={
-                "/admin/staff/content/lesson?path=" +
-                state.base.path +
-                "&parent=" +
-                encodeURIComponent(state.base.id)
-              }
-            >
-              Add lesson to this module
-            </a>
-          </p>
-        )}
+    <div className={`${styles.editor} ${styles.redesign}`}>
+      <header className={styles.head}>
+        <a className={styles.back} href="/admin/staff/content">
+          Back to content library
+        </a>
+        <div className={styles.headRow}>
+          <div className={styles.headText}>
+            <p className={styles.eyebrow}>Content · Draft editor</p>
+            <h1>
+              {state.base
+                ? "Edit " + state.base.family
+                : "New " + creation.family}
+            </h1>
+            <p>
+              Save a private editorial draft. This does not approve, publish or
+              change learner pages.
+            </p>
+          </div>
+          {state.base?.family === "course" && (
+            <p className={styles.headAction}>
+              <a
+                href={
+                  "/admin/staff/content/editor?family=module&path=" +
+                  state.base.path +
+                  "&parent=" +
+                  encodeURIComponent(state.base.id)
+                }
+              >
+                Add module to this course
+              </a>
+            </p>
+          )}
+          {state.base?.family === "module" && (
+            <p className={styles.headAction}>
+              <a
+                href={
+                  "/admin/staff/content/lesson?path=" +
+                  state.base.path +
+                  "&parent=" +
+                  encodeURIComponent(state.base.id)
+                }
+              >
+                Add lesson to this module
+              </a>
+            </p>
+          )}
+        </div>
       </header>
       <p
         role="status"
@@ -206,30 +214,43 @@ export function StaffCurriculumEditor({
         ref={status}
         tabIndex={-1}
         className={styles.notice}
+        data-state={state.message ? "message" : dirty ? "unsaved" : "clean"}
       >
         {state.message || (dirty ? "Unsaved changes." : "No unsaved changes.")}
       </p>
       <form
         onSubmit={(event) => void save(event)}
         aria-busy={!hydrated || state.phase === "busy" || loading}
-        className={s.panel}
+        className={`${s.panel} ${styles.formCard}`}
       >
         <fieldset disabled={disabled}>
           <legend>
             {state.base ? "Permanent identity" : "Choose a permanent identity"}
           </legend>
           {state.base ? (
-            <dl>
-              <dt>Identity</dt>
-              <dd>{state.base.id}</dd>
-              <dt>Path</dt>
-              <dd>{state.base.path}</dd>
-              <dt>Parent</dt>
-              <dd>{state.base.parent ?? "No parent"}</dd>
-              <dt>Level</dt>
-              <dd>{state.base.level ?? "Inherited from parent"}</dd>
-              <dt>Base revision</dt>
-              <dd>{state.base.revision}</dd>
+            <dl className={styles.identityTiles}>
+              <div className={styles.tileWide}>
+                <dt>Identity</dt>
+                <dd className={styles.mono}>{state.base.id}</dd>
+              </div>
+              <div>
+                <dt>Path</dt>
+                <dd>{state.base.path}</dd>
+              </div>
+              <div className={styles.tileWide}>
+                <dt>Parent</dt>
+                <dd className={styles.mono}>
+                  {state.base.parent ?? "No parent"}
+                </dd>
+              </div>
+              <div>
+                <dt>Level</dt>
+                <dd>{state.base.level ?? "Inherited from parent"}</dd>
+              </div>
+              <div>
+                <dt>Base revision</dt>
+                <dd>{state.base.revision}</dd>
+              </div>
             </dl>
           ) : (
             <div className={styles.grid}>
@@ -300,10 +321,14 @@ export function StaffCurriculumEditor({
               )}
             </div>
           )}
-          <div className={styles.grid}>
+          <div className={`${styles.grid} ${styles.fields}`}>
             {(Object.keys(labels) as (keyof CurriculumDraftFields)[]).map(
               (name) => (
-                <label key={name} htmlFor={"draft-" + name}>
+                <label
+                  key={name}
+                  htmlFor={"draft-" + name}
+                  className={name === "description" ? styles.wide : undefined}
+                >
                   {labels[name]}
                   {name === "description" || name === "seoDescription" ? (
                     <textarea
@@ -353,7 +378,7 @@ export function StaffCurriculumEditor({
               ),
             )}
           </div>
-          <label htmlFor="draft-reason">
+          <label htmlFor="draft-reason" className={styles.reason}>
             Change reason
             <input
               id="draft-reason"
@@ -376,6 +401,7 @@ export function StaffCurriculumEditor({
           {(state.base || identity.id) && (
             <button
               type="button"
+              className={styles.secondary}
               disabled={!hydrated || loading || state.phase === "busy"}
               onClick={() => void compare()}
             >
@@ -390,7 +416,7 @@ export function StaffCurriculumEditor({
       </form>
       {state.latest && (
         <section
-          className={s.panel + " " + styles.comparison}
+          className={`${s.panel} ${styles.comparison} ${styles.compareCard}`}
           aria-labelledby="draft-compare-heading"
         >
           <h2 id="draft-compare-heading">
@@ -419,6 +445,7 @@ export function StaffCurriculumEditor({
           </dl>
           <button
             type="button"
+            className={styles.dangerAction}
             disabled={loading || state.phase === "busy"}
             onClick={useLatest}
           >
@@ -427,7 +454,7 @@ export function StaffCurriculumEditor({
         </section>
       )}
       {state.base && (
-        <p>
+        <p className={styles.revision}>
           Revision {state.base.revision} ·{" "}
           <code className={styles.hash}>{state.base.bodySha256}</code>
         </p>
