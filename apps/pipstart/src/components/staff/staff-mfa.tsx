@@ -13,6 +13,7 @@ import {
   type StaffFactor,
   type StaffSetup,
 } from "@/lib/auth/staff-mfa-flow";
+import { Icon } from "@/components/admin-preview/icons";
 import styles from "./staff.module.css";
 
 export function StaffMfa({
@@ -153,153 +154,230 @@ export function StaffMfa({
     }
   }
 
-  return (
+  const choosing = !setup && factors.length > 0 && !backup;
+  const naming = !setup && (backup || factors.length === 0);
+  const codeFields = (
     <>
-      <h1>
-        {setup
-          ? "Set up two-step verification"
-          : backup
-            ? "Add a backup authenticator"
-            : "Verify to continue"}
-      </h1>
-      <p>
-        Staff access needs an authenticator code and an active staff grant.
-        Verification does not give this account a staff role.
+      <label>
+        Six-digit authenticator code
+        <input
+          className={styles.codeInput}
+          name="totp"
+          inputMode="numeric"
+          autoComplete="one-time-code"
+          pattern="[0-9]{6}"
+          maxLength={6}
+          value={code}
+          onChange={(event) => setCode(event.target.value)}
+          disabled={busy || uncertain}
+          required
+          aria-describedby="staff-code-help"
+        />
+      </label>
+      <p className={styles.help} id="staff-code-help">
+        Only enter codes on PipStart. We will not ask for your key or code by
+        email.
       </p>
-      <p>
-        Keep a second verified authenticator on a separate device. This version
-        does not issue recovery codes. If all factors are lost, contact the
-        Owner; staff access stays closed during recovery.
-      </p>
-      {message && (
-        <p className={styles.notice} role="status" aria-live="polite">
-          {message}
-        </p>
-      )}
-      <form className={styles.form} onSubmit={verify} aria-busy={busy}>
-        {setup ? (
-          <div>
-            {/* Provider-generated local data URI; never an external image request. */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              className={styles.qr}
-              src={setup.qr}
-              width={180}
-              height={180}
-              alt="Scan this setup code in your authenticator app"
-            />
-            <label>
-              Can’t scan? Enter this key instead
-              <input
-                className={styles.input}
-                value={setup.secret}
-                readOnly
-                autoComplete="off"
-                spellCheck={false}
-              />
-            </label>
-            <p className={styles.notice}>
-              Keep this key private. It is cleared from this page after
-              verification or navigation.
-            </p>
-          </div>
-        ) : factors.length > 0 && !backup ? (
-          <label>
-            Authenticator
-            <select
-              className={styles.input}
-              value={selected}
-              onChange={(event) => setSelected(event.target.value)}
-              disabled={busy || uncertain}
-            >
-              {factors.map((factor) => (
-                <option key={factor.id} value={factor.id}>
-                  {factor.name}
-                </option>
-              ))}
-            </select>
-          </label>
-        ) : (
-          <p>
-            {ready
-              ? backup
-                ? "Set up a second authenticator on a separate device."
-                : "No verified authenticator was found. Set one up to continue."
-              : "Checking your session…"}
-          </p>
-        )}
-        {(setup || (factors.length > 0 && !backup)) && (
-          <>
-            <label>
-              Six-digit authenticator code
-              <input
-                className={styles.input}
-                name="totp"
-                inputMode="numeric"
-                autoComplete="one-time-code"
-                pattern="[0-9]{6}"
-                maxLength={6}
-                value={code}
-                onChange={(event) => setCode(event.target.value)}
-                disabled={busy || uncertain}
-                required
-                aria-describedby="staff-code-help"
-              />
-            </label>
-            <p id="staff-code-help">
-              Only enter codes on PipStart. We will not ask for your key or code
-              by email.
-            </p>
-            <button
-              className={styles.button}
-              disabled={busy || uncertain || !ready}
-              type="submit"
-            >
-              {busy ? "Verifying…" : "Verify and continue"}
-            </button>
-          </>
-        )}
-        {!setup && (backup || factors.length === 0) && (
-          <>
-            <label>
-              Name this authenticator
-              <input
-                className={styles.input}
-                name="factor-name"
-                value={factorName}
-                onChange={(event) => setFactorName(event.target.value)}
-                onKeyDown={(event) => {
-                  // Enter names the device; it must not submit the code form.
-                  if (event.key !== "Enter") return;
-                  event.preventDefault();
-                  void enroll();
-                }}
-                maxLength={STAFF_FACTOR_NAME_MAX_CHARACTERS}
-                autoComplete="off"
-                spellCheck={false}
-                disabled={busy || uncertain || !canEnroll}
-                required
-                aria-describedby="staff-factor-name-help"
-              />
-            </label>
-            <p id="staff-factor-name-help">
-              {backup
-                ? "For example “Backup phone” or “Tablet”. Choose a name that tells it apart from your first authenticator."
-                : "For example “Phone”. You will choose it by this name when you sign in."}
-            </p>
-            <button
-              className={styles.button}
-              disabled={busy || uncertain || !ready || !canEnroll}
-              type="button"
-              onClick={() => void enroll()}
-            >
-              {backup
-                ? "Add a backup authenticator"
-                : "Set up an authenticator"}
-            </button>
-          </>
-        )}
-      </form>
+      <button
+        className={styles.primary}
+        disabled={busy || uncertain || !ready}
+        type="submit"
+      >
+        {busy ? "Verifying…" : "Verify and continue"}
+        <Icon name="chevR" />
+      </button>
     </>
+  );
+
+  return (
+    <div className={styles.access}>
+      <div className={styles.intro}>
+        <p className={styles.eyebrow}>Staff access</p>
+        <h1>
+          {setup
+            ? "Set up two-step verification"
+            : backup
+              ? "Add a backup authenticator"
+              : "Verify to continue"}
+        </h1>
+        <p className={styles.lead}>
+          {setup || naming
+            ? "Link an authenticator app to this account, then confirm it with a code."
+            : "Enter a code from your authenticator app to open the staff area."}
+        </p>
+      </div>
+      <div className={styles.accessGrid}>
+        <section className={styles.card} aria-labelledby="staff-mfa-card">
+          {!setup && (
+            <div className={styles.cardHead}>
+              <span className={styles.badge}>
+                <Icon name={naming ? "key" : "device"} />
+              </span>
+              <h2 className={styles.cardTitle} id="staff-mfa-card">
+                {naming ? "Set up an authenticator" : "Authenticator code"}
+              </h2>
+            </div>
+          )}
+          {message && (
+            <p className={styles.status} role="status" aria-live="polite">
+              <Icon name="info" />
+              <span>{message}</span>
+            </p>
+          )}
+          <form className={styles.form} onSubmit={verify} aria-busy={busy}>
+            {setup ? (
+              <>
+                <div className={styles.step}>
+                  <span className={styles.stepNumber} aria-hidden="true">
+                    1
+                  </span>
+                  <div className={styles.stepBody}>
+                    <h2 className={styles.cardTitle} id="staff-mfa-card">
+                      Scan the setup code
+                    </h2>
+                    <div className={styles.setupRow}>
+                      {/* Provider-generated local data URI; never an external image request. */}
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        className={styles.qr}
+                        src={setup.qr}
+                        width={180}
+                        height={180}
+                        alt="Scan this setup code in your authenticator app"
+                      />
+                      <div className={styles.keyBlock}>
+                        <label>
+                          Can’t scan? Enter this key instead
+                          <input
+                            className={styles.field}
+                            value={setup.secret}
+                            readOnly
+                            autoComplete="off"
+                            spellCheck={false}
+                          />
+                        </label>
+                        <p className={styles.warning}>
+                          <Icon name="alert" />
+                          <span>
+                            Keep this key private. It is cleared from this page
+                            after verification or navigation.
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.step}>
+                  <span className={styles.stepNumber} aria-hidden="true">
+                    2
+                  </span>
+                  <div className={styles.stepBody}>
+                    <h2 className={styles.cardTitle}>Confirm a code</h2>
+                    {codeFields}
+                  </div>
+                </div>
+              </>
+            ) : choosing ? (
+              <>
+                <label>
+                  Authenticator
+                  <select
+                    className={styles.field}
+                    value={selected}
+                    onChange={(event) => setSelected(event.target.value)}
+                    disabled={busy || uncertain}
+                  >
+                    {factors.map((factor) => (
+                      <option key={factor.id} value={factor.id}>
+                        {factor.name}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                {codeFields}
+              </>
+            ) : (
+              <p className={styles.muted}>
+                {ready
+                  ? backup
+                    ? "Set up a second authenticator on a separate device."
+                    : "No verified authenticator was found. Set one up to continue."
+                  : "Checking your session…"}
+              </p>
+            )}
+            {naming && (
+              <>
+                <label>
+                  Name this authenticator
+                  <input
+                    className={styles.field}
+                    name="factor-name"
+                    value={factorName}
+                    onChange={(event) => setFactorName(event.target.value)}
+                    onKeyDown={(event) => {
+                      // Enter names the device; it must not submit the code form.
+                      if (event.key !== "Enter") return;
+                      event.preventDefault();
+                      void enroll();
+                    }}
+                    maxLength={STAFF_FACTOR_NAME_MAX_CHARACTERS}
+                    autoComplete="off"
+                    spellCheck={false}
+                    disabled={busy || uncertain || !canEnroll}
+                    required
+                    aria-describedby="staff-factor-name-help"
+                  />
+                </label>
+                <p className={styles.help} id="staff-factor-name-help">
+                  {backup
+                    ? "For example “Backup phone” or “Tablet”. Choose a name that tells it apart from your first authenticator."
+                    : "For example “Phone”. You will choose it by this name when you sign in."}
+                </p>
+                <button
+                  className={styles.primary}
+                  disabled={busy || uncertain || !ready || !canEnroll}
+                  type="button"
+                  onClick={() => void enroll()}
+                >
+                  {backup
+                    ? "Add a backup authenticator"
+                    : "Set up an authenticator"}
+                </button>
+              </>
+            )}
+          </form>
+        </section>
+        <aside className={styles.infoCard} aria-labelledby="staff-mfa-info">
+          <h2 className={styles.infoTitle} id="staff-mfa-info">
+            Good to know
+          </h2>
+          <div className={styles.infoItem}>
+            <span className={styles.infoIcon}>
+              <Icon name="shield" />
+            </span>
+            <div>
+              <h3>Verification is not a staff role</h3>
+              <p>
+                Staff access needs an authenticator code and an active staff
+                grant. Verification does not give this account a staff role.
+              </p>
+            </div>
+          </div>
+          <div className={styles.infoItem}>
+            <span className={styles.infoIcon}>
+              <Icon name="device" />
+            </span>
+            <div>
+              <h3>Keep a backup authenticator</h3>
+              <p>
+                Keep a second verified authenticator on a separate device. This
+                version does not issue recovery codes. If all factors are lost,
+                contact the Owner; staff access stays closed during recovery.
+              </p>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
   );
 }
