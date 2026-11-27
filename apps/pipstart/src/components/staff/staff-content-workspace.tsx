@@ -275,7 +275,7 @@ export function StaffContentWorkspace({
             switched to the store.
           </p>
         </div>
-        {(canCreateCourse || canEdit || canEditPartners) && (
+        {(canCreateCourse || canEdit || canEditPartners || isOwner) && (
           <div className={styles.createActions}>
             {canCreateCourse && (
               <a
@@ -311,6 +311,15 @@ export function StaffContentWorkspace({
               >
                 <Icon name="plus" />
                 New partner
+              </a>
+            )}
+            {isOwner && (
+              <a
+                className={styles.createAction}
+                href="/admin/staff/content/analysis"
+              >
+                <Icon name="plus" />
+                New analysis post
               </a>
             )}
           </div>
@@ -499,6 +508,20 @@ export function StaffContentWorkspace({
                                 aria-label={"Edit draft " + row.id}
                                 href={
                                   "/admin/staff/content/partner?id=" +
+                                  encodeURIComponent(row.id)
+                                }
+                              >
+                                Edit draft
+                              </a>
+                            )}
+                          {isOwner &&
+                            !row.trashed &&
+                            row.family === "analysis" && (
+                              <a
+                                className={styles.rowLink}
+                                aria-label={"Edit draft " + row.id}
+                                href={
+                                  "/admin/staff/content/analysis?id=" +
                                   encodeURIComponent(row.id)
                                 }
                               >

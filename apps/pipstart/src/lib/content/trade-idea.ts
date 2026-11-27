@@ -95,6 +95,9 @@ export const tradeLimits = {
 } as const;
 
 export const TRADE_CHART_BUCKET = "analysis-charts";
+export const PRIVATE_TRADE_CHART_BUCKET = "analysis-private-charts";
+export const PRIVATE_TRADE_CHART_PATH =
+  /^private\/[0-9]{4}\/(0[1-9]|1[0-2])\/[a-f0-9]{32}\.(png|jpg|webp)$/;
 
 // Patterns shared with the SQL rule (POSIX-compatible, no lookarounds).
 export const PRICE_PATTERN = /^[0-9]{1,7}(\.[0-9]{1,6})?$/;
@@ -116,14 +119,101 @@ const isInstant = (value: unknown): value is string => {
 };
 
 export const timeframeLabels: Record<TradeTimeframe, string> = {
-  m1: "1 min",
-  m5: "5 min",
-  m15: "15 min",
-  m30: "30 min",
+  m1: "1M",
+  m5: "5M",
+  m15: "15M",
+  m30: "30M",
   h1: "1H",
   h4: "4H",
-  d1: "Daily",
-  w1: "Weekly",
+  d1: "1D",
+  w1: "1W",
+};
+
+/** TA-b: the timeframes the staff editor offers, longest first. */
+export const editorTimeframes = [
+  "d1",
+  "h4",
+  "h1",
+  "m30",
+  "m15",
+] as const satisfies readonly TradeTimeframe[];
+
+/** TA-b: the instruments the staff editor offers (owner list, 27 November 2026; no exotics). */
+export const tradeInstrumentGroups = [
+  {
+    label: "Forex majors",
+    options: [
+      "EUR/USD",
+      "GBP/USD",
+      "USD/JPY",
+      "USD/CHF",
+      "AUD/USD",
+      "USD/CAD",
+      "NZD/USD",
+    ],
+  },
+  {
+    label: "Forex minors",
+    options: [
+      "EUR/GBP",
+      "EUR/JPY",
+      "EUR/CHF",
+      "EUR/AUD",
+      "EUR/CAD",
+      "EUR/NZD",
+      "GBP/JPY",
+      "GBP/CHF",
+      "GBP/AUD",
+      "GBP/CAD",
+      "GBP/NZD",
+      "AUD/JPY",
+      "AUD/CHF",
+      "AUD/CAD",
+      "AUD/NZD",
+      "CAD/JPY",
+      "CAD/CHF",
+      "CHF/JPY",
+      "NZD/JPY",
+      "NZD/CHF",
+      "NZD/CAD",
+    ],
+  },
+  { label: "Metals", options: ["XAU/USD", "XAG/USD"] },
+  {
+    label: "Index CFDs",
+    options: [
+      "US30",
+      "US500",
+      "US100",
+      "US2000",
+      "GER40",
+      "UK100",
+      "FRA40",
+      "EU50",
+      "JPN225",
+      "AUS200",
+      "HK50",
+    ],
+  },
+] as const;
+export const tradeInstruments: readonly string[] =
+  tradeInstrumentGroups.flatMap((group) => group.options);
+
+/** Full names shown next to index codes in the editor. */
+export const instrumentNames: Record<string, string> = {
+  "XAU/USD": "Gold",
+  "XAG/USD": "Silver",
+  US30: "Dow Jones 30",
+  US500: "S&P 500",
+  US100: "Nasdaq 100",
+  US2000: "Russell 2000",
+  GER40: "DAX 40",
+  UK100: "FTSE 100",
+  FRA40: "CAC 40",
+  EU50: "Euro Stoxx 50",
+  JPN225: "Nikkei 225",
+  AUS200: "ASX 200",
+  HK50: "Hang Seng 50",
 };
 
 export const directionLabels: Record<TradeDirection, string> = {
@@ -205,12 +295,15 @@ export function tradeRiskReward(
   const reward = Math.abs(scaledPrice(takeProfit) - scaledPrice(entry));
   if (risk === 0 || reward === 0) return null;
 
-  const pipSize = pipSizes.get(trade.instrument.replace("/", ""));
+  const points = Object.hasOwn(instrumentNames, trade.instrument);
+  const pipSize = points
+    ? undefined
+    : pipSizes.get(trade.instrument.replace("/", ""));
   const unitSize = pipSize ?? priceScale;
   return {
     risk: risk / unitSize,
     reward: reward / unitSize,
-    unit: pipSize ? "pip" : "price unit",
+    unit: points ? "point" : pipSize ? "pip" : "price unit",
     ratio: (Math.round((reward * 10) / risk) / 10).toFixed(1),
   };
 }
@@ -239,6 +332,24 @@ export function tradeChartUrl(
   } catch {
     return null;
   }
+}
+
+export function tradeChartReaderUrl(
+  path: string,
+  supabaseUrl: string | undefined,
+) {
+  return PRIVATE_TRADE_CHART_PATH.test(path)
+    ? "/api/analysis/chart?path=" + encodeURIComponent(path)
+    : tradeChartUrl(path, supabaseUrl);
+}
+
+export function tradeChartEditorUrl(
+  path: string,
+  supabaseUrl: string | undefined,
+) {
+  return PRIVATE_TRADE_CHART_PATH.test(path)
+    ? "/admin/staff/content/analysis/chart?path=" + encodeURIComponent(path)
+    : tradeChartUrl(path, supabaseUrl);
 }
 
 /** The reader-facing switch. Off (default): trade fields are kept but pages look as before. */

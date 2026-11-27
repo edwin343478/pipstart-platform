@@ -4,7 +4,7 @@ import {
   isOtherReason,
   outcomeLabels,
   timeframeLabels,
-  tradeChartUrl,
+  tradeChartReaderUrl,
   tradeOutcome,
   tradeRiskReward,
   tradeStatusText,
@@ -98,7 +98,7 @@ export function TradeChartImage({
   trade: TradeIdea;
   thumbnail?: boolean;
 }) {
-  const src = tradeChartUrl(
+  const src = tradeChartReaderUrl(
     (thumbnail && trade.chart.thumbnailPath) || trade.chart.path,
     process.env.NEXT_PUBLIC_SUPABASE_URL,
   );

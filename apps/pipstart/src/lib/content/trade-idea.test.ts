@@ -248,6 +248,22 @@ describe("trade idea display helpers", () => {
         takeProfit: "103.40",
       }),
     ).toEqual({ risk: 0.4, reward: 0.8, unit: "price unit", ratio: "2.0" });
+    expect(
+      tradeRiskReward({
+        instrument: "XAU/USD",
+        entry: "2640.50",
+        stopLoss: "2636.00",
+        takeProfit: "2649.50",
+      }),
+    ).toEqual({ risk: 4.5, reward: 9, unit: "point", ratio: "2.0" });
+    expect(
+      tradeRiskReward({
+        instrument: "US500",
+        entry: "6030",
+        stopLoss: "6020",
+        takeProfit: "6055",
+      }),
+    ).toEqual({ risk: 10, reward: 25, unit: "point", ratio: "2.5" });
     expect(tradeRiskReward({ ...trade, entry: "" })).toBeNull();
     expect(tradeRiskReward({ ...trade, stopLoss: trade.entry })).toBeNull();
   });
