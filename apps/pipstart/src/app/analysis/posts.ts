@@ -4,6 +4,7 @@ import {
   type PublicationStatus,
   selectPublishedContent,
 } from "../../lib/public-content";
+import type { TradeIdea } from "../../lib/content/trade-idea";
 
 export type AnalysisCategory = "fundamental" | "technical";
 
@@ -18,12 +19,26 @@ export interface AnalysisPost {
   reviewedAt: string;
   cluster: AnalysisCategory;
   status: PublicationStatus;
+  /** TA-a: a technical post may carry a trade idea (chart, levels and status). */
+  trade?: TradeIdea;
 }
 
 export const analysisPageCopy = {
   heading: "Analysis",
   subheading:
     "Educational commentary on market conditions, written to build understanding — not to call trades. Not financial advice.",
+};
+
+/** TA-a: the wording used while PIPSTART_TRADE_IDEAS_ENABLED is on. */
+export const tradeIdeasPageCopy = {
+  subheading:
+    "Educational trade ideas and market commentary. Each technical idea shows its chart, its levels and whether it is still valid. Not financial advice.",
+  archiveDisclosureLead: "Educational trade ideas, not financial advice.",
+  archiveDisclosure:
+    "Levels show how the analyst would plan the trade. Trading carries risk; past outcomes do not predict future results.",
+  disclosureLead: "Educational trade idea, not financial advice.",
+  disclosure:
+    "It shows how the analyst would plan this trade. Trading carries risk, and you are responsible for your own decisions.",
 };
 
 export function formatPublishedDate(publishedAt: string): string {

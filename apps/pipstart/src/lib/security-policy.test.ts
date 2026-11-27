@@ -119,6 +119,17 @@ describe("configured Auth/RPC connection origin", () => {
     expect(connect(true, "http://remote.example:54321")).toBe(
       "connect-src 'self' ws: wss:",
     ));
+  it("lets images load from the same configured origin only (trade-idea charts)", () => {
+    const img = (url?: string) =>
+      createContentSecurityPolicy(false, "https://pipstart.example", false, url)
+        .split("; ")
+        .find((d) => d.startsWith("img-src "));
+    expect(img("https://project.supabase.co")).toBe(
+      "img-src 'self' data: blob: https://project.supabase.co",
+    );
+    expect(img("https://*.supabase.co")).toBe("img-src 'self' data: blob:");
+    expect(img(undefined)).toBe("img-src 'self' data: blob:");
+  });
   it("normalizes surrounding configuration whitespace without accepting embedded directives", () =>
     expect(connect(false, " https://project.supabase.co/ ")).toBe(
       "connect-src 'self' https://project.supabase.co",

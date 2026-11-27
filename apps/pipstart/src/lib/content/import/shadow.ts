@@ -129,6 +129,10 @@ export function shadowAnalysisPost(row: StoreRow): AnalysisPost {
     reviewedAt: m.reviewedAt as string,
     cluster: m.cluster as AnalysisPost["cluster"],
     status: "published",
+    // TA-a: only posts that carry a trade idea gain the key, so code parity is unchanged.
+    ...(row.body.trade
+      ? { trade: row.body.trade as NonNullable<AnalysisPost["trade"]> }
+      : {}),
   };
 }
 

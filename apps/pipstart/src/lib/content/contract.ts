@@ -2,6 +2,7 @@
 // matching what the MP04a editorial store accepts (schema version 1). Types only.
 import type { AnalysisCategory } from "../../app/analysis/posts";
 import type { LessonBlock, LessonSection } from "../../content/lesson-content";
+import type { TradeIdea } from "./trade-idea";
 
 export const contentFamilies = [
   "course",
@@ -56,6 +57,8 @@ export type AnalysisBody = {
     excerpt: string;
   };
   paragraphs: string[];
+  /** TA-a: technical posts only. */
+  trade?: TradeIdea;
 };
 
 export type ContentBody = {

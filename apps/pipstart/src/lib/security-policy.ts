@@ -59,7 +59,8 @@ export function createContentSecurityPolicy(
     // Nonce-based inline-script protection would require a separate rendering change.
     `script-src 'self' 'unsafe-inline'${development ? " 'unsafe-eval'" : ""}${economicCalendar ? " https://s3.tradingview.com/external-embedding/embed-widget-events.js" : ""}`,
     "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data: blob:",
+    // TA-a: trade-idea charts are public objects on the same configured Supabase origin.
+    `img-src 'self' data: blob:${authSource}`,
     "font-src 'self' data:",
     `connect-src 'self'${authSource}${development ? " ws: wss:" : ""}`,
     "worker-src 'self' blob:",

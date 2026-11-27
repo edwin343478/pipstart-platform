@@ -244,6 +244,14 @@
     {
       "path": "apps/pipstart/scripts/test-m22-quiz-lifecycle.sql",
       "sha256": "1b5fb95a3ef18722131aeaf56d274374e2f35d3a962f7b910d14dc3de8b979d1"
+    },
+    {
+      "path": "supabase/migrations/20261127090000_pipstart_ta_trade_ideas.sql",
+      "sha256": "d89036fb635fc8cda3d7d270d8d7d609c16b6112f7d1386b05ba3de31348bd9d"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-ta-trade-ideas.sql",
+      "sha256": "db794c4e434cc52d4cfeba454d6b187c7a14a86f3b4d88db9f175e3663fac75e"
     }
   ]
 }

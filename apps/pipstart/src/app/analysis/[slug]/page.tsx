@@ -12,7 +12,20 @@ import {
   siteUrl,
 } from "../../../lib/seo";
 import { pipStartEditorialTeam } from "../authors";
-import { analysisPosts, formatPublishedDate } from "../posts";
+import {
+  timeframeLabels,
+  tradeIdeasEnabled,
+} from "../../../lib/content/trade-idea";
+import {
+  analysisPosts,
+  formatPublishedDate,
+  tradeIdeasPageCopy,
+} from "../posts";
+import {
+  TradeChartImage,
+  TradeInfoPanel,
+  TradeStatusLine,
+} from "../trade-idea";
 import styles from "./page.module.css";
 
 export function generateStaticParams() {
@@ -81,6 +94,25 @@ export default async function AnalysisArticlePage({
     )
     .slice(0, 2);
 
+  // TA-a: the trade layout shows only while the switch is on and the post carries a trade idea.
+  const trade = tradeIdeasEnabled() ? post.trade : undefined;
+  const footer = (
+    <>
+      <AuthorBox author={pipStartEditorialTeam} className={styles.authorBox} />
+
+      {related.length > 0 && (
+        <div className={styles.related}>
+          <p className={styles.relatedLabel}>Related</p>
+          {related.map((item) => (
+            <Link key={item.slug} href={`/analysis/${item.slug}`}>
+              {item.title}
+            </Link>
+          ))}
+        </div>
+      )}
+    </>
+  );
+
   return (
     <main className={styles.page}>
       <JsonLd
@@ -104,7 +136,11 @@ export default async function AnalysisArticlePage({
       />
       <CompactHeader className={styles.header} section="Analysis" />
 
-      <article className={styles.article}>
+      <article
+        className={
+          trade ? `${styles.article} ${styles.articleTrade}` : styles.article
+        }
+      >
         <Breadcrumbs
           className={styles.breadcrumb}
           items={[
@@ -130,30 +166,51 @@ export default async function AnalysisArticlePage({
           </Link>
         </p>
 
-        <div className={styles.disclosure}>
-          <strong>Educational commentary, not financial advice.</strong> This
-          reflects the author&apos;s interpretation of publicly available
-          information and is not a recommendation to trade.
-        </div>
+        {trade ? (
+          <>
+            <section
+              className={styles.tradeStatus}
+              data-state={trade.status.state}
+              aria-label="Trade status"
+            >
+              <TradeStatusLine status={trade.status} large />
+            </section>
+            <div className={styles.tradeLayout}>
+              {/* First in reading order, so phones show the levels before the long text. */}
+              <TradeInfoPanel trade={trade} />
+              <div className={styles.tradeMain}>
+                <figure className={styles.tradeChart}>
+                  <TradeChartImage trade={trade} />
+                  <figcaption>
+                    {trade.instrument}, {timeframeLabels[trade.timeframe]} chart
+                    {trade.chart.credit ? ` · ${trade.chart.credit}` : null}
+                  </figcaption>
+                </figure>
+                {post.body.map((paragraph, index) => (
+                  <p key={index}>{paragraph}</p>
+                ))}
+                <div className={styles.disclosure}>
+                  <strong>{tradeIdeasPageCopy.disclosureLead}</strong>{" "}
+                  {tradeIdeasPageCopy.disclosure}
+                </div>
+                {footer}
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className={styles.disclosure}>
+              <strong>Educational commentary, not financial advice.</strong>{" "}
+              This reflects the author&apos;s interpretation of publicly
+              available information and is not a recommendation to trade.
+            </div>
 
-        {post.body.map((paragraph, index) => (
-          <p key={index}>{paragraph}</p>
-        ))}
-
-        <AuthorBox
-          author={pipStartEditorialTeam}
-          className={styles.authorBox}
-        />
-
-        {related.length > 0 && (
-          <div className={styles.related}>
-            <p className={styles.relatedLabel}>Related</p>
-            {related.map((item) => (
-              <Link key={item.slug} href={`/analysis/${item.slug}`}>
-                {item.title}
-              </Link>
+            {post.body.map((paragraph, index) => (
+              <p key={index}>{paragraph}</p>
             ))}
-          </div>
+
+            {footer}
+          </>
         )}
       </article>
     </main>

@@ -166,3 +166,76 @@
     padding-left: 1.25rem;
   }
 }
+
+/* TA-a: trade idea layout (only while PIPSTART_TRADE_IDEAS_ENABLED is on). */
+.articleTrade {
+  max-width: 72rem;
+}
+
+.tradeStatus {
+  margin: 0 0 1.25rem;
+  border: 1px solid #d9e0e5;
+  border-radius: 1rem;
+  background: #fff;
+  padding: 0.875rem 1.125rem;
+}
+
+.tradeStatus[data-state="active"] {
+  border-color: #99e2d6;
+  background: #f0fdfa;
+}
+
+.tradeLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(16rem, 20rem);
+  align-items: start;
+  gap: 1.5rem;
+}
+
+.tradeMain {
+  grid-row: 1;
+  grid-column: 1;
+  min-width: 0;
+}
+
+.tradeLayout > aside {
+  grid-row: 1;
+  grid-column: 2;
+}
+
+.tradeMain > p {
+  margin: 0 0 1rem;
+  color: #111827;
+  font-size: 0.90625rem;
+  line-height: 1.75;
+}
+
+.tradeMain .disclosure {
+  margin: 1.5rem 0 0;
+}
+
+.tradeChart {
+  margin: 0 0 1.5rem;
+  border: 1px solid #d9e0e5;
+  border-radius: 1.25rem;
+  background: #fff;
+  padding: 0.75rem;
+  box-shadow: 0 20px 40px -28px rgba(11, 18, 32, 0.16);
+}
+
+.tradeChart figcaption {
+  margin: 0.5rem 0.25rem 0;
+  color: #596579;
+  font-size: 0.75rem;
+}
+
+@media (max-width: 899px) {
+  .tradeLayout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .tradeMain,
+  .tradeLayout > aside {
+    grid-row: auto;
+    grid-column: auto;
+  }
+}

@@ -151,6 +151,8 @@ export const MP03_SQL_INPUTS = Object.freeze([
   "supabase/migrations/20261122090000_pipstart_m22_staff_action_limits.sql",
   "apps/pipstart/scripts/test-m22-staff-action-limits.sql",
   "apps/pipstart/scripts/test-m22-quiz-lifecycle.sql",
+  "supabase/migrations/20261127090000_pipstart_ta_trade_ideas.sql",
+  "apps/pipstart/scripts/test-ta-trade-ideas.sql",
 ]);
 export function checkedMp03Manifest(repositoryRoot, manifest) {
   if (
@@ -295,6 +297,8 @@ export async function verifyStaffCore(
     actionLimitsHead: false,
     quizLifecycleStaged: false,
     quizLifecycleHead: false,
+    tradeIdeasStaged: false,
+    tradeIdeasHead: false,
     schedulerStaged: false,
     schedulerHead: false,
     schedulerOverlap: false,
@@ -2055,6 +2059,33 @@ export async function verifyStaffCore(
       ) === "t";
     if (!result.quizLifecycleHead)
       throw Error("Quiz lifecycle rollback/head failed");
+    // TA-a: trade ideas on technical analysis bodies (body_ok), staged last. Plain Postgres has no
+    // storage schema, so the chart bucket step is skipped here by the migration's own guard.
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "supabase/migrations/20261127090000_pipstart_ta_trade_ideas.sql",
+        ),
+        "utf8",
+      ),
+    );
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(root, "apps/pipstart/scripts/test-ta-trade-ideas.sql"),
+        "utf8",
+      ),
+    );
+    result.tradeIdeasStaged = true;
+    result.tradeIdeasHead =
+      sql(
+        database,
+        'select not has_function_privilege(\'authenticated\',\'pipstart_editorial_private.analysis_trade_ok(jsonb)\',\'execute\') and not has_function_privilege(\'service_role\',\'pipstart_editorial_private.analysis_trade_ok(jsonb)\',\'execute\') and pipstart_editorial_private.body_ok(\'analysis\',\'{"metadata":{"title":"T","category":"technical","excerpt":"E"},"paragraphs":["P"]}\'::jsonb) and not pipstart_editorial_private.body_ok(\'analysis\',\'{"metadata":{"title":"T","category":"fundamental","excerpt":"E"},"paragraphs":["P"],"trade":{}}\'::jsonb);',
+      ) === "t";
+    if (!result.tradeIdeasHead)
+      throw Error("Trade idea rule/grant/head failed");
     cleanup();
     result.passed =
       result.staged &&
@@ -2135,6 +2166,8 @@ export async function verifyStaffCore(
       result.actionLimitsHead &&
       result.quizLifecycleStaged &&
       result.quizLifecycleHead &&
+      result.tradeIdeasStaged &&
+      result.tradeIdeasHead &&
       result.schedulerStaged &&
       result.schedulerHead &&
       result.schedulerOverlap &&

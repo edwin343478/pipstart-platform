@@ -7,6 +7,7 @@ import {
   contentLimits,
   lessonBlockTypes,
 } from "./contract";
+import { tradeIdeaProblem } from "./trade-idea";
 
 export type BodyCheck = { ok: true } | { ok: false; reason: string };
 
@@ -95,6 +96,13 @@ export function checkContentBody(family: string, body: unknown): BodyCheck {
       for (const paragraph of paragraphs)
         if (typeof paragraph !== "string" || btrim(paragraph) === "")
           return refuse("Paragraphs cannot be blank");
+      // TA-a: an optional trade idea, on technical posts only.
+      if ("trade" in body) {
+        if (category !== "technical")
+          return refuse("Only technical posts carry trade information");
+        const problem = tradeIdeaProblem(body.trade);
+        if (problem) return refuse(problem);
+      }
       return { ok: true };
     }
     case "quiz": {

@@ -79,7 +79,17 @@ describe("M22 MP04b content boundary", { timeout: 60_000 }, () => {
     expect(runtimeImports(join(src, "lib/content/public.ts"))).toEqual([]);
     expect(runtimeImports(join(src, "lib/content/validate.ts"))).toEqual([
       "./contract",
+      "./trade-idea",
     ]);
+    // TA-a permits only the public calculator's static instrument definitions.
+    expect(runtimeImports(join(src, "lib/content/trade-idea.ts"))).toEqual([
+      "../../app/tools/position-size-calculator/instruments",
+    ]);
+    expect(
+      runtimeImports(
+        join(src, "app/tools/position-size-calculator/instruments.ts"),
+      ),
+    ).toEqual([]);
     expect(runtimeImports(join(src, "lib/content/routes.ts"))).toEqual([]);
   });
 
