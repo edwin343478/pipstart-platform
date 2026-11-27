@@ -221,6 +221,11 @@ export function tradeChartUrl(
   supabaseUrl: string | undefined,
 ): string | null {
   if (!CHART_PATH_PATTERN.test(path)) return null;
+  if (
+    tradeIdeasVisualPreview() &&
+    (path === "ta-review-eur.png" || path === "ta-review-aud.png")
+  )
+    return "/ta-visual-preview/" + path.replace(".png", ".svg");
   try {
     const base = new URL((supabaseUrl ?? "").trim());
     const loopback =
@@ -241,11 +246,23 @@ export function tradeChartUrl(
   }
 }
 
+/** Temporary visual review deployment. The release branch does not include this fixture. */
+export function tradeIdeasVisualPreview(
+  env: Record<string, string | undefined> = process.env,
+): boolean {
+  return (
+    env.VERCEL_ENV === "preview" &&
+    env.VERCEL_GIT_COMMIT_REF === "codex/ta-a-visual-preview"
+  );
+}
+
 /** The reader-facing switch. Off (default): trade fields are kept but pages look as before. */
 export function tradeIdeasEnabled(
   env: Record<string, string | undefined> = process.env,
 ): boolean {
-  return env.PIPSTART_TRADE_IDEAS_ENABLED === "true";
+  return (
+    tradeIdeasVisualPreview(env) || env.PIPSTART_TRADE_IDEAS_ENABLED === "true"
+  );
 }
 
 const isObject = (value: unknown): value is Record<string, unknown> =>

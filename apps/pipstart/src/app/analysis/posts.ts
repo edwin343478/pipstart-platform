@@ -4,7 +4,11 @@ import {
   type PublicationStatus,
   selectPublishedContent,
 } from "../../lib/public-content";
-import type { TradeIdea } from "../../lib/content/trade-idea";
+import {
+  tradeIdeasVisualPreview,
+  type TradeIdea,
+} from "../../lib/content/trade-idea";
+import { previewTradeIdeas } from "./preview-trade-ideas";
 
 export type AnalysisCategory = "fundamental" | "technical";
 
@@ -160,3 +164,5 @@ export const analysisPosts = selectPublishedContent(
         .map(shadowAnalysisPost)
     : allAnalysisPosts,
 );
+
+if (tradeIdeasVisualPreview()) analysisPosts.unshift(...previewTradeIdeas);

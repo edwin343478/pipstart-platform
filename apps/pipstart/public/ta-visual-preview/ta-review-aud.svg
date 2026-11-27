@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" width="1520" height="720" role="img" aria-labelledby="title">
+<title id="title">Illustrative AUD/USD 4-hour chart</title>
+<rect width="760" height="360" fill="#fff"/>
+<g stroke="#e4e9ed"><path d="M25 55h645M25 115h645M25 175h645M25 235h645M25 295h645M125 38v270M245 38v270M365 38v270M485 38v270M605 38v270"/></g>
+<g fill="#344054" font-family="Arial,sans-serif" font-size="13"><text x="25" y="24">AUD/USD · 4H · Illustrative</text><text x="25" y="335">24 Nov</text><text x="325" y="335">25 Nov</text><text x="610" y="335">26 Nov</text></g>
+<g fill="none" stroke-dasharray="6 5"><path d="M25 71h645" stroke="#08784f"/><path d="M25 225h645" stroke="#1468a8"/><path d="M25 295h645" stroke="#ab3939"/></g>
+<g fill="#344054" font-family="Arial,sans-serif" font-size="12"><text x="678" y="75">TP 0.6585</text><text x="678" y="229">E 0.6520</text><text x="678" y="299">SL 0.6490</text></g>
+<g stroke="#aa4c4c" fill="#aa4c4c"><path d="M70 176v52M221 168v41M369 125v39M519 90v40"/><rect x="62" y="191" width="16" height="22"/><rect x="213" y="178" width="16" height="18"/><rect x="361" y="137" width="16" height="13"/><rect x="511" y="102" width="16" height="13"/></g>
+<g stroke="#0f766e" fill="#0f766e"><path d="M121 181v51M171 155v48M271 151v53M321 126v45M419 114v44M469 87v48M569 76v46M619 58v50"/><rect x="113" y="193" width="16" height="20"/><rect x="163" y="175" width="16" height="19"/><rect x="263" y="173" width="16" height="24"/><rect x="313" y="137" width="16" height="36"/><rect x="411" y="128" width="16" height="23"/><rect x="461" y="102" width="16" height="26"/><rect x="561" y="94" width="16" height="21"/><rect x="611" y="68" width="16" height="27"/></g>
+</svg>
