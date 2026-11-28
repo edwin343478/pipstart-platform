@@ -6,7 +6,12 @@ import { canOpenMaintenance } from "@/lib/content/maintenance-contract";
 import { StaffFrame } from "@/components/staff/staff-frame";
 import { StaffAnalysisEditor } from "@/components/staff/staff-analysis-editor";
 import staffStyles from "@/components/staff/staff.module.css";
+import {
+  StaffTradeStatusUpdate,
+  type LiveTradeStatus,
+} from "@/components/staff/staff-trade-status-update";
 import { runAnalysisDraftAction } from "../analysis-actions";
+import { runPublicationAction } from "../publication-actions";
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Analysis post drafts | PipStart",
@@ -56,10 +61,38 @@ export default async function Page({
         </a>
       </section>,
     );
+  // TA-c: a published trade idea gets the one-step live status panel.
+  const item = result.item;
+  let live: LiveTradeStatus | null = null;
+  if (item.fields.trade) {
+    const publication = await runPublicationAction({
+      action: "status",
+      id: item.id,
+    });
+    const published =
+      publication.kind === "status" ? publication.status.published : null;
+    if (publication.kind === "status" && published) {
+      live =
+        publication.status.generation !== null &&
+        published.revision === item.revision &&
+        published.bodySha256 === item.bodySha256
+          ? {
+              kind: "live",
+              id: item.id,
+              revision: item.revision,
+              sha: item.bodySha256,
+              generation: publication.status.generation,
+              status: item.fields.trade.status,
+              statusUpdatedAt: item.statusUpdatedAt,
+            }
+          : { kind: "pending-changes" };
+    }
+  }
   return frame(
     <StaffAnalysisEditor
-      key={result.item.id + ":" + result.item.revision}
-      item={result.item}
+      key={item.id + ":" + item.revision}
+      item={item}
+      liveStatus={live ? <StaffTradeStatusUpdate live={live} /> : null}
     />,
   );
 }

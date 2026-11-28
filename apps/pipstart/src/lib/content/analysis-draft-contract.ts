@@ -9,6 +9,8 @@ import {
   tradeDirections,
   tradeIdeaProblem,
   tradeInstruments,
+  tradeLimits,
+  type TradeHistoryEntry,
   type TradeChart,
   type TradeDirection,
   type TradeIdea,
@@ -245,16 +247,27 @@ export function mergeAnalysisFields(
   delete next.trade;
   if (fields.trade) {
     const before = previous?.fields.trade;
-    const updatedAt =
-      before &&
-      previous?.statusUpdatedAt &&
-      sameStatus(before.status, fields.trade.status)
-        ? previous.statusUpdatedAt
-        : now;
+    const unchanged =
+      !!before &&
+      !!previous?.statusUpdatedAt &&
+      sameStatus(before.status, fields.trade.status);
+    const updatedAt = unchanged ? previous!.statusUpdatedAt! : now;
+    // TA-c: a changed status moves the previous one, with its time, into the history.
+    const stored =
+      object(body.trade) && Array.isArray(body.trade.history)
+        ? (body.trade.history as TradeHistoryEntry[])
+        : [];
+    const history =
+      before && previous?.statusUpdatedAt && !unchanged
+        ? [...stored, { ...before.status, at: previous.statusUpdatedAt }]
+        : stored;
     next.trade = {
       ...fields.trade,
       chart: { ...fields.trade.chart },
       status: { ...fields.trade.status, updatedAt },
+      ...(history.length
+        ? { history: history.slice(-tradeLimits.historyEntries) }
+        : {}),
     };
   }
   return next;

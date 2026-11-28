@@ -29,6 +29,17 @@ const trade = (state: "active" | "inactive"): TradeIdea => ({
           outcome: "void",
           updatedAt: "2026-11-28T09:00:00.000Z",
         },
+  ...(state === "inactive"
+    ? {
+        history: [
+          {
+            state: "active" as const,
+            reason: "pending" as const,
+            at: "2026-11-27T14:30:00.000Z",
+          },
+        ],
+      }
+    : {}),
 });
 
 const post = (
@@ -160,5 +171,22 @@ describe("trade ideas switched on", () => {
     vi.stubEnv("PIPSTART_TRADE_IDEAS_ENABLED", "true");
     vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "");
     expect(await article("eurusd-retest")).toContain("Chart unavailable");
+  });
+});
+
+describe("status history on the post (TA-c)", () => {
+  it("lists the current status and earlier ones, newest first, in UTC", async () => {
+    vi.stubEnv("PIPSTART_TRADE_IDEAS_ENABLED", "true");
+    const page = await article("usdjpy-fade");
+    expect(page).toContain('aria-labelledby="trade-status-history"');
+    const current = page.indexOf("Current status · set");
+    const earlier = page.indexOf(
+      "Pending: waiting for price to reach the entry",
+      current,
+    );
+    expect(current).toBeGreaterThan(-1);
+    expect(earlier).toBeGreaterThan(current);
+    expect(page).toContain("Nov 28, 2026, 09:00 UTC");
+    expect(page).toContain("Nov 27, 2026, 14:30 UTC");
   });
 });

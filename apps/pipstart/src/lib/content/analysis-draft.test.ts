@@ -403,3 +403,62 @@ describe("analysis draft runner (TA-b, Owner only)", () => {
     ).toEqual({ kind: "uncertain" });
   });
 });
+
+describe("status history (TA-c)", () => {
+  it("moves the previous status into the history when the status changes", () => {
+    const closed = {
+      ...fields(),
+      trade: {
+        ...trade(),
+        status: { state: "inactive" as const, reason: "take-profit" as const },
+      },
+    };
+    const once = mergeAnalysisFields(storedBody(), closed, NOW.toISOString())!;
+    expect((once.trade as { history: unknown[] }).history).toEqual([
+      { state: "active", reason: "pending", at: "2026-11-27T14:30:00.000Z" },
+    ]);
+    expect(checkContentBody("analysis", once)).toEqual({ ok: true });
+    // An unchanged status keeps the history as it is.
+    const again = mergeAnalysisFields(
+      once,
+      closed,
+      "2026-11-29T10:00:00.000Z",
+    )!;
+    expect((again.trade as { history: unknown[] }).history).toHaveLength(1);
+    expect(
+      (again.trade as { status: { updatedAt: string } }).status.updatedAt,
+    ).toBe(NOW.toISOString());
+  });
+
+  it("keeps at most the 50 latest earlier statuses", () => {
+    const body = storedBody() as Record<string, unknown> & {
+      trade: Record<string, unknown>;
+    };
+    body.trade.history = Array.from({ length: 50 }, () => ({
+      state: "active",
+      reason: "pending",
+      at: "2026-11-20T00:00:00.000Z",
+    }));
+    const next = mergeAnalysisFields(
+      body,
+      {
+        ...fields(),
+        trade: { ...trade(), status: { state: "active", reason: "triggered" } },
+      },
+      NOW.toISOString(),
+    )!;
+    const history = (next.trade as { history: { at: string }[] }).history;
+    expect(history).toHaveLength(50);
+    expect(history.at(-1)!.at).toBe("2026-11-27T14:30:00.000Z");
+  });
+
+  it("drops the history with the trade idea when the trade is removed", () => {
+    expect(
+      mergeAnalysisFields(
+        storedBody(),
+        { ...fields(), trade: null },
+        NOW.toISOString(),
+      )!.trade,
+    ).toBeUndefined();
+  });
+});

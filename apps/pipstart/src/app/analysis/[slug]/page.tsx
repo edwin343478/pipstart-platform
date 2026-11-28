@@ -24,6 +24,7 @@ import {
 import {
   TradeChartImage,
   TradeInfoPanel,
+  TradeStatusHistory,
   TradeStatusLine,
 } from "../trade-idea";
 import styles from "./page.module.css";
@@ -189,6 +190,7 @@ export default async function AnalysisArticlePage({
                 {post.body.map((paragraph, index) => (
                   <p key={index}>{paragraph}</p>
                 ))}
+                <TradeStatusHistory trade={trade} />
                 <div className={styles.disclosure}>
                   <strong>{tradeIdeasPageCopy.disclosureLead}</strong>{" "}
                   {tradeIdeasPageCopy.disclosure}

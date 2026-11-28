@@ -335,3 +335,44 @@
   margin-top: 0.5rem;
   font-size: 0.875rem;
 }
+
+/* TA-c: status history on the post page. */
+.history {
+  margin: 1.5rem 0 0;
+  border: 1px solid #d9e0e5;
+  border-radius: 1.25rem;
+  background: #fff;
+  padding: 1.125rem 1.25rem;
+}
+
+.history h2 {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-pipstart-heading), sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.history ol {
+  display: grid;
+  gap: 0.875rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.history li {
+  display: grid;
+  gap: 0.25rem;
+  border-left: 3px solid #d9e0e5;
+  padding-left: 0.75rem;
+}
+
+.history li[data-state="active"] {
+  border-left-color: #14b8a6;
+}
+
+.history .historyTime {
+  margin: 0;
+  color: #596579;
+  font-size: 0.72rem;
+}

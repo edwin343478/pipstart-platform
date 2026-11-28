@@ -178,3 +178,44 @@ export function TradeInfoPanel({ trade }: { trade: TradeIdea }) {
     </aside>
   );
 }
+
+/** TA-c: the current status and every earlier one, newest first, each with its time. */
+export function TradeStatusHistory({ trade }: { trade: TradeIdea }) {
+  const entries = [
+    { ...trade.status, at: trade.status.updatedAt, current: true },
+    ...[...(trade.history ?? [])]
+      .reverse()
+      .map((entry) => ({ ...entry, current: false })),
+  ];
+  return (
+    <section className={styles.history} aria-labelledby="trade-status-history">
+      <h2 id="trade-status-history">Status history</h2>
+      <ol>
+        {entries.map((entry, index) => (
+          <li key={index} data-state={entry.state}>
+            <TradeStatusLine status={{ ...entry, updatedAt: entry.at }} />
+            <p className={styles.historyTime}>
+              {entry.current ? "Current status · set " : "Set "}
+              <time dateTime={entry.at}>{formatStatusTime(entry.at)}</time>
+            </p>
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+}
+
+/** "Nov 27, 2026, 14:30 UTC": the same text on the server and in every reader's browser. */
+export function formatStatusTime(at: string): string {
+  return (
+    new Intl.DateTimeFormat("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hourCycle: "h23",
+      timeZone: "UTC",
+    }).format(new Date(at)) + " UTC"
+  );
+}

@@ -60,13 +60,13 @@ const subscribeToHydration = () => () => {};
 const clientHydrated = () => true;
 const serverHydrated = () => false;
 
-const activeReasons = (Object.keys(tradeReasons) as TradeReason[]).filter(
-  (r) => tradeReasons[r].state === "active",
-);
-const inactiveReasons = (Object.keys(tradeReasons) as TradeReason[]).filter(
-  (r) => tradeReasons[r].state === "inactive",
-);
-const reasonOption = (r: TradeReason) =>
+export const activeReasons = (
+  Object.keys(tradeReasons) as TradeReason[]
+).filter((r) => tradeReasons[r].state === "active");
+export const inactiveReasons = (
+  Object.keys(tradeReasons) as TradeReason[]
+).filter((r) => tradeReasons[r].state === "inactive");
+export const reasonOption = (r: TradeReason) =>
   isOtherReason(r) ? reasonLabels[r] + " (write my own)…" : reasonLabels[r];
 
 /** A URL-safe address from a title: lowercase words joined by hyphens. */
@@ -97,8 +97,11 @@ export function priceProblem(
 
 export function StaffAnalysisEditor({
   item,
+  liveStatus = null,
 }: {
   item: AnalysisDraftView | null;
+  /** TA-c: the one-click status panel for a live trade idea, shown under the heading. */
+  liveStatus?: React.ReactNode;
 }) {
   const [state, dispatch] = useReducer(
     analysisEditorReducer,
@@ -266,6 +269,7 @@ export function StaffAnalysisEditor({
           </div>
         </div>
       </header>
+      {liveStatus}
       <p
         role="status"
         aria-live="polite"

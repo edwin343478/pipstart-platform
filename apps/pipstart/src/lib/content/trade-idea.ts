@@ -83,7 +83,10 @@ export type TradeIdea = {
   takeProfit: string;
   chart: TradeChart;
   status: TradeStatus;
+  history?: TradeHistoryEntry[];
 };
+
+export type TradeHistoryEntry = Omit<TradeStatus, "updatedAt"> & { at: string };
 
 export const tradeLimits = {
   instrumentLength: 20,
@@ -92,6 +95,7 @@ export const tradeLimits = {
   creditLength: 200,
   chartPathLength: 200,
   imageSide: 10000,
+  historyEntries: 50,
 } as const;
 
 export const TRADE_CHART_BUCKET = "analysis-charts";
@@ -373,6 +377,32 @@ const side = (value: unknown) =>
   value >= 1 &&
   value <= tradeLimits.imageSide;
 
+/** One status (current or earlier): reason, matching state, note and outcome rules, and its time. */
+function statusProblem(
+  status: Record<string, unknown>,
+  timeKey: "updatedAt" | "at",
+): string | null {
+  const rule =
+    typeof status.reason === "string" &&
+    Object.prototype.hasOwnProperty.call(tradeReasons, status.reason)
+      ? tradeReasons[status.reason as TradeReason]
+      : null;
+  if (!rule || status.state !== rule.state)
+    return "The status reason does not match Active or Inactive";
+  const other = isOtherReason(status.reason as TradeReason);
+  if (other ? !text(status.note, tradeLimits.noteLength) : "note" in status)
+    return "A written explanation (up to 140 characters) goes with “Other” only";
+  if (
+    status.reason === "inactive-other"
+      ? !(tradeOutcomes as readonly unknown[]).includes(status.outcome)
+      : "outcome" in status
+  )
+    return "Choose an outcome for “Other inactive reason” only";
+  if (!isInstant(status[timeKey]))
+    return "The status needs the time it was set";
+  return null;
+}
+
 /** Structural rule for a trade idea; null when valid, else the reason it is refused. */
 export function tradeIdeaProblem(trade: unknown): string | null {
   if (!isObject(trade)) return "Trade information must be an object";
@@ -415,23 +445,20 @@ export function tradeIdeaProblem(trade: unknown): string | null {
     return "A chart image with a description is required";
   const status = trade.status;
   if (!isObject(status)) return "A trade status is required";
-  const rule =
-    typeof status.reason === "string" &&
-    Object.prototype.hasOwnProperty.call(tradeReasons, status.reason)
-      ? tradeReasons[status.reason as TradeReason]
-      : null;
-  if (!rule || status.state !== rule.state)
-    return "The status reason does not match Active or Inactive";
-  const other = isOtherReason(status.reason as TradeReason);
-  if (other ? !text(status.note, tradeLimits.noteLength) : "note" in status)
-    return "A written explanation (up to 140 characters) goes with “Other” only";
-  if (
-    status.reason === "inactive-other"
-      ? !(tradeOutcomes as readonly unknown[]).includes(status.outcome)
-      : "outcome" in status
-  )
-    return "Choose an outcome for “Other inactive reason” only";
-  if (!isInstant(status.updatedAt))
-    return "The status needs the time it was set";
+  const problem = statusProblem(status, "updatedAt");
+  if (problem) return problem;
+  // TA-c: the optional status history, at most 50 earlier statuses.
+  if ("history" in trade) {
+    const history = trade.history;
+    if (
+      !Array.isArray(history) ||
+      history.length < 1 ||
+      history.length > tradeLimits.historyEntries
+    )
+      return "The status history must list 1 to 50 earlier statuses";
+    for (const entry of history)
+      if (!isObject(entry) || statusProblem(entry, "at") !== null)
+        return "Every status history entry needs a valid status and time";
+  }
   return null;
 }

@@ -252,6 +252,14 @@
     {
       "path": "apps/pipstart/scripts/test-ta-trade-ideas.sql",
       "sha256": "db794c4e434cc52d4cfeba454d6b187c7a14a86f3b4d88db9f175e3663fac75e"
+    },
+    {
+      "path": "supabase/migrations/20261128090000_pipstart_ta_status_history.sql",
+      "sha256": "206460002e321ecf95bf80d53beb590893f656ae403385f8ad15542ffb279b75"
+    },
+    {
+      "path": "apps/pipstart/scripts/test-ta-status-history.sql",
+      "sha256": "a813ca14bbff0a8e363a45da8e083c8562b966137b9ee8c7b31045905cf75722"
     }
   ]
 }

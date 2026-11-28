@@ -153,6 +153,8 @@ export const MP03_SQL_INPUTS = Object.freeze([
   "apps/pipstart/scripts/test-m22-quiz-lifecycle.sql",
   "supabase/migrations/20261127090000_pipstart_ta_trade_ideas.sql",
   "apps/pipstart/scripts/test-ta-trade-ideas.sql",
+  "supabase/migrations/20261128090000_pipstart_ta_status_history.sql",
+  "apps/pipstart/scripts/test-ta-status-history.sql",
 ]);
 export function checkedMp03Manifest(repositoryRoot, manifest) {
   if (
@@ -299,6 +301,8 @@ export async function verifyStaffCore(
     quizLifecycleHead: false,
     tradeIdeasStaged: false,
     tradeIdeasHead: false,
+    statusHistoryStaged: false,
+    statusHistoryHead: false,
     schedulerStaged: false,
     schedulerHead: false,
     schedulerOverlap: false,
@@ -2086,6 +2090,32 @@ export async function verifyStaffCore(
       ) === "t";
     if (!result.tradeIdeasHead)
       throw Error("Trade idea rule/grant/head failed");
+    // TA-c: the trade idea status history (body_ok through analysis_trade_status_ok), staged last.
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(
+          root,
+          "supabase/migrations/20261128090000_pipstart_ta_status_history.sql",
+        ),
+        "utf8",
+      ),
+    );
+    sql(
+      database,
+      fs.readFileSync(
+        path.join(root, "apps/pipstart/scripts/test-ta-status-history.sql"),
+        "utf8",
+      ),
+    );
+    result.statusHistoryStaged = true;
+    result.statusHistoryHead =
+      sql(
+        database,
+        "select not has_function_privilege('authenticated','pipstart_editorial_private.analysis_trade_status_ok(jsonb,text)','execute') and not has_function_privilege('service_role','pipstart_editorial_private.analysis_trade_status_ok(jsonb,text)','execute') and pipstart_editorial_private.analysis_trade_status_ok('{\"state\":\"active\",\"reason\":\"pending\",\"at\":\"2026-11-27T14:30:00Z\"}'::jsonb,'at') and not pipstart_editorial_private.analysis_trade_status_ok('{\"state\":\"active\",\"reason\":\"pending\"}'::jsonb,'at');",
+      ) === "t";
+    if (!result.statusHistoryHead)
+      throw Error("Status history rule/grant/head failed");
     cleanup();
     result.passed =
       result.staged &&
@@ -2168,6 +2198,8 @@ export async function verifyStaffCore(
       result.quizLifecycleHead &&
       result.tradeIdeasStaged &&
       result.tradeIdeasHead &&
+      result.statusHistoryStaged &&
+      result.statusHistoryHead &&
       result.schedulerStaged &&
       result.schedulerHead &&
       result.schedulerOverlap &&

@@ -288,3 +288,42 @@ describe("trade idea display helpers", () => {
     );
   });
 });
+
+describe("status history rule (TA-c, mirrors SQL analysis_trade_status_ok)", () => {
+  const withHistory = (history: unknown) => ({ ...trade, history });
+  const entry = {
+    state: "active",
+    reason: "pending",
+    at: "2026-11-27T14:30:00.000Z",
+  };
+  it("accepts 1 to 50 earlier statuses", () => {
+    expect(tradeIdeaProblem(withHistory([entry]))).toBeNull();
+    expect(tradeIdeaProblem(withHistory(Array(50).fill(entry)))).toBeNull();
+    expect(
+      tradeIdeaProblem(
+        withHistory([
+          {
+            state: "active",
+            reason: "active-other",
+            note: "Waiting",
+            at: entry.at,
+          },
+        ]),
+      ),
+    ).toBeNull();
+  });
+  it.each([
+    ["an empty history", []],
+    ["a non-list", {}],
+    ["51 entries", Array(51).fill(entry)],
+    ["an impossible time", [{ ...entry, at: "2026-02-30T10:00:00Z" }]],
+    [
+      "updatedAt instead of at",
+      [{ state: "active", reason: "pending", updatedAt: entry.at }],
+    ],
+    ["a state not matching the reason", [{ ...entry, state: "inactive" }]],
+    ["a note on a preset reason", [{ ...entry, note: "x" }]],
+  ])("refuses %s", (_name, history) =>
+    expect(tradeIdeaProblem(withHistory(history))).not.toBeNull(),
+  );
+});
