@@ -80,22 +80,18 @@ beforeEach(() => {
             bodySha256: NEW_SHA,
           },
     );
-  m.decision
-    .mockReset()
-    .mockResolvedValue({
-      kind: "done",
-      id: "eurusd-retest",
-      revision: 6,
-      state: "approved",
-    });
-  m.publish
-    .mockReset()
-    .mockResolvedValue({
-      kind: "done",
-      generation: 13,
-      replayed: false,
-      delivery: "started",
-    });
+  m.decision.mockReset().mockResolvedValue({
+    kind: "done",
+    id: "eurusd-retest",
+    revision: 6,
+    state: "approved",
+  });
+  m.publish.mockReset().mockResolvedValue({
+    kind: "done",
+    generation: 13,
+    replayed: false,
+    delivery: "started",
+  });
 });
 afterEach(() => vi.unstubAllEnvs());
 
